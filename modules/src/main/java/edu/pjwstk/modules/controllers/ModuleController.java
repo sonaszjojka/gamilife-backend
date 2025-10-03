@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/modules")
 public class ModuleController {
 
-    @GetMapping
+    @GetMapping("test")
     public String test() {
         return "Hello World, Modules Controller!";
     }

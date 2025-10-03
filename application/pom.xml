@@ -36,6 +36,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>edu.pjwstk</groupId>
             <artifactId>budget</artifactId>
             <version>0.0.1-alpha-v01</version>
@@ -99,6 +104,16 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+<!--
+        Allow properties from pom.xml in application.yml
+-->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
 </project>
