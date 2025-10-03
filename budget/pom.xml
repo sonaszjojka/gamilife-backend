@@ -7,22 +7,10 @@
 		<artifactId>gami-life</artifactId>
 		<version>0.0.1-alpha-v01</version>
 	</parent>
+
 	<artifactId>budget</artifactId>
 	<name>budget</name>
 	<description>budget</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
 
 	<properties>
 		<maven.compiler.source>21</maven.compiler.source>

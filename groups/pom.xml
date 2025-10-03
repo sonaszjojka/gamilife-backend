@@ -7,22 +7,11 @@
         <artifactId>gami-life</artifactId>
         <version>0.0.1-alpha-v01</version>
     </parent>
+
     <artifactId>groups</artifactId>
     <name>groups</name>
     <description>groups</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
