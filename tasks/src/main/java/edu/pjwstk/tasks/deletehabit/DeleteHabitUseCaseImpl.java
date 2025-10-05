@@ -4,6 +4,7 @@ import edu.pjwstk.tasks.domain.Habit;
 import edu.pjwstk.tasks.exception.HabitNotFoundException;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ public class DeleteHabitUseCaseImpl implements DeleteHabitUseCase {
     }
 
     @Override
+    @Transactional
     public void execute(UUID habitId) {
         Habit habit = habitRepository
                 .findById(habitId)

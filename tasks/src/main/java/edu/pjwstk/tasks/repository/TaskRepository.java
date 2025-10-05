@@ -9,4 +9,6 @@ public interface TaskRepository {
     Task save(Task task);
 
     Optional<Task> findById(UUID taskId);
+
+    void deleteById(UUID taskId);
 }
