@@ -27,4 +27,9 @@ public class HabitRepositoryImpl implements HabitRepository {
         return repositoryJpa.findById(habitId);
     }
 
+    @Override
+    public void deleteById(UUID habitId) {
+        repositoryJpa.deleteById(habitId);
+    }
+
 }

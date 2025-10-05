@@ -46,7 +46,7 @@ public class Habit {
     @Column(name = "last_edit", nullable = false)
     private LocalDateTime lastEdit;
 
-    @OneToMany(mappedBy = "habitTask")
+    @OneToMany(mappedBy = "habitTask", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
     private List<Task> tasks;
 
