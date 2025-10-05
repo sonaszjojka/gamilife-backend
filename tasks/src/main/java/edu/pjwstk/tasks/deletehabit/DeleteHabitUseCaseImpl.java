@@ -1,0 +1,28 @@
+package edu.pjwstk.tasks.deletehabit;
+
+import edu.pjwstk.tasks.domain.Habit;
+import edu.pjwstk.tasks.exception.HabitNotFoundException;
+import edu.pjwstk.tasks.repository.HabitRepository;
+import org.springframework.stereotype.Component;
+
+import java.util.UUID;
+
+@Component
+public class DeleteHabitUseCaseImpl implements DeleteHabitUseCase {
+    private final HabitRepository habitRepository;
+
+    public DeleteHabitUseCaseImpl(HabitRepository habitRepository) {
+        this.habitRepository = habitRepository;
+    }
+
+    @Override
+    public void execute(UUID habitId) {
+        Habit habit = habitRepository
+                .findById(habitId)
+                .orElseThrow(() -> new HabitNotFoundException(
+                        "Habit with id " + habitId + " not found!"
+                ));
+        
+        habitRepository.deleteById(habitId);
+    }
+}
