@@ -35,7 +35,7 @@ public record CreateTaskRequest(
 
         UUID habitTaskId,
 
-        UUID previousHabitTaskId,
+        UUID previousTaskId,
 
         @Size(max = 200, message = "Description cannot exceed 200 characters")
         String description

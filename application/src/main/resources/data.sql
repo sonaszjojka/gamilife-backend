@@ -17,7 +17,7 @@ VALUES (gen_random_uuid(), 7, 3, 5, NOW(), true, NOW(), NULL, NOW()),
 
 
 INSERT INTO task (task_id, title, start_time, end_time, category_id, difficulty_id, user_id, completed_at, task_habit_id,
-                  previous_habit_task_id, description)
+                  previous_task_id, description)
 VALUES (gen_random_uuid(), 'Finish report', NOW(), NOW() + INTERVAL '2 days', 1, 2, gen_random_uuid(), NULL, NULL, NULL,
         'Finish the monthly report'),
        (gen_random_uuid(), 'Morning workout', NOW(), NOW() + INTERVAL '1 day', 3, 1, gen_random_uuid(), NULL, NULL,

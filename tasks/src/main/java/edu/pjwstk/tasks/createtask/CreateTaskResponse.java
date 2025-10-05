@@ -16,7 +16,7 @@ public record CreateTaskResponse(
         UUID userId,
         LocalDateTime completedAt,
         UUID taskHabitId,
-        UUID previousHabitTaskId,
+        UUID previousTaskId,
         String description
 ) {
 
