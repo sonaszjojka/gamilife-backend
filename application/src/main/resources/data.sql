@@ -24,6 +24,6 @@ VALUES (gen_random_uuid(), 'Finish report', NOW(), NOW() + INTERVAL '2 days', 1,
         NULL, '30 minutes jogging');
 
 
-INSERT INTO task_notification (id, send_date, task_id)
-VALUES (1, NOW() + INTERVAL '1 hour', (SELECT task_id FROM task LIMIT 1)),
-       (2, NOW() + INTERVAL '2 hours', (SELECT task_id FROM task OFFSET 1 LIMIT 1));
+-- INSERT INTO task_notification (id, send_date, task_id)
+-- VALUES (1, NOW() + INTERVAL '1 hour', (SELECT task_id FROM task LIMIT 1)),
+--        (2, NOW() + INTERVAL '2 hours', (SELECT task_id FROM task OFFSET 1 LIMIT 1));

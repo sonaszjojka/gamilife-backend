@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 public class TaskNotification {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     private Integer id;
 
