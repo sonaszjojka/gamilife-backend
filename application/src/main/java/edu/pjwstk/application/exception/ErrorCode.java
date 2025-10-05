@@ -26,7 +26,12 @@ public enum ErrorCode {
     INVALID_REFRESH_TOKEN(ErrorCode.INVALID_REFRESH_TOKEN_CODE, "Invalid Refresh Token", HttpStatus.UNAUTHORIZED),
     INTERNAL_SERVER_ERROR(ErrorCode.INTERNAL_SERVER_ERROR_CODE, "Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR),
     MISSING_REFRESH_TOKEN_COOKIE(ErrorCode.MISSING_REFRESH_TOKEN_COOKIE_CODE, "Missing Refresh Token Cookie", HttpStatus.BAD_REQUEST),
-    INVALID_HABIT_DATA(ErrorCode.INVALID_HABIT_DATA_CODE, "Invalid Habit Data", HttpStatus.BAD_REQUEST);
+    INVALID_HABIT_DATA(ErrorCode.INVALID_HABIT_DATA_CODE, "Invalid Habit Data", HttpStatus.BAD_REQUEST),
+    TASK_CATEGORY_NOT_FOUND(ErrorCode.TASK_CATEGORY_NOT_FOUND_CODE, "Task Category Not Found", HttpStatus.NOT_FOUND),
+    TASK_DIFFICULTY_NOT_FOUND(ErrorCode.TASK_DIFFICULTY_NOT_FOUND_CODE, "Task Difficulty Not Found", HttpStatus.NOT_FOUND),
+    HABIT_NOT_FOUND(ErrorCode.HABIT_NOT_FOUND_CODE, "Habit Not Found", HttpStatus.NOT_FOUND),
+    TASK_NOT_FOUND(ErrorCode.TASK_NOT_FOUND_CODE, "Task Not Found", HttpStatus.NOT_FOUND),
+    INVALID_TASK_DATA(ErrorCode.INVALID_TASK_DATA_CODE, "Invalid Task Data", HttpStatus.BAD_REQUEST);
 
     public static final int VALIDATION_ERROR_CODE = 1001;
     public static final int ACCESS_DENIED_CODE = 1002;
@@ -51,6 +56,11 @@ public enum ErrorCode {
     public static final int MISSING_REFRESH_TOKEN_COOKIE_CODE = 1021;
     public static final int INTERNAL_SERVER_ERROR_CODE = 5000;
     public static final int INVALID_HABIT_DATA_CODE = 1022;
+    public static final int TASK_CATEGORY_NOT_FOUND_CODE = 1023;
+    public static final int TASK_DIFFICULTY_NOT_FOUND_CODE = 1024;
+    public static final int HABIT_NOT_FOUND_CODE = 1025;
+    public static final int TASK_NOT_FOUND_CODE = 1026;
+    public static final int INVALID_TASK_DATA_CODE = 1027;
 
     private final int code;
     private final String title;

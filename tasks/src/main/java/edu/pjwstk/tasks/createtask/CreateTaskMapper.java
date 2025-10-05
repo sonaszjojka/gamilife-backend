@@ -13,8 +13,8 @@ public interface CreateTaskMapper {
                   UUID taskId,
                   TaskCategory category,
                   TaskDifficulty difficulty,
-                  Habit habit,
-                  Task previousHabitTask);
+                  Habit habitTask,
+                  Task previousTask);
 
     CreateTaskResponse toResponse(Task task);
 }

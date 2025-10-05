@@ -49,11 +49,11 @@ public class Task {
     private Habit habitTask;
 
     @OneToOne
-    @JoinColumn(name = "previous_habit_task_id", nullable = true)
-    private Task previousHabitTask;
+    @JoinColumn(name = "previous_task_id", nullable = true)
+    private Task previousTask;
 
-    @OneToOne(mappedBy = "previousHabitTask")
-    private Task inversePreviousHabitTask;
+    @OneToOne(mappedBy = "previousTask")
+    private Task inversePreviousTask;
 
     @Column(name = "description", length = 200)
     private String description;

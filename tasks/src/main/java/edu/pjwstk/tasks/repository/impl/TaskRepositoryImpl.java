@@ -5,6 +5,9 @@ import edu.pjwstk.tasks.repository.TaskRepository;
 import edu.pjwstk.tasks.repository.jpa.TaskRepositoryJpa;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Repository
 public class TaskRepositoryImpl implements TaskRepository {
 
@@ -17,6 +20,11 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public Task save(Task task) {
         return repositoryJpa.save(task);
+    }
+
+    @Override
+    public Optional<Task> findById(UUID taskId) {
+        return repositoryJpa.findById(taskId);
     }
 
 }

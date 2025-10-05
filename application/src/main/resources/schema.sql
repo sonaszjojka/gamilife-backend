@@ -29,7 +29,7 @@ CREATE TABLE task
     user_id                UUID         NOT NULL,
     completed_at           TIMESTAMP WITHOUT TIME ZONE,
     task_habit_id               UUID,
-    previous_habit_task_id UUID,
+    previous_task_id UUID,
     description            VARCHAR(200),
     CONSTRAINT pk_task PRIMARY KEY (task_id)
 );
@@ -59,7 +59,7 @@ CREATE TABLE task_notification
 );
 
 ALTER TABLE task
-    ADD CONSTRAINT uc_task_previous_habit_task UNIQUE (previous_habit_task_id);
+    ADD CONSTRAINT uc_task_previous_task UNIQUE (previous_task_id);
 
 ALTER TABLE task_notification
     ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK FOREIGN KEY (task_id) REFERENCES task (task_id);
@@ -74,4 +74,4 @@ ALTER TABLE task
     ADD CONSTRAINT FK_TASK_ON_HABIT FOREIGN KEY (task_habit_id) REFERENCES habit (habit_id);
 
 ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_PREVIOUS_HABIT_TASK FOREIGN KEY (previous_habit_task_id) REFERENCES task (task_id);
+    ADD CONSTRAINT FK_TASK_ON_PREVIOUS_TASK FOREIGN KEY (previous_task_id) REFERENCES task (task_id);

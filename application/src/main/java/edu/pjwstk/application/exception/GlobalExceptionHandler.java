@@ -1,7 +1,7 @@
 package edu.pjwstk.application.exception;
 
 
-import edu.pjwstk.tasks.exception.InvalidHabitDataException;
+import edu.pjwstk.tasks.exception.*;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -125,11 +125,36 @@ public class GlobalExceptionHandler {
 //    public ProblemDetail handleMissingCookie(MissingRequestCookieException ex) {
 //        return formatErrorResponse(ErrorCode.MISSING_REFRESH_TOKEN_COOKIE, ex.getMessage());
 //    }
+
     @ExceptionHandler(InvalidHabitDataException.class)
     public ProblemDetail handleInvalidHabitData(InvalidHabitDataException ex) {
         return formatErrorResponse(ErrorCode.INVALID_HABIT_DATA, ex.getMessage());
     }
 
+    @ExceptionHandler(TaskDifficultyNotFoundException.class)
+    public ProblemDetail handleTaskDifficultyNotFound(TaskDifficultyNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.TASK_DIFFICULTY_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(HabitNotFoundException.class)
+    public ProblemDetail handleHabitNotFound(HabitNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.HABIT_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ProblemDetail handleTaskNotFound(TaskNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.TASK_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(TaskCategoryNotFoundException.class)
+    public ProblemDetail handleTaskCategoryNotFound(TaskCategoryNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.TASK_CATEGORY_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidTaskDataException.class)
+    public ProblemDetail handleInvalidHabitData(InvalidTaskDataException ex) {
+        return formatErrorResponse(ErrorCode.INVALID_TASK_DATA, ex.getMessage());
+    }
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleOther() {
