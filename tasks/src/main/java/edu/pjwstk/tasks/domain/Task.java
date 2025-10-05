@@ -58,7 +58,7 @@ public class Task {
     @Column(name = "description", length = 200)
     private String description;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
     private List<TaskNotification> taskNotifications;
 

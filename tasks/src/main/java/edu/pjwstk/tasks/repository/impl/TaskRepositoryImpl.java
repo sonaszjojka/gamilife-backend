@@ -27,4 +27,9 @@ public class TaskRepositoryImpl implements TaskRepository {
         return repositoryJpa.findById(taskId);
     }
 
+    @Override
+    public void deleteById(UUID taskId) {
+        repositoryJpa.deleteById(taskId);
+    }
+
 }
