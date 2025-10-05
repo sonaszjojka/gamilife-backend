@@ -6,6 +6,7 @@ import edu.pjwstk.tasks.exception.TaskNotFoundException;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import edu.pjwstk.tasks.repository.TaskRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ public class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
     }
 
     @Override
+    @Transactional
     public void execute(UUID taskId) {
         Task task = taskRepository
                 .findById(taskId)
