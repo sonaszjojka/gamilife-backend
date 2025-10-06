@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.deletetask;
 
-import edu.pjwstk.tasks.util.ApiResponse;
+import edu.pjwstk.tasks.shared.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
