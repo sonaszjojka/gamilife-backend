@@ -7,18 +7,16 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class CreateHabitMapperImpl implements CreateHabitMapper{
+public class CreateHabitMapperImpl implements CreateHabitMapper {
     public Habit toEntity(CreateHabitRequest req, UUID habitId) {
         return Habit.builder()
                 .id(habitId)
                 .cycleLength(req.cycleLength())
                 .currentStreak(req.currentStreak())
                 .longestStreak(req.longestStreak())
-                .createdAt(req.createdAt())
                 .isAccepted(req.isAccepted())
                 .acceptedDate(req.acceptedDate())
                 .declineMessage(req.declineMessage())
-                .lastEdit(req.lastEdit())
                 .build();
     }
 
@@ -28,11 +26,11 @@ public class CreateHabitMapperImpl implements CreateHabitMapper{
                 habit.getCycleLength(),
                 habit.getCurrentStreak(),
                 habit.getLongestStreak(),
-                habit.getCreatedAt(),
                 habit.getIsAccepted(),
                 habit.getAcceptedDate(),
                 habit.getDeclineMessage(),
-                habit.getLastEdit()
+                habit.getUpdatedAt(),
+                habit.getCreatedAt()
         );
     }
 }

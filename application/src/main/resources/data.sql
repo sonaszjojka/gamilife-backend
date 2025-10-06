@@ -11,10 +11,9 @@ VALUES (1, 'Easy', 1),
        (3, 'Hard', 3);
 
 INSERT INTO habit (habit_id, cycle_length, current_streak, longest_streak, created_at, is_accepted, accepted_date,
-                   decline_message, last_edit)
+                   decline_message, updated_at)
 VALUES (gen_random_uuid(), 7, 3, 5, NOW(), true, NOW(), NULL, NOW()),
        (gen_random_uuid(), 30, 10, 12, NOW(), false, NULL, 'Too difficult', NOW());
-
 
 INSERT INTO task (task_id, title, start_time, end_time, category_id, difficulty_id, user_id, completed_at, task_habit_id,
                   previous_task_id, description)

@@ -16,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "habit")
-public class Habit {
+public class Habit extends AbstractEntitySuperclass {
 
     @Id
     @Column(name = "habit_id", nullable = false, updatable = false)
@@ -31,9 +31,6 @@ public class Habit {
     @Column(name = "longest_streak", nullable = false)
     private Integer longestStreak;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
     @Column(name = "is_accepted", nullable = false)
     private Boolean isAccepted;
 
@@ -42,9 +39,6 @@ public class Habit {
 
     @Column(name = "decline_message", length = 300, nullable = true)
     private String declineMessage;
-
-    @Column(name = "last_edit", nullable = false)
-    private LocalDateTime lastEdit;
 
     @OneToMany(mappedBy = "habitTask", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude

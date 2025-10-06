@@ -1,11 +1,11 @@
-package edu.pjwstk.tasks.createhabit;
+package edu.pjwstk.tasks.edithabit;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record CreateHabitResponse(
+public record EditHabitResponse(
         UUID habitId,
         Duration cycleLength,
         Integer currentStreak,
@@ -15,6 +15,5 @@ public record CreateHabitResponse(
         String declineMessage,
         Instant updated_at,
         Instant created_at
-
 ) {
 }
