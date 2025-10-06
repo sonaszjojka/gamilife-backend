@@ -5,6 +5,8 @@ import edu.pjwstk.tasks.exception.InvalidHabitDataException;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -20,7 +22,8 @@ public class CreateHabitUseCaseImpl implements CreateHabitUseCase {
 
     @Override
     public CreateHabitResponse execute(CreateHabitRequest request) {
-        if (request.acceptedDate() != null && request.createdAt().isAfter(request.acceptedDate())) {
+        if (request.acceptedDate() != null &&
+                request.acceptedDate().isBefore(LocalDateTime.now())) {
             throw new InvalidHabitDataException("Accepted date cannot be earlier than creation date");
         }
 
