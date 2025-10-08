@@ -9,6 +9,7 @@ import edu.pjwstk.tasks.repository.HabitRepository;
 import edu.pjwstk.tasks.repository.TaskNotificationRepository;
 import edu.pjwstk.tasks.repository.TaskRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -27,6 +28,7 @@ public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotification
     }
 
     @Override
+    @Transactional
     public CreateTaskNotificationResponse execute(CreateTaskNotificationRequest request, UUID taskId) {
         Task task = taskRepository
                 .findById(taskId)
