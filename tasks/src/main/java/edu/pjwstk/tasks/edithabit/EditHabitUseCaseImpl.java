@@ -5,6 +5,7 @@ import edu.pjwstk.tasks.exception.HabitNotFoundException;
 import edu.pjwstk.tasks.exception.InvalidHabitDataException;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -21,6 +22,7 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
     }
 
     @Override
+    @Transactional
     public EditHabitResponse execute(EditHabitRequest request, UUID habitId) {
         Habit habit = habitRepository.findById(habitId)
                 .orElseThrow(() -> new HabitNotFoundException(
