@@ -20,7 +20,7 @@ public class EditHabitController {
     }
 
     @PutMapping("/{habitId}")
-    public ResponseEntity<EditHabitResponse> save(@RequestBody @Valid EditHabitRequest request,
+    public ResponseEntity<EditHabitResponse> editById(@RequestBody @Valid EditHabitRequest request,
                                                   @PathVariable("habitId") UUID habitId) {
         EditHabitResponse response = editHabitUseCase.execute(request, habitId);
         return ResponseEntity.ok(response);
