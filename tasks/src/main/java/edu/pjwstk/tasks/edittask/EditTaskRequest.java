@@ -32,6 +32,8 @@ public record EditTaskRequest(
 
         LocalDateTime completedAt,
 
+        UUID habitTaskId,
+
         UUID previousTaskId,
 
         @Size(max = 200, message = "Description cannot exceed 200 characters")

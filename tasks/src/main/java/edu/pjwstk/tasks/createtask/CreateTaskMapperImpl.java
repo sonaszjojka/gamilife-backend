@@ -42,7 +42,7 @@ public class CreateTaskMapperImpl implements CreateTaskMapper {
                 .categoryId(task.getCategory() != null ? task.getCategory().getId() : null)
                 .difficultyId(task.getDifficulty() != null ? task.getDifficulty().getId() : null)
                 .userId(task.getUserId())
-                .taskHabitId(task.getHabitTask() != null ? task.getHabitTask().getId() : null)
+                .habitTaskId(task.getHabitTask() != null ? task.getHabitTask().getId() : null)
                 .previousTaskId(task.getPreviousTask() != null ? task.getPreviousTask().getId() : null)
                 .description(task.getDescription())
                 .completedAt(task.getCompletedAt())

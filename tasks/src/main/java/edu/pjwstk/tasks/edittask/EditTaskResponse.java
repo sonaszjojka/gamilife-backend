@@ -2,8 +2,6 @@ package edu.pjwstk.tasks.edittask;
 
 import lombok.Builder;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -17,7 +15,7 @@ public record EditTaskResponse(
         Integer difficultyId,
         UUID userId,
         LocalDateTime completedAt,
-        UUID taskHabitId,
+        UUID habitTaskId,
         UUID previousTaskId,
         String description
 ) {

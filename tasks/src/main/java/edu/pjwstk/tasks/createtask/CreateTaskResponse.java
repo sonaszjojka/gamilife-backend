@@ -15,7 +15,7 @@ public record CreateTaskResponse(
         Integer difficultyId,
         UUID userId,
         LocalDateTime completedAt,
-        UUID taskHabitId,
+        UUID habitTaskId,
         UUID previousTaskId,
         String description
 ) {

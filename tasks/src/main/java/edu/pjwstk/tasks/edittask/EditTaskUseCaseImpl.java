@@ -16,6 +16,7 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
     private final EditTaskMapper editTaskMapper;
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final TaskCategoryRepository taskCategoryRepository;
+    private final HabitRepository habitRepository;
 
     public EditTaskUseCaseImpl(TaskRepository taskRepository, EditTaskMapper editTaskMapper,
                                TaskDifficultyRepository taskDifficultyRepository,
@@ -24,6 +25,7 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
         this.editTaskMapper = editTaskMapper;
         this.taskDifficultyRepository = taskDifficultyRepository;
         this.taskCategoryRepository = taskCategoryRepository;
+        this.habitRepository = habitRepository;
     }
 
     @Override
@@ -58,6 +60,19 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
                     .findById(request.difficultyId())
                     .orElseThrow(() -> new TaskDifficultyNotFoundException("Task difficulty with id " + request.difficultyId() + " not found!"));
             task.setDifficulty(taskDifficulty);
+        }
+
+        if (request.habitTaskId() != null) {
+            if (task.getHabitTask() == null) {
+                Habit habit = habitRepository
+                        .findById(request.habitTaskId())
+                        .orElseThrow(() -> new HabitNotFoundException(
+                                "Habit with id " + request.habitTaskId() + " not found!"
+                        ));
+                task.setHabitTask(habit);
+            } else if(!Objects.equals(task.getHabitTask().getId(), request.habitTaskId())){
+                throw new InvalidTaskDataException("Habit task cannot be changed after assigning!");
+            }
         }
 
         if (request.previousTaskId() != null) {
