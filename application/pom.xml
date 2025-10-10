@@ -93,6 +93,10 @@
             <artifactId>user</artifactId>
             <version>0.0.1-alpha-v01</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -105,9 +109,6 @@
             </plugins>
         </pluginManagement>
 
-<!--
-        Allow properties from pom.xml in application.yml
--->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
