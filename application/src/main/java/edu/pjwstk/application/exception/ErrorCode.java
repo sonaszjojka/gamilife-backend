@@ -31,7 +31,8 @@ public enum ErrorCode {
     TASK_DIFFICULTY_NOT_FOUND(ErrorCode.TASK_DIFFICULTY_NOT_FOUND_CODE, "Task Difficulty Not Found", HttpStatus.NOT_FOUND),
     HABIT_NOT_FOUND(ErrorCode.HABIT_NOT_FOUND_CODE, "Habit Not Found", HttpStatus.NOT_FOUND),
     TASK_NOT_FOUND(ErrorCode.TASK_NOT_FOUND_CODE, "Task Not Found", HttpStatus.NOT_FOUND),
-    INVALID_TASK_DATA(ErrorCode.INVALID_TASK_DATA_CODE, "Invalid Task Data", HttpStatus.BAD_REQUEST);
+    INVALID_TASK_DATA(ErrorCode.INVALID_TASK_DATA_CODE, "Invalid Task Data", HttpStatus.BAD_REQUEST),
+    INVALID_POMODORO_TASK_DATA(ErrorCode.INVALID_POMODORO_TASK_DATA_CODE, "Invalid Pomodoro Task Data", HttpStatus.BAD_REQUEST);
 
     public static final int VALIDATION_ERROR_CODE = 1001;
     public static final int ACCESS_DENIED_CODE = 1002;
@@ -61,6 +62,7 @@ public enum ErrorCode {
     public static final int HABIT_NOT_FOUND_CODE = 1025;
     public static final int TASK_NOT_FOUND_CODE = 1026;
     public static final int INVALID_TASK_DATA_CODE = 1027;
+    public static final int INVALID_POMODORO_TASK_DATA_CODE = 1028;
 
     private final int code;
     private final String title;

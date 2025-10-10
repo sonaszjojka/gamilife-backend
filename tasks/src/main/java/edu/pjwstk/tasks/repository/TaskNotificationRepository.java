@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.repository;
 
-import edu.pjwstk.tasks.domain.TaskNotification;
+import edu.pjwstk.tasks.entity.TaskNotification;
 
 import java.util.Optional;
 import java.util.UUID;
