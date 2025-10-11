@@ -25,4 +25,9 @@ public class PomodoroTaskRepositoryImpl implements PomodoroTaskRepository {
     public PomodoroTask save(PomodoroTask pomodoroTask) {
         return pomodoroTaskRepositoryJpa.save(pomodoroTask);
     }
+
+    @Override
+    public void deleteById(UUID pomodoroTaskId) {
+        pomodoroTaskRepositoryJpa.deleteById(pomodoroTaskId);
+    }
 }
