@@ -5,11 +5,11 @@ import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.exceptions.LinkedUserNotFoundException;
 import edu.pjwstk.auth.exceptions.UserAlreadyLinkedToProviderException;
 import edu.pjwstk.auth.persistence.repository.UserProviderRepository;
-import edu.pjwstk.auth.services.OAuth2CodeService;
 import edu.pjwstk.auth.services.AuthService;
+import edu.pjwstk.auth.services.OAuth2CodeService;
 import edu.pjwstk.auth.services.OAuth2Service;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
 import edu.pjwstk.common.userApi.UserApi;
+import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
 import edu.pjwstk.common.userApi.dto.RegisterUserApiDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +43,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     @Transactional
     public Optional<AuthTokens> linkNewOAuthAccount(LinkOAuthAccountDto linkOAuthAccountDto) {
         if (linkOAuthAccountDto.shouldLink()) {
-             BasicUserInfoApiDto user = userApi.getUserById(linkOAuthAccountDto.userId())
+            BasicUserInfoApiDto user = userApi.getUserById(linkOAuthAccountDto.userId())
                     .orElseThrow(() -> new LinkedUserNotFoundException("Local user to link to not found"));
 
             if (!authService.checkPassword(linkOAuthAccountDto.password(), user.password())) {

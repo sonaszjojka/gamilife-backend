@@ -16,7 +16,7 @@ public record LinkOAuthAccountRequest(
 
         String password
 ) {
-        public boolean validate() {
-                return !shouldLink || provider != null && providerId != null && userId != null && password != null;
-        }
+    public boolean validate() {
+        return !shouldLink || provider != null && providerId != null && userId != null && password != null;
+    }
 }

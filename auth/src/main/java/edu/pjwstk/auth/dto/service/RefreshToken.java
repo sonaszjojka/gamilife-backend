@@ -10,5 +10,6 @@ public record RefreshToken(
         LocalDateTime issuedAt,
         LocalDateTime expiresAt,
         boolean revoked
-) {}
+) {
+}
 

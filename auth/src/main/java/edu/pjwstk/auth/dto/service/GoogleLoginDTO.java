@@ -13,12 +13,6 @@ public class GoogleLoginDTO {
     private final String providerName;
     private final UUID userId;
 
-    public enum LoginType {
-        NEW_USER,
-        EXISTING_USER,
-        POSSIBLE_LINK
-    }
-
     public GoogleLoginDTO(LoginType loginType, String accessToken, String refreshToken) {
         if (loginType != LoginType.NEW_USER && loginType != LoginType.EXISTING_USER) {
             throw new IllegalStateException("loginType must be either NEW_USER or EXISTING_USER to use this constructor");
@@ -43,6 +37,12 @@ public class GoogleLoginDTO {
         this.providerId = providerId;
         this.providerName = providerName;
         this.userId = userId;
+    }
+
+    public enum LoginType {
+        NEW_USER,
+        EXISTING_USER,
+        POSSIBLE_LINK
     }
 
 }

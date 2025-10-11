@@ -11,11 +11,11 @@ import java.util.UUID;
 
 public interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
     @Query("""
-        SELECT u
-        FROM UserEntity u
-        WHERE u.email = :email
-            AND u.password IS NOT NULL
-    """)
+                SELECT u
+                FROM UserEntity u
+                WHERE u.email = :email
+                    AND u.password IS NOT NULL
+            """)
     Optional<UserEntity> findByEmailWithPassword(@Param("email") String email);
 
     Optional<UserEntity> findByEmail(String email);
@@ -23,10 +23,10 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
     @Modifying
     @Transactional
     @Query("""
-        UPDATE UserEntity u
-        SET u.email = :newEmail
-        WHERE u.id = :id
-    """)
+                UPDATE UserEntity u
+                SET u.email = :newEmail
+                WHERE u.id = :id
+            """)
     int updateUserEmail(
             @Param("id") UUID id,
             @Param("newEmail") String newEmail

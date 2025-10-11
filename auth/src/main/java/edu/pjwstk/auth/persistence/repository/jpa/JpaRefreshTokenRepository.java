@@ -17,10 +17,10 @@ public interface JpaRefreshTokenRepository extends JpaRepository<RefreshTokenEnt
     @Modifying
     @Transactional
     @Query("""
-        UPDATE RefreshTokenEntity r
-        SET r.revoked = :revoked
-        WHERE r.id = :refId
-    """)
+                UPDATE RefreshTokenEntity r
+                SET r.revoked = :revoked
+                WHERE r.id = :refId
+            """)
     int updateRevokedById(
             @Param("refId") UUID refId,
             @Param("revoked") boolean revoked

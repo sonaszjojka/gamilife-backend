@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.services.impl;
 
-import edu.pjwstk.common.userApi.UserApi;
 import edu.pjwstk.auth.security.UserDetailsImpl;
+import edu.pjwstk.common.userApi.UserApi;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

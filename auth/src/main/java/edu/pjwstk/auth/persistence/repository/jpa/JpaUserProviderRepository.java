@@ -13,11 +13,11 @@ public interface JpaUserProviderRepository extends JpaRepository<UserOAuthProvid
     boolean existsByUserIdAndProvider(UUID userId, String provider);
 
     @Query("""
-        SELECT up
-        FROM UserOAuthProviderEntity up
-        WHERE up.provider = :providerName
-        AND up.providerId = :providerId
-    """)
+                SELECT up
+                FROM UserOAuthProviderEntity up
+                WHERE up.provider = :providerName
+                AND up.providerId = :providerId
+            """)
     Optional<UserOAuthProviderEntity> findByProviderAndProviderId(
             @Param("providerName") String providerName,
             @Param("providerId") String providerId

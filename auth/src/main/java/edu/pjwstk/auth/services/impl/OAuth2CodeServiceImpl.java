@@ -46,7 +46,8 @@ public class OAuth2CodeServiceImpl implements OAuth2CodeService {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .body(BodyInserters.fromFormData(formData))
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, String>>() {})
+                .bodyToMono(new ParameterizedTypeReference<Map<String, String>>() {
+                })
                 .block();
     }
 
