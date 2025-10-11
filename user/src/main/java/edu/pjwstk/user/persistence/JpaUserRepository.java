@@ -27,7 +27,7 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
                 SET u.email = :newEmail
                 WHERE u.id = :id
             """)
-    int updateUserEmail(
+    void updateUserEmail(
             @Param("id") UUID id,
             @Param("newEmail") String newEmail
     );

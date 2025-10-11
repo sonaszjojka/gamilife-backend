@@ -105,5 +105,6 @@ public class UserServiceImpl implements UserService, UserApi {
 
     @Override
     public void updateUserEmail(UUID userId, String newEmail) {
+        userRepository.updateUserEmail(userId, newEmail);
     }
 }

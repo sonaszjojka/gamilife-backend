@@ -21,7 +21,7 @@ public class CurrentUserController {
     }
 
     @GetMapping
-    public ResponseEntity<CurrentUserInfoResponse> getAllUsers() {
+    public ResponseEntity<CurrentUserInfoResponse> getCurrentUserInfo() {
         CurrentUserDto dto = authApi.getCurrentUser().get();
 
         return ResponseEntity.ok(new CurrentUserInfoResponse(
