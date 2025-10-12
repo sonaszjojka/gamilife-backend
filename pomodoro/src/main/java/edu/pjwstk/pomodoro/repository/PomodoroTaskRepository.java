@@ -8,4 +8,6 @@ public interface PomodoroTaskRepository {
     boolean existsByTaskId(UUID taskId);
 
     PomodoroTask save(PomodoroTask pomodoroTask);
+    boolean existsByPomodoroTaskId(UUID pomodoroTaskId);
+    void deleteByPomodoroTaskId(UUID pomodoroTaskId);
 }
