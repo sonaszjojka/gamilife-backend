@@ -4,6 +4,7 @@ package edu.pjwstk.application.exception;
 import edu.pjwstk.auth.exceptions.*;
 import edu.pjwstk.common.userApi.exception.UserAlreadyExistsException;
 import edu.pjwstk.common.userApi.exception.UserNotFoundException;
+import edu.pjwstk.groups.exception.GroupMemberNotFoundException;
 import edu.pjwstk.tasks.exception.*;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -114,6 +115,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidTaskDataException.class)
     public ProblemDetail handleInvalidHabitData(InvalidTaskDataException ex) {
         return formatErrorResponse(ErrorCode.INVALID_TASK_DATA, ex.getMessage());
+    }
+
+    @ExceptionHandler(GroupMemberNotFoundException.class)
+    public ProblemDetail handleInvalidHabitData(GroupMemberNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_MEMBER_NOT_FOUND, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
