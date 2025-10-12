@@ -5,6 +5,7 @@ import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;
 import edu.pjwstk.pomodoro.repository.jpa.PomodoroTaskRepositoryJpa;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -34,5 +35,9 @@ public class PomodoroTaskRepositoryImpl implements PomodoroTaskRepository {
     @Override
     public void deleteByPomodoroTaskId(UUID pomodoroTaskId) {
         pomodoroTaskRepositoryJpa.deleteById(pomodoroTaskId);
+    }
+    @Override
+    public Optional<PomodoroTask> findByPomodoroTaskId(UUID pomodoroTaskId) {
+       return pomodoroTaskRepositoryJpa.findById(pomodoroTaskId);
     }
 }
