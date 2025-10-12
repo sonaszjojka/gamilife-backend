@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.repository.impl;
 
-import edu.pjwstk.tasks.domain.TaskDifficulty;
+import edu.pjwstk.tasks.entity.TaskDifficulty;
 import edu.pjwstk.tasks.repository.TaskDifficultyRepository;
 import edu.pjwstk.tasks.repository.jpa.TaskDifficultyRepositoryJpa;
 import org.springframework.stereotype.Repository;

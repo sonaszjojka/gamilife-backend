@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.repository;
 
-import edu.pjwstk.tasks.domain.Habit;
+import edu.pjwstk.tasks.entity.Habit;
 
 import java.util.Optional;
 import java.util.UUID;

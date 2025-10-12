@@ -3,6 +3,8 @@ DROP TABLE IF EXISTS task CASCADE;
 DROP TABLE IF EXISTS task_category CASCADE;
 DROP TABLE IF EXISTS task_difficulty CASCADE;
 DROP TABLE IF EXISTS habit CASCADE;
+DROP TABLE IF EXISTS pomodoro_task CASCADE;
+
 
 DROP TABLE IF EXISTS user_oauth_provider CASCADE;
 DROP TABLE IF EXISTS refresh_token CASCADE;
@@ -90,6 +92,17 @@ ALTER TABLE task
 ALTER TABLE task
     ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_habit_id) REFERENCES habit (habit_id);
 
+--- Pomodoro todo users + schemas per module
+
+CREATE TABLE pomodoro_task
+(
+    pomodoro_id           UUID NOT NULL,
+    created_at            TIMESTAMP WITHOUT TIME ZONE,
+    work_cycles_needed    INTEGER,
+    work_cycles_completed INTEGER,
+    task_id               UUID,
+    CONSTRAINT pk_pomodoro_task PRIMARY KEY (pomodoro_id)
+);
 -- ==================== USER ====================
 
 CREATE TABLE user_oauth_provider (

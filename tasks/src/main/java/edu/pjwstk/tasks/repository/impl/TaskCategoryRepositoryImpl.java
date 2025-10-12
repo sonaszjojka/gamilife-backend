@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.repository.impl;
 
-import edu.pjwstk.tasks.domain.TaskCategory;
+import edu.pjwstk.tasks.entity.TaskCategory;
 import edu.pjwstk.tasks.repository.TaskCategoryRepository;
 import edu.pjwstk.tasks.repository.jpa.TaskCategoryRepositoryJpa;
 import org.springframework.stereotype.Repository;
