@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user_oauth_providers")
+@Table(name = "user_oauth_provider")
 public class UserOAuthProviderEntity {
     @Id
     private UUID id;

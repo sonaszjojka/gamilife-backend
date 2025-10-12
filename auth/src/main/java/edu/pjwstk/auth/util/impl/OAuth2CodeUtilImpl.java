@@ -1,9 +1,9 @@
-package edu.pjwstk.auth.services.impl;
+package edu.pjwstk.auth.util.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
-import edu.pjwstk.auth.services.OAuth2CodeService;
+import edu.pjwstk.auth.util.OAuth2CodeUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Map;
 
 @Service
-public class OAuth2CodeServiceImpl implements OAuth2CodeService {
+public class OAuth2CodeUtilImpl implements OAuth2CodeUtil {
 
     private final WebClient webClient;
 
@@ -27,7 +27,7 @@ public class OAuth2CodeServiceImpl implements OAuth2CodeService {
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String googleClientSecret;
 
-    public OAuth2CodeServiceImpl(WebClient webClient) {
+    public OAuth2CodeUtilImpl(WebClient webClient) {
         this.webClient = webClient;
     }
 

@@ -1,5 +1,6 @@
-package edu.pjwstk.auth.util;
+package edu.pjwstk.auth.util.impl;
 
+import edu.pjwstk.auth.util.CookieUtil;
 import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

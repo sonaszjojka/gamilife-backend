@@ -79,29 +79,29 @@ ALTER TABLE task
     ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_habit_id) REFERENCES habit (habit_id);
 
 -- ==================== USER ====================
-DROP TABLE IF EXISTS user_oauth_providers CASCADE;
-DROP TABLE IF EXISTS refresh_tokens CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS user_oauth_provider CASCADE;
+DROP TABLE IF EXISTS refresh_token CASCADE;
+DROP TABLE IF EXISTS "user" CASCADE;
 
-CREATE TABLE user_oauth_providers (
+CREATE TABLE user_oauth_provider (
   id uuid  NOT NULL,
   user_id uuid  NOT NULL,
   provider varchar(255)  NOT NULL,
   provider_id varchar(255)  NOT NULL,
-  CONSTRAINT user_oauth_providers_pk PRIMARY KEY (id)
+  CONSTRAINT pk_user_oauth_provider PRIMARY KEY (id)
 );
 
-CREATE TABLE refresh_tokens (
+CREATE TABLE refresh_token (
     id uuid  NOT NULL,
     user_id uuid  NOT NULL,
     token varchar(255)  NOT NULL,
     issued_at timestamp(6)  NOT NULL,
     expires_at timestamp(6)  NOT NULL,
     revoked boolean  NOT NULL,
-    CONSTRAINT refresh_tokens_pk PRIMARY KEY (id)
+    CONSTRAINT pk_refresh_token PRIMARY KEY (id)
 );
 
-CREATE TABLE users (
+CREATE TABLE "user" (
    id uuid  NOT NULL,
    first_name varchar(100)  NOT NULL,
    last_name varchar(100)  NOT NULL,
@@ -114,17 +114,18 @@ CREATE TABLE users (
    send_budget_reports boolean  NOT NULL,
    is_profile_public boolean  NOT NULL,
    is_email_verified boolean  NOT NULL,
-   CONSTRAINT users_pk PRIMARY KEY (id)
+   CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
-ALTER TABLE user_oauth_providers
-ADD CONSTRAINT user_oauth_providers_users
+ALTER TABLE user_oauth_provider
+ADD CONSTRAINT user_oauth_provider_user
 FOREIGN KEY (user_id)
-REFERENCES users (id);
+REFERENCES "user" (id);
 
-ALTER TABLE refresh_tokens ADD CONSTRAINT refresh_tokens_users
+ALTER TABLE refresh_token
+ADD CONSTRAINT refresh_token_user
 FOREIGN KEY (user_id)
-REFERENCES users (id);
+REFERENCES "user" (id);
 
 -- ==================== INTER-MODULE CONSTRAINTS ====================
 -- TODO

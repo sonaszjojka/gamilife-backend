@@ -2,4 +2,32 @@ spring:
   application:
     name: GamiLife
     version: ${project.version}
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  tokens:
+    jwt:
+      secret: ${JWT.SECRET}
+    refresh-token:
+      expires-in: 604800
+    access-token:
+      expires-in: 7200
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${OAUTH2_GOOGLE_CLIENT_ID}
+            client-secret: ${OAUTH2_GOOGLE_CLIENT_SECRET}
+            scope:
+              - openid
+              - profile
+              - email
+
+server:
+  port: 8080
+  ssl:
+    enabled: false

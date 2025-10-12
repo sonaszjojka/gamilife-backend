@@ -6,7 +6,7 @@ import edu.pjwstk.auth.exceptions.LinkedUserNotFoundException;
 import edu.pjwstk.auth.exceptions.UserAlreadyLinkedToProviderException;
 import edu.pjwstk.auth.persistence.repository.UserProviderRepository;
 import edu.pjwstk.auth.services.AuthService;
-import edu.pjwstk.auth.services.OAuth2CodeService;
+import edu.pjwstk.auth.util.OAuth2CodeUtil;
 import edu.pjwstk.auth.services.OAuth2Service;
 import edu.pjwstk.common.userApi.UserApi;
 import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
@@ -24,18 +24,18 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     private final UserApi userApi;
     private final UserProviderRepository userProviderRepository;
-    private final OAuth2CodeService oAuth2CodeService;
+    private final OAuth2CodeUtil oAuth2CodeUtil;
     private final AuthService authService;
 
     public OAuth2ServiceImpl(
             UserApi userApi,
             UserProviderRepository userProviderRepository,
-            OAuth2CodeService oAuth2CodeService,
+            OAuth2CodeUtil oAuth2CodeUtil,
             AuthService authService
     ) {
         this.userApi = userApi;
         this.userProviderRepository = userProviderRepository;
-        this.oAuth2CodeService = oAuth2CodeService;
+        this.oAuth2CodeUtil = oAuth2CodeUtil;
         this.authService = authService;
     }
 
@@ -71,8 +71,8 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     @Override
     @Transactional
     public GoogleLoginDTO handleGoogleLogin(OAuthCodeDto oAuthCodeDto) {
-        Map<String, String> tokenResponse = oAuth2CodeService.exchangeCodeForTokens(oAuthCodeDto.code(), oAuthCodeDto.codeVerifier());
-        GoogleUserDto googleUserDto = oAuth2CodeService.extractUserInfoFromIdToken(tokenResponse.get("id_token"));
+        Map<String, String> tokenResponse = oAuth2CodeUtil.exchangeCodeForTokens(oAuthCodeDto.code(), oAuthCodeDto.codeVerifier());
+        GoogleUserDto googleUserDto = oAuth2CodeUtil.extractUserInfoFromIdToken(tokenResponse.get("id_token"));
 
         Optional<UserOAuthProvider> existingOAuthUser = userProviderRepository
                 .getOAuthUserByProviderAndProviderId("google", googleUserDto.sub());

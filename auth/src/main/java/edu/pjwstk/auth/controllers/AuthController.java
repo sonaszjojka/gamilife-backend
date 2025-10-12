@@ -2,7 +2,6 @@ package edu.pjwstk.auth.controllers;
 
 import edu.pjwstk.auth.dto.request.LoginUserRequest;
 import edu.pjwstk.auth.dto.request.RegisterUserRequest;
-import edu.pjwstk.auth.dto.response.AccessTokenResponse;
 import edu.pjwstk.auth.dto.service.AuthTokens;
 import edu.pjwstk.auth.dto.service.LoginUserDto;
 import edu.pjwstk.auth.dto.service.RegisterUserDto;
@@ -58,7 +57,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AccessTokenResponse> loginUser(@RequestBody @Valid LoginUserRequest request,
+    public ResponseEntity<Void> loginUser(@RequestBody @Valid LoginUserRequest request,
                                                          HttpServletResponse response) {
         AuthTokens authTokens = authService.loginUser(
                 new LoginUserDto(
@@ -73,7 +72,7 @@ public class AuthController {
         response.addCookie(refreshTokenCookie);
         response.addCookie(accessTokenCookie);
 
-        return ResponseEntity.ok(new AccessTokenResponse(authTokens.accessToken()));
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/logout")

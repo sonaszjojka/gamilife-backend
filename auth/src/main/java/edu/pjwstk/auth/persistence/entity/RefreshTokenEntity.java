@@ -17,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "refresh_tokens")
+@Table(name = "refresh_token")
 public class RefreshTokenEntity {
     @Id
     private UUID id;

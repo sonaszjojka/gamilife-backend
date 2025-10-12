@@ -3,7 +3,7 @@ package edu.pjwstk.auth.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.pjwstk.auth.security.JwtAuthenticationEntryPoint;
 import edu.pjwstk.auth.security.JwtAuthenticationFilter;
-import edu.pjwstk.auth.util.JwtTokenProvider;
+import edu.pjwstk.auth.util.impl.JwtTokenProvider;
 import edu.pjwstk.auth.util.TokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
