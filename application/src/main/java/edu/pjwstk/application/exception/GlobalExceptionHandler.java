@@ -127,7 +127,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(PomodoroTaskNotFound.class)
     public ProblemDetail handlePomodoroTaskNotFound(PomodoroTaskNotFound ex) {
         return formatErrorResponse(ErrorCode.POMODORO_TASK_NOT_FOUND, ex.getMessage());
-      
+    }
+
     @ExceptionHandler(GroupMemberNotFoundException.class)
     public ProblemDetail handleInvalidHabitData(GroupMemberNotFoundException ex) {
         return formatErrorResponse(ErrorCode.GROUP_MEMBER_NOT_FOUND, ex.getMessage());
