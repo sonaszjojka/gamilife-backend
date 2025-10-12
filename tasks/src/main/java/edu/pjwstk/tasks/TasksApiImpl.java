@@ -2,19 +2,18 @@ package edu.pjwstk.tasks;
 
 import edu.pjwstk.tasks.application.findtaskbyid.FindTaskByIdUseCase;
 import edu.pjwstk.tasks.application.taskexistsbyid.ExistsByTaskIdUseCase;
-import edu.pjwstk.tasks.entity.Task;
+import edu.pjwstk.tasks.shared.TaskDto;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class TasksProviderImpl implements TasksProvider {
+public class TasksApiImpl implements TasksApi {
 
     private final ExistsByTaskIdUseCase existsByTaskIdUseCase;
     private final FindTaskByIdUseCase findTaskByIdUseCase;
 
-    public TasksProviderImpl(ExistsByTaskIdUseCase existsByTaskIdUseCase, FindTaskByIdUseCase findTaskByIdUseCase) {
+    public TasksApiImpl(ExistsByTaskIdUseCase existsByTaskIdUseCase, FindTaskByIdUseCase findTaskByIdUseCase) {
         this.existsByTaskIdUseCase = existsByTaskIdUseCase;
         this.findTaskByIdUseCase = findTaskByIdUseCase;
     }
@@ -25,7 +24,7 @@ public class TasksProviderImpl implements TasksProvider {
     }
 
     @Override
-    public Task findTaskByTaskId(UUID taskId) {
+    public TaskDto findTaskByTaskId(UUID taskId) {
         return findTaskByIdUseCase.execute(taskId);
     }
 }

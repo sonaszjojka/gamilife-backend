@@ -3,7 +3,7 @@ package edu.pjwstk.pomodoro.createpomodorotask;
 import edu.pjwstk.pomodoro.domain.PomodoroTask;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;
-import edu.pjwstk.tasks.TasksProvider;
+import edu.pjwstk.tasks.TasksApi;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +14,9 @@ public class CreatePomodoroUseCaseImpl implements CreatePomodoroUseCase {
 
     private final PomodoroTaskRepository pomodoroRepository;
     private final CreatePomodoroTaskMapper createPomodoroTaskMapper;
-    private final TasksProvider tasksProvider;
+    private final TasksApi tasksProvider;
 
-    public CreatePomodoroUseCaseImpl(PomodoroTaskRepository pomodoroRepository, CreatePomodoroTaskMapper createPomodoroTaskMapper, TasksProvider tasksProvider) {
+    public CreatePomodoroUseCaseImpl(PomodoroTaskRepository pomodoroRepository, CreatePomodoroTaskMapper createPomodoroTaskMapper, TasksApi tasksProvider) {
         this.pomodoroRepository = pomodoroRepository;
         this.createPomodoroTaskMapper = createPomodoroTaskMapper;
         this.tasksProvider = tasksProvider;
