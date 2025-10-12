@@ -1,8 +1,11 @@
 package edu.pjwstk.groups.shared;
 
 import edu.pjwstk.groups.domain.GroupMember;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GroupMemberMapperImpl implements GroupMemberMapper {
+
     @Override
     public GroupMemberDto toResponse(GroupMember groupMember) {
         return GroupMemberDto.builder()
