@@ -14,7 +14,10 @@ spring:
       expires-in: 604800
     access-token:
       expires-in: 7200
-
+  jpa:
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
   security:
     oauth2:
       client:
@@ -26,7 +29,6 @@ spring:
               - openid
               - profile
               - email
-
 server:
   port: 8080
   ssl:

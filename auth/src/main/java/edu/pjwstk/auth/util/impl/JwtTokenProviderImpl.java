@@ -1,5 +1,6 @@
 package edu.pjwstk.auth.util.impl;
 
+import edu.pjwstk.auth.dto.service.AuthTokens;
 import edu.pjwstk.auth.util.TokenProvider;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -14,14 +15,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.UUID;
 
-public class JwtTokenProvider implements TokenProvider {
+public class JwtTokenProviderImpl implements TokenProvider {
 
     private final SecretKey secretKey;
     private final UserDetailsService userDetailsService;
     private final long accessTokenExpirationTime;
     private final long refreshTokenExpirationTime;
 
-    public JwtTokenProvider(
+    public JwtTokenProviderImpl(
             UserDetailsService userDetailsService,
             String secretKey,
             long accessTokenExpirationTime,
@@ -37,7 +38,7 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public String generateToken(UUID userId, String email) {
+    public String generateAccessToken(UUID userId, String email) {
         return Jwts.builder()
                 .subject(email)
                 .claim("userId", userId)
@@ -61,7 +62,7 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public Authentication getAuthentication(String token) {
+    public Authentication getAuthenticationFromToken(String token) {
         String email = Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
@@ -75,8 +76,11 @@ public class JwtTokenProvider implements TokenProvider {
     }
 
     @Override
-    public String generateRefreshToken() {
-        return UUID.randomUUID().toString();
+    public AuthTokens generateTokenPair(UUID userId, String email) {
+        return new AuthTokens(
+                generateAccessToken(userId, email),
+                UUID.randomUUID().toString()
+        );
     }
 
     @Override

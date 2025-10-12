@@ -1,4 +1,4 @@
-package edu.pjwstk.auth.services.impl;
+package edu.pjwstk.auth.api;
 
 import edu.pjwstk.auth.security.UserDetailsImpl;
 import edu.pjwstk.common.authApi.AuthApi;

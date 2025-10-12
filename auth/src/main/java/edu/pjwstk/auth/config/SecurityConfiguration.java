@@ -3,8 +3,8 @@ package edu.pjwstk.auth.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.pjwstk.auth.security.JwtAuthenticationEntryPoint;
 import edu.pjwstk.auth.security.JwtAuthenticationFilter;
-import edu.pjwstk.auth.util.impl.JwtTokenProvider;
 import edu.pjwstk.auth.util.TokenProvider;
+import edu.pjwstk.auth.util.impl.JwtTokenProviderImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -58,13 +58,13 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public JwtTokenProvider jwtTokenProvider(
+    public JwtTokenProviderImpl jwtTokenProvider(
             UserDetailsService userDetailsService,
             @Value("${spring.tokens.jwt.secret}") String secretKey,
             @Value("${spring.tokens.access-token.expires-in}") long accessTokenExpirationTime,
             @Value("${spring.tokens.refresh-token.expires-in}") long refreshTokenExpirationTime
     ) {
-        return new JwtTokenProvider(
+        return new JwtTokenProviderImpl(
                 userDetailsService,
                 secretKey,
                 accessTokenExpirationTime,
