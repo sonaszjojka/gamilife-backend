@@ -1,8 +1,11 @@
+-- ==================== TASKS ====================
+
 DROP TABLE IF EXISTS task_notification CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
 DROP TABLE IF EXISTS task_category CASCADE;
 DROP TABLE IF EXISTS task_difficulty CASCADE;
 DROP TABLE IF EXISTS habit CASCADE;
+
 CREATE TABLE habit
 (
     habit_id        UUID                        NOT NULL,
@@ -74,3 +77,55 @@ ALTER TABLE task
 
 ALTER TABLE task
     ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_habit_id) REFERENCES habit (habit_id);
+
+-- ==================== USER ====================
+DROP TABLE IF EXISTS user_oauth_provider CASCADE;
+DROP TABLE IF EXISTS refresh_token CASCADE;
+DROP TABLE IF EXISTS "user" CASCADE;
+
+CREATE TABLE user_oauth_provider (
+  id uuid  NOT NULL,
+  user_id uuid  NOT NULL,
+  provider varchar(255)  NOT NULL,
+  provider_id varchar(255)  NOT NULL,
+  CONSTRAINT pk_user_oauth_provider PRIMARY KEY (id)
+);
+
+CREATE TABLE refresh_token (
+    id uuid  NOT NULL,
+    user_id uuid  NOT NULL,
+    token varchar(255)  NOT NULL,
+    issued_at timestamp(6)  NOT NULL,
+    expires_at timestamp(6)  NOT NULL,
+    revoked boolean  NOT NULL,
+    CONSTRAINT pk_refresh_token PRIMARY KEY (id)
+);
+
+CREATE TABLE "user" (
+   id uuid  NOT NULL,
+   first_name varchar(100)  NOT NULL,
+   last_name varchar(100)  NOT NULL,
+   email varchar(320)  NOT NULL,
+   password varchar(200)  NULL,
+   username varchar(100)  NOT NULL,
+   date_of_birth date  NULL,
+   experience int  NOT NULL,
+   money int  NOT NULL,
+   send_budget_reports boolean  NOT NULL,
+   is_profile_public boolean  NOT NULL,
+   is_email_verified boolean  NOT NULL,
+   CONSTRAINT pk_user PRIMARY KEY (id)
+);
+
+ALTER TABLE user_oauth_provider
+ADD CONSTRAINT user_oauth_provider_user
+FOREIGN KEY (user_id)
+REFERENCES "user" (id);
+
+ALTER TABLE refresh_token
+ADD CONSTRAINT refresh_token_user
+FOREIGN KEY (user_id)
+REFERENCES "user" (id);
+
+-- ==================== INTER-MODULE CONSTRAINTS ====================
+-- TODO
