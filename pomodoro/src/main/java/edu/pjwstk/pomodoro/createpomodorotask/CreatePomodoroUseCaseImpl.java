@@ -1,9 +1,10 @@
 package edu.pjwstk.pomodoro.createpomodorotask;
 
+import edu.pjwstk.common.tasksApi.TasksApi;
 import edu.pjwstk.pomodoro.domain.PomodoroTask;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;
-import edu.pjwstk.tasks.TasksApi;
+
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

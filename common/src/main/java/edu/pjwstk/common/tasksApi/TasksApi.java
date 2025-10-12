@@ -1,6 +1,7 @@
-package edu.pjwstk.tasks;
+package edu.pjwstk.common.tasksApi;
 
-import edu.pjwstk.tasks.shared.TaskDto;
+import edu.pjwstk.common.tasksApi.dto.TaskDto;
+
 
 import java.util.UUID;
 

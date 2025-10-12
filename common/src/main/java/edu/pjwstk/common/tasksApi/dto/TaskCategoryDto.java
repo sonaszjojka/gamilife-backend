@@ -1,4 +1,4 @@
-package edu.pjwstk.tasks.shared;
+package edu.pjwstk.common.tasksApi.dto;
 
 import java.io.Serializable;
 

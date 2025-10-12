@@ -6,7 +6,7 @@ import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.auth.exceptions.*;
 import edu.pjwstk.common.userApi.exception.UserAlreadyExistsException;
 import edu.pjwstk.common.userApi.exception.UserNotFoundException;
-import edu.pjwstk.groups.exception.GroupMemberNotFoundException;
+import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
 import edu.pjwstk.tasks.exception.*;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
