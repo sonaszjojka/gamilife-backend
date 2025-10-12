@@ -1,6 +1,5 @@
 package edu.pjwstk.pomodoro.deletepomodorotask;
 
-import edu.pjwstk.pomodoro.domain.PomodoroTask;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;
 import org.springframework.stereotype.Service;
@@ -18,12 +17,11 @@ public class DeletePomodoroTaskUseCaseImpl implements DeletePomodoroTaskUseCase
     @Override
     @Transactional
     public void execute(UUID pomodoroTaskId) {
-         if (pomodoroTaskRepository.existsByTaskId(pomodoroTaskId))
+         if (!pomodoroTaskRepository.existsByPomodoroTaskId(pomodoroTaskId))
          {
-             System.out.println("Weszło");
-             throw new InvalidPomodoroTaskData("Task with id:" + pomodoroTaskId + " does not exist");
+             throw new InvalidPomodoroTaskData("Pomodoro Task with id:" + pomodoroTaskId + " does not exist");
          }
-        pomodoroTaskRepository.deleteById(pomodoroTaskId);
+        pomodoroTaskRepository.deleteByPomodoroTaskId(pomodoroTaskId);
     }
 
 }
