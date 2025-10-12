@@ -35,4 +35,10 @@ public class ChatMessage {
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 
+    @Column(name = "content", nullable = false, updatable = false)
+    private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private GroupMember senderGroupMember;
 }

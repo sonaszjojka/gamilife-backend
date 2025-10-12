@@ -153,13 +153,14 @@ REFERENCES "user" (id);
 -- TODO
 
 -- ==================== GROUPS ====================
-
 CREATE TABLE chat_message
 (
-    message_id   UUID    NOT NULL,
-    is_important BOOLEAN NOT NULL,
+    message_id   UUID         NOT NULL,
+    is_important BOOLEAN      NOT NULL,
     send_at      TIMESTAMP WITHOUT TIME ZONE,
-    group_id     UUID    NOT NULL,
+    group_id     UUID         NOT NULL,
+    content      VARCHAR(255) NOT NULL,
+    sender_id    INTEGER,
     CONSTRAINT pk_chat_message PRIMARY KEY (message_id)
 );
 
@@ -236,6 +237,9 @@ ALTER TABLE "group"
 
 ALTER TABLE chat_message
     ADD CONSTRAINT FK_CHAT_MESSAGE_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (group_id);
+
+ALTER TABLE chat_message
+    ADD CONSTRAINT FK_CHAT_MESSAGE_ON_SENDER FOREIGN KEY (sender_id) REFERENCES group_member (group_member_id);
 
 ALTER TABLE group_invitation
     ADD CONSTRAINT FK_GROUP_INVITATION_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (group_id);

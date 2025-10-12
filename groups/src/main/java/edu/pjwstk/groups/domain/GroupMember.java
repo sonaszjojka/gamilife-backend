@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -44,4 +45,8 @@ public class GroupMember {
 
     @Column(name = "total_earned_money", nullable = false)
     private Integer totalEarnedMoney;
+
+    @OneToMany(mappedBy = "senderGroupMember")
+    @ToString.Exclude
+    private List<ChatMessage> chatMessages;
 }

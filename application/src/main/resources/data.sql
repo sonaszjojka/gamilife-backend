@@ -96,11 +96,11 @@ VALUES
 -- =========================
 -- Tabela: chat_message
 -- =========================
-INSERT INTO chat_message (message_id, is_important, send_at, group_id)
+INSERT INTO chat_message (message_id, content, is_important, send_at, group_id)
 VALUES
-    ('aaaa1111-aaaa-aaaa-aaaa-aaaaaaaaaaaa', TRUE,  '2025-10-12 12:00:00', '11111111-1111-1111-1111-111111111111'),
-    ('bbbb2222-bbbb-bbbb-bbbb-bbbbbbbbbbbb', FALSE, '2025-10-12 13:00:00', '22222222-2222-2222-2222-222222222222'),
-    ('cccc3333-cccc-cccc-cccc-cccccccccccc', TRUE,  '2025-10-12 14:00:00', '33333333-3333-3333-3333-333333333333');
+    ('aaaa1111-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Hey everyone! Meeting at 6 PM today.', TRUE,  '2025-10-12 12:00:00', '11111111-1111-1111-1111-111111111111'),
+    ('bbbb2222-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Who’s up for a movie night?', FALSE, '2025-10-12 13:00:00', '22222222-2222-2222-2222-222222222222'),
+    ('cccc3333-cccc-cccc-cccc-cccccccccccc', 'Project deadline is next Friday.', TRUE,  '2025-10-12 14:00:00', '33333333-3333-3333-3333-333333333333');
 
 -- =========================
 -- Tabela: group_invitation
