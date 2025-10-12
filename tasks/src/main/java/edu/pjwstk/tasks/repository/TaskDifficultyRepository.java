@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.repository;
 
-import edu.pjwstk.tasks.domain.TaskDifficulty;
+import edu.pjwstk.tasks.entity.TaskDifficulty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Optional;

@@ -1,6 +1,7 @@
 package edu.pjwstk.application.exception;
 
 
+import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.tasks.exception.*;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -154,6 +155,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidTaskDataException.class)
     public ProblemDetail handleInvalidHabitData(InvalidTaskDataException ex) {
         return formatErrorResponse(ErrorCode.INVALID_TASK_DATA, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidPomodoroTaskData.class)
+    public ProblemDetail handleInvalidHabitData(InvalidPomodoroTaskData ex) {
+        return formatErrorResponse(ErrorCode.INVALID_POMODORO_TASK_DATA, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

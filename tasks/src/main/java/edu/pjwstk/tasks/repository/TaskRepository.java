@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.repository;
 
-import edu.pjwstk.tasks.domain.Task;
+import edu.pjwstk.tasks.entity.Task;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -11,4 +11,6 @@ public interface TaskRepository {
     Optional<Task> findById(UUID taskId);
 
     void deleteById(UUID taskId);
+
+    Boolean existsById(UUID taskId);
 }
