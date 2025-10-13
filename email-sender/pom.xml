@@ -9,19 +9,34 @@
         <version>0.0.1-alpha-v01</version>
     </parent>
 
-    <artifactId>common</artifactId>
-    <name>common</name>
-    <description>common</description>
+    <artifactId>email-sender</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
+            <groupId>com.sendgrid</groupId>
+            <artifactId>sendgrid-java</artifactId>
+            <version>4.10.3</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.pjwstk</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-alpha-v01</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.17</version>
         </dependency>
     </dependencies>
 

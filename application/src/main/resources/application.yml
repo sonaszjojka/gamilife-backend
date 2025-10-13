@@ -9,7 +9,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   tokens:
     jwt:
-      secret: ${JWT.SECRET}
+      secret: ${JWT_SECRET}
     refresh-token:
       expires-in: 604800
     access-token:
@@ -29,6 +29,11 @@ spring:
               - openid
               - profile
               - email
+sendgrid:
+  api-key: ${SENDGRID_API_KEY}
+  send-emails: true
+  from-email: "noreply@gamilife.pl"
+  from-name: "GamiLife Team"
 server:
   port: 8080
   ssl:
