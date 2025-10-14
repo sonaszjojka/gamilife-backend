@@ -9,10 +9,11 @@ import edu.pjwstk.groups.repository.ChatMessageRepository;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.groups.repository.GroupRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Component
+@Service
 public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
 
     private final ChatMessageRepository chatMessageRepository;

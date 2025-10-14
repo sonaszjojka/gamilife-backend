@@ -1,6 +1,7 @@
 package edu.pjwstk.application.exception;
 
 
+import edu.pjwstk.groups.exception.GroupTypeNotFoundException;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.auth.exceptions.*;
@@ -132,6 +133,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(GroupMemberNotFoundException.class)
     public ProblemDetail handleInvalidHabitData(GroupMemberNotFoundException ex) {
         return formatErrorResponse(ErrorCode.GROUP_MEMBER_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(GroupTypeNotFoundException.class)
+    public ProblemDetail handleInvalidHabitData(GroupTypeNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_TYPE_NOT_FOUND, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

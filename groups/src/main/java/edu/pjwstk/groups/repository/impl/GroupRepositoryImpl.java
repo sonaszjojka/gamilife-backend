@@ -21,4 +21,9 @@ public class GroupRepositoryImpl implements GroupRepository {
     public Optional<Group> findById(UUID groupId) {
         return groupRepositoryJpa.findById(groupId);
     }
+
+    @Override
+    public Group save(Group group) {
+        return groupRepositoryJpa.save(group);
+    }
 }

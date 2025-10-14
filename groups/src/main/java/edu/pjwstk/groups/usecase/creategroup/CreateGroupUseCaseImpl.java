@@ -1,0 +1,49 @@
+package edu.pjwstk.groups.usecase.creategroup;
+
+import edu.pjwstk.common.userApi.UserApi;
+import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
+import edu.pjwstk.common.userApi.exception.UserNotFoundException;
+import edu.pjwstk.groups.domain.Group;
+import edu.pjwstk.groups.domain.GroupType;
+import edu.pjwstk.groups.exception.GroupTypeNotFoundException;
+import edu.pjwstk.groups.repository.GroupRepository;
+import edu.pjwstk.groups.repository.GroupTypeRepository;
+import edu.pjwstk.groups.util.JoinCodeGenerator;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
+
+    private final GroupRepository groupRepository;
+    private final CreateGroupMapper createGroupUseCaseMapper;
+    private final UserApi userApi;
+    private final GroupTypeRepository groupTypeRepository;
+
+    public CreateGroupUseCaseImpl(GroupRepository groupRepository, UserApi userApi, CreateGroupMapper createGroupUseCaseMapper, GroupTypeRepository groupTypeRepository) {
+        this.groupRepository = groupRepository;
+        this.userApi = userApi;
+        this.createGroupUseCaseMapper = createGroupUseCaseMapper;
+        this.groupTypeRepository = groupTypeRepository;
+    }
+
+    @Override
+    public CreateGroupResponse execute(CreateGroupRequest request) {
+        GroupType groupType = groupTypeRepository.findById(request.groupTypeId())
+                .orElseThrow(() -> new GroupTypeNotFoundException("Group type with id: " + request.groupTypeId() + " not found!"));
+
+        Optional<BasicUserInfoApiDto> admin = userApi.getUserById(request.adminId());
+
+        if (admin.isEmpty()) {
+            throw new UserNotFoundException("User (admin) with id: " + request.adminId() + " not found!");
+        }
+
+        String joinCode = JoinCodeGenerator.generate(20);
+
+        Group group = createGroupUseCaseMapper.toEntity(request, joinCode, UUID.randomUUID(), groupType);
+        Group savedGroup = groupRepository.save(group);
+        return createGroupUseCaseMapper.toResponse(savedGroup);
+    }
+}
