@@ -1,5 +1,6 @@
-package edu.pjwstk.pomodoro.usecase.editpomodorotask;
-import edu.pjwstk.pomodoro.domain.PomodoroTask;
+package edu.pjwstk.pomodoro.editpomodorotask;
+
+import edu.pjwstk.pomodoro.entity.PomodoroTask;
 
 public interface EditPomodoroTaskMapper {
     EditPomodoroTaskResponse toResponse(PomodoroTask pomodoroTask);
