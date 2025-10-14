@@ -1,5 +1,6 @@
 package edu.pjwstk.groups.entity;
 
+import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,4 +28,8 @@ public class GroupRequestStatus {
     @OneToMany(mappedBy = "groupRequestStatus")
     @ToString.Exclude
     private List<GroupRequest> groupRequests;
+
+    public GroupRequestStatusEnum toEnum() {
+        return GroupRequestStatusEnum.fromId(this.groupRequestStatusId);
+    }
 }

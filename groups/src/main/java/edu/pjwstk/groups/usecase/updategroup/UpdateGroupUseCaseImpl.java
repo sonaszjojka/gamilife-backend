@@ -36,8 +36,9 @@ public class UpdateGroupUseCaseImpl implements UpdateGroupUseCase {
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));
 
-        GroupType groupType = groupTypeRepository.findById(request.groupTypeId())
-                .orElseThrow(() -> new GroupTypeNotFoundException("Group type with id: " + request.groupTypeId() + " not found!"));
+        GroupType groupType = groupTypeRepository.findById(request.groupType().getId())
+                .orElseThrow(() -> new GroupTypeNotFoundException("Group type with id: " +
+                        request.groupType().getId() + " not found!"));
 
         Optional<BasicUserInfoApiDto> admin = userApi.getUserById(request.adminId());
 

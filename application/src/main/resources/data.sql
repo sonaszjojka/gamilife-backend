@@ -53,9 +53,9 @@ VALUES
 -- =========================
 INSERT INTO group_type (title)
 VALUES
-    ('Family'),
-    ('Friends'),
-    ('Work');
+    ('Open'),
+    ('Closed'),
+    ('Request only');
 
 -- =========================
 -- Tabela: invitation_status

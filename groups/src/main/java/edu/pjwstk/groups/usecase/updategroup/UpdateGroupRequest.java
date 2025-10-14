@@ -1,5 +1,7 @@
 package edu.pjwstk.groups.usecase.updategroup;
 
+import edu.pjwstk.groups.entity.GroupType;
+import edu.pjwstk.groups.shared.GroupTypeEnum;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -14,9 +16,8 @@ public record UpdateGroupRequest(
         @NotNull(message = "Group currency symbol cannot be null")
         Character groupCurrencySymbol,
 
-        @NotNull(message = "Group type ID cannot be null")
-        @Positive(message = "Group type ID must be positive")
-        Integer groupTypeId,
+        @NotNull(message = "Group type cannot be null")
+        GroupTypeEnum groupType,
 
         @NotNull(message = "Members limit cannot be null")
         @Min(value = 2, message = "Members limit must be at least 2")

@@ -1,5 +1,6 @@
 package edu.pjwstk.groups.entity;
 
+import edu.pjwstk.groups.shared.InvitationStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +19,7 @@ public class InvitationStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "invitation_status_id", nullable = false, updatable = false, unique = true)
-    private Integer groupTypeId;
+    private Integer invitationStatusId;
 
     @Column(name = "title", length = 100, nullable = false, updatable = false)
     private String title;
@@ -26,4 +27,8 @@ public class InvitationStatus {
     @OneToMany(mappedBy = "invitationStatus")
     @ToString.Exclude
     private List<GroupInvitation> groupInvitations;
+
+    public InvitationStatusEnum toEnum() {
+        return InvitationStatusEnum.fromId(this.invitationStatusId);
+    }
 }

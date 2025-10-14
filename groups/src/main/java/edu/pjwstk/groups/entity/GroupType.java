@@ -1,5 +1,6 @@
 package edu.pjwstk.groups.entity;
 
+import edu.pjwstk.groups.shared.GroupTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,4 +27,9 @@ public class GroupType {
     @OneToMany(mappedBy = "groupType")
     @ToString.Exclude
     private List<Group> groups;
+
+    public GroupTypeEnum toEnum() {
+        return GroupTypeEnum.fromId(this.groupTypeId);
+    }
+
 }
