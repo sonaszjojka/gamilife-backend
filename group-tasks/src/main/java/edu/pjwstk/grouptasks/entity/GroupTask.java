@@ -1,11 +1,13 @@
 package edu.pjwstk.grouptasks.entity;
 
+import edu.pjwstk.tasks.entity.Task;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.Instant;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -20,8 +22,13 @@ import java.util.UUID;
 @Table(name = "group_task")
 public class GroupTask extends AbstractEntitySuperclass {
 
+
     @Id
     @Column(name = "group_task_id", nullable = false)
+    private UUID groupTaskId;
+
+    @NotNull
+    @Column(name = "task_id", nullable = false)
     private UUID taskId;
 
     @Column(name = "reward")
@@ -38,9 +45,7 @@ public class GroupTask extends AbstractEntitySuperclass {
     @Column(name = "decline_message", length = 300)
     private String declineMessage;
 
-    @NotNull
-    @Column(name = "last_edit", nullable = false)
-    private Instant lastEdit;
+
 
     @OneToMany(mappedBy = "groupTask")
     private Set<GroupTaskMember> groupTaskMembers = new LinkedHashSet<>();
