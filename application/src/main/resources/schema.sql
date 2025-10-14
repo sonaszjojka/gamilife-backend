@@ -261,6 +261,7 @@ ALTER TABLE group_request
 CREATE TABLE group_task
 (
     group_task_id   uuid         NOT NULL,
+    task_id   uuid         NOT NULL,
     reward          int          NULL,
     is_accepted     boolean      NOT NULL,
     accepted_date   timestamp    NULL,
@@ -296,6 +297,6 @@ ALTER TABLE group_task_member
 
 ALTER TABLE group_task
     ADD CONSTRAINT group_task_task
-        FOREIGN KEY (group_task_id)
+        FOREIGN KEY (task_id)
             REFERENCES task (task_id)
 ;

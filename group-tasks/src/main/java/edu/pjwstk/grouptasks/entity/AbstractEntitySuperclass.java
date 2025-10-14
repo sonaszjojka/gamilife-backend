@@ -16,20 +16,18 @@ import java.time.Instant;
 @Setter
 public abstract class AbstractEntitySuperclass implements Serializable {
 
-    @Column(name = "created_at")
-    protected Instant createdAt;
 
-    @Column(name = "updated_at")
-    protected Instant updatedAt;
+
+    @Column(name = "last_edit")
+    protected Instant lastEdit;
 
     @PrePersist
     public void prePersist() {
-        this.createdAt = Instant.now();
-        this.updatedAt = Instant.now();
+        this.lastEdit = Instant.now();
     }
 
     @PreUpdate
     public void preUpdate() {
-        this.updatedAt = Instant.now();
+        this.lastEdit = Instant.now();
     }
 }
