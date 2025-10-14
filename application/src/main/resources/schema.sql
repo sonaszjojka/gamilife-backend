@@ -19,6 +19,9 @@ DROP TABLE IF EXISTS group_invitation CASCADE;
 DROP TABLE IF EXISTS chat_message CASCADE;
 DROP TABLE IF EXISTS "group" CASCADE;
 
+DROP TABLE IF EXISTS group_task CASCADE;
+DROP TABLE IF EXISTS group_task_member CASCADE;
+
 -- ==================== TASKS ====================
 CREATE TABLE habit
 (
@@ -254,3 +257,45 @@ ALTER TABLE group_request
 
 ALTER TABLE group_request
     ADD CONSTRAINT FK_GROUP_REQUEST_ON_STATUS FOREIGN KEY (status_id) REFERENCES group_request_status (group_request_status_id);
+-- ==========================================Group Tasks==========================================
+CREATE TABLE group_task
+(
+    group_task_id   uuid         NOT NULL,
+    reward          int          NULL,
+    is_accepted     boolean      NOT NULL,
+    accepted_date   timestamp    NULL,
+    decline_message varchar(300) NULL,
+    last_edit       timestamp    NOT NULL,
+    CONSTRAINT group_task_pk PRIMARY KEY (group_task_id)
+);
+
+-- Table: group_task_member
+CREATE TABLE group_task_member
+(
+    group_task_member_id uuid    NOT NULL,
+    group_task_id        uuid    NOT NULL,
+    group_member_id      int     NOT NULL,
+    is_marked_done       boolean NOT NULL,
+    CONSTRAINT group_task_member_pk PRIMARY KEY (group_task_member_id)
+);
+
+
+ALTER TABLE group_task_member
+    ADD CONSTRAINT group_task_member_group_member
+        FOREIGN KEY (group_member_id)
+            REFERENCES group_member (group_member_id)
+;
+
+
+ALTER TABLE group_task_member
+    ADD CONSTRAINT group_task_member_group_task
+        FOREIGN KEY (group_task_id)
+            REFERENCES group_task (group_task_id)
+;
+
+
+ALTER TABLE group_task
+    ADD CONSTRAINT group_task_task
+        FOREIGN KEY (group_task_id)
+            REFERENCES task (task_id)
+;

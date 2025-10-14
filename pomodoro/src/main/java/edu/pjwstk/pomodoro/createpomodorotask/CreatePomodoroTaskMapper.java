@@ -1,6 +1,6 @@
 package edu.pjwstk.pomodoro.createpomodorotask;
 
-import edu.pjwstk.pomodoro.domain.PomodoroTask;
+import edu.pjwstk.pomodoro.entity.PomodoroTask;
 
 import java.util.UUID;
 

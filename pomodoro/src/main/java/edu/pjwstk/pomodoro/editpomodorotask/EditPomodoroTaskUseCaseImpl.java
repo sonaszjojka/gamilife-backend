@@ -1,5 +1,6 @@
 package edu.pjwstk.pomodoro.editpomodorotask;
-import edu.pjwstk.pomodoro.domain.PomodoroTask;
+
+import edu.pjwstk.pomodoro.entity.PomodoroTask;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;

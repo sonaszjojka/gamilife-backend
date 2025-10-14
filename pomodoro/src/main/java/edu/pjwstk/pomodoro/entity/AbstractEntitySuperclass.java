@@ -1,9 +1,8 @@
-package edu.pjwstk.pomodoro.domain;
+package edu.pjwstk.pomodoro.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import lombok.*;
 
 import java.io.Serializable;
