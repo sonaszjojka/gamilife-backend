@@ -1,4 +1,4 @@
-package edu.pjwstk.pomodoro.createpomodorotask;
+package edu.pjwstk.pomodoro.usecase.createpomodorotask;
 
 import edu.pjwstk.pomodoro.domain.PomodoroTask;
 import org.springframework.stereotype.Component;

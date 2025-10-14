@@ -1,4 +1,4 @@
-package edu.pjwstk.pomodoro.deletepomodorotask;
+package edu.pjwstk.pomodoro.usecase.deletepomodorotask;
 
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;

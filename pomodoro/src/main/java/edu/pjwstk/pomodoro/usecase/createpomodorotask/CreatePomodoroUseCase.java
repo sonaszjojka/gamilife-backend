@@ -1,6 +1,4 @@
-package edu.pjwstk.pomodoro.createpomodorotask;
-
-import jakarta.validation.Valid;
+package edu.pjwstk.pomodoro.usecase.createpomodorotask;
 
 import java.util.UUID;
 

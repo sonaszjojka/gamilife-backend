@@ -1,4 +1,4 @@
-package edu.pjwstk.pomodoro.deletepomodorotask;
+package edu.pjwstk.pomodoro.usecase.deletepomodorotask;
 
 import java.util.UUID;
 

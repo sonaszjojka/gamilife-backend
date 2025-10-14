@@ -1,11 +1,10 @@
-package edu.pjwstk.pomodoro.editpomodorotask;
-
+package edu.pjwstk.pomodoro.usecase.createpomodorotask;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
-public record EditPomodoroTaskRequest(
+public record CreatePomodoroTaskRequest(
         @NotNull(message = "Work cycles needed cannot be null")
         @Positive(message = "Work cycles needed streak must be positive")
         Integer workCyclesNeeded,
@@ -13,7 +12,5 @@ public record EditPomodoroTaskRequest(
         @NotNull(message = "Work cycles completed cannot be null")
         @PositiveOrZero(message = "Work cycles completed streak must be positive")
         Integer workCyclesCompleted
-)
-{
-
+) {
 }

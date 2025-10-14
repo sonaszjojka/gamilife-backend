@@ -1,4 +1,4 @@
-package edu.pjwstk.pomodoro.editpomodorotask;
+package edu.pjwstk.pomodoro.usecase.editpomodorotask;
 import edu.pjwstk.pomodoro.domain.PomodoroTask;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
