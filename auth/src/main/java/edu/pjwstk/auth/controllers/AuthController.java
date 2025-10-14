@@ -20,6 +20,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @SecurityRequirements
@@ -74,6 +75,7 @@ public class AuthController {
         return ResponseEntity.ok(new AfterLoginResponse(authTokens.isEmailVerified()));
     }
 
+    @PreAuthorize("hasAnyRole('VERIFIED', 'UNVERIFIED')")
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@CookieValue(name = "REFRESH-TOKEN") String refreshToken, HttpServletResponse response) {
         logoutUserUseCase.execute(refreshToken);
@@ -84,6 +86,7 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasAnyRole('VERIFIED', 'UNVERIFIED')")
     @SecurityRequirement(name = "refreshToken")
     @PostMapping("/refresh")
     public ResponseEntity<Void> refreshTokens(
@@ -96,6 +99,7 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('UNVERIFIED')")
     @SecurityRequirement(name = "accessToken")
     @GetMapping("/resend-verification-code")
     public ResponseEntity<Void> resendVerificationCode() {
@@ -107,6 +111,7 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('UNVERIFIED')")
     @SecurityRequirement(name = "accessToken")
     @PostMapping("/verify-code")
     public ResponseEntity<AfterLoginResponse> verifyEmail(EmailVerificationCodeRequest emailVerificationCodeRequest,

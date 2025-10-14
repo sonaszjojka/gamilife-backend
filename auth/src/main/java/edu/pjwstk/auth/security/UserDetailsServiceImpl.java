@@ -33,9 +33,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         if (dto.isEmailVerified() || !isEmailVerificationEnabled) {
-            authorities.add(new SimpleGrantedAuthority("VERIFIED"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_VERIFIED"));
         } else {
-            authorities.add(new SimpleGrantedAuthority("UNVERIFIED"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_UNVERIFIED"));
         }
 
         return new UserDetailsImpl(dto.userId(), dto.email(), dto.password(), authorities);
