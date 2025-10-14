@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.dto.service.RefreshToken;
+import edu.pjwstk.auth.domain.RefreshToken;
 import edu.pjwstk.auth.exceptions.RefreshTokenNotProvidedException;
 import edu.pjwstk.auth.exceptions.RefreshTokenUnknownException;
 import edu.pjwstk.auth.persistence.repository.RefreshTokenRepository;

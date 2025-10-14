@@ -1,11 +1,14 @@
--- ==================== TASKS ====================
-
-DROP TABLE IF EXISTS task_notification CASCADE;
+DROP TABLE IF EXISTS "user" CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
+DROP TABLE IF EXISTS user_oauth_provider CASCADE;
+DROP TABLE IF EXISTS refresh_token CASCADE;
+DROP TABLE IF EXISTS email_verification CASCADE;
+DROP TABLE IF EXISTS task_notification CASCADE;
 DROP TABLE IF EXISTS task_category CASCADE;
 DROP TABLE IF EXISTS task_difficulty CASCADE;
 DROP TABLE IF EXISTS habit CASCADE;
 
+-- ==================== TASKS ====================
 CREATE TABLE habit
 (
     habit_id        UUID                        NOT NULL,
@@ -61,45 +64,36 @@ CREATE TABLE task_notification
 );
 
 ALTER TABLE task
-    ADD CONSTRAINT uc_task_previous_task UNIQUE (previous_task_id);
+    ADD CONSTRAINT uc_task_previous_task
+        UNIQUE (previous_task_id);
 
 ALTER TABLE task_notification
-    ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK FOREIGN KEY (task_id) REFERENCES task (task_id);
+    ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK
+        FOREIGN KEY (task_id)
+            REFERENCES task (task_id);
 
 ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES task_category (category_id);
+    ADD CONSTRAINT FK_TASK_ON_CATEGORY
+        FOREIGN KEY (category_id)
+            REFERENCES task_category (category_id);
 
 ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_DIFFICULTY FOREIGN KEY (difficulty_id) REFERENCES task_difficulty (difficulty_id);
+    ADD CONSTRAINT FK_TASK_ON_DIFFICULTY
+        FOREIGN KEY (difficulty_id)
+            REFERENCES task_difficulty (difficulty_id);
 
 ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_PREVIOUS_TASK FOREIGN KEY (previous_task_id) REFERENCES task (task_id);
+    ADD CONSTRAINT FK_TASK_ON_PREVIOUS_TASK
+        FOREIGN KEY (previous_task_id)
+            REFERENCES task (task_id);
 
 ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_habit_id) REFERENCES habit (habit_id);
+    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT
+        FOREIGN KEY (task_habit_id)
+            REFERENCES habit (habit_id);
 
 -- ==================== USER ====================
-DROP TABLE IF EXISTS user_oauth_provider CASCADE;
-DROP TABLE IF EXISTS refresh_token CASCADE;
 DROP TABLE IF EXISTS "user" CASCADE;
-
-CREATE TABLE user_oauth_provider (
-  id uuid  NOT NULL,
-  user_id uuid  NOT NULL,
-  provider varchar(255)  NOT NULL,
-  provider_id varchar(255)  NOT NULL,
-  CONSTRAINT pk_user_oauth_provider PRIMARY KEY (id)
-);
-
-CREATE TABLE refresh_token (
-    id uuid  NOT NULL,
-    user_id uuid  NOT NULL,
-    token varchar(255)  NOT NULL,
-    issued_at timestamp(6)  NOT NULL,
-    expires_at timestamp(6)  NOT NULL,
-    revoked boolean  NOT NULL,
-    CONSTRAINT pk_refresh_token PRIMARY KEY (id)
-);
 
 CREATE TABLE "user" (
    id uuid  NOT NULL,
@@ -117,15 +111,53 @@ CREATE TABLE "user" (
    CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
+-- ==================== AUTH ====================
+CREATE TABLE user_oauth_provider
+(
+    id          uuid         NOT NULL,
+    user_id     uuid         NOT NULL,
+    provider    varchar(255) NOT NULL,
+    provider_id varchar(255) NOT NULL,
+    CONSTRAINT pk_user_oauth_provider PRIMARY KEY (id)
+);
+
+CREATE TABLE refresh_token
+(
+    id         uuid         NOT NULL,
+    user_id    uuid         NOT NULL,
+    token      varchar(255) NOT NULL,
+    issued_at  timestamp(6) NOT NULL,
+    expires_at timestamp(6) NOT NULL,
+    revoked    boolean      NOT NULL,
+    CONSTRAINT pk_refresh_token PRIMARY KEY (id)
+);
+
+CREATE TABLE email_verification
+(
+    id         uuid         NOT NULL,
+    user_id    uuid         NOT NULL,
+    code       varchar(255) NOT NULL,
+    issued_at  timestamp(6) NOT NULL,
+    expires_at timestamp(6) NOT NULL,
+    revoked    boolean      NOT NULL,
+    CONSTRAINT email_verification_pk PRIMARY KEY (id)
+);
+
 ALTER TABLE user_oauth_provider
-ADD CONSTRAINT user_oauth_provider_user
-FOREIGN KEY (user_id)
-REFERENCES "user" (id);
+    ADD CONSTRAINT user_oauth_provider_user
+        FOREIGN KEY (user_id)
+            REFERENCES "user" (id);
 
 ALTER TABLE refresh_token
-ADD CONSTRAINT refresh_token_user
-FOREIGN KEY (user_id)
-REFERENCES "user" (id);
+    ADD CONSTRAINT refresh_token_user
+        FOREIGN KEY (user_id)
+            REFERENCES "user" (id);
+
+ALTER TABLE email_verification
+    ADD CONSTRAINT email_validation_tokens_users
+        FOREIGN KEY (user_id)
+            REFERENCES "user" (id)
+;
 
 -- ==================== INTER-MODULE CONSTRAINTS ====================
 -- TODO

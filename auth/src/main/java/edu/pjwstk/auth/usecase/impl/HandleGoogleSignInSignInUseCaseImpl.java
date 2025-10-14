@@ -1,9 +1,9 @@
 package edu.pjwstk.auth.usecase.impl;
 
+import edu.pjwstk.auth.domain.UserOAuthProvider;
 import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
 import edu.pjwstk.auth.dto.service.OAuthCodeDto;
-import edu.pjwstk.auth.dto.service.UserOAuthProvider;
 import edu.pjwstk.auth.persistence.repository.UserProviderRepository;
 import edu.pjwstk.auth.usecase.HandleGoogleSignInUseCase;
 import edu.pjwstk.auth.usecase.LoginViaGoogleUseCase;

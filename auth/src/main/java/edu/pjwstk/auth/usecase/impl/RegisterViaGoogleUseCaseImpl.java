@@ -1,9 +1,8 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.dto.service.AuthTokens;
+import edu.pjwstk.auth.domain.UserOAuthProvider;
 import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
-import edu.pjwstk.auth.dto.service.UserOAuthProvider;
 import edu.pjwstk.auth.persistence.repository.UserProviderRepository;
 import edu.pjwstk.auth.usecase.RegisterViaGoogleUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
@@ -40,7 +39,8 @@ public class RegisterViaGoogleUseCaseImpl implements RegisterViaGoogleUseCase {
                 username,
                 null, // No birthdate provided
                 false, // Default to not sending budget reports
-                false // Default to private profile
+                false, // Default to private profile
+                true
         );
         BasicUserInfoApiDto createdGoogleUser = userApi.registerNewUser(newGoogleUser);
 
@@ -51,15 +51,15 @@ public class RegisterViaGoogleUseCaseImpl implements RegisterViaGoogleUseCase {
                 googleUserDto.sub()
         ));
 
-        AuthTokens authTokens = tokenProvider.generateTokenPair(
-                createdGoogleUser.userId(),
-                createdGoogleUser.email()
-        );
+
 
         return new GoogleLoginDTO(
                 GoogleLoginDTO.LoginType.NEW_USER,
-                authTokens.accessToken(),
-                authTokens.refreshToken()
+                tokenProvider.generateTokenPair(
+                        createdGoogleUser.userId(),
+                        createdGoogleUser.email(),
+                        true
+                )
         );
     }
 }

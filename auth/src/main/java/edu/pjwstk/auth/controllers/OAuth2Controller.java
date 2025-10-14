@@ -2,6 +2,7 @@ package edu.pjwstk.auth.controllers;
 
 import edu.pjwstk.auth.dto.request.LinkOAuthAccountRequest;
 import edu.pjwstk.auth.dto.request.OAuthCodeRequest;
+import edu.pjwstk.auth.dto.response.AfterLoginResponse;
 import edu.pjwstk.auth.dto.response.OAuth2LinkResponse;
 import edu.pjwstk.auth.dto.service.AuthTokens;
 import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
@@ -36,8 +37,8 @@ public class OAuth2Controller {
     private final HandleGoogleSignInUseCase handleGoogleSignInUseCase;
 
     @PostMapping("/link")
-    public ResponseEntity<Void> linkOAuthAccounts(@RequestBody @Valid LinkOAuthAccountRequest linkOAuthAccountRequest,
-                                                  HttpServletResponse response) {
+    public ResponseEntity<AfterLoginResponse> linkOAuthAccounts(@RequestBody @Valid LinkOAuthAccountRequest linkOAuthAccountRequest,
+                                                                HttpServletResponse response) {
         if (!linkOAuthAccountRequest.validate()) {
             throw new InvalidParameterException("If shouldLink is true, provider, providerId, userId, and password must be provided.");
         }
@@ -59,7 +60,7 @@ public class OAuth2Controller {
             response.addCookie(refreshTokenCookie);
             response.addCookie(accessTokenCookie);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(new AfterLoginResponse(authTokens.get().isEmailVerified()));
         }
 
         return ResponseEntity.noContent().build();
@@ -73,16 +74,17 @@ public class OAuth2Controller {
 
         return switch (googleLoginDTO.getLoginType()) {
             case GoogleLoginDTO.LoginType.NEW_USER, GoogleLoginDTO.LoginType.EXISTING_USER -> {
+                AuthTokens authTokens = googleLoginDTO.getAuthTokens();
                 Cookie refreshTokenCookie = cookieUtil
-                        .createRefreshTokenCookie(googleLoginDTO.getRefreshToken());
+                        .createRefreshTokenCookie(authTokens.refreshToken());
 
                 Cookie accessTokenCookie = cookieUtil
-                        .createAccessTokenCookie(googleLoginDTO.getAccessToken());
+                        .createAccessTokenCookie(authTokens.accessToken());
 
                 response.addCookie(refreshTokenCookie);
                 response.addCookie(accessTokenCookie);
 
-                yield ResponseEntity.ok().build();
+                yield ResponseEntity.ok(new AfterLoginResponse(authTokens.isEmailVerified()));
             }
             case GoogleLoginDTO.LoginType.POSSIBLE_LINK -> ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new OAuth2LinkResponse(

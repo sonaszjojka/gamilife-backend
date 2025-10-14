@@ -1,8 +1,8 @@
 package edu.pjwstk.auth.usecase.impl;
 
+import edu.pjwstk.auth.domain.UserOAuthProvider;
 import edu.pjwstk.auth.dto.service.AuthTokens;
 import edu.pjwstk.auth.dto.service.LinkOAuthAccountDto;
-import edu.pjwstk.auth.dto.service.UserOAuthProvider;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.exceptions.LinkedUserNotFoundException;
 import edu.pjwstk.auth.exceptions.UserAlreadyLinkedToProviderException;
@@ -10,7 +10,7 @@ import edu.pjwstk.auth.persistence.repository.UserProviderRepository;
 import edu.pjwstk.auth.usecase.LinkNewOAuthAccountUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
 import edu.pjwstk.common.userApi.UserApi;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
+import edu.pjwstk.common.userApi.dto.SecureUserInfoApiDto;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,7 +35,7 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
             return Optional.empty();
         }
 
-        BasicUserInfoApiDto user = userApi.getUserById(linkOAuthAccountDto.userId())
+        SecureUserInfoApiDto user = userApi.getSecureUserDataById(linkOAuthAccountDto.userId())
                 .orElseThrow(() -> new LinkedUserNotFoundException("Local user to link to not found"));
 
         if (!passwordEncoder.matches(linkOAuthAccountDto.password(), user.password())) {
@@ -54,6 +54,11 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
 
         ));
 
-        return Optional.of(tokenProvider.generateTokenPair(user.userId(), user.email()));
+        // Verify use email address if not verified
+        if (!user.isEmailVerified()) {
+            userApi.confirmUserEmailVerification(user.userId());
+        }
+
+        return Optional.of(tokenProvider.generateTokenPair(user.userId(), user.email(), true));
     }
 }

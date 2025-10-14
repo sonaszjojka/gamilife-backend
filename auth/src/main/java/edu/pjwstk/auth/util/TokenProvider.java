@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface TokenProvider {
     String generateAccessToken(UUID userId, String email);
 
-    AuthTokens generateTokenPair(UUID userId, String email);
+    AuthTokens generateTokenPair(UUID userId, String email, boolean isEmailVerified);
 
     boolean validateToken(String token);
 

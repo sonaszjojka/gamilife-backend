@@ -14,6 +14,11 @@ spring:
       expires-in: 604800
     access-token:
       expires-in: 7200
+  codes:
+    verification-code:
+      email-verification-enabled: true
+      expires-in: 300
+      resend-interval: 120
   jpa:
     properties:
       hibernate:

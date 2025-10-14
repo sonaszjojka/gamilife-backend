@@ -1,4 +1,4 @@
-package edu.pjwstk.auth.dto.service;
+package edu.pjwstk.auth.domain;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

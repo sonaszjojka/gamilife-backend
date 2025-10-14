@@ -36,7 +36,8 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
                 registerUserDto.username(),
                 registerUserDto.dateOfBirth(),
                 registerUserDto.sendBudgetReports(),
-                registerUserDto.isProfilePublic()
+                registerUserDto.isProfilePublic(),
+                false
         );
 
         return userApi.registerNewUser(user);

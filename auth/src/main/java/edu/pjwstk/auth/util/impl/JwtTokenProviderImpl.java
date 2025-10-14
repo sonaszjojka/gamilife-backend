@@ -76,10 +76,11 @@ public class JwtTokenProviderImpl implements TokenProvider {
     }
 
     @Override
-    public AuthTokens generateTokenPair(UUID userId, String email) {
+    public AuthTokens generateTokenPair(UUID userId, String email, boolean isEmailVerified) {
         return new AuthTokens(
                 generateAccessToken(userId, email),
-                UUID.randomUUID().toString()
+                UUID.randomUUID().toString(),
+                isEmailVerified
         );
     }
 
