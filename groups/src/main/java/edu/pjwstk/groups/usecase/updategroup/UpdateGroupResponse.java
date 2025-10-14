@@ -1,6 +1,5 @@
 package edu.pjwstk.groups.usecase.updategroup;
 
-import edu.pjwstk.groups.usecase.creategroup.CreateGroupResponse;
 import lombok.Builder;
 
 import java.io.Serializable;
@@ -11,7 +10,7 @@ public record UpdateGroupResponse(UUID groupId, String joinCode, UUID adminId, C
                                   Integer membersLimit, UpdateGroupResponse.GroupTypeDto groupType)
         implements Serializable {
     /**
-     * DTO for {@link edu.pjwstk.groups.domain.GroupType}
+     * DTO for {@link edu.pjwstk.groups.entity.GroupType}
      */
     public record GroupTypeDto(Integer groupTypeId, String title) implements Serializable {
     }

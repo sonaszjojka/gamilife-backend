@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.repository.impl;
 
-import edu.pjwstk.groups.domain.GroupMember;
+import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.groups.repository.jpa.GroupMemberRepositoryJpa;
 import org.springframework.stereotype.Repository;

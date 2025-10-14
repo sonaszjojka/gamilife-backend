@@ -1,8 +1,6 @@
 package edu.pjwstk.groups.repository;
 
-import edu.pjwstk.groups.domain.GroupType;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import edu.pjwstk.groups.entity.GroupType;
 
 import java.util.Optional;
 

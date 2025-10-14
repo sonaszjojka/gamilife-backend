@@ -1,10 +1,9 @@
-package edu.pjwstk.groups.domain;
+package edu.pjwstk.groups.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-
 
 @Getter
 @Setter
@@ -13,18 +12,18 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "group_request_status")
-public class GroupRequestStatus {
+@Table(name = "invitation_status")
+public class InvitationStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "group_request_status_id", nullable = false, updatable = false, unique = true)
-    private Integer groupRequestStatusId;
+    @Column(name = "invitation_status_id", nullable = false, updatable = false, unique = true)
+    private Integer groupTypeId;
 
     @Column(name = "title", length = 100, nullable = false, updatable = false)
     private String title;
 
-    @OneToMany(mappedBy = "groupRequestStatus")
+    @OneToMany(mappedBy = "invitationStatus")
     @ToString.Exclude
-    private List<GroupRequest> groupRequests;
+    private List<GroupInvitation> groupInvitations;
 }

@@ -1,8 +1,10 @@
 package edu.pjwstk.groups.api.controller;
 
+import edu.pjwstk.groups.shared.ApiResponse;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupRequest;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupResponse;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupUseCase;
+import edu.pjwstk.groups.usecase.deletegroup.DeleteGroupUseCase;
 import edu.pjwstk.groups.usecase.updategroup.UpdateGroupRequest;
 import edu.pjwstk.groups.usecase.updategroup.UpdateGroupResponse;
 import edu.pjwstk.groups.usecase.updategroup.UpdateGroupUseCase;
@@ -19,10 +21,12 @@ public class GroupController {
 
     private final CreateGroupUseCase createGroupUseCase;
     private final UpdateGroupUseCase updateGroupUseCase;
+    private final DeleteGroupUseCase deleteGroupUseCase;
 
-    public GroupController(CreateGroupUseCase createGroupUseCase, UpdateGroupUseCase updateGroupUseCase) {
+    public GroupController(CreateGroupUseCase createGroupUseCase, UpdateGroupUseCase updateGroupUseCase, DeleteGroupUseCase deleteGroupUseCase) {
         this.createGroupUseCase = createGroupUseCase;
         this.updateGroupUseCase = updateGroupUseCase;
+        this.deleteGroupUseCase = deleteGroupUseCase;
     }
 
     @PostMapping
@@ -36,5 +40,11 @@ public class GroupController {
                                                     @PathVariable("groupId") UUID groupId) {
         UpdateGroupResponse response = updateGroupUseCase.execute(request, groupId);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{groupId}")
+    public ResponseEntity<ApiResponse> deleteById(@PathVariable("groupId") UUID groupId) {
+        deleteGroupUseCase.execute(groupId);
+        return ResponseEntity.ok(new ApiResponse("Group with id: " + groupId + " deleted successfully."));
     }
 }

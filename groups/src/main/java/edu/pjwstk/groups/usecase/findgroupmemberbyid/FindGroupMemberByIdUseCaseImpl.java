@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.findgroupmemberbyid;
 
-import edu.pjwstk.groups.domain.GroupMember;
+import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.common.groupsApi.dto.GroupMemberDto;

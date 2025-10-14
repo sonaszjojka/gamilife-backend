@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.domain;
+package edu.pjwstk.groups.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,19 +36,19 @@ public class Group {
     @JoinColumn(name = "group_type_id", nullable = false)
     private GroupType groupType;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
     private List<ChatMessage> chatMessages;
 
-    @OneToMany(mappedBy = "memberGroup")
+    @OneToMany(mappedBy = "memberGroup", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
     private List<GroupMember> groupMembers;
 
-    @OneToMany(mappedBy = "groupRequested")
+    @OneToMany(mappedBy = "groupRequested", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
     private List<GroupRequest> groupRequests;
 
-    @OneToMany(mappedBy = "groupInvited")
+    @OneToMany(mappedBy = "groupInvited", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
     private List<GroupInvitation> groupInvitations;
 }

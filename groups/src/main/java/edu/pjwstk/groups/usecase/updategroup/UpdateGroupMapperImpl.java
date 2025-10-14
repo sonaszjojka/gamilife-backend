@@ -1,7 +1,6 @@
 package edu.pjwstk.groups.usecase.updategroup;
 
-import edu.pjwstk.groups.domain.Group;
-import edu.pjwstk.groups.usecase.creategroup.CreateGroupResponse;
+import edu.pjwstk.groups.entity.Group;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.repository;
 
-import edu.pjwstk.groups.domain.GroupMember;
+import edu.pjwstk.groups.entity.GroupMember;
 
 import java.util.Optional;
 

@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.repository.impl;
 
-import edu.pjwstk.groups.domain.Group;
+import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.repository.jpa.GroupRepositoryJpa;
 import org.springframework.stereotype.Repository;
@@ -25,5 +25,10 @@ public class GroupRepositoryImpl implements GroupRepository {
     @Override
     public Group save(Group group) {
         return groupRepositoryJpa.save(group);
+    }
+
+    @Override
+    public void deleteById(UUID groupId) {
+        groupRepositoryJpa.deleteById(groupId);
     }
 }

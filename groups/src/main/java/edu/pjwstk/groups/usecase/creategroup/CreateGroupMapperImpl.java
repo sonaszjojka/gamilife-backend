@@ -1,12 +1,10 @@
 package edu.pjwstk.groups.usecase.creategroup;
 
-import edu.pjwstk.groups.domain.Group;
-import edu.pjwstk.groups.domain.GroupType;
+import edu.pjwstk.groups.entity.Group;
+import edu.pjwstk.groups.entity.GroupType;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 public class CreateGroupMapperImpl implements CreateGroupMapper {

@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.repository.impl;
 
-import edu.pjwstk.groups.domain.ChatMessage;
+import edu.pjwstk.groups.entity.ChatMessage;
 import edu.pjwstk.groups.repository.ChatMessageRepository;
 import edu.pjwstk.groups.repository.jpa.ChatMessageRepositoryJpa;
 import org.springframework.stereotype.Repository;
