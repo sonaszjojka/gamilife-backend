@@ -1,11 +1,13 @@
 package edu.pjwstk.groups.repository.impl;
 
+import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.groups.repository.jpa.GroupMemberRepositoryJpa;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class GroupMemberRepositoryImpl implements GroupMemberRepository {
@@ -20,4 +22,15 @@ public class GroupMemberRepositoryImpl implements GroupMemberRepository {
     public Optional<GroupMember> findById(Integer groupMemberId) {
         return repositoryJpa.findById(groupMemberId);
     }
+
+    @Override
+    public boolean existsByUserIdAndGroup(Group group, UUID userId) {
+        return repositoryJpa.existsByUserIdAndMemberGroup(userId, group);
+    }
+
+    @Override
+    public GroupMember save(GroupMember groupMember) {
+        return repositoryJpa.save(groupMember);
+    }
+
 }

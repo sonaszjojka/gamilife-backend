@@ -4,8 +4,10 @@ import edu.pjwstk.common.userApi.UserApi;
 import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
 import edu.pjwstk.common.userApi.exception.UserNotFoundException;
 import edu.pjwstk.groups.entity.Group;
+import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.entity.GroupType;
 import edu.pjwstk.groups.exception.GroupTypeNotFoundException;
+import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.repository.GroupTypeRepository;
 import edu.pjwstk.groups.util.JoinCodeGenerator;
@@ -22,12 +24,14 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
     private final CreateGroupMapper createGroupUseCaseMapper;
     private final UserApi userApi;
     private final GroupTypeRepository groupTypeRepository;
+    private final GroupMemberRepository groupMemberRepository;
 
-    public CreateGroupUseCaseImpl(GroupRepository groupRepository, UserApi userApi, CreateGroupMapper createGroupUseCaseMapper, GroupTypeRepository groupTypeRepository) {
+    public CreateGroupUseCaseImpl(GroupRepository groupRepository, UserApi userApi, CreateGroupMapper createGroupUseCaseMapper, GroupTypeRepository groupTypeRepository, GroupMemberRepository groupMemberRepository) {
         this.groupRepository = groupRepository;
         this.userApi = userApi;
         this.createGroupUseCaseMapper = createGroupUseCaseMapper;
         this.groupTypeRepository = groupTypeRepository;
+        this.groupMemberRepository = groupMemberRepository;
     }
 
     @Override
@@ -47,6 +51,17 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
 
         Group group = createGroupUseCaseMapper.toEntity(request, joinCode, UUID.randomUUID(), groupType);
         Group savedGroup = groupRepository.save(group);
+
+        GroupMember groupMemberAdmin = GroupMember.builder()
+                .memberGroup(group)
+                .userId(admin.get().userId())
+                .leftAt(null)
+                .groupMoney(0)
+                .totalEarnedMoney(0)
+                .build();
+
+        groupMemberRepository.save(groupMemberAdmin);
+
         return createGroupUseCaseMapper.toResponse(savedGroup);
     }
 }

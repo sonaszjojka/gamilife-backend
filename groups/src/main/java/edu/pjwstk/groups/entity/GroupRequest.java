@@ -17,9 +17,8 @@ import java.util.UUID;
 public class GroupRequest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "group_request_id", nullable = false, updatable = false, unique = true)
-    private Integer groupRequestId;
+    private UUID groupRequestId;
 
     @Column(name = "user_id", nullable = false, updatable = false)
     private UUID userId;

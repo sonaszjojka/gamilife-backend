@@ -1,7 +1,9 @@
 package edu.pjwstk.application.exception;
 
 
+import edu.pjwstk.groups.exception.GroupRequestStatusNotFoundException;
 import edu.pjwstk.groups.exception.GroupTypeNotFoundException;
+import edu.pjwstk.groups.exception.InvalidGroupRequestDataException;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.auth.exceptions.*;
@@ -131,13 +133,23 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(GroupMemberNotFoundException.class)
-    public ProblemDetail handleInvalidHabitData(GroupMemberNotFoundException ex) {
+    public ProblemDetail handleGroupMemberNotFoundException(GroupMemberNotFoundException ex) {
         return formatErrorResponse(ErrorCode.GROUP_MEMBER_NOT_FOUND, ex.getMessage());
     }
 
     @ExceptionHandler(GroupTypeNotFoundException.class)
-    public ProblemDetail handleInvalidHabitData(GroupTypeNotFoundException ex) {
+    public ProblemDetail handleGroupTypeNotFoundException(GroupTypeNotFoundException ex) {
         return formatErrorResponse(ErrorCode.GROUP_TYPE_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidGroupRequestDataException.class)
+    public ProblemDetail handleInvalidGroupRequestDataException(InvalidGroupRequestDataException ex) {
+        return formatErrorResponse(ErrorCode.INVALID_GROUP_REQUEST_DATA, ex.getMessage());
+    }
+
+    @ExceptionHandler(GroupRequestStatusNotFoundException.class)
+    public ProblemDetail handleGroupRequestStatusNotFoundException(GroupRequestStatusNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_REQUEST_STATUS_NOT_FOUND, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
