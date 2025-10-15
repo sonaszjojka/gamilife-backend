@@ -29,4 +29,9 @@ public class GroupTaskRepositoryImpl implements GroupTaskRepository {
     public boolean existsByGroupTaskId(UUID groupTaskId) {
         return groupTaskRepositoryJpa.existsById(groupTaskId);
     }
+
+    @Override
+    public GroupTask findByGroupTaskId(UUID groupTaskId) {
+        return groupTaskRepositoryJpa.findById(groupTaskId).orElse(null);
+    }
 }

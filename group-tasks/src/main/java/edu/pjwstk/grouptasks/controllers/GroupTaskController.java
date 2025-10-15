@@ -5,6 +5,9 @@ import edu.pjwstk.grouptasks.usecase.creategrouptask.CreateGroupTaskRequest;
 import edu.pjwstk.grouptasks.usecase.creategrouptask.CreateGroupTaskResponse;
 import edu.pjwstk.grouptasks.usecase.creategrouptask.CreateGroupTaskUseCase;
 import edu.pjwstk.grouptasks.usecase.deletegrouptask.DeleteGroupTaskUseCase;
+import edu.pjwstk.grouptasks.usecase.editgrouptask.EditGroupTaskRequest;
+import edu.pjwstk.grouptasks.usecase.editgrouptask.EditGroupTaskResponse;
+import edu.pjwstk.grouptasks.usecase.editgrouptask.EditGroupTaskUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +20,11 @@ import java.util.UUID;
 public class GroupTaskController {
     private final CreateGroupTaskUseCase createGroupTaskUseCase;
     private final DeleteGroupTaskUseCase deleteGroupTaskUseCase;
-    public GroupTaskController(CreateGroupTaskUseCase createGroupTaskUseCase, DeleteGroupTaskUseCase deleteGroupTaskUseCase) {
+    private final EditGroupTaskUseCase editGroupTaskUseCase;
+    public GroupTaskController(CreateGroupTaskUseCase createGroupTaskUseCase, DeleteGroupTaskUseCase deleteGroupTaskUseCase, EditGroupTaskUseCase editGroupTaskUseCase) {
         this.createGroupTaskUseCase = createGroupTaskUseCase;
         this.deleteGroupTaskUseCase = deleteGroupTaskUseCase;
+        this.editGroupTaskUseCase = editGroupTaskUseCase;
     }
 
     @PostMapping("/{taskId}/group-tasks")
@@ -33,6 +38,13 @@ public class GroupTaskController {
     public ResponseEntity<ApiResponse> delete (@PathVariable ("groupTaskId") UUID groupTaskId) {
         deleteGroupTaskUseCase.execute(groupTaskId);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Group Task with id: " + groupTaskId + " deleted successfully"));
+    }
+
+    @PutMapping("/group-tasks/{groupTaskId}")
+    public ResponseEntity<EditGroupTaskResponse> edit (@PathVariable ("groupTaskId") UUID groupTaskId,
+                                                       @RequestBody @Valid EditGroupTaskRequest request) {
+        EditGroupTaskResponse response = editGroupTaskUseCase.execute(groupTaskId, request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }
