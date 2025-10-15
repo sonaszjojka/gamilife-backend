@@ -10,4 +10,5 @@ public interface GroupTaskRepository   {
     GroupTask save(GroupTask groupTask);
     void deleteByGroupTaskId(UUID groupTaskId);
     boolean existsByGroupTaskId(UUID groupTaskId);
+    GroupTask findByGroupTaskId(UUID groupTaskId);
 }
