@@ -1,8 +1,10 @@
 package edu.pjwstk.grouptasks.controllers;
 
+import edu.pjwstk.grouptasks.shared.ApiResponse;
 import edu.pjwstk.grouptasks.usecase.creategrouptask.CreateGroupTaskRequest;
 import edu.pjwstk.grouptasks.usecase.creategrouptask.CreateGroupTaskResponse;
 import edu.pjwstk.grouptasks.usecase.creategrouptask.CreateGroupTaskUseCase;
+import edu.pjwstk.grouptasks.usecase.deletegrouptask.DeleteGroupTaskUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,10 @@ import java.util.UUID;
 @RequestMapping("/api/v1/tasks")
 public class GroupTaskController {
     private final CreateGroupTaskUseCase createGroupTaskUseCase;
-    public GroupTaskController(CreateGroupTaskUseCase createGroupTaskUseCase) {
+    private final DeleteGroupTaskUseCase deleteGroupTaskUseCase;
+    public GroupTaskController(CreateGroupTaskUseCase createGroupTaskUseCase, DeleteGroupTaskUseCase deleteGroupTaskUseCase) {
         this.createGroupTaskUseCase = createGroupTaskUseCase;
+        this.deleteGroupTaskUseCase = deleteGroupTaskUseCase;
     }
 
     @PostMapping("/{taskId}/group-tasks")
@@ -23,6 +27,12 @@ public class GroupTaskController {
                                                          @RequestBody @Valid CreateGroupTaskRequest request) {
         CreateGroupTaskResponse response= createGroupTaskUseCase.execute(request, taskId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @DeleteMapping("/group-tasks/{groupTaskId}")
+    public ResponseEntity<ApiResponse> delete (@PathVariable ("groupTaskId") UUID groupTaskId) {
+        deleteGroupTaskUseCase.execute(groupTaskId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Group Task with id: " + groupTaskId + " deleted successfully"));
     }
 
 }

@@ -5,6 +5,8 @@ import edu.pjwstk.grouptasks.repository.GroupTaskRepository;
 import edu.pjwstk.grouptasks.repository.jpa.GroupTaskRepositoryJpa;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
 public class GroupTaskRepositoryImpl implements GroupTaskRepository {
     private final GroupTaskRepositoryJpa groupTaskRepositoryJpa;
@@ -16,5 +18,15 @@ public class GroupTaskRepositoryImpl implements GroupTaskRepository {
     @Override
     public GroupTask save(GroupTask groupTask) {
         return groupTaskRepositoryJpa.save(groupTask);
+    }
+
+    @Override
+    public void deleteByGroupTaskId(UUID groupTaskId) {
+        groupTaskRepositoryJpa.deleteById(groupTaskId);
+    }
+
+    @Override
+    public boolean existsByGroupTaskId(UUID groupTaskId) {
+        return groupTaskRepositoryJpa.existsById(groupTaskId);
     }
 }
