@@ -9,4 +9,6 @@ public interface GroupInvitationRepository {
     Optional<GroupInvitation> findById(UUID groupInvitationId);
 
     void deleteById(UUID groupInvitationId);
+
+    GroupInvitation save(GroupInvitation groupInvitation);
 }

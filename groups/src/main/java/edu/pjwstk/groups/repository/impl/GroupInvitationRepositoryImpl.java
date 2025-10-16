@@ -26,4 +26,9 @@ public class GroupInvitationRepositoryImpl implements GroupInvitationRepository 
     public void deleteById(UUID groupInvitationId) {
         repositoryJpa.deleteById(groupInvitationId);
     }
+
+    @Override
+    public GroupInvitation save(GroupInvitation groupInvitation) {
+        return repositoryJpa.save(groupInvitation);
+    }
 }

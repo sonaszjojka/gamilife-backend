@@ -170,6 +170,21 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.USER_NOT_GROUP_ADMINISTRATOR_ACCESS_DENIED, ex.getMessage());
     }
 
+    @ExceptionHandler(UserNotOwnerAccessDeniedException.class)
+    public ProblemDetail handleUserUserNotOwnerAccessDeniedException(UserNotOwnerAccessDeniedException ex) {
+        return formatErrorResponse(ErrorCode.USER_NOT_OWNER_ACCESS_DENIED, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidGroupInvitationDataException.class)
+    public ProblemDetail handleInvalidGroupInvitationDataException(InvalidGroupInvitationDataException ex) {
+        return formatErrorResponse(ErrorCode.INVALID_GROUP_INVITATION_DATA, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvitationStatusNotFoundException.class)
+    public ProblemDetail handleInvalidGroupInvitationDataException(InvitationStatusNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.INVITATION_STATUS_NOT_FOUND, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleOther() {
         return ErrorCode.INTERNAL_SERVER_ERROR.getProblemDetail();

@@ -9,6 +9,7 @@ import edu.pjwstk.groups.repository.GroupInvitationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -32,7 +33,7 @@ public class DeleteGroupInvitationByIdImpl implements DeleteGroupInvitationById 
         CurrentUserDto currentUserDto = authApi.getCurrentUser()
                 .orElseThrow();
 
-        if (currentUserDto.userId() != groupInvitation.getGroupInvited().getAdminId()) {
+        if (!Objects.equals(currentUserDto.userId(), groupInvitation.getGroupInvited().getAdminId())) {
             throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators can delete group invitations!");
         }
 

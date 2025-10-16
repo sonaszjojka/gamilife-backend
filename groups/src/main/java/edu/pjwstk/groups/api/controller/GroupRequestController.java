@@ -42,7 +42,7 @@ public class GroupRequestController {
     }
 
     @PutMapping("/{groupRequestId}/status")
-    private ResponseEntity<EditGroupRequestStatusForGroupRequestResponse> editById(@PathVariable("groupRequestId") UUID groupRequestId,
+    private ResponseEntity<EditGroupRequestStatusForGroupRequestResponse> editStatusById(@PathVariable("groupRequestId") UUID groupRequestId,
                                                                                    @PathVariable("groupId") UUID groupId,
                                                                                    @Valid @RequestBody EditGroupRequestStatusForGroupRequestRequest request) {
         EditGroupRequestStatusForGroupRequestResponse response = editGroupRequestStatusForGroupRequestUseCase.execute(groupRequestId, request);

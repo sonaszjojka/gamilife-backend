@@ -9,6 +9,7 @@ import edu.pjwstk.groups.repository.GroupRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -31,7 +32,7 @@ public class DeleteGroupUseCaseImpl implements DeleteGroupUseCase {
         CurrentUserDto currentUserDto = authApi.getCurrentUser()
                 .orElseThrow();
 
-        if (currentUserDto.userId() != group.getAdminId()) {
+        if (!Objects.equals(currentUserDto.userId(), group.getAdminId())) {
             throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators can delete groups!");
         }
 

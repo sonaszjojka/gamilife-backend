@@ -46,7 +46,7 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
 
         CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow(); // todo: Exception?
+                .orElseThrow();
 
         if (groupMemberRepository.existsByUserIdAndGroup(group, currentUserDto.userId())) {
             throw new InvalidGroupDataException("User with id: " + currentUserDto.userId()

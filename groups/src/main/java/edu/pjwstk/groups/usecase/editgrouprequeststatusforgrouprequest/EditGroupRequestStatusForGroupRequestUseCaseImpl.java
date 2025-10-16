@@ -14,6 +14,7 @@ import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -40,13 +41,17 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
         CurrentUserDto currentUserDto = authApi.getCurrentUser()
                 .orElseThrow();
 
-        if (currentUserDto.userId() != groupRequest.getGroupRequested().getAdminId()) {
+        if (!Objects.equals(currentUserDto.userId(), groupRequest.getGroupRequested().getAdminId())) {
             throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators can change status group request!");
         }
 
         if (groupRequest.getGroupRequestStatus().toEnum() == GroupRequestStatusEnum.ACCEPTED
                 || groupRequest.getGroupRequestStatus().toEnum() == GroupRequestStatusEnum.DECLINED) {
             throw new InvalidGroupDataException("Group requests with status ACCEPTED or DECLINED are final and cannot be changed!");
+        }
+
+        if(request.groupRequestStatus() == GroupRequestStatusEnum.SENT){
+            throw new InvalidGroupDataException("Group requests with id: " + groupRequestId + " has already status: SENT");
         }
 
         GroupRequestStatus groupRequestStatus = groupRequestStatusRepository.findById(request.groupRequestStatus().getId())
