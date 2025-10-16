@@ -8,6 +8,7 @@ import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.entity.GroupRequest;
 import edu.pjwstk.groups.entity.GroupRequestStatus;
+import edu.pjwstk.groups.exception.GroupFullException;
 import edu.pjwstk.groups.exception.GroupRequestStatusNotFoundException;
 import edu.pjwstk.groups.exception.InvalidGroupRequestDataException;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
@@ -67,6 +68,12 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
         if (groupRequestRepository.existsByGroupAndUserIdAndGroupRequestStatus(group, currentUserDto.userId(), groupRequestStatus)) {
             throw new InvalidGroupRequestDataException("User with id: " + currentUserDto.userId()
                     + " has already group request with status: SENT to group with id:" + groupId);
+        }
+
+        Integer currentMembersCount = groupMemberRepository.countByMemberGroup(group);
+
+        if (currentMembersCount >= group.getMembersLimit()) {
+            throw new GroupFullException("Group is full – member limit reached: " + group.getMembersLimit());
         }
 
         GroupRequest groupRequest = createGroupRequestMapper.toEntity(UUID.randomUUID(), group, groupRequestStatus, currentUserDto.userId());

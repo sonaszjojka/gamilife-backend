@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface GroupMemberRepositoryJpa extends JpaRepository<GroupMember, Integer> {
     boolean existsByUserIdAndMemberGroup(UUID userId, Group memberGroup);
+
+    Integer countByMemberGroup(Group memberGroup);
 }

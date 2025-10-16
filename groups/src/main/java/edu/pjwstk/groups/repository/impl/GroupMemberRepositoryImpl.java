@@ -33,4 +33,9 @@ public class GroupMemberRepositoryImpl implements GroupMemberRepository {
         return repositoryJpa.save(groupMember);
     }
 
+    @Override
+    public Integer countByMemberGroup(Group group) {
+        return repositoryJpa.countByMemberGroup(group);
+    }
+
 }

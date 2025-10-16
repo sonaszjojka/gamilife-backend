@@ -12,4 +12,6 @@ public interface GroupMemberRepository {
     boolean existsByUserIdAndGroup(Group group, UUID userId);
 
     GroupMember save(GroupMember groupMember);
+
+    Integer countByMemberGroup(Group group);
 }

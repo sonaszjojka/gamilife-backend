@@ -1,6 +1,7 @@
 package edu.pjwstk.application.exception;
 
 
+import edu.pjwstk.groups.exception.GroupFullException;
 import edu.pjwstk.groups.exception.GroupRequestStatusNotFoundException;
 import edu.pjwstk.groups.exception.GroupTypeNotFoundException;
 import edu.pjwstk.groups.exception.InvalidGroupRequestDataException;
@@ -152,11 +153,15 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.GROUP_REQUEST_STATUS_NOT_FOUND, ex.getMessage());
     }
 
+    @ExceptionHandler(GroupFullException.class)
+    public ProblemDetail handleGroupFullException(GroupFullException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_IS_FULL, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleOther() {
         return ErrorCode.INTERNAL_SERVER_ERROR.getProblemDetail();
     }
-
 
     private ProblemDetail formatErrorResponse(ErrorCode error, String detail) {
         ProblemDetail problem = error.getProblemDetail();
