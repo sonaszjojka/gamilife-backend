@@ -8,6 +8,7 @@ import edu.pjwstk.groups.repository.jpa.GroupRequestRepositoryJpa;
 import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -28,5 +29,15 @@ public class GroupRequestRepositoryImpl implements GroupRequestRepository {
     @Override
     public GroupRequest save(GroupRequest groupRequest) {
         return repositoryJpa.save(groupRequest);
+    }
+
+    @Override
+    public Optional<GroupRequest> findById(UUID groupRequestId) {
+        return repositoryJpa.findById(groupRequestId);
+    }
+
+    @Override
+    public void deleteById(UUID groupRequestId) {
+        repositoryJpa.deleteById(groupRequestId);
     }
 }

@@ -39,7 +39,8 @@ public enum ErrorCode {
     GROUP_TYPE_NOT_FOUND(ErrorCode.GROUP_TYPE_NOT_FOUND_CODE, "Group Type Not Found", HttpStatus.NOT_FOUND),
     INVALID_GROUP_REQUEST_DATA(ErrorCode.INVALID_GROUP_REQUEST_DATA_CODE, "Invalid Group Request Data", HttpStatus.BAD_REQUEST),
     GROUP_REQUEST_STATUS_NOT_FOUND(ErrorCode.GROUP_REQUEST_STATUS_NOT_FOUND_CODE, "Group Request Status Not Found", HttpStatus.NOT_FOUND),
-    GROUP_IS_FULL(ErrorCode.GROUP_IS_FULL_CODE, "Group Is Full – Member Limit Reached", HttpStatus.UNPROCESSABLE_ENTITY);
+    GROUP_IS_FULL(ErrorCode.GROUP_IS_FULL_CODE, "Group Is Full – Member Limit Reached", HttpStatus.UNPROCESSABLE_ENTITY),
+    GROUP_REQUEST_NOT_FOUND(ErrorCode.GROUP_REQUEST_NOT_FOUND_CODE, "Group Request Not Found", HttpStatus.NOT_FOUND);
 
     public static final int VALIDATION_ERROR_CODE = 1001;
     public static final int ACCESS_DENIED_CODE = 1002;
@@ -76,6 +77,7 @@ public enum ErrorCode {
     public static final int INVALID_GROUP_REQUEST_DATA_CODE = 1032;
     public static final int GROUP_REQUEST_STATUS_NOT_FOUND_CODE = 1033;
     public static final int GROUP_IS_FULL_CODE = 1034;
+    public static final int GROUP_REQUEST_NOT_FOUND_CODE = 1035;
 
     private final int code;
     private final String title;

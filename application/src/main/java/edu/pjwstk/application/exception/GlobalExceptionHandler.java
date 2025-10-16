@@ -1,10 +1,7 @@
 package edu.pjwstk.application.exception;
 
 
-import edu.pjwstk.groups.exception.GroupFullException;
-import edu.pjwstk.groups.exception.GroupRequestStatusNotFoundException;
-import edu.pjwstk.groups.exception.GroupTypeNotFoundException;
-import edu.pjwstk.groups.exception.InvalidGroupRequestDataException;
+import edu.pjwstk.groups.exception.*;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.auth.exceptions.*;
@@ -156,6 +153,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(GroupFullException.class)
     public ProblemDetail handleGroupFullException(GroupFullException ex) {
         return formatErrorResponse(ErrorCode.GROUP_IS_FULL, ex.getMessage());
+    }
+
+    @ExceptionHandler(GroupRequestNotFoundException.class)
+    public ProblemDetail handleGroupRequestNotFoundException(GroupRequestNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_REQUEST_NOT_FOUND, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
