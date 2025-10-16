@@ -1,7 +1,10 @@
 package edu.pjwstk.groups.shared;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum GroupRequestStatusEnum {
     SENT(1),
     ACCEPTED(2),
@@ -10,8 +13,6 @@ public enum GroupRequestStatusEnum {
     private final int id;
 
     GroupRequestStatusEnum(int id) { this.id = id; }
-
-    public int getId() { return id; }
 
     public static GroupRequestStatusEnum fromId(int id) {
         return Arrays.stream(values())

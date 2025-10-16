@@ -1,7 +1,7 @@
 package edu.pjwstk.application.exception;
 
 
-import edu.pjwstk.groups.exception.GroupTypeNotFoundException;
+import edu.pjwstk.groups.exception.*;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.auth.exceptions.*;
@@ -131,20 +131,64 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(GroupMemberNotFoundException.class)
-    public ProblemDetail handleInvalidHabitData(GroupMemberNotFoundException ex) {
+    public ProblemDetail handleGroupMemberNotFoundException(GroupMemberNotFoundException ex) {
         return formatErrorResponse(ErrorCode.GROUP_MEMBER_NOT_FOUND, ex.getMessage());
     }
 
     @ExceptionHandler(GroupTypeNotFoundException.class)
-    public ProblemDetail handleInvalidHabitData(GroupTypeNotFoundException ex) {
+    public ProblemDetail handleGroupTypeNotFoundException(GroupTypeNotFoundException ex) {
         return formatErrorResponse(ErrorCode.GROUP_TYPE_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidGroupDataException.class)
+    public ProblemDetail handleInvalidGroupRequestDataException(InvalidGroupDataException ex) {
+        return formatErrorResponse(ErrorCode.INVALID_GROUP_REQUEST_DATA, ex.getMessage());
+    }
+
+    @ExceptionHandler(GroupRequestStatusNotFoundException.class)
+    public ProblemDetail handleGroupRequestStatusNotFoundException(GroupRequestStatusNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_REQUEST_STATUS_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(GroupFullException.class)
+    public ProblemDetail handleGroupFullException(GroupFullException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_IS_FULL, ex.getMessage());
+    }
+
+    @ExceptionHandler(GroupRequestNotFoundException.class)
+    public ProblemDetail handleGroupRequestNotFoundException(GroupRequestNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_REQUEST_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(GroupInvitationNotFoundException.class)
+    public ProblemDetail handleGroupInvitationNotFoundException(GroupInvitationNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_INVITATION_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(UserNotGroupAdministratorAccessDeniedException.class)
+    public ProblemDetail handleUserNotGroupAdministratorAccessDeniedException(UserNotGroupAdministratorAccessDeniedException ex) {
+        return formatErrorResponse(ErrorCode.USER_NOT_GROUP_ADMINISTRATOR_ACCESS_DENIED, ex.getMessage());
+    }
+
+    @ExceptionHandler(UserNotOwnerAccessDeniedException.class)
+    public ProblemDetail handleUserUserNotOwnerAccessDeniedException(UserNotOwnerAccessDeniedException ex) {
+        return formatErrorResponse(ErrorCode.USER_NOT_OWNER_ACCESS_DENIED, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidGroupInvitationDataException.class)
+    public ProblemDetail handleInvalidGroupInvitationDataException(InvalidGroupInvitationDataException ex) {
+        return formatErrorResponse(ErrorCode.INVALID_GROUP_INVITATION_DATA, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvitationStatusNotFoundException.class)
+    public ProblemDetail handleInvalidGroupInvitationDataException(InvitationStatusNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.INVITATION_STATUS_NOT_FOUND, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleOther() {
         return ErrorCode.INTERNAL_SERVER_ERROR.getProblemDetail();
     }
-
 
     private ProblemDetail formatErrorResponse(ErrorCode error, String detail) {
         ProblemDetail problem = error.getProblemDetail();
