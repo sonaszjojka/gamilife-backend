@@ -3,14 +3,12 @@ package edu.pjwstk.groups.usecase.creategrouprequest;
 import edu.pjwstk.common.authApi.AuthApi;
 import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.common.groupsApi.exception.GroupNotFoundException;
-import edu.pjwstk.common.userApi.UserApi;
 import edu.pjwstk.groups.entity.Group;
-import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.entity.GroupRequest;
 import edu.pjwstk.groups.entity.GroupRequestStatus;
 import edu.pjwstk.groups.exception.GroupFullException;
 import edu.pjwstk.groups.exception.GroupRequestStatusNotFoundException;
-import edu.pjwstk.groups.exception.InvalidGroupRequestDataException;
+import edu.pjwstk.groups.exception.InvalidGroupDataException;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.repository.GroupRequestRepository;
@@ -20,7 +18,6 @@ import edu.pjwstk.groups.shared.GroupTypeEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -52,12 +49,12 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
                 .orElseThrow(); // todo: Exception?
 
         if (groupMemberRepository.existsByUserIdAndGroup(group, currentUserDto.userId())) {
-            throw new InvalidGroupRequestDataException("User with id: " + currentUserDto.userId()
+            throw new InvalidGroupDataException("User with id: " + currentUserDto.userId()
                     + " is already added to group with id:" + groupId);
         }
 
         if (group.getGroupType().toEnum() == GroupTypeEnum.CLOSED || group.getGroupType().toEnum() == GroupTypeEnum.OPEN) {
-            throw new InvalidGroupRequestDataException("This group does not accept join requests. " +
+            throw new InvalidGroupDataException("This group does not accept join requests. " +
                     "Only 'REQUEST_ONLY' groups can receive join requests.");
         }
 
@@ -66,7 +63,7 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
                         + GroupRequestStatusEnum.SENT.getId() + " not found!"));
 
         if (groupRequestRepository.existsByGroupAndUserIdAndGroupRequestStatus(group, currentUserDto.userId(), groupRequestStatus)) {
-            throw new InvalidGroupRequestDataException("User with id: " + currentUserDto.userId()
+            throw new InvalidGroupDataException("User with id: " + currentUserDto.userId()
                     + " has already group request with status: SENT to group with id:" + groupId);
         }
 

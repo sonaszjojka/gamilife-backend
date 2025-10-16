@@ -41,7 +41,7 @@ public class GroupRequestController {
         return ResponseEntity.ok(new ApiResponse("Group request with id: " + groupRequestId + " deleted successfully."));
     }
 
-    @PutMapping("/{groupRequestId}")
+    @PutMapping("/{groupRequestId}/status")
     private ResponseEntity<EditGroupRequestStatusForGroupRequestResponse> editById(@PathVariable("groupRequestId") UUID groupRequestId,
                                                                                    @PathVariable("groupId") UUID groupId,
                                                                                    @Valid @RequestBody EditGroupRequestStatusForGroupRequestRequest request) {

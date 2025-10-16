@@ -140,8 +140,8 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.GROUP_TYPE_NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(InvalidGroupRequestDataException.class)
-    public ProblemDetail handleInvalidGroupRequestDataException(InvalidGroupRequestDataException ex) {
+    @ExceptionHandler(InvalidGroupDataException.class)
+    public ProblemDetail handleInvalidGroupRequestDataException(InvalidGroupDataException ex) {
         return formatErrorResponse(ErrorCode.INVALID_GROUP_REQUEST_DATA, ex.getMessage());
     }
 
@@ -163,6 +163,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(GroupInvitationNotFoundException.class)
     public ProblemDetail handleGroupInvitationNotFoundException(GroupInvitationNotFoundException ex) {
         return formatErrorResponse(ErrorCode.GROUP_INVITATION_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(UserNotGroupAdministratorAccessDeniedException.class)
+    public ProblemDetail handleUserNotGroupAdministratorAccessDeniedException(UserNotGroupAdministratorAccessDeniedException ex) {
+        return formatErrorResponse(ErrorCode.USER_NOT_GROUP_ADMINISTRATOR_ACCESS_DENIED, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

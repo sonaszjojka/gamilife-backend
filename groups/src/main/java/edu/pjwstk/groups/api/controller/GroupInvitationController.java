@@ -22,6 +22,6 @@ public class GroupInvitationController {
     @DeleteMapping("/{groupInvitationId}")
     private ResponseEntity<ApiResponse> deleteById(@PathVariable("groupInvitationId") UUID groupInvitationId){
         deleteGroupInvitationById.execute(groupInvitationId);
-        return ResponseEntity.ok(new ApiResponse("Group Invitation with id:" + groupInvitationId + " deleted successfully."));
+        return ResponseEntity.ok(new ApiResponse("Group Invitation with id: " + groupInvitationId + " deleted successfully."));
     }
 }
