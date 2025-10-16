@@ -160,6 +160,11 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.GROUP_REQUEST_NOT_FOUND, ex.getMessage());
     }
 
+    @ExceptionHandler(GroupInvitationNotFoundException.class)
+    public ProblemDetail handleGroupInvitationNotFoundException(GroupInvitationNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_INVITATION_NOT_FOUND, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleOther() {
         return ErrorCode.INTERNAL_SERVER_ERROR.getProblemDetail();
