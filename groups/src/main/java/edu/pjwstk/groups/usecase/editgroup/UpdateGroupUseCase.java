@@ -1,6 +1,4 @@
-package edu.pjwstk.groups.usecase.updategroup;
-
-import jakarta.validation.Valid;
+package edu.pjwstk.groups.usecase.editgroup;
 
 import java.util.UUID;
 

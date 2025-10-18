@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.usecase.updategroup;
+package edu.pjwstk.groups.usecase.editgroup;
 
 import edu.pjwstk.common.authApi.AuthApi;
 import edu.pjwstk.common.authApi.dto.CurrentUserDto;

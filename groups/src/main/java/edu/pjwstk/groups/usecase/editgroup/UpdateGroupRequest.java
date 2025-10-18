@@ -1,11 +1,9 @@
-package edu.pjwstk.groups.usecase.updategroup;
+package edu.pjwstk.groups.usecase.editgroup;
 
-import edu.pjwstk.groups.entity.GroupType;
 import edu.pjwstk.groups.shared.GroupTypeEnum;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 import java.util.UUID;
 
