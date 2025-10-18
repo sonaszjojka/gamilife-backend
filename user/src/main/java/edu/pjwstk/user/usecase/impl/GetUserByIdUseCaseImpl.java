@@ -1,0 +1,34 @@
+package edu.pjwstk.user.usecase.impl;
+
+import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
+import edu.pjwstk.user.domain.User;
+import edu.pjwstk.user.persistence.UserRepository;
+import edu.pjwstk.user.usecase.GetUserByIdUseCase;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+@AllArgsConstructor
+public class GetUserByIdUseCaseImpl implements GetUserByIdUseCase {
+
+    private final UserRepository userRepository;
+
+    @Override
+    public Optional<BasicUserInfoApiDto> execute(UUID userId) {
+        Optional<User> optionalUser = userRepository.getUserById(userId);
+
+        if (optionalUser.isEmpty()) {
+            return Optional.empty();
+        }
+
+        User user = optionalUser.get();
+
+        return Optional.of(new BasicUserInfoApiDto(
+                user.getId(),
+                user.getEmail()
+        ));
+    }
+}

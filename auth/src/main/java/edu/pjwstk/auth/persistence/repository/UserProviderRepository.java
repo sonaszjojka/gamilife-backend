@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.persistence.repository;
 
-import edu.pjwstk.auth.dto.service.UserOAuthProvider;
+import edu.pjwstk.auth.domain.UserOAuthProvider;
 
 import java.util.Optional;
 import java.util.UUID;

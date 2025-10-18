@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.persistence.repository.impl;
 
-import edu.pjwstk.auth.dto.service.RefreshToken;
+import edu.pjwstk.auth.domain.RefreshToken;
 import edu.pjwstk.auth.persistence.entity.RefreshTokenEntity;
 import edu.pjwstk.auth.persistence.mapper.RefreshTokenMapper;
 import edu.pjwstk.auth.persistence.repository.RefreshTokenRepository;

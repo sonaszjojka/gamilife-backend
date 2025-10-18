@@ -22,6 +22,7 @@ import java.util.UUID;
 @DynamicUpdate // worth considering
 public class UserEntity {
     @Id
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "first_name", nullable = false)

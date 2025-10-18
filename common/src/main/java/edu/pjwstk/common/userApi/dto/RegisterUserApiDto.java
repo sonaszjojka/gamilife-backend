@@ -10,6 +10,7 @@ public record RegisterUserApiDto(
         String username,
         LocalDate dateOfBirth,
         boolean sendBudgetReports,
-        boolean isProfilePublic
+        boolean isProfilePublic,
+        boolean isEmailVerified
 ) {
 }
