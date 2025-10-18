@@ -1,9 +1,12 @@
 package edu.pjwstk.application.exception;
 
 
+import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
+import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.auth.exceptions.*;
 import edu.pjwstk.common.userApi.exception.UserAlreadyExistsException;
 import edu.pjwstk.common.userApi.exception.UserNotFoundException;
+import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
 import edu.pjwstk.tasks.exception.*;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -116,10 +119,26 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.INVALID_TASK_DATA, ex.getMessage());
     }
 
+    @ExceptionHandler(InvalidPomodoroTaskData.class)
+    public ProblemDetail handleInvalidPomodoroData(InvalidPomodoroTaskData ex) {
+        return formatErrorResponse(ErrorCode.INVALID_POMODORO_TASK_DATA, ex.getMessage());
+    }
+
+    @ExceptionHandler(PomodoroTaskNotFound.class)
+    public ProblemDetail handlePomodoroTaskNotFound(PomodoroTaskNotFound ex) {
+        return formatErrorResponse(ErrorCode.POMODORO_TASK_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(GroupMemberNotFoundException.class)
+    public ProblemDetail handleInvalidHabitData(GroupMemberNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_MEMBER_NOT_FOUND, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleOther() {
         return ErrorCode.INTERNAL_SERVER_ERROR.getProblemDetail();
     }
+
 
     private ProblemDetail formatErrorResponse(ErrorCode error, String detail) {
         ProblemDetail problem = error.getProblemDetail();

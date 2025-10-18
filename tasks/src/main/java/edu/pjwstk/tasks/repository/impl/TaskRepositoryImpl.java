@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.repository.impl;
 
-import edu.pjwstk.tasks.domain.Task;
+import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.repository.TaskRepository;
 import edu.pjwstk.tasks.repository.jpa.TaskRepositoryJpa;
 import org.springframework.stereotype.Repository;
@@ -30,6 +30,11 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public void deleteById(UUID taskId) {
         repositoryJpa.deleteById(taskId);
+    }
+
+    @Override
+    public Boolean existsById(UUID taskId) {
+        return repositoryJpa.existsById(taskId);
     }
 
 }

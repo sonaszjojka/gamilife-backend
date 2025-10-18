@@ -1,8 +1,7 @@
 package edu.pjwstk.tasks.repository.jpa;
 
-import edu.pjwstk.tasks.domain.Task;
-import edu.pjwstk.tasks.domain.TaskCategory;
-import edu.pjwstk.tasks.domain.TaskNotification;
+import edu.pjwstk.tasks.entity.Task;
+import edu.pjwstk.tasks.entity.TaskNotification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

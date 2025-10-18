@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.repository;
 
-import edu.pjwstk.tasks.domain.TaskCategory;
+import edu.pjwstk.tasks.entity.TaskCategory;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Optional;

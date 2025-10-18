@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.repository.impl;
 
-import edu.pjwstk.tasks.domain.Habit;
+import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import edu.pjwstk.tasks.repository.jpa.HabitRepositoryJpa;
 import org.springframework.stereotype.Repository;
