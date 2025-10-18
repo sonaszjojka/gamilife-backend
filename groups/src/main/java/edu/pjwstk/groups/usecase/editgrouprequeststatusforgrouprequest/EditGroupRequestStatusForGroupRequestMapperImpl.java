@@ -1,13 +1,15 @@
 package edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest;
 
 import edu.pjwstk.groups.entity.GroupRequest;
+import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EditGroupRequestStatusForGroupRequestMapperImpl implements EditGroupRequestStatusForGroupRequestMapper {
 
     @Override
-    public EditGroupRequestStatusForGroupRequestResponse toResponse(GroupRequest savedGroupRequest) {
+    public EditGroupRequestStatusForGroupRequestResponse toResponse(GroupRequest savedGroupRequest,
+                                                                    CreateGroupMemberResponse createGroupMemberResponse) {
         if (savedGroupRequest == null) {
             return null;
         }
@@ -33,6 +35,7 @@ public class EditGroupRequestStatusForGroupRequestMapperImpl implements EditGrou
                 .groupRequested(groupDto)
                 .createdAt(savedGroupRequest.getCreatedAt())
                 .groupRequestStatus(statusDto)
+                .groupMember(createGroupMemberResponse)
                 .build();
     }
 }

@@ -1,13 +1,15 @@
 package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 
 import edu.pjwstk.groups.entity.GroupInvitation;
+import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EditGroupInvitationStatusMapperImpl implements EditGroupInvitationStatusMapper {
 
     @Override
-    public EditGroupInvitationStatusResponse toResponse(GroupInvitation savedGroupInvitation) {
+    public EditGroupInvitationStatusResponse toResponse(GroupInvitation savedGroupInvitation,
+                                                        CreateGroupMemberResponse groupMember) {
         if (savedGroupInvitation == null) {
             return null;
         }
@@ -34,6 +36,7 @@ public class EditGroupInvitationStatusMapperImpl implements EditGroupInvitationS
                                 .title(savedGroupInvitation.getInvitationStatus().getTitle())
                                 .build() : null
                 )
+                .groupMemberResponse(groupMember)
                 .build();
     }
 

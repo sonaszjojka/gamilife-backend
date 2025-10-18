@@ -9,10 +9,16 @@ import edu.pjwstk.groups.repository.GroupInvitationRepository;
 import edu.pjwstk.groups.repository.InvitationStatusRepository;
 import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
 import edu.pjwstk.groups.shared.InvitationStatusEnum;
+import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
+import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationRequest;
+import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationUseCase;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,15 +28,18 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
     private final InvitationStatusRepository invitationStatusRepository;
     private final AuthApi authApi;
     private final EditGroupInvitationStatusMapper editGroupInvitationStatusMapper;
+    private final CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase;
 
-    public EditGroupInvitationStatusUseCaseImpl(GroupInvitationRepository groupInvitationRepository, InvitationStatusRepository invitationStatusRepository, AuthApi authApi, EditGroupInvitationStatusMapper editGroupInvitationStatusMapper) {
+    public EditGroupInvitationStatusUseCaseImpl(GroupInvitationRepository groupInvitationRepository, InvitationStatusRepository invitationStatusRepository, AuthApi authApi, EditGroupInvitationStatusMapper editGroupInvitationStatusMapper, CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase) {
         this.groupInvitationRepository = groupInvitationRepository;
         this.invitationStatusRepository = invitationStatusRepository;
         this.authApi = authApi;
         this.editGroupInvitationStatusMapper = editGroupInvitationStatusMapper;
+        this.createGroupMemberAfterAcceptationUseCase = createGroupMemberAfterAcceptationUseCase;
     }
 
     @Override
+    @Transactional
     public EditGroupInvitationStatusResponse execute(UUID groupInvitationId, EditGroupInvitationStatusRequest request) {
         GroupInvitation groupInvitation = groupInvitationRepository.findById(groupInvitationId)
                 .orElseThrow(() -> new GroupInvitationNotFoundException("Group invitation with id: " + groupInvitationId
@@ -42,6 +51,11 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
         //todo: validation below depends on implementation of accepting invitation
         if (!Objects.equals(currentUserDto.userId(), groupInvitation.getUserId())) {
             throw new UserNotOwnerAccessDeniedException("Only user who is assigned to this invitation can change group invitation status!");
+        }
+
+        if (LocalDateTime.now().isAfter(groupInvitation.getExpiresAt())) {
+            throw new GroupInvitationExpiredException("Group invitation has expired at: "
+                    + groupInvitation.getExpiresAt());
         }
 
         if (groupInvitation.getInvitationStatus().toEnum() == InvitationStatusEnum.ACCEPTED
@@ -57,9 +71,17 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
                 .orElseThrow(() -> new InvitationStatusNotFoundException("Group invitation with id: " + groupInvitationId
                         + " not found!"));
 
+        CreateGroupMemberResponse createGroupMemberResponse = null;
+        if (request.invitationStatus() == InvitationStatusEnum.ACCEPTED) {
+            createGroupMemberResponse = createGroupMemberAfterAcceptationUseCase.execute(
+                    CreateGroupMemberAfterAcceptationRequest.builder()
+                            .groupId(groupInvitation.getGroupInvited().getGroupId())
+                            .userId(groupInvitation.getUserId())
+                            .build());
+        }
+
         groupInvitation.setInvitationStatus(invitationStatus);
         GroupInvitation savedGroupInvitation = groupInvitationRepository.save(groupInvitation);
-        return editGroupInvitationStatusMapper.toResponse(savedGroupInvitation);
-
+        return editGroupInvitationStatusMapper.toResponse(savedGroupInvitation, createGroupMemberResponse);
     }
 }

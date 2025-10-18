@@ -181,8 +181,23 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(InvitationStatusNotFoundException.class)
-    public ProblemDetail handleInvalidGroupInvitationDataException(InvitationStatusNotFoundException ex) {
+    public ProblemDetail handleInvitationStatusNotFoundException(InvitationStatusNotFoundException ex) {
         return formatErrorResponse(ErrorCode.INVITATION_STATUS_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(UserAlreadyMemberOfGroupException.class)
+    public ProblemDetail handleUserAlreadyMemberOfGroupException(UserAlreadyMemberOfGroupException ex) {
+        return formatErrorResponse(ErrorCode.USER_ALREADY_MEMBER_OF_GROUP, ex.getMessage());
+    }
+
+    @ExceptionHandler(UserJoinGroupAccessDeniedException.class)
+    public ProblemDetail handleUserJoinGroupAccessDeniedException(UserJoinGroupAccessDeniedException ex) {
+        return formatErrorResponse(ErrorCode.USER_JOIN_GROUP_ACCESS_DENIED, ex.getMessage());
+    }
+
+    @ExceptionHandler(GroupInvitationExpiredException.class)
+    public ProblemDetail handleGroupInvitationExpiredException(GroupInvitationExpiredException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_INVITATION_EXPIRED, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

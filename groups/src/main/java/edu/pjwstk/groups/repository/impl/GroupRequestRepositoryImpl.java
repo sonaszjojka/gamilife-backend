@@ -40,4 +40,9 @@ public class GroupRequestRepositoryImpl implements GroupRequestRepository {
     public void deleteById(UUID groupRequestId) {
         repositoryJpa.deleteById(groupRequestId);
     }
+
+    @Override
+    public Optional<GroupRequest> findByUserIdAndGroupRequestedAndGroupRequestStatus_GroupRequestStatusId(UUID userId, Group group, GroupRequestStatusEnum groupRequestStatusEnum) {
+        return repositoryJpa.findByUserIdAndGroupRequestedAndGroupRequestStatus_GroupRequestStatusId(userId, group, groupRequestStatusEnum.getId());
+    }
 }

@@ -17,4 +17,6 @@ public interface GroupRequestRepository {
     Optional<GroupRequest> findById(UUID groupRequestId);
 
     void deleteById(UUID groupRequestId);
+
+    Optional<GroupRequest> findByUserIdAndGroupRequestedAndGroupRequestStatus_GroupRequestStatusId(UUID userId, Group group, GroupRequestStatusEnum groupRequestStatusEnum);
 }

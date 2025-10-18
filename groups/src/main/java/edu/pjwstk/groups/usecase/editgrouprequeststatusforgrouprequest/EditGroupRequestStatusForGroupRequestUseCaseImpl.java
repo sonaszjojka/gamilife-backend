@@ -11,6 +11,10 @@ import edu.pjwstk.groups.exception.UserNotGroupAdministratorAccessDeniedExceptio
 import edu.pjwstk.groups.repository.GroupRequestRepository;
 import edu.pjwstk.groups.repository.GroupRequestStatusRepository;
 import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
+import edu.pjwstk.groups.shared.InvitationStatusEnum;
+import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
+import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationRequest;
+import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationUseCase;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,12 +28,14 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
     private final GroupRequestStatusRepository groupRequestStatusRepository;
     private final EditGroupRequestStatusForGroupRequestMapper editGroupRequestStatusForGroupRequestMapper;
     private final AuthApi authApi;
+    private final CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase;
 
-    public EditGroupRequestStatusForGroupRequestUseCaseImpl(GroupRequestRepository groupRequestRepository, GroupRequestStatusRepository groupRequestStatusRepository, EditGroupRequestStatusForGroupRequestMapper editGroupRequestStatusForGroupRequestMapper, AuthApi authApi) {
+    public EditGroupRequestStatusForGroupRequestUseCaseImpl(GroupRequestRepository groupRequestRepository, GroupRequestStatusRepository groupRequestStatusRepository, EditGroupRequestStatusForGroupRequestMapper editGroupRequestStatusForGroupRequestMapper, AuthApi authApi, CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase) {
         this.groupRequestRepository = groupRequestRepository;
         this.groupRequestStatusRepository = groupRequestStatusRepository;
         this.editGroupRequestStatusForGroupRequestMapper = editGroupRequestStatusForGroupRequestMapper;
         this.authApi = authApi;
+        this.createGroupMemberAfterAcceptationUseCase = createGroupMemberAfterAcceptationUseCase;
     }
 
     @Override
@@ -50,7 +56,7 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
             throw new InvalidGroupDataException("Group requests with status ACCEPTED or DECLINED are final and cannot be changed!");
         }
 
-        if(request.groupRequestStatus() == GroupRequestStatusEnum.SENT){
+        if (request.groupRequestStatus() == GroupRequestStatusEnum.SENT) {
             throw new InvalidGroupDataException("Group requests with id: " + groupRequestId + " has already status: SENT");
         }
 
@@ -58,9 +64,17 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
                 .orElseThrow(() -> new GroupRequestStatusNotFoundException("Group request status with id: "
                         + request.groupRequestStatus().getId() + " not found!"));
 
-        groupRequest.setGroupRequestStatus(groupRequestStatus);
+        CreateGroupMemberResponse createGroupMemberResponse = null;
+        if (request.groupRequestStatus() == GroupRequestStatusEnum.ACCEPTED) {
+            createGroupMemberResponse = createGroupMemberAfterAcceptationUseCase.execute(
+                    CreateGroupMemberAfterAcceptationRequest.builder()
+                            .groupId(groupRequest.getGroupRequested().getGroupId())
+                            .userId(groupRequest.getUserId())
+                            .build());
+        }
 
+        groupRequest.setGroupRequestStatus(groupRequestStatus);
         GroupRequest savedGroupRequest = groupRequestRepository.save(groupRequest);
-        return editGroupRequestStatusForGroupRequestMapper.toResponse(savedGroupRequest);
+        return editGroupRequestStatusForGroupRequestMapper.toResponse(savedGroupRequest, createGroupMemberResponse);
     }
 }

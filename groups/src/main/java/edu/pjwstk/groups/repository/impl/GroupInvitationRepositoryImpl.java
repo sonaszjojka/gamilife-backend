@@ -1,8 +1,10 @@
 package edu.pjwstk.groups.repository.impl;
 
+import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.repository.GroupInvitationRepository;
 import edu.pjwstk.groups.repository.jpa.GroupInvitationRepositoryJpa;
+import edu.pjwstk.groups.shared.InvitationStatusEnum;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -31,4 +33,19 @@ public class GroupInvitationRepositoryImpl implements GroupInvitationRepository 
     public GroupInvitation save(GroupInvitation groupInvitation) {
         return repositoryJpa.save(groupInvitation);
     }
+
+    @Override
+    public boolean existsByGroupInvitedAndUserIdAndInvitationStatus(Group group,
+                                                                    UUID userId,
+                                                                    InvitationStatusEnum invitationStatusEnum) {
+        return repositoryJpa.existsByGroupInvitedAndUserIdAndInvitationStatus_InvitationStatusId(group, userId, invitationStatusEnum.getId());
+    }
+
+    @Override
+    public Optional<GroupInvitation> findByUserIdAndGroupInvitedAndInvitationStatus_InvitationStatusId(UUID userId,
+                                                                                                       Group group,
+                                                                                                       InvitationStatusEnum invitationStatusEnum) {
+        return repositoryJpa.findByUserIdAndGroupInvitedAndInvitationStatus_InvitationStatusId(userId, group, invitationStatusEnum.getId());
+    }
+
 }

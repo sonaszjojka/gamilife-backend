@@ -10,9 +10,13 @@ public enum InvitationStatusEnum {
 
     private final int id;
 
-    InvitationStatusEnum(int id) { this.id = id; }
+    InvitationStatusEnum(int id) {
+        this.id = id;
+    }
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
     public static InvitationStatusEnum fromId(int id) {
         return Arrays.stream(values())

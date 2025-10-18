@@ -1,7 +1,9 @@
 package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 
 import edu.pjwstk.groups.entity.GroupInvitation;
+import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
 
 public interface EditGroupInvitationStatusMapper {
-    EditGroupInvitationStatusResponse toResponse(GroupInvitation savedGroupInvitation);
+    EditGroupInvitationStatusResponse toResponse(GroupInvitation savedGroupInvitation,
+                                                 CreateGroupMemberResponse groupMember);
 }
