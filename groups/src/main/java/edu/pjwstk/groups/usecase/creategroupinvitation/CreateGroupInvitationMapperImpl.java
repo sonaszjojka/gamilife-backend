@@ -3,15 +3,13 @@ package edu.pjwstk.groups.usecase.creategroupinvitation;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.entity.InvitationStatus;
-import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
-import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusResponse;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
-public class CreateGroupInvitationStatusMapperImpl implements CreateGroupInvitationStatusMapper {
+public class CreateGroupInvitationMapperImpl implements CreateGroupInvitationMapper {
 
     @Override
     public GroupInvitation toEntity(Group groupInvited, InvitationStatus invitationStatus, UUID userId, LocalDateTime expiresAt, String link, UUID groupInvitationId) {

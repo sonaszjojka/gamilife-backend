@@ -33,10 +33,10 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     private final CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase;
     private final UserApi userApi;
     private final AuthApi authApi;
-    private final CreateGroupInvitationStatusMapper createGroupInvitationStatusMapper;
+    private final CreateGroupInvitationMapper createGroupInvitationStatusMapper;
     private final GroupInvitationUtil invitationStatusUtil;
 
-    public CreateGroupInvitationUseCaseImpl(GroupInvitationRepository groupInvitationRepository, InvitationStatusRepository invitationStatusRepository, GroupRepository groupRepository, CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase, UserApi userApi, AuthApi authApi, CreateGroupInvitationStatusMapper createGroupInvitationStatusMapper, GroupInvitationUtil invitationStatusUtil) {
+    public CreateGroupInvitationUseCaseImpl(GroupInvitationRepository groupInvitationRepository, InvitationStatusRepository invitationStatusRepository, GroupRepository groupRepository, CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase, UserApi userApi, AuthApi authApi, CreateGroupInvitationMapper createGroupInvitationStatusMapper, GroupInvitationUtil invitationStatusUtil) {
         this.groupInvitationRepository = groupInvitationRepository;
         this.invitationStatusRepository = invitationStatusRepository;
         this.groupRepository = groupRepository;
