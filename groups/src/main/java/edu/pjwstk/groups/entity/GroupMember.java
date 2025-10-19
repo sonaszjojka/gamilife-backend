@@ -18,9 +18,8 @@ import java.util.UUID;
 public class GroupMember {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "group_member_id", nullable = false, updatable = false, unique = true)
-    private Integer groupMemberId;
+    private UUID groupMemberId;
 
     @ManyToOne
     @JoinColumn(name = "group_id", nullable = false, updatable = false)

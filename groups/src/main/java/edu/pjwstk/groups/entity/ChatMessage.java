@@ -39,6 +39,6 @@ public class ChatMessage {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "sender_id")
+    @JoinColumn(name = "sender_id", nullable = false)
     private GroupMember senderGroupMember;
 }

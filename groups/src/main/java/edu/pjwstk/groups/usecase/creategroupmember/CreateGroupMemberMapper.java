@@ -6,7 +6,7 @@ import edu.pjwstk.groups.entity.GroupMember;
 import java.util.UUID;
 
 public interface CreateGroupMemberMapper {
-    GroupMember toEntity(UUID userId, Group group);
+    GroupMember toEntity(UUID userId, Group group, UUID groupMemberId);
 
     CreateGroupMemberResponse toResponse(GroupMember savedGroupMember);
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface GroupMemberRepository {
-    Optional<GroupMember> findById(Integer groupMemberId);
+    Optional<GroupMember> findById(UUID groupMemberId);
 
     boolean existsByUserIdAndGroup(Group group, UUID userId);
 

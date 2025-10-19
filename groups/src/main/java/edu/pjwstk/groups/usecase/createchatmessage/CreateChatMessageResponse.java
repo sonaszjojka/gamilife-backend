@@ -10,7 +10,8 @@ import java.util.UUID;
  * DTO for {@link edu.pjwstk.groups.entity.ChatMessage}
  */
 @Builder
-public record CreateChatMessageResponse(UUID messageId, Boolean isImportant, Instant sendAt, GroupDto group, String content,
+public record CreateChatMessageResponse(UUID messageId, Boolean isImportant, Instant sendAt, GroupDto group,
+                                        String content,
                                         GroupMemberDto senderGroupMember) implements Serializable {
     /**
      * DTO for {@link edu.pjwstk.groups.entity.Group}
@@ -21,6 +22,6 @@ public record CreateChatMessageResponse(UUID messageId, Boolean isImportant, Ins
     /**
      * DTO for {@link edu.pjwstk.groups.entity.GroupMember}
      */
-    public record GroupMemberDto(Integer groupMemberId, UUID userId, Instant joinedAt) implements Serializable {
+    public record GroupMemberDto(UUID groupMemberId, UUID userId, Instant joinedAt) implements Serializable {
     }
 }

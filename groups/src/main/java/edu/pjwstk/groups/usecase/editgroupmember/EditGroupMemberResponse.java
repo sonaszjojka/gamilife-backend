@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.usecase.creategroupmember;
+package edu.pjwstk.groups.usecase.editgroupmember;
 
 import lombok.Builder;
 
@@ -10,9 +10,9 @@ import java.util.UUID;
  * DTO for {@link edu.pjwstk.groups.entity.GroupMember}
  */
 @Builder
-public record CreateGroupMemberResponse(UUID groupMemberId, GroupDto memberGroup, UUID userId, Instant joinedAt,
-                                        Instant leftAt, Integer groupMoney,
-                                        Integer totalEarnedMoney) implements Serializable {
+public record EditGroupMemberResponse(UUID groupMemberId, GroupDto memberGroup, UUID userId, Instant joinedAt,
+                                      Instant leftAt, Integer groupMoney,
+                                      Integer totalEarnedMoney) implements Serializable {
     /**
      * DTO for {@link edu.pjwstk.groups.entity.Group}
      */

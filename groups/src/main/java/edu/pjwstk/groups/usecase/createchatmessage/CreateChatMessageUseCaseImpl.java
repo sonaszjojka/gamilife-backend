@@ -38,7 +38,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
 
     @Override
     @Transactional
-    public CreateChatMessageResponse execute(CreateChatMessageRequest request, UUID groupId, Integer groupMemberId) {
+    public CreateChatMessageResponse execute(CreateChatMessageRequest request, UUID groupId, UUID groupMemberId) {
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(
                         () -> new GroupNotFoundException("Group with id: " + groupId + " not found!")

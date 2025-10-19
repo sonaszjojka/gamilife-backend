@@ -1,37 +1,22 @@
-package edu.pjwstk.groups.usecase.creategroupmember;
+package edu.pjwstk.groups.usecase.editgroupmember;
 
-import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
-public class CreateGroupMemberMapperImpl implements CreateGroupMemberMapper {
+public class EditGroupMemberMapperImpl implements EditGroupMemberMapper {
 
     @Override
-    public GroupMember toEntity(UUID userId, Group group, UUID groupMemberId) {
-        return GroupMember.builder()
-                .groupMemberId(groupMemberId)
-                .memberGroup(group)
-                .userId(userId)
-                .leftAt(null)
-                .totalEarnedMoney(0)
-                .groupMoney(0)
-                .build();
-    }
-
-    @Override
-    public CreateGroupMemberResponse toResponse(GroupMember savedGroupMember) {
+    public EditGroupMemberResponse toResponse(GroupMember savedGroupMember) {
         if (savedGroupMember == null) {
             return null;
         }
 
-        return CreateGroupMemberResponse.builder()
+        return EditGroupMemberResponse.builder()
                 .groupMemberId(savedGroupMember.getGroupMemberId())
                 .memberGroup(
                         savedGroupMember.getMemberGroup() != null
-                                ? CreateGroupMemberResponse.GroupDto.builder()
+                                ? EditGroupMemberResponse.GroupDto.builder()
                                 .groupId(savedGroupMember.getMemberGroup().getGroupId())
                                 .adminId(savedGroupMember.getMemberGroup().getAdminId())
                                 .build()

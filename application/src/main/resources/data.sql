@@ -74,30 +74,27 @@ VALUES ('11111111-1111-1111-1111-111111111111', 'FAM123', 'aaaaaaaa-aaaa-aaaa-aa
 -- =========================
 -- Tabela: group_member
 -- =========================
-INSERT INTO group_member (group_id, user_id, joined_at, left_at, group_money, total_earned_money)
-VALUES ('11111111-1111-1111-1111-111111111111', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '2025-10-10 12:00:00', NULL,
+INSERT INTO group_member (group_member_id, group_id, user_id, joined_at, left_at, group_money, total_earned_money)
+VALUES ('22222222-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111',
+        'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '2025-10-10 12:00:00', NULL,
         150, 400),
-       ('11111111-1111-1111-1111-111111111111', 'dddddddd-dddd-dddd-dddd-dddddddddddd', '2025-10-11 09:00:00', NULL, 90,
-        120),
-       ('22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '2025-10-10 08:30:00', NULL,
-        300, 600);
-
+       ('33333333-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111',
+        'dddddddd-dddd-dddd-dddd-dddddddddddd', '2025-10-11 09:00:00', NULL, 90,
+        120);
 -- =========================
 -- Tabela: chat_message
 -- =========================
-INSERT INTO chat_message (message_id, content, is_important, send_at, group_id)
-VALUES ('aaaa1111-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Hey everyone! Meeting at 6 PM today.', TRUE, '2025-10-12 12:00:00',
-        '11111111-1111-1111-1111-111111111111'),
-       ('bbbb2222-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Who’s up for a movie night?', FALSE, '2025-10-12 13:00:00',
-        '22222222-2222-2222-2222-222222222222'),
-       ('cccc3333-cccc-cccc-cccc-cccccccccccc', 'Project deadline is next Friday.', TRUE, '2025-10-12 14:00:00',
-        '33333333-3333-3333-3333-333333333333');
+INSERT INTO chat_message (message_id, content, is_important, send_at, group_id, sender_id)
+VALUES ('aaaa1111-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Hey everyone! Meeting at 6 PM today.', true, '2025-10-12 12:00:00',
+        '11111111-1111-1111-1111-111111111111', '22222222-1111-1111-1111-111111111111'),
+       ('bbbb2222-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Who’s up for a movie night?', false, '2025-10-12 13:00:00',
+        '22222222-2222-2222-2222-222222222222', '22222222-1111-1111-1111-111111111111');
 
 -- =========================
 -- Tabela: group_invitation
 -- =========================
-INSERT INTO group_invitation (group_invitation_id, group_id, user_id, expires_at
-                             , mail_sent_at, link, invitation_status_id)
+INSERT INTO group_invitation (group_invitation_id, group_id, user_id, expires_at,
+                              mail_sent_at, link, invitation_status_id)
 VALUES ('aaaa9999-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-111111111111',
         'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee',
         '2025-10-20 00:00:00', '2025-10-10 10:00:00', 'https://app/join/FAM123', 1),

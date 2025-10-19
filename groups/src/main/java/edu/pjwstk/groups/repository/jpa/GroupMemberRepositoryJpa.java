@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface GroupMemberRepositoryJpa extends JpaRepository<GroupMember, Integer> {
+public interface GroupMemberRepositoryJpa extends JpaRepository<GroupMember, UUID> {
     boolean existsByUserIdAndMemberGroup(UUID userId, Group memberGroup);
 
     Integer countByMemberGroup(Group memberGroup);

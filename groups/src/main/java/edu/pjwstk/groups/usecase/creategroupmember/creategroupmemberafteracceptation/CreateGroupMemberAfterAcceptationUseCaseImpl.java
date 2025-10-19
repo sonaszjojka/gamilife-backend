@@ -11,7 +11,6 @@ import edu.pjwstk.groups.exception.UserAlreadyMemberOfGroupException;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberMapper;
-import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberRequest;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
@@ -54,7 +53,7 @@ public class CreateGroupMemberAfterAcceptationUseCaseImpl implements CreateGroup
             throw new GroupFullException("Group with id: " + request.groupId() + " is full!");
         }
 
-        GroupMember groupMember = createGroupMemberMapper.toEntity(userInfoApiDto.userId(), group);
+        GroupMember groupMember = createGroupMemberMapper.toEntity(userInfoApiDto.userId(), group, UUID.randomUUID());
         GroupMember savedGroupMember = groupMemberRepository.save(groupMember);
         return createGroupMemberMapper.toResponse(savedGroupMember);
     }

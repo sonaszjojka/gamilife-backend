@@ -54,7 +54,7 @@ public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMembe
         }
 
 
-        GroupMember groupMember = createGroupMemberMapper.toEntity(userInfoApiDto.userId(), group);
+        GroupMember groupMember = createGroupMemberMapper.toEntity(userInfoApiDto.userId(), group, UUID.randomUUID());
         GroupMember savedGroupMember = groupMemberRepository.save(groupMember);
         return createGroupMemberMapper.toResponse(savedGroupMember);
     }

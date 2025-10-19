@@ -19,7 +19,7 @@ public class GroupMemberRepositoryImpl implements GroupMemberRepository {
     }
 
     @Override
-    public Optional<GroupMember> findById(Integer groupMemberId) {
+    public Optional<GroupMember> findById(UUID groupMemberId) {
         return repositoryJpa.findById(groupMemberId);
     }
 

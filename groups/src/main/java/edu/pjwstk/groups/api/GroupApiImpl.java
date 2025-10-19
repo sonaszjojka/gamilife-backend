@@ -5,6 +5,8 @@ import edu.pjwstk.common.groupsApi.dto.GroupMemberDto;
 import edu.pjwstk.groups.usecase.findgroupmemberbyid.FindGroupMemberByIdUseCase;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class GroupApiImpl implements GroupApi {
 
@@ -15,7 +17,7 @@ public class GroupApiImpl implements GroupApi {
     }
 
     @Override
-    public GroupMemberDto findGroupMemberById(Integer groupMemberId) {
+    public GroupMemberDto findGroupMemberById(UUID groupMemberId) {
         return findGroupMemberByIdUseCase.execute(groupMemberId);
     }
 }

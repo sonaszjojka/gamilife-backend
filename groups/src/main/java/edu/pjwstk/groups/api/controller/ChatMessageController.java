@@ -23,7 +23,7 @@ public class ChatMessageController {
     @PostMapping
     public ResponseEntity<CreateChatMessageResponse> save(@RequestBody @Valid CreateChatMessageRequest request,
                                                           @PathVariable("groupId") UUID groupId,
-                                                          @PathVariable("groupMemberId") Integer groupMemberId) {
+                                                          @PathVariable("groupMemberId") UUID groupMemberId) {
         CreateChatMessageResponse response = createChatMessageUseCase.execute(request, groupId, groupMemberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
