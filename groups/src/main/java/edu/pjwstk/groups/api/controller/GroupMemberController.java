@@ -6,6 +6,8 @@ import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberInOpenGroupU
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberRequest;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberResponse;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberUseCase;
+import edu.pjwstk.groups.usecase.leavegroup.LeaveGroupResponse;
+import edu.pjwstk.groups.usecase.leavegroup.LeaveGroupUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +21,12 @@ public class GroupMemberController {
 
     private final CreateGroupMemberInOpenGroupUseCase createGroupMemberUseCase;
     private final EditGroupMemberUseCase editGroupMemberUseCase;
+    private final LeaveGroupUseCase leaveGroupUseCase;
 
-    public GroupMemberController(CreateGroupMemberInOpenGroupUseCase createGroupMemberUseCase, EditGroupMemberUseCase editGroupMemberUseCase) {
+    public GroupMemberController(CreateGroupMemberInOpenGroupUseCase createGroupMemberUseCase, EditGroupMemberUseCase editGroupMemberUseCase, LeaveGroupUseCase leaveGroupUseCase) {
         this.createGroupMemberUseCase = createGroupMemberUseCase;
         this.editGroupMemberUseCase = editGroupMemberUseCase;
+        this.leaveGroupUseCase = leaveGroupUseCase;
     }
 
     @PostMapping
@@ -33,10 +37,17 @@ public class GroupMemberController {
     }
 
     @PutMapping("/{groupMemberId}")
-    private ResponseEntity<EditGroupMemberResponse> editById(@PathVariable("groupId") String groupId,
+    private ResponseEntity<EditGroupMemberResponse> editById(@PathVariable("groupId") UUID groupId,
                                                              @PathVariable("groupMemberId") UUID groupMemberId,
                                                              @RequestBody @Valid EditGroupMemberRequest request) {
         EditGroupMemberResponse response = editGroupMemberUseCase.execute(groupMemberId, request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{groupMemberId}/leave")
+    private ResponseEntity<LeaveGroupResponse> leaveGroup(@PathVariable("groupId") UUID groupId,
+                                                        @PathVariable("groupMemberId") UUID groupMemberId) {
+        LeaveGroupResponse response = leaveGroupUseCase.execute(groupMemberId, groupId);
         return ResponseEntity.ok(response);
     }
 }

@@ -53,6 +53,8 @@ public class CreateGroupMemberAfterAcceptationUseCaseImpl implements CreateGroup
             throw new GroupFullException("Group with id: " + request.groupId() + " is full!");
         }
 
+        //todo rejoin logic
+        
         GroupMember groupMember = createGroupMemberMapper.toEntity(userInfoApiDto.userId(), group, UUID.randomUUID());
         GroupMember savedGroupMember = groupMemberRepository.save(groupMember);
         return createGroupMemberMapper.toResponse(savedGroupMember);

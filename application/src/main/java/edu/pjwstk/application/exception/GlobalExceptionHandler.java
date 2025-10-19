@@ -200,6 +200,16 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.GROUP_INVITATION_EXPIRED, ex.getMessage());
     }
 
+    @ExceptionHandler(UserLeftGroupException.class)
+    public ProblemDetail handleUserLeftGroupException(UserLeftGroupException ex) {
+        return formatErrorResponse(ErrorCode.USER_LEFT_GROUP, ex.getMessage());
+    }
+
+    @ExceptionHandler(AdministratorCannotLeaveGroupException.class)
+    public ProblemDetail handleAdministratorCannotLeaveGroupException(AdministratorCannotLeaveGroupException ex) {
+        return formatErrorResponse(ErrorCode.ADMIN_CANNOT_LEAVE_GROUP, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleOther() {
         return ErrorCode.INTERNAL_SERVER_ERROR.getProblemDetail();

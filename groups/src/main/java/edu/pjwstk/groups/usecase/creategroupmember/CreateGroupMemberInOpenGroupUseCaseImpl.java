@@ -53,6 +53,7 @@ public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMembe
                     " - invitation or request must be accepted.");
         }
 
+        //todo rejoin logic
 
         GroupMember groupMember = createGroupMemberMapper.toEntity(userInfoApiDto.userId(), group, UUID.randomUUID());
         GroupMember savedGroupMember = groupMemberRepository.save(groupMember);

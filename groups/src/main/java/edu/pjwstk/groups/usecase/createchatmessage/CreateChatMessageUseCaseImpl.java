@@ -7,6 +7,7 @@ import edu.pjwstk.common.groupsApi.exception.GroupNotFoundException;
 import edu.pjwstk.groups.entity.ChatMessage;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
+import edu.pjwstk.groups.exception.UserLeftGroupException;
 import edu.pjwstk.groups.exception.UserNotOwnerAccessDeniedException;
 import edu.pjwstk.groups.repository.ChatMessageRepository;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
@@ -49,6 +50,11 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
 
         CurrentUserDto currentUserDto = authApi.getCurrentUser()
                 .orElseThrow();
+
+        if (groupMember.getLeftAt() != null) {
+            throw new UserLeftGroupException("Group member with id: " + groupMemberId + " left group with id: "
+                    + groupMember.getMemberGroup().getGroupId() + " and is no longer member of it!");
+        }
 
         if (!Objects.equals(currentUserDto.userId(), groupMember.getUserId())) {
             throw new UserNotOwnerAccessDeniedException("User with id: " + groupMember.getUserId()
