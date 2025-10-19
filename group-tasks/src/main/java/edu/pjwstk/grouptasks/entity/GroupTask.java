@@ -1,6 +1,5 @@
 package edu.pjwstk.grouptasks.entity;
 
-import edu.pjwstk.tasks.entity.Task;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -20,7 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "group_task")
-public class GroupTask extends AbstractEntitySuperclass {
+public class GroupTask  {
 
 
     @Id
@@ -47,7 +46,20 @@ public class GroupTask extends AbstractEntitySuperclass {
 
 
 
-    @OneToMany(mappedBy = "groupTask")
+    @OneToMany(mappedBy = "groupTaskId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<GroupTaskMember> groupTaskMembers = new LinkedHashSet<>();
+
+    @Column(name = "last_edit")
+    protected Instant lastEdit;
+
+    @PrePersist
+    public void prePersist() {
+        this.lastEdit = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.lastEdit = Instant.now();
+    }
 
 }

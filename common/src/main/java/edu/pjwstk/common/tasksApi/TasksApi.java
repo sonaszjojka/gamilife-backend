@@ -10,4 +10,6 @@ public interface TasksApi {
 
     TaskDto findTaskByTaskId(UUID taskId);
 
+    void deleteTaskByTaskId(UUID taskId);
+
 }

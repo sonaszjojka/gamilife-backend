@@ -74,6 +74,59 @@ VALUES ('11111111-1111-1111-1111-111111111111', 'FAM123', 'aaaaaaaa-aaaa-aaaa-aa
 -- =========================
 -- Tabela: group_member
 -- =========================
+INSERT INTO group_member (group_id, user_id, joined_at, left_at, group_money, total_earned_money)
+VALUES ('11111111-1111-1111-1111-111111111111', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '2025-10-10 12:00:00', NULL,
+        150, 400),
+       ('11111111-1111-1111-1111-111111111111', 'dddddddd-dddd-dddd-dddd-dddddddddddd', '2025-10-11 09:00:00', NULL, 90,
+        120),
+       ('22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '2025-10-10 08:30:00', NULL,
+        300, 600);
+
+-- =========================
+-- Tabela: chat_message
+-- =========================
+-- =========================
+-- Tabela: group_invitation
+-- =========================
+
+-- =========================
+-- Tabela: group_request
+-- =========================
+
+-- =========================
+-- Tabela: group_type
+-- =========================
+INSERT INTO group_type (title)
+VALUES ('Open'),
+       ('Closed'),
+       ('Request only');
+
+-- =========================
+-- Tabela: invitation_status
+-- =========================
+INSERT INTO invitation_status (title)
+VALUES ('Sent'),
+       ('Accepted'),
+       ('Declined');
+
+-- =========================
+-- Tabela: group_request_status
+-- =========================
+INSERT INTO group_request_status (title)
+VALUES ('Sent'),
+       ('Accepted'),
+       ('Declined');
+-- =========================
+-- Tabela: "group"
+-- =========================
+INSERT INTO "group" (group_id, join_code, admin_id, group_currency_symbol, members_limit, group_type_id)
+VALUES ('11111111-1111-1111-1111-111111111111', 'FAM123', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '€', 5, 1),
+       ('22222222-2222-2222-2222-222222222222', 'FRN456', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '$', 10, 2),
+       ('33333333-3333-3333-3333-333333333333', 'WRK789', 'cccccccc-cccc-cccc-cccc-cccccccccccc', '£', 15, 3);
+
+-- =========================
+-- Tabela: group_member
+-- =========================
 INSERT INTO group_member (group_member_id, group_id, user_id, joined_at, left_at, group_money, total_earned_money)
 VALUES ('22222222-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111',
         'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '2025-10-10 12:00:00', NULL,
