@@ -14,23 +14,20 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "group_task_member")
-public class GroupTaskMember extends AbstractEntitySuperclass {
+public class GroupTaskMember {
 
     @Id
     @Column(name = "group_task_member_id", nullable = false)
-    private UUID id;
+    private UUID groupTaskMemberId;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "group_task_id", nullable = false)
-    private GroupTask groupTask;
+    private GroupTask groupTaskId;
 
-    @NotNull
     @Column(name = "group_member_id", nullable = false)
-    private UUID groupMemberId;
+    private int groupMemberId;
 
-    @NotNull
-    @Column(name = "is_marked_done", nullable = false)
-    private Boolean isMarkedDone = false;
+    @Column(name = "is_marked_done")
+    private Boolean isMarkedDone;
 
 }

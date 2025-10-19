@@ -23,10 +23,6 @@ public class CreateGroupTaskUseCaseImpl implements CreateGroupTaskUseCase {
     @Override
     @Transactional
     public CreateGroupTaskResponse execute(CreateGroupTaskRequest request, UUID taskId) {
-        if (request.acceptedDate()!=null&&request.acceptedDate().isBefore(Instant.now()))
-        {
-            throw new IllegalArgumentException("Accepted date must be in the future");
-        }
         if (!tasksProvider.taskExistsByTaskId(taskId))
         {
             throw new IllegalArgumentException("Task with id:" + taskId + " does not exist");

@@ -257,6 +257,9 @@ ALTER TABLE group_request
 
 ALTER TABLE group_request
     ADD CONSTRAINT FK_GROUP_REQUEST_ON_STATUS FOREIGN KEY (status_id) REFERENCES group_request_status (group_request_status_id);
+
+
+
 -- ==========================================Group Tasks==========================================
 CREATE TABLE group_task
 (

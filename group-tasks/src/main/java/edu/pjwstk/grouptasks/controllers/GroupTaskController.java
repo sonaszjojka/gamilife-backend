@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/tasks")
+@RequestMapping("/api/v1")
 public class GroupTaskController {
     private final CreateGroupTaskUseCase createGroupTaskUseCase;
     private final DeleteGroupTaskUseCase deleteGroupTaskUseCase;
