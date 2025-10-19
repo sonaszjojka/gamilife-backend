@@ -38,4 +38,9 @@ public class GroupMemberRepositoryImpl implements GroupMemberRepository {
         return repositoryJpa.countByMemberGroup(group);
     }
 
+    @Override
+    public Optional<GroupMember> findByUserIdAndGroup(Group group, UUID uuid) {
+        return repositoryJpa.findByUserIdAndMemberGroup(uuid, group);
+    }
+
 }
