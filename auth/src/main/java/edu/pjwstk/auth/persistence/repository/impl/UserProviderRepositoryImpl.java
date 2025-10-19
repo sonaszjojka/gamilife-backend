@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.persistence.repository.impl;
 
-import edu.pjwstk.auth.dto.service.UserOAuthProvider;
+import edu.pjwstk.auth.domain.UserOAuthProvider;
 import edu.pjwstk.auth.persistence.mapper.UserOAuthProviderMapper;
 import edu.pjwstk.auth.persistence.repository.UserProviderRepository;
 import edu.pjwstk.auth.persistence.repository.jpa.JpaUserProviderRepository;

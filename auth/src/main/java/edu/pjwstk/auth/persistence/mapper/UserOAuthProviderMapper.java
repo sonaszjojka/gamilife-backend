@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.persistence.mapper;
 
-import edu.pjwstk.auth.dto.service.UserOAuthProvider;
+import edu.pjwstk.auth.domain.UserOAuthProvider;
 import edu.pjwstk.auth.persistence.entity.UserOAuthProviderEntity;
 
 public class UserOAuthProviderMapper {

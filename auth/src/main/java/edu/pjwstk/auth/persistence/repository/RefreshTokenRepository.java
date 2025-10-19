@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.persistence.repository;
 
-import edu.pjwstk.auth.dto.service.RefreshToken;
+import edu.pjwstk.auth.domain.RefreshToken;
 
 import java.util.Optional;
 import java.util.UUID;

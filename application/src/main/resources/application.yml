@@ -9,12 +9,20 @@ spring:
     driver-class-name: org.postgresql.Driver
   tokens:
     jwt:
-      secret: ${JWT.SECRET}
+      secret: ${JWT_SECRET}
     refresh-token:
       expires-in: 604800
     access-token:
       expires-in: 7200
-
+  codes:
+    verification-code:
+      email-verification-enabled: true
+      expires-in: 300
+      resend-interval: 120
+  jpa:
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
   security:
     oauth2:
       client:
@@ -26,10 +34,11 @@ spring:
               - openid
               - profile
               - email
-  jpa:
-    properties:
-      hibernate:
-        globally_quoted_identifiers: true
+sendgrid:
+  api-key: ${SENDGRID_API_KEY}
+  send-emails: true
+  from-email: "noreply@gamilife.pl"
+  from-name: "GamiLife Team"
 server:
   port: 8080
   ssl:

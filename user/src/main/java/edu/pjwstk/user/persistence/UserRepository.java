@@ -19,4 +19,6 @@ public interface UserRepository {
     Optional<User> getUserById(UUID id);
 
     void updateUserEmail(UUID id, String newEmail);
+
+    void updateUserEmailVerificationStatus(UUID userId, boolean newStatus);
 }
