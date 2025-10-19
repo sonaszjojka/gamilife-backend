@@ -3,8 +3,8 @@ package edu.pjwstk.auth.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.pjwstk.auth.security.JwtAuthenticationEntryPoint;
 import edu.pjwstk.auth.security.JwtAuthenticationFilter;
-import edu.pjwstk.auth.util.impl.JwtTokenProvider;
 import edu.pjwstk.auth.util.TokenProvider;
+import edu.pjwstk.auth.util.impl.JwtTokenProviderImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,9 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +30,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
+@EnableMethodSecurity
+@EnableWebSecurity
 @Configuration
 public class SecurityConfiguration {
 
@@ -43,6 +47,10 @@ public class SecurityConfiguration {
                                 "/swagger-ui.html",
                                 "/swagger-ui/**"
                         ).permitAll()
+                        .requestMatchers(
+                                // TODO add here all other mappings that will be available only after email verification
+                                "/api/v1/me"
+                        ).hasRole("VERIFIED")
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
@@ -58,13 +66,13 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public JwtTokenProvider jwtTokenProvider(
+    public JwtTokenProviderImpl jwtTokenProvider(
             UserDetailsService userDetailsService,
             @Value("${spring.tokens.jwt.secret}") String secretKey,
             @Value("${spring.tokens.access-token.expires-in}") long accessTokenExpirationTime,
             @Value("${spring.tokens.refresh-token.expires-in}") long refreshTokenExpirationTime
     ) {
-        return new JwtTokenProvider(
+        return new JwtTokenProviderImpl(
                 userDetailsService,
                 secretKey,
                 accessTokenExpirationTime,

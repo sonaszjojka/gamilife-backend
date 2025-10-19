@@ -1,39 +1,46 @@
 package edu.pjwstk.auth.controllers;
 
+import edu.pjwstk.auth.dto.request.EmailVerificationCodeRequest;
 import edu.pjwstk.auth.dto.request.LoginUserRequest;
 import edu.pjwstk.auth.dto.request.RegisterUserRequest;
+import edu.pjwstk.auth.dto.response.AfterLoginResponse;
 import edu.pjwstk.auth.dto.service.AuthTokens;
+import edu.pjwstk.auth.dto.service.EmailVerificationCode;
 import edu.pjwstk.auth.dto.service.LoginUserDto;
 import edu.pjwstk.auth.dto.service.RegisterUserDto;
-import edu.pjwstk.auth.services.AuthService;
+import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
+import edu.pjwstk.auth.usecase.*;
 import edu.pjwstk.auth.util.CookieUtil;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
+import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @SecurityRequirements
 @RestController
 @RequestMapping("/api/v1/auth")
+@AllArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+    private final RegisterUserUseCase registerUserUseCase;
+    private final LoginUserUseCase loginUserUseCase;
+    private final LogoutUserUseCase logoutUserUseCase;
+    private final RefreshAccessTokenUseCase refreshAccessTokenUseCase;
+    private final SendEmailVerificationCodeUseCase sendEmailVerificationCodeUseCase;
+    private final GetAuthenticatedUserDataUseCase getAuthenticatedUserDataUseCase;
+    private final VerifyEmailUseCase verifyEmailUseCase;
     private final CookieUtil cookieUtil;
 
-    public AuthController(AuthService authService, CookieUtil cookieUtil) {
-        this.authService = authService;
-        this.cookieUtil = cookieUtil;
-    }
-
     @PostMapping("/register")
-    public ResponseEntity<Void> registerUser(@RequestBody @Valid RegisterUserRequest request,
-                                             HttpServletResponse response) {
-        BasicUserInfoApiDto user = authService.registerUser(
+    public ResponseEntity<Void> registerUser(@RequestBody @Valid RegisterUserRequest request) {
+        registerUserUseCase.execute(
                 new RegisterUserDto(
                         request.firstName(),
                         request.lastName(),
@@ -45,21 +52,14 @@ public class AuthController {
                         request.isProfilePublic()
                 )
         );
-        AuthTokens authTokens = authService.issueJwtTokens(user);
-
-        Cookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
-        Cookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
-
-        response.addCookie(refreshTokenCookie);
-        response.addCookie(accessTokenCookie);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> loginUser(@RequestBody @Valid LoginUserRequest request,
-                                                         HttpServletResponse response) {
-        AuthTokens authTokens = authService.loginUser(
+    public ResponseEntity<AfterLoginResponse> loginUser(@RequestBody @Valid LoginUserRequest request,
+                                          HttpServletResponse response) {
+        AuthTokens authTokens = loginUserUseCase.execute(
                 new LoginUserDto(
                         request.email(),
                         request.password()
@@ -72,12 +72,13 @@ public class AuthController {
         response.addCookie(refreshTokenCookie);
         response.addCookie(accessTokenCookie);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new AfterLoginResponse(authTokens.isEmailVerified()));
     }
 
+    @PreAuthorize("hasAnyRole('VERIFIED', 'UNVERIFIED')")
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@CookieValue(name = "REFRESH-TOKEN") String refreshToken, HttpServletResponse response) {
-        authService.logoutUser(refreshToken);
+        logoutUserUseCase.execute(refreshToken);
 
         response.addCookie(cookieUtil.invalidateAccessTokenCookie());
         response.addCookie(cookieUtil.invalidateRefreshTokenCookie());
@@ -85,15 +86,49 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasAnyRole('VERIFIED', 'UNVERIFIED')")
     @SecurityRequirement(name = "refreshToken")
     @PostMapping("/refresh")
     public ResponseEntity<Void> refreshTokens(
             @CookieValue(name = "REFRESH-TOKEN") String refreshToken, HttpServletResponse response) {
-        AuthTokens authTokens = authService.refreshAccessToken(refreshToken);
+        AuthTokens authTokens = refreshAccessTokenUseCase.execute(refreshToken);
 
         Cookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
         response.addCookie(accessTokenCookie);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PreAuthorize("hasRole('UNVERIFIED')")
+    @SecurityRequirement(name = "accessToken")
+    @GetMapping("/resend-verification-code")
+    public ResponseEntity<Void> resendVerificationCode() {
+        CurrentUserDto user = getAuthenticatedUserDataUseCase.execute()
+                .orElseThrow(() -> new InvalidCredentialsException("Provided access token is invalid"));
+
+        sendEmailVerificationCodeUseCase.execute(user.userId());
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PreAuthorize("hasRole('UNVERIFIED')")
+    @SecurityRequirement(name = "accessToken")
+    @PostMapping("/verify-code")
+    public ResponseEntity<AfterLoginResponse> verifyEmail(EmailVerificationCodeRequest emailVerificationCodeRequest,
+                                                          HttpServletResponse response) {
+        CurrentUserDto user = getAuthenticatedUserDataUseCase.execute()
+                .orElseThrow(() -> new InvalidCredentialsException("Provided access token is invalid"));
+
+        AuthTokens authTokens = verifyEmailUseCase.execute(new EmailVerificationCode(
+                user.userId(), emailVerificationCodeRequest.code()
+        ));
+
+        Cookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
+        Cookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
+
+        response.addCookie(refreshTokenCookie);
+        response.addCookie(accessTokenCookie);
+
+        return ResponseEntity.ok(new AfterLoginResponse(authTokens.isEmailVerified()));
     }
 }

@@ -7,20 +7,18 @@ import java.util.UUID;
 @Getter
 public class GoogleLoginDTO {
     private final LoginType loginType;
-    private final String accessToken;
-    private final String refreshToken;
+    private final AuthTokens authTokens;
     private final String providerId;
     private final String providerName;
     private final UUID userId;
 
-    public GoogleLoginDTO(LoginType loginType, String accessToken, String refreshToken) {
+    public GoogleLoginDTO(LoginType loginType, AuthTokens authTokens) {
         if (loginType != LoginType.NEW_USER && loginType != LoginType.EXISTING_USER) {
             throw new IllegalStateException("loginType must be either NEW_USER or EXISTING_USER to use this constructor");
         }
 
         this.loginType = loginType;
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
+        this.authTokens = authTokens;
         this.providerId = null;
         this.providerName = null;
         this.userId = null;
@@ -32,8 +30,7 @@ public class GoogleLoginDTO {
         }
 
         this.loginType = loginType;
-        this.accessToken = null;
-        this.refreshToken = null;
+        this.authTokens = null;
         this.providerId = providerId;
         this.providerName = providerName;
         this.userId = userId;

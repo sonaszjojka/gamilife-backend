@@ -20,6 +20,7 @@
         <module>tasks</module>
         <module>user</module>
         <module>common</module>
+        <module>email-sender</module>
     </modules>
     <name>gami-life</name>
     <description>Backend application GamiLife</description>

@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface JpaRefreshTokenRepository extends JpaRepository<RefreshTokenEntity, Long> {
+public interface JpaRefreshTokenRepository extends JpaRepository<RefreshTokenEntity, UUID> {
 
     Optional<RefreshTokenEntity> findByToken(String token);
 

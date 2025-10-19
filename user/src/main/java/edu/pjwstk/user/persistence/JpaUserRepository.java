@@ -31,4 +31,16 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
             @Param("id") UUID id,
             @Param("newEmail") String newEmail
     );
+
+    @Transactional
+    @Modifying
+    @Query("""
+            UPDATE UserEntity u
+            SET u.isEmailVerified = :status
+            WHERE u.id = :id
+            """)
+    void updateIsEmailVerifiedById(
+            @Param("id") UUID id,
+            @Param("status") boolean status
+    );
 }
