@@ -30,12 +30,6 @@ public class GroupInvitation {
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
 
-    @Column(name = "is_accepted", nullable = false)
-    private Boolean isAccepted;
-
-    @Column(name = "is_sending_email_allowed", nullable = false)
-    private Boolean isSendingEmailAllowed;
-
     @Column(name = "mail_sent_at")
     private LocalDateTime mailSentAt;
 

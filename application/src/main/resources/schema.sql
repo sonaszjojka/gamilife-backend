@@ -184,8 +184,6 @@ CREATE TABLE group_invitation
     group_id                 UUID                        NOT NULL,
     user_id                  UUID                        NOT NULL,
     expires_at               TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    is_accepted              BOOLEAN                     NOT NULL,
-    is_sending_email_allowed BOOLEAN                     NOT NULL,
     mail_sent_at             TIMESTAMP WITHOUT TIME ZONE,
     link                     VARCHAR(200)                NOT NULL,
     invitation_status_id     INTEGER                     NOT NULL,

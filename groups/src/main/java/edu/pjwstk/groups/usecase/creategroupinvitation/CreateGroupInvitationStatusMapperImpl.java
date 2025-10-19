@@ -1,24 +1,42 @@
-package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
+package edu.pjwstk.groups.usecase.creategroupinvitation;
 
+import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupInvitation;
+import edu.pjwstk.groups.entity.InvitationStatus;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
+import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusResponse;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Component
-public class EditGroupInvitationStatusMapperImpl implements EditGroupInvitationStatusMapper {
+public class CreateGroupInvitationStatusMapperImpl implements CreateGroupInvitationStatusMapper {
 
     @Override
-    public EditGroupInvitationStatusResponse toResponse(GroupInvitation savedGroupInvitation,
-                                                        CreateGroupMemberResponse groupMember) {
+    public GroupInvitation toEntity(Group groupInvited, InvitationStatus invitationStatus, UUID userId, LocalDateTime expiresAt, String link, UUID groupInvitationId) {
+        return GroupInvitation.builder()
+                .groupInvitationId(groupInvitationId)
+                .userId(userId)
+                .groupInvited(groupInvited)
+                .expiresAt(expiresAt)
+                .mailSentAt(LocalDateTime.now())
+                .link(link)
+                .invitationStatus(invitationStatus)
+                .build();
+    }
+
+    @Override
+    public CreateGroupInvitationResponse toResponse(GroupInvitation savedGroupInvitation) {
         if (savedGroupInvitation == null) {
             return null;
         }
 
-        return EditGroupInvitationStatusResponse.builder()
+        return CreateGroupInvitationResponse.builder()
                 .groupInvitationId(savedGroupInvitation.getGroupInvitationId())
                 .groupInvited(
                         savedGroupInvitation.getGroupInvited() != null
-                                ? EditGroupInvitationStatusResponse.GroupDto.builder()
+                                ? CreateGroupInvitationResponse.GroupDto.builder()
                                 .groupId(savedGroupInvitation.getGroupInvited().getGroupId())
                                 .build()
                                 : null
@@ -29,12 +47,11 @@ public class EditGroupInvitationStatusMapperImpl implements EditGroupInvitationS
                 .link(savedGroupInvitation.getLink())
                 .invitationStatus(
                         savedGroupInvitation.getInvitationStatus() != null
-                                ? EditGroupInvitationStatusResponse.InvitationStatusDto.builder()
+                                ? CreateGroupInvitationResponse.InvitationStatusDto.builder()
                                 .invitationStatusId(savedGroupInvitation.getInvitationStatus().getInvitationStatusId())
                                 .title(savedGroupInvitation.getInvitationStatus().getTitle())
                                 .build() : null
                 )
-                .groupMemberResponse(groupMember)
                 .build();
     }
 
