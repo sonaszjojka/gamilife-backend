@@ -25,13 +25,15 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
     private final UserApi userApi;
     private final GroupTypeRepository groupTypeRepository;
     private final GroupMemberRepository groupMemberRepository;
+    private final JoinCodeGenerator joinCodeGenerator;
 
-    public CreateGroupUseCaseImpl(GroupRepository groupRepository, UserApi userApi, CreateGroupMapper createGroupUseCaseMapper, GroupTypeRepository groupTypeRepository, GroupMemberRepository groupMemberRepository) {
+    public CreateGroupUseCaseImpl(GroupRepository groupRepository, UserApi userApi, CreateGroupMapper createGroupUseCaseMapper, GroupTypeRepository groupTypeRepository, GroupMemberRepository groupMemberRepository, JoinCodeGenerator joinCodeGenerator) {
         this.groupRepository = groupRepository;
         this.userApi = userApi;
         this.createGroupUseCaseMapper = createGroupUseCaseMapper;
         this.groupTypeRepository = groupTypeRepository;
         this.groupMemberRepository = groupMemberRepository;
+        this.joinCodeGenerator = joinCodeGenerator;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
             throw new UserNotFoundException("User (admin) with id: " + request.adminId() + " not found!");
         }
 
-        String joinCode = JoinCodeGenerator.generate(20);
+        String joinCode = joinCodeGenerator.generate(20);
 
         Group group = createGroupUseCaseMapper.toEntity(request, joinCode, UUID.randomUUID(), groupType);
         Group savedGroup = groupRepository.save(group);

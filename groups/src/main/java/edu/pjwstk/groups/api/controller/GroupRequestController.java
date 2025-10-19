@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/groups/{groupId}/group-requests")
+@RequestMapping("/api/v1/groups/{groupId}/requests")
 public class GroupRequestController {
 
     private final CreateGroupRequestUseCase createGroupRequestUseCase;

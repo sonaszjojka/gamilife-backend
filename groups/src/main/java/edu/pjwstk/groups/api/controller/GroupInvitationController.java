@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/groups/{groupId}/group-invitations")
+@RequestMapping("/api/v1/groups/{groupId}/invitations")
 public class GroupInvitationController {
 
     private final DeleteGroupInvitationById deleteGroupInvitationById;
