@@ -50,7 +50,8 @@ public enum ErrorCode {
     USER_JOIN_GROUP_ACCESS_DENIED(ErrorCode.USER_JOIN_GROUP_ACCESS_DENIED_CODE, "User Join Group Access Denied", HttpStatus.UNPROCESSABLE_ENTITY),
     USER_LEFT_GROUP(ErrorCode.USER_LEFT_GROUP_CODE, "User Left Group", HttpStatus.CONFLICT),
     GROUP_INVITATION_EXPIRED(ErrorCode.GROUP_INVITATION_EXPIRED_CODE, "Group Invitation Has Expired", HttpStatus.GONE),
-    ADMIN_CANNOT_LEAVE_GROUP(ErrorCode.ADMIN_CANNOT_LEAVE_GROUP_CODE, "Admin Cannot Leave Group", HttpStatus.UNPROCESSABLE_ENTITY);
+    ADMIN_CANNOT_LEAVE_GROUP(ErrorCode.ADMIN_CANNOT_LEAVE_GROUP_CODE, "Admin Cannot Leave Group", HttpStatus.UNPROCESSABLE_ENTITY),
+    INVALID_GROUP_INVITATION_TOKEN(ErrorCode.INVALID_GROUP_INVITATION_TOKEN_CODE, "Invalid Invitation Group Token", HttpStatus.BAD_REQUEST);
 
     public static final int VALIDATION_ERROR_CODE = 1001;
     public static final int ACCESS_DENIED_CODE = 1002;
@@ -98,6 +99,7 @@ public enum ErrorCode {
     public static final int GROUP_INVITATION_EXPIRED_CODE = 3043;
     public static final int USER_LEFT_GROUP_CODE = 3044;
     public static final int ADMIN_CANNOT_LEAVE_GROUP_CODE = 3055;
+    public static final int INVALID_GROUP_INVITATION_TOKEN_CODE = 3056;
 
     private final int code;
     private final String title;

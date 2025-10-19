@@ -36,6 +36,9 @@ public class GroupInvitation {
     @Column(name = "link", nullable = false, length = 200)
     private String link;
 
+    @Column(nullable = false)
+    private String tokenHash;
+
     @ManyToOne
     @JoinColumn(name = "invitation_status_id", nullable = false)
     private InvitationStatus invitationStatus;

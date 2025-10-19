@@ -12,7 +12,9 @@ import java.util.UUID;
 public class CreateGroupInvitationMapperImpl implements CreateGroupInvitationMapper {
 
     @Override
-    public GroupInvitation toEntity(Group groupInvited, InvitationStatus invitationStatus, UUID userId, LocalDateTime expiresAt, String link, UUID groupInvitationId) {
+    public GroupInvitation toEntity(Group groupInvited, InvitationStatus invitationStatus,
+                                    UUID userId, LocalDateTime expiresAt, String link,
+                                    UUID groupInvitationId, String tokenHash) {
         return GroupInvitation.builder()
                 .groupInvitationId(groupInvitationId)
                 .userId(userId)

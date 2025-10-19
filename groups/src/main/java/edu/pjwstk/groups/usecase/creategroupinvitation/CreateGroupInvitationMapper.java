@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface CreateGroupInvitationMapper {
 
     GroupInvitation toEntity(Group groupInvited, InvitationStatus invitationStatus, UUID userId,
-                             LocalDateTime expiresAt, String link, UUID groupInvitationId);
+                             LocalDateTime expiresAt, String link, UUID groupInvitationId, String tokenHash);
 
     CreateGroupInvitationResponse toResponse(GroupInvitation savedGroupInvitation);
 }

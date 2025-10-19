@@ -210,6 +210,11 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.ADMIN_CANNOT_LEAVE_GROUP, ex.getMessage());
     }
 
+    @ExceptionHandler(InvalidGroupInvitationTokenException.class)
+    public ProblemDetail handleAdministratorCannotLeaveGroupException(InvalidGroupInvitationTokenException ex) {
+        return formatErrorResponse(ErrorCode.INVALID_GROUP_INVITATION_TOKEN, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleOther() {
         return ErrorCode.INTERNAL_SERVER_ERROR.getProblemDetail();

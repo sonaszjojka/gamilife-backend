@@ -30,21 +30,24 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     private final GroupInvitationRepository groupInvitationRepository;
     private final InvitationStatusRepository invitationStatusRepository;
     private final GroupRepository groupRepository;
-    private final CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase;
     private final UserApi userApi;
     private final AuthApi authApi;
     private final CreateGroupInvitationMapper createGroupInvitationStatusMapper;
-    private final GroupInvitationUtil invitationStatusUtil;
+    private final GroupInvitationUtil groupInvitationUtil;
 
-    public CreateGroupInvitationUseCaseImpl(GroupInvitationRepository groupInvitationRepository, InvitationStatusRepository invitationStatusRepository, GroupRepository groupRepository, CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase, UserApi userApi, AuthApi authApi, CreateGroupInvitationMapper createGroupInvitationStatusMapper, GroupInvitationUtil invitationStatusUtil) {
+    public CreateGroupInvitationUseCaseImpl(GroupInvitationRepository groupInvitationRepository,
+                                            InvitationStatusRepository invitationStatusRepository,
+                                            GroupRepository groupRepository,
+                                            UserApi userApi, AuthApi authApi,
+                                            CreateGroupInvitationMapper createGroupInvitationStatusMapper,
+                                            GroupInvitationUtil groupInvitationUtil) {
         this.groupInvitationRepository = groupInvitationRepository;
         this.invitationStatusRepository = invitationStatusRepository;
         this.groupRepository = groupRepository;
-        this.createGroupMemberAfterAcceptationUseCase = createGroupMemberAfterAcceptationUseCase;
         this.userApi = userApi;
         this.authApi = authApi;
         this.createGroupInvitationStatusMapper = createGroupInvitationStatusMapper;
-        this.invitationStatusUtil = invitationStatusUtil;
+        this.groupInvitationUtil = groupInvitationUtil;
     }
 
     @Override
@@ -72,19 +75,22 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
                 .orElseThrow(() -> new InvitationStatusNotFoundException("Invitation stauts with id: "
                         + InvitationStatusEnum.SENT.getId() + " not found!"));
 
+        // todo send email etc. - integration
         UUID groupInvitationId = UUID.randomUUID();
-
-        // send email etc. - integration
+        String token = groupInvitationUtil.generateToken();
+        String hashedToken = groupInvitationUtil.hashToken(token);
+        String link = groupInvitationUtil.generateGroupInvitationLink(groupId, groupInvitationId, token);
 
         GroupInvitation groupInvitation = createGroupInvitationStatusMapper.toEntity(
                 group,
                 invitationStatus,
                 basicUserInfoApiDto.userId(),
-                invitationStatusUtil.calculateExpirationDate(),
-                invitationStatusUtil.generateGroupInvitationLink(groupId, groupInvitationId),
-                groupInvitationId);
+                groupInvitationUtil.calculateExpirationDate(),
+                link,
+                groupInvitationId,
+                hashedToken
+        );
         GroupInvitation savedGroupInvitation = groupInvitationRepository.save(groupInvitation);
-
         return createGroupInvitationStatusMapper.toResponse(savedGroupInvitation);
     }
 }

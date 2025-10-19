@@ -12,6 +12,7 @@ import edu.pjwstk.groups.shared.InvitationStatusEnum;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
 import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationRequest;
 import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationUseCase;
+import edu.pjwstk.groups.util.GroupInvitationUtil;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,13 +30,15 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
     private final AuthApi authApi;
     private final EditGroupInvitationStatusMapper editGroupInvitationStatusMapper;
     private final CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase;
+    private final GroupInvitationUtil groupInvitationUtil;
 
-    public EditGroupInvitationStatusUseCaseImpl(GroupInvitationRepository groupInvitationRepository, InvitationStatusRepository invitationStatusRepository, AuthApi authApi, EditGroupInvitationStatusMapper editGroupInvitationStatusMapper, CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase) {
+    public EditGroupInvitationStatusUseCaseImpl(GroupInvitationRepository groupInvitationRepository, InvitationStatusRepository invitationStatusRepository, AuthApi authApi, EditGroupInvitationStatusMapper editGroupInvitationStatusMapper, CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase, GroupInvitationUtil groupInvitationUtil) {
         this.groupInvitationRepository = groupInvitationRepository;
         this.invitationStatusRepository = invitationStatusRepository;
         this.authApi = authApi;
         this.editGroupInvitationStatusMapper = editGroupInvitationStatusMapper;
         this.createGroupMemberAfterAcceptationUseCase = createGroupMemberAfterAcceptationUseCase;
+        this.groupInvitationUtil = groupInvitationUtil;
     }
 
     @Override
@@ -50,6 +53,10 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
 
         if (!Objects.equals(currentUserDto.userId(), groupInvitation.getUserId())) {
             throw new UserNotOwnerAccessDeniedException("Only user who is assigned to this invitation can change group invitation status!");
+        }
+
+        if (!groupInvitationUtil.verifyToken(request.token(), groupInvitation.getTokenHash())) {
+            throw new InvalidGroupInvitationTokenException("Invalid or tampered group invitation token!");
         }
 
         if (LocalDateTime.now().isAfter(groupInvitation.getExpiresAt())) {
