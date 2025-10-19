@@ -1,0 +1,48 @@
+package edu.pjwstk.groups.repository.impl;
+
+import edu.pjwstk.groups.entity.Group;
+import edu.pjwstk.groups.entity.GroupRequest;
+import edu.pjwstk.groups.entity.GroupRequestStatus;
+import edu.pjwstk.groups.repository.GroupRequestRepository;
+import edu.pjwstk.groups.repository.jpa.GroupRequestRepositoryJpa;
+import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+import java.util.UUID;
+
+@Repository
+public class GroupRequestRepositoryImpl implements GroupRequestRepository {
+
+    private final GroupRequestRepositoryJpa repositoryJpa;
+
+    public GroupRequestRepositoryImpl(GroupRequestRepositoryJpa repositoryJpa) {
+        this.repositoryJpa = repositoryJpa;
+    }
+
+
+    @Override
+    public boolean existsByGroupAndUserIdAndGroupRequestStatus(Group group, UUID userId, GroupRequestStatus groupRequestStatus) {
+        return repositoryJpa.existsByGroupRequestedAndUserIdAndGroupRequestStatus(group, userId, groupRequestStatus);
+    }
+
+    @Override
+    public GroupRequest save(GroupRequest groupRequest) {
+        return repositoryJpa.save(groupRequest);
+    }
+
+    @Override
+    public Optional<GroupRequest> findById(UUID groupRequestId) {
+        return repositoryJpa.findById(groupRequestId);
+    }
+
+    @Override
+    public void deleteById(UUID groupRequestId) {
+        repositoryJpa.deleteById(groupRequestId);
+    }
+
+    @Override
+    public Optional<GroupRequest> findByUserIdAndGroupRequestedAndGroupRequestStatus_GroupRequestStatusId(UUID userId, Group group, GroupRequestStatusEnum groupRequestStatusEnum) {
+        return repositoryJpa.findByUserIdAndGroupRequestedAndGroupRequestStatus_GroupRequestStatusId(userId, group, groupRequestStatusEnum.getId());
+    }
+}

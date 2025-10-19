@@ -1,11 +1,12 @@
 package edu.pjwstk.groups.usecase.findgroupmemberbyid;
 
-import edu.pjwstk.groups.domain.GroupMember;
+import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.common.groupsApi.dto.GroupMemberDto;
-import edu.pjwstk.groups.shared.GroupMemberMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class FindGroupMemberByIdUseCaseImpl implements FindGroupMemberByIdUseCase {
@@ -19,7 +20,7 @@ public class FindGroupMemberByIdUseCaseImpl implements FindGroupMemberByIdUseCas
     }
 
     @Override
-    public GroupMemberDto execute(Integer groupMemberId) {
+    public GroupMemberDto execute(UUID groupMemberId) {
         GroupMember groupMember = groupMemberRepository.findById(groupMemberId)
                 .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: " + groupMemberId + " not found"));
         return groupMemberMapper.toResponse(groupMember);

@@ -1,0 +1,70 @@
+package edu.pjwstk.groups.usecase.creategroup;
+
+import edu.pjwstk.common.userApi.UserApi;
+import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
+import edu.pjwstk.common.userApi.exception.UserNotFoundException;
+import edu.pjwstk.groups.entity.Group;
+import edu.pjwstk.groups.entity.GroupMember;
+import edu.pjwstk.groups.entity.GroupType;
+import edu.pjwstk.groups.exception.GroupTypeNotFoundException;
+import edu.pjwstk.groups.repository.GroupMemberRepository;
+import edu.pjwstk.groups.repository.GroupRepository;
+import edu.pjwstk.groups.repository.GroupTypeRepository;
+import edu.pjwstk.groups.util.JoinCodeGenerator;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
+
+    private final GroupRepository groupRepository;
+    private final CreateGroupMapper createGroupUseCaseMapper;
+    private final UserApi userApi;
+    private final GroupTypeRepository groupTypeRepository;
+    private final GroupMemberRepository groupMemberRepository;
+    private final JoinCodeGenerator joinCodeGenerator;
+
+    public CreateGroupUseCaseImpl(GroupRepository groupRepository, UserApi userApi, CreateGroupMapper createGroupUseCaseMapper, GroupTypeRepository groupTypeRepository, GroupMemberRepository groupMemberRepository, JoinCodeGenerator joinCodeGenerator) {
+        this.groupRepository = groupRepository;
+        this.userApi = userApi;
+        this.createGroupUseCaseMapper = createGroupUseCaseMapper;
+        this.groupTypeRepository = groupTypeRepository;
+        this.groupMemberRepository = groupMemberRepository;
+        this.joinCodeGenerator = joinCodeGenerator;
+    }
+
+    @Override
+    @Transactional
+    public CreateGroupResponse execute(CreateGroupRequest request) {
+        GroupType groupType = groupTypeRepository.findById(request.groupType().getId())
+                .orElseThrow(() -> new GroupTypeNotFoundException("Group type with id: " +
+                        request.groupType().getId() + " not found!"));
+
+        Optional<BasicUserInfoApiDto> admin = userApi.getUserById(request.adminId());
+
+        if (admin.isEmpty()) {
+            throw new UserNotFoundException("User (admin) with id: " + request.adminId() + " not found!");
+        }
+
+        String joinCode = joinCodeGenerator.generate(20);
+
+        Group group = createGroupUseCaseMapper.toEntity(request, joinCode, UUID.randomUUID(), groupType);
+        Group savedGroup = groupRepository.save(group);
+
+        GroupMember groupMemberAdmin = GroupMember.builder()
+                .memberGroup(group)
+                .userId(admin.get().userId())
+                .leftAt(null)
+                .groupMoney(0)
+                .totalEarnedMoney(0)
+                .build();
+
+        //todo init other entities such as group_shop
+
+        groupMemberRepository.save(groupMemberAdmin);
+        return createGroupUseCaseMapper.toResponse(savedGroup);
+    }
+}

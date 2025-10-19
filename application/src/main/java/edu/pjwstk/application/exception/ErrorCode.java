@@ -35,7 +35,23 @@ public enum ErrorCode {
     INVALID_TASK_DATA(ErrorCode.INVALID_TASK_DATA_CODE, "Invalid Task Data", HttpStatus.BAD_REQUEST),
     INVALID_POMODORO_TASK_DATA(ErrorCode.INVALID_POMODORO_TASK_DATA_CODE, "Invalid Pomodoro Task Data", HttpStatus.BAD_REQUEST),
     POMODORO_TASK_NOT_FOUND(ErrorCode.POMODORO_TASK_NOT_FOUND_CODE, "Pomodoro Task Not Found", HttpStatus.NOT_FOUND),
-    GROUP_MEMBER_NOT_FOUND(ErrorCode.GROUP_MEMBER_NOT_FOUND_CODE, "Group Member Not Found", HttpStatus.NOT_FOUND);
+    GROUP_MEMBER_NOT_FOUND(ErrorCode.GROUP_MEMBER_NOT_FOUND_CODE, "Group Member Not Found", HttpStatus.NOT_FOUND),
+    GROUP_TYPE_NOT_FOUND(ErrorCode.GROUP_TYPE_NOT_FOUND_CODE, "Group Type Not Found", HttpStatus.NOT_FOUND),
+    INVALID_GROUP_REQUEST_DATA(ErrorCode.INVALID_GROUP_REQUEST_DATA_CODE, "Invalid Group Request Data", HttpStatus.BAD_REQUEST),
+    GROUP_REQUEST_STATUS_NOT_FOUND(ErrorCode.GROUP_REQUEST_STATUS_NOT_FOUND_CODE, "Group Request Status Not Found", HttpStatus.NOT_FOUND),
+    GROUP_IS_FULL(ErrorCode.GROUP_IS_FULL_CODE, "Group Is Full – Member Limit Reached", HttpStatus.UNPROCESSABLE_ENTITY),
+    GROUP_REQUEST_NOT_FOUND(ErrorCode.GROUP_REQUEST_NOT_FOUND_CODE, "Group Request Not Found", HttpStatus.NOT_FOUND),
+    GROUP_INVITATION_NOT_FOUND(ErrorCode.GROUP_INVITATION_NOT_FOUND_CODE, "Group Invitation Not Found", HttpStatus.NOT_FOUND),
+    USER_NOT_GROUP_ADMINISTRATOR_ACCESS_DENIED(ErrorCode.USER_NOT_GROUP_ADMINISTRATOR_ACCESS_DENIED_CODE, "User Not Group Administrator Access Denied", HttpStatus.FORBIDDEN),
+    USER_NOT_OWNER_ACCESS_DENIED(ErrorCode.USER_NOT_OWNER_ACCESS_DENIED_CODE, "User Not Owner Access Denied", HttpStatus.FORBIDDEN),
+    INVALID_GROUP_INVITATION_DATA(ErrorCode.INVALID_GROUP_INVITATION_DATA_CODE, "Invalid Group Invitation Data", HttpStatus.BAD_REQUEST),
+    INVITATION_STATUS_NOT_FOUND(ErrorCode.INVITATION_STATUS_NOT_FOUND_CODE, "Invitation Status Not Found", HttpStatus.NOT_FOUND),
+    USER_ALREADY_MEMBER_OF_GROUP(ErrorCode.USER_ALREADY_MEMBER_OF_GROUP_CODE, "User Already Member Of Group", HttpStatus.UNPROCESSABLE_ENTITY),
+    USER_JOIN_GROUP_ACCESS_DENIED(ErrorCode.USER_JOIN_GROUP_ACCESS_DENIED_CODE, "User Join Group Access Denied", HttpStatus.UNPROCESSABLE_ENTITY),
+    USER_LEFT_GROUP(ErrorCode.USER_LEFT_GROUP_CODE, "User Left Group", HttpStatus.CONFLICT),
+    GROUP_INVITATION_EXPIRED(ErrorCode.GROUP_INVITATION_EXPIRED_CODE, "Group Invitation Has Expired", HttpStatus.GONE),
+    ADMIN_CANNOT_LEAVE_GROUP(ErrorCode.ADMIN_CANNOT_LEAVE_GROUP_CODE, "Admin Cannot Leave Group", HttpStatus.UNPROCESSABLE_ENTITY),
+    INVALID_GROUP_INVITATION_TOKEN(ErrorCode.INVALID_GROUP_INVITATION_TOKEN_CODE, "Invalid Invitation Group Token", HttpStatus.BAD_REQUEST);
 
     public static final int VALIDATION_ERROR_CODE = 1001;
     public static final int ACCESS_DENIED_CODE = 1002;
@@ -67,7 +83,23 @@ public enum ErrorCode {
     public static final int INVALID_TASK_DATA_CODE = 1027;
     public static final int INVALID_POMODORO_TASK_DATA_CODE = 1028;
     public static final int POMODORO_TASK_NOT_FOUND_CODE = 1029;
-    public static final int GROUP_MEMBER_NOT_FOUND_CODE = 1030;
+    public static final int GROUP_MEMBER_NOT_FOUND_CODE = 3030;
+    public static final int GROUP_TYPE_NOT_FOUND_CODE = 3031;
+    public static final int INVALID_GROUP_REQUEST_DATA_CODE = 3032;
+    public static final int GROUP_REQUEST_STATUS_NOT_FOUND_CODE = 3033;
+    public static final int GROUP_IS_FULL_CODE = 3034;
+    public static final int GROUP_REQUEST_NOT_FOUND_CODE = 3035;
+    public static final int GROUP_INVITATION_NOT_FOUND_CODE = 3036;
+    public static final int USER_NOT_GROUP_ADMINISTRATOR_ACCESS_DENIED_CODE = 3037;
+    public static final int USER_NOT_OWNER_ACCESS_DENIED_CODE = 3038;
+    public static final int INVALID_GROUP_INVITATION_DATA_CODE = 3039;
+    public static final int INVITATION_STATUS_NOT_FOUND_CODE = 3040;
+    public static final int USER_ALREADY_MEMBER_OF_GROUP_CODE = 3041;
+    public static final int USER_JOIN_GROUP_ACCESS_DENIED_CODE = 3042;
+    public static final int GROUP_INVITATION_EXPIRED_CODE = 3043;
+    public static final int USER_LEFT_GROUP_CODE = 3044;
+    public static final int ADMIN_CANNOT_LEAVE_GROUP_CODE = 3055;
+    public static final int INVALID_GROUP_INVITATION_TOKEN_CODE = 3056;
 
     private final int code;
     private final String title;
