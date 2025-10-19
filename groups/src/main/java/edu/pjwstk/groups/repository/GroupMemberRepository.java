@@ -14,4 +14,6 @@ public interface GroupMemberRepository {
     GroupMember save(GroupMember groupMember);
 
     Integer countByMemberGroup(Group group);
+
+    Optional<GroupMember> findByUserIdAndGroup(Group group, UUID uuid);
 }

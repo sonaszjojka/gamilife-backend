@@ -1,5 +1,6 @@
 package edu.pjwstk.groups.usecase.creategroupmember;
 
+import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
 import edu.pjwstk.common.groupsApi.exception.GroupNotFoundException;
 import edu.pjwstk.common.userApi.UserApi;
 import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
@@ -11,6 +12,7 @@ import edu.pjwstk.groups.shared.GroupTypeEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,11 +40,6 @@ public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMembe
         BasicUserInfoApiDto userInfoApiDto = userApi.getUserById(request.userId())
                 .orElseThrow(() -> new UserNotFoundException("User with id: " + request.userId() + " not found!"));
 
-        if (groupMemberRepository.existsByUserIdAndGroup(group, userInfoApiDto.userId())) {
-            throw new UserAlreadyMemberOfGroupException("User with id: " + userInfoApiDto.userId()
-                    + " is already member of group with id: " + groupId + "!");
-        }
-
         if (group.getGroupMembers().size() >= group.getMembersLimit()) {
             throw new GroupFullException("Group with id: " + groupId + " is full!");
         }
@@ -53,10 +50,25 @@ public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMembe
                     " - invitation or request must be accepted.");
         }
 
-        //todo rejoin logic
+        Optional<GroupMember> groupMemberOpt = groupMemberRepository.findByUserIdAndGroup(group, userInfoApiDto.userId());
 
-        GroupMember groupMember = createGroupMemberMapper.toEntity(userInfoApiDto.userId(), group, UUID.randomUUID());
-        GroupMember savedGroupMember = groupMemberRepository.save(groupMember);
+        if (groupMemberOpt.isPresent()) {
+            GroupMember groupMember = groupMemberOpt.get();
+
+            if (groupMember.getLeftAt() != null) {
+                groupMember.setLeftAt(null);
+                GroupMember existingGroupMember = groupMemberRepository.save(groupMember);
+                return createGroupMemberMapper.toResponse(existingGroupMember);
+            } else {
+                throw new UserAlreadyMemberOfGroupException(
+                        "User with id: " + userInfoApiDto.userId() + " is already member of group with id: " + groupId
+                );
+            }
+        }
+
+        GroupMember newGroupMember = createGroupMemberMapper.toEntity(userInfoApiDto.userId(), group, UUID.randomUUID());
+        GroupMember savedGroupMember = groupMemberRepository.save(newGroupMember);
         return createGroupMemberMapper.toResponse(savedGroupMember);
+
     }
 }

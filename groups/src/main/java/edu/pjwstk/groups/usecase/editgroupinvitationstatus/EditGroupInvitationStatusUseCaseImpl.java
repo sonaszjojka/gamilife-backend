@@ -48,7 +48,6 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
         CurrentUserDto currentUserDto = authApi.getCurrentUser()
                 .orElseThrow();
 
-        //todo: validation below depends on implementation of accepting invitation
         if (!Objects.equals(currentUserDto.userId(), groupInvitation.getUserId())) {
             throw new UserNotOwnerAccessDeniedException("Only user who is assigned to this invitation can change group invitation status!");
         }
