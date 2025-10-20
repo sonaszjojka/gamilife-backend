@@ -50,18 +50,16 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
         }
 
         String joinCode = joinCodeGenerator.generate(20);
-
         Group group = createGroupUseCaseMapper.toEntity(request, joinCode, UUID.randomUUID(), groupType);
         Group savedGroup = groupRepository.save(group);
-
         GroupMember groupMemberAdmin = GroupMember.builder()
+                .groupMemberId(UUID.randomUUID())
                 .memberGroup(group)
                 .userId(admin.get().userId())
                 .leftAt(null)
                 .groupMoney(0)
                 .totalEarnedMoney(0)
                 .build();
-
         //todo init other entities such as group_shop
 
         groupMemberRepository.save(groupMemberAdmin);

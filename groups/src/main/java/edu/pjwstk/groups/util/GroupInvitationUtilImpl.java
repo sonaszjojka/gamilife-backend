@@ -67,7 +67,7 @@ public class GroupInvitationUtilImpl implements GroupInvitationUtil {
 
     @Override
     public String generateInvitationMailSubjectMessage() {
-        return "";
+        return "Group Invitation";
     }
 
     @Override

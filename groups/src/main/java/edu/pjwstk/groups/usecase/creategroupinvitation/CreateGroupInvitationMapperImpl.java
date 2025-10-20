@@ -22,6 +22,7 @@ public class CreateGroupInvitationMapperImpl implements CreateGroupInvitationMap
                 .expiresAt(expiresAt)
                 .mailSentAt(LocalDateTime.now())
                 .link(link)
+                .tokenHash(tokenHash)
                 .invitationStatus(invitationStatus)
                 .build();
     }
