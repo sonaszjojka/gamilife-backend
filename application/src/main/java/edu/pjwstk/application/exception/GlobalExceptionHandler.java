@@ -131,8 +131,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(GroupMemberNotFoundException.class)
-    public ProblemDetail handleGroupMemberNotFoundException(GroupMemberNotFoundException ex) {
+    public ProblemDetail handleInvalidHabitData(GroupMemberNotFoundException ex) {
         return formatErrorResponse(ErrorCode.GROUP_MEMBER_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
+    public ProblemDetail handleInvalidHabitData(org.springframework.security.access.AccessDeniedException ex) {
+        return formatErrorResponse(ErrorCode.ACCESS_DENIED, ex.getMessage());
     }
 
     @ExceptionHandler(GroupTypeNotFoundException.class)
@@ -219,6 +224,7 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleOther() {
         return ErrorCode.INTERNAL_SERVER_ERROR.getProblemDetail();
     }
+
 
     private ProblemDetail formatErrorResponse(ErrorCode error, String detail) {
         ProblemDetail problem = error.getProblemDetail();

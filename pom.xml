@@ -63,6 +63,7 @@
                             <artifactId>lombok</artifactId>
                         </path>
                     </annotationProcessorPaths>
+                    <parameters>true</parameters>
                 </configuration>
                 <version>3.14.1</version>
             </plugin>
