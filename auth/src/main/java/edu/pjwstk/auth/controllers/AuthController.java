@@ -101,19 +101,7 @@ public class AuthController {
 
     @PreAuthorize("hasRole('UNVERIFIED')")
     @SecurityRequirement(name = "accessToken")
-    @GetMapping("/resend-verification-code")
-    public ResponseEntity<Void> resendVerificationCode() {
-        CurrentUserDto user = getAuthenticatedUserDataUseCase.execute()
-                .orElseThrow(() -> new InvalidCredentialsException("Provided access token is invalid"));
-
-        sendEmailVerificationCodeUseCase.execute(user.userId());
-
-        return ResponseEntity.ok().build();
-    }
-
-    @PreAuthorize("hasRole('UNVERIFIED')")
-    @SecurityRequirement(name = "accessToken")
-    @PostMapping("/verify-code")
+    @PostMapping("/email-verifications/confirm")
     public ResponseEntity<AfterLoginResponse> verifyEmail(EmailVerificationCodeRequest emailVerificationCodeRequest,
                                                           HttpServletResponse response) {
         CurrentUserDto user = getAuthenticatedUserDataUseCase.execute()
@@ -130,5 +118,17 @@ public class AuthController {
         response.addCookie(accessTokenCookie);
 
         return ResponseEntity.ok(new AfterLoginResponse(authTokens.isEmailVerified()));
+    }
+
+    @PreAuthorize("hasRole('UNVERIFIED')")
+    @SecurityRequirement(name = "accessToken")
+    @PostMapping("/email-verifications/resend")
+    public ResponseEntity<Void> resendVerificationCode() {
+        CurrentUserDto user = getAuthenticatedUserDataUseCase.execute()
+                .orElseThrow(() -> new InvalidCredentialsException("Provided access token is invalid"));
+
+        sendEmailVerificationCodeUseCase.execute(user.userId());
+
+        return ResponseEntity.accepted().build();
     }
 }
