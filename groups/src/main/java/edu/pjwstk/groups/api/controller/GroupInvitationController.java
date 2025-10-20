@@ -8,6 +8,7 @@ import edu.pjwstk.groups.usecase.deletegroupinvitation.DeleteGroupInvitationById
 import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusRequest;
 import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusResponse;
 import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusUseCase;
+import edu.pjwstk.groups.usecase.resendmail.ResendMailToGroupInvitationUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +23,13 @@ public class GroupInvitationController {
     private final DeleteGroupInvitationById deleteGroupInvitationById;
     private final EditGroupInvitationStatusUseCase editGroupInvitationStatusUseCase;
     private final CreateGroupInvitationUseCase createGroupInvitationUseCase;
+    private final ResendMailToGroupInvitationUseCase resendMailByInvitationIdUseCase;
 
-    public GroupInvitationController(DeleteGroupInvitationById deleteGroupInvitationById, EditGroupInvitationStatusUseCase editGroupInvitationStatusUseCase, CreateGroupInvitationUseCase createGroupInvitationUseCase) {
+    public GroupInvitationController(DeleteGroupInvitationById deleteGroupInvitationById, EditGroupInvitationStatusUseCase editGroupInvitationStatusUseCase, CreateGroupInvitationUseCase createGroupInvitationUseCase, ResendMailToGroupInvitationUseCase resendMailByInvitationIdUseCase) {
         this.deleteGroupInvitationById = deleteGroupInvitationById;
         this.editGroupInvitationStatusUseCase = editGroupInvitationStatusUseCase;
         this.createGroupInvitationUseCase = createGroupInvitationUseCase;
+        this.resendMailByInvitationIdUseCase = resendMailByInvitationIdUseCase;
     }
 
     @PostMapping
@@ -50,4 +53,11 @@ public class GroupInvitationController {
         deleteGroupInvitationById.execute(groupInvitationId);
         return ResponseEntity.ok(new ApiResponse("Group Invitation with id: " + groupInvitationId + " deleted successfully."));
     }
+
+    @PostMapping("/{groupInvitationId}/resend")
+    private ResponseEntity<ApiResponse> resendMailByInvitationId(@PathVariable UUID groupId, @PathVariable UUID groupInvitationId) {
+        resendMailByInvitationIdUseCase.execute(groupId, groupInvitationId);
+        return ResponseEntity.ok(new ApiResponse("Mail resend successfully."));
+    }
+
 }

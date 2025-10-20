@@ -1,5 +1,8 @@
 package edu.pjwstk.groups.util;
 
+import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
+import edu.pjwstk.groups.entity.GroupInvitation;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -15,7 +18,12 @@ public interface GroupInvitationUtil {
 
     String hashToken(String token);
 
+    String generateInvitationMailContentMessage(String link, String joinCode);
+
+    String generateInvitationMailSubjectMessage();
+
     boolean verifyToken(String token, String hashedTokenFromDb);
+
 }
 
 
