@@ -39,7 +39,6 @@ public class CreateGroupMemberAfterAcceptationUseCaseImpl implements CreateGroup
     @Override
     @Transactional
     public CreateGroupMemberResponse execute(@Valid CreateGroupMemberAfterAcceptationRequest request) {
-        System.out.println("xd1");
         Group group = groupRepository.findById(request.groupId())
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + request.groupId() + " not found!"));
 
@@ -49,12 +48,12 @@ public class CreateGroupMemberAfterAcceptationUseCaseImpl implements CreateGroup
         if (group.getGroupMembers().size() >= group.getMembersLimit()) {
             throw new GroupFullException("Group with id: " + request.groupId() + " is full!");
         }
-        System.out.println("xd2");
+
         Optional<GroupMember> groupMemberOpt = groupMemberRepository.findByUserIdAndGroup(group, userInfoApiDto.userId());
-        System.out.println("xd3");
+
         if (groupMemberOpt.isPresent()) {
             GroupMember groupMember = groupMemberOpt.get();
-            System.out.println("xd4");
+
             if (groupMember.getLeftAt() != null) {
                 groupMember.setLeftAt(null);
                 GroupMember existingGroupMember = groupMemberRepository.save(groupMember);
@@ -66,8 +65,6 @@ public class CreateGroupMemberAfterAcceptationUseCaseImpl implements CreateGroup
                 );
             }
         }
-
-        System.out.println("xd5");
 
         GroupMember newGroupMember = createGroupMemberMapper.toEntity(userInfoApiDto.userId(), group, UUID.randomUUID());
         GroupMember savedGroupMember = groupMemberRepository.save(newGroupMember);
