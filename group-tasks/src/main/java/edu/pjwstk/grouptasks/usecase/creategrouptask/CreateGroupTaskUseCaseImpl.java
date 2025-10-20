@@ -1,14 +1,15 @@
 package edu.pjwstk.grouptasks.usecase.creategrouptask;
 import edu.pjwstk.common.tasksApi.TasksApi;
+import edu.pjwstk.common.tasksApi.exception.TaskNotFoundException;
 import edu.pjwstk.grouptasks.entity.GroupTask;
 import edu.pjwstk.grouptasks.repository.GroupTaskRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Component;
 
-import java.time.Instant;
+import org.springframework.stereotype.Service;
+
 import java.util.UUID;
 
-@Component
+@Service
 public class CreateGroupTaskUseCaseImpl implements CreateGroupTaskUseCase {
     private final GroupTaskRepository groupTaskRepository;
     private final CreateGroupTaskMapper createGroupTaskMapper;
@@ -25,7 +26,7 @@ public class CreateGroupTaskUseCaseImpl implements CreateGroupTaskUseCase {
     public CreateGroupTaskResponse execute(CreateGroupTaskRequest request, UUID taskId) {
         if (!tasksProvider.taskExistsByTaskId(taskId))
         {
-            throw new IllegalArgumentException("Task with id:" + taskId + " does not exist");
+            throw new TaskNotFoundException("Task with id:" + taskId + " does not exist");
         }
         GroupTask groupTask = createGroupTaskMapper.toEntity(request,UUID.randomUUID(),taskId);
         GroupTask savedGroupTask = groupTaskRepository.save(groupTask);

@@ -2,6 +2,7 @@ package edu.pjwstk.grouptasks.usecase.deletegrouptask;
 
 import edu.pjwstk.common.tasksApi.TasksApi;
 import edu.pjwstk.grouptasks.entity.GroupTask;
+import edu.pjwstk.grouptasks.exception.GroupTaskNotFoundException;
 import edu.pjwstk.grouptasks.repository.GroupTaskRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class DeleteGroupTaskUseCaseImpl implements DeleteGroupTaskUseCase {
     public void execute(UUID groupTaskId) {
        if (!groupTaskRepository.existsByGroupTaskId(groupTaskId))
        {
-           throw new IllegalArgumentException("Group Task with id:" + groupTaskId + " does not exist");
+           throw new GroupTaskNotFoundException("Group Task with id:" + groupTaskId + " does not exist");
        }
 
          GroupTask groupTask = groupTaskRepository.findByGroupTaskId(groupTaskId);

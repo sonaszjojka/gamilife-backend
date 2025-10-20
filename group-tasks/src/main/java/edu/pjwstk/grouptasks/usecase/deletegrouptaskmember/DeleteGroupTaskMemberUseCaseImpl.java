@@ -1,5 +1,6 @@
 package edu.pjwstk.grouptasks.usecase.deletegrouptaskmember;
 
+import edu.pjwstk.grouptasks.exception.GroupTaskMemberNotFoundException;
 import edu.pjwstk.grouptasks.repository.GroupTaskMemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class DeleteGroupTaskMemberUseCaseImpl implements DeleteGroupTaskMemberUs
     @Transactional
     public void execute(UUID groupTaskMemberId) {
         if (!groupTaskMemberRepository.existsById(groupTaskMemberId)) {
-            throw new IllegalArgumentException("Group Task Member with id:" + groupTaskMemberId + " does not exist");
+            throw new GroupTaskMemberNotFoundException("Group Task Member with id:" + groupTaskMemberId + " does not exist");
         }
 
         groupTaskMemberRepository.deleteById(groupTaskMemberId);
