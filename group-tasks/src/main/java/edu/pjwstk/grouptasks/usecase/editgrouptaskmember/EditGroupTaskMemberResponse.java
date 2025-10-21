@@ -7,7 +7,7 @@ import java.util.UUID;
 @Builder
 public record EditGroupTaskMemberResponse(
         UUID groupTaskMemberId,
-        int groupMemberId,
+        UUID groupMemberId,
         UUID groupTaskId,
         boolean isMarkedDone
 

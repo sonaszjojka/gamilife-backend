@@ -11,7 +11,7 @@ public class CreateGroupTaskMemberMapperImpl implements CreateGroupTaskMemberMap
 
 
     @Override
-    public GroupTaskMember toEntity( GroupTask groupTask, int groupMemberId,UUID groupTaskMemberId) {
+    public GroupTaskMember toEntity( GroupTask groupTask, UUID groupMemberId,UUID groupTaskMemberId) {
         return GroupTaskMember.builder()
                 .groupTaskMemberId(groupTaskMemberId)
                 .groupTaskId(groupTask)

@@ -8,8 +8,9 @@ import java.util.UUID;
 public record CreateGroupTaskResponse(
         UUID groupTaskId,
         UUID taskId,
+        UUID groupId,
         Integer reward,
-        boolean isAccepted,
+        Boolean isAccepted,
         Instant acceptedDate,
         String declineMessage,
         Instant lastEdit

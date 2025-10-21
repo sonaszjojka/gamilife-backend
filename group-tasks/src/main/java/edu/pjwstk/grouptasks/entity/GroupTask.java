@@ -30,12 +30,16 @@ public class GroupTask  {
     @Column(name = "task_id", nullable = false)
     private UUID taskId;
 
+    @NotNull
+    @Column(name = "group_id", nullable = false)
+    private UUID groupId;
+
     @Column(name = "reward")
     private Integer reward;
 
     @NotNull
-    @Column(name = "is_accepted", nullable = false)
-    private Boolean isAccepted = false;
+    @Column(name = "is_accepted")
+    private Boolean isAccepted;
 
     @Column(name = "accepted_date")
     private Instant acceptedDate;

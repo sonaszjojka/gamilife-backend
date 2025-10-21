@@ -23,12 +23,12 @@ public class CreateGroupTaskUseCaseImpl implements CreateGroupTaskUseCase {
 
     @Override
     @Transactional
-    public CreateGroupTaskResponse execute(CreateGroupTaskRequest request, UUID taskId) {
-        if (!tasksProvider.taskExistsByTaskId(taskId))
+    public CreateGroupTaskResponse execute(CreateGroupTaskRequest request, UUID groupId) {
+        if (!tasksProvider.taskExistsByTaskId(request.taskId()))
         {
-            throw new TaskNotFoundException("Task with id:" + taskId + " does not exist");
+            throw new TaskNotFoundException("Task with id:" + request.taskId() + " does not exist");
         }
-        GroupTask groupTask = createGroupTaskMapper.toEntity(request,UUID.randomUUID(),taskId);
+        GroupTask groupTask = createGroupTaskMapper.toEntity(request,UUID.randomUUID(),groupId);
         GroupTask savedGroupTask = groupTaskRepository.save(groupTask);
         return createGroupTaskMapper.toResponse(savedGroupTask);
 

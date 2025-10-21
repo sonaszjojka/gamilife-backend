@@ -25,7 +25,7 @@ public class GroupTaskMember {
     private GroupTask groupTaskId;
 
     @Column(name = "group_member_id", nullable = false)
-    private int groupMemberId;
+    private UUID groupMemberId;
 
     @Column(name = "is_marked_done")
     private Boolean isMarkedDone;

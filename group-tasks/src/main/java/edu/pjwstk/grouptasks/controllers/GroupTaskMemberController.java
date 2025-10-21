@@ -28,7 +28,7 @@ public class GroupTaskMemberController {
 
     @PostMapping("/{groupTaskId}/group-task-members/{groupMemberId}")
     public ResponseEntity<CreateGroupTaskMemberResponse> save (@PathVariable ("groupTaskId") UUID groupTaskId,
-                                                               @PathVariable ("groupMemberId") int groupMemberId) {
+                                                               @PathVariable ("groupMemberId") UUID groupMemberId) {
        CreateGroupTaskMemberResponse response= createGroupTaskMemberUseCase.execute( groupTaskId, groupMemberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

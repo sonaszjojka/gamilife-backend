@@ -7,10 +7,11 @@ import java.util.UUID;
 @Component
 public class CreateGroupTaskMapperImpl implements CreateGroupTaskMapper {
     @Override
-    public GroupTask toEntity(CreateGroupTaskRequest req, UUID groupTaskId, UUID taskId) {
+    public GroupTask toEntity(CreateGroupTaskRequest req, UUID groupTaskId, UUID groupId) {
         return GroupTask.builder()
                 .groupTaskId(groupTaskId)
-                .taskId(taskId)
+                .taskId(req.taskId())
+                .groupId(groupId)
                 .reward(req.reward())
                 .isAccepted(false)
                 .acceptedDate(null)
@@ -23,6 +24,7 @@ public class CreateGroupTaskMapperImpl implements CreateGroupTaskMapper {
         return CreateGroupTaskResponse.builder()
                 .groupTaskId(groupTask.getGroupTaskId())
                 .taskId(groupTask.getTaskId())
+                .groupId(groupTask.getGroupId())
                 .reward(groupTask.getReward())
                 .isAccepted(groupTask.getIsAccepted())
                 .acceptedDate(groupTask.getAcceptedDate())

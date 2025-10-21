@@ -28,7 +28,7 @@ public class CreateGroupTaskMemberUseCaseImpl implements CreateGroupTaskMemberUs
 
 
     @Override
-    public CreateGroupTaskMemberResponse execute( UUID groupTaskId, int groupMemberId) {
+    public CreateGroupTaskMemberResponse execute( UUID groupTaskId, UUID groupMemberId) {
         if (groupsProvider.findGroupMemberById(groupMemberId)==null)
         {
             throw new GroupMemberNotFoundException("Group member with id:" + groupMemberId + " does not exist");

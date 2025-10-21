@@ -74,20 +74,41 @@ VALUES ('11111111-1111-1111-1111-111111111111', 'FAM123', 'aaaaaaaa-aaaa-aaaa-aa
 -- =========================
 -- Tabela: group_member
 -- =========================
-INSERT INTO group_member (group_id, user_id, joined_at, left_at, group_money, total_earned_money)
-VALUES ('11111111-1111-1111-1111-111111111111', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '2025-10-10 12:00:00', NULL,
+INSERT INTO group_member (group_member_id, group_id, user_id, joined_at, left_at, group_money, total_earned_money)
+VALUES ('22222222-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111',
+        'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '2025-10-10 12:00:00', NULL,
         150, 400),
-       ('11111111-1111-1111-1111-111111111111', 'dddddddd-dddd-dddd-dddd-dddddddddddd', '2025-10-11 09:00:00', NULL, 90,
-        120),
-       ('22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '2025-10-10 08:30:00', NULL,
-        300, 600);
-
+       ('33333333-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111',
+        'dddddddd-dddd-dddd-dddd-dddddddddddd', '2025-10-11 09:00:00', NULL, 90,
+        120);
 -- =========================
 -- Tabela: chat_message
 -- =========================
+INSERT INTO chat_message (message_id, content, is_important, send_at, group_id, sender_id)
+VALUES ('aaaa1111-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Hey everyone! Meeting at 6 PM today.', true, '2025-10-12 12:00:00',
+        '11111111-1111-1111-1111-111111111111', '22222222-1111-1111-1111-111111111111'),
+       ('bbbb2222-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Who’s up for a movie night?', false, '2025-10-12 13:00:00',
+        '22222222-2222-2222-2222-222222222222', '22222222-1111-1111-1111-111111111111');
+
 -- =========================
 -- Tabela: group_invitation
 -- =========================
+INSERT INTO group_invitation (group_invitation_id, group_id, user_id, expires_at,
+                              mail_sent_at, link, invitation_status_id, token_hash)
+VALUES ('aaaa9999-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-111111111111',
+        'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee',
+        '2025-10-20 00:00:00', '2025-10-10 10:00:00', 'https://app/join/FAM123', 1,
+        'xxxx'),
+
+       ('bbbb9999-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '22222222-2222-2222-2222-222222222222',
+        'ffffffff-ffff-ffff-ffff-ffffffffffff',
+        '2025-10-20 00:00:00', '2025-10-10 11:00:00', 'https://app/join/FRN456', 2,
+        'xxxxxxxxx'),
+
+       ('cccc9999-cccc-cccc-cccc-cccccccccccc', '33333333-3333-3333-3333-333333333333',
+        '99999999-9999-9999-9999-999999999999',
+        '2025-10-20 00:00:00', '2025-10-10 12:00:00', 'https://app/join/WRK789', 3,
+        'ffffffffffff');
 
 -- =========================
 -- Tabela: group_request
@@ -166,6 +187,13 @@ VALUES ('aaaa9999-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-1111111
 -- =========================
 -- Tabela: group_request
 -- =========================
+INSERT INTO group_request (group_request_id, user_id, group_id, created_at, status_id)
+VALUES ('11112222-3333-4444-5555-666677771111', '11112222-3333-4444-5555-666677778888',
+        '11111111-1111-1111-1111-111111111111', '2025-10-12 10:00:00', 1),
+       ('11112222-3333-4444-5555-666677772222', '99998888-7777-6666-5555-444433332222',
+        '22222222-2222-2222-2222-222222222222', '2025-10-12 11:00:00', 2),
+       ('11112222-3333-4444-5555-666677773333', 'aaaa5555-bbbb-cccc-dddd-eeee11112222',
+        '33333333-3333-3333-3333-333333333333', '2025-10-12 12:00:00', 3);
 INSERT INTO group_request (group_request_id, user_id, group_id, created_at, status_id)
 VALUES ('11112222-3333-4444-5555-666677771111', '11112222-3333-4444-5555-666677778888',
         '11111111-1111-1111-1111-111111111111', '2025-10-12 10:00:00', 1),

@@ -6,7 +6,7 @@ public interface CreateGroupTaskMapper {
 
     GroupTask toEntity(CreateGroupTaskRequest req,
                        UUID groupTaskId,
-                       UUID taskId
+                       UUID groupId
     );
 
     CreateGroupTaskResponse toResponse(GroupTask groupTask);
