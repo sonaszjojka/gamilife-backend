@@ -9,6 +9,7 @@ public record EditGroupTaskResponse(
 
         UUID groupTaskId,
         UUID taskId,
+        UUID groupId,
         Integer reward,
         boolean isAccepted,
         Instant acceptedDate,

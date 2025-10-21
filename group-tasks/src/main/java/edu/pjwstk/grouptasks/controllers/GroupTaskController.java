@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/groups/{groupId}/group-tasks")
 public class GroupTaskController {
     private final CreateGroupTaskUseCase createGroupTaskUseCase;
     private final DeleteGroupTaskUseCase deleteGroupTaskUseCase;
@@ -27,20 +27,20 @@ public class GroupTaskController {
         this.editGroupTaskUseCase = editGroupTaskUseCase;
     }
 
-    @PostMapping("/{taskId}/group-tasks")
-    public ResponseEntity<CreateGroupTaskResponse> save (@PathVariable ("taskId") UUID taskId,
+    @PostMapping()
+    public ResponseEntity<CreateGroupTaskResponse> save (@PathVariable ("groupId") UUID taskId,
                                                          @RequestBody @Valid CreateGroupTaskRequest request) {
         CreateGroupTaskResponse response= createGroupTaskUseCase.execute(request, taskId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @DeleteMapping("/group-tasks/{groupTaskId}")
+    @DeleteMapping("/{groupTaskId}")
     public ResponseEntity<ApiResponse> delete (@PathVariable ("groupTaskId") UUID groupTaskId) {
         deleteGroupTaskUseCase.execute(groupTaskId);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Group Task with id: " + groupTaskId + " deleted successfully"));
     }
 
-    @PutMapping("/group-tasks/{groupTaskId}")
+    @PutMapping("/{groupTaskId}")
     public ResponseEntity<EditGroupTaskResponse> edit (@PathVariable ("groupTaskId") UUID groupTaskId,
                                                        @RequestBody @Valid EditGroupTaskRequest request) {
         EditGroupTaskResponse response = editGroupTaskUseCase.execute(groupTaskId, request);

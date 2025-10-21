@@ -12,6 +12,7 @@ public class EditGroupTaskMapperImpl implements EditGroupTaskMapper {
         return EditGroupTaskResponse.builder()
                 .groupTaskId(groupTask.getGroupTaskId())
                 .taskId(groupTask.getTaskId())
+                .groupId(groupTask.getGroupId())
                 .reward(groupTask.getReward())
                 .isAccepted(groupTask.getIsAccepted())
                 .acceptedDate(groupTask.getAcceptedDate())

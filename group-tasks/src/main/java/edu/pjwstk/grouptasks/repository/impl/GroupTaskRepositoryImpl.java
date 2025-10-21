@@ -5,6 +5,7 @@ import edu.pjwstk.grouptasks.repository.GroupTaskRepository;
 import edu.pjwstk.grouptasks.repository.jpa.GroupTaskRepositoryJpa;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -31,7 +32,7 @@ public class GroupTaskRepositoryImpl implements GroupTaskRepository {
     }
 
     @Override
-    public GroupTask findByGroupTaskId(UUID groupTaskId) {
-        return groupTaskRepositoryJpa.findById(groupTaskId).orElse(null);
+    public Optional<GroupTask> findByGroupTaskId(UUID groupTaskId) {
+        return groupTaskRepositoryJpa.findById(groupTaskId);
     }
 }

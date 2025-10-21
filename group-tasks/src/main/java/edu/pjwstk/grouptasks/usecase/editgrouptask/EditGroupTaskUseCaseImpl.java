@@ -22,19 +22,23 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
     @Transactional
     public EditGroupTaskResponse execute(UUID groupTaskId, EditGroupTaskRequest req)
     {
-        if (!groupTaskRepository.existsByGroupTaskId(groupTaskId))
-        {
-            throw new GroupTaskNotFoundException("Group Task with id:" + groupTaskId + " does not exist");
-        }
-        GroupTask groupTask=groupTaskRepository.findByGroupTaskId(groupTaskId);
-        boolean isAccepted=req.isAccepted();
+
+
+        GroupTask groupTask=groupTaskRepository.findByGroupTaskId(groupTaskId).orElseThrow(()->new GroupTaskNotFoundException("Group Task with id:" + groupTaskId + " does not exist"));
+        Boolean isAccepted=req.isAccepted();
         Instant acceptedDate= null;
-        if (isAccepted)  acceptedDate=Instant.now();
+
+        if (isAccepted&& isAccepted!=groupTask.getIsAccepted())
+        {
+            acceptedDate= Instant.now();
+        }
+
+
         groupTask.setReward(req.reward());
         groupTask.setIsAccepted(req.isAccepted());
         groupTask.setAcceptedDate(acceptedDate);
         groupTask.setDeclineMessage(req.declineMessage());
-        groupTask.setLastEdit(Instant.now());
+
         return editGroupTaskMapper.toResponse(groupTaskRepository.save(groupTask));
     }
 

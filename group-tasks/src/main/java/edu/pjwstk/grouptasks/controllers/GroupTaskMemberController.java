@@ -1,12 +1,12 @@
 package edu.pjwstk.grouptasks.controllers;
 
+import edu.pjwstk.grouptasks.usecase.creategrouptaskmember.CreateGroupTaskMemberRequest;
 import edu.pjwstk.grouptasks.usecase.creategrouptaskmember.CreateGroupTaskMemberResponse;
 import edu.pjwstk.grouptasks.usecase.creategrouptaskmember.CreateGroupTaskMemberUseCase;
 import edu.pjwstk.grouptasks.usecase.deletegrouptaskmember.DeleteGroupTaskMemberUseCase;
 import edu.pjwstk.grouptasks.usecase.editgrouptaskmember.EditGroupTaskMemberRequest;
 import edu.pjwstk.grouptasks.usecase.editgrouptaskmember.EditGroupTaskMemberResponse;
 import edu.pjwstk.grouptasks.usecase.editgrouptaskmember.EditGroupTaskMemberUseCase;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/group-tasks/")
+@RequestMapping("/api/v1/groups/{groupId}/group-tasks/{groupTaskId}/participants")
 public class GroupTaskMemberController {
     private final CreateGroupTaskMemberUseCase createGroupTaskMemberUseCase;
     private final DeleteGroupTaskMemberUseCase deleteGroupTaskMemberUseCase;
@@ -26,22 +26,23 @@ public class GroupTaskMemberController {
         this.editGroupTaskMemberUseCase = editGroupTaskMemberUseCase;
     }
 
-    @PostMapping("/{groupTaskId}/group-task-members/{groupMemberId}")
+    @PostMapping()
     public ResponseEntity<CreateGroupTaskMemberResponse> save (@PathVariable ("groupTaskId") UUID groupTaskId,
-                                                               @PathVariable ("groupMemberId") UUID groupMemberId) {
-       CreateGroupTaskMemberResponse response= createGroupTaskMemberUseCase.execute( groupTaskId, groupMemberId);
+                                                               CreateGroupTaskMemberRequest request)
+    {
+       CreateGroupTaskMemberResponse response= createGroupTaskMemberUseCase.execute( groupTaskId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @DeleteMapping({"/group-task-members/{groupTaskMemberId}"} )
-    public ResponseEntity<Void> delete (@PathVariable ("groupTaskMemberId") UUID groupTaskMemberId)
+    @DeleteMapping({"/{participantId}"} )
+    public ResponseEntity<Void> delete (@PathVariable ("participantId") UUID groupTaskMemberId)
     {
         deleteGroupTaskMemberUseCase.execute(groupTaskMemberId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PutMapping({"/group-task-members/{groupTaskMemberId}"})
-    public ResponseEntity<EditGroupTaskMemberResponse> update (@PathVariable("groupTaskMemberId") UUID groupTaskMemberId,
+    @PutMapping({"/{participantId}"})
+    public ResponseEntity<EditGroupTaskMemberResponse> update (@PathVariable("participantId") UUID groupTaskMemberId,
                                                                @RequestBody EditGroupTaskMemberRequest req)
     {
         EditGroupTaskMemberResponse response = editGroupTaskMemberUseCase.execute(groupTaskMemberId, req);
