@@ -40,6 +40,11 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
                     "Change group administrator before leaving.");
         }
 
+        if (Objects.equals(group.getAdminId(), groupMemberId) && group.getGroupMembers().size() == 1) {
+            throw new AdministratorCannotLeaveGroupException("Administrator cannot leave group! " +
+                    "Delete group instead of leaving.");
+        }
+
         groupMember.setLeftAt(Instant.now());
         GroupMember savedGroupMember = groupMemberRepository.save(groupMember);
 
