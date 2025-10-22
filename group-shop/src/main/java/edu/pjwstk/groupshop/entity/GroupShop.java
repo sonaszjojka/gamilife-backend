@@ -20,7 +20,7 @@ import java.util.UUID;
 public class GroupShop {
     @Id
     @Column(name = "group_shop_id", nullable = false)
-    private UUID id;
+    private UUID groupShopId;
 
     @Size(max = 100)
     @NotNull

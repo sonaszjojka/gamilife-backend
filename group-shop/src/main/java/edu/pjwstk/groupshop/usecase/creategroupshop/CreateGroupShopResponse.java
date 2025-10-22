@@ -1,4 +1,11 @@
 package edu.pjwstk.groupshop.usecase.creategroupshop;
 
-public record CreateGroupShopResponse() {
-}
+import lombok.Builder;
+
+import java.util.UUID;
+
+@Builder
+public record CreateGroupShopResponse(UUID groupShopId,
+                                       String name,
+                                       String description,
+                                       UUID groupId) { }

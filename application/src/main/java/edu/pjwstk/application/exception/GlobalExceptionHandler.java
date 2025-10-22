@@ -2,6 +2,7 @@ package edu.pjwstk.application.exception;
 
 
 import edu.pjwstk.groups.exception.*;
+import edu.pjwstk.groupshop.exception.ShopForGroupAlreadyExistsException;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.auth.exceptions.*;
@@ -213,6 +214,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidGroupInvitationTokenException.class)
     public ProblemDetail handleAdministratorCannotLeaveGroupException(InvalidGroupInvitationTokenException ex) {
         return formatErrorResponse(ErrorCode.INVALID_GROUP_INVITATION_TOKEN, ex.getMessage());
+    }
+
+    @ExceptionHandler(ShopForGroupAlreadyExistsException.class)
+    public ProblemDetail handleShopForGroupAlreadyExistsException(ShopForGroupAlreadyExistsException ex) {
+        return formatErrorResponse(ErrorCode.SHOP_FOR_GROUP_ALREADY_EXISTS, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

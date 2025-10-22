@@ -1,4 +1,6 @@
 package edu.pjwstk.groupshop.repository.impl;
 
-public class GroupItemInShopRepositoryImpl {
+import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
+
+public class GroupItemInShopRepositoryImpl implements GroupItemInShopRepository {
 }
