@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -14,5 +15,6 @@ public class UserDetailsImpl implements UserDetails {
     private final UUID id;
     private final String username;
     private final String password;
+    private final Instant passwordChangeDate;
     private final Collection<? extends GrantedAuthority> authorities;
 }

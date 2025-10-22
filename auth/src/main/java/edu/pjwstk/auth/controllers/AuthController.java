@@ -4,21 +4,22 @@ import edu.pjwstk.auth.dto.request.EmailVerificationCodeRequest;
 import edu.pjwstk.auth.dto.request.LoginUserRequest;
 import edu.pjwstk.auth.dto.request.RegisterUserRequest;
 import edu.pjwstk.auth.dto.response.AfterLoginResponse;
-import edu.pjwstk.auth.dto.service.AuthTokens;
 import edu.pjwstk.auth.dto.service.EmailVerificationCode;
 import edu.pjwstk.auth.dto.service.LoginUserDto;
 import edu.pjwstk.auth.dto.service.RegisterUserDto;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.usecase.*;
-import edu.pjwstk.auth.util.CookieUtil;
+import edu.pjwstk.common.authApi.dto.AuthTokens;
 import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.commonweb.CookieUtil;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -66,11 +67,11 @@ public class AuthController {
                 )
         );
 
-        Cookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
-        Cookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
+        ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
+        ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
 
-        response.addCookie(refreshTokenCookie);
-        response.addCookie(accessTokenCookie);
+        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 
         return ResponseEntity.ok(new AfterLoginResponse(authTokens.isEmailVerified()));
     }
@@ -80,8 +81,11 @@ public class AuthController {
     public ResponseEntity<Void> logout(@CookieValue(name = "REFRESH-TOKEN") String refreshToken, HttpServletResponse response) {
         logoutUserUseCase.execute(refreshToken);
 
-        response.addCookie(cookieUtil.invalidateAccessTokenCookie());
-        response.addCookie(cookieUtil.invalidateRefreshTokenCookie());
+        ResponseCookie accessTokenCookie = cookieUtil.invalidateAccessTokenCookie();
+        ResponseCookie refreshTokenCookie = cookieUtil.invalidateRefreshTokenCookie();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 
         return ResponseEntity.ok().build();
     }
@@ -93,8 +97,8 @@ public class AuthController {
             @CookieValue(name = "REFRESH-TOKEN") String refreshToken, HttpServletResponse response) {
         AuthTokens authTokens = refreshAccessTokenUseCase.execute(refreshToken);
 
-        Cookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
-        response.addCookie(accessTokenCookie);
+        ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
+        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
 
         return ResponseEntity.ok().build();
     }
@@ -111,11 +115,11 @@ public class AuthController {
                 user.userId(), emailVerificationCodeRequest.code()
         ));
 
-        Cookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
-        Cookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
+        ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
+        ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
 
-        response.addCookie(refreshTokenCookie);
-        response.addCookie(accessTokenCookie);
+        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 
         return ResponseEntity.ok(new AfterLoginResponse(authTokens.isEmailVerified()));
     }

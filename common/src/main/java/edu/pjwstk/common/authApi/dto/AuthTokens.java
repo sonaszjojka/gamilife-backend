@@ -1,4 +1,4 @@
-package edu.pjwstk.auth.dto.service;
+package edu.pjwstk.common.authApi.dto;
 
 public record AuthTokens(
         String accessToken,

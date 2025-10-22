@@ -1,7 +1,6 @@
 package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.auth.domain.UserOAuthProvider;
-import edu.pjwstk.auth.dto.service.AuthTokens;
 import edu.pjwstk.auth.dto.service.LinkOAuthAccountDto;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.exceptions.LinkedUserNotFoundException;
@@ -9,6 +8,7 @@ import edu.pjwstk.auth.exceptions.UserAlreadyLinkedToProviderException;
 import edu.pjwstk.auth.persistence.repository.UserProviderRepository;
 import edu.pjwstk.auth.usecase.LinkNewOAuthAccountUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
+import edu.pjwstk.common.authApi.dto.AuthTokens;
 import edu.pjwstk.common.userApi.UserApi;
 import edu.pjwstk.common.userApi.dto.SecureUserInfoApiDto;
 import jakarta.transaction.Transactional;

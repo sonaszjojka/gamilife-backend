@@ -7,9 +7,11 @@ import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.persistence.UserRepository;
 import edu.pjwstk.user.usecase.GetUserByEmailUseCase;
 import edu.pjwstk.user.usecase.RegisterNewUserUseCase;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -20,6 +22,7 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
     private final GetUserByEmailUseCase getUserByEmailUseCase;
 
     @Override
+    @Transactional
     public BasicUserInfoApiDto execute(RegisterUserApiDto dto) {
         if (getUserByEmailUseCase.execute(dto.email()).isPresent()) {
             throw new UserAlreadyExistsException("This email address is already taken");
@@ -37,7 +40,8 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
                 0,
                 dto.sendBudgetReports(),
                 dto.isProfilePublic(),
-                dto.isEmailVerified()
+                dto.isEmailVerified(),
+                Instant.now()
         );
 
         userRepository.save(newUser);

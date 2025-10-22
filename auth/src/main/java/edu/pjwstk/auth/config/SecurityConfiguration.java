@@ -49,7 +49,7 @@ public class SecurityConfiguration {
                         ).permitAll()
                         .requestMatchers(
                                 // TODO add here all other mappings that will be available only after email verification
-                                "/api/v1/me"
+                                "/api/v1/users/**"
                         ).hasRole("VERIFIED")
                         .anyRequest().authenticated()
                 )
@@ -61,19 +61,17 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(TokenProvider tokenProvider) {
-        return new JwtAuthenticationFilter(tokenProvider);
+    public JwtAuthenticationFilter jwtAuthenticationFilter(TokenProvider tokenProvider, UserDetailsService userDetailsService) {
+        return new JwtAuthenticationFilter(tokenProvider, userDetailsService);
     }
 
     @Bean
     public JwtTokenProviderImpl jwtTokenProvider(
-            UserDetailsService userDetailsService,
             @Value("${spring.tokens.jwt.secret}") String secretKey,
             @Value("${spring.tokens.access-token.expires-in}") long accessTokenExpirationTime,
             @Value("${spring.tokens.refresh-token.expires-in}") long refreshTokenExpirationTime
     ) {
         return new JwtTokenProviderImpl(
-                userDetailsService,
                 secretKey,
                 accessTokenExpirationTime,
                 refreshTokenExpirationTime

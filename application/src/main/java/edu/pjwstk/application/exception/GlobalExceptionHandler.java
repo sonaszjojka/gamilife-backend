@@ -5,10 +5,13 @@ import edu.pjwstk.groups.exception.*;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.auth.exceptions.*;
+import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
 import edu.pjwstk.common.userApi.exception.UserAlreadyExistsException;
 import edu.pjwstk.common.userApi.exception.UserNotFoundException;
-import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
+import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
+import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.tasks.exception.*;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,21 +20,44 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handleValidation(MethodArgumentNotValidException ex) {
-        List<String> errors = ex.getBindingResult()
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult()
                 .getFieldErrors()
-                .stream()
-                .map(error -> error.getDefaultMessage() == null ? "Validation error" : error.getDefaultMessage())
-                .collect(Collectors.toList());
+                .forEach(
+                        error -> errors.put(error.getField(), error.getDefaultMessage() == null
+                                ? "Validation error"
+                                : error.getDefaultMessage())
+                );
+
         ProblemDetail problem = formatErrorResponse(ErrorCode.VALIDATION_ERROR, "Validation failed");
         problem.setProperty("errors", errors);
+        return problem;
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ProblemDetail handleConstraintValidationException(ConstraintViolationException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getConstraintViolations()
+                .forEach(
+                        cv -> errors.put(
+                                cv.getPropertyPath()
+                                        .toString()
+                                        .substring(cv.getPropertyPath().toString().lastIndexOf(".") + 1),
+                                cv.getMessage())
+                );
+
+        ProblemDetail problem = formatErrorResponse(ErrorCode.VALIDATION_ERROR, "Validation failed");
+        problem.setProperty("errors", errors);
+
         return problem;
     }
 

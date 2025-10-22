@@ -102,5 +102,10 @@
             <artifactId>common</artifactId>
             <version>0.0.1-alpha-v01</version>
         </dependency>
+        <dependency>
+            <groupId>edu.pjwstk</groupId>
+            <artifactId>common-web</artifactId>
+            <version>0.0.1-alpha-v01</version>
+        </dependency>
     </dependencies>
 </project>

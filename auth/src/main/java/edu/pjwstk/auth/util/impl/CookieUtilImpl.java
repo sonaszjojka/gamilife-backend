@@ -1,9 +1,11 @@
 package edu.pjwstk.auth.util.impl;
 
-import edu.pjwstk.auth.util.CookieUtil;
-import jakarta.servlet.http.Cookie;
+import edu.pjwstk.commonweb.CookieUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
+
+import java.time.Duration;
 
 @Component
 public class CookieUtilImpl implements CookieUtil {
@@ -17,43 +19,32 @@ public class CookieUtilImpl implements CookieUtil {
     private boolean sslEnabled;
 
     @Override
-    public Cookie createRefreshTokenCookie(String token) {
-        Cookie cookie = new Cookie("REFRESH-TOKEN", token);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge((int) refreshTokenExpiry);
-        cookie.setSecure(sslEnabled);
-        return cookie;
+    public ResponseCookie createAccessTokenCookie(String token) {
+        return createSecureCookie("ACCESS-TOKEN", token, accessTokenExpiry);
     }
 
     @Override
-    public Cookie invalidateRefreshTokenCookie() {
-        Cookie cookie = new Cookie("REFRESH-TOKEN", "");
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(0);
-        cookie.setSecure(sslEnabled);
-        return cookie;
+    public ResponseCookie createRefreshTokenCookie(String token) {
+        return createSecureCookie("REFRESH-TOKEN", token, refreshTokenExpiry);
     }
 
     @Override
-    public Cookie invalidateAccessTokenCookie() {
-        Cookie cookie = new Cookie("ACCESS-TOKEN", "");
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(0);
-        cookie.setSecure(sslEnabled);
-        return cookie;
+    public ResponseCookie invalidateAccessTokenCookie() {
+        return createSecureCookie("ACCESS-TOKEN", "", 0);
     }
 
     @Override
-    public Cookie createAccessTokenCookie(String token) {
-        Cookie cookie = new Cookie("ACCESS-TOKEN", token);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge((int) accessTokenExpiry);
-        cookie.setSecure(sslEnabled);
-        return cookie;
+    public ResponseCookie invalidateRefreshTokenCookie() {
+        return createSecureCookie("REFRESH-TOKEN", "", 0);
     }
 
+    private ResponseCookie createSecureCookie(String name, String value, long expiry) {
+        return ResponseCookie.from(name, value)
+                .path("/")
+                .httpOnly(true)
+                .maxAge(Duration.ofSeconds(expiry))
+                .secure(sslEnabled)
+                .build();
+
+    }
 }
