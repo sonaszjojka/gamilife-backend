@@ -37,7 +37,6 @@ public class GroupTask  {
     @Column(name = "reward")
     private Integer reward;
 
-    @NotNull
     @Column(name = "is_accepted")
     private Boolean isAccepted;
 
@@ -47,8 +46,6 @@ public class GroupTask  {
     @Size(max = 300)
     @Column(name = "decline_message", length = 300)
     private String declineMessage;
-
-
 
     @OneToMany(mappedBy = "groupTaskId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<GroupTaskMember> groupTaskMembers = new LinkedHashSet<>();

@@ -26,10 +26,6 @@ public class GroupTaskRepositoryImpl implements GroupTaskRepository {
         groupTaskRepositoryJpa.deleteById(groupTaskId);
     }
 
-    @Override
-    public boolean existsByGroupTaskId(UUID groupTaskId) {
-        return groupTaskRepositoryJpa.existsById(groupTaskId);
-    }
 
     @Override
     public Optional<GroupTask> findByGroupTaskId(UUID groupTaskId) {

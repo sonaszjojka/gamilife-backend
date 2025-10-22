@@ -10,6 +10,9 @@ DROP TABLE IF EXISTS user_oauth_provider CASCADE;
 DROP TABLE IF EXISTS refresh_token CASCADE;
 DROP TABLE IF EXISTS "user" CASCADE;
 
+DROP TABLE IF EXISTS group_task CASCADE;
+DROP TABLE IF EXISTS group_task_member CASCADE;
+
 DROP TABLE IF EXISTS invitation_status CASCADE;
 DROP TABLE IF EXISTS group_type CASCADE;
 DROP TABLE IF EXISTS group_request_status CASCADE;
@@ -19,8 +22,7 @@ DROP TABLE IF EXISTS group_invitation CASCADE;
 DROP TABLE IF EXISTS chat_message CASCADE;
 DROP TABLE IF EXISTS "group" CASCADE;
 
-DROP TABLE IF EXISTS group_task CASCADE;
-DROP TABLE IF EXISTS group_task_member CASCADE;
+
 
 -- ==================== TASKS ====================
 CREATE TABLE habit
@@ -271,7 +273,7 @@ CREATE TABLE group_task
     is_accepted     boolean      NULL,
     accepted_date   timestamp    NULL,
     decline_message varchar(300) NULL,
-    last_edit       timestamp    NOT NULL,
+    last_edit       timestamp    NULL,
     CONSTRAINT group_task_pk PRIMARY KEY (group_task_id)
 );
 
@@ -299,13 +301,15 @@ ALTER TABLE group_task_member
             REFERENCES group_task (group_task_id)
 ;
 
+ALTER TABLE group_task
+    ADD CONSTRAINT group_task_group
+        FOREIGN KEY (group_id)
+            REFERENCES "group" (group_id)
+;
 
 ALTER TABLE group_task
     ADD CONSTRAINT group_task_task
         FOREIGN KEY (task_id)
             REFERENCES task (task_id)
 ;
-ALTER TABLE group_task
-    ADD CONSTRAINT group_task_group
-        FOREIGN KEY (group_id)
-            REFERENCES "group" (group_id)
+

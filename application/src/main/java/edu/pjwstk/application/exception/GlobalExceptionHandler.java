@@ -231,6 +231,13 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.Group_TASK_MEMBER_NOT_FOUND, ex.getMessage());
     }
 
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleOther(Exception ex) {
+        return ErrorCode.INTERNAL_SERVER_ERROR.getProblemDetail();
+    }
+
+
+
     private ProblemDetail formatErrorResponse(ErrorCode error, String detail) {
         ProblemDetail problem = error.getProblemDetail();
         problem.setDetail(detail);

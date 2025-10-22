@@ -13,7 +13,7 @@ public class CreateGroupTaskMapperImpl implements CreateGroupTaskMapper {
                 .taskId(taskId)
                 .groupId(groupId)
                 .reward(req.reward())
-                .isAccepted(false)
+                .isAccepted(null)
                 .acceptedDate(null)
                 .declineMessage(null)
                 .build();

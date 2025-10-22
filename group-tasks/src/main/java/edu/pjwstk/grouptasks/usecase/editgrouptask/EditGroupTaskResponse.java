@@ -11,7 +11,7 @@ public record EditGroupTaskResponse(
         UUID taskId,
         UUID groupId,
         Integer reward,
-        boolean isAccepted,
+        Boolean isAccepted,
         Instant acceptedDate,
         String declineMessage,
         Instant lastEdit

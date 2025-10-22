@@ -29,17 +29,19 @@ public class CreateGroupTaskMemberUseCaseImpl implements CreateGroupTaskMemberUs
 
     @Override
     public CreateGroupTaskMemberResponse execute( UUID groupTaskId, CreateGroupTaskMemberRequest request) {
-        if (groupsProvider.findGroupMemberById(request.groupMemberId())==null)
-        {
-            throw new GroupMemberNotFoundException("Group member with id:" + request.groupMemberId() + " does not exist");
-        }
-        //TODO check if group member belongs to group associated with group task
 
-        GroupTask groupTask = groupTaskRepository.findByGroupTaskId(groupTaskId).orElseThrow(
-                () -> new GroupTaskNotFoundException("Group task with id:" + groupTaskId + " does not exist"));
+     UUID groupIdfromRequest=  groupsProvider.findGroupMemberById(request.groupMemberId()).memberGroup().groupId();
 
-        GroupTaskMember groupTaskMember = createGroupTaskMemberMapper.toEntity( groupTask, request.groupMemberId(), UUID.randomUUID());
-        GroupTaskMember savedGroupTaskMember = groupTaskMemberRepository.save(groupTaskMember);
-        return createGroupTaskMemberMapper.toResponse(savedGroupTaskMember);
+     GroupTask groupTask = groupTaskRepository.findByGroupTaskId(groupTaskId).orElseThrow(
+             () -> new GroupTaskNotFoundException("Group task with id:" + groupTaskId + " does not exist"));
+
+     if (!groupIdfromRequest.equals(groupTask.getGroupId()))
+     {
+         throw new GroupMemberNotFoundException("Group member with id:" + request.groupMemberId() + " does not belong to group with id:" + groupTask.getGroupId());
+     }
+
+     GroupTaskMember groupTaskMember = createGroupTaskMemberMapper.toEntity( groupTask, request.groupMemberId(), UUID.randomUUID());
+     GroupTaskMember savedGroupTaskMember = groupTaskMemberRepository.save(groupTaskMember);
+     return createGroupTaskMemberMapper.toResponse(savedGroupTaskMember);
     }
 }

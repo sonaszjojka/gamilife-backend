@@ -37,4 +37,5 @@ public class TasksApiImpl implements TasksApi {
     public void deleteTaskByTaskId(UUID taskId) {
         deleteTaskUseCase.execute(taskId);
     }
+
 }
