@@ -1,4 +1,4 @@
 package edu.pjwstk.groupshop.shared;
 
-public record ApiResponse() {
+public record ApiResponse(String s) {
 }

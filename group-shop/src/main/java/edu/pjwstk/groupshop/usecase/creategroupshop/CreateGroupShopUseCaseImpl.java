@@ -1,9 +1,11 @@
 package edu.pjwstk.groupshop.usecase.creategroupshop;
 
+import edu.pjwstk.common.authApi.AuthApi;
 import edu.pjwstk.common.groupsApi.GroupApi;
 import edu.pjwstk.groupshop.entity.GroupShop;
 import edu.pjwstk.groupshop.exception.ShopForGroupAlreadyExistsException;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -23,8 +25,8 @@ public class CreateGroupShopUseCaseImpl implements CreateGroupShopUseCase {
     }
 
     @Override
+    @Transactional
     public CreateGroupShopResponse execute(CreateGroupShopRequest request, UUID groupId) {
-        //ToDo Validate request here instead of CreateGroupShopRequest
 
         groupApi.findGroupById(groupId);
 

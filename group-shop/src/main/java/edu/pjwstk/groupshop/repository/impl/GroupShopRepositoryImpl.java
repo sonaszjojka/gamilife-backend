@@ -22,7 +22,17 @@ public class GroupShopRepositoryImpl implements GroupShopRepository {
     }
 
     @Override
+    public Optional<GroupShop> findByGroupShopId(UUID groupShopId) {
+        return groupShopRepositoryJpa.findById(groupShopId);
+    }
+
+    @Override
     public GroupShop save(GroupShop groupShop) {
        return groupShopRepositoryJpa.save(groupShop);
+    }
+
+    @Override
+    public void deleteById(UUID groupShopId) {
+
     }
 }
