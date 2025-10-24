@@ -20,11 +20,15 @@ public class GroupItemInShop {
 
     @Id
     @Column(name = "group_item_in_shop_id", nullable = false)
-    private UUID id;
+    private UUID groupItemId;
 
     @NotNull
     @Column(name = "price", nullable = false)
     private Integer price;
+
+    @NotNull
+    @Column(name = "name", nullable = false, length = 30)
+    private String name;
 
     @NotNull
     @Column(name = "created_at", nullable = false)

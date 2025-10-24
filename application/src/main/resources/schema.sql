@@ -302,6 +302,7 @@ ALTER TABLE group_request
 CREATE TABLE group_item_in_shop (
                                     group_item_in_shop_id UUID  NOT NULL,
                                     price int  NOT NULL,
+                                    name varchar(30)  NOT NULL,
                                     created_at timestamp  NOT NULL,
                                     is_active boolean  NOT NULL,
                                     group_shop_id uuid  NOT NULL,
