@@ -5,6 +5,7 @@ import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
 import edu.pjwstk.groupshop.repository.jpa.GroupItemInShopRepositoryJpa;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -25,5 +26,10 @@ public class GroupItemInShopRepositoryImpl implements GroupItemInShopRepository 
     @Override
     public void deleteById(UUID groupItemInShopId) {
         groupItemInShopRepositoryJpa.deleteById(groupItemInShopId);
+    }
+
+    @Override
+    public Optional<GroupItemInShop> findById(UUID groupItemId) {
+        return groupItemInShopRepositoryJpa.findById(groupItemId);
     }
 }

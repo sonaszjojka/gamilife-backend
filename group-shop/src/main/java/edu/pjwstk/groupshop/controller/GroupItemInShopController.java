@@ -1,8 +1,12 @@
 package edu.pjwstk.groupshop.controller;
+import edu.pjwstk.groupshop.shared.ApiResponse;
 import edu.pjwstk.groupshop.usecase.creategroupiteminshop.CreateGroupItemInShopRequest;
 import edu.pjwstk.groupshop.usecase.creategroupiteminshop.CreateGroupItemInShopResponse;
 import edu.pjwstk.groupshop.usecase.creategroupiteminshop.CreateGroupItemInShopUseCase;
 import edu.pjwstk.groupshop.usecase.deletegroupiteminshop.DeleteGroupItemInShopUseCase;
+import edu.pjwstk.groupshop.usecase.editgroupiteminshop.EditGroupItemInShopRequest;
+import edu.pjwstk.groupshop.usecase.editgroupiteminshop.EditGroupItemInShopResponse;
+import edu.pjwstk.groupshop.usecase.editgroupiteminshop.EditGroupItemInShopUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +19,12 @@ import java.util.UUID;
 public class GroupItemInShopController {
     private final CreateGroupItemInShopUseCase createGroupItemInShopUseCase;
     private final DeleteGroupItemInShopUseCase deleteGroupItemInShopUseCase;
+    private final EditGroupItemInShopUseCase editGroupItemInShopUseCase;
 
-    public GroupItemInShopController(CreateGroupItemInShopUseCase createGroupItemInShopUseCase, DeleteGroupItemInShopUseCase deleteGroupItemInShopUseCase){
+    public GroupItemInShopController(CreateGroupItemInShopUseCase createGroupItemInShopUseCase, DeleteGroupItemInShopUseCase deleteGroupItemInShopUseCase, EditGroupItemInShopUseCase editGroupItemInShopUseCase){
         this.createGroupItemInShopUseCase = createGroupItemInShopUseCase;
         this.deleteGroupItemInShopUseCase = deleteGroupItemInShopUseCase;
+        this.editGroupItemInShopUseCase = editGroupItemInShopUseCase;
     }
 
 
@@ -32,10 +38,21 @@ public class GroupItemInShopController {
     }
 
     @DeleteMapping("/{itemId}")
-    public ResponseEntity<Void> deleteGroupItemInShop(@PathVariable (name="groupId") UUID groupId,
+    public ResponseEntity<ApiResponse> deleteGroupItemInShop(@PathVariable (name="groupId") UUID groupId,
                                                       @PathVariable (name="itemId") UUID groupItemId)
     {
         deleteGroupItemInShopUseCase.deleteById(groupItemId, groupId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(new ApiResponse("Group item in shop deleted successfully"));
     }
+
+    @PutMapping("/{itemId}")
+    public ResponseEntity<EditGroupItemInShopResponse> editGroupItemInShop(@PathVariable (name="groupId") UUID groupId,
+                                                                           @PathVariable (name="itemId") UUID groupItemId,
+                                                                           @RequestBody @Valid EditGroupItemInShopRequest request)
+    {
+        EditGroupItemInShopResponse response = editGroupItemInShopUseCase.execute( groupItemId, groupId,request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+
 }

@@ -31,6 +31,9 @@ public class DeleteGroupItemInShopUseCaseImpl implements DeleteGroupItemInShopUs
         if (!currentUser.userId().equals(groupDto.adminId())) {
             throw new RuntimeException("Only group administrators can delete group item in shop!");
         }
+        groupItemInShopRepository.findById(groupItemInShopId).orElseThrow(
+                () -> new RuntimeException("Group item in shop with id: " + groupItemInShopId + " not found!"));
+
         groupItemInShopRepository.deleteById(groupItemInShopId);
 
 

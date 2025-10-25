@@ -39,6 +39,7 @@ public class GroupShopController {
     public ResponseEntity<ApiResponse> deleteGroupShop(@PathVariable(name="shopId") UUID shopId,
                                                        @PathVariable(name="groupId") UUID groupId) {
 
+
         deleteGroupShopUseCase.execute(shopId, groupId);
         return ResponseEntity.ok(new ApiResponse("Group shop with id: " + shopId + " deleted successfully."));
     }
