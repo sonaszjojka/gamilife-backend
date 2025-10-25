@@ -18,7 +18,7 @@ import java.util.UUID;
 public class OwnedGroupItem {
     @Id
     @Column(name = "owned_group_item_id", nullable = false)
-    private UUID id;
+    private UUID ownedGroupItemId;
 
     @NotNull
     @Column(name = "group_member_id", nullable = false)
