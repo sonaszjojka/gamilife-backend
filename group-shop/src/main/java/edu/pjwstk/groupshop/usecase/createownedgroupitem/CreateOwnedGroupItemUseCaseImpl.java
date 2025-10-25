@@ -7,6 +7,7 @@ import edu.pjwstk.common.groupsApi.dto.GroupDto;
 import edu.pjwstk.groupshop.entity.GroupItemInShop;
 import edu.pjwstk.groupshop.entity.OwnedGroupItem;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
+import edu.pjwstk.groupshop.repository.OwnedGroupItemRpository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -17,12 +18,14 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
 
     private final CreateOwnedGroupItemMapper createOwnedGroupItemMapper;
     private final GroupItemInShopRepository groupItemInShopRepository;
+    private final OwnedGroupItemRpository ownedGroupItemRpository;
     private final GroupApi groupProvider;
     private final AuthApi currentUserProvider;
 
-    public CreateOwnedGroupItemUseCaseImpl(CreateOwnedGroupItemMapper createOwnedGroupItemMapper, GroupItemInShopRepository groupItemInShopRepository, GroupApi groupProvider, AuthApi currentUserProvider) {
+    public CreateOwnedGroupItemUseCaseImpl(CreateOwnedGroupItemMapper createOwnedGroupItemMapper, GroupItemInShopRepository groupItemInShopRepository, OwnedGroupItemRpository ownedGroupItemRpository, GroupApi groupProvider, AuthApi currentUserProvider) {
         this.createOwnedGroupItemMapper = createOwnedGroupItemMapper;
         this.groupItemInShopRepository = groupItemInShopRepository;
+        this.ownedGroupItemRpository = ownedGroupItemRpository;
         this.groupProvider = groupProvider;
         this.currentUserProvider = currentUserProvider;
     }
@@ -52,6 +55,6 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
 
         Instant useDate = request.isUsedUp() ? Instant.now() : null;
         OwnedGroupItem ownedGroupItem = createOwnedGroupItemMapper.toEntity(request, groupMemberId, groupItemInShop,UUID.randomUUID(),useDate);
-        return createOwnedGroupItemMapper.toResponse(ownedGroupItem);
+        return createOwnedGroupItemMapper.toResponse(ownedGroupItemRpository.save(ownedGroupItem));
     }
 }

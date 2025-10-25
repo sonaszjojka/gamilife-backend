@@ -1,8 +1,10 @@
 package edu.pjwstk.groupshop.controller;
 
+import edu.pjwstk.groupshop.shared.ApiResponse;
 import edu.pjwstk.groupshop.usecase.createownedgroupitem.CreateOwnedGroupItemRequest;
 import edu.pjwstk.groupshop.usecase.createownedgroupitem.CreateOwnedGroupItemResponse;
 import edu.pjwstk.groupshop.usecase.createownedgroupitem.CreateOwnedGroupItemUseCase;
+import edu.pjwstk.groupshop.usecase.deleteownedgroupitem.DeleteOwnedGroupItemUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +17,11 @@ import java.util.UUID;
 @RequestMapping("/api/v1/groups/{groupId}/members/{memberId}/inventory")
 public class OwnedGroupItemController {
     private final CreateOwnedGroupItemUseCase createOwnedGroupItemUseCase;
+    private final DeleteOwnedGroupItemUseCase deleteOwnedGroupItemUseCase;
 
-    public OwnedGroupItemController(CreateOwnedGroupItemUseCase createOwnedGroupItemUseCase) {
+    public OwnedGroupItemController(CreateOwnedGroupItemUseCase createOwnedGroupItemUseCase, DeleteOwnedGroupItemUseCase deleteOwnedGroupItemUseCase) {
         this.createOwnedGroupItemUseCase = createOwnedGroupItemUseCase;
+        this.deleteOwnedGroupItemUseCase = deleteOwnedGroupItemUseCase;
     }
 
 
@@ -28,6 +32,14 @@ public class OwnedGroupItemController {
 
         CreateOwnedGroupItemResponse response= createOwnedGroupItemUseCase.execute(request, memberId,groupId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response) ;
+    }
+
+    @DeleteMapping("/{ownedGroupItemId}")
+    public ResponseEntity<ApiResponse> deleteOwnedGroupItem(@PathVariable (name="groupId") UUID groupId,
+                                                            @PathVariable (name="memberId") UUID memberId,
+                                                            @PathVariable (name="ownedGroupItemId") UUID ownedGroupItemId) {
+        deleteOwnedGroupItemUseCase.execute( groupId, memberId, ownedGroupItemId);
+        return ResponseEntity.ok(new ApiResponse("Owned group item with id: " + ownedGroupItemId + " deleted successfully."));
     }
 
 
