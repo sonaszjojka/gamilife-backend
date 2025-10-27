@@ -4,8 +4,11 @@ import edu.pjwstk.common.authApi.AuthApi;
 import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.common.groupsApi.GroupApi;
 import edu.pjwstk.common.groupsApi.dto.GroupDto;
+import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
 import edu.pjwstk.groupshop.entity.GroupItemInShop;
 import edu.pjwstk.groupshop.entity.OwnedGroupItem;
+import edu.pjwstk.groupshop.exception.InvalidOwnedGroupItemDataException;
+import edu.pjwstk.groupshop.exception.UnauthorizedUserActionException;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
 import edu.pjwstk.groupshop.repository.OwnedGroupItemRpository;
 import org.springframework.stereotype.Service;
@@ -37,11 +40,11 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
         CurrentUserDto currentUser = currentUserProvider.getCurrentUser().orElseThrow();
 
         if (groupProvider.findGroupMemberById(groupMemberId)==null) {
-            throw new RuntimeException("Group member not found in the specified group!");
+            throw new GroupMemberNotFoundException("Group member not found in the specified group!");
         }
 
         if (!currentUser.userId().equals(groupDto.adminId()) &&  !currentUser.userId().equals(groupProvider.findGroupMemberById(groupMemberId).userId())) {
-            throw new RuntimeException("Only group administrators or the member themselves can add items to inventory!");
+            throw new UnauthorizedUserActionException("Only group administrators or the member themselves can add items to inventory!");
         }
 
 
@@ -50,7 +53,7 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
 
         if (Boolean.FALSE.equals(groupItemInShop.getIsActive()))
         {
-            throw new RuntimeException("Cannot add inactive group item to inventory!");
+            throw new InvalidOwnedGroupItemDataException("Cannot add inactive group item to inventory!");
         }
 
         Instant useDate = request.isUsedUp() ? Instant.now() : null;

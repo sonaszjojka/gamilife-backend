@@ -4,7 +4,10 @@ import edu.pjwstk.common.authApi.AuthApi;
 import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.common.groupsApi.GroupApi;
 import edu.pjwstk.common.groupsApi.dto.GroupDto;
+import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
 import edu.pjwstk.groupshop.entity.OwnedGroupItem;
+import edu.pjwstk.groupshop.exception.UnauthorizedUserActionException;
+import edu.pjwstk.groupshop.exception.UserNotAdministratorException;
 import edu.pjwstk.groupshop.repository.OwnedGroupItemRpository;
 import org.springframework.stereotype.Service;
 
@@ -30,13 +33,13 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
     public EditOwnedGroupItemResponse execute(EditOwnedGroupItemRequest request, UUID ownedGroupItemId, UUID groupMemberId, UUID groupId) {
 
         if (groupProvider.findGroupMemberById(groupMemberId)==null) {
-            throw new RuntimeException("Group member not found in the specified group!");
+            throw new GroupMemberNotFoundException("Group member not found in the specified group!");
         }
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
         GroupDto groupDto = groupProvider.findGroupById(groupId);
         if (!currentUserDto.userId().equals(groupDto.adminId()) && !currentUserDto.userId().equals(groupProvider.findGroupMemberById(groupMemberId).userId())) {
-            throw new RuntimeException("Only group administrators or the member themselves can edit items in inventory!");
+            throw new UnauthorizedUserActionException("Only group administrators or the member themselves can edit items in inventory!");
         }
 
         OwnedGroupItem ownedGroupItem = ownedGroupItemRpository.findById(ownedGroupItemId).orElseThrow(
@@ -46,7 +49,7 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
         if (!currentUserDto.userId().equals(groupDto.adminId()) &&
                 Boolean.TRUE.equals(ownedGroupItem.getIsUsedUp())&&
                 Boolean.FALSE.equals(request.isUsedUp())) {
-            throw new RuntimeException( "Only group administrators can mark used up items as unused!" );
+            throw new UserNotAdministratorException( "Only group administrators can mark used up items as unused!" );
 
         }
         ownedGroupItem.setIsUsedUp(request.isUsedUp());

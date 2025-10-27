@@ -2,7 +2,7 @@ package edu.pjwstk.application.exception;
 
 
 import edu.pjwstk.groups.exception.*;
-import edu.pjwstk.groupshop.exception.ShopForGroupAlreadyExistsException;
+import edu.pjwstk.groupshop.exception.*;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.auth.exceptions.*;
@@ -222,6 +222,40 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleShopForGroupAlreadyExistsException(ShopForGroupAlreadyExistsException ex) {
         return formatErrorResponse(ErrorCode.SHOP_FOR_GROUP_ALREADY_EXISTS, ex.getMessage());
     }
+    @ExceptionHandler(UnauthorizedUserActionException.class)
+    public ProblemDetail handleUnauthorizedUserActionException(UnauthorizedUserActionException ex) {
+        return formatErrorResponse(ErrorCode.UNAUTHORIZED_USER_ACTION, ex.getMessage());
+    }
+    @ExceptionHandler (InvalidOwnedGroupItemDataException.class)
+    public ProblemDetail handleInvalidOwnedGroupItemDataException(InvalidOwnedGroupItemDataException ex) {
+        return formatErrorResponse(ErrorCode.INVALID_OWNED_GROUP_ITEM_DATA, ex.getMessage());
+    }
+    @ExceptionHandler(UserNotAdministratorException.class)
+    public ProblemDetail handleUserNotAdministratorException(UserNotAdministratorException ex) {
+        return formatErrorResponse(ErrorCode.USER_NOT_ADMINISTRATOR, ex.getMessage());
+    }
+    @ExceptionHandler (InvalidGroupShopDataException.class)
+    public ProblemDetail handleInvalidGroupShopDataException(InvalidGroupShopDataException ex) {
+        return formatErrorResponse(ErrorCode.INVALID_GROUP_SHOP_DATA, ex.getMessage());
+    }
+    @ExceptionHandler (GroupShopNotFoundException.class)
+    public ProblemDetail handleGroupShopNotFoundException(GroupShopNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_SHOP_NOT_FOUND, ex.getMessage());
+    }
+    @ExceptionHandler (GroupItemInShopNotFoundException.class)
+    public ProblemDetail handleGroupItemInShopNotFoundException(GroupItemInShopNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_ITEM_IN_SHOP_NOT_FOUND, ex.getMessage());
+    }
+    @ExceptionHandler (OwnedGroupItemNotFoundException.class)
+    public ProblemDetail handleOwnedGroupItemNotFoundException(OwnedGroupItemNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.OWNED_GROUP_ITEM_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler (InvalidGroupItemInShopDataException.class)
+    public ProblemDetail handleInvalidGroupItemInShopDataException(InvalidGroupItemInShopDataException ex) {
+        return formatErrorResponse(ErrorCode.INVALID_GROUP_ITEM_IN_SHOP_DATA, ex.getMessage());
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleOther(Exception ex) {

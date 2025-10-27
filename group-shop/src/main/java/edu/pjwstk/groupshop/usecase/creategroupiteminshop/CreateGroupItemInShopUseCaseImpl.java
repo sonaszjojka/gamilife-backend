@@ -7,6 +7,7 @@ import edu.pjwstk.common.groupsApi.dto.GroupDto;
 import edu.pjwstk.groupshop.entity.GroupItemInShop;
 import edu.pjwstk.groupshop.entity.GroupShop;
 import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
+import edu.pjwstk.groupshop.exception.UserNotAdministratorException;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
 import org.springframework.stereotype.Service;
@@ -46,9 +47,8 @@ public class CreateGroupItemInShopUseCaseImpl implements CreateGroupItemInShopUs
                 .orElseThrow();
 
         if (!currentUserDto.userId().equals(groupDto.adminId())&& Boolean.TRUE.equals(request.isActive())) {
-            throw new RuntimeException("Only group administrators can create active group item in shop!");
+            throw new UserNotAdministratorException("Only group administrators can create active group item in shop!");
         }
-        System.out.println(request.toString()+"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         GroupItemInShop groupItemInShop = createGroupItemInShopMapper.toEntity(request, groupShop, UUID.randomUUID());
         groupItemInShopRepository.save(groupItemInShop);
         return createGroupItemInShopMapper.toResponse(groupItemInShop);

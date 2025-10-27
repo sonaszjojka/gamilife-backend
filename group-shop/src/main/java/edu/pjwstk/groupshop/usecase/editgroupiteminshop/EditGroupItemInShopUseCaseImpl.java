@@ -5,6 +5,8 @@ import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.common.groupsApi.GroupApi;
 import edu.pjwstk.common.groupsApi.dto.GroupDto;
 import edu.pjwstk.groupshop.entity.GroupItemInShop;
+import edu.pjwstk.groupshop.exception.GroupItemInShopNotFoundException;
+import edu.pjwstk.groupshop.exception.UserNotAdministratorException;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
 import edu.pjwstk.groupshop.usecase.creategroupiteminshop.CreateGroupItemInShopMapper;
 import org.springframework.stereotype.Service;
@@ -32,10 +34,10 @@ public class EditGroupItemInShopUseCaseImpl implements EditGroupItemInShopUseCas
         GroupDto groupDto = groupApi.findGroupById(groupId);
 
         if (!currentUserDto.userId().equals(groupDto.adminId())&& Boolean.TRUE.equals(request.isActive())) {
-            throw new RuntimeException("Only group administrators can make group items active!");
+            throw new UserNotAdministratorException("Only group administrators can make group items active!");
         }
         GroupItemInShop groupItemInShop = groupItemInShopRepository.findById(groupItemId).orElseThrow(
-                () -> new RuntimeException("Group item in shop with id: " + groupItemId + " not found!"));
+                () -> new GroupItemInShopNotFoundException("Group item in shop with id: " + groupItemId + " not found!"));
 
         groupItemInShop.setPrice(request.price());
         groupItemInShop.setName(request.name());

@@ -6,6 +6,7 @@ import edu.pjwstk.common.groupsApi.GroupApi;
 import edu.pjwstk.common.groupsApi.dto.GroupDto;
 import edu.pjwstk.common.userApi.UserApi;
 import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
+import edu.pjwstk.groupshop.exception.UserNotAdministratorException;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
 import edu.pjwstk.groupshop.shared.ApiResponse;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class DeleteGroupShopUseCaseImpl implements DeleteGroupShopUseCase {
         GroupDto groupDto = groupProvider.findGroupById(groupId);
 
         if (!currentUserDto.userId().equals(groupDto.adminId())) {
-            throw new RuntimeException("Only group administrators can delete group shop!");
+            throw new UserNotAdministratorException("Only group administrators can delete group shop!");
         }
 
         groupShopRepository.deleteById(groupShopId);
