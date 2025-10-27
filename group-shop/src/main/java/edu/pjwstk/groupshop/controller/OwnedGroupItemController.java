@@ -5,6 +5,9 @@ import edu.pjwstk.groupshop.usecase.createownedgroupitem.CreateOwnedGroupItemReq
 import edu.pjwstk.groupshop.usecase.createownedgroupitem.CreateOwnedGroupItemResponse;
 import edu.pjwstk.groupshop.usecase.createownedgroupitem.CreateOwnedGroupItemUseCase;
 import edu.pjwstk.groupshop.usecase.deleteownedgroupitem.DeleteOwnedGroupItemUseCase;
+import edu.pjwstk.groupshop.usecase.editownedgroupitem.EditOwnedGroupItemRequest;
+import edu.pjwstk.groupshop.usecase.editownedgroupitem.EditOwnedGroupItemResponse;
+import edu.pjwstk.groupshop.usecase.editownedgroupitem.EditOwnedGroupItemUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +21,12 @@ import java.util.UUID;
 public class OwnedGroupItemController {
     private final CreateOwnedGroupItemUseCase createOwnedGroupItemUseCase;
     private final DeleteOwnedGroupItemUseCase deleteOwnedGroupItemUseCase;
+    private final EditOwnedGroupItemUseCase editOwnedGroupItemUseCase;
 
-    public OwnedGroupItemController(CreateOwnedGroupItemUseCase createOwnedGroupItemUseCase, DeleteOwnedGroupItemUseCase deleteOwnedGroupItemUseCase) {
+    public OwnedGroupItemController(CreateOwnedGroupItemUseCase createOwnedGroupItemUseCase, DeleteOwnedGroupItemUseCase deleteOwnedGroupItemUseCase, EditOwnedGroupItemUseCase editOwnedGroupItemUseCase) {
         this.createOwnedGroupItemUseCase = createOwnedGroupItemUseCase;
         this.deleteOwnedGroupItemUseCase = deleteOwnedGroupItemUseCase;
+        this.editOwnedGroupItemUseCase = editOwnedGroupItemUseCase;
     }
 
 
@@ -42,5 +47,14 @@ public class OwnedGroupItemController {
         return ResponseEntity.ok(new ApiResponse("Owned group item with id: " + ownedGroupItemId + " deleted successfully."));
     }
 
+    @PutMapping("/{ownedGroupItemId}")
+    public ResponseEntity<EditOwnedGroupItemResponse> editOwnedGroupItem(@PathVariable (name="groupId") UUID groupId,
+                                                                         @PathVariable (name="memberId") UUID memberId,
+                                                                         @PathVariable (name="ownedGroupItemId") UUID ownedGroupItemId,
+                                                                         @RequestBody @Valid EditOwnedGroupItemRequest request)
+    {
+        EditOwnedGroupItemResponse response = editOwnedGroupItemUseCase.execute(request, ownedGroupItemId, groupId, memberId);
+        return ResponseEntity.ok(response);
+    }
 
 }

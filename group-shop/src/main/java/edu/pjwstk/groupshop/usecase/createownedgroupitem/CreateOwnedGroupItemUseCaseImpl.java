@@ -40,7 +40,7 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
             throw new RuntimeException("Group member not found in the specified group!");
         }
 
-        if (!currentUser.userId().equals(groupDto.adminId()) &&  !currentUser.userId().equals(groupMemberId)) {
+        if (!currentUser.userId().equals(groupDto.adminId()) &&  !currentUser.userId().equals(groupProvider.findGroupMemberById(groupMemberId).userId())) {
             throw new RuntimeException("Only group administrators or the member themselves can add items to inventory!");
         }
 
