@@ -36,6 +36,7 @@ public enum ErrorCode {
     POMODORO_TASK_NOT_FOUND(ErrorCode.POMODORO_TASK_NOT_FOUND_CODE, "Pomodoro Task Not Found", HttpStatus.NOT_FOUND),
     GROUP_MEMBER_NOT_FOUND(ErrorCode.GROUP_MEMBER_NOT_FOUND_CODE, "Group Member Not Found", HttpStatus.NOT_FOUND),
     PASSWORD_RESET_FAILED(ErrorCode.PASSWORD_RESET_FAILED_CODE, "Password Reset Failed", HttpStatus.BAD_REQUEST),
+    OLD_AND_NEW_PASSWORD_ARE_SAME(ErrorCode.OLD_AND_NEW_PASSWORD_ARE_SAME_CODE, "Old and new passwords are the same", HttpStatus.BAD_REQUEST),
     GROUP_TYPE_NOT_FOUND(ErrorCode.GROUP_TYPE_NOT_FOUND_CODE, "Group Type Not Found", HttpStatus.NOT_FOUND),
     INVALID_GROUP_REQUEST_DATA(ErrorCode.INVALID_GROUP_REQUEST_DATA_CODE, "Invalid Group Request Data", HttpStatus.BAD_REQUEST),
     GROUP_REQUEST_STATUS_NOT_FOUND(ErrorCode.GROUP_REQUEST_STATUS_NOT_FOUND_CODE, "Group Request Status Not Found", HttpStatus.NOT_FOUND),
@@ -75,6 +76,7 @@ public enum ErrorCode {
     public static final int INVALID_REFRESH_TOKEN_CODE = 1020;
     public static final int MISSING_REFRESH_TOKEN_COOKIE_CODE = 1021;
     public static final int PASSWORD_RESET_FAILED_CODE = 1022;
+    public static final int OLD_AND_NEW_PASSWORD_ARE_SAME_CODE = 1022;
     public static final int INTERNAL_SERVER_ERROR_CODE = 5000;
     public static final int INVALID_HABIT_DATA_CODE = 1022;
     public static final int TASK_CATEGORY_NOT_FOUND_CODE = 1023;

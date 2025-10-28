@@ -13,6 +13,7 @@ import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.tasks.exception.*;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -252,8 +254,14 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.PASSWORD_RESET_FAILED, ex.getMessage());
     }
 
+    @ExceptionHandler(OldAndNewPasswordAreTheSameException.class)
+    public ProblemDetail handleOldAndNewPasswordAreTheSame(OldAndNewPasswordAreTheSameException ex) {
+        return formatErrorResponse(ErrorCode.OLD_AND_NEW_PASSWORD_ARE_SAME, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
-    public ProblemDetail handleOther() {
+    public ProblemDetail handleOther(Exception ex) {
+        log.error(ex.getMessage(), ex);
         return ErrorCode.INTERNAL_SERVER_ERROR.getProblemDetail();
     }
 
