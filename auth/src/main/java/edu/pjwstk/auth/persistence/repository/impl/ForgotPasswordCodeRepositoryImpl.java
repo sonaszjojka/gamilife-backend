@@ -26,8 +26,8 @@ public class ForgotPasswordCodeRepositoryImpl implements ForgotPasswordCodeRepos
     }
 
     @Override
-    public Optional<ForgotPasswordCode> findByUserIdAndCode(UUID userId, String code) {
-        Optional<ForgotPasswordCodeEntity> entity = jpaRepository.findByUserIdAndCode(userId, code);
+    public Optional<ForgotPasswordCode> findByCode(String code) {
+        Optional<ForgotPasswordCodeEntity> entity = jpaRepository.findByCode(code);
 
         return entity.map(ForgotPasswordCodeMapper::toDomain);
     }

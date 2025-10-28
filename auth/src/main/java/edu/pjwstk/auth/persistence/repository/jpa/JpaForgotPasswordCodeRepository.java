@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface JpaForgotPasswordCodeRepository extends JpaRepository<ForgotPasswordCodeEntity, UUID> {
-    Optional<ForgotPasswordCodeEntity> findByUserIdAndCode(UUID id, String code);
+    Optional<ForgotPasswordCodeEntity> findByCode(String code);
 
     List<ForgotPasswordCodeEntity> findByUserIdAndRevoked(UUID userId, boolean revoked, Sort sort);
 }
