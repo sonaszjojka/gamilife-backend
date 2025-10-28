@@ -107,7 +107,7 @@ public class AuthController {
     @PreAuthorize("hasRole('UNVERIFIED')")
     @SecurityRequirement(name = "accessToken")
     @PostMapping("/email-verifications/confirm")
-    public ResponseEntity<AfterLoginResponse> verifyEmail(EmailVerificationCodeRequest emailVerificationCodeRequest,
+    public ResponseEntity<AfterLoginResponse> verifyEmail(@RequestBody @Valid EmailVerificationCodeRequest emailVerificationCodeRequest,
                                                           HttpServletResponse response) {
         CurrentUserDto user = getAuthenticatedUserDataUseCase.execute()
                 .orElseThrow(() -> new InvalidCredentialsException("Provided access token is invalid"));
@@ -137,7 +137,6 @@ public class AuthController {
         return ResponseEntity.accepted().build();
     }
 
-    @PreAuthorize("hasAnyRole('VERIFIED', 'UNVERIFIED')")
     @PostMapping("/forgot-password")
     public ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
         generateAndSendForgotPasswordTokenUseCase.execute(request.email());
@@ -145,7 +144,6 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyRole('VERIFIED', 'UNVERIFIED')")
     @PostMapping("/reset-password")
     public ResponseEntity<Void> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
         resetPasswordUseCase.execute(new ResetPasswordCommand(
