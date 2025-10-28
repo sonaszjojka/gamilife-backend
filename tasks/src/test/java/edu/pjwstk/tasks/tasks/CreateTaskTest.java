@@ -1,4 +1,4 @@
-package edu.pjwstk.tasks.usecase;
+package edu.pjwstk.tasks.tasks;
 
 import edu.pjwstk.tasks.application.createtask.CreateTaskMapper;
 import edu.pjwstk.tasks.application.createtask.CreateTaskRequest;
@@ -27,7 +27,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CreateTaskUseCaseImplHappyPathTest {
+class CreateTaskUseCaseTest {
 
     @Mock private TaskRepositoryImpl taskRepository;
     @Mock private TaskCategoryRepository categoryRepository;
@@ -42,8 +42,8 @@ class CreateTaskUseCaseImplHappyPathTest {
     void shouldCreateTaskSuccessfully() {
 
 
-        Integer categoryId = ((int) (Math.random()*100));
-        Integer difficultyId = ((int) (Math.random()*100));
+        Integer categoryId = 1;
+        Integer difficultyId = 1;
         UUID habitId = UUID.randomUUID();
         UUID previousTaskId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
@@ -55,7 +55,7 @@ class CreateTaskUseCaseImplHappyPathTest {
                 categoryId,
                 difficultyId,
                 userId,
-                LocalDateTime.now().plusHours(3),
+                null,
                 habitId,
                 previousTaskId,
                 "Description"
