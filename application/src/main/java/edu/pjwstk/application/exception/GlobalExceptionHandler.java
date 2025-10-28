@@ -5,6 +5,7 @@ import edu.pjwstk.groups.exception.*;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.auth.exceptions.*;
+import edu.pjwstk.common.authApi.exception.ResetPasswordGenericException;
 import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
 import edu.pjwstk.common.userApi.exception.UserAlreadyExistsException;
 import edu.pjwstk.common.userApi.exception.UserNotFoundException;
@@ -246,11 +247,15 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.INVALID_GROUP_INVITATION_TOKEN, ex.getMessage());
     }
 
+    @ExceptionHandler(ResetPasswordGenericException.class)
+    public ProblemDetail handleResetPasswordGeneric(ResetPasswordGenericException ex) {
+        return formatErrorResponse(ErrorCode.PASSWORD_RESET_FAILED, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleOther() {
         return ErrorCode.INTERNAL_SERVER_ERROR.getProblemDetail();
     }
-
 
     private ProblemDetail formatErrorResponse(ErrorCode error, String detail) {
         ProblemDetail problem = error.getProblemDetail();

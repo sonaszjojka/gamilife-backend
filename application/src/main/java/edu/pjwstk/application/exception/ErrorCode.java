@@ -1,6 +1,5 @@
 package edu.pjwstk.application.exception;
 
-import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import org.springframework.http.HttpStatus;
 
 public enum ErrorCode {
@@ -36,6 +35,7 @@ public enum ErrorCode {
     INVALID_POMODORO_TASK_DATA(ErrorCode.INVALID_POMODORO_TASK_DATA_CODE, "Invalid Pomodoro Task Data", HttpStatus.BAD_REQUEST),
     POMODORO_TASK_NOT_FOUND(ErrorCode.POMODORO_TASK_NOT_FOUND_CODE, "Pomodoro Task Not Found", HttpStatus.NOT_FOUND),
     GROUP_MEMBER_NOT_FOUND(ErrorCode.GROUP_MEMBER_NOT_FOUND_CODE, "Group Member Not Found", HttpStatus.NOT_FOUND),
+    PASSWORD_RESET_FAILED(ErrorCode.PASSWORD_RESET_FAILED_CODE, "Password Reset Failed", HttpStatus.BAD_REQUEST),
     GROUP_TYPE_NOT_FOUND(ErrorCode.GROUP_TYPE_NOT_FOUND_CODE, "Group Type Not Found", HttpStatus.NOT_FOUND),
     INVALID_GROUP_REQUEST_DATA(ErrorCode.INVALID_GROUP_REQUEST_DATA_CODE, "Invalid Group Request Data", HttpStatus.BAD_REQUEST),
     GROUP_REQUEST_STATUS_NOT_FOUND(ErrorCode.GROUP_REQUEST_STATUS_NOT_FOUND_CODE, "Group Request Status Not Found", HttpStatus.NOT_FOUND),
@@ -74,6 +74,7 @@ public enum ErrorCode {
     public static final int UNAUTHORIZED_CODE = 1019;
     public static final int INVALID_REFRESH_TOKEN_CODE = 1020;
     public static final int MISSING_REFRESH_TOKEN_COOKIE_CODE = 1021;
+    public static final int PASSWORD_RESET_FAILED_CODE = 1022;
     public static final int INTERNAL_SERVER_ERROR_CODE = 5000;
     public static final int INVALID_HABIT_DATA_CODE = 1022;
     public static final int TASK_CATEGORY_NOT_FOUND_CODE = 1023;

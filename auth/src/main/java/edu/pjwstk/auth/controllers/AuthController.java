@@ -1,13 +1,11 @@
 package edu.pjwstk.auth.controllers;
 
-import edu.pjwstk.auth.dto.request.EmailVerificationCodeRequest;
-import edu.pjwstk.auth.dto.request.ForgotPasswordRequest;
-import edu.pjwstk.auth.dto.request.LoginUserRequest;
-import edu.pjwstk.auth.dto.request.RegisterUserRequest;
+import edu.pjwstk.auth.dto.request.*;
 import edu.pjwstk.auth.dto.response.AfterLoginResponse;
 import edu.pjwstk.auth.dto.service.EmailVerificationCode;
 import edu.pjwstk.auth.dto.service.LoginUserDto;
 import edu.pjwstk.auth.dto.service.RegisterUserDto;
+import edu.pjwstk.auth.dto.service.ResetPasswordCommand;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.usecase.*;
 import edu.pjwstk.common.authApi.dto.AuthTokens;
@@ -39,6 +37,7 @@ public class AuthController {
     private final GetAuthenticatedUserDataUseCase getAuthenticatedUserDataUseCase;
     private final VerifyEmailUseCase verifyEmailUseCase;
     private final GenerateAndSendForgotPasswordTokenUseCase generateAndSendForgotPasswordTokenUseCase;
+    private final ResetPasswordUseCase resetPasswordUseCase;
     private final CookieUtil cookieUtil;
 
     @PostMapping("/register")
@@ -142,6 +141,16 @@ public class AuthController {
     @PostMapping("/forgot-password")
     public ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
         generateAndSendForgotPasswordTokenUseCase.execute(request.email());
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasAnyRole('VERIFIED', 'UNVERIFIED')")
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        resetPasswordUseCase.execute(new ResetPasswordCommand(
+                request.code(), request.newPassword()
+        ));
 
         return ResponseEntity.noContent().build();
     }
