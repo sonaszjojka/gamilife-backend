@@ -2,6 +2,10 @@ package edu.pjwstk.groups.usecase.creategroupinvitation;
 
 import edu.pjwstk.common.authApi.AuthApi;
 import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.common.emailSenderApi.EmailSenderApi;
+import edu.pjwstk.common.emailSenderApi.EmailSendingException;
+import edu.pjwstk.common.emailSenderApi.MailContentType;
+import edu.pjwstk.common.emailSenderApi.MailDto;
 import edu.pjwstk.common.groupsApi.exception.GroupNotFoundException;
 import edu.pjwstk.common.userApi.UserApi;
 import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
@@ -34,13 +38,14 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     private final AuthApi authApi;
     private final CreateGroupInvitationMapper createGroupInvitationStatusMapper;
     private final GroupInvitationUtil groupInvitationUtil;
+    private final EmailSenderApi emailSenderApi;
 
     public CreateGroupInvitationUseCaseImpl(GroupInvitationRepository groupInvitationRepository,
                                             InvitationStatusRepository invitationStatusRepository,
                                             GroupRepository groupRepository,
                                             UserApi userApi, AuthApi authApi,
                                             CreateGroupInvitationMapper createGroupInvitationStatusMapper,
-                                            GroupInvitationUtil groupInvitationUtil) {
+                                            GroupInvitationUtil groupInvitationUtil, EmailSenderApi emailSenderApi) {
         this.groupInvitationRepository = groupInvitationRepository;
         this.invitationStatusRepository = invitationStatusRepository;
         this.groupRepository = groupRepository;
@@ -48,6 +53,7 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
         this.authApi = authApi;
         this.createGroupInvitationStatusMapper = createGroupInvitationStatusMapper;
         this.groupInvitationUtil = groupInvitationUtil;
+        this.emailSenderApi = emailSenderApi;
     }
 
     @Override
@@ -75,7 +81,6 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
                 .orElseThrow(() -> new InvitationStatusNotFoundException("Invitation stauts with id: "
                         + InvitationStatusEnum.SENT.getId() + " not found!"));
 
-        // todo send email etc. - integration
         UUID groupInvitationId = UUID.randomUUID();
         String token = groupInvitationUtil.generateToken();
         String hashedToken = groupInvitationUtil.hashToken(token);
@@ -91,6 +96,19 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
                 hashedToken
         );
         GroupInvitation savedGroupInvitation = groupInvitationRepository.save(groupInvitation);
+
+        try {
+            emailSenderApi.sendEmail(MailDto.builder()
+                    .toEmail(basicUserInfoApiDto.email())
+                    .subject(groupInvitationUtil.generateInvitationMailSubjectMessage())
+                    .content(groupInvitationUtil.generateInvitationMailContentMessage(link, group.getJoinCode()))
+                    .mailContentType(MailContentType.HTML)
+                    .build());
+        } catch (EmailSendingException e) {
+            //todo - ?
+            throw new RuntimeException(e);
+        }
+
         return createGroupInvitationStatusMapper.toResponse(savedGroupInvitation);
     }
 }

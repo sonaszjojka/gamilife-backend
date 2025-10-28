@@ -94,18 +94,21 @@ VALUES ('aaaa1111-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Hey everyone! Meeting at 6 PM t
 -- Tabela: group_invitation
 -- =========================
 INSERT INTO group_invitation (group_invitation_id, group_id, user_id, expires_at,
-                              mail_sent_at, link, invitation_status_id)
+                              mail_sent_at, link, invitation_status_id, token_hash)
 VALUES ('aaaa9999-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-111111111111',
         'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee',
-        '2025-10-20 00:00:00', '2025-10-10 10:00:00', 'https://app/join/FAM123', 1),
+        '2025-10-20 00:00:00', '2025-10-10 10:00:00', 'https://app/join/FAM123', 1,
+        'xxxx'),
 
        ('bbbb9999-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '22222222-2222-2222-2222-222222222222',
         'ffffffff-ffff-ffff-ffff-ffffffffffff',
-        '2025-10-20 00:00:00', '2025-10-10 11:00:00', 'https://app/join/FRN456', 2),
+        '2025-10-20 00:00:00', '2025-10-10 11:00:00', 'https://app/join/FRN456', 2,
+        'xxxxxxxxx'),
 
        ('cccc9999-cccc-cccc-cccc-cccccccccccc', '33333333-3333-3333-3333-333333333333',
         '99999999-9999-9999-9999-999999999999',
-        '2025-10-20 00:00:00', '2025-10-10 12:00:00', 'https://app/join/WRK789', 3);
+        '2025-10-20 00:00:00', '2025-10-10 12:00:00', 'https://app/join/WRK789', 3,
+        'ffffffffffff');
 
 -- =========================
 -- Tabela: group_request

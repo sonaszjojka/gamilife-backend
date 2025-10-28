@@ -36,7 +36,7 @@ public class GroupInvitation {
     @Column(name = "link", nullable = false, length = 200)
     private String link;
 
-    @Column(nullable = false)
+    @Column(name = "token_hash", nullable = false)
     private String tokenHash;
 
     @ManyToOne
