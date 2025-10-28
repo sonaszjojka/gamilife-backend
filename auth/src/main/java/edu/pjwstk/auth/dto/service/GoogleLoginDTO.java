@@ -1,6 +1,5 @@
 package edu.pjwstk.auth.dto.service;
 
-import edu.pjwstk.common.authApi.dto.AuthTokens;
 import lombok.Getter;
 
 import java.util.UUID;

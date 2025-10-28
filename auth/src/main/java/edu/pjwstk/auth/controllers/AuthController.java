@@ -57,7 +57,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AfterLoginResponse> loginUser(@RequestBody @Valid LoginUserRequest request,
-                                          HttpServletResponse response) {
+                                                        HttpServletResponse response) {
         LoginUserResult result = loginUserUseCase.execute(
                 new LoginUserDto(
                         request.email(),

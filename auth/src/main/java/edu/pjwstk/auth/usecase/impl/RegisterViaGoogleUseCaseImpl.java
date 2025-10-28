@@ -53,7 +53,6 @@ public class RegisterViaGoogleUseCaseImpl implements RegisterViaGoogleUseCase {
         ));
 
 
-
         return new GoogleLoginDTO(
                 GoogleLoginDTO.LoginType.NEW_USER,
                 new LoginUserResult(

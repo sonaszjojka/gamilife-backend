@@ -62,7 +62,7 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
 
         AuthTokens tokens = tokenProvider.generateTokenPair(user.userId(), user.email(), true);
 
-        return Optional.of(new  LoginUserResult(
+        return Optional.of(new LoginUserResult(
                 user.userId(),
                 user.email(),
                 user.username(),

@@ -2,10 +2,10 @@ package edu.pjwstk.auth.config;
 
 import edu.pjwstk.auth.persistence.repository.EmailVerificationRepository;
 import edu.pjwstk.auth.persistence.repository.ForgotPasswordCodeRepository;
-import edu.pjwstk.auth.usecase.SendForgotPasswordTokenUseCase;
 import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
-import edu.pjwstk.auth.usecase.impl.SendForgotPasswordTokenUseCaseImpl;
+import edu.pjwstk.auth.usecase.SendForgotPasswordTokenUseCase;
 import edu.pjwstk.auth.usecase.impl.SendEmailVerificationCodeUseCaseImpl;
+import edu.pjwstk.auth.usecase.impl.SendForgotPasswordTokenUseCaseImpl;
 import edu.pjwstk.auth.util.ForgotPasswordCodeUtil;
 import edu.pjwstk.auth.util.VerificationCodeUtil;
 import edu.pjwstk.common.emailSenderApi.EmailSenderApi;
