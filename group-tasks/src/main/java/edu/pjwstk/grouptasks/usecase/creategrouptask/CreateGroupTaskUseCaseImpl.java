@@ -1,5 +1,6 @@
 package edu.pjwstk.grouptasks.usecase.creategrouptask;
 import edu.pjwstk.common.tasksApi.TasksApi;
+import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskRequestDto;
 import edu.pjwstk.common.tasksApi.exception.TaskNotFoundException;
 import edu.pjwstk.grouptasks.entity.GroupTask;
 import edu.pjwstk.grouptasks.repository.GroupTaskRepository;
@@ -25,17 +26,24 @@ public class CreateGroupTaskUseCaseImpl implements CreateGroupTaskUseCase {
     @Transactional
     public CreateGroupTaskResponse execute(CreateGroupTaskRequest request, UUID groupId) {
 
-        if (!tasksProvider.taskExistsByTaskId(request.taskId()))
-        {
-            throw new TaskNotFoundException("Task with id:" + request.taskId() + " does not exist");
-        }
+        TaskForGroupTaskRequestDto taskForGroupTaskRequestDto = new TaskForGroupTaskRequestDto(
+                request.title(),
+                request.startTime(),
+                request.endTime(),
+                request.categoryId(),
+                request.difficultyId(),
+                request.completedAt(),
+                request.description()
+        );
 
         //Todo Check if group exists
 
-        System.out.println("Creating group task for taskId: " + request.taskId() + " in groupId: " + groupId);
 
-        GroupTask groupTask = createGroupTaskMapper.toEntity(request,UUID.randomUUID(),groupId,request.taskId());
+        GroupTask groupTask = createGroupTaskMapper.toEntity(request,UUID.randomUUID(),groupId,
+                                                            tasksProvider.createTaskForGroupTask(taskForGroupTaskRequestDto).taskId());
         GroupTask savedGroupTask = groupTaskRepository.save(groupTask);
+
+
         return createGroupTaskMapper.toResponse(savedGroupTask);
 
     }

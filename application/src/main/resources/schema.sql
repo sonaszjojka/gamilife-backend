@@ -47,11 +47,12 @@ CREATE TABLE task
     end_time         TIMESTAMP WITHOUT TIME ZONE,
     category_id      INTEGER                     NOT NULL,
     difficulty_id    INTEGER                     NOT NULL,
-    user_id          UUID                        NOT NULL,
+    user_id          UUID,
     completed_at     TIMESTAMP WITHOUT TIME ZONE,
     task_habit_id    UUID,
     previous_task_id UUID,
     description      VARCHAR(200),
+    is_group_task   BOOLEAN                     NOT NULL,
     CONSTRAINT pk_task PRIMARY KEY (task_id)
 );
 

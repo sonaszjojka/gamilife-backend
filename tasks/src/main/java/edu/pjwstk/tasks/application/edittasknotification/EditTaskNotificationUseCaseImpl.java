@@ -1,7 +1,10 @@
 package edu.pjwstk.tasks.application.edittasknotification;
 
+import edu.pjwstk.common.authApi.AuthApi;
+import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.tasks.entity.TaskNotification;
 import edu.pjwstk.tasks.exception.TaskNotFoundException;
+import edu.pjwstk.tasks.exception.UnauthorizedTaskAccessException;
 import edu.pjwstk.tasks.repository.TaskNotificationRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +16,13 @@ public class EditTaskNotificationUseCaseImpl implements EditTaskNotificationUseC
 
     private final TaskNotificationRepository taskNotificationRepository;
     private final EditTaskNotificationMapper editHabitMapper;
+    private final AuthApi currentUserProvider;
 
     public EditTaskNotificationUseCaseImpl(TaskNotificationRepository taskNotificationRepository,
-                                           EditTaskNotificationMapper editHabitMapper) {
+                                           EditTaskNotificationMapper editHabitMapper, AuthApi currentUserProvider) {
         this.taskNotificationRepository = taskNotificationRepository;
         this.editHabitMapper = editHabitMapper;
+        this.currentUserProvider = currentUserProvider;
     }
 
     @Override
@@ -29,6 +34,12 @@ public class EditTaskNotificationUseCaseImpl implements EditTaskNotificationUseC
                 .orElseThrow(() -> new TaskNotFoundException(
                         "Task notification with id: " + taskNotificationId + " for task with id: " + taskId + " not found!"
                 ));
+
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        if (currentUserDto.userId() != taskNotification.getTask().getUserId()) {
+            throw new UnauthorizedTaskAccessException("User is not authorized to edit notification for another user!");
+        }
+
 
         taskNotification.setSendDate(request.sendDate());
         TaskNotification savedTaskNotification = taskNotificationRepository.save(taskNotification);

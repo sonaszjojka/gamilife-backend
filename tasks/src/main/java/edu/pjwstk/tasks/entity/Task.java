@@ -38,7 +38,7 @@ public class Task {
     @JoinColumn(name = "difficulty_id", nullable = false)
     private TaskDifficulty difficulty;
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = true)
     private UUID userId;
 
     @Column(name = "completed_at", nullable = true)
@@ -57,6 +57,9 @@ public class Task {
 
     @Column(name = "description", length = 200)
     private String description;
+
+    @Column(name = "is_group_task", nullable = false,updatable = false)
+    private Boolean isGroupTask;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude

@@ -106,6 +106,7 @@ public enum ErrorCode {
     public static final int USER_LEFT_GROUP_CODE = 3044;
     public static final int ADMIN_CANNOT_LEAVE_GROUP_CODE = 3055;
     public static final int INVALID_GROUP_INVITATION_TOKEN_CODE = 3056;
+    public static final int UNAUTHORIZED_TASK_ACCESS_CODE = 1033;
 
     private final int code;
     private final String title;

@@ -1,21 +1,16 @@
-package edu.pjwstk.grouptasks.usecase.creategrouptask;
+package edu.pjwstk.common.tasksApi.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-
-public record CreateGroupTaskRequest(
-
-        @Positive(message = "Reward must be positive")
-        @Max(value = 9999, message = "Reward must not exceed 9999")
-        Integer reward,
-
-
+public record TaskForGroupTaskRequestDto(
         @NotBlank(message = "Title cannot be blank")
         @Size(max = 200, message = "Title cannot exceed 200 characters")
-                String title,
+        String title,
 
         @NotNull(message = "Start Time cannot be null")
         LocalDateTime startTime,
@@ -32,7 +27,5 @@ public record CreateGroupTaskRequest(
 
         @Size(max = 200, message = "Description cannot exceed 200 characters")
         String description
-
-
 ) {
 }

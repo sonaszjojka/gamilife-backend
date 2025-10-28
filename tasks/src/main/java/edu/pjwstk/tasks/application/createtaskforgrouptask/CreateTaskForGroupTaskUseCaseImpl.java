@@ -1,7 +1,7 @@
-package edu.pjwstk.tasks.application.createtask;
+package edu.pjwstk.tasks.application.createtaskforgrouptask;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskRequestDto;
+import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskResponseDto;
 import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
@@ -18,33 +18,25 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Component
-public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
+public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTaskUseCase {
 
     private final TaskRepository taskRepository;
     private final TaskCategoryRepository taskCategoryRepository;
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final HabitRepository habitRepository;
-    private final CreateTaskMapper createTaskMapper;
-    private final AuthApi currentUserProvider;
+    private final CreateTaskForGroupTaskMapper createTaskForGroupTaskMapper;
 
-    public CreateTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, HabitRepository habitRepository, CreateTaskMapper createTaskMapper, AuthApi currentUserProvider) {
+    public CreateTaskForGroupTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, HabitRepository habitRepository, CreateTaskForGroupTaskMapper createTaskForGroupTaskMapper) {
         this.taskRepository = taskRepository;
         this.taskCategoryRepository = taskCategoryRepository;
         this.taskDifficultyRepository = taskDifficultyRepository;
         this.habitRepository = habitRepository;
-        this.createTaskMapper = createTaskMapper;
-        this.currentUserProvider = currentUserProvider;
+        this.createTaskForGroupTaskMapper = createTaskForGroupTaskMapper;
     }
 
     @Override
     @Transactional
-    public CreateTaskResponse execute(CreateTaskRequest request) {
-
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
-        if (currentUserDto.userId() != request.userId()) {
-            throw new UnauthorizedTaskAccessException("User is not authorized to create task for another user!");
-        }
-
+    public TaskForGroupTaskResponseDto execute(TaskForGroupTaskRequestDto request) {
         if (request.startTime().isAfter(request.endTime())) {
             throw new InvalidTaskDataException("End time date cannot be after start time date!");
         }
@@ -65,35 +57,15 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                         "Task difficulty with id " + request.difficultyId() + " not found!"
                 ));
 
-        Habit habit = null;
-        if (request.habitTaskId() != null) {
-            habit = habitRepository
-                    .findById(request.habitTaskId())
-                    .orElseThrow(() -> new HabitNotFoundException(
-                            "Habit with id " + request.habitTaskId() + " not found!"
-                    ));
-        }
-
-        Task previousTask = null;
-        if (request.previousTaskId() != null) {
-            previousTask = taskRepository
-                    .findById(request.previousTaskId())
-                    .orElseThrow(() -> new TaskNotFoundException(
-                            "Previous task with id " + request.previousTaskId() + " not found!"
-                    ));
-        }
-
         Task savedTask = taskRepository.save(
-                createTaskMapper.toEntity(
+                createTaskForGroupTaskMapper.toEntity(
                         request,
                         UUID.randomUUID(),
                         taskCategory,
-                        taskDifficulty,
-                        habit,
-                        previousTask
+                        taskDifficulty
                 )
         );
 
-        return createTaskMapper.toResponse(savedTask);
+        return createTaskForGroupTaskMapper.toResponse(savedTask);
     }
 }

@@ -121,6 +121,11 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.INVALID_TASK_DATA, ex.getMessage());
     }
 
+    @ExceptionHandler(UnauthorizedTaskAccessException.class)
+    public ProblemDetail handleUnauthorizedTaskAccess(UnauthorizedTaskAccessException ex) {
+        return formatErrorResponse(ErrorCode.UNAUTHORIZED_TASK_ACCESS, ex.getMessage());
+    }
+
     @ExceptionHandler(InvalidPomodoroTaskData.class)
     public ProblemDetail handleInvalidPomodoroData(InvalidPomodoroTaskData ex) {
         return formatErrorResponse(ErrorCode.INVALID_POMODORO_TASK_DATA, ex.getMessage());

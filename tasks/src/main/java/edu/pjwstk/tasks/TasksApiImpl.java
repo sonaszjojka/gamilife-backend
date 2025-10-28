@@ -2,6 +2,9 @@ package edu.pjwstk.tasks;
 
 import edu.pjwstk.common.tasksApi.TasksApi;
 import edu.pjwstk.common.tasksApi.dto.TaskDto;
+import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskRequestDto;
+import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskResponseDto;
+import edu.pjwstk.tasks.application.createtaskforgrouptask.CreateTaskForGroupTaskUseCase;
 import edu.pjwstk.tasks.application.deletetask.DeleteTaskUseCase;
 import edu.pjwstk.tasks.application.findtaskbyid.FindTaskByIdUseCase;
 import edu.pjwstk.tasks.application.taskexistsbyid.ExistsByTaskIdUseCase;
@@ -16,11 +19,13 @@ public class TasksApiImpl implements TasksApi {
     private final ExistsByTaskIdUseCase existsByTaskIdUseCase;
     private final FindTaskByIdUseCase findTaskByIdUseCase;
     private final DeleteTaskUseCase deleteTaskUseCase;
+    private final CreateTaskForGroupTaskUseCase createTaskForGroupTaskUseCase;
 
-    public TasksApiImpl(ExistsByTaskIdUseCase existsByTaskIdUseCase, FindTaskByIdUseCase findTaskByIdUseCase, DeleteTaskUseCase deleteTaskUseCase) {
+    public TasksApiImpl(ExistsByTaskIdUseCase existsByTaskIdUseCase, FindTaskByIdUseCase findTaskByIdUseCase, DeleteTaskUseCase deleteTaskUseCase, CreateTaskForGroupTaskUseCase createTaskForGroupTaskUseCase) {
         this.existsByTaskIdUseCase = existsByTaskIdUseCase;
         this.findTaskByIdUseCase = findTaskByIdUseCase;
         this.deleteTaskUseCase = deleteTaskUseCase;
+        this.createTaskForGroupTaskUseCase = createTaskForGroupTaskUseCase;
     }
 
     @Override
@@ -36,6 +41,11 @@ public class TasksApiImpl implements TasksApi {
     @Override
     public void deleteTaskByTaskId(UUID taskId) {
         deleteTaskUseCase.execute(taskId);
+    }
+
+    @Override
+    public TaskForGroupTaskResponseDto createTaskForGroupTask(TaskForGroupTaskRequestDto request) {
+        return createTaskForGroupTaskUseCase.execute(request);
     }
 
 }
