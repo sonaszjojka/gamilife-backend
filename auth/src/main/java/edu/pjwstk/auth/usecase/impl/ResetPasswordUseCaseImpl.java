@@ -2,12 +2,14 @@ package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.auth.domain.ForgotPasswordCode;
 import edu.pjwstk.auth.dto.service.ResetPasswordCommand;
+import edu.pjwstk.auth.exceptions.OldAndNewPasswordAreTheSameException;
 import edu.pjwstk.auth.persistence.repository.ForgotPasswordCodeRepository;
 import edu.pjwstk.auth.usecase.ResetPasswordUseCase;
 import edu.pjwstk.auth.usecase.RevokeAllUserCodesAndTokensUseCase;
 import edu.pjwstk.auth.util.ForgotPasswordCodeUtil;
 import edu.pjwstk.common.authApi.exception.ResetPasswordGenericException;
 import edu.pjwstk.common.userApi.UserApi;
+import edu.pjwstk.common.userApi.dto.SecureUserInfoApiDto;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +33,13 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
         ForgotPasswordCode forgotPasswordCode = repository
                 .findValidByCode(forgotPasswordCodeUtil.hashCode(command.code()))
                 .orElseThrow(ResetPasswordGenericException::new);
+
+        SecureUserInfoApiDto user = userApi.getSecureUserDataById(forgotPasswordCode.userId())
+                .orElseThrow(ResetPasswordGenericException::new);
+
+        if (passwordEncoder.matches(command.newPassword(), user.password())) {
+            throw new OldAndNewPasswordAreTheSameException();
+        }
 
         userApi.resetUserPassword(
                 forgotPasswordCode.userId(),
