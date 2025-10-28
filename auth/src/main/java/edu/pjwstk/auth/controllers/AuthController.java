@@ -1,6 +1,7 @@
 package edu.pjwstk.auth.controllers;
 
 import edu.pjwstk.auth.dto.request.EmailVerificationCodeRequest;
+import edu.pjwstk.auth.dto.request.ForgotPasswordRequest;
 import edu.pjwstk.auth.dto.request.LoginUserRequest;
 import edu.pjwstk.auth.dto.request.RegisterUserRequest;
 import edu.pjwstk.auth.dto.response.AfterLoginResponse;
@@ -37,6 +38,7 @@ public class AuthController {
     private final SendEmailVerificationCodeUseCase sendEmailVerificationCodeUseCase;
     private final GetAuthenticatedUserDataUseCase getAuthenticatedUserDataUseCase;
     private final VerifyEmailUseCase verifyEmailUseCase;
+    private final GenerateAndSendForgotPasswordTokenUseCase generateAndSendForgotPasswordTokenUseCase;
     private final CookieUtil cookieUtil;
 
     @PostMapping("/register")
@@ -134,5 +136,13 @@ public class AuthController {
         sendEmailVerificationCodeUseCase.execute(user.userId());
 
         return ResponseEntity.accepted().build();
+    }
+
+    @PreAuthorize("hasAnyRole('VERIFIED', 'UNVERIFIED')")
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        generateAndSendForgotPasswordTokenUseCase.execute(request.email());
+
+        return ResponseEntity.noContent().build();
     }
 }
