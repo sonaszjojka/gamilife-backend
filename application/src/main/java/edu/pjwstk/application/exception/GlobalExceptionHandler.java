@@ -259,6 +259,11 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.OLD_AND_NEW_PASSWORD_ARE_SAME, ex.getMessage());
     }
 
+    @ExceptionHandler({CannotCurrentlyCreateNewEmailVerificationCodeException.class, CannotCurrentlyCreateNewForgotPasswordCodeException.class})
+    public ProblemDetail handleTooManyRequests(Exception ex) {
+        return formatErrorResponse(ErrorCode.TOO_MANY_REQUESTS, ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleOther(Exception ex) {
         log.error(ex.getMessage(), ex);
