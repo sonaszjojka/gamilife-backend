@@ -65,13 +65,7 @@ public class AuthController {
                 )
         );
 
-        AuthTokens authTokens = result.authTokens();
-
-        ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
-        ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
-
-        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
-        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
+        setTokenCookies(result.authTokens(), response);
 
         return ResponseEntity.ok(AfterLoginResponse.from(result));
     }
@@ -81,11 +75,7 @@ public class AuthController {
     public ResponseEntity<Void> logout(@CookieValue(name = "REFRESH-TOKEN") String refreshToken, HttpServletResponse response) {
         logoutUserUseCase.execute(refreshToken);
 
-        ResponseCookie accessTokenCookie = cookieUtil.invalidateAccessTokenCookie();
-        ResponseCookie refreshTokenCookie = cookieUtil.invalidateRefreshTokenCookie();
-
-        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
-        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
+        invalidateTokenCookies(response);
 
         return ResponseEntity.ok().build();
     }
@@ -115,13 +105,7 @@ public class AuthController {
                 user.userId(), emailVerificationCodeRequest.code()
         ));
 
-        AuthTokens authTokens = result.authTokens();
-
-        ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
-        ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
-
-        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
-        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
+        setTokenCookies(result.authTokens(), response);
 
         return ResponseEntity.ok(AfterLoginResponse.from(result));
     }
@@ -146,11 +130,30 @@ public class AuthController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<Void> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+    public ResponseEntity<Void> resetPassword(@Valid @RequestBody ResetPasswordRequest request,
+                                              HttpServletResponse response) {
         resetPasswordUseCase.execute(new ResetPasswordCommand(
                 request.code(), request.newPassword()
         ));
 
+        invalidateTokenCookies(response);
+
         return ResponseEntity.noContent().build();
+    }
+
+    private void invalidateTokenCookies(HttpServletResponse response) {
+        ResponseCookie accessTokenCookie = cookieUtil.invalidateAccessTokenCookie();
+        ResponseCookie refreshTokenCookie = cookieUtil.invalidateRefreshTokenCookie();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
+    }
+
+    private void setTokenCookies(AuthTokens authTokens, HttpServletResponse response) {
+        ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
+        ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
+
+        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
     }
 }
