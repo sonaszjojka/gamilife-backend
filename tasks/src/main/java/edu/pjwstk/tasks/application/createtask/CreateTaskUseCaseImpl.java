@@ -38,8 +38,8 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
         if (request.startTime().isAfter(request.endTime())) {
             throw new InvalidTaskDataException("End time date cannot be after start time date!");
         }
-
-        if (request.startTime().isAfter(request.completedAt())) {
+//ToDO resolve completedAt null issue
+        if (request.completedAt()!=null && request.startTime().isAfter(request.completedAt())) {
             throw new InvalidTaskDataException("Completed at date cannot be after start time date!");
         }
 
