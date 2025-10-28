@@ -34,7 +34,7 @@ public class DeleteTaskNotificationUseCaseImpl implements DeleteTaskNotification
                 ));
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
-        if (currentUserDto.userId() != taskNotification.getTask().getUserId()) {
+        if (!currentUserDto.userId().equals(taskNotification.getTask().getUserId()) ) {
             throw new UnauthorizedTaskAccessException("User is not authorized to delete notification for another user!");
         }
 

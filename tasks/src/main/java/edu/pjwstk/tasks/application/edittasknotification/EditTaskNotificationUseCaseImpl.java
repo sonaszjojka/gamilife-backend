@@ -36,7 +36,7 @@ public class EditTaskNotificationUseCaseImpl implements EditTaskNotificationUseC
                 ));
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
-        if (currentUserDto.userId() != taskNotification.getTask().getUserId()) {
+        if (!currentUserDto.userId().equals(taskNotification.getTask().getUserId())) {
             throw new UnauthorizedTaskAccessException("User is not authorized to edit notification for another user!");
         }
 

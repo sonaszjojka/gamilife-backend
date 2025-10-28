@@ -39,7 +39,7 @@ public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotification
                 ));
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
-        if (currentUserDto.userId() != task.getUserId()) {
+        if (!currentUserDto.userId().equals(task.getUserId())) {
             throw new UnauthorizedTaskAccessException("User is not authorized to create notification for another user!");
         }
 
