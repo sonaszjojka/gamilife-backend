@@ -2,6 +2,7 @@ package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.auth.domain.UserOAuthProvider;
 import edu.pjwstk.auth.dto.service.LinkOAuthAccountDto;
+import edu.pjwstk.auth.dto.service.LoginUserResult;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.exceptions.LinkedUserNotFoundException;
 import edu.pjwstk.auth.exceptions.UserAlreadyLinkedToProviderException;
@@ -30,7 +31,7 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
 
     @Override
     @Transactional
-    public Optional<AuthTokens> execute(LinkOAuthAccountDto linkOAuthAccountDto) {
+    public Optional<LoginUserResult> execute(LinkOAuthAccountDto linkOAuthAccountDto) {
         if (!linkOAuthAccountDto.shouldLink()) {
             return Optional.empty();
         }
@@ -59,6 +60,14 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
             userApi.confirmUserEmailVerification(user.userId());
         }
 
-        return Optional.of(tokenProvider.generateTokenPair(user.userId(), user.email(), true));
+        AuthTokens tokens = tokenProvider.generateTokenPair(user.userId(), user.email(), true);
+
+        return Optional.of(new  LoginUserResult(
+                user.userId(),
+                user.email(),
+                user.username(),
+                true,
+                tokens
+        ));
     }
 }

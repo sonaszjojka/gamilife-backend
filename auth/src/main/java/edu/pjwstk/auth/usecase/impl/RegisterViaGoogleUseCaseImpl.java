@@ -3,6 +3,7 @@ package edu.pjwstk.auth.usecase.impl;
 import edu.pjwstk.auth.domain.UserOAuthProvider;
 import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
+import edu.pjwstk.auth.dto.service.LoginUserResult;
 import edu.pjwstk.auth.persistence.repository.UserProviderRepository;
 import edu.pjwstk.auth.usecase.RegisterViaGoogleUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
@@ -55,10 +56,16 @@ public class RegisterViaGoogleUseCaseImpl implements RegisterViaGoogleUseCase {
 
         return new GoogleLoginDTO(
                 GoogleLoginDTO.LoginType.NEW_USER,
-                tokenProvider.generateTokenPair(
+                new LoginUserResult(
                         createdGoogleUser.userId(),
                         createdGoogleUser.email(),
-                        true
+                        createdGoogleUser.username(),
+                        true,
+                        tokenProvider.generateTokenPair(
+                                createdGoogleUser.userId(),
+                                createdGoogleUser.email(),
+                                true
+                        )
                 )
         );
     }

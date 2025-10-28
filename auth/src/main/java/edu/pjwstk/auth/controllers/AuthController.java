@@ -2,10 +2,7 @@ package edu.pjwstk.auth.controllers;
 
 import edu.pjwstk.auth.dto.request.*;
 import edu.pjwstk.auth.dto.response.AfterLoginResponse;
-import edu.pjwstk.auth.dto.service.EmailVerificationCode;
-import edu.pjwstk.auth.dto.service.LoginUserDto;
-import edu.pjwstk.auth.dto.service.RegisterUserDto;
-import edu.pjwstk.auth.dto.service.ResetPasswordCommand;
+import edu.pjwstk.auth.dto.service.*;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.usecase.*;
 import edu.pjwstk.common.authApi.dto.AuthTokens;
@@ -61,12 +58,14 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AfterLoginResponse> loginUser(@RequestBody @Valid LoginUserRequest request,
                                           HttpServletResponse response) {
-        AuthTokens authTokens = loginUserUseCase.execute(
+        LoginUserResult result = loginUserUseCase.execute(
                 new LoginUserDto(
                         request.email(),
                         request.password()
                 )
         );
+
+        AuthTokens authTokens = result.authTokens();
 
         ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
         ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
@@ -74,7 +73,7 @@ public class AuthController {
         response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
         response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 
-        return ResponseEntity.ok(new AfterLoginResponse(authTokens.isEmailVerified()));
+        return ResponseEntity.ok(AfterLoginResponse.from(result));
     }
 
     @PreAuthorize("hasAnyRole('VERIFIED', 'UNVERIFIED')")
@@ -112,9 +111,11 @@ public class AuthController {
         CurrentUserDto user = getAuthenticatedUserDataUseCase.execute()
                 .orElseThrow(() -> new InvalidCredentialsException("Provided access token is invalid"));
 
-        AuthTokens authTokens = verifyEmailUseCase.execute(new EmailVerificationCode(
+        LoginUserResult result = verifyEmailUseCase.execute(new EmailVerificationCode(
                 user.userId(), emailVerificationCodeRequest.code()
         ));
+
+        AuthTokens authTokens = result.authTokens();
 
         ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
         ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
@@ -122,7 +123,7 @@ public class AuthController {
         response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
         response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 
-        return ResponseEntity.ok(new AfterLoginResponse(authTokens.isEmailVerified()));
+        return ResponseEntity.ok(AfterLoginResponse.from(result));
     }
 
     @PreAuthorize("hasRole('UNVERIFIED')")

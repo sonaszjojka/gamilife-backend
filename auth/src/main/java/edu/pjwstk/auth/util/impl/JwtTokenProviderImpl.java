@@ -56,8 +56,7 @@ public class JwtTokenProviderImpl implements TokenProvider {
     public AuthTokens generateTokenPair(UUID userId, String email, boolean isEmailVerified) {
         return new AuthTokens(
                 generateAccessToken(userId, email),
-                UUID.randomUUID().toString(),
-                isEmailVerified
+                UUID.randomUUID().toString()
         );
     }
 

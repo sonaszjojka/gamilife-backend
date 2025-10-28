@@ -46,8 +46,7 @@ public class RefreshAccessTokenUseCaseImpl implements RefreshAccessTokenUseCase 
 
         return new AuthTokens(
                 tokenProvider.generateAccessToken(user.userId(), user.email()),
-                refreshToken,
-                user.isEmailVerified()
+                refreshToken
         );
     }
 }

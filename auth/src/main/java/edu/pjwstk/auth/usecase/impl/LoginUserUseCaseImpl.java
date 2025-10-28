@@ -1,6 +1,7 @@
 package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.auth.dto.service.LoginUserDto;
+import edu.pjwstk.auth.dto.service.LoginUserResult;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.usecase.GenerateAuthTokenPairUseCase;
 import edu.pjwstk.auth.usecase.LoginUserUseCase;
@@ -24,7 +25,7 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
 
     @Override
     @Transactional
-    public AuthTokens execute(LoginUserDto loginUserDto) {
+    public LoginUserResult execute(LoginUserDto loginUserDto) {
         SecureUserInfoApiDto user = userApi
                 .getSecureUserDataByEmail(loginUserDto.email())
                 .orElseThrow(() -> new InvalidCredentialsException("Login credentials are invalid"));
@@ -37,6 +38,15 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
             sendEmailVerificationCodeUseCase.execute(user.userId());
         }
 
-        return generateAuthTokenPairUseCase.execute(user.userId(), user.email(), user.isEmailVerified());
+
+        AuthTokens tokens = generateAuthTokenPairUseCase.execute(user.userId(), user.email(), user.isEmailVerified());
+
+        return new LoginUserResult(
+                user.userId(),
+                user.email(),
+                user.username(),
+                user.isEmailVerified(),
+                tokens
+        );
     }
 }
