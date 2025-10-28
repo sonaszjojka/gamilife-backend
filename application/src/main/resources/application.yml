@@ -37,6 +37,9 @@ spring:
               - openid
               - profile
               - email
+app:
+  invitation:
+    invitation-url-prefix: ${INVITATION-URL-PREFIX}
 sendgrid:
   api-key: ${SENDGRID_API_KEY}
   send-emails: true
