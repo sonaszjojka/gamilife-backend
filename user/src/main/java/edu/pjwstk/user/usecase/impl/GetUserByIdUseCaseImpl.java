@@ -28,7 +28,8 @@ public class GetUserByIdUseCaseImpl implements GetUserByIdUseCase {
 
         return Optional.of(new BasicUserInfoApiDto(
                 user.getId(),
-                user.getEmail()
+                user.getEmail(),
+                user.getUsername()
         ));
     }
 }
