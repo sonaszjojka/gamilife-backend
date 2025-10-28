@@ -39,4 +39,9 @@ public class EmailVerificationRepositoryImpl implements EmailVerificationReposit
 
         return list.stream().map(EmailVerificationMapper::toDomain).toList();
     }
+
+    @Override
+    public void revokeAllActiveEmailVerificationCodesByUserId(UUID userId) {
+        jpaRepository.revokeAllActiveEmailVerificationCodesByUserId(userId);
+    }
 }

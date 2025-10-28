@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,8 +27,10 @@ public class ForgotPasswordCodeRepositoryImpl implements ForgotPasswordCodeRepos
     }
 
     @Override
-    public Optional<ForgotPasswordCode> findByCode(String code) {
-        Optional<ForgotPasswordCodeEntity> entity = jpaRepository.findByCode(code);
+    public Optional<ForgotPasswordCode> findValidByCode(String code) {
+        Optional<ForgotPasswordCodeEntity> entity = jpaRepository.findByCodeAndRevokedAndExpiresAtIsGreaterThan(
+                code, false, LocalDateTime.now()
+        );
 
         return entity.map(ForgotPasswordCodeMapper::toDomain);
     }
@@ -38,5 +41,10 @@ public class ForgotPasswordCodeRepositoryImpl implements ForgotPasswordCodeRepos
                 .findByUserIdAndRevoked(userId, false, Sort.by(Sort.Direction.DESC, "issuedAt"));
 
         return list.stream().map(ForgotPasswordCodeMapper::toDomain).toList();
+    }
+
+    @Override
+    public void revokeAllActiveForgotPasswordCodesByUserId(UUID userId) {
+        jpaRepository.revokeAllActiveForgotPasswordCodesByUserId(userId);
     }
 }

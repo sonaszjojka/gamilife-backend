@@ -9,7 +9,9 @@ import java.util.UUID;
 public interface ForgotPasswordCodeRepository {
     void create(ForgotPasswordCode emailVerification);
 
-    Optional<ForgotPasswordCode> findByCode(String code);
+    Optional<ForgotPasswordCode> findValidByCode(String code);
 
     List<ForgotPasswordCode> findByUserIdAndNotRevokedOrderByIssuedAt(UUID userId);
+
+    void revokeAllActiveForgotPasswordCodesByUserId(UUID userId);
 }
