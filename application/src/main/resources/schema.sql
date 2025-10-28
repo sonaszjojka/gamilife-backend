@@ -116,21 +116,22 @@ CREATE TABLE pomodoro_task
 );
 -- ==================== USER ====================
 
-CREATE TABLE "user" (
-   id uuid  NOT NULL,
-   first_name varchar(100)  NOT NULL,
-   last_name varchar(100)  NOT NULL,
-   email varchar(320)  NOT NULL,
-   password varchar(200)  NULL,
-   username varchar(100)  NOT NULL,
-   date_of_birth date  NULL,
-   experience int  NOT NULL,
-   money int  NOT NULL,
-   send_budget_reports boolean  NOT NULL,
-   is_profile_public boolean  NOT NULL,
-   is_email_verified boolean  NOT NULL,
-   password_change_date bigint NOT NULL,
-   CONSTRAINT pk_user PRIMARY KEY (id)
+CREATE TABLE "user"
+(
+    id                   uuid         NOT NULL,
+    first_name           varchar(100) NOT NULL,
+    last_name            varchar(100) NOT NULL,
+    email                varchar(320) NOT NULL,
+    password             varchar(200) NULL,
+    username             varchar(100) NOT NULL,
+    date_of_birth        date         NULL,
+    experience           int          NOT NULL,
+    money                int          NOT NULL,
+    send_budget_reports  boolean      NOT NULL,
+    is_profile_public    boolean      NOT NULL,
+    is_email_verified    boolean      NOT NULL,
+    password_change_date bigint       NOT NULL,
+    CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
 -- ==================== AUTH ====================

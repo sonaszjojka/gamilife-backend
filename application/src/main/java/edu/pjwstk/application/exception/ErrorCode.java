@@ -55,7 +55,8 @@ public enum ErrorCode {
     GROUP_INVITATION_EXPIRED(ErrorCode.GROUP_INVITATION_EXPIRED_CODE, "Group Invitation Has Expired", HttpStatus.GONE),
     ADMIN_CANNOT_LEAVE_GROUP(ErrorCode.ADMIN_CANNOT_LEAVE_GROUP_CODE, "Admin Cannot Leave Group", HttpStatus.UNPROCESSABLE_ENTITY),
     INVALID_GROUP_INVITATION_TOKEN(ErrorCode.INVALID_GROUP_INVITATION_TOKEN_CODE, "Invalid Invitation Group Token", HttpStatus.BAD_REQUEST),
-    TOO_MANY_REQUESTS(ErrorCode.TOO_MANY_REQUESTS_CODE, "Too Many Requests", HttpStatus.TOO_MANY_REQUESTS),;
+    TOO_MANY_REQUESTS(ErrorCode.TOO_MANY_REQUESTS_CODE, "Too Many Requests", HttpStatus.TOO_MANY_REQUESTS),
+    ;
 
     public static final int VALIDATION_ERROR_CODE = 1001;
     public static final int ACCESS_DENIED_CODE = 1002;

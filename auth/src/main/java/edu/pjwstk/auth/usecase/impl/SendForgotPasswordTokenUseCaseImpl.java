@@ -77,18 +77,18 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
                             """
                                     Hi,
                                     
-                                    In order to reset your password use this link:\n
+                                    In order to reset your password use this link:
                                     """ + code +
                                     """
-                                            \nBest Regards,
+                                            \n
+                                            Best Regards,
                                             GamiLife Team
                                             """,
                             MailContentType.TEXT
                     )
             );
-        } catch (EmailSendingException e) {
+        } catch (EmailSendingException ignored) {
             // TODO: maybe resend logic
-            return;
         }
 
     }

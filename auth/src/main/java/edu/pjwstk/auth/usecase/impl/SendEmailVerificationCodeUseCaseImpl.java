@@ -73,11 +73,12 @@ public class SendEmailVerificationCodeUseCaseImpl implements SendEmailVerificati
                     """
                             Hello!
                             
-                            Here is your verification code:\n
+                            Here is your verification code:
                             """ +
                             code +
                             """
-                                    \nBest regards,
+                                    \n
+                                    Best regards,
                                     GamiLife Team
                                     """,
                     MailContentType.TEXT
