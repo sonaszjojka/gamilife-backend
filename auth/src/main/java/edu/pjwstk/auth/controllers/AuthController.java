@@ -33,7 +33,7 @@ public class AuthController {
     private final SendEmailVerificationCodeUseCase sendEmailVerificationCodeUseCase;
     private final GetAuthenticatedUserDataUseCase getAuthenticatedUserDataUseCase;
     private final VerifyEmailUseCase verifyEmailUseCase;
-    private final GenerateAndSendForgotPasswordTokenUseCase generateAndSendForgotPasswordTokenUseCase;
+    private final SendForgotPasswordTokenUseCase sendForgotPasswordTokenUseCase;
     private final ResetPasswordUseCase resetPasswordUseCase;
     private final CookieUtil cookieUtil;
 
@@ -124,7 +124,7 @@ public class AuthController {
 
     @PostMapping("/forgot-password")
     public ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
-        generateAndSendForgotPasswordTokenUseCase.execute(request.email());
+        sendForgotPasswordTokenUseCase.execute(request.email());
 
         return ResponseEntity.noContent().build();
     }

@@ -3,7 +3,7 @@ package edu.pjwstk.auth.usecase.impl;
 import edu.pjwstk.auth.domain.ForgotPasswordCode;
 import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewForgotPasswordCodeException;
 import edu.pjwstk.auth.persistence.repository.ForgotPasswordCodeRepository;
-import edu.pjwstk.auth.usecase.GenerateAndSendForgotPasswordTokenUseCase;
+import edu.pjwstk.auth.usecase.SendForgotPasswordTokenUseCase;
 import edu.pjwstk.auth.util.ForgotPasswordCodeUtil;
 import edu.pjwstk.common.emailSenderApi.EmailSenderApi;
 import edu.pjwstk.common.emailSenderApi.EmailSendingException;
@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor
-public class GenerateAndSendForgotPasswordTokenUseCaseImpl implements GenerateAndSendForgotPasswordTokenUseCase {
+public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTokenUseCase {
 
     private final ForgotPasswordCodeUtil forgotPasswordCodeUtil;
     private final UserApi userApi;
@@ -52,6 +52,10 @@ public class GenerateAndSendForgotPasswordTokenUseCaseImpl implements GenerateAn
                         .isAfter(LocalDateTime.now())
         ) {
             throw new CannotCurrentlyCreateNewForgotPasswordCodeException("You have to wait a before you can get a new code");
+        }
+
+        if (!codes.isEmpty()) {
+            forgotPasswordCodeRepository.revokeAllActiveForgotPasswordCodesByUserId(user.userId());
         }
 
         String code = forgotPasswordCodeUtil.generateCode();

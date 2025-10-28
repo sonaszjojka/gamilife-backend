@@ -49,6 +49,10 @@ public class SendEmailVerificationCodeUseCaseImpl implements SendEmailVerificati
             throw new CannotCurrentlyCreateNewEmailVerificationCodeException("You have to wait a before you can get a new code");
         }
 
+        if (!codes.isEmpty()) {
+            emailVerificationRepository.revokeAllActiveEmailVerificationCodesByUserId(userId);
+        }
+
         String code = UUID.randomUUID().toString();
 
         EmailVerification emailVerification = new EmailVerification(

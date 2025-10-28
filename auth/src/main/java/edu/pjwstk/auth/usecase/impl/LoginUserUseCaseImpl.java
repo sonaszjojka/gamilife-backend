@@ -2,6 +2,7 @@ package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.auth.dto.service.LoginUserDto;
 import edu.pjwstk.auth.dto.service.LoginUserResult;
+import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewEmailVerificationCodeException;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.usecase.GenerateAuthTokenPairUseCase;
 import edu.pjwstk.auth.usecase.LoginUserUseCase;
@@ -35,9 +36,11 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
         }
 
         if (!user.isEmailVerified()) {
-            sendEmailVerificationCodeUseCase.execute(user.userId());
+            try {
+                sendEmailVerificationCodeUseCase.execute(user.userId());
+            } catch (CannotCurrentlyCreateNewEmailVerificationCodeException ignored) {
+            }
         }
-
 
         AuthTokens tokens = generateAuthTokenPairUseCase.execute(user.userId(), user.email(), user.isEmailVerified());
 

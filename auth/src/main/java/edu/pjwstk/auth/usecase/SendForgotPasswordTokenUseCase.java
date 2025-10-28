@@ -1,5 +1,5 @@
 package edu.pjwstk.auth.usecase;
 
-public interface GenerateAndSendForgotPasswordTokenUseCase {
+public interface SendForgotPasswordTokenUseCase {
     void execute(String email);
 }
