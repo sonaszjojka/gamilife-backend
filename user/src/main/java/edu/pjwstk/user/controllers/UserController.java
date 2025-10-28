@@ -1,14 +1,14 @@
 package edu.pjwstk.user.controllers;
 
 import edu.pjwstk.common.authApi.dto.AuthTokens;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
-import edu.pjwstk.common.userApi.exception.UserNotFoundException;
 import edu.pjwstk.commonweb.CookieUtil;
 import edu.pjwstk.user.dto.request.ChangeUserPasswordRequest;
 import edu.pjwstk.user.dto.response.CurrentUserInfoResponse;
+import edu.pjwstk.user.dto.response.UserDetailsResponse;
 import edu.pjwstk.user.dto.service.ChangeUserPasswordCommand;
+import edu.pjwstk.user.dto.service.UserDetailsDto;
 import edu.pjwstk.user.usecase.ChangeUserPasswordUseCase;
-import edu.pjwstk.user.usecase.GetUserByIdUseCase;
+import edu.pjwstk.user.usecase.GetUserDetailsUseCase;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -26,19 +26,16 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserController {
 
-    private GetUserByIdUseCase getUserByIdUseCase;
+    private GetUserDetailsUseCase getUserDetailsUseCase;
     private ChangeUserPasswordUseCase changeUserPasswordUseCase;
     private CookieUtil cookieUtil;
 
     @GetMapping("/{userId}")
     @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
-    public ResponseEntity<CurrentUserInfoResponse> getCurrentUserInfo(@PathVariable UUID userId) {
-        BasicUserInfoApiDto dto = getUserByIdUseCase.execute(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+    public ResponseEntity<UserDetailsResponse> getCurrentUserDetails(@PathVariable UUID userId) {
+        UserDetailsDto dto = getUserDetailsUseCase.execute(userId);
 
-        return ResponseEntity.ok(new CurrentUserInfoResponse(
-                dto.email()
-        ));
+        return ResponseEntity.ok(UserDetailsResponse.from(dto));
     }
 
     @PatchMapping("/{userId}/password")
