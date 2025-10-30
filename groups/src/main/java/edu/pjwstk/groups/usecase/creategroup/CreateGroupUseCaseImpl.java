@@ -1,5 +1,7 @@
 package edu.pjwstk.groups.usecase.creategroup;
 
+import edu.pjwstk.common.groupshopApi.GroupShopApi;
+import edu.pjwstk.common.groupshopApi.dto.CreateGroupShopForGroupRequestDto;
 import edu.pjwstk.common.userApi.UserApi;
 import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
 import edu.pjwstk.common.userApi.exception.UserNotFoundException;
@@ -26,14 +28,16 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
     private final GroupTypeRepository groupTypeRepository;
     private final GroupMemberRepository groupMemberRepository;
     private final JoinCodeGenerator joinCodeGenerator;
+    private final GroupShopApi groupShopApi;
 
-    public CreateGroupUseCaseImpl(GroupRepository groupRepository, UserApi userApi, CreateGroupMapper createGroupUseCaseMapper, GroupTypeRepository groupTypeRepository, GroupMemberRepository groupMemberRepository, JoinCodeGenerator joinCodeGenerator) {
+    public CreateGroupUseCaseImpl(GroupRepository groupRepository, UserApi userApi, CreateGroupMapper createGroupUseCaseMapper, GroupTypeRepository groupTypeRepository, GroupMemberRepository groupMemberRepository, JoinCodeGenerator joinCodeGenerator, GroupShopApi groupShopApi) {
         this.groupRepository = groupRepository;
         this.userApi = userApi;
         this.createGroupUseCaseMapper = createGroupUseCaseMapper;
         this.groupTypeRepository = groupTypeRepository;
         this.groupMemberRepository = groupMemberRepository;
         this.joinCodeGenerator = joinCodeGenerator;
+        this.groupShopApi = groupShopApi;
     }
 
     @Override
@@ -50,8 +54,10 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
         }
 
         String joinCode = joinCodeGenerator.generate(20);
+
         Group group = createGroupUseCaseMapper.toEntity(request, joinCode, UUID.randomUUID(), groupType);
         Group savedGroup = groupRepository.save(group);
+
         GroupMember groupMemberAdmin = GroupMember.builder()
                 .groupMemberId(UUID.randomUUID())
                 .memberGroup(group)
@@ -60,7 +66,13 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
                 .groupMoney(0)
                 .totalEarnedMoney(0)
                 .build();
-        //todo init other entities such as group_shop
+
+        CreateGroupShopForGroupRequestDto groupShopOnInitRequest = new CreateGroupShopForGroupRequestDto(
+                 request.groupShopName(),
+                 request.groupShopDescription(),
+                 savedGroup.getGroupId()
+        );
+        groupShopApi.createGroupShopOnGroupInit(groupShopOnInitRequest);
 
         groupMemberRepository.save(groupMemberAdmin);
         return createGroupUseCaseMapper.toResponse(savedGroup);

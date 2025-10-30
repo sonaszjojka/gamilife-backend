@@ -1,4 +1,4 @@
-package edu.pjwstk.groupshop.controller;
+package edu.pjwstk.groupshop.api.controller;
 import edu.pjwstk.groupshop.shared.ApiResponse;
 import edu.pjwstk.groupshop.usecase.creategroupiteminshop.CreateGroupItemInShopRequest;
 import edu.pjwstk.groupshop.usecase.creategroupiteminshop.CreateGroupItemInShopResponse;
