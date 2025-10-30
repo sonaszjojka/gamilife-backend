@@ -1,8 +1,12 @@
 package edu.pjwstk.pomodoro.usecase.createpomodorotask;
 
+import edu.pjwstk.common.authApi.AuthApi;
+import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.common.tasksApi.TasksApi;
+import edu.pjwstk.common.tasksApi.dto.TaskDto;
 import edu.pjwstk.pomodoro.domain.PomodoroTask;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
+import edu.pjwstk.pomodoro.exception.UnauthorizedActionException;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;
 
 import org.springframework.stereotype.Component;
@@ -16,11 +20,13 @@ public class CreatePomodoroUseCaseImpl implements CreatePomodoroUseCase {
     private final PomodoroTaskRepository pomodoroRepository;
     private final CreatePomodoroTaskMapper createPomodoroTaskMapper;
     private final TasksApi tasksProvider;
+    private final AuthApi currentUserProvider;
 
-    public CreatePomodoroUseCaseImpl(PomodoroTaskRepository pomodoroRepository, CreatePomodoroTaskMapper createPomodoroTaskMapper, TasksApi tasksProvider) {
+    public CreatePomodoroUseCaseImpl(PomodoroTaskRepository pomodoroRepository, CreatePomodoroTaskMapper createPomodoroTaskMapper, TasksApi tasksProvider, AuthApi currentUserProvider) {
         this.pomodoroRepository = pomodoroRepository;
         this.createPomodoroTaskMapper = createPomodoroTaskMapper;
         this.tasksProvider = tasksProvider;
+        this.currentUserProvider = currentUserProvider;
     }
 
     @Override
@@ -34,11 +40,13 @@ public class CreatePomodoroUseCaseImpl implements CreatePomodoroUseCase {
             throw new InvalidPomodoroTaskData("Task with id:" + taskId + " has already pomodoro task!");
         }
 
-//        if (!tasksProvider.taskExistsByTaskId(taskId)) {
-//            throw new TaskNotFoundException("Task with id:" + taskId + " not found!");
-//        }
+        TaskDto taskDto= tasksProvider.findTaskByTaskId(taskId);
+        CurrentUserDto currentUser = currentUserProvider.getCurrentUser().orElseThrow();
+        if (!taskDto.userId().equals(currentUser.userId()))
+        {
+            throw new UnauthorizedActionException("User is not owner of the task with id: " + taskId);
+        }
 
-        tasksProvider.findTaskByTaskId(taskId);
 
         PomodoroTask pomodoroTask = createPomodoroTaskMapper.toEntity(request, UUID.randomUUID(), taskId);
         PomodoroTask savedPomodoroTask = pomodoroRepository.save(pomodoroTask);
