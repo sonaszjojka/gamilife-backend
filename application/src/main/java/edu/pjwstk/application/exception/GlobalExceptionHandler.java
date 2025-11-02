@@ -221,10 +221,7 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.INVALID_GROUP_INVITATION_TOKEN, ex.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
-    public ProblemDetail handleOther() {
-        return ErrorCode.INTERNAL_SERVER_ERROR.getProblemDetail();
-    }
+
 
     @ExceptionHandler(GroupTaskNotFoundException.class)
     public ProblemDetail handleGroupTaskNotFound(GroupTaskNotFoundException ex) {
