@@ -68,8 +68,8 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
                 .build();
 
         CreateGroupShopForGroupRequestDto groupShopOnInitRequest = new CreateGroupShopForGroupRequestDto(
-                 request.groupShopName(),
-                 request.groupShopDescription(),
+                 group.getGroupId() + " Group shop",
+                    "Default description",
                  savedGroup.getGroupId()
         );
         groupShopApi.createGroupShopOnGroupInit(groupShopOnInitRequest);

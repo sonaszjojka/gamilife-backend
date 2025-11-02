@@ -10,6 +10,8 @@ public record CreateGroupRequest(
         @NotNull(message = "Admin ID cannot be null")
         UUID adminId,
 
+
+
         @NotNull(message = "Group currency symbol cannot be null")
         Character groupCurrencySymbol,
 
@@ -19,14 +21,6 @@ public record CreateGroupRequest(
         @NotNull(message = "Members limit cannot be null")
         @Min(value = 2, message = "Members limit must be at least 2")
         @Max(value = 100, message = "Members limit cannot exceed 100")
-        Integer membersLimit,
-
-        @NotNull
-        @Size(max =100)
-                String groupShopName,
-
-        @NotNull
-        @Size(max=300)
-        String groupShopDescription
+        Integer membersLimit
 ) {
 }
