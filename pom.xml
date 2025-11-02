@@ -21,6 +21,7 @@
         <module>user</module>
         <module>common</module>
         <module>email-sender</module>
+        <module>common-web</module>
     </modules>
     <name>gami-life</name>
     <description>Backend application GamiLife</description>
@@ -63,6 +64,7 @@
                             <artifactId>lombok</artifactId>
                         </path>
                     </annotationProcessorPaths>
+                    <parameters>true</parameters>
                 </configuration>
                 <version>3.14.1</version>
             </plugin>

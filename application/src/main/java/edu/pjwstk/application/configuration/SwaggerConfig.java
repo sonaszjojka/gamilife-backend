@@ -32,11 +32,11 @@ public class SwaggerConfig {
                 )
                 .addSecurityItem(new SecurityRequirement().addList("accessToken"))
                 .info(
-                new Info()
-                    .title("GamiLife API")
-                    .version(appVersion)
-                    .description("Swagger API Documentation for GamiLife backend API")
-        );
+                        new Info()
+                                .title("GamiLife API")
+                                .version(appVersion)
+                                .description("Swagger API Documentation for GamiLife backend API")
+                );
     }
 
 }

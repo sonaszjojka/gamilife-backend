@@ -1,8 +1,9 @@
 package edu.pjwstk.application.exception;
 
-import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public enum ErrorCode {
 
     VALIDATION_ERROR(ErrorCode.VALIDATION_ERROR_CODE, "Validation Error", HttpStatus.BAD_REQUEST),
@@ -36,6 +37,8 @@ public enum ErrorCode {
     INVALID_POMODORO_TASK_DATA(ErrorCode.INVALID_POMODORO_TASK_DATA_CODE, "Invalid Pomodoro Task Data", HttpStatus.BAD_REQUEST),
     POMODORO_TASK_NOT_FOUND(ErrorCode.POMODORO_TASK_NOT_FOUND_CODE, "Pomodoro Task Not Found", HttpStatus.NOT_FOUND),
     GROUP_MEMBER_NOT_FOUND(ErrorCode.GROUP_MEMBER_NOT_FOUND_CODE, "Group Member Not Found", HttpStatus.NOT_FOUND),
+    PASSWORD_RESET_FAILED(ErrorCode.PASSWORD_RESET_FAILED_CODE, "Password Reset Failed", HttpStatus.BAD_REQUEST),
+    OLD_AND_NEW_PASSWORD_ARE_SAME(ErrorCode.OLD_AND_NEW_PASSWORD_ARE_SAME_CODE, "Old and new passwords are the same", HttpStatus.BAD_REQUEST),
     GROUP_TYPE_NOT_FOUND(ErrorCode.GROUP_TYPE_NOT_FOUND_CODE, "Group Type Not Found", HttpStatus.NOT_FOUND),
     INVALID_GROUP_REQUEST_DATA(ErrorCode.INVALID_GROUP_REQUEST_DATA_CODE, "Invalid Group Request Data", HttpStatus.BAD_REQUEST),
     GROUP_REQUEST_STATUS_NOT_FOUND(ErrorCode.GROUP_REQUEST_STATUS_NOT_FOUND_CODE, "Group Request Status Not Found", HttpStatus.NOT_FOUND),
@@ -51,7 +54,9 @@ public enum ErrorCode {
     USER_LEFT_GROUP(ErrorCode.USER_LEFT_GROUP_CODE, "User Left Group", HttpStatus.CONFLICT),
     GROUP_INVITATION_EXPIRED(ErrorCode.GROUP_INVITATION_EXPIRED_CODE, "Group Invitation Has Expired", HttpStatus.GONE),
     ADMIN_CANNOT_LEAVE_GROUP(ErrorCode.ADMIN_CANNOT_LEAVE_GROUP_CODE, "Admin Cannot Leave Group", HttpStatus.UNPROCESSABLE_ENTITY),
-    INVALID_GROUP_INVITATION_TOKEN(ErrorCode.INVALID_GROUP_INVITATION_TOKEN_CODE, "Invalid Invitation Group Token", HttpStatus.BAD_REQUEST);
+    INVALID_GROUP_INVITATION_TOKEN(ErrorCode.INVALID_GROUP_INVITATION_TOKEN_CODE, "Invalid Invitation Group Token", HttpStatus.BAD_REQUEST),
+    TOO_MANY_REQUESTS(ErrorCode.TOO_MANY_REQUESTS_CODE, "Too Many Requests", HttpStatus.TOO_MANY_REQUESTS),
+    ;
 
     public static final int VALIDATION_ERROR_CODE = 1001;
     public static final int ACCESS_DENIED_CODE = 1002;
@@ -74,6 +79,9 @@ public enum ErrorCode {
     public static final int UNAUTHORIZED_CODE = 1019;
     public static final int INVALID_REFRESH_TOKEN_CODE = 1020;
     public static final int MISSING_REFRESH_TOKEN_COOKIE_CODE = 1021;
+    public static final int PASSWORD_RESET_FAILED_CODE = 1022;
+    public static final int OLD_AND_NEW_PASSWORD_ARE_SAME_CODE = 1022;
+    public static final int TOO_MANY_REQUESTS_CODE = 1022;
     public static final int INTERNAL_SERVER_ERROR_CODE = 5000;
     public static final int INVALID_HABIT_DATA_CODE = 1022;
     public static final int TASK_CATEGORY_NOT_FOUND_CODE = 1023;
@@ -109,18 +117,6 @@ public enum ErrorCode {
         this.code = code;
         this.title = title;
         this.status = status;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public HttpStatus getStatus() {
-        return status;
     }
 
     public ProblemDetailDto getProblemDetail() {

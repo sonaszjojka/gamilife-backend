@@ -2,6 +2,8 @@ package edu.pjwstk.user.persistence;
 
 import edu.pjwstk.user.domain.User;
 
+import java.time.Instant;
+
 public class UserMapper {
     public static UserEntity toEntity(User user) {
         return new UserEntity(
@@ -16,7 +18,8 @@ public class UserMapper {
                 user.getMoney(),
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),
-                user.isEmailVerified()
+                user.isEmailVerified(),
+                user.getPasswordChangeDate().getEpochSecond()
         );
     }
 
@@ -33,7 +36,8 @@ public class UserMapper {
                 userEntity.getMoney(),
                 userEntity.isSendBudgetReports(),
                 userEntity.isProfilePublic(),
-                userEntity.isEmailVerified()
+                userEntity.isEmailVerified(),
+                Instant.ofEpochSecond(userEntity.getPasswordChangeDate())
         );
     }
 }

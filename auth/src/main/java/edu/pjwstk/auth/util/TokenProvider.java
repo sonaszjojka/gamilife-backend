@@ -1,18 +1,16 @@
 package edu.pjwstk.auth.util;
 
-import edu.pjwstk.auth.dto.service.AuthTokens;
-import org.springframework.security.core.Authentication;
+import edu.pjwstk.common.authApi.dto.AuthTokens;
+import io.jsonwebtoken.Claims;
 
 import java.util.UUID;
 
 public interface TokenProvider {
     String generateAccessToken(UUID userId, String email);
 
+    Claims validateTokenAndExtractClaims(String token);
+
     AuthTokens generateTokenPair(UUID userId, String email, boolean isEmailVerified);
-
-    boolean validateToken(String token);
-
-    Authentication getAuthenticationFromToken(String token);
 
     String hashToken(String token);
 
