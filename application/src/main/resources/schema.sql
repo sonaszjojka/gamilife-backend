@@ -159,6 +159,7 @@ CREATE TABLE "user" (
    send_budget_reports boolean  NOT NULL,
    is_profile_public boolean  NOT NULL,
    is_email_verified boolean  NOT NULL,
+   password_change_date BIGINT NOT NULL,
    CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
