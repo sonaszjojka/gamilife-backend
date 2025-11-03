@@ -53,7 +53,7 @@ public class OwnedGroupItemController {
                                                                          @PathVariable (name="ownedGroupItemId") UUID ownedGroupItemId,
                                                                          @RequestBody @Valid EditOwnedGroupItemRequest request)
     {
-        EditOwnedGroupItemResponse response = editOwnedGroupItemUseCase.execute(request, ownedGroupItemId, groupId, memberId);
+        EditOwnedGroupItemResponse response = editOwnedGroupItemUseCase.execute(request, ownedGroupItemId, memberId, groupId);
         return ResponseEntity.ok(response);
     }
 

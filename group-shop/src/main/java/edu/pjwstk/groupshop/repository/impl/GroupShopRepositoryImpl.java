@@ -34,5 +34,7 @@ public class GroupShopRepositoryImpl implements GroupShopRepository {
     @Override
     public void deleteById(UUID groupShopId) {
 
+        groupShopRepositoryJpa.deleteById(groupShopId);
+
     }
 }
