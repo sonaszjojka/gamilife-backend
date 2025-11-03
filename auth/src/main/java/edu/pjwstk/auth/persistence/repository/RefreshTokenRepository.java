@@ -11,4 +11,6 @@ public interface RefreshTokenRepository {
     Optional<RefreshToken> getRefreshTokenByHashedToken(String hashedRefreshToken);
 
     void updateRevokedStatus(UUID id, boolean revoked);
+
+    void revokeAllActiveRefreshTokensByUserId(UUID userId);
 }

@@ -1,6 +1,7 @@
 package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
+import edu.pjwstk.auth.dto.service.LoginUserResult;
 import edu.pjwstk.auth.usecase.LoginViaGoogleUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
 import edu.pjwstk.common.userApi.UserApi;
@@ -31,7 +32,13 @@ public class LoginViaGoogleUseCaseImpl implements LoginViaGoogleUseCase {
 
         return new GoogleLoginDTO(
                 GoogleLoginDTO.LoginType.EXISTING_USER,
-                tokenProvider.generateTokenPair(user.userId(), user.email(), true)
+                new LoginUserResult(
+                        user.userId(),
+                        user.email(),
+                        user.username(),
+                        true,
+                        tokenProvider.generateTokenPair(user.userId(), user.email(), true)
+                )
         );
     }
 }

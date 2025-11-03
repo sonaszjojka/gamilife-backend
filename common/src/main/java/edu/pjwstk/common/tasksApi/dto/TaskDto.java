@@ -8,7 +8,9 @@ import java.util.UUID;
 
 
 @Builder
-public record TaskDto(UUID id, String title, LocalDateTime startTime, LocalDateTime endTime, TaskCategoryDto category, TaskDifficultyDto difficulty, UUID userId, LocalDateTime completedAt, HabitDto habitTask, TaskDto previousTask, String description) implements Serializable {
+public record TaskDto(UUID id, String title, LocalDateTime startTime, LocalDateTime endTime, TaskCategoryDto category,
+                      TaskDifficultyDto difficulty, UUID userId, LocalDateTime completedAt, HabitDto habitTask,
+                      TaskDto previousTask, String description) implements Serializable {
 
     public record TaskDifficultyDto(Integer id) implements Serializable {
     }

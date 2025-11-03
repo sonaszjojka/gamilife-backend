@@ -3,16 +3,12 @@ DROP TABLE IF EXISTS task CASCADE;
 DROP TABLE IF EXISTS user_oauth_provider CASCADE;
 DROP TABLE IF EXISTS refresh_token CASCADE;
 DROP TABLE IF EXISTS email_verification CASCADE;
+DROP TABLE IF EXISTS forgot_password_code CASCADE;
 DROP TABLE IF EXISTS task_notification CASCADE;
 DROP TABLE IF EXISTS task_category CASCADE;
 DROP TABLE IF EXISTS task_difficulty CASCADE;
 DROP TABLE IF EXISTS habit CASCADE;
 DROP TABLE IF EXISTS pomodoro_task CASCADE;
-
-
-DROP TABLE IF EXISTS user_oauth_provider CASCADE;
-DROP TABLE IF EXISTS refresh_token CASCADE;
-DROP TABLE IF EXISTS "user" CASCADE;
 
 DROP TABLE IF EXISTS invitation_status CASCADE;
 DROP TABLE IF EXISTS group_type CASCADE;
@@ -126,18 +122,19 @@ CREATE TABLE pomodoro_task
 
 CREATE TABLE "user"
 (
-    id                  uuid         NOT NULL,
-    first_name          varchar(100) NOT NULL,
-    last_name           varchar(100) NOT NULL,
-    email               varchar(320) NOT NULL,
-    password            varchar(200) NULL,
-    username            varchar(100) NOT NULL,
-    date_of_birth       date         NULL,
-    experience          int          NOT NULL,
-    money               int          NOT NULL,
-    send_budget_reports boolean      NOT NULL,
-    is_profile_public   boolean      NOT NULL,
-    is_email_verified   boolean      NOT NULL,
+    id                   uuid         NOT NULL,
+    first_name           varchar(100) NOT NULL,
+    last_name            varchar(100) NOT NULL,
+    email                varchar(320) NOT NULL,
+    password             varchar(200) NULL,
+    username             varchar(100) NOT NULL,
+    date_of_birth        date         NULL,
+    experience           int          NOT NULL,
+    money                int          NOT NULL,
+    send_budget_reports  boolean      NOT NULL,
+    is_profile_public    boolean      NOT NULL,
+    is_email_verified    boolean      NOT NULL,
+    password_change_date bigint       NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
@@ -173,6 +170,17 @@ CREATE TABLE email_verification
     CONSTRAINT email_verification_pk PRIMARY KEY (id)
 );
 
+CREATE TABLE forgot_password_code
+(
+    id         UUID                        NOT NULL,
+    user_id    UUID                        NOT NULL,
+    code       VARCHAR(255)                NOT NULL,
+    issued_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    expires_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    revoked    BOOLEAN                     NOT NULL,
+    CONSTRAINT pk_forgot_password_code PRIMARY KEY (id)
+);
+
 ALTER TABLE user_oauth_provider
     ADD CONSTRAINT user_oauth_provider_user
         FOREIGN KEY (user_id)
@@ -186,8 +194,12 @@ ALTER TABLE refresh_token
 ALTER TABLE email_verification
     ADD CONSTRAINT email_validation_tokens_users
         FOREIGN KEY (user_id)
-            REFERENCES "user" (id)
-;
+            REFERENCES "user" (id);
+
+ALTER TABLE forgot_password_code
+    ADD CONSTRAINT forgot_password_code_users
+        FOREIGN KEY (user_id)
+            REFERENCES "user" (id);
 
 -- ==================== INTER-MODULE CONSTRAINTS ====================
 -- TODO

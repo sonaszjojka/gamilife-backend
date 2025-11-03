@@ -1,10 +1,8 @@
 package edu.pjwstk.user.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -25,4 +23,12 @@ public class User {
     private boolean sendBudgetReports;
     private boolean isProfilePublic;
     private boolean isEmailVerified;
+
+    @Setter(AccessLevel.NONE)
+    private Instant passwordChangeDate;
+
+    public void setPassword(String password) {
+        this.password = password;
+        this.passwordChangeDate = Instant.now();
+    }
 }

@@ -36,4 +36,9 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
     public void updateRevokedStatus(UUID id, boolean revoked) {
         jpaRefreshTokenRepository.updateRevokedById(id, revoked);
     }
+
+    @Override
+    public void revokeAllActiveRefreshTokensByUserId(UUID userId) {
+        jpaRefreshTokenRepository.revokeAllActiveRefreshTokensByUserId(userId);
+    }
 }

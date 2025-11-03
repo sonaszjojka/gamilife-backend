@@ -38,6 +38,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_UNVERIFIED"));
         }
 
-        return new UserDetailsImpl(dto.userId(), dto.email(), dto.password(), authorities);
+        return new UserDetailsImpl(dto.userId(), dto.email(), dto.password(), dto.passwordChangeDate(), authorities);
     }
 }

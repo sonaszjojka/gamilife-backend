@@ -19,6 +19,9 @@ spring:
       email-verification-enabled: true
       expires-in: 300
       resend-interval: 120
+    forgot-password-code:
+      expires-in: 900
+      resend-interval: 120
   jpa:
     properties:
       hibernate:
@@ -34,6 +37,9 @@ spring:
               - openid
               - profile
               - email
+app:
+  invitation:
+    invitation-url-prefix: ${INVITATION-URL-PREFIX}
 sendgrid:
   api-key: ${SENDGRID_API_KEY}
   send-emails: true

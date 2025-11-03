@@ -6,10 +6,15 @@ import edu.pjwstk.groupshop.exception.*;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.auth.exceptions.*;
+import edu.pjwstk.common.authApi.exception.ResetPasswordGenericException;
+import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
 import edu.pjwstk.common.userApi.exception.UserAlreadyExistsException;
 import edu.pjwstk.common.userApi.exception.UserNotFoundException;
-import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
+import edu.pjwstk.groups.exception.*;
+import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
+import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.tasks.exception.*;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,22 +24,46 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
+@Slf4j
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handleValidation(MethodArgumentNotValidException ex) {
-        List<String> errors = ex.getBindingResult()
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult()
                 .getFieldErrors()
-                .stream()
-                .map(error -> error.getDefaultMessage() == null ? "Validation error" : error.getDefaultMessage())
-                .collect(Collectors.toList());
+                .forEach(
+                        error -> errors.put(error.getField(), error.getDefaultMessage() == null
+                                ? "Validation error"
+                                : error.getDefaultMessage())
+                );
+
         ProblemDetail problem = formatErrorResponse(ErrorCode.VALIDATION_ERROR, "Validation failed");
         problem.setProperty("errors", errors);
+        return problem;
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ProblemDetail handleConstraintValidationException(ConstraintViolationException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getConstraintViolations()
+                .forEach(
+                        cv -> errors.put(
+                                cv.getPropertyPath()
+                                        .toString()
+                                        .substring(cv.getPropertyPath().toString().lastIndexOf(".") + 1),
+                                cv.getMessage())
+                );
+
+        ProblemDetail problem = formatErrorResponse(ErrorCode.VALIDATION_ERROR, "Validation failed");
+        problem.setProperty("errors", errors);
+
         return problem;
     }
 
@@ -134,8 +163,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(GroupMemberNotFoundException.class)
-    public ProblemDetail handleGroupMemberNotFoundException(GroupMemberNotFoundException ex) {
+    public ProblemDetail handleInvalidHabitData(GroupMemberNotFoundException ex) {
         return formatErrorResponse(ErrorCode.GROUP_MEMBER_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
+    public ProblemDetail handleInvalidHabitData(org.springframework.security.access.AccessDeniedException ex) {
+        return formatErrorResponse(ErrorCode.ACCESS_DENIED, ex.getMessage());
     }
 
     @ExceptionHandler(GroupTypeNotFoundException.class)
@@ -256,6 +290,20 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.INVALID_GROUP_ITEM_IN_SHOP_DATA, ex.getMessage());
     }
 
+    @ExceptionHandler(ResetPasswordGenericException.class)
+    public ProblemDetail handleResetPasswordGeneric(ResetPasswordGenericException ex) {
+        return formatErrorResponse(ErrorCode.PASSWORD_RESET_FAILED, ex.getMessage());
+    }
+
+    @ExceptionHandler(OldAndNewPasswordAreTheSameException.class)
+    public ProblemDetail handleOldAndNewPasswordAreTheSame(OldAndNewPasswordAreTheSameException ex) {
+        return formatErrorResponse(ErrorCode.OLD_AND_NEW_PASSWORD_ARE_SAME, ex.getMessage());
+    }
+
+    @ExceptionHandler({CannotCurrentlyCreateNewEmailVerificationCodeException.class, CannotCurrentlyCreateNewForgotPasswordCodeException.class})
+    public ProblemDetail handleTooManyRequests(Exception ex) {
+        return formatErrorResponse(ErrorCode.TOO_MANY_REQUESTS, ex.getMessage());
+    }
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleOther(Exception ex) {
