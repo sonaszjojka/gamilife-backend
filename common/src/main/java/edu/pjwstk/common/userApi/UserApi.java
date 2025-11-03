@@ -24,4 +24,6 @@ public interface UserApi {
     CheckIfUsersEmailIsVerifiedApiDto checkIfUsersEmailIsVerified(UUID userId);
 
     BasicUserInfoApiDto confirmUserEmailVerification(UUID userId);
+
+    void resetUserPassword(UUID userId, String hashedNewPassword);
 }

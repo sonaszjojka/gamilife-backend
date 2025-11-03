@@ -4,7 +4,6 @@ import edu.pjwstk.common.tasksApi.dto.TaskDto;
 import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskRequestDto;
 import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskResponseDto;
 
-
 import java.util.UUID;
 
 public interface TasksApi {

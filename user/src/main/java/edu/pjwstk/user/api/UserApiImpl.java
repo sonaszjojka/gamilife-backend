@@ -25,6 +25,7 @@ public class UserApiImpl implements UserApi {
     private final GetUserByIdUseCase getUserByIdUseCase;
     private final RegisterNewUserUseCase registerNewUserUseCase;
     private final UpdateUserEmailUseCase updateUserEmailUseCase;
+    private final ResetUserPasswordUseCase resetUserPasswordUseCase;
 
     @Override
     @Transactional
@@ -64,5 +65,10 @@ public class UserApiImpl implements UserApi {
 
     public BasicUserInfoApiDto confirmUserEmailVerification(UUID userId) {
         return confirmUserEmailVerificationUseCase.execute(userId);
+    }
+
+    @Override
+    public void resetUserPassword(UUID userId, String hashedNewPassword) {
+        resetUserPasswordUseCase.execute(userId, hashedNewPassword);
     }
 }

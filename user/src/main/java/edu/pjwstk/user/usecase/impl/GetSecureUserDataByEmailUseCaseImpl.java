@@ -28,7 +28,9 @@ public class GetSecureUserDataByEmailUseCaseImpl implements GetSecureUserDataByE
         return Optional.of(new SecureUserInfoApiDto(
                 user.getId(),
                 user.getEmail(),
+                user.getUsername(),
                 user.getPassword(),
+                user.getPasswordChangeDate(),
                 user.isEmailVerified()
         ));
     }

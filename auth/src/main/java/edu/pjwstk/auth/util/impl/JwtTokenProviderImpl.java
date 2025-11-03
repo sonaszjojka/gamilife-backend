@@ -1,29 +1,25 @@
 package edu.pjwstk.auth.util.impl;
 
-import edu.pjwstk.auth.dto.service.AuthTokens;
 import edu.pjwstk.auth.util.TokenProvider;
+import edu.pjwstk.common.authApi.dto.AuthTokens;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
 
 public class JwtTokenProviderImpl implements TokenProvider {
 
     private final SecretKey secretKey;
-    private final UserDetailsService userDetailsService;
     private final long accessTokenExpirationTime;
     private final long refreshTokenExpirationTime;
 
     public JwtTokenProviderImpl(
-            UserDetailsService userDetailsService,
             String secretKey,
             long accessTokenExpirationTime,
             long refreshTokenExpirationTime
@@ -33,7 +29,6 @@ public class JwtTokenProviderImpl implements TokenProvider {
                 "HmacSHA256"
         );
         this.accessTokenExpirationTime = accessTokenExpirationTime;
-        this.userDetailsService = userDetailsService;
         this.refreshTokenExpirationTime = refreshTokenExpirationTime;
     }
 
@@ -42,45 +37,26 @@ public class JwtTokenProviderImpl implements TokenProvider {
         return Jwts.builder()
                 .subject(email)
                 .claim("userId", userId)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + (accessTokenExpirationTime * 1000L)))
+                .issuedAt(Date.from(Instant.now()))
+                .expiration(Date.from(Instant.now().plusSeconds(accessTokenExpirationTime)))
                 .signWith(secretKey)
                 .compact();
     }
 
     @Override
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parser()
-                    .verifyWith(secretKey)
-                    .build()
-                    .parseSignedClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    @Override
-    public Authentication getAuthenticationFromToken(String token) {
-        String email = Jwts.parser()
+    public Claims validateTokenAndExtractClaims(String token) {
+        return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                .getPayload();
     }
 
     @Override
     public AuthTokens generateTokenPair(UUID userId, String email, boolean isEmailVerified) {
         return new AuthTokens(
                 generateAccessToken(userId, email),
-                UUID.randomUUID().toString(),
-                isEmailVerified
+                UUID.randomUUID().toString()
         );
     }
 
@@ -93,6 +69,5 @@ public class JwtTokenProviderImpl implements TokenProvider {
     public long getRefreshTokenExpirationTime() {
         return refreshTokenExpirationTime;
     }
-
 
 }
