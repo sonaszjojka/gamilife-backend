@@ -22,6 +22,7 @@
         <module>common-api</module>
         <module>email-sender</module>
         <module>common-web</module>
+        <module>common-core</module>
     </modules>
     <name>gami-life</name>
     <description>Backend application GamiLife</description>
