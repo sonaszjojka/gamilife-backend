@@ -1,6 +1,10 @@
 package edu.pjwstk.application.exception;
 
 
+import edu.pjwstk.grouptasks.exception.*;
+import edu.pjwstk.groups.exception.*;
+import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
+import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.auth.exceptions.*;
 import edu.pjwstk.common.authApi.exception.ResetPasswordGenericException;
 import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
@@ -147,6 +151,11 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.INVALID_TASK_DATA, ex.getMessage());
     }
 
+    @ExceptionHandler(UnauthorizedTaskAccessException.class)
+    public ProblemDetail handleUnauthorizedTaskAccess(UnauthorizedTaskAccessException ex) {
+        return formatErrorResponse(ErrorCode.UNAUTHORIZED_TASK_ACCESS, ex.getMessage());
+    }
+
     @ExceptionHandler(InvalidPomodoroTaskData.class)
     public ProblemDetail handleInvalidPomodoroData(InvalidPomodoroTaskData ex) {
         return formatErrorResponse(ErrorCode.INVALID_POMODORO_TASK_DATA, ex.getMessage());
@@ -247,6 +256,16 @@ public class GlobalExceptionHandler {
         return formatErrorResponse(ErrorCode.INVALID_GROUP_INVITATION_TOKEN, ex.getMessage());
     }
 
+    @ExceptionHandler(GroupTaskNotFoundException.class)
+    public ProblemDetail handleGroupTaskNotFound(GroupTaskNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.GROUP_TASK_NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(GroupTaskMemberNotFoundException.class)
+    public ProblemDetail handleGroupTaskMemberNotFoundException(GroupTaskNotFoundException ex) {
+        return formatErrorResponse(ErrorCode.Group_TASK_MEMBER_NOT_FOUND, ex.getMessage());
+    }
+  
     @ExceptionHandler(ResetPasswordGenericException.class)
     public ProblemDetail handleResetPasswordGeneric(ResetPasswordGenericException ex) {
         return formatErrorResponse(ErrorCode.PASSWORD_RESET_FAILED, ex.getMessage());

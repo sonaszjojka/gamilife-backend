@@ -30,6 +30,7 @@ public class CreateTaskMapperImpl implements CreateTaskMapper {
                 .previousTask(previousTask)
                 .description(req.description())
                 .completedAt(req.completedAt())
+                .isGroupTask(false)
                 .build();
     }
 

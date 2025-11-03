@@ -55,6 +55,9 @@ public enum ErrorCode {
     GROUP_INVITATION_EXPIRED(ErrorCode.GROUP_INVITATION_EXPIRED_CODE, "Group Invitation Has Expired", HttpStatus.GONE),
     ADMIN_CANNOT_LEAVE_GROUP(ErrorCode.ADMIN_CANNOT_LEAVE_GROUP_CODE, "Admin Cannot Leave Group", HttpStatus.UNPROCESSABLE_ENTITY),
     INVALID_GROUP_INVITATION_TOKEN(ErrorCode.INVALID_GROUP_INVITATION_TOKEN_CODE, "Invalid Invitation Group Token", HttpStatus.BAD_REQUEST),
+    GROUP_TASK_NOT_FOUND(ErrorCode.GROUP_TASK_NOT_FOUND_CODE, "Group Task Not Found", HttpStatus.NOT_FOUND),
+    Group_TASK_MEMBER_NOT_FOUND(ErrorCode.Group_TASK_MEMBER_NOT_FOUND_CODE, "Group Task Member Not Found", HttpStatus.NOT_FOUND),
+    UNAUTHORIZED_TASK_ACCESS(ErrorCode.UNAUTHORIZED_TASK_ACCESS_CODE, " Unauthorized Task Access", HttpStatus.UNAUTHORIZED),
     TOO_MANY_REQUESTS(ErrorCode.TOO_MANY_REQUESTS_CODE, "Too Many Requests", HttpStatus.TOO_MANY_REQUESTS),
     ;
 
@@ -91,7 +94,9 @@ public enum ErrorCode {
     public static final int INVALID_TASK_DATA_CODE = 1027;
     public static final int INVALID_POMODORO_TASK_DATA_CODE = 1028;
     public static final int POMODORO_TASK_NOT_FOUND_CODE = 1029;
-    public static final int GROUP_MEMBER_NOT_FOUND_CODE = 3030;
+    public static final int GROUP_MEMBER_NOT_FOUND_CODE = 1030;
+    public static final int GROUP_TASK_NOT_FOUND_CODE = 4031;
+    public static final int Group_TASK_MEMBER_NOT_FOUND_CODE = 4032;
     public static final int GROUP_TYPE_NOT_FOUND_CODE = 3031;
     public static final int INVALID_GROUP_REQUEST_DATA_CODE = 3032;
     public static final int GROUP_REQUEST_STATUS_NOT_FOUND_CODE = 3033;
@@ -108,6 +113,7 @@ public enum ErrorCode {
     public static final int USER_LEFT_GROUP_CODE = 3044;
     public static final int ADMIN_CANNOT_LEAVE_GROUP_CODE = 3055;
     public static final int INVALID_GROUP_INVITATION_TOKEN_CODE = 3056;
+    public static final int UNAUTHORIZED_TASK_ACCESS_CODE = 1033;
 
     private final int code;
     private final String title;

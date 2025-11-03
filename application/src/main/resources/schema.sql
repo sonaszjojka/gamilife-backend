@@ -5,10 +5,19 @@ DROP TABLE IF EXISTS refresh_token CASCADE;
 DROP TABLE IF EXISTS email_verification CASCADE;
 DROP TABLE IF EXISTS forgot_password_code CASCADE;
 DROP TABLE IF EXISTS task_notification CASCADE;
+DROP TABLE IF EXISTS task CASCADE;
 DROP TABLE IF EXISTS task_category CASCADE;
 DROP TABLE IF EXISTS task_difficulty CASCADE;
 DROP TABLE IF EXISTS habit CASCADE;
 DROP TABLE IF EXISTS pomodoro_task CASCADE;
+
+
+DROP TABLE IF EXISTS user_oauth_provider CASCADE;
+DROP TABLE IF EXISTS refresh_token CASCADE;
+DROP TABLE IF EXISTS "user" CASCADE;
+
+DROP TABLE IF EXISTS group_task CASCADE;
+DROP TABLE IF EXISTS group_task_member CASCADE;
 
 DROP TABLE IF EXISTS invitation_status CASCADE;
 DROP TABLE IF EXISTS group_type CASCADE;
@@ -19,16 +28,18 @@ DROP TABLE IF EXISTS group_invitation CASCADE;
 DROP TABLE IF EXISTS chat_message CASCADE;
 DROP TABLE IF EXISTS "group" CASCADE;
 
+
+
 -- ==================== TASKS ====================
 CREATE TABLE habit
 (
-    habit_id        UUID    NOT NULL,
+    habit_id        UUID                        NOT NULL,
     updated_at      TIMESTAMP WITHOUT TIME ZONE,
     created_at      TIMESTAMP WITHOUT TIME ZONE,
-    cycle_length    BIGINT  NOT NULL,
-    current_streak  INTEGER NOT NULL,
-    longest_streak  INTEGER NOT NULL,
-    is_accepted     BOOLEAN NOT NULL,
+    cycle_length    BIGINT                      NOT NULL,
+    current_streak  INTEGER                     NOT NULL,
+    longest_streak  INTEGER                     NOT NULL,
+    is_accepted     BOOLEAN                     NOT NULL,
     accepted_date   TIMESTAMP WITHOUT TIME ZONE,
     decline_message VARCHAR(300),
     CONSTRAINT pk_habit PRIMARY KEY (habit_id)
@@ -42,11 +53,12 @@ CREATE TABLE task
     end_time         TIMESTAMP WITHOUT TIME ZONE,
     category_id      INTEGER                     NOT NULL,
     difficulty_id    INTEGER                     NOT NULL,
-    user_id          UUID                        NOT NULL,
+    user_id          UUID,
     completed_at     TIMESTAMP WITHOUT TIME ZONE,
     task_habit_id    UUID,
     previous_task_id UUID,
     description      VARCHAR(200),
+    is_group_task   BOOLEAN                     NOT NULL,
     CONSTRAINT pk_task PRIMARY KEY (task_id)
 );
 
@@ -75,33 +87,22 @@ CREATE TABLE task_notification
 );
 
 ALTER TABLE task
-    ADD CONSTRAINT uc_task_previous_task
-        UNIQUE (previous_task_id);
+    ADD CONSTRAINT uc_task_previous_task UNIQUE (previous_task_id);
 
 ALTER TABLE task_notification
-    ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK
-        FOREIGN KEY (task_id)
-            REFERENCES task (task_id);
+    ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK FOREIGN KEY (task_id) REFERENCES task (task_id);
 
 ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_CATEGORY
-        FOREIGN KEY (category_id)
-            REFERENCES task_category (category_id);
+    ADD CONSTRAINT FK_TASK_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES task_category (category_id);
 
 ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_DIFFICULTY
-        FOREIGN KEY (difficulty_id)
-            REFERENCES task_difficulty (difficulty_id);
+    ADD CONSTRAINT FK_TASK_ON_DIFFICULTY FOREIGN KEY (difficulty_id) REFERENCES task_difficulty (difficulty_id);
 
 ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_PREVIOUS_TASK
-        FOREIGN KEY (previous_task_id)
-            REFERENCES task (task_id);
+    ADD CONSTRAINT FK_TASK_ON_PREVIOUS_TASK FOREIGN KEY (previous_task_id) REFERENCES task (task_id);
 
 ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT
-        FOREIGN KEY (task_habit_id)
-            REFERENCES habit (habit_id);
+    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_habit_id) REFERENCES habit (habit_id);
 
 --- Pomodoro todo users + schemas per module
 
@@ -116,42 +117,21 @@ CREATE TABLE pomodoro_task
 );
 -- ==================== USER ====================
 
-CREATE TABLE "user"
-(
-    id                   uuid         NOT NULL,
-    first_name           varchar(100) NOT NULL,
-    last_name            varchar(100) NOT NULL,
-    email                varchar(320) NOT NULL,
-    password             varchar(200) NULL,
-    username             varchar(100) NOT NULL,
-    date_of_birth        date         NULL,
-    experience           int          NOT NULL,
-    money                int          NOT NULL,
-    send_budget_reports  boolean      NOT NULL,
-    is_profile_public    boolean      NOT NULL,
-    is_email_verified    boolean      NOT NULL,
-    password_change_date bigint       NOT NULL,
-    CONSTRAINT pk_user PRIMARY KEY (id)
+CREATE TABLE user_oauth_provider (
+  id uuid  NOT NULL,
+  user_id uuid  NOT NULL,
+  provider varchar(255)  NOT NULL,
+  provider_id varchar(255)  NOT NULL,
+  CONSTRAINT pk_user_oauth_provider PRIMARY KEY (id)
 );
 
--- ==================== AUTH ====================
-CREATE TABLE user_oauth_provider
-(
-    id          uuid         NOT NULL,
-    user_id     uuid         NOT NULL,
-    provider    varchar(255) NOT NULL,
-    provider_id varchar(255) NOT NULL,
-    CONSTRAINT pk_user_oauth_provider PRIMARY KEY (id)
-);
-
-CREATE TABLE refresh_token
-(
-    id         uuid         NOT NULL,
-    user_id    uuid         NOT NULL,
-    token      varchar(255) NOT NULL,
-    issued_at  timestamp(6) NOT NULL,
-    expires_at timestamp(6) NOT NULL,
-    revoked    boolean      NOT NULL,
+CREATE TABLE refresh_token (
+    id uuid  NOT NULL,
+    user_id uuid  NOT NULL,
+    token varchar(255)  NOT NULL,
+    issued_at timestamp(6)  NOT NULL,
+    expires_at timestamp(6)  NOT NULL,
+    revoked boolean  NOT NULL,
     CONSTRAINT pk_refresh_token PRIMARY KEY (id)
 );
 
@@ -166,6 +146,22 @@ CREATE TABLE email_verification
     CONSTRAINT email_verification_pk PRIMARY KEY (id)
 );
 
+CREATE TABLE "user" (
+   id uuid  NOT NULL,
+   first_name varchar(100)  NOT NULL,
+   last_name varchar(100)  NOT NULL,
+   email varchar(320)  NOT NULL,
+   password varchar(200)  NULL,
+   username varchar(100)  NOT NULL,
+   date_of_birth date  NULL,
+   experience int  NOT NULL,
+   money int  NOT NULL,
+   send_budget_reports boolean  NOT NULL,
+   is_profile_public boolean  NOT NULL,
+   is_email_verified boolean  NOT NULL,
+   CONSTRAINT pk_user PRIMARY KEY (id)
+);
+
 CREATE TABLE forgot_password_code
 (
     id         UUID                        NOT NULL,
@@ -178,14 +174,14 @@ CREATE TABLE forgot_password_code
 );
 
 ALTER TABLE user_oauth_provider
-    ADD CONSTRAINT user_oauth_provider_user
-        FOREIGN KEY (user_id)
-            REFERENCES "user" (id);
+ADD CONSTRAINT user_oauth_provider_user
+FOREIGN KEY (user_id)
+REFERENCES "user" (id);
 
 ALTER TABLE refresh_token
-    ADD CONSTRAINT refresh_token_user
-        FOREIGN KEY (user_id)
-            REFERENCES "user" (id);
+ADD CONSTRAINT refresh_token_user
+    FOREIGN KEY (user_id)
+        REFERENCES "user" (id);
 
 ALTER TABLE email_verification
     ADD CONSTRAINT email_validation_tokens_users
@@ -201,14 +197,15 @@ ALTER TABLE forgot_password_code
 -- TODO
 
 -- ==================== GROUPS ====================
+
 CREATE TABLE chat_message
 (
-    message_id   UUID         NOT NULL,
-    is_important BOOLEAN      NOT NULL,
-    send_at      TIMESTAMP WITHOUT TIME ZONE,
-    group_id     UUID         NOT NULL,
+    message_id   UUID    NOT NULL,
     content      VARCHAR(255) NOT NULL,
-    sender_id    UUID         NOT NULL,
+    is_important BOOLEAN NOT NULL,
+    send_at      TIMESTAMP WITHOUT TIME ZONE,
+    group_id     UUID    NOT NULL,
+    sender_id    UUID    NOT NULL,
     CONSTRAINT pk_chat_message PRIMARY KEY (message_id)
 );
 
@@ -225,36 +222,36 @@ CREATE TABLE "group"
 
 CREATE TABLE group_invitation
 (
-    group_invitation_id  UUID                        NOT NULL,
-    group_id             UUID                        NOT NULL,
-    user_id              UUID                        NOT NULL,
-    expires_at           TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    mail_sent_at         TIMESTAMP WITHOUT TIME ZONE,
-    link                 VARCHAR(200)                NOT NULL,
-    token_hash           VARCHAR(255)                NOT NULL,
-    invitation_status_id INTEGER                     NOT NULL,
+    group_invitation_id      UUID                        NOT NULL,
+    group_id                 UUID                        NOT NULL,
+    user_id                  UUID                        NOT NULL,
+    expires_at               TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    mail_sent_at             TIMESTAMP WITHOUT TIME ZONE,
+    link                     VARCHAR(200)                NOT NULL,
+    invitation_status_id     INTEGER                     NOT NULL,
+    token_hash               VARCHAR(200)                NOT NULL,
     CONSTRAINT pk_group_invitation PRIMARY KEY (group_invitation_id)
 );
 
 CREATE TABLE group_member
 (
-    group_member_id    UUID                        NOT NULL,
-    group_id           UUID                        NOT NULL,
-    user_id            UUID                        NOT NULL,
-    joined_at          TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    group_member_id    UUID NOT NULL,
+    group_id           UUID                                     NOT NULL,
+    user_id            UUID                                     NOT NULL,
+    joined_at          TIMESTAMP WITHOUT TIME ZONE              NOT NULL,
     left_at            TIMESTAMP WITHOUT TIME ZONE,
-    group_money        INTEGER                     NOT NULL,
-    total_earned_money INTEGER                     NOT NULL,
+    group_money        INTEGER                                  NOT NULL,
+    total_earned_money INTEGER                                  NOT NULL,
     CONSTRAINT pk_group_member PRIMARY KEY (group_member_id)
 );
 
 CREATE TABLE group_request
 (
-    group_request_id UUID    NOT NULL,
-    user_id          UUID    NOT NULL,
-    group_id         UUID    NOT NULL,
+    group_request_id UUID NOT NULL,
+    user_id          UUID                                     NOT NULL,
+    group_id         UUID                                     NOT NULL,
     created_at       TIMESTAMP WITHOUT TIME ZONE,
-    status_id        INTEGER NOT NULL,
+    status_id        INTEGER                                  NOT NULL,
     CONSTRAINT pk_group_request PRIMARY KEY (group_request_id)
 );
 
@@ -285,9 +282,6 @@ ALTER TABLE "group"
 ALTER TABLE chat_message
     ADD CONSTRAINT FK_CHAT_MESSAGE_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (group_id);
 
-ALTER TABLE chat_message
-    ADD CONSTRAINT FK_CHAT_MESSAGE_ON_SENDER FOREIGN KEY (sender_id) REFERENCES group_member (group_member_id);
-
 ALTER TABLE group_invitation
     ADD CONSTRAINT FK_GROUP_INVITATION_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (group_id);
 
@@ -305,3 +299,56 @@ ALTER TABLE group_request
 
 ALTER TABLE group_request
     ADD CONSTRAINT FK_GROUP_REQUEST_ON_STATUS FOREIGN KEY (status_id) REFERENCES group_request_status (group_request_status_id);
+
+
+
+-- ==========================================Group Tasks==========================================
+CREATE TABLE group_task
+(
+    group_task_id   uuid         NOT NULL,
+    task_id   uuid         NOT NULL,
+    group_id        uuid         NOT NULL,
+    reward          int          NULL,
+    is_accepted     boolean      NULL,
+    accepted_date   timestamp    NULL,
+    decline_message varchar(300) NULL,
+    last_edit       timestamp    NULL,
+    CONSTRAINT group_task_pk PRIMARY KEY (group_task_id)
+);
+
+-- Table: group_task_member
+CREATE TABLE group_task_member
+(
+    group_task_member_id uuid    NOT NULL,
+    group_task_id        uuid    NOT NULL,
+    group_member_id      uuid     NOT NULL,
+    is_marked_done       boolean NOT NULL,
+    CONSTRAINT group_task_member_pk PRIMARY KEY (group_task_member_id)
+);
+
+
+ALTER TABLE group_task_member
+    ADD CONSTRAINT group_task_member_group_member
+        FOREIGN KEY (group_member_id)
+            REFERENCES group_member (group_member_id)
+;
+
+
+ALTER TABLE group_task_member
+    ADD CONSTRAINT group_task_member_group_task
+        FOREIGN KEY (group_task_id)
+            REFERENCES group_task (group_task_id)
+;
+
+ALTER TABLE group_task
+    ADD CONSTRAINT group_task_group
+        FOREIGN KEY (group_id)
+            REFERENCES "group" (group_id)
+;
+
+ALTER TABLE group_task
+    ADD CONSTRAINT group_task_task
+        FOREIGN KEY (task_id)
+            REFERENCES task (task_id)
+;
+

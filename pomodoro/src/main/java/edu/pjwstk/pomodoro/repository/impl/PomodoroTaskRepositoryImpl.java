@@ -1,6 +1,6 @@
 package edu.pjwstk.pomodoro.repository.impl;
 
-import edu.pjwstk.pomodoro.domain.PomodoroTask;
+import edu.pjwstk.pomodoro.entity.PomodoroTask;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;
 import edu.pjwstk.pomodoro.repository.jpa.PomodoroTaskRepositoryJpa;
 import org.springframework.stereotype.Repository;

@@ -60,7 +60,6 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
                 .groupMoney(0)
                 .totalEarnedMoney(0)
                 .build();
-        //todo init other entities such as group_shop
 
         groupMemberRepository.save(groupMemberAdmin);
         return createGroupUseCaseMapper.toResponse(savedGroup);
