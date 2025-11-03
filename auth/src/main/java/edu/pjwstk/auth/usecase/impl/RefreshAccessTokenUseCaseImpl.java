@@ -1,5 +1,6 @@
 package edu.pjwstk.auth.usecase.impl;
 
+import edu.pjwstk.api.auth.dto.AuthTokens;
 import edu.pjwstk.auth.exceptions.RefreshTokenExpiredException;
 import edu.pjwstk.auth.exceptions.RefreshTokenRevokedException;
 import edu.pjwstk.auth.exceptions.RefreshTokenUnknownException;
@@ -7,10 +8,9 @@ import edu.pjwstk.auth.models.RefreshToken;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.usecase.RefreshAccessTokenUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
-import edu.pjwstk.common.authApi.dto.AuthTokens;
-import edu.pjwstk.common.userApi.UserApi;
-import edu.pjwstk.common.userApi.dto.SecureUserInfoApiDto;
-import edu.pjwstk.common.userApi.exception.UserNotFoundException;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import edu.pjwstk.api.user.exception.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

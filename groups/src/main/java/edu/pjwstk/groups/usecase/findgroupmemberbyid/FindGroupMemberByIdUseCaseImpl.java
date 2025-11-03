@@ -1,9 +1,9 @@
 package edu.pjwstk.groups.usecase.findgroupmemberbyid;
 
 import edu.pjwstk.groups.entity.GroupMember;
-import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
+import edu.pjwstk.api.groups.exception.GroupMemberNotFoundException;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
-import edu.pjwstk.common.groupsApi.dto.GroupMemberDto;
+import edu.pjwstk.api.groups.dto.GroupMemberDto;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

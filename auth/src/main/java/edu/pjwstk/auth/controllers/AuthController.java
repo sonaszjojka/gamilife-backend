@@ -1,12 +1,12 @@
 package edu.pjwstk.auth.controllers;
 
+import edu.pjwstk.api.auth.dto.AuthTokens;
 import edu.pjwstk.auth.dto.request.*;
 import edu.pjwstk.auth.dto.response.AfterLoginResponse;
 import edu.pjwstk.auth.dto.service.*;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.usecase.*;
-import edu.pjwstk.common.authApi.dto.AuthTokens;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.commonweb.CookieUtil;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;

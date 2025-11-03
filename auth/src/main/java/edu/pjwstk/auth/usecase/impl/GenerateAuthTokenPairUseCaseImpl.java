@@ -1,10 +1,10 @@
 package edu.pjwstk.auth.usecase.impl;
 
+import edu.pjwstk.api.auth.dto.AuthTokens;
 import edu.pjwstk.auth.models.RefreshToken;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.usecase.GenerateAuthTokenPairUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
-import edu.pjwstk.common.authApi.dto.AuthTokens;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

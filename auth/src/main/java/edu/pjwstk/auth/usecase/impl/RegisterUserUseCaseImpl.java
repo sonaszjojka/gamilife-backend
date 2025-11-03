@@ -2,9 +2,9 @@ package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.auth.dto.service.RegisterUserDto;
 import edu.pjwstk.auth.usecase.RegisterUserUseCase;
-import edu.pjwstk.common.userApi.UserApi;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
-import edu.pjwstk.common.userApi.dto.RegisterUserApiDto;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import edu.pjwstk.api.user.dto.RegisterUserApiDto;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

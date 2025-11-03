@@ -1,9 +1,9 @@
 package edu.pjwstk.groups.usecase.createchatmessage;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
-import edu.pjwstk.common.groupsApi.exception.GroupNotFoundException;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.groups.exception.GroupMemberNotFoundException;
+import edu.pjwstk.api.groups.exception.GroupNotFoundException;
 import edu.pjwstk.groups.entity.ChatMessage;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;

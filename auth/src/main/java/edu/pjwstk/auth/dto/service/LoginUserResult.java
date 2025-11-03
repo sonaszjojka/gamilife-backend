@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.dto.service;
 
-import edu.pjwstk.common.authApi.dto.AuthTokens;
+import edu.pjwstk.api.auth.dto.AuthTokens;
 
 import java.util.UUID;
 

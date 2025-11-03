@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.util.impl;
 
+import edu.pjwstk.api.auth.dto.AuthTokens;
 import edu.pjwstk.auth.util.TokenProvider;
-import edu.pjwstk.common.authApi.dto.AuthTokens;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.codec.digest.DigestUtils;

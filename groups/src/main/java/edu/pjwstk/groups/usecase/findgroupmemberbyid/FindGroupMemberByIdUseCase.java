@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.findgroupmemberbyid;
 
-import edu.pjwstk.common.groupsApi.dto.GroupMemberDto;
+import edu.pjwstk.api.groups.dto.GroupMemberDto;
 
 import java.util.UUID;
 

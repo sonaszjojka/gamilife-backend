@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase;
 
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
 
 import java.util.Optional;
 

@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.application.findtaskbyid;
 
-import edu.pjwstk.common.tasksApi.dto.TaskDto;
+import edu.pjwstk.api.tasks.dto.TaskDto;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.exception.TaskNotFoundException;
 import edu.pjwstk.tasks.repository.TaskRepository;

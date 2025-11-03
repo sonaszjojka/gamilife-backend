@@ -6,12 +6,12 @@ import edu.pjwstk.auth.models.EmailVerificationCode;
 import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
 import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
 import edu.pjwstk.auth.util.VerificationCodeUtil;
-import edu.pjwstk.common.emailSenderApi.EmailSenderApi;
-import edu.pjwstk.common.emailSenderApi.EmailSendingException;
-import edu.pjwstk.common.emailSenderApi.MailContentType;
-import edu.pjwstk.common.emailSenderApi.MailDto;
-import edu.pjwstk.common.userApi.UserApi;
-import edu.pjwstk.common.userApi.dto.CheckIfUsersEmailIsVerifiedApiDto;
+import edu.pjwstk.api.emailSender.EmailSenderApi;
+import edu.pjwstk.api.emailSender.EmailSendingException;
+import edu.pjwstk.api.emailSender.MailContentType;
+import edu.pjwstk.api.emailSender.MailDto;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.CheckIfUsersEmailIsVerifiedApiDto;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;

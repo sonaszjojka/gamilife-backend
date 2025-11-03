@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.util;
 
-import edu.pjwstk.common.authApi.dto.AuthTokens;
+import edu.pjwstk.api.auth.dto.AuthTokens;
 import io.jsonwebtoken.Claims;
 
 import java.util.UUID;

@@ -4,9 +4,9 @@ import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
 import edu.pjwstk.auth.dto.service.LoginUserResult;
 import edu.pjwstk.auth.usecase.LoginViaGoogleUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
-import edu.pjwstk.common.userApi.UserApi;
-import edu.pjwstk.common.userApi.dto.SecureUserInfoApiDto;
-import edu.pjwstk.common.userApi.exception.UserNotFoundException;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import edu.pjwstk.api.user.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,10 +1,10 @@
 package edu.pjwstk.user.usecase.impl;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.AuthTokens;
-import edu.pjwstk.common.authApi.dto.ChangePasswordCommand;
-import edu.pjwstk.common.authApi.dto.RotateUserTokensCommand;
-import edu.pjwstk.common.userApi.exception.UserNotFoundException;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.AuthTokens;
+import edu.pjwstk.api.auth.dto.ChangePasswordCommand;
+import edu.pjwstk.api.auth.dto.RotateUserTokensCommand;
+import edu.pjwstk.api.user.exception.UserNotFoundException;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.dto.service.ChangeUserPasswordCommand;
 import edu.pjwstk.user.persistence.UserRepository;

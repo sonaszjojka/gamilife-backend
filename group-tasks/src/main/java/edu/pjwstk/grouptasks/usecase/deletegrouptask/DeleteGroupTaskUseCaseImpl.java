@@ -1,6 +1,6 @@
 package edu.pjwstk.grouptasks.usecase.deletegrouptask;
 
-import edu.pjwstk.common.tasksApi.TasksApi;
+import edu.pjwstk.api.tasks.TasksApi;
 import edu.pjwstk.grouptasks.entity.GroupTask;
 import edu.pjwstk.grouptasks.exception.GroupTaskNotFoundException;
 import edu.pjwstk.grouptasks.repository.GroupTaskRepository;

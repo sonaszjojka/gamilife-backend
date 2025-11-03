@@ -1,6 +1,6 @@
 package edu.pjwstk.user.controllers;
 
-import edu.pjwstk.common.authApi.dto.AuthTokens;
+import edu.pjwstk.api.auth.dto.AuthTokens;
 import edu.pjwstk.commonweb.CookieUtil;
 import edu.pjwstk.user.dto.request.ChangeUserPasswordRequest;
 import edu.pjwstk.user.dto.response.CurrentUserInfoResponse;

@@ -1,5 +1,6 @@
 package edu.pjwstk.auth.controllers;
 
+import edu.pjwstk.api.auth.dto.AuthTokens;
 import edu.pjwstk.auth.dto.request.LinkOAuthAccountRequest;
 import edu.pjwstk.auth.dto.request.OAuthCodeRequest;
 import edu.pjwstk.auth.dto.response.AfterLoginResponse;
@@ -10,7 +11,6 @@ import edu.pjwstk.auth.dto.service.LoginUserResult;
 import edu.pjwstk.auth.dto.service.OAuthCodeDto;
 import edu.pjwstk.auth.usecase.HandleGoogleSignInUseCase;
 import edu.pjwstk.auth.usecase.LinkNewOAuthAccountUseCase;
-import edu.pjwstk.common.authApi.dto.AuthTokens;
 import edu.pjwstk.commonweb.CookieUtil;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.servlet.http.HttpServletResponse;

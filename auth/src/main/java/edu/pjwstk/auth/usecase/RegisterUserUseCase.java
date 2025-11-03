@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.usecase;
 
 import edu.pjwstk.auth.dto.service.RegisterUserDto;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import jakarta.validation.Valid;
 
 public interface RegisterUserUseCase {

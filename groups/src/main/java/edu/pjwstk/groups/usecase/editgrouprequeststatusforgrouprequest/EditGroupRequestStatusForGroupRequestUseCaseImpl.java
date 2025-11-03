@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.groups.entity.GroupRequest;
 import edu.pjwstk.groups.entity.GroupRequestStatus;
 import edu.pjwstk.groups.exception.GroupRequestNotFoundException;
@@ -11,7 +11,6 @@ import edu.pjwstk.groups.exception.UserNotGroupAdministratorAccessDeniedExceptio
 import edu.pjwstk.groups.repository.GroupRequestRepository;
 import edu.pjwstk.groups.repository.GroupRequestStatusRepository;
 import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
-import edu.pjwstk.groups.shared.InvitationStatusEnum;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
 import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationRequest;
 import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationUseCase;

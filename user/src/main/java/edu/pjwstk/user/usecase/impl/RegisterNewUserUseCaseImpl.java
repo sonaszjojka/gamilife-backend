@@ -1,8 +1,8 @@
 package edu.pjwstk.user.usecase.impl;
 
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
-import edu.pjwstk.common.userApi.dto.RegisterUserApiDto;
-import edu.pjwstk.common.userApi.exception.UserAlreadyExistsException;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import edu.pjwstk.api.user.dto.RegisterUserApiDto;
+import edu.pjwstk.api.user.exception.UserAlreadyExistsException;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.persistence.UserRepository;
 import edu.pjwstk.user.usecase.GetUserByEmailUseCase;

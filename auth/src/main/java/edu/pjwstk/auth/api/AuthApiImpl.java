@@ -1,14 +1,14 @@
 package edu.pjwstk.auth.api;
 
+import edu.pjwstk.api.auth.dto.AuthTokens;
 import edu.pjwstk.auth.dto.service.ChangePasswordInternalCommand;
 import edu.pjwstk.auth.usecase.ChangePasswordUseCase;
 import edu.pjwstk.auth.usecase.GetAuthenticatedUserDataUseCase;
 import edu.pjwstk.auth.usecase.RotateUserTokensUseCase;
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.AuthTokens;
-import edu.pjwstk.common.authApi.dto.ChangePasswordCommand;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.authApi.dto.RotateUserTokensCommand;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.ChangePasswordCommand;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.auth.dto.RotateUserTokensCommand;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
