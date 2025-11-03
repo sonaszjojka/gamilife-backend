@@ -1,8 +1,8 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.persistence.repository.EmailVerificationRepository;
-import edu.pjwstk.auth.persistence.repository.ForgotPasswordCodeRepository;
-import edu.pjwstk.auth.persistence.repository.RefreshTokenRepository;
+import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
+import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
+import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.usecase.RevokeAllUserCodesAndTokensUseCase;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -14,9 +14,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RevokeAllUserCodesAndTokensUseCaseImpl implements RevokeAllUserCodesAndTokensUseCase {
 
-    private final ForgotPasswordCodeRepository forgotPasswordCodeRepository;
-    private final EmailVerificationRepository emailVerificationRepository;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final JpaForgotPasswordCodeRepository forgotPasswordCodeRepository;
+    private final JpaEmailVerificationRepository emailVerificationRepository;
+    private final JpaRefreshTokenRepository refreshTokenRepository;
 
     @Override
     @Transactional

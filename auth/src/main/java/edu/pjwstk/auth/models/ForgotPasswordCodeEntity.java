@@ -1,4 +1,4 @@
-package edu.pjwstk.auth.persistence.entity;
+package edu.pjwstk.auth.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

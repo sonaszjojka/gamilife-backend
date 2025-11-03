@@ -1,8 +1,8 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.domain.ForgotPasswordCode;
 import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewForgotPasswordCodeException;
-import edu.pjwstk.auth.persistence.repository.ForgotPasswordCodeRepository;
+import edu.pjwstk.auth.models.ForgotPasswordCodeEntity;
+import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.usecase.SendForgotPasswordTokenUseCase;
 import edu.pjwstk.auth.util.ForgotPasswordCodeUtil;
 import edu.pjwstk.common.emailSenderApi.EmailSenderApi;
@@ -13,6 +13,7 @@ import edu.pjwstk.common.userApi.UserApi;
 import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +26,7 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
     private final ForgotPasswordCodeUtil forgotPasswordCodeUtil;
     private final UserApi userApi;
     private final EmailSenderApi emailSenderApi;
-    private final ForgotPasswordCodeRepository forgotPasswordCodeRepository;
+    private final JpaForgotPasswordCodeRepository forgotPasswordCodeRepository;
     private final long forgotPasswordCodeTimeout;
     private final long forgotPasswordCodeResendInterval;
 
@@ -40,14 +41,18 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
         }
         BasicUserInfoApiDto user = foundUser.get();
 
-        List<ForgotPasswordCode> codes = forgotPasswordCodeRepository
-                .findByUserIdAndNotRevokedOrderByIssuedAt(user.userId());
+        List<ForgotPasswordCodeEntity> codes = forgotPasswordCodeRepository
+                .findByUserIdAndRevoked(
+                        user.userId(),
+                        false,
+                        Sort.by(Sort.Direction.DESC, "issuedAt")
+                );
 
         // Do not resend a code if user has a non revoked code that will not expire
         // in the duration of the resend interval period
         if (!codes.isEmpty() &&
                 codes.getFirst()
-                        .expiresAt()
+                        .getExpiresAt()
                         .minusSeconds(forgotPasswordCodeResendInterval)
                         .isAfter(LocalDateTime.now())
         ) {
@@ -59,7 +64,7 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
         }
 
         String code = forgotPasswordCodeUtil.generateCode();
-        ForgotPasswordCode forgotPasswordCode = new ForgotPasswordCode(
+        ForgotPasswordCodeEntity forgotPasswordCode = new ForgotPasswordCodeEntity(
                 UUID.randomUUID(),
                 user.userId(),
                 forgotPasswordCodeUtil.hashCode(code),
@@ -68,7 +73,7 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
                 false
         );
 
-        forgotPasswordCodeRepository.create(forgotPasswordCode);
+        forgotPasswordCodeRepository.save(forgotPasswordCode);
 
         try {
             emailSenderApi.sendEmail(new MailDto(

@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.config;
 
-import edu.pjwstk.auth.persistence.repository.EmailVerificationRepository;
-import edu.pjwstk.auth.persistence.repository.ForgotPasswordCodeRepository;
+import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
+import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
 import edu.pjwstk.auth.usecase.SendForgotPasswordTokenUseCase;
 import edu.pjwstk.auth.usecase.impl.SendEmailVerificationCodeUseCaseImpl;
@@ -21,7 +21,7 @@ public class ServicesConfiguration {
     public SendEmailVerificationCodeUseCase sendEmailVerificationCodeUseCase(
             UserApi userApi,
             EmailSenderApi emailSenderApi,
-            EmailVerificationRepository emailVerificationRepository,
+            JpaEmailVerificationRepository emailVerificationRepository,
             VerificationCodeUtil verificationCodeUtil,
             @Value("${spring.codes.verification-code.expires-in}")
             long emailVerificationTimeout,
@@ -42,7 +42,7 @@ public class ServicesConfiguration {
             ForgotPasswordCodeUtil forgotPasswordCodeUtil,
             UserApi userApi,
             EmailSenderApi emailSenderApi,
-            ForgotPasswordCodeRepository forgotPasswordCodeRepository,
+            JpaForgotPasswordCodeRepository forgotPasswordCodeRepository,
             @Value("${spring.codes.forgot-password-code.expires-in}")
             long forgotPasswordCodeTimeout,
             @Value("${spring.codes.forgot-password-code.resend-interval}")

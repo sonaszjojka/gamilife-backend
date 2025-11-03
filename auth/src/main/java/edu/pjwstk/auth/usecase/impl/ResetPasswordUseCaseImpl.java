@@ -1,9 +1,9 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.domain.ForgotPasswordCode;
 import edu.pjwstk.auth.dto.service.ResetPasswordCommand;
 import edu.pjwstk.auth.exceptions.OldAndNewPasswordAreTheSameException;
-import edu.pjwstk.auth.persistence.repository.ForgotPasswordCodeRepository;
+import edu.pjwstk.auth.models.ForgotPasswordCodeEntity;
+import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.usecase.ResetPasswordUseCase;
 import edu.pjwstk.auth.usecase.RevokeAllUserCodesAndTokensUseCase;
 import edu.pjwstk.auth.util.ForgotPasswordCodeUtil;
@@ -16,12 +16,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
+
 @Service
 @AllArgsConstructor
 @Validated
 public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
 
-    private final ForgotPasswordCodeRepository repository;
+    private final JpaForgotPasswordCodeRepository forgotPasswordCodeRepository;
     private final ForgotPasswordCodeUtil forgotPasswordCodeUtil;
     private final UserApi userApi;
     private final RevokeAllUserCodesAndTokensUseCase revokeAllUserCodesAndTokensUseCase;
@@ -30,11 +32,15 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
     @Override
     @Transactional
     public void execute(ResetPasswordCommand command) {
-        ForgotPasswordCode forgotPasswordCode = repository
-                .findValidByCode(forgotPasswordCodeUtil.hashCode(command.code()))
+        ForgotPasswordCodeEntity forgotPasswordCode = forgotPasswordCodeRepository
+                .findByCodeAndRevokedAndExpiresAtIsGreaterThan(
+                        forgotPasswordCodeUtil.hashCode(command.code()),
+                        false,
+                        LocalDateTime.now()
+                )
                 .orElseThrow(ResetPasswordGenericException::new);
 
-        SecureUserInfoApiDto user = userApi.getSecureUserDataById(forgotPasswordCode.userId())
+        SecureUserInfoApiDto user = userApi.getSecureUserDataById(forgotPasswordCode.getUserId())
                 .orElseThrow(ResetPasswordGenericException::new);
 
         if (passwordEncoder.matches(command.newPassword(), user.password())) {
@@ -42,10 +48,10 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
         }
 
         userApi.resetUserPassword(
-                forgotPasswordCode.userId(),
+                forgotPasswordCode.getUserId(),
                 passwordEncoder.encode(command.newPassword())
         );
 
-        revokeAllUserCodesAndTokensUseCase.execute(forgotPasswordCode.userId());
+        revokeAllUserCodesAndTokensUseCase.execute(forgotPasswordCode.getUserId());
     }
 }

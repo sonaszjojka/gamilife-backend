@@ -1,12 +1,12 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.domain.UserOAuthProvider;
 import edu.pjwstk.auth.dto.service.LinkOAuthAccountDto;
 import edu.pjwstk.auth.dto.service.LoginUserResult;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.exceptions.LinkedUserNotFoundException;
 import edu.pjwstk.auth.exceptions.UserAlreadyLinkedToProviderException;
-import edu.pjwstk.auth.persistence.repository.UserProviderRepository;
+import edu.pjwstk.auth.models.UserOAuthProviderEntity;
+import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.usecase.LinkNewOAuthAccountUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
 import edu.pjwstk.common.authApi.dto.AuthTokens;
@@ -26,7 +26,7 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
 
     private final UserApi userApi;
     private final PasswordEncoder passwordEncoder;
-    private final UserProviderRepository userProviderRepository;
+    private final JpaUserProviderRepository userProviderRepository;
     private final TokenProvider tokenProvider;
 
     @Override
@@ -43,11 +43,11 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
             throw new InvalidCredentialsException("Invalid password");
         }
 
-        if (userProviderRepository.checkIfUserHasProvider(user.userId(), linkOAuthAccountDto.provider())) {
+        if (userProviderRepository.existsByUserIdAndProvider(user.userId(), linkOAuthAccountDto.provider())) {
             throw new UserAlreadyLinkedToProviderException("User is already linked to this provider");
         }
 
-        userProviderRepository.save(new UserOAuthProvider(
+        userProviderRepository.save(new UserOAuthProviderEntity(
                 UUID.randomUUID(),
                 user.userId(),
                 linkOAuthAccountDto.provider(),

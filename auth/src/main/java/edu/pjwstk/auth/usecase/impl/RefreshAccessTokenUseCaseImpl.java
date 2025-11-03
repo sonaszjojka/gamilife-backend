@@ -1,10 +1,10 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.domain.RefreshToken;
 import edu.pjwstk.auth.exceptions.RefreshTokenExpiredException;
 import edu.pjwstk.auth.exceptions.RefreshTokenRevokedException;
 import edu.pjwstk.auth.exceptions.RefreshTokenUnknownException;
-import edu.pjwstk.auth.persistence.repository.RefreshTokenRepository;
+import edu.pjwstk.auth.models.RefreshTokenEntity;
+import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.usecase.RefreshAccessTokenUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
 import edu.pjwstk.common.authApi.dto.AuthTokens;
@@ -22,26 +22,26 @@ import java.time.LocalDateTime;
 public class RefreshAccessTokenUseCaseImpl implements RefreshAccessTokenUseCase {
 
     private final TokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final JpaRefreshTokenRepository refreshTokenRepository;
     private final UserApi userApi;
 
     @Override
     @Transactional
     public AuthTokens execute(String refreshToken) {
         String hashedRefreshToken = tokenProvider.hashToken(refreshToken);
-        RefreshToken existingRefreshToken = refreshTokenRepository
-                .getRefreshTokenByHashedToken(hashedRefreshToken)
+        RefreshTokenEntity existingRefreshToken = refreshTokenRepository
+                .findByToken(hashedRefreshToken)
                 .orElseThrow(() -> new RefreshTokenUnknownException("Refresh token not found"));
 
-        if (existingRefreshToken.revoked()) {
+        if (existingRefreshToken.isRevoked()) {
             throw new RefreshTokenRevokedException("Refresh token has been revoked");
         }
 
-        if (existingRefreshToken.expiresAt().isBefore(LocalDateTime.now())) {
+        if (existingRefreshToken.getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new RefreshTokenExpiredException("Refresh token has expired");
         }
 
-        SecureUserInfoApiDto user = userApi.getSecureUserDataById(existingRefreshToken.userId())
+        SecureUserInfoApiDto user = userApi.getSecureUserDataById(existingRefreshToken.getUserId())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         return new AuthTokens(

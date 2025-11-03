@@ -1,9 +1,9 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.domain.EmailVerification;
 import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewEmailVerificationCodeException;
 import edu.pjwstk.auth.exceptions.EmailAlreadyVerifiedException;
-import edu.pjwstk.auth.persistence.repository.EmailVerificationRepository;
+import edu.pjwstk.auth.models.EmailVerificationCode;
+import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
 import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
 import edu.pjwstk.auth.util.VerificationCodeUtil;
 import edu.pjwstk.common.emailSenderApi.EmailSenderApi;
@@ -23,7 +23,7 @@ public class SendEmailVerificationCodeUseCaseImpl implements SendEmailVerificati
 
     private final UserApi userApi;
     private final EmailSenderApi emailSenderApi;
-    private final EmailVerificationRepository emailVerificationRepository;
+    private final JpaEmailVerificationRepository emailVerificationRepository;
     private final VerificationCodeUtil verificationCodeUtil;
     private final long emailVerificationTimeout;
     private final long emailVerificationResendInterval;
@@ -35,14 +35,14 @@ public class SendEmailVerificationCodeUseCaseImpl implements SendEmailVerificati
             throw new EmailAlreadyVerifiedException("Email already verified");
         }
 
-        List<EmailVerification> codes = emailVerificationRepository
-                .findByUserIdAndNotRevokedOrderByIssuedAt(userId);
+        List<EmailVerificationCode> codes = emailVerificationRepository
+                .findByUserIdAndRevokedOrderByIssuedAtDesc(userId, false);
 
         // Do not resend a code if user has a non revoked code that will not expire
         // in the duration of the resend interval period
         if (!codes.isEmpty() &&
                 codes.getFirst()
-                        .expiresAt()
+                        .getExpiresAt()
                         .minusSeconds(emailVerificationResendInterval)
                         .isAfter(LocalDateTime.now())
         ) {
@@ -55,7 +55,7 @@ public class SendEmailVerificationCodeUseCaseImpl implements SendEmailVerificati
 
         String code = UUID.randomUUID().toString();
 
-        EmailVerification emailVerification = new EmailVerification(
+        EmailVerificationCode emailVerification = new EmailVerificationCode(
                 UUID.randomUUID(),
                 userId,
                 verificationCodeUtil.hashCode(code),
@@ -64,7 +64,7 @@ public class SendEmailVerificationCodeUseCaseImpl implements SendEmailVerificati
                 false
         );
 
-        emailVerificationRepository.create(emailVerification);
+        emailVerificationRepository.save(emailVerification);
 
         try {
             emailSenderApi.sendEmail(new MailDto(

@@ -1,10 +1,10 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.domain.UserOAuthProvider;
 import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
 import edu.pjwstk.auth.dto.service.LoginUserResult;
-import edu.pjwstk.auth.persistence.repository.UserProviderRepository;
+import edu.pjwstk.auth.models.UserOAuthProviderEntity;
+import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.usecase.RegisterViaGoogleUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
 import edu.pjwstk.common.userApi.UserApi;
@@ -21,7 +21,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @AllArgsConstructor
 public class RegisterViaGoogleUseCaseImpl implements RegisterViaGoogleUseCase {
 
-    private final UserProviderRepository userProviderRepository;
+    private final JpaUserProviderRepository userProviderRepository;
     private final UserApi userApi;
     private final TokenProvider tokenProvider;
 
@@ -45,7 +45,7 @@ public class RegisterViaGoogleUseCaseImpl implements RegisterViaGoogleUseCase {
         );
         BasicUserInfoApiDto createdGoogleUser = userApi.registerNewUser(newGoogleUser);
 
-        userProviderRepository.save(new UserOAuthProvider(
+        userProviderRepository.save(new UserOAuthProviderEntity(
                 UUID.randomUUID(),
                 createdGoogleUser.userId(),
                 "google",

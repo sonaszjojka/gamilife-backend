@@ -1,4 +1,4 @@
-package edu.pjwstk.auth.persistence.entity;
+package edu.pjwstk.auth.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,8 +18,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "email_verification")
-public class EmailVerificationEntity {
+@Table(name = "email_verification_code")
+public class EmailVerificationCode {
     @Id
     private UUID id;
 

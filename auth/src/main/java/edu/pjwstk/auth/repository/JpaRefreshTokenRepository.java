@@ -1,6 +1,6 @@
-package edu.pjwstk.auth.persistence.repository.jpa;
+package edu.pjwstk.auth.repository;
 
-import edu.pjwstk.auth.persistence.entity.RefreshTokenEntity;
+import edu.pjwstk.auth.models.RefreshTokenEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

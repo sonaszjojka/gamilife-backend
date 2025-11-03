@@ -1,8 +1,7 @@
-package edu.pjwstk.auth.persistence.repository.jpa;
+package edu.pjwstk.auth.repository;
 
-import edu.pjwstk.auth.persistence.entity.EmailVerificationEntity;
+import edu.pjwstk.auth.models.EmailVerificationCode;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,16 +11,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface JpaEmailVerificationRepository extends JpaRepository<EmailVerificationEntity, UUID> {
+public interface JpaEmailVerificationRepository extends JpaRepository<EmailVerificationCode, UUID> {
 
-    Optional<EmailVerificationEntity> findByUserIdAndCode(UUID id, String code);
+    Optional<EmailVerificationCode> findByUserIdAndCode(UUID id, String code);
 
-    List<EmailVerificationEntity> findByUserIdAndRevoked(UUID userId, boolean revoked, Sort sort);
+    List<EmailVerificationCode> findByUserIdAndRevokedOrderByIssuedAtDesc(UUID userId, boolean revoked);
 
     @Modifying
     @Transactional
     @Query("""
-                UPDATE EmailVerificationEntity ev
+                UPDATE EmailVerificationCode ev
                 SET ev.revoked = true
                 WHERE ev.userId = :userId
                     AND ev.revoked = false

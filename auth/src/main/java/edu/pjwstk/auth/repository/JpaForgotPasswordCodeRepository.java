@@ -1,6 +1,6 @@
-package edu.pjwstk.auth.persistence.repository.jpa;
+package edu.pjwstk.auth.repository;
 
-import edu.pjwstk.auth.persistence.entity.ForgotPasswordCodeEntity;
+import edu.pjwstk.auth.models.ForgotPasswordCodeEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
