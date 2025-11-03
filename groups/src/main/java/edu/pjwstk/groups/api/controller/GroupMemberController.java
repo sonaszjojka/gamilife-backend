@@ -46,7 +46,7 @@ public class GroupMemberController {
 
     @PutMapping("/{groupMemberId}/leave")
     private ResponseEntity<LeaveGroupResponse> leaveGroup(@PathVariable("groupId") UUID groupId,
-                                                          @PathVariable("groupMemberId") UUID groupMemberId) {
+                                                        @PathVariable("groupMemberId") UUID groupMemberId) {
         LeaveGroupResponse response = leaveGroupUseCase.execute(groupMemberId, groupId);
         return ResponseEntity.ok(response);
     }

@@ -4,10 +4,9 @@ import edu.pjwstk.common.authApi.AuthApi;
 import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.common.groupsApi.GroupApi;
 import edu.pjwstk.common.groupsApi.dto.GroupDto;
-import edu.pjwstk.groupshop.entity.GroupShop;
-import edu.pjwstk.groupshop.exception.*;
+import edu.pjwstk.groupshop.exception.GroupItemInShopNotFoundException;
+import edu.pjwstk.groupshop.exception.UserNotAdministratorException;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
-import edu.pjwstk.groupshop.repository.GroupShopRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,13 +17,11 @@ public class DeleteGroupItemInShopUseCaseImpl implements DeleteGroupItemInShopUs
     private final AuthApi currentUserProvider;
     private final GroupApi groupProvider;
     private final GroupItemInShopRepository groupItemInShopRepository;
-    private final GroupShopRepository groupShopRepository;
 
-    public DeleteGroupItemInShopUseCaseImpl(AuthApi currentUserProvider, GroupApi groupProvider, GroupItemInShopRepository groupItemInShopRepository, GroupShopRepository groupShopRepository) {
+    public DeleteGroupItemInShopUseCaseImpl(AuthApi currentUserProvider, GroupApi groupProvider, GroupItemInShopRepository groupItemInShopRepository) {
         this.currentUserProvider = currentUserProvider;
         this.groupProvider = groupProvider;
         this.groupItemInShopRepository = groupItemInShopRepository;
-        this.groupShopRepository = groupShopRepository;
     }
 
 
@@ -33,16 +30,6 @@ public class DeleteGroupItemInShopUseCaseImpl implements DeleteGroupItemInShopUs
 
         CurrentUserDto currentUser = currentUserProvider.getCurrentUser().orElseThrow();
         GroupDto groupDto = groupProvider.findGroupById(groupId);
-
-        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(()->
-                new GroupShopNotFoundException("Group shop for the specified group not found!"));
-
-        if (Boolean.FALSE.equals(groupShop.getIsActive())) {
-            throw new InactiveGroupShopException("This group has group shop inactive!");
-        }
-
-
-
         if (!currentUser.userId().equals(groupDto.adminId())) {
             throw new UserNotAdministratorException("Only group administrators can delete group item in shop!");
         }

@@ -5,10 +5,9 @@ import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.common.groupsApi.GroupApi;
 import edu.pjwstk.common.groupsApi.dto.GroupDto;
 import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
-import edu.pjwstk.groupshop.entity.GroupShop;
 import edu.pjwstk.groupshop.entity.OwnedGroupItem;
-import edu.pjwstk.groupshop.exception.*;
-import edu.pjwstk.groupshop.repository.GroupShopRepository;
+import edu.pjwstk.groupshop.exception.UnauthorizedUserActionException;
+import edu.pjwstk.groupshop.exception.UserNotAdministratorException;
 import edu.pjwstk.groupshop.repository.OwnedGroupItemRpository;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +18,12 @@ import java.util.UUID;
 public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase {
 
     private final OwnedGroupItemRpository ownedGroupItemRpository;
-    private final GroupShopRepository groupShopRepository;
     private final AuthApi currentUserProvider;
     private final GroupApi groupProvider;
     private final EditOwnedGroupItemMapper editOwnedGroupItemMapper;
 
-    public EditOwnedGroupItemUseCaseImpl(OwnedGroupItemRpository ownedGroupItemRpository, GroupShopRepository groupShopRepository, AuthApi currentUserProvider, GroupApi groupProvider, EditOwnedGroupItemMapper editOwnedGroupItemMapper) {
+    public EditOwnedGroupItemUseCaseImpl(OwnedGroupItemRpository ownedGroupItemRpository, AuthApi currentUserProvider, GroupApi groupProvider, EditOwnedGroupItemMapper editOwnedGroupItemMapper) {
         this.ownedGroupItemRpository = ownedGroupItemRpository;
-        this.groupShopRepository = groupShopRepository;
         this.currentUserProvider = currentUserProvider;
         this.groupProvider = groupProvider;
         this.editOwnedGroupItemMapper = editOwnedGroupItemMapper;
@@ -37,12 +34,6 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
 
         if (groupProvider.findGroupMemberById(groupMemberId)==null) {
             throw new GroupMemberNotFoundException("Group member not found in the specified group!");
-        }
-        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(()->
-                new GroupShopNotFoundException("Group shop for the specified group not found!"));
-
-        if (Boolean.FALSE.equals(groupShop.getIsActive())) {
-            throw new InactiveGroupShopException("This group has group shop inactive!");
         }
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();

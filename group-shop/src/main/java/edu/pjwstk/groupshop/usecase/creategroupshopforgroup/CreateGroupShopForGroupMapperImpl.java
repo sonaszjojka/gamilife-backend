@@ -3,6 +3,8 @@ package edu.pjwstk.groupshop.usecase.creategroupshopforgroup;
 import edu.pjwstk.common.groupshopApi.dto.CreateGroupShopForGroupRequestDto;
 import edu.pjwstk.common.groupshopApi.dto.CreateGroupShopForGroupResponseDto;
 import edu.pjwstk.groupshop.entity.GroupShop;
+import edu.pjwstk.groupshop.usecase.creategroupshop.CreateGroupShopRequest;
+import edu.pjwstk.groupshop.usecase.creategroupshop.CreateGroupShopResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -17,7 +19,6 @@ public class CreateGroupShopForGroupMapperImpl implements CreateGroupShopForGrou
                 .name(request.name())
                 .description(request.description())
                 .groupId(request.groupId())
-                .isActive(true)
                 .build();
     }
     @Override

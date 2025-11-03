@@ -1,9 +1,18 @@
 package edu.pjwstk.groupshop.usecase.creategroupshopforgroup;
 
+import edu.pjwstk.common.authApi.AuthApi;
+import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.common.groupsApi.GroupApi;
+import edu.pjwstk.common.groupsApi.dto.GroupDto;
 import edu.pjwstk.common.groupshopApi.dto.CreateGroupShopForGroupRequestDto;
 import edu.pjwstk.common.groupshopApi.dto.CreateGroupShopForGroupResponseDto;
 import edu.pjwstk.groupshop.entity.GroupShop;
+import edu.pjwstk.groupshop.exception.ShopForGroupAlreadyExistsException;
+import edu.pjwstk.groupshop.exception.UserNotAdministratorException;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
+import edu.pjwstk.groupshop.usecase.creategroupshop.CreateGroupShopRequest;
+import edu.pjwstk.groupshop.usecase.creategroupshop.CreateGroupShopResponse;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

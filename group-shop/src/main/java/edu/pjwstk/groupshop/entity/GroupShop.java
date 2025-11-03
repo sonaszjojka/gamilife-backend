@@ -36,10 +36,6 @@ public class GroupShop {
     @Column(name = "group_id", nullable = false)
     private UUID groupId;
 
-    @NotNull
-    @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
-
     @OneToMany(mappedBy = "groupShop")
     private Set<GroupItemInShop> groupItemInShops = new LinkedHashSet<>();
 

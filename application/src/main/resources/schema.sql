@@ -315,7 +315,6 @@ CREATE TABLE group_shop (
                             name varchar(100)  NOT NULL,
                             description varchar(500)  NOT NULL,
                             group_id uuid  NOT NULL,
-                            is_active boolean  NOT NULL,
                             CONSTRAINT group_shop_pk PRIMARY KEY (group_shop_id)
 );
 
