@@ -7,6 +7,8 @@ import edu.pjwstk.common.groupsApi.dto.GroupDto;
 import edu.pjwstk.groupshop.entity.GroupItemInShop;
 import edu.pjwstk.groupshop.entity.GroupShop;
 import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
+import edu.pjwstk.groupshop.exception.InactiveGroupShopException;
+import edu.pjwstk.groupshop.exception.InvalidOwnedGroupItemDataException;
 import edu.pjwstk.groupshop.exception.UserNotAdministratorException;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
@@ -36,6 +38,10 @@ public class CreateGroupItemInShopUseCaseImpl implements CreateGroupItemInShopUs
 
         GroupShop groupShop = groupShopRepository.findByGroupShopId(groupShopId).orElseThrow(
                 () -> new GroupShopNotFoundException("Group shop with id: " + groupShopId + " not found!"));
+
+        if (Boolean.FALSE.equals(groupShop.getIsActive())) {
+            throw new InactiveGroupShopException("This group has group shop inactive!");
+        }
 
         GroupDto groupDto = groupProvider.findGroupById(groupId);
         if (!groupShop.getGroupId().equals(groupId))

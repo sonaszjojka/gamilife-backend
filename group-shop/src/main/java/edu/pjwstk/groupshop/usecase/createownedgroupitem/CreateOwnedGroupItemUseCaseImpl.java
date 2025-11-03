@@ -6,10 +6,14 @@ import edu.pjwstk.common.groupsApi.GroupApi;
 import edu.pjwstk.common.groupsApi.dto.GroupDto;
 import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
 import edu.pjwstk.groupshop.entity.GroupItemInShop;
+import edu.pjwstk.groupshop.entity.GroupShop;
 import edu.pjwstk.groupshop.entity.OwnedGroupItem;
+import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
+import edu.pjwstk.groupshop.exception.InactiveGroupShopException;
 import edu.pjwstk.groupshop.exception.InvalidOwnedGroupItemDataException;
 import edu.pjwstk.groupshop.exception.UnauthorizedUserActionException;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
+import edu.pjwstk.groupshop.repository.GroupShopRepository;
 import edu.pjwstk.groupshop.repository.OwnedGroupItemRpository;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +26,15 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
     private final CreateOwnedGroupItemMapper createOwnedGroupItemMapper;
     private final GroupItemInShopRepository groupItemInShopRepository;
     private final OwnedGroupItemRpository ownedGroupItemRpository;
+    private final GroupShopRepository groupShopRepository;
     private final GroupApi groupProvider;
     private final AuthApi currentUserProvider;
 
-    public CreateOwnedGroupItemUseCaseImpl(CreateOwnedGroupItemMapper createOwnedGroupItemMapper, GroupItemInShopRepository groupItemInShopRepository, OwnedGroupItemRpository ownedGroupItemRpository, GroupApi groupProvider, AuthApi currentUserProvider) {
+    public CreateOwnedGroupItemUseCaseImpl(CreateOwnedGroupItemMapper createOwnedGroupItemMapper, GroupItemInShopRepository groupItemInShopRepository, OwnedGroupItemRpository ownedGroupItemRpository, GroupShopRepository groupShopRepository, GroupApi groupProvider, AuthApi currentUserProvider) {
         this.createOwnedGroupItemMapper = createOwnedGroupItemMapper;
         this.groupItemInShopRepository = groupItemInShopRepository;
         this.ownedGroupItemRpository = ownedGroupItemRpository;
+        this.groupShopRepository = groupShopRepository;
         this.groupProvider = groupProvider;
         this.currentUserProvider = currentUserProvider;
     }
@@ -41,6 +47,13 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
 
         if (groupProvider.findGroupMemberById(groupMemberId)==null) {
             throw new GroupMemberNotFoundException("Group member not found in the specified group!");
+        }
+
+        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(()->
+                new GroupShopNotFoundException("Group shop for the specified group not found!"));
+
+        if (Boolean.FALSE.equals(groupShop.getIsActive())) {
+            throw new InactiveGroupShopException("This group has group shop inactive!");
         }
 
         if (!currentUser.userId().equals(groupDto.adminId()) &&  !currentUser.userId().equals(groupProvider.findGroupMemberById(groupMemberId).userId())) {
