@@ -5,7 +5,7 @@ import edu.pjwstk.auth.dto.service.LoginUserResult;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.exceptions.LinkedUserNotFoundException;
 import edu.pjwstk.auth.exceptions.UserAlreadyLinkedToProviderException;
-import edu.pjwstk.auth.models.UserOAuthProviderEntity;
+import edu.pjwstk.auth.models.UserOAuthProvider;
 import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.usecase.LinkNewOAuthAccountUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
@@ -47,7 +47,7 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
             throw new UserAlreadyLinkedToProviderException("User is already linked to this provider");
         }
 
-        userProviderRepository.save(new UserOAuthProviderEntity(
+        userProviderRepository.save(new UserOAuthProvider(
                 UUID.randomUUID(),
                 user.userId(),
                 linkOAuthAccountDto.provider(),

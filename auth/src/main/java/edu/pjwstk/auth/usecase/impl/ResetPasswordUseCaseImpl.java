@@ -2,7 +2,7 @@ package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.auth.dto.service.ResetPasswordCommand;
 import edu.pjwstk.auth.exceptions.OldAndNewPasswordAreTheSameException;
-import edu.pjwstk.auth.models.ForgotPasswordCodeEntity;
+import edu.pjwstk.auth.models.ForgotPasswordCode;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.usecase.ResetPasswordUseCase;
 import edu.pjwstk.auth.usecase.RevokeAllUserCodesAndTokensUseCase;
@@ -32,7 +32,7 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
     @Override
     @Transactional
     public void execute(ResetPasswordCommand command) {
-        ForgotPasswordCodeEntity forgotPasswordCode = forgotPasswordCodeRepository
+        ForgotPasswordCode forgotPasswordCode = forgotPasswordCodeRepository
                 .findByCodeAndRevokedAndExpiresAtIsGreaterThan(
                         forgotPasswordCodeUtil.hashCode(command.code()),
                         false,

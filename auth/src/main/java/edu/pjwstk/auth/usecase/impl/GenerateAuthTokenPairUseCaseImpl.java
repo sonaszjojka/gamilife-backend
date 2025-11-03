@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.models.RefreshTokenEntity;
+import edu.pjwstk.auth.models.RefreshToken;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.usecase.GenerateAuthTokenPairUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
@@ -25,7 +25,7 @@ public class GenerateAuthTokenPairUseCaseImpl implements GenerateAuthTokenPairUs
         AuthTokens authTokens = tokenProvider.generateTokenPair(userId, email, isEmailVerified);
 
         // Save hashed refresh token to database
-        refreshTokenRepository.save(new RefreshTokenEntity(
+        refreshTokenRepository.save(new RefreshToken(
                 UUID.randomUUID(),
                 userId,
                 tokenProvider.hashToken(authTokens.refreshToken()),

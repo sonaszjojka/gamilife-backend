@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.repository;
 
-import edu.pjwstk.auth.models.ForgotPasswordCodeEntity;
+import edu.pjwstk.auth.models.ForgotPasswordCode;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,16 +13,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface JpaForgotPasswordCodeRepository extends JpaRepository<ForgotPasswordCodeEntity, UUID> {
+public interface JpaForgotPasswordCodeRepository extends JpaRepository<ForgotPasswordCode, UUID> {
 
-    Optional<ForgotPasswordCodeEntity> findByCodeAndRevokedAndExpiresAtIsGreaterThan(String code, boolean revoked, LocalDateTime expiresAtIsGreaterThan);
+    Optional<ForgotPasswordCode> findByCodeAndRevokedAndExpiresAtIsGreaterThan(String code, boolean revoked, LocalDateTime expiresAtIsGreaterThan);
 
-    List<ForgotPasswordCodeEntity> findByUserIdAndRevoked(UUID userId, boolean revoked, Sort sort);
+    List<ForgotPasswordCode> findByUserIdAndRevoked(UUID userId, boolean revoked, Sort sort);
 
     @Modifying
     @Transactional
     @Query("""
-                UPDATE ForgotPasswordCodeEntity fpc
+                UPDATE ForgotPasswordCode fpc
                 SET fpc.revoked = true
                 WHERE fpc.userId = :userId
                     AND fpc.revoked = false

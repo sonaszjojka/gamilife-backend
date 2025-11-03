@@ -2,7 +2,7 @@ package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.auth.exceptions.RefreshTokenNotProvidedException;
 import edu.pjwstk.auth.exceptions.RefreshTokenUnknownException;
-import edu.pjwstk.auth.models.RefreshTokenEntity;
+import edu.pjwstk.auth.models.RefreshToken;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.usecase.LogoutUserUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
@@ -25,7 +25,7 @@ public class LogoutUserUseCaseImpl implements LogoutUserUseCase {
         }
         String hashedToken = tokenProvider.hashToken(refreshToken);
 
-        RefreshTokenEntity refreshTokenFromDb = refreshTokenRepository
+        RefreshToken refreshTokenFromDb = refreshTokenRepository
                 .findByToken(hashedToken)
                 .orElseThrow(() -> new RefreshTokenUnknownException("Refresh token not found"));
 

@@ -3,7 +3,7 @@ package edu.pjwstk.auth.usecase.impl;
 import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
 import edu.pjwstk.auth.dto.service.OAuthCodeDto;
-import edu.pjwstk.auth.models.UserOAuthProviderEntity;
+import edu.pjwstk.auth.models.UserOAuthProvider;
 import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.usecase.HandleGoogleSignInUseCase;
 import edu.pjwstk.auth.usecase.LoginViaGoogleUseCase;
@@ -34,7 +34,7 @@ public class HandleGoogleSignInSignInUseCaseImpl implements HandleGoogleSignInUs
         Map<String, String> tokenResponse = oAuth2CodeUtil.exchangeCodeForTokens(oAuthCodeDto.code(), oAuthCodeDto.codeVerifier());
         GoogleUserDto googleUserDto = oAuth2CodeUtil.extractUserInfoFromIdToken(tokenResponse.get("id_token"));
 
-        Optional<UserOAuthProviderEntity> existingOAuthUser = userProviderRepository
+        Optional<UserOAuthProvider> existingOAuthUser = userProviderRepository
                 .findByProviderAndProviderId("google", googleUserDto.sub());
 
         if (existingOAuthUser.isPresent()) {

@@ -3,7 +3,7 @@ package edu.pjwstk.auth.usecase.impl;
 import edu.pjwstk.auth.exceptions.RefreshTokenExpiredException;
 import edu.pjwstk.auth.exceptions.RefreshTokenRevokedException;
 import edu.pjwstk.auth.exceptions.RefreshTokenUnknownException;
-import edu.pjwstk.auth.models.RefreshTokenEntity;
+import edu.pjwstk.auth.models.RefreshToken;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.usecase.RefreshAccessTokenUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
@@ -29,7 +29,7 @@ public class RefreshAccessTokenUseCaseImpl implements RefreshAccessTokenUseCase 
     @Transactional
     public AuthTokens execute(String refreshToken) {
         String hashedRefreshToken = tokenProvider.hashToken(refreshToken);
-        RefreshTokenEntity existingRefreshToken = refreshTokenRepository
+        RefreshToken existingRefreshToken = refreshTokenRepository
                 .findByToken(hashedRefreshToken)
                 .orElseThrow(() -> new RefreshTokenUnknownException("Refresh token not found"));
 

@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.repository;
 
-import edu.pjwstk.auth.models.RefreshTokenEntity;
+import edu.pjwstk.auth.models.RefreshToken;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -10,14 +10,14 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface JpaRefreshTokenRepository extends JpaRepository<RefreshTokenEntity, UUID> {
+public interface JpaRefreshTokenRepository extends JpaRepository<RefreshToken, UUID> {
 
-    Optional<RefreshTokenEntity> findByToken(String token);
+    Optional<RefreshToken> findByToken(String token);
 
     @Modifying
     @Transactional
     @Query("""
-                UPDATE RefreshTokenEntity r
+                UPDATE RefreshToken r
                 SET r.revoked = :revoked
                 WHERE r.id = :refId
             """)
@@ -29,7 +29,7 @@ public interface JpaRefreshTokenRepository extends JpaRepository<RefreshTokenEnt
     @Modifying
     @Transactional
     @Query("""
-                UPDATE RefreshTokenEntity r
+                UPDATE RefreshToken r
                 SET r.revoked = true
                 WHERE r.userId = :userId
                     AND r.revoked = false

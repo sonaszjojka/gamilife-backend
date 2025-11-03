@@ -19,7 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "forgot_password_code")
-public class ForgotPasswordCodeEntity {
+public class ForgotPasswordCode {
     @Id
     private UUID id;
 

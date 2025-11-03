@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewForgotPasswordCodeException;
-import edu.pjwstk.auth.models.ForgotPasswordCodeEntity;
+import edu.pjwstk.auth.models.ForgotPasswordCode;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.usecase.SendForgotPasswordTokenUseCase;
 import edu.pjwstk.auth.util.ForgotPasswordCodeUtil;
@@ -41,7 +41,7 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
         }
         BasicUserInfoApiDto user = foundUser.get();
 
-        List<ForgotPasswordCodeEntity> codes = forgotPasswordCodeRepository
+        List<ForgotPasswordCode> codes = forgotPasswordCodeRepository
                 .findByUserIdAndRevoked(
                         user.userId(),
                         false,
@@ -64,7 +64,7 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
         }
 
         String code = forgotPasswordCodeUtil.generateCode();
-        ForgotPasswordCodeEntity forgotPasswordCode = new ForgotPasswordCodeEntity(
+        ForgotPasswordCode forgotPasswordCode = new ForgotPasswordCode(
                 UUID.randomUUID(),
                 user.userId(),
                 forgotPasswordCodeUtil.hashCode(code),
