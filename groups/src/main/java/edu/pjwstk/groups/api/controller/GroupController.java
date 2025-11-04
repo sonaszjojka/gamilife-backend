@@ -61,7 +61,7 @@ public class GroupController {
     public ResponseEntity<Page<GroupDto>> getAllGroups(
             @RequestParam(required = false) String joinCode,
 
-            @RequestParam(required = false) GroupTypeEnum groupType,
+            @RequestParam(required = false) Integer groupType,
 
             @RequestParam(required = false) String groupName,
 
@@ -72,7 +72,7 @@ public class GroupController {
             @Min(1) @Max(100) Integer size
     ) {
         GroupFilterRequest request = new GroupFilterRequest(
-                joinCode, groupType, groupName, page, size
+                joinCode, GroupTypeEnum.fromId(groupType), groupName, page, size
         );
         Page<GroupDto> response = getGroupsUseCase.execute(request);
         return ResponseEntity.ok(response);
