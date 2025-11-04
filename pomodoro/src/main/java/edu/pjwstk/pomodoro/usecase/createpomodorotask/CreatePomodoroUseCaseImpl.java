@@ -5,10 +5,10 @@ import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.common.tasksApi.TasksApi;
 import edu.pjwstk.common.tasksApi.dto.TaskDto;
 import edu.pjwstk.pomodoro.domain.PomodoroTask;
+import edu.pjwstk.pomodoro.entity.PomodoroTask;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.UnauthorizedActionException;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;
-
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,5 +1,7 @@
 package edu.pjwstk.tasks.application.createtask;
 
+import edu.pjwstk.common.authApi.AuthApi;
+import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
@@ -23,23 +25,32 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final HabitRepository habitRepository;
     private final CreateTaskMapper createTaskMapper;
+    private final AuthApi currentUserProvider;
 
-    public CreateTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, HabitRepository habitRepository, CreateTaskMapper createTaskMapper) {
+    public CreateTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, HabitRepository habitRepository, CreateTaskMapper createTaskMapper, AuthApi currentUserProvider) {
         this.taskRepository = taskRepository;
         this.taskCategoryRepository = taskCategoryRepository;
         this.taskDifficultyRepository = taskDifficultyRepository;
         this.habitRepository = habitRepository;
         this.createTaskMapper = createTaskMapper;
+        this.currentUserProvider = currentUserProvider;
     }
 
     @Override
     @Transactional
     public CreateTaskResponse execute(CreateTaskRequest request) {
+
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        if (!currentUserDto.userId().equals(request.userId())) {
+            System.out.println(currentUserDto.userId()+ " "+request.userId()+"================================================================================================");
+            throw new UnauthorizedTaskAccessException("User is not authorized to create task for another user!");
+        }
+
         if (request.startTime().isAfter(request.endTime())) {
             throw new InvalidTaskDataException("End time date cannot be after start time date!");
         }
 
-        if (request.startTime().isAfter(request.completedAt())) {
+        if (request.completedAt()!=null&&request.startTime().isAfter(request.completedAt())) {
             throw new InvalidTaskDataException("Completed at date cannot be after start time date!");
         }
 

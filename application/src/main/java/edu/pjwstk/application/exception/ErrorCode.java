@@ -64,6 +64,9 @@ public enum ErrorCode {
     INVALID_OWNED_GROUP_ITEM_DATA(ErrorCode.INVALID_OWNED_GROUP_ITEM_DATA_CODE, "Invalid Owned Group Item Data", HttpStatus.BAD_REQUEST),
     USER_NOT_ADMINISTRATOR(ErrorCode.USER_NOT_ADMINISTRATOR_CODE, "User Not Administrator", HttpStatus.FORBIDDEN),
     UNAUTHORIZED_USER_ACTION(ErrorCode.UNAUTHORIZED_USER_ACTION_CODE, "Unauthorized User Action", HttpStatus.FORBIDDEN),
+    GROUP_TASK_NOT_FOUND(ErrorCode.GROUP_TASK_NOT_FOUND_CODE, "Group Task Not Found", HttpStatus.NOT_FOUND),
+    Group_TASK_MEMBER_NOT_FOUND(ErrorCode.Group_TASK_MEMBER_NOT_FOUND_CODE, "Group Task Member Not Found", HttpStatus.NOT_FOUND),
+    UNAUTHORIZED_TASK_ACCESS(ErrorCode.UNAUTHORIZED_TASK_ACCESS_CODE, " Unauthorized Task Access", HttpStatus.UNAUTHORIZED),
     TOO_MANY_REQUESTS(ErrorCode.TOO_MANY_REQUESTS_CODE, "Too Many Requests", HttpStatus.TOO_MANY_REQUESTS),
     ;
 
@@ -100,7 +103,9 @@ public enum ErrorCode {
     public static final int INVALID_TASK_DATA_CODE = 1027;
     public static final int INVALID_POMODORO_TASK_DATA_CODE = 1028;
     public static final int POMODORO_TASK_NOT_FOUND_CODE = 1029;
-    public static final int GROUP_MEMBER_NOT_FOUND_CODE = 3030;
+    public static final int GROUP_MEMBER_NOT_FOUND_CODE = 1030;
+    public static final int GROUP_TASK_NOT_FOUND_CODE = 4031;
+    public static final int Group_TASK_MEMBER_NOT_FOUND_CODE = 4032;
     public static final int GROUP_TYPE_NOT_FOUND_CODE = 3031;
     public static final int INVALID_GROUP_REQUEST_DATA_CODE = 3032;
     public static final int GROUP_REQUEST_STATUS_NOT_FOUND_CODE = 3033;
@@ -126,6 +131,8 @@ public enum ErrorCode {
     public static final int INVALID_OWNED_GROUP_ITEM_DATA_CODE = 5007;
     public static final int USER_NOT_ADMINISTRATOR_CODE = 5008;
     public static final int UNAUTHORIZED_USER_ACTION_CODE = 5009;
+    public static final int UNAUTHORIZED_TASK_ACCESS_CODE = 1033;
+
     private final int code;
     private final String title;
     private final HttpStatus status;

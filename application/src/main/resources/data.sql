@@ -28,14 +28,14 @@ VALUES ('aaaa0000-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 7, 3, 5, NOW(), TRUE, NOW(), NUL
 -- Tabela: task
 -- =========================
 INSERT INTO task (task_id, title, start_time, end_time, category_id, difficulty_id,
-                  user_id, completed_at, task_habit_id, previous_task_id, description)
+                  user_id, completed_at, task_habit_id, previous_task_id, description,is_group_task)
 VALUES ('11111111-1111-1111-1111-111111111111', 'Finish report', NOW(), NOW() + INTERVAL '2 days',
         1, 2, 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', NULL, 'aaaa0000-aaaa-aaaa-aaaa-aaaaaaaaaaaa', NULL,
-        'Finish the monthly report'),
+        'Finish the monthly report',false),
 
        ('22222222-2222-2222-2222-222222222222', 'Morning workout', NOW(), NOW() + INTERVAL '1 day',
         3, 1, 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', NULL, 'bbbb0000-bbbb-bbbb-bbbb-bbbbbbbbbbbb', NULL,
-        '30 minutes jogging');
+        '30 minutes jogging',false);
 
 -- INSERT INTO task_notification (id, send_date, task_id)
 -- VALUES (1, NOW() + INTERVAL '1 hour', (SELECT task_id FROM task LIMIT 1)),
@@ -110,7 +110,7 @@ VALUES ('aaaa9999-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-1111111
         '2025-10-20 00:00:00', '2025-10-10 12:00:00', 'https://app/join/WRK789', 3,
         'ffffffffffff');
 
--- =========================
+
 -- Tabela: group_request
 -- =========================
 INSERT INTO group_request (group_request_id, user_id, group_id, created_at, status_id)

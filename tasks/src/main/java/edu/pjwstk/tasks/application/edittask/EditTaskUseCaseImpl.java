@@ -1,5 +1,7 @@
 package edu.pjwstk.tasks.application.edittask;
 
+import edu.pjwstk.common.authApi.AuthApi;
+import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
@@ -20,15 +22,17 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final TaskCategoryRepository taskCategoryRepository;
     private final HabitRepository habitRepository;
+    private final AuthApi currentUserProvider;
 
     public EditTaskUseCaseImpl(TaskRepository taskRepository, EditTaskMapper editTaskMapper,
                                TaskDifficultyRepository taskDifficultyRepository,
-                               TaskCategoryRepository taskCategoryRepository, HabitRepository habitRepository) {
+                               TaskCategoryRepository taskCategoryRepository, HabitRepository habitRepository, AuthApi currentUserProvider) {
         this.taskRepository = taskRepository;
         this.editTaskMapper = editTaskMapper;
         this.taskDifficultyRepository = taskDifficultyRepository;
         this.taskCategoryRepository = taskCategoryRepository;
         this.habitRepository = habitRepository;
+        this.currentUserProvider = currentUserProvider;
     }
 
     @Override
@@ -36,6 +40,11 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
     public EditTaskResponse execute(EditTaskRequest request, UUID taskId) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " not found."));
+
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        if (!currentUserDto.userId().equals(task.getUserId())) {
+            throw new UnauthorizedTaskAccessException("User is not authorized to edit task for another user!");
+        }
 
         if (request.endTime() != null && request.startTime().isAfter(request.endTime())) {
             throw new InvalidTaskDataException("Start time cannot be after end time!");

@@ -1,8 +1,11 @@
 package edu.pjwstk.tasks.application.createtasknotification;
 
+import edu.pjwstk.common.authApi.AuthApi;
+import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskNotification;
 import edu.pjwstk.tasks.exception.TaskNotFoundException;
+import edu.pjwstk.tasks.exception.UnauthorizedTaskAccessException;
 import edu.pjwstk.tasks.repository.TaskNotificationRepository;
 import edu.pjwstk.tasks.repository.TaskRepository;
 import org.springframework.stereotype.Component;
@@ -16,12 +19,14 @@ public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotification
     private final TaskNotificationRepository taskNotificationRepository;
     private final TaskRepository taskRepository;
     private final CreateTaskNotificationMapper createTaskNotificationMapper;
+    private final AuthApi currentUserProvider;
 
     public CreateTaskNotificationUseCaseImpl(TaskNotificationRepository taskNotificationRepository, TaskRepository taskRepository,
-                                             CreateTaskNotificationMapper createTaskNotificationMapper) {
+                                             CreateTaskNotificationMapper createTaskNotificationMapper, AuthApi currentUserProvider) {
         this.taskNotificationRepository = taskNotificationRepository;
         this.taskRepository = taskRepository;
         this.createTaskNotificationMapper = createTaskNotificationMapper;
+        this.currentUserProvider = currentUserProvider;
     }
 
     @Override
@@ -32,6 +37,11 @@ public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotification
                 .orElseThrow(() -> new TaskNotFoundException(
                         "Task with id " + taskId + " not found!"
                 ));
+
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        if (!currentUserDto.userId().equals(task.getUserId())) {
+            throw new UnauthorizedTaskAccessException("User is not authorized to create notification for another user!");
+        }
 
         TaskNotification taskNotification = taskNotificationRepository
                 .save(createTaskNotificationMapper.toEntity(request, task));
