@@ -8,7 +8,7 @@ import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.usecase.HandleGoogleSignInUseCase;
 import edu.pjwstk.auth.usecase.LoginViaGoogleUseCase;
 import edu.pjwstk.auth.usecase.RegisterViaGoogleUseCase;
-import edu.pjwstk.auth.util.OAuth2CodeUtil;
+import edu.pjwstk.auth.service.OAuthService;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class HandleGoogleSignUseCaseImpl implements HandleGoogleSignInUseCase {
 
-    private final OAuth2CodeUtil oAuth2CodeUtil;
+    private final OAuthService oAuthService;
     private final JpaUserProviderRepository userProviderRepository;
     private final UserApi userApi;
     private final LoginViaGoogleUseCase loginViaGoogleUseCase;
@@ -31,8 +31,8 @@ public class HandleGoogleSignUseCaseImpl implements HandleGoogleSignInUseCase {
     @Override
     @Transactional
     public GoogleLoginResult execute(HandleGoogleSignInCommand handleGoogleSignInCommand) {
-        Map<String, String> tokenResponse = oAuth2CodeUtil.exchangeCodeForTokens(handleGoogleSignInCommand.code(), handleGoogleSignInCommand.codeVerifier());
-        GoogleUserDto googleUserDto = oAuth2CodeUtil.extractUserInfoFromIdToken(tokenResponse.get("id_token"));
+        Map<String, String> tokenResponse = oAuthService.exchangeCodeForTokens(handleGoogleSignInCommand.code(), handleGoogleSignInCommand.codeVerifier());
+        GoogleUserDto googleUserDto = oAuthService.extractUserInfoFromIdToken(tokenResponse.get("id_token"));
 
         Optional<UserOAuthProvider> existingOAuthUser = userProviderRepository
                 .findByProviderAndProviderId("google", googleUserDto.sub());

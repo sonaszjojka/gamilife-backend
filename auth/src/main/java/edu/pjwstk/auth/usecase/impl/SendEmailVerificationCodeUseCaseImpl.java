@@ -5,7 +5,7 @@ import edu.pjwstk.auth.exceptions.EmailAlreadyVerifiedException;
 import edu.pjwstk.auth.models.EmailVerificationCode;
 import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
 import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
-import edu.pjwstk.auth.util.VerificationCodeUtil;
+import edu.pjwstk.auth.service.EmailVerificationCodeService;
 import edu.pjwstk.api.emailSender.EmailSenderApi;
 import edu.pjwstk.api.emailSender.EmailSendingException;
 import edu.pjwstk.api.emailSender.MailContentType;
@@ -24,7 +24,7 @@ public class SendEmailVerificationCodeUseCaseImpl implements SendEmailVerificati
     private final UserApi userApi;
     private final EmailSenderApi emailSenderApi;
     private final JpaEmailVerificationRepository emailVerificationRepository;
-    private final VerificationCodeUtil verificationCodeUtil;
+    private final EmailVerificationCodeService emailVerificationCodeService;
     private final long emailVerificationTimeout;
     private final long emailVerificationResendInterval;
 
@@ -58,7 +58,7 @@ public class SendEmailVerificationCodeUseCaseImpl implements SendEmailVerificati
         EmailVerificationCode emailVerification = new EmailVerificationCode(
                 UUID.randomUUID(),
                 userId,
-                verificationCodeUtil.hashCode(code),
+                emailVerificationCodeService.hashCode(code),
                 LocalDateTime.now(),
                 LocalDateTime.now().plusSeconds(emailVerificationTimeout),
                 false

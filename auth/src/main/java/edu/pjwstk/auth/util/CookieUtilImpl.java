@@ -1,4 +1,4 @@
-package edu.pjwstk.auth.util.impl;
+package edu.pjwstk.auth.util;
 
 import edu.pjwstk.commonweb.CookieUtil;
 import org.springframework.beans.factory.annotation.Value;

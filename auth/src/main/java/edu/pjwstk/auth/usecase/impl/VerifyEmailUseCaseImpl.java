@@ -7,7 +7,7 @@ import edu.pjwstk.auth.exceptions.InvalidVerificationCodeException;
 import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
 import edu.pjwstk.auth.usecase.VerifyEmailUseCase;
 import edu.pjwstk.auth.service.TokenService;
-import edu.pjwstk.auth.util.VerificationCodeUtil;
+import edu.pjwstk.auth.service.EmailVerificationCodeService;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import lombok.AllArgsConstructor;
@@ -18,13 +18,13 @@ import org.springframework.stereotype.Service;
 public class VerifyEmailUseCaseImpl implements VerifyEmailUseCase {
 
     private final JpaEmailVerificationRepository emailVerificationRepository;
-    private final VerificationCodeUtil verificationCodeUtil;
+    private final EmailVerificationCodeService emailVerificationCodeService;
     private final TokenService tokenService;
     private final UserApi userApi;
 
     @Override
     public LoginUserResult execute(VerifyEmailCommand code) {
-        String hashedCode = verificationCodeUtil.hashCode(code.code());
+        String hashedCode = emailVerificationCodeService.hashCode(code.code());
 
         emailVerificationRepository.findByUserIdAndCode(code.userId(), hashedCode)
                 .orElseThrow(() -> new InvalidVerificationCodeException("Invalid verification code."));

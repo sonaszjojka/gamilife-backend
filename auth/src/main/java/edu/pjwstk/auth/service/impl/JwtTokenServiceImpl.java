@@ -62,7 +62,7 @@ public class JwtTokenServiceImpl implements TokenService {
     public AuthTokens generateTokenPair(UUID userId, String email, boolean isEmailVerified) {
         AuthTokens authTokens = new AuthTokens(
                 generateAccessToken(userId, email),
-                UUID.randomUUID().toString()
+                generateRefreshToken()
         );
 
         refreshTokenRepository.save(new RefreshToken(
@@ -82,4 +82,7 @@ public class JwtTokenServiceImpl implements TokenService {
         return DigestUtils.sha256Hex(token);
     }
 
+    private String generateRefreshToken() {
+        return UUID.randomUUID().toString();
+    }
 }

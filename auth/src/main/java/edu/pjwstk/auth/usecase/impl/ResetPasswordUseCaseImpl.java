@@ -6,7 +6,7 @@ import edu.pjwstk.auth.models.ForgotPasswordCode;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.usecase.ResetPasswordUseCase;
 import edu.pjwstk.auth.usecase.RevokeAllUserCodesAndTokensUseCase;
-import edu.pjwstk.auth.util.ForgotPasswordCodeUtil;
+import edu.pjwstk.auth.service.ForgotPasswordCodeService;
 import edu.pjwstk.api.auth.exception.ResetPasswordGenericException;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
 
     private final JpaForgotPasswordCodeRepository forgotPasswordCodeRepository;
-    private final ForgotPasswordCodeUtil forgotPasswordCodeUtil;
+    private final ForgotPasswordCodeService forgotPasswordCodeService;
     private final UserApi userApi;
     private final RevokeAllUserCodesAndTokensUseCase revokeAllUserCodesAndTokensUseCase;
     private final PasswordEncoder passwordEncoder;
@@ -34,7 +34,7 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
     public void execute(ResetPasswordCommand command) {
         ForgotPasswordCode forgotPasswordCode = forgotPasswordCodeRepository
                 .findByCodeAndRevokedAndExpiresAtIsGreaterThan(
-                        forgotPasswordCodeUtil.hashCode(command.code()),
+                        forgotPasswordCodeService.hashCode(command.code()),
                         false,
                         LocalDateTime.now()
                 )

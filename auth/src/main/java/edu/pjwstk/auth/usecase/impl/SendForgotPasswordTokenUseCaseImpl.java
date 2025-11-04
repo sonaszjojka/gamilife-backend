@@ -4,7 +4,7 @@ import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewForgotPasswordCodeExce
 import edu.pjwstk.auth.models.ForgotPasswordCode;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.usecase.SendForgotPasswordTokenUseCase;
-import edu.pjwstk.auth.util.ForgotPasswordCodeUtil;
+import edu.pjwstk.auth.service.ForgotPasswordCodeService;
 import edu.pjwstk.api.emailSender.EmailSenderApi;
 import edu.pjwstk.api.emailSender.EmailSendingException;
 import edu.pjwstk.api.emailSender.MailContentType;
@@ -23,7 +23,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTokenUseCase {
 
-    private final ForgotPasswordCodeUtil forgotPasswordCodeUtil;
+    private final ForgotPasswordCodeService forgotPasswordCodeService;
     private final UserApi userApi;
     private final EmailSenderApi emailSenderApi;
     private final JpaForgotPasswordCodeRepository forgotPasswordCodeRepository;
@@ -63,11 +63,11 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
             forgotPasswordCodeRepository.revokeAllActiveForgotPasswordCodesByUserId(user.userId());
         }
 
-        String code = forgotPasswordCodeUtil.generateCode();
+        String code = forgotPasswordCodeService.generateAndSaveForgotPasswordCode();
         ForgotPasswordCode forgotPasswordCode = new ForgotPasswordCode(
                 UUID.randomUUID(),
                 user.userId(),
-                forgotPasswordCodeUtil.hashCode(code),
+                forgotPasswordCodeService.hashCode(code),
                 LocalDateTime.now(),
                 LocalDateTime.now().plusSeconds(forgotPasswordCodeTimeout),
                 false

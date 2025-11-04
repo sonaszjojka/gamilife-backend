@@ -1,10 +1,10 @@
-package edu.pjwstk.auth.util;
+package edu.pjwstk.auth.service;
 
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
 
 import java.util.Map;
 
-public interface OAuth2CodeUtil {
+public interface OAuthService {
 
     Map<String, String> exchangeCodeForTokens(String code, String codeVerifier);
 

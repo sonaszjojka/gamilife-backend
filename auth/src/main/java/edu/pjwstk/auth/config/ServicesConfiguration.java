@@ -6,8 +6,8 @@ import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
 import edu.pjwstk.auth.usecase.SendForgotPasswordTokenUseCase;
 import edu.pjwstk.auth.usecase.impl.SendEmailVerificationCodeUseCaseImpl;
 import edu.pjwstk.auth.usecase.impl.SendForgotPasswordTokenUseCaseImpl;
-import edu.pjwstk.auth.util.ForgotPasswordCodeUtil;
-import edu.pjwstk.auth.util.VerificationCodeUtil;
+import edu.pjwstk.auth.service.ForgotPasswordCodeService;
+import edu.pjwstk.auth.service.EmailVerificationCodeService;
 import edu.pjwstk.api.emailSender.EmailSenderApi;
 import edu.pjwstk.api.user.UserApi;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +22,7 @@ public class ServicesConfiguration {
             UserApi userApi,
             EmailSenderApi emailSenderApi,
             JpaEmailVerificationRepository emailVerificationRepository,
-            VerificationCodeUtil verificationCodeUtil,
+            EmailVerificationCodeService emailVerificationCodeService,
             @Value("${spring.codes.verification-code.expires-in}")
             long emailVerificationTimeout,
             @Value("${spring.codes.verification-code.resend-interval}")
@@ -31,7 +31,7 @@ public class ServicesConfiguration {
                 userApi,
                 emailSenderApi,
                 emailVerificationRepository,
-                verificationCodeUtil,
+                emailVerificationCodeService,
                 emailVerificationTimeout,
                 emailVerificationResendInterval
         );
@@ -39,7 +39,7 @@ public class ServicesConfiguration {
 
     @Bean
     public SendForgotPasswordTokenUseCase generateAndSendForgotPasswordTokenUseCase(
-            ForgotPasswordCodeUtil forgotPasswordCodeUtil,
+            ForgotPasswordCodeService forgotPasswordCodeService,
             UserApi userApi,
             EmailSenderApi emailSenderApi,
             JpaForgotPasswordCodeRepository forgotPasswordCodeRepository,
@@ -48,7 +48,7 @@ public class ServicesConfiguration {
             @Value("${spring.codes.forgot-password-code.resend-interval}")
             long forgotPasswordCodeResendInterval) {
         return new SendForgotPasswordTokenUseCaseImpl(
-                forgotPasswordCodeUtil,
+                forgotPasswordCodeService,
                 userApi,
                 emailSenderApi,
                 forgotPasswordCodeRepository,
