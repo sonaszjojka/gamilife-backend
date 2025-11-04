@@ -1,8 +1,7 @@
 package edu.pjwstk.auth.usecase.rotatetokens;
 
 import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.api.auth.dto.RotateUserTokensCommand;
+import edu.pjwstk.core.UseCase;
 
-public interface RotateUserTokensUseCase {
-    AuthTokens execute(RotateUserTokensCommand rotateUserTokensCommand);
+public interface RotateUserTokensUseCase extends UseCase<RotateUserTokensCommand, AuthTokens> {
 }

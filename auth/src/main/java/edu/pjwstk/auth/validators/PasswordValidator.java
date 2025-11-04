@@ -1,22 +1,22 @@
 package edu.pjwstk.auth.validators;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ValidationException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PasswordValidator implements ConstraintValidator<SecurePassword, String> {
+public class PasswordValidator {
 
-    @Override
-    public boolean isValid(String password, ConstraintValidatorContext context) {
+    public void validate(String password) {
         if (password == null || password.length() < 8) {
-            return false;
+            throw new ValidationException("Password length less than 8 characters");
         }
 
         boolean hasLetter = password.matches(".*[A-Za-z].*");
         boolean hasDigit = password.matches(".*\\d.*");
         boolean hasSpecial = password.matches(".*[!@#$%^&*()_+\\-={}:;\"'\\[\\]|<>,.?/~`].*");
 
-        return hasLetter && hasDigit && hasSpecial;
+        if (!hasLetter || !hasDigit || !hasSpecial) {
+            throw new ValidationException("Password must contain at least one letter, one digit, and one special character");
+        }
     }
 }

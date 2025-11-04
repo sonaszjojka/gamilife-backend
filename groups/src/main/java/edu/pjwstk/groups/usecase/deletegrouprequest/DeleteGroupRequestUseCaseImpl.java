@@ -29,8 +29,7 @@ public class DeleteGroupRequestUseCaseImpl implements DeleteGroupRequestUseCase 
         GroupRequest groupRequest = groupRequestRepository.findById(groupRequestId)
                 .orElseThrow(() -> new GroupRequestNotFoundException("Group request with id:" + groupRequestId + " not found!"));
 
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (!Objects.equals(currentUserDto.userId(), groupRequest.getUserId())) {
             throw new UserNotOwnerAccessDeniedException("Only user who created group request can delete group request!");

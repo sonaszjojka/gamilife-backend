@@ -41,7 +41,7 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " not found."));
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         if (!currentUserDto.userId().equals(task.getUserId())) {
             throw new UnauthorizedTaskAccessException("User is not authorized to edit task for another user!");
         }

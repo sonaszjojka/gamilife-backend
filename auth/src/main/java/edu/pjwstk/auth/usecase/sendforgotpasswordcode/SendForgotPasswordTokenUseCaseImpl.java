@@ -13,12 +13,12 @@ import edu.pjwstk.auth.service.ForgotPasswordCodeService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
+@Service
 @AllArgsConstructor
 public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTokenUseCase {
 
@@ -26,17 +26,14 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
     private final UserApi userApi;
     private final EmailSenderApi emailSenderApi;
     private final JpaForgotPasswordCodeRepository forgotPasswordCodeRepository;
-    private final long forgotPasswordCodeTimeout;
-    private final long forgotPasswordCodeResendInterval;
-
 
     @Override
     @Transactional
-    public void execute(String email) {
-        Optional<BasicUserInfoApiDto> foundUser = userApi.getUserByEmail(email);
+    public Boolean executeInternal(SendForgotPasswordCodeCommand cmd) {
+        Optional<BasicUserInfoApiDto> foundUser = userApi.getUserByEmail(cmd.email());
         if (foundUser.isEmpty()) {
             // No exception for security reasons
-            return;
+            return false;
         }
         BasicUserInfoApiDto user = foundUser.get();
 
@@ -47,36 +44,18 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
                         Sort.by(Sort.Direction.DESC, "issuedAt")
                 );
 
-        // Do not resend a code if user has a non revoked code that will not expire
-        // in the duration of the resend interval period
-        if (!codes.isEmpty() &&
-                codes.getFirst()
-                        .getExpiresAt()
-                        .minusSeconds(forgotPasswordCodeResendInterval)
-                        .isAfter(LocalDateTime.now())
-        ) {
-            throw new CannotCurrentlyCreateNewForgotPasswordCodeException("You have to wait a before you can get a new code");
+        if (!forgotPasswordCodeService.checkIfCanResendForgotPasswordCode(codes)) {
+            throw new CannotCurrentlyCreateNewForgotPasswordCodeException("Cannot currently create a new forgot password code. Please try again later.");
         }
 
         if (!codes.isEmpty()) {
             forgotPasswordCodeRepository.revokeAllActiveForgotPasswordCodesByUserId(user.userId());
         }
 
-        String code = forgotPasswordCodeService.generateAndSaveForgotPasswordCode();
-        ForgotPasswordCode forgotPasswordCode = new ForgotPasswordCode(
-                UUID.randomUUID(),
-                user.userId(),
-                forgotPasswordCodeService.hashCode(code),
-                LocalDateTime.now(),
-                LocalDateTime.now().plusSeconds(forgotPasswordCodeTimeout),
-                false
-        );
-
-        forgotPasswordCodeRepository.save(forgotPasswordCode);
-
+        String code = forgotPasswordCodeService.generateAndSaveForgotPasswordCode(user.userId());
         try {
             emailSenderApi.sendEmail(new MailDto(
-                            email,
+                            cmd.email(),
                             "Reset your password",
                             """
                                     Hi,
@@ -91,9 +70,10 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
                             MailContentType.TEXT
                     )
             );
+            return true;
         } catch (EmailSendingException ignored) {
-            // TODO: maybe resend logic
+            // TODO: resend logic
+            return false;
         }
-
     }
 }

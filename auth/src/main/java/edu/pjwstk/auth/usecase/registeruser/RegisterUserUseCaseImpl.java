@@ -18,7 +18,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
 
     @Override
     @Transactional
-    public BasicUserInfoApiDto execute(RegisterUserCommand registerUserCommand) {
+    public BasicUserInfoApiDto executeInternal(RegisterUserCommand registerUserCommand) {
         RegisterUserApiDto user = new RegisterUserApiDto(
                 registerUserCommand.firstName(),
                 registerUserCommand.lastName(),

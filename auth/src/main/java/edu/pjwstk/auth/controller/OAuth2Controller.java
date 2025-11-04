@@ -5,12 +5,12 @@ import edu.pjwstk.auth.controller.request.LinkOAuthAccountRequest;
 import edu.pjwstk.auth.controller.request.OAuthCodeRequest;
 import edu.pjwstk.auth.controller.response.AfterLoginResponse;
 import edu.pjwstk.auth.controller.response.OAuth2LinkResponse;
-import edu.pjwstk.auth.usecase.googlesignin.HandleGoogleSignInUseCase;
+import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInUseCase;
 import edu.pjwstk.auth.usecase.googlelinkaccount.LinkNewOAuthAccountUseCase;
-import edu.pjwstk.auth.usecase.googlesignin.HandleGoogleSignInCommand;
+import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInCommand;
 import edu.pjwstk.auth.usecase.googlelinkaccount.LinkNewOAuthAccountCommand;
-import edu.pjwstk.auth.usecase.googlesignin.GoogleLoginResult;
-import edu.pjwstk.auth.usecase.login.LoginUserResult;
+import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInResult;
+import edu.pjwstk.auth.usecase.common.LoginUserResult;
 import edu.pjwstk.commonweb.CookieUtil;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,7 +36,7 @@ public class OAuth2Controller {
 
     private final CookieUtil cookieUtil;
     private final LinkNewOAuthAccountUseCase linkNewOAuthAccountUseCase;
-    private final HandleGoogleSignInUseCase handleGoogleSignInUseCase;
+    private final GoogleSignInUseCase googleSignInUseCase;
 
     @PostMapping("/link")
     public ResponseEntity<AfterLoginResponse> linkOAuthAccounts(@RequestBody @Valid LinkOAuthAccountRequest linkOAuthAccountRequest,
@@ -72,12 +72,12 @@ public class OAuth2Controller {
     @PostMapping("/code/google")
     public ResponseEntity<?> handleGoogleCode(@RequestBody OAuthCodeRequest request,
                                               HttpServletResponse response) {
-        GoogleLoginResult googleLoginResult = handleGoogleSignInUseCase
-                .execute(new HandleGoogleSignInCommand(request.code(), request.codeVerifier()));
+        GoogleSignInResult googleSignInResult = googleSignInUseCase
+                .execute(new GoogleSignInCommand(request.code(), request.codeVerifier()));
 
-        return switch (googleLoginResult.getLoginType()) {
-            case GoogleLoginResult.LoginType.NEW_USER, GoogleLoginResult.LoginType.EXISTING_USER -> {
-                LoginUserResult result = googleLoginResult.getLoginUserResult();
+        return switch (googleSignInResult.getLoginType()) {
+            case GoogleSignInResult.LoginType.NEW_USER, GoogleSignInResult.LoginType.EXISTING_USER -> {
+                LoginUserResult result = googleSignInResult.getLoginUserResult();
                 AuthTokens authTokens = result.authTokens();
                 ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
                 ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
@@ -87,11 +87,11 @@ public class OAuth2Controller {
 
                 yield ResponseEntity.ok(AfterLoginResponse.from(result));
             }
-            case GoogleLoginResult.LoginType.POSSIBLE_LINK -> ResponseEntity.status(HttpStatus.CONFLICT)
+            case GoogleSignInResult.LoginType.POSSIBLE_LINK -> ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new OAuth2LinkResponse(
-                            googleLoginResult.getProviderName(),
-                            googleLoginResult.getProviderId(),
-                            googleLoginResult.getUserId()
+                            googleSignInResult.getProviderName(),
+                            googleSignInResult.getProviderId(),
+                            googleSignInResult.getUserId()
                     ));
         };
     }

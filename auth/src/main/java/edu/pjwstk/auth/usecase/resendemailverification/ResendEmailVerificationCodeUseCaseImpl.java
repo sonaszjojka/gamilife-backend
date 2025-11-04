@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -23,24 +22,26 @@ public class ResendEmailVerificationCodeUseCaseImpl implements ResendEmailVerifi
 
 
     @Override
-    public void execute(UUID userId) {
-        CheckIfUsersEmailIsVerifiedApiDto dto = userApi.checkIfUsersEmailIsVerified(userId);
+    public Void executeInternal(ResendEmailVerificationCodeCommand cmd) {
+        CheckIfUsersEmailIsVerifiedApiDto dto = userApi.checkIfUsersEmailIsVerified(cmd.userId());
         if (dto.isVerified()) {
             throw new EmailAlreadyVerifiedException("Email already verified");
         }
 
         List<EmailVerificationCode> codes = emailVerificationRepository
-                .findByUserIdAndRevokedOrderByIssuedAtDesc(userId, false);
+                .findByUserIdAndRevokedOrderByIssuedAtDesc(cmd.userId(), false);
 
-        if (emailVerificationService.checkIfCanResendEmailVerificationCode(codes)) {
+        if (!emailVerificationService.checkIfCanResendEmailVerificationCode(codes)) {
             throw new CannotCurrentlyCreateNewEmailVerificationCodeException("You have to wait a before you can get a new code");
         }
 
         if (!codes.isEmpty()) {
-            emailVerificationRepository.revokeAllActiveEmailVerificationCodesByUserId(userId);
+            emailVerificationRepository.revokeAllActiveEmailVerificationCodesByUserId(cmd.userId());
         }
 
-        String code = emailVerificationService.generateAndSaveEmailVerificationCode(userId);
-        emailVerificationService.sendEmailVerificationCode(userId, dto.email(), code);
+        String code = emailVerificationService.generateAndSaveEmailVerificationCode(cmd.userId());
+        emailVerificationService.sendEmailVerificationCode(cmd.userId(), dto.email(), code);
+
+        return null;
     }
 }

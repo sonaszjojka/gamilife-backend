@@ -38,8 +38,7 @@ public class UpdateGroupUseCaseImpl implements UpdateGroupUseCase {
     @Override
     @Transactional
     public UpdateGroupResponse execute(UpdateGroupRequest request, UUID groupId) {
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));

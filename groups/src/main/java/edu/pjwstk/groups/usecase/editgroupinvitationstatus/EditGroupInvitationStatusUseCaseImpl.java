@@ -45,8 +45,7 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
                 .orElseThrow(() -> new GroupInvitationNotFoundException("Group invitation with id: " + groupInvitationId
                         + " not found!"));
 
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (!Objects.equals(currentUserDto.userId(), groupInvitation.getUserId())) {
             throw new UserNotOwnerAccessDeniedException("Only user who is assigned to this invitation can change group invitation status!");

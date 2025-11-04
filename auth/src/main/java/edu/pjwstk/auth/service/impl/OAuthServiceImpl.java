@@ -12,8 +12,8 @@ import edu.pjwstk.auth.models.UserOAuthProvider;
 import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.service.OAuthService;
 import edu.pjwstk.auth.service.TokenService;
-import edu.pjwstk.auth.usecase.googlesignin.GoogleLoginResult;
-import edu.pjwstk.auth.usecase.login.LoginUserResult;
+import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInResult;
+import edu.pjwstk.auth.usecase.common.LoginUserResult;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -83,7 +83,7 @@ public class OAuthServiceImpl implements OAuthService {
     }
 
     @Override
-    public GoogleLoginResult loginViaGoogle(UUID userId, String googleEmail) {
+    public GoogleSignInResult loginViaGoogle(UUID userId, String googleEmail) {
         // User already exists with this Google provider ID
         SecureUserInfoApiDto user = userApi.getSecureUserDataById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -93,8 +93,8 @@ public class OAuthServiceImpl implements OAuthService {
             userApi.updateUserEmail(user.userId(), googleEmail);
         }
 
-        return new GoogleLoginResult(
-                GoogleLoginResult.LoginType.EXISTING_USER,
+        return new GoogleSignInResult(
+                GoogleSignInResult.LoginType.EXISTING_USER,
                 new LoginUserResult(
                         user.userId(),
                         user.email(),
@@ -107,7 +107,7 @@ public class OAuthServiceImpl implements OAuthService {
 
     @Override
     @Transactional
-    public GoogleLoginResult registerViaGoogle(GoogleUserDto googleUserDto) {
+    public GoogleSignInResult registerViaGoogle(GoogleUserDto googleUserDto) {
         String username = googleUserDto.firstName().substring(0, 3).toLowerCase() + "_" +
                 googleUserDto.lastName().substring(0, 3).toLowerCase() + "_" +
                 ThreadLocalRandom.current().nextInt(1000, 9999);
@@ -133,8 +133,8 @@ public class OAuthServiceImpl implements OAuthService {
         ));
 
 
-        return new GoogleLoginResult(
-                GoogleLoginResult.LoginType.NEW_USER,
+        return new GoogleSignInResult(
+                GoogleSignInResult.LoginType.NEW_USER,
                 new LoginUserResult(
                         createdGoogleUser.userId(),
                         createdGoogleUser.email(),

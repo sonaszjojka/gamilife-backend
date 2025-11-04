@@ -6,4 +6,8 @@ public record LoginUserCommand(
         String email,
         String password
 ) implements Command {
+    @Override
+    public void validate() {
+
+    }
 }

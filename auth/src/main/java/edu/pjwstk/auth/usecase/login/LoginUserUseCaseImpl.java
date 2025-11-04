@@ -7,6 +7,7 @@ import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewEmailVerificationCodeE
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.service.EmailVerificationService;
 import edu.pjwstk.auth.service.TokenService;
+import edu.pjwstk.auth.usecase.common.LoginUserResult;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +24,7 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
 
     @Override
     @Transactional
-    public LoginUserResult execute(LoginUserCommand loginUserCommand) {
+    public LoginUserResult executeInternal(LoginUserCommand loginUserCommand) {
         SecureUserInfoApiDto user = userApi
                 .getSecureUserDataByEmail(loginUserCommand.email())
                 .orElseThrow(() -> new InvalidCredentialsException("Login credentials are invalid"));

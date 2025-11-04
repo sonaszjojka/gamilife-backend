@@ -5,6 +5,7 @@ import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.auth.controller.request.*;
 import edu.pjwstk.auth.controller.response.AfterLoginResponse;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
+import edu.pjwstk.auth.usecase.getauthuser.GetAuthenticatedUserCommand;
 import edu.pjwstk.auth.usecase.getauthuser.GetAuthenticatedUserDataUseCase;
 import edu.pjwstk.auth.usecase.login.LoginUserCommand;
 import edu.pjwstk.auth.usecase.login.LoginUserUseCase;
@@ -12,12 +13,14 @@ import edu.pjwstk.auth.usecase.logout.LogoutUserUseCase;
 import edu.pjwstk.auth.usecase.refreshtoken.RefreshAccessTokenUseCase;
 import edu.pjwstk.auth.usecase.registeruser.RegisterUserCommand;
 import edu.pjwstk.auth.usecase.registeruser.RegisterUserUseCase;
+import edu.pjwstk.auth.usecase.resendemailverification.ResendEmailVerificationCodeCommand;
 import edu.pjwstk.auth.usecase.resendemailverification.ResendEmailVerificationCodeUseCase;
 import edu.pjwstk.auth.usecase.resetpassword.ResetPasswordCommand;
 import edu.pjwstk.auth.usecase.resetpassword.ResetPasswordUseCase;
+import edu.pjwstk.auth.usecase.sendforgotpasswordcode.SendForgotPasswordCodeCommand;
 import edu.pjwstk.auth.usecase.sendforgotpasswordcode.SendForgotPasswordTokenUseCase;
 import edu.pjwstk.auth.usecase.verifyemail.VerifyEmailCommand;
-import edu.pjwstk.auth.usecase.login.LoginUserResult;
+import edu.pjwstk.auth.usecase.common.LoginUserResult;
 import edu.pjwstk.auth.usecase.verifyemail.VerifyEmailUseCase;
 import edu.pjwstk.commonweb.CookieUtil;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -110,8 +113,7 @@ public class AuthController {
     @PostMapping("/email-verifications/confirm")
     public ResponseEntity<AfterLoginResponse> verifyEmail(@RequestBody @Valid EmailVerificationCodeRequest emailVerificationCodeRequest,
                                                           HttpServletResponse response) {
-        CurrentUserDto user = getAuthenticatedUserDataUseCase.execute()
-                .orElseThrow(() -> new InvalidCredentialsException("Provided access token is invalid"));
+        CurrentUserDto user = getAuthenticatedUserDataUseCase.execute(new GetAuthenticatedUserCommand());
 
         LoginUserResult result = verifyEmailUseCase.execute(new VerifyEmailCommand(
                 user.userId(), emailVerificationCodeRequest.code()
@@ -126,17 +128,16 @@ public class AuthController {
     @SecurityRequirement(name = "accessToken")
     @PostMapping("/email-verifications/resend")
     public ResponseEntity<Void> resendVerificationCode() {
-        CurrentUserDto user = getAuthenticatedUserDataUseCase.execute()
-                .orElseThrow(() -> new InvalidCredentialsException("Provided access token is invalid"));
+        CurrentUserDto user = getAuthenticatedUserDataUseCase.execute(new GetAuthenticatedUserCommand());
 
-        resendEmailVerificationCodeUseCase.execute(user.userId());
+        resendEmailVerificationCodeUseCase.execute(new ResendEmailVerificationCodeCommand(user.userId()));
 
         return ResponseEntity.accepted().build();
     }
 
     @PostMapping("/forgot-password")
     public ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
-        sendForgotPasswordTokenUseCase.execute(request.email());
+        sendForgotPasswordTokenUseCase.execute(new SendForgotPasswordCodeCommand(request.email()));
 
         return ResponseEntity.noContent().build();
     }

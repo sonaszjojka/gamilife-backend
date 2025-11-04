@@ -8,6 +8,7 @@ import edu.pjwstk.auth.models.ForgotPasswordCode;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.service.ForgotPasswordCodeService;
 import edu.pjwstk.auth.service.SecureCodesAndTokensService;
+import edu.pjwstk.auth.validators.PasswordValidator;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,13 +27,16 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
     private final UserApi userApi;
     private final PasswordEncoder passwordEncoder;
     private final SecureCodesAndTokensService secureCodesAndTokensService;
+    private final PasswordValidator passwordValidator;
 
     @Override
     @Transactional
-    public void execute(ResetPasswordCommand command) {
+    public Void executeInternal(ResetPasswordCommand cmd) {
+        passwordValidator.validate(cmd.newPassword());
+
         ForgotPasswordCode forgotPasswordCode = forgotPasswordCodeRepository
                 .findByCodeAndRevokedAndExpiresAtIsGreaterThan(
-                        forgotPasswordCodeService.hashCode(command.code()),
+                        forgotPasswordCodeService.hashCode(cmd.code()),
                         false,
                         LocalDateTime.now()
                 )
@@ -41,15 +45,17 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
         SecureUserInfoApiDto user = userApi.getSecureUserDataById(forgotPasswordCode.getUserId())
                 .orElseThrow(ResetPasswordGenericException::new);
 
-        if (passwordEncoder.matches(command.newPassword(), user.password())) {
+        if (passwordEncoder.matches(cmd.newPassword(), user.password())) {
             throw new OldAndNewPasswordAreTheSameException();
         }
 
         userApi.resetUserPassword(
                 forgotPasswordCode.getUserId(),
-                passwordEncoder.encode(command.newPassword())
+                passwordEncoder.encode(cmd.newPassword())
         );
 
         secureCodesAndTokensService.revokeAllTokensAndCodesForUser(forgotPasswordCode.getUserId());
+
+        return null;
     }
 }

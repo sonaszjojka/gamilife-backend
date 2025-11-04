@@ -1,7 +1,6 @@
 package edu.pjwstk.auth.usecase.resendemailverification;
 
-import java.util.UUID;
+import edu.pjwstk.core.UseCase;
 
-public interface ResendEmailVerificationCodeUseCase {
-    void execute(UUID userId);
+public interface ResendEmailVerificationCodeUseCase extends UseCase<ResendEmailVerificationCodeCommand, Void> {
 }

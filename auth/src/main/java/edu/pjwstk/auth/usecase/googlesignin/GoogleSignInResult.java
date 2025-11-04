@@ -1,19 +1,19 @@
 package edu.pjwstk.auth.usecase.googlesignin;
 
-import edu.pjwstk.auth.usecase.login.LoginUserResult;
+import edu.pjwstk.auth.usecase.common.LoginUserResult;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Getter
-public class GoogleLoginResult {
+public class GoogleSignInResult {
     private final LoginType loginType;
     private final LoginUserResult loginUserResult;
     private final String providerId;
     private final String providerName;
     private final UUID userId;
 
-    public GoogleLoginResult(LoginType loginType, LoginUserResult loginUserResult) {
+    public GoogleSignInResult(LoginType loginType, LoginUserResult loginUserResult) {
         if (loginType != LoginType.NEW_USER && loginType != LoginType.EXISTING_USER) {
             throw new IllegalStateException("loginType must be either NEW_USER or EXISTING_USER to use this constructor");
         }
@@ -25,7 +25,7 @@ public class GoogleLoginResult {
         this.userId = null;
     }
 
-    public GoogleLoginResult(LoginType loginType, String providerName, String providerId, UUID userId) {
+    public GoogleSignInResult(LoginType loginType, String providerName, String providerId, UUID userId) {
         if (loginType != LoginType.POSSIBLE_LINK) {
             throw new IllegalStateException("loginType must be POSSIBLE_LINK to use this constructor");
         }

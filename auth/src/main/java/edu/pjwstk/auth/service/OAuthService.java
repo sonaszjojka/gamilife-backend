@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.service;
 
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
-import edu.pjwstk.auth.usecase.googlesignin.GoogleLoginResult;
+import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInResult;
 
 import java.util.Map;
 import java.util.UUID;
@@ -12,8 +12,8 @@ public interface OAuthService {
 
     GoogleUserDto extractUserInfoFromIdToken(String idToken);
 
-    GoogleLoginResult loginViaGoogle(UUID userId, String googleEmail);
+    GoogleSignInResult loginViaGoogle(UUID userId, String googleEmail);
 
-    GoogleLoginResult registerViaGoogle(GoogleUserDto googleUserDto);
+    GoogleSignInResult registerViaGoogle(GoogleUserDto googleUserDto);
 
 }

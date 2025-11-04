@@ -33,7 +33,7 @@ public class DeleteTaskNotificationUseCaseImpl implements DeleteTaskNotification
                         "Task with id " + taskId + " not found!"
                 ));
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         if (!currentUserDto.userId().equals(taskNotification.getTask().getUserId()) ) {
             throw new UnauthorizedTaskAccessException("User is not authorized to delete notification for another user!");
         }

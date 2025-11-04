@@ -2,6 +2,7 @@ package edu.pjwstk.auth.usecase.changepassword;
 
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.exceptions.OldAndNewPasswordAreTheSameException;
+import edu.pjwstk.auth.validators.PasswordValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,18 +13,21 @@ import org.springframework.validation.annotation.Validated;
 @AllArgsConstructor
 public class ChangePasswordUseCaseImpl implements ChangePasswordUseCase {
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordValidator passwordValidator;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public String execute(ChangePasswordInternalCommand dto) {
-        if (!passwordEncoder.matches(dto.providedPassword(), dto.hashedUserPassword())) {
+    public String executeInternal(ChangePasswordCommand cmd) {
+        passwordValidator.validate(cmd.newPassword());
+
+        if (!passwordEncoder.matches(cmd.providedPassword(), cmd.hashedUserPassword())) {
             throw new InvalidCredentialsException("Invalid password");
         }
 
-        if (passwordEncoder.matches(dto.newPassword(), dto.hashedUserPassword())) {
+        if (passwordEncoder.matches(cmd.newPassword(), cmd.hashedUserPassword())) {
             throw new OldAndNewPasswordAreTheSameException();
         }
 
-        return passwordEncoder.encode(dto.newPassword());
+        return passwordEncoder.encode(cmd.newPassword());
     }
 }

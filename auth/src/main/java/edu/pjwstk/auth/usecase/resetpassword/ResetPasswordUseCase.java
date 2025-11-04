@@ -1,7 +1,6 @@
 package edu.pjwstk.auth.usecase.resetpassword;
 
-import jakarta.validation.Valid;
+import edu.pjwstk.core.UseCase;
 
-public interface ResetPasswordUseCase {
-    void execute(@Valid ResetPasswordCommand command);
+public interface ResetPasswordUseCase extends UseCase<ResetPasswordCommand, Void> {
 }

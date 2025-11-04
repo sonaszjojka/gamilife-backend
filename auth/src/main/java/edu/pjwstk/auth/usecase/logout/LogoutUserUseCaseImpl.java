@@ -1,6 +1,5 @@
 package edu.pjwstk.auth.usecase.logout;
 
-import edu.pjwstk.auth.exceptions.RefreshTokenNotProvidedException;
 import edu.pjwstk.auth.exceptions.RefreshTokenUnknownException;
 import edu.pjwstk.auth.models.RefreshToken;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
@@ -18,11 +17,8 @@ public class LogoutUserUseCaseImpl implements LogoutUserUseCase {
     private final JpaRefreshTokenRepository refreshTokenRepository;
 
     @Override
-    public void execute(String refreshToken) {
-        if (refreshToken.isBlank()) {
-            throw new RefreshTokenNotProvidedException("Refresh token is blank value");
-        }
-        String hashedToken = tokenService.hashToken(refreshToken);
+    public Void executeInternal(LogoutUserCommand cmd) {
+        String hashedToken = tokenService.hashToken(cmd.refreshToken());
 
         RefreshToken refreshTokenFromDb = refreshTokenRepository
                 .findByToken(hashedToken)
@@ -31,5 +27,7 @@ public class LogoutUserUseCaseImpl implements LogoutUserUseCase {
         if (!refreshTokenFromDb.getExpiresAt().isBefore(LocalDateTime.now()) && !refreshTokenFromDb.isRevoked()) {
             refreshTokenRepository.updateRevokedById(refreshTokenFromDb.getId(), true);
         }
+
+        return null;
     }
 }

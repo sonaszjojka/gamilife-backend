@@ -1,7 +1,6 @@
 package edu.pjwstk.auth.usecase.changepassword;
 
-import jakarta.validation.Valid;
+import edu.pjwstk.core.UseCase;
 
-public interface ChangePasswordUseCase {
-    String execute(@Valid ChangePasswordInternalCommand dto);
+public interface ChangePasswordUseCase extends UseCase<ChangePasswordCommand, String> {
 }

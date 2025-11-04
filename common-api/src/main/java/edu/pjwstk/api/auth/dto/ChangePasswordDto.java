@@ -1,6 +1,6 @@
 package edu.pjwstk.api.auth.dto;
 
-public record ChangePasswordCommand(
+public record ChangePasswordDto(
         String providedPassword,
         String hashedUserPassword,
         String newPassword

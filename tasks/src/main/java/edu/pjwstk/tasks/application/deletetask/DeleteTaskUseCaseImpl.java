@@ -31,7 +31,7 @@ public class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
                         "Task with id " + taskId + " not found!"
                 ));
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         if (!task.getIsGroupTask()&&!currentUserDto.userId().equals(task.getUserId())) {
             throw new UnauthorizedTaskAccessException("User is not authorized to delete task for another user!");
         }

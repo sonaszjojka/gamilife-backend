@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class HandleGoogleSignUseCaseImpl implements HandleGoogleSignInUseCase {
+public class GoogleSignUseCaseImpl implements GoogleSignInUseCase {
 
     private final OAuthService oAuthService;
     private final JpaUserProviderRepository userProviderRepository;
@@ -23,8 +23,8 @@ public class HandleGoogleSignUseCaseImpl implements HandleGoogleSignInUseCase {
 
     @Override
     @Transactional
-    public GoogleLoginResult execute(HandleGoogleSignInCommand handleGoogleSignInCommand) {
-        Map<String, String> tokenResponse = oAuthService.exchangeCodeForTokens(handleGoogleSignInCommand.code(), handleGoogleSignInCommand.codeVerifier());
+    public GoogleSignInResult executeInternal(GoogleSignInCommand cmd) {
+        Map<String, String> tokenResponse = oAuthService.exchangeCodeForTokens(cmd.code(), cmd.codeVerifier());
         GoogleUserDto googleUserDto = oAuthService.extractUserInfoFromIdToken(tokenResponse.get("id_token"));
 
         Optional<UserOAuthProvider> existingOAuthUser = userProviderRepository
@@ -38,8 +38,8 @@ public class HandleGoogleSignUseCaseImpl implements HandleGoogleSignInUseCase {
         if (user.isPresent()) {
             // User exists, but not linked to Google
             BasicUserInfoApiDto existingUser = user.get();
-            return new GoogleLoginResult(
-                    GoogleLoginResult.LoginType.POSSIBLE_LINK,
+            return new GoogleSignInResult(
+                    GoogleSignInResult.LoginType.POSSIBLE_LINK,
                     "google",
                     googleUserDto.sub(),
                     existingUser.userId()

@@ -9,7 +9,7 @@ import edu.pjwstk.auth.exceptions.UserAlreadyLinkedToProviderException;
 import edu.pjwstk.auth.models.UserOAuthProvider;
 import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.service.TokenService;
-import edu.pjwstk.auth.usecase.login.LoginUserResult;
+import edu.pjwstk.auth.usecase.common.LoginUserResult;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,27 +29,27 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
 
     @Override
     @Transactional
-    public Optional<LoginUserResult> execute(LinkNewOAuthAccountCommand linkNewOAuthAccountCommand) {
-        if (!linkNewOAuthAccountCommand.shouldLink()) {
+    public Optional<LoginUserResult> executeInternal(LinkNewOAuthAccountCommand cmd) {
+        if (!cmd.shouldLink()) {
             return Optional.empty();
         }
 
-        SecureUserInfoApiDto user = userApi.getSecureUserDataById(linkNewOAuthAccountCommand.userId())
+        SecureUserInfoApiDto user = userApi.getSecureUserDataById(cmd.userId())
                 .orElseThrow(() -> new LinkedUserNotFoundException("Local user to link to not found"));
 
-        if (!passwordEncoder.matches(linkNewOAuthAccountCommand.password(), user.password())) {
+        if (!passwordEncoder.matches(cmd.password(), user.password())) {
             throw new InvalidCredentialsException("Invalid password");
         }
 
-        if (userProviderRepository.existsByUserIdAndProvider(user.userId(), linkNewOAuthAccountCommand.provider())) {
+        if (userProviderRepository.existsByUserIdAndProvider(user.userId(), cmd.provider())) {
             throw new UserAlreadyLinkedToProviderException("User is already linked to this provider");
         }
 
         userProviderRepository.save(new UserOAuthProvider(
                 UUID.randomUUID(),
                 user.userId(),
-                linkNewOAuthAccountCommand.provider(),
-                linkNewOAuthAccountCommand.providerId()
+                cmd.provider(),
+                cmd.providerId()
 
         ));
 

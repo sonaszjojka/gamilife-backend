@@ -26,8 +26,8 @@ public class RefreshAccessTokenUseCaseImpl implements RefreshAccessTokenUseCase 
 
     @Override
     @Transactional
-    public AuthTokens execute(String refreshToken) {
-        String hashedRefreshToken = tokenService.hashToken(refreshToken);
+    public AuthTokens executeInternal(RefreshAccessTokenCommand cmd) {
+        String hashedRefreshToken = tokenService.hashToken(cmd.refreshToken());
         RefreshToken existingRefreshToken = refreshTokenRepository
                 .findByToken(hashedRefreshToken)
                 .orElseThrow(() -> new RefreshTokenUnknownException("Refresh token not found"));
@@ -45,7 +45,7 @@ public class RefreshAccessTokenUseCaseImpl implements RefreshAccessTokenUseCase 
 
         return new AuthTokens(
                 tokenService.generateAccessToken(user.userId(), user.email()),
-                refreshToken
+                cmd.refreshToken()
         );
     }
 }

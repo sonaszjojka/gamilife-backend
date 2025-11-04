@@ -48,8 +48,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
         GroupMember groupMember = groupMemberRepository.findById(groupMemberId)
                 .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: " + groupMemberId + " not found!"));
 
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (groupMember.getLeftAt() != null) {
             throw new UserLeftGroupException("Group member with id: " + groupMemberId + " left group with id: "

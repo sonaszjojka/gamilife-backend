@@ -8,4 +8,9 @@ public record VerifyEmailCommand(
         UUID userId,
         String code
 ) implements Command {
+
+    @Override
+    public void validate() {
+        // No specific validation logic
+    }
 }

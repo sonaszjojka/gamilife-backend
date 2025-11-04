@@ -30,8 +30,7 @@ public class DeleteGroupInvitationByIdImpl implements DeleteGroupInvitationById 
                 .orElseThrow(() -> new GroupInvitationNotFoundException("Group invitation with id:"
                         + groupInvitationId + " not found!"));
 
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (!Objects.equals(currentUserDto.userId(), groupInvitation.getGroupInvited().getAdminId())) {
             throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators can delete group invitations!");

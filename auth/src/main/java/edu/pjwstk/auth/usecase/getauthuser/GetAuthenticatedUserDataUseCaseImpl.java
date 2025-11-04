@@ -6,19 +6,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 
 @Service
 public class GetAuthenticatedUserDataUseCaseImpl implements GetAuthenticatedUserDataUseCase {
     @Override
-    public Optional<CurrentUserDto> execute() {
+    public CurrentUserDto executeInternal(GetAuthenticatedUserCommand cmd) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object userDetails = authentication.getPrincipal();
 
         if (userDetails instanceof UserDetailsImpl user) {
-            return Optional.of(new CurrentUserDto(user.getId(), user.getUsername()));
+            return new CurrentUserDto(user.getId(), user.getUsername());
         }
 
-        return Optional.empty();
+        throw new RuntimeException("Access denied"); // TODO: change to other exception
     }
 }

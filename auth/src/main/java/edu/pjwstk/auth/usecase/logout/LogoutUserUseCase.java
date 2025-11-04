@@ -1,5 +1,6 @@
 package edu.pjwstk.auth.usecase.logout;
 
-public interface LogoutUserUseCase {
-    void execute(String refreshToken);
+import edu.pjwstk.core.UseCase;
+
+public interface LogoutUserUseCase extends UseCase<LogoutUserCommand, Void> {
 }

@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.usecase.verifyemail;
 
-import edu.pjwstk.auth.usecase.login.LoginUserResult;
+import edu.pjwstk.auth.usecase.common.LoginUserResult;
+import edu.pjwstk.core.UseCase;
 
-public interface VerifyEmailUseCase {
-    LoginUserResult execute(VerifyEmailCommand code);
+public interface VerifyEmailUseCase extends UseCase<VerifyEmailCommand, LoginUserResult> {
 }

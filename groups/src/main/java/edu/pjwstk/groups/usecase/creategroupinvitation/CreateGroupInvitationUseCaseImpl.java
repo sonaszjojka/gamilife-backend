@@ -58,8 +58,7 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     @Override
     @Transactional
     public CreateGroupInvitationResponse execute(UUID groupId, CreateGroupInvitationRequest request) {
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));

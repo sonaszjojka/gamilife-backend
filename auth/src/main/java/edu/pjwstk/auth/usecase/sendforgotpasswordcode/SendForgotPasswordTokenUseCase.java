@@ -1,5 +1,6 @@
 package edu.pjwstk.auth.usecase.sendforgotpasswordcode;
 
-public interface SendForgotPasswordTokenUseCase {
-    void execute(String email);
+import edu.pjwstk.core.UseCase;
+
+public interface SendForgotPasswordTokenUseCase extends UseCase<SendForgotPasswordCodeCommand, Boolean> {
 }

@@ -91,6 +91,6 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
         return codes.isEmpty() || codes.getFirst()
                 .getExpiresAt()
                 .minusSeconds(emailVerificationResendInterval)
-                .isAfter(LocalDateTime.now());
+                .isBefore(LocalDateTime.now());
     }
 }

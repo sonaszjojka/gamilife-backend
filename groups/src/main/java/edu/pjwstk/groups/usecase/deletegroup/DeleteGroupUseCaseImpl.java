@@ -29,8 +29,7 @@ public class DeleteGroupUseCaseImpl implements DeleteGroupUseCase {
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
 
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (!Objects.equals(currentUserDto.userId(), group.getAdminId())) {
             throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators can delete groups!");

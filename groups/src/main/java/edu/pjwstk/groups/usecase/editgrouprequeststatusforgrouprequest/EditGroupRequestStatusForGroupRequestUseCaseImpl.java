@@ -43,8 +43,7 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
         GroupRequest groupRequest = groupRequestRepository.findById(groupRequestId)
                 .orElseThrow(() -> new GroupRequestNotFoundException("Group request with id:" + groupRequestId + " not found!"));
 
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (!Objects.equals(currentUserDto.userId(), groupRequest.getGroupRequested().getAdminId())) {
             throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators can change status group request!");

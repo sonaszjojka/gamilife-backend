@@ -40,7 +40,7 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     @Transactional
     public CreateTaskResponse execute(CreateTaskRequest request) {
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         if (!currentUserDto.userId().equals(request.userId())) {
             System.out.println(currentUserDto.userId()+ " "+request.userId()+"================================================================================================");
             throw new UnauthorizedTaskAccessException("User is not authorized to create task for another user!");

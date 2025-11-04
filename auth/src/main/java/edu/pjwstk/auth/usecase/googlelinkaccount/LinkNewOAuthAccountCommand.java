@@ -12,4 +12,8 @@ public record LinkNewOAuthAccountCommand(
         String password
 ) implements Command {
 
+    @Override
+    public void validate() {
+
+    }
 }
