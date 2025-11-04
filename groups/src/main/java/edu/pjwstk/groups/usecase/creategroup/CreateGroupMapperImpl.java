@@ -14,6 +14,7 @@ public class CreateGroupMapperImpl implements CreateGroupMapper {
 
         return Group.builder()
                 .groupId(uuid)
+                .name(request.groupName())
                 .joinCode(joinCode)
                 .adminId(request.adminId())
                 .groupCurrencySymbol(request.groupCurrencySymbol())
@@ -34,6 +35,7 @@ public class CreateGroupMapperImpl implements CreateGroupMapper {
 
         return CreateGroupResponse.builder()
                 .groupId(savedGroup.getGroupId())
+                .groupName(savedGroup.getName())
                 .joinCode(savedGroup.getJoinCode())
                 .adminId(savedGroup.getAdminId())
                 .groupCurrencySymbol(savedGroup.getGroupCurrencySymbol())

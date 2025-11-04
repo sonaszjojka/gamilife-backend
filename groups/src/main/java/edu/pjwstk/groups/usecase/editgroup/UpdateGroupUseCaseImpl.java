@@ -62,6 +62,7 @@ public class UpdateGroupUseCaseImpl implements UpdateGroupUseCase {
         group.setMembersLimit(request.membersLimit());
         group.setAdminId(admin.get().userId());
         group.setGroupType(groupType);
+        group.setName(request.groupName());
 
         Group savedGroup = groupRepository.save(group);
         return updateGroupMapper.toResponse(savedGroup);

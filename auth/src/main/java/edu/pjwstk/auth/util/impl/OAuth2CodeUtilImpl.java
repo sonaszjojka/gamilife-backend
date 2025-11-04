@@ -27,6 +27,9 @@ public class OAuth2CodeUtilImpl implements OAuth2CodeUtil {
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String googleClientSecret;
 
+    @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
+    private String googleRedirectUri;
+
     public OAuth2CodeUtilImpl(WebClient webClient) {
         this.webClient = webClient;
     }
@@ -38,7 +41,7 @@ public class OAuth2CodeUtilImpl implements OAuth2CodeUtil {
         formData.add("code", code);
         formData.add("client_id", googleClientId);
         formData.add("client_secret", googleClientSecret);
-        formData.add("redirect_uri", "http://localhost:4200/oauth2/callback");
+        formData.add("redirect_uri", googleRedirectUri);
         formData.add("code_verifier", codeVerifier);
 
         return webClient.post()

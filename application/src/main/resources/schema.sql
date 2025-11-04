@@ -214,6 +214,7 @@ CREATE TABLE "group"
 (
     group_id              UUID        NOT NULL,
     join_code             VARCHAR(20) NOT NULL,
+    group_name            VARCHAR(50) NOT NULL,
     admin_id              UUID        NOT NULL,
     group_currency_symbol CHAR        NOT NULL,
     members_limit         INTEGER     NOT NULL,

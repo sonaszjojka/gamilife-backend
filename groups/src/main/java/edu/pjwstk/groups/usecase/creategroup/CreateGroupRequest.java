@@ -1,10 +1,7 @@
 package edu.pjwstk.groups.usecase.creategroup;
 
 import edu.pjwstk.groups.shared.GroupTypeEnum;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 
 import java.util.UUID;
 
@@ -12,6 +9,10 @@ public record CreateGroupRequest(
 
         @NotNull(message = "Admin ID cannot be null")
         UUID adminId,
+
+        @NotBlank(message = "Group name cannot be blank")
+        @Size(max = 50, message = "Group name cannot exceed 50 characters")
+        String groupName,
 
         @NotNull(message = "Group currency symbol cannot be null")
         Character groupCurrencySymbol,
