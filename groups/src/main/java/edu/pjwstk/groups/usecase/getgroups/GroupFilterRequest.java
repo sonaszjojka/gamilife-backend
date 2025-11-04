@@ -13,7 +13,6 @@ public record GroupFilterRequest(
         Integer page,
 
         @Min(value = 1, message = "Page size must be >= 1")
-        @Max(value = 100, message = "Page size must be <= 100")
         Integer size
 ) {
 }
