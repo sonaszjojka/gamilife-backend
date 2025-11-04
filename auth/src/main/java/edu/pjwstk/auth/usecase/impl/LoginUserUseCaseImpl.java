@@ -5,9 +5,9 @@ import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewEmailVerificationCodeException;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
+import edu.pjwstk.auth.service.EmailVerificationService;
 import edu.pjwstk.auth.service.TokenService;
 import edu.pjwstk.auth.usecase.LoginUserUseCase;
-import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
 import edu.pjwstk.auth.usecase.command.LoginUserCommand;
 import edu.pjwstk.auth.usecase.result.LoginUserResult;
 import jakarta.transaction.Transactional;
@@ -22,7 +22,7 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
     private final UserApi userApi;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
-    private final SendEmailVerificationCodeUseCase sendEmailVerificationCodeUseCase;
+    private final EmailVerificationService emailVerificationService;
 
     @Override
     @Transactional
@@ -37,7 +37,12 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
 
         if (!user.isEmailVerified()) {
             try {
-                sendEmailVerificationCodeUseCase.execute(user.userId());
+                String code = emailVerificationService.generateAndSaveEmailVerificationCode(user.userId());
+                emailVerificationService.sendEmailVerificationCode(
+                        user.userId(),
+                        user.email(),
+                        code
+                );
             } catch (CannotCurrentlyCreateNewEmailVerificationCodeException ignored) {
             }
         }

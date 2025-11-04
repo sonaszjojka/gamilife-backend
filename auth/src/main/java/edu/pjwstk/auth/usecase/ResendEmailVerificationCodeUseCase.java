@@ -2,7 +2,6 @@ package edu.pjwstk.auth.usecase;
 
 import java.util.UUID;
 
-@Deprecated
-public interface SendEmailVerificationCodeUseCase {
+public interface ResendEmailVerificationCodeUseCase {
     void execute(UUID userId);
 }

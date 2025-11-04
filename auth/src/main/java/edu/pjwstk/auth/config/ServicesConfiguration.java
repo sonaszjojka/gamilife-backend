@@ -2,13 +2,9 @@ package edu.pjwstk.auth.config;
 
 import edu.pjwstk.api.emailSender.EmailSenderApi;
 import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
-import edu.pjwstk.auth.service.EmailVerificationCodeService;
 import edu.pjwstk.auth.service.ForgotPasswordCodeService;
-import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
 import edu.pjwstk.auth.usecase.SendForgotPasswordTokenUseCase;
-import edu.pjwstk.auth.usecase.impl.SendEmailVerificationCodeUseCaseImpl;
 import edu.pjwstk.auth.usecase.impl.SendForgotPasswordTokenUseCaseImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,26 +12,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ServicesConfiguration {
-
-    @Bean
-    public SendEmailVerificationCodeUseCase sendEmailVerificationCodeUseCase(
-            UserApi userApi,
-            EmailSenderApi emailSenderApi,
-            JpaEmailVerificationRepository emailVerificationRepository,
-            EmailVerificationCodeService emailVerificationCodeService,
-            @Value("${spring.codes.verification-code.expires-in}")
-            long emailVerificationTimeout,
-            @Value("${spring.codes.verification-code.resend-interval}")
-            long emailVerificationResendInterval) {
-        return new SendEmailVerificationCodeUseCaseImpl(
-                userApi,
-                emailSenderApi,
-                emailVerificationRepository,
-                emailVerificationCodeService,
-                emailVerificationTimeout,
-                emailVerificationResendInterval
-        );
-    }
 
     @Bean
     public SendForgotPasswordTokenUseCase generateAndSendForgotPasswordTokenUseCase(

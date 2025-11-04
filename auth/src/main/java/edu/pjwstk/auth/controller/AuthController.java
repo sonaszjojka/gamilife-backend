@@ -34,7 +34,7 @@ public class AuthController {
     private final LoginUserUseCase loginUserUseCase;
     private final LogoutUserUseCase logoutUserUseCase;
     private final RefreshAccessTokenUseCase refreshAccessTokenUseCase;
-    private final SendEmailVerificationCodeUseCase sendEmailVerificationCodeUseCase;
+    private final ResendEmailVerificationCodeUseCase resendEmailVerificationCodeUseCase;
     private final GetAuthenticatedUserDataUseCase getAuthenticatedUserDataUseCase;
     private final VerifyEmailUseCase verifyEmailUseCase;
     private final SendForgotPasswordTokenUseCase sendForgotPasswordTokenUseCase;
@@ -121,7 +121,7 @@ public class AuthController {
         CurrentUserDto user = getAuthenticatedUserDataUseCase.execute()
                 .orElseThrow(() -> new InvalidCredentialsException("Provided access token is invalid"));
 
-        sendEmailVerificationCodeUseCase.execute(user.userId());
+        resendEmailVerificationCodeUseCase.execute(user.userId());
 
         return ResponseEntity.accepted().build();
     }
