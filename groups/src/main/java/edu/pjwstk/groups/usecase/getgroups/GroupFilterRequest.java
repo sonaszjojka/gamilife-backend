@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Min;
 
 public record GroupFilterRequest(
         String joinCode,
-        GroupTypeEnum type,
+        Integer type,
         String name,
 
         @Min(value = 0, message = "Page number must be >= 0")

@@ -72,7 +72,7 @@ public class GroupController {
             @Min(1) @Max(100) Integer size
     ) {
         GroupFilterRequest request = new GroupFilterRequest(
-                joinCode, GroupTypeEnum.fromId(groupType), groupName, page, size
+                joinCode, groupType, groupName, page, size
         );
         Page<GroupDto> response = getGroupsUseCase.execute(request);
         return ResponseEntity.ok(response);

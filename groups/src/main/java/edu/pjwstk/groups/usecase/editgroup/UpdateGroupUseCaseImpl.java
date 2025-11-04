@@ -54,9 +54,9 @@ public class UpdateGroupUseCaseImpl implements UpdateGroupUseCase {
             throw new UserNotFoundException("User (admin) with id: " + request.adminId() + " not found!");
         }
 
-        GroupType groupType = groupTypeRepository.findById(request.groupType().getId())
+        GroupType groupType = groupTypeRepository.findById(request.groupTypeId())
                 .orElseThrow(() -> new GroupTypeNotFoundException("Group type with id: " +
-                        request.groupType().getId() + " not found!"));
+                        request.groupTypeId() + " not found!"));
 
         group.setGroupCurrencySymbol(request.groupCurrencySymbol());
         group.setMembersLimit(request.membersLimit());

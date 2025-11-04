@@ -17,7 +17,7 @@ public record UpdateGroupRequest(
         Character groupCurrencySymbol,
 
         @NotNull(message = "Group type cannot be null")
-        GroupTypeEnum groupType,
+        Integer groupTypeId,
 
         @NotNull(message = "Members limit cannot be null")
         @Min(value = 2, message = "Members limit must be at least 2")

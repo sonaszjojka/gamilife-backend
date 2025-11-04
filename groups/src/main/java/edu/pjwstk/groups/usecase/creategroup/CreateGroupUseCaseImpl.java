@@ -39,9 +39,9 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
     @Override
     @Transactional
     public CreateGroupResponse execute(CreateGroupRequest request) {
-        GroupType groupType = groupTypeRepository.findById(request.groupType().getId())
+        GroupType groupType = groupTypeRepository.findById(request.groupTypeId())
                 .orElseThrow(() -> new GroupTypeNotFoundException("Group type with id: " +
-                        request.groupType().getId() + " not found!"));
+                        request.groupTypeId() + " not found!"));
 
         Optional<BasicUserInfoApiDto> admin = userApi.getUserById(request.adminId());
 
