@@ -12,4 +12,6 @@ public interface EmailVerificationRepository {
     Optional<EmailVerification> findByUserIdAndCode(UUID userId, String code);
 
     List<EmailVerification> findByUserIdAndNotRevokedOrderByIssuedAt(UUID userId);
+
+    void revokeAllActiveEmailVerificationCodesByUserId(UUID userId);
 }
