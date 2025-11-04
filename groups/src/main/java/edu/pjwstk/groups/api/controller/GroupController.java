@@ -1,6 +1,7 @@
 package edu.pjwstk.groups.api.controller;
 
 import edu.pjwstk.groups.shared.ApiResponse;
+import edu.pjwstk.groups.shared.GroupTypeEnum;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupRequest;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupResponse;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupUseCase;
@@ -8,7 +9,13 @@ import edu.pjwstk.groups.usecase.deletegroup.DeleteGroupUseCase;
 import edu.pjwstk.groups.usecase.editgroup.UpdateGroupRequest;
 import edu.pjwstk.groups.usecase.editgroup.UpdateGroupResponse;
 import edu.pjwstk.groups.usecase.editgroup.UpdateGroupUseCase;
+import edu.pjwstk.groups.usecase.getgroups.GetGroupsUseCase;
+import edu.pjwstk.groups.usecase.getgroups.GroupDto;
+import edu.pjwstk.groups.usecase.getgroups.GroupFilterRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +29,13 @@ public class GroupController {
     private final CreateGroupUseCase createGroupUseCase;
     private final UpdateGroupUseCase updateGroupUseCase;
     private final DeleteGroupUseCase deleteGroupUseCase;
+    private final GetGroupsUseCase getGroupsUseCase;
 
-    public GroupController(CreateGroupUseCase createGroupUseCase, UpdateGroupUseCase updateGroupUseCase, DeleteGroupUseCase deleteGroupUseCase) {
+    public GroupController(CreateGroupUseCase createGroupUseCase, UpdateGroupUseCase updateGroupUseCase, DeleteGroupUseCase deleteGroupUseCase, GetGroupsUseCase getGroupsUseCase) {
         this.createGroupUseCase = createGroupUseCase;
         this.updateGroupUseCase = updateGroupUseCase;
         this.deleteGroupUseCase = deleteGroupUseCase;
+        this.getGroupsUseCase = getGroupsUseCase;
     }
 
     @PostMapping
@@ -46,5 +55,26 @@ public class GroupController {
     public ResponseEntity<ApiResponse> deleteById(@PathVariable("groupId") UUID groupId) {
         deleteGroupUseCase.execute(groupId);
         return ResponseEntity.ok(new ApiResponse("Group with id: " + groupId + " deleted successfully."));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<GroupDto>> getAllGroups(
+            @RequestParam(required = false) String joinCode,
+
+            @RequestParam(required = false) GroupTypeEnum groupType,
+
+            @RequestParam(required = false) String groupName,
+
+            @RequestParam(defaultValue = "0")
+            @Min(0) Integer page,
+
+            @RequestParam(defaultValue = "10")
+            @Min(1) @Max(100) Integer size
+    ) {
+        GroupFilterRequest request = new GroupFilterRequest(
+                joinCode, groupType, groupName, page, size
+        );
+        Page<GroupDto> response = getGroupsUseCase.execute(request);
+        return ResponseEntity.ok(response);
     }
 }
