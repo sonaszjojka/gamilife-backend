@@ -1,8 +1,8 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
+import edu.pjwstk.auth.usecase.result.GoogleLoginResult;
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
-import edu.pjwstk.auth.dto.service.LoginUserResult;
+import edu.pjwstk.auth.usecase.result.LoginUserResult;
 import edu.pjwstk.auth.models.UserOAuthProvider;
 import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.usecase.RegisterViaGoogleUseCase;
@@ -27,7 +27,7 @@ public class RegisterViaGoogleUseCaseImpl implements RegisterViaGoogleUseCase {
 
     @Override
     @Transactional
-    public GoogleLoginDTO execute(GoogleUserDto googleUserDto) {
+    public GoogleLoginResult execute(GoogleUserDto googleUserDto) {
         String username = googleUserDto.firstName().substring(0, 3).toLowerCase() + "_" +
                 googleUserDto.lastName().substring(0, 3).toLowerCase() + "_" +
                 ThreadLocalRandom.current().nextInt(1000, 9999);
@@ -53,8 +53,8 @@ public class RegisterViaGoogleUseCaseImpl implements RegisterViaGoogleUseCase {
         ));
 
 
-        return new GoogleLoginDTO(
-                GoogleLoginDTO.LoginType.NEW_USER,
+        return new GoogleLoginResult(
+                GoogleLoginResult.LoginType.NEW_USER,
                 new LoginUserResult(
                         createdGoogleUser.userId(),
                         createdGoogleUser.email(),

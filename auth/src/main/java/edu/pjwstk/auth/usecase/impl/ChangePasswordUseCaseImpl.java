@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.dto.service.ChangePasswordInternalCommand;
+import edu.pjwstk.auth.usecase.command.ChangePasswordInternalCommand;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.exceptions.OldAndNewPasswordAreTheSameException;
 import edu.pjwstk.auth.usecase.ChangePasswordUseCase;

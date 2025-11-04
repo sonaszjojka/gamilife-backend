@@ -1,8 +1,8 @@
 package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.auth.dto.service.LinkOAuthAccountDto;
-import edu.pjwstk.auth.dto.service.LoginUserResult;
+import edu.pjwstk.auth.usecase.command.LinkNewOAuthAccountCommand;
+import edu.pjwstk.auth.usecase.result.LoginUserResult;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.exceptions.LinkedUserNotFoundException;
 import edu.pjwstk.auth.exceptions.UserAlreadyLinkedToProviderException;
@@ -31,27 +31,27 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
 
     @Override
     @Transactional
-    public Optional<LoginUserResult> execute(LinkOAuthAccountDto linkOAuthAccountDto) {
-        if (!linkOAuthAccountDto.shouldLink()) {
+    public Optional<LoginUserResult> execute(LinkNewOAuthAccountCommand linkNewOAuthAccountCommand) {
+        if (!linkNewOAuthAccountCommand.shouldLink()) {
             return Optional.empty();
         }
 
-        SecureUserInfoApiDto user = userApi.getSecureUserDataById(linkOAuthAccountDto.userId())
+        SecureUserInfoApiDto user = userApi.getSecureUserDataById(linkNewOAuthAccountCommand.userId())
                 .orElseThrow(() -> new LinkedUserNotFoundException("Local user to link to not found"));
 
-        if (!passwordEncoder.matches(linkOAuthAccountDto.password(), user.password())) {
+        if (!passwordEncoder.matches(linkNewOAuthAccountCommand.password(), user.password())) {
             throw new InvalidCredentialsException("Invalid password");
         }
 
-        if (userProviderRepository.existsByUserIdAndProvider(user.userId(), linkOAuthAccountDto.provider())) {
+        if (userProviderRepository.existsByUserIdAndProvider(user.userId(), linkNewOAuthAccountCommand.provider())) {
             throw new UserAlreadyLinkedToProviderException("User is already linked to this provider");
         }
 
         userProviderRepository.save(new UserOAuthProvider(
                 UUID.randomUUID(),
                 user.userId(),
-                linkOAuthAccountDto.provider(),
-                linkOAuthAccountDto.providerId()
+                linkNewOAuthAccountCommand.provider(),
+                linkNewOAuthAccountCommand.providerId()
 
         ));
 

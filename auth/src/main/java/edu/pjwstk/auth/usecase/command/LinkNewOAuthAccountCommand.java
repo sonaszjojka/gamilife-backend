@@ -1,13 +1,15 @@
-package edu.pjwstk.auth.dto.service;
+package edu.pjwstk.auth.usecase.command;
+
+import edu.pjwstk.core.Command;
 
 import java.util.UUID;
 
-public record LinkOAuthAccountDto(
+public record LinkNewOAuthAccountCommand(
         boolean shouldLink,
         String provider,
         String providerId,
         UUID userId,
         String password
-) {
+) implements Command {
 
 }

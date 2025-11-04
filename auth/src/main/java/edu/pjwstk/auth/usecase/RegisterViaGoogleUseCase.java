@@ -1,8 +1,9 @@
 package edu.pjwstk.auth.usecase;
 
-import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
+import edu.pjwstk.auth.usecase.result.GoogleLoginResult;
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
 
+@Deprecated
 public interface RegisterViaGoogleUseCase {
-    GoogleLoginDTO execute(GoogleUserDto googleUserDto);
+    GoogleLoginResult execute(GoogleUserDto googleUserDto);
 }

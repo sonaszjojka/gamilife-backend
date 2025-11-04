@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.api;
 
 import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.auth.dto.service.ChangePasswordInternalCommand;
+import edu.pjwstk.auth.usecase.command.ChangePasswordInternalCommand;
 import edu.pjwstk.auth.usecase.ChangePasswordUseCase;
 import edu.pjwstk.auth.usecase.GetAuthenticatedUserDataUseCase;
 import edu.pjwstk.auth.usecase.RotateUserTokensUseCase;

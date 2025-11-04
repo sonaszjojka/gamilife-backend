@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.dto.service.RegisterUserDto;
+import edu.pjwstk.auth.usecase.command.RegisterUserCommand;
 import edu.pjwstk.auth.usecase.RegisterUserUseCase;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
@@ -20,16 +20,16 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
 
     @Override
     @Transactional
-    public BasicUserInfoApiDto execute(RegisterUserDto registerUserDto) {
+    public BasicUserInfoApiDto execute(RegisterUserCommand registerUserCommand) {
         RegisterUserApiDto user = new RegisterUserApiDto(
-                registerUserDto.firstName(),
-                registerUserDto.lastName(),
-                registerUserDto.email(),
-                passwordEncoder.encode(registerUserDto.password()),
-                registerUserDto.username(),
-                registerUserDto.dateOfBirth(),
-                registerUserDto.sendBudgetReports(),
-                registerUserDto.isProfilePublic(),
+                registerUserCommand.firstName(),
+                registerUserCommand.lastName(),
+                registerUserCommand.email(),
+                passwordEncoder.encode(registerUserCommand.password()),
+                registerUserCommand.username(),
+                registerUserCommand.dateOfBirth(),
+                registerUserCommand.sendBudgetReports(),
+                registerUserCommand.isProfilePublic(),
                 false
         );
 

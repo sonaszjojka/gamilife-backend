@@ -1,4 +1,4 @@
-package edu.pjwstk.auth.dto.service;
+package edu.pjwstk.auth.usecase.result;
 
 import edu.pjwstk.api.auth.dto.AuthTokens;
 

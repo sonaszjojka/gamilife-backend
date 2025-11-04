@@ -1,4 +1,4 @@
-package edu.pjwstk.auth.dto.response;
+package edu.pjwstk.auth.controller.response;
 
 import java.util.UUID;
 

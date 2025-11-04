@@ -1,7 +1,8 @@
 package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.auth.dto.service.LoginUserResult;
+import edu.pjwstk.auth.usecase.result.LoginUserResult;
+import edu.pjwstk.auth.usecase.command.VerifyEmailCommand;
 import edu.pjwstk.auth.exceptions.InvalidVerificationCodeException;
 import edu.pjwstk.auth.models.EmailVerificationCode;
 import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
@@ -23,10 +24,10 @@ public class VerifyEmailUseCaseImpl implements VerifyEmailUseCase {
     private final UserApi userApi;
 
     @Override
-    public LoginUserResult execute(edu.pjwstk.auth.dto.service.EmailVerificationCode code) {
+    public LoginUserResult execute(VerifyEmailCommand code) {
         String hashedCode = verificationCodeUtil.hashCode(code.code());
 
-        EmailVerificationCode codeFromDb = emailVerificationRepository.findByUserIdAndCode(code.userId(), hashedCode)
+        emailVerificationRepository.findByUserIdAndCode(code.userId(), hashedCode)
                 .orElseThrow(() -> new InvalidVerificationCodeException("Invalid verification code."));
 
         BasicUserInfoApiDto user = userApi.confirmUserEmailVerification(code.userId());

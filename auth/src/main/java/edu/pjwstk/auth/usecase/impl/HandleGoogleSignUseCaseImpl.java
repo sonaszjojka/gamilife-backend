@@ -1,8 +1,8 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
+import edu.pjwstk.auth.usecase.result.GoogleLoginResult;
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
-import edu.pjwstk.auth.dto.service.OAuthCodeDto;
+import edu.pjwstk.auth.usecase.command.HandleGoogleSignInCommand;
 import edu.pjwstk.auth.models.UserOAuthProvider;
 import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.usecase.HandleGoogleSignInUseCase;
@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class HandleGoogleSignInSignInUseCaseImpl implements HandleGoogleSignInUseCase {
+public class HandleGoogleSignUseCaseImpl implements HandleGoogleSignInUseCase {
 
     private final OAuth2CodeUtil oAuth2CodeUtil;
     private final JpaUserProviderRepository userProviderRepository;
@@ -30,8 +30,8 @@ public class HandleGoogleSignInSignInUseCaseImpl implements HandleGoogleSignInUs
 
     @Override
     @Transactional
-    public GoogleLoginDTO execute(OAuthCodeDto oAuthCodeDto) {
-        Map<String, String> tokenResponse = oAuth2CodeUtil.exchangeCodeForTokens(oAuthCodeDto.code(), oAuthCodeDto.codeVerifier());
+    public GoogleLoginResult execute(HandleGoogleSignInCommand handleGoogleSignInCommand) {
+        Map<String, String> tokenResponse = oAuth2CodeUtil.exchangeCodeForTokens(handleGoogleSignInCommand.code(), handleGoogleSignInCommand.codeVerifier());
         GoogleUserDto googleUserDto = oAuth2CodeUtil.extractUserInfoFromIdToken(tokenResponse.get("id_token"));
 
         Optional<UserOAuthProvider> existingOAuthUser = userProviderRepository
@@ -45,8 +45,8 @@ public class HandleGoogleSignInSignInUseCaseImpl implements HandleGoogleSignInUs
         if (user.isPresent()) {
             // User exists, but not linked to Google
             BasicUserInfoApiDto existingUser = user.get();
-            return new GoogleLoginDTO(
-                    GoogleLoginDTO.LoginType.POSSIBLE_LINK,
+            return new GoogleLoginResult(
+                    GoogleLoginResult.LoginType.POSSIBLE_LINK,
                     "google",
                     googleUserDto.sub(),
                     existingUser.userId()

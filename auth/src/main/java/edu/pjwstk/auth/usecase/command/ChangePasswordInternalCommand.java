@@ -1,4 +1,4 @@
-package edu.pjwstk.auth.dto.service;
+package edu.pjwstk.auth.usecase.command;
 
 import edu.pjwstk.auth.validators.SecurePassword;
 

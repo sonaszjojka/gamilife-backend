@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.dto.service.ResetPasswordCommand;
+import edu.pjwstk.auth.usecase.command.ResetPasswordCommand;
 import edu.pjwstk.auth.exceptions.OldAndNewPasswordAreTheSameException;
 import edu.pjwstk.auth.models.ForgotPasswordCode;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;

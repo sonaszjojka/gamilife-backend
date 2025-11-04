@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
-import edu.pjwstk.auth.dto.service.LoginUserResult;
+import edu.pjwstk.auth.usecase.result.GoogleLoginResult;
+import edu.pjwstk.auth.usecase.result.LoginUserResult;
 import edu.pjwstk.auth.usecase.LoginViaGoogleUseCase;
 import edu.pjwstk.auth.util.TokenProvider;
 import edu.pjwstk.api.user.UserApi;
@@ -20,7 +20,7 @@ public class LoginViaGoogleUseCaseImpl implements LoginViaGoogleUseCase {
     private final TokenProvider tokenProvider;
 
     @Override
-    public GoogleLoginDTO execute(UUID userId, String googleEmail) {
+    public GoogleLoginResult execute(UUID userId, String googleEmail) {
         // User already exists with this Google provider ID
         SecureUserInfoApiDto user = userApi.getSecureUserDataById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -30,8 +30,8 @@ public class LoginViaGoogleUseCaseImpl implements LoginViaGoogleUseCase {
             userApi.updateUserEmail(user.userId(), googleEmail);
         }
 
-        return new GoogleLoginDTO(
-                GoogleLoginDTO.LoginType.EXISTING_USER,
+        return new GoogleLoginResult(
+                GoogleLoginResult.LoginType.EXISTING_USER,
                 new LoginUserResult(
                         user.userId(),
                         user.email(),

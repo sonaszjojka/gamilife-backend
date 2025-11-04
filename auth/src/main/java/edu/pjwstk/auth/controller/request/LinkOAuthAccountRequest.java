@@ -1,4 +1,4 @@
-package edu.pjwstk.auth.dto.request;
+package edu.pjwstk.auth.controller.request;
 
 import jakarta.validation.constraints.NotNull;
 

@@ -1,14 +1,14 @@
-package edu.pjwstk.auth.controllers;
+package edu.pjwstk.auth.controller;
 
 import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.auth.dto.request.LinkOAuthAccountRequest;
-import edu.pjwstk.auth.dto.request.OAuthCodeRequest;
-import edu.pjwstk.auth.dto.response.AfterLoginResponse;
-import edu.pjwstk.auth.dto.response.OAuth2LinkResponse;
-import edu.pjwstk.auth.dto.service.GoogleLoginDTO;
-import edu.pjwstk.auth.dto.service.LinkOAuthAccountDto;
-import edu.pjwstk.auth.dto.service.LoginUserResult;
-import edu.pjwstk.auth.dto.service.OAuthCodeDto;
+import edu.pjwstk.auth.controller.request.LinkOAuthAccountRequest;
+import edu.pjwstk.auth.controller.request.OAuthCodeRequest;
+import edu.pjwstk.auth.controller.response.AfterLoginResponse;
+import edu.pjwstk.auth.controller.response.OAuth2LinkResponse;
+import edu.pjwstk.auth.usecase.result.GoogleLoginResult;
+import edu.pjwstk.auth.usecase.command.LinkNewOAuthAccountCommand;
+import edu.pjwstk.auth.usecase.result.LoginUserResult;
+import edu.pjwstk.auth.usecase.command.HandleGoogleSignInCommand;
 import edu.pjwstk.auth.usecase.HandleGoogleSignInUseCase;
 import edu.pjwstk.auth.usecase.LinkNewOAuthAccountUseCase;
 import edu.pjwstk.commonweb.CookieUtil;
@@ -45,7 +45,7 @@ public class OAuth2Controller {
             throw new InvalidParameterException("If shouldLink is true, provider, providerId, userId, and password must be provided.");
         }
 
-        Optional<LoginUserResult> possibleResult = linkNewOAuthAccountUseCase.execute(new LinkOAuthAccountDto(
+        Optional<LoginUserResult> possibleResult = linkNewOAuthAccountUseCase.execute(new LinkNewOAuthAccountCommand(
                 linkOAuthAccountRequest.shouldLink(),
                 linkOAuthAccountRequest.provider(),
                 linkOAuthAccountRequest.providerId(),
@@ -72,12 +72,12 @@ public class OAuth2Controller {
     @PostMapping("/code/google")
     public ResponseEntity<?> handleGoogleCode(@RequestBody OAuthCodeRequest request,
                                               HttpServletResponse response) {
-        GoogleLoginDTO googleLoginDTO = handleGoogleSignInUseCase
-                .execute(new OAuthCodeDto(request.code(), request.codeVerifier()));
+        GoogleLoginResult googleLoginResult = handleGoogleSignInUseCase
+                .execute(new HandleGoogleSignInCommand(request.code(), request.codeVerifier()));
 
-        return switch (googleLoginDTO.getLoginType()) {
-            case GoogleLoginDTO.LoginType.NEW_USER, GoogleLoginDTO.LoginType.EXISTING_USER -> {
-                LoginUserResult result = googleLoginDTO.getLoginUserResult();
+        return switch (googleLoginResult.getLoginType()) {
+            case GoogleLoginResult.LoginType.NEW_USER, GoogleLoginResult.LoginType.EXISTING_USER -> {
+                LoginUserResult result = googleLoginResult.getLoginUserResult();
                 AuthTokens authTokens = result.authTokens();
                 ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
                 ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(authTokens.refreshToken());
@@ -87,11 +87,11 @@ public class OAuth2Controller {
 
                 yield ResponseEntity.ok(AfterLoginResponse.from(result));
             }
-            case GoogleLoginDTO.LoginType.POSSIBLE_LINK -> ResponseEntity.status(HttpStatus.CONFLICT)
+            case GoogleLoginResult.LoginType.POSSIBLE_LINK -> ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new OAuth2LinkResponse(
-                            googleLoginDTO.getProviderName(),
-                            googleLoginDTO.getProviderId(),
-                            googleLoginDTO.getUserId()
+                            googleLoginResult.getProviderName(),
+                            googleLoginResult.getProviderId(),
+                            googleLoginResult.getUserId()
                     ));
         };
     }
