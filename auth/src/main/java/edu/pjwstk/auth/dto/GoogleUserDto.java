@@ -1,4 +1,4 @@
-package edu.pjwstk.auth.dto.service;
+package edu.pjwstk.auth.dto;
 
 public record GoogleUserDto(
         String sub,

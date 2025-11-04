@@ -2,7 +2,7 @@ package edu.pjwstk.auth.usecase.googlesignin;
 
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.auth.dto.service.GoogleUserDto;
+import edu.pjwstk.auth.dto.GoogleUserDto;
 import edu.pjwstk.auth.models.UserOAuthProvider;
 import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.service.OAuthService;

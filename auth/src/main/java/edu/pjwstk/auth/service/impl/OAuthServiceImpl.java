@@ -7,7 +7,7 @@ import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.api.user.dto.RegisterUserApiDto;
 import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.api.user.exception.UserNotFoundException;
-import edu.pjwstk.auth.dto.service.GoogleUserDto;
+import edu.pjwstk.auth.dto.GoogleUserDto;
 import edu.pjwstk.auth.models.UserOAuthProvider;
 import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.service.OAuthService;
