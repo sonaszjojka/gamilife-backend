@@ -3,6 +3,7 @@ package edu.pjwstk.auth.usecase.registeruser;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.api.user.dto.RegisterUserApiDto;
+import edu.pjwstk.auth.validators.PasswordValidator;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,20 +15,23 @@ import org.springframework.validation.annotation.Validated;
 @AllArgsConstructor
 public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
     private final PasswordEncoder passwordEncoder;
+    private final PasswordValidator passwordValidator;
     private final UserApi userApi;
 
     @Override
     @Transactional
-    public BasicUserInfoApiDto executeInternal(RegisterUserCommand registerUserCommand) {
+    public BasicUserInfoApiDto executeInternal(RegisterUserCommand cmd) {
+        passwordValidator.validate(cmd.password());
+
         RegisterUserApiDto user = new RegisterUserApiDto(
-                registerUserCommand.firstName(),
-                registerUserCommand.lastName(),
-                registerUserCommand.email(),
-                passwordEncoder.encode(registerUserCommand.password()),
-                registerUserCommand.username(),
-                registerUserCommand.dateOfBirth(),
-                registerUserCommand.sendBudgetReports(),
-                registerUserCommand.isProfilePublic(),
+                cmd.firstName(),
+                cmd.lastName(),
+                cmd.email(),
+                passwordEncoder.encode(cmd.password()),
+                cmd.username(),
+                cmd.dateOfBirth(),
+                cmd.sendBudgetReports(),
+                cmd.isProfilePublic(),
                 false
         );
 

@@ -4,7 +4,7 @@ import edu.pjwstk.core.Command;
 
 import java.util.UUID;
 
-public record LinkNewOAuthAccountCommand(
+public record LinkGoogleAccountCommand(
         boolean shouldLink,
         String provider,
         String providerId,

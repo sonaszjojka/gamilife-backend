@@ -5,12 +5,12 @@ import edu.pjwstk.auth.controller.request.LinkOAuthAccountRequest;
 import edu.pjwstk.auth.controller.request.OAuthCodeRequest;
 import edu.pjwstk.auth.controller.response.AfterLoginResponse;
 import edu.pjwstk.auth.controller.response.OAuth2LinkResponse;
-import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInUseCase;
-import edu.pjwstk.auth.usecase.googlelinkaccount.LinkNewOAuthAccountUseCase;
-import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInCommand;
-import edu.pjwstk.auth.usecase.googlelinkaccount.LinkNewOAuthAccountCommand;
-import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInResult;
 import edu.pjwstk.auth.usecase.common.LoginUserResult;
+import edu.pjwstk.auth.usecase.googlelinkaccount.LinkGoogleAccountCommand;
+import edu.pjwstk.auth.usecase.googlelinkaccount.LinkGoogleAccountUseCase;
+import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInCommand;
+import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInResult;
+import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInUseCase;
 import edu.pjwstk.commonweb.CookieUtil;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,7 +35,7 @@ import java.util.Optional;
 public class OAuth2Controller {
 
     private final CookieUtil cookieUtil;
-    private final LinkNewOAuthAccountUseCase linkNewOAuthAccountUseCase;
+    private final LinkGoogleAccountUseCase linkGoogleAccountUseCase;
     private final GoogleSignInUseCase googleSignInUseCase;
 
     @PostMapping("/link")
@@ -45,7 +45,7 @@ public class OAuth2Controller {
             throw new InvalidParameterException("If shouldLink is true, provider, providerId, userId, and password must be provided.");
         }
 
-        Optional<LoginUserResult> possibleResult = linkNewOAuthAccountUseCase.execute(new LinkNewOAuthAccountCommand(
+        Optional<LoginUserResult> possibleResult = linkGoogleAccountUseCase.execute(new LinkGoogleAccountCommand(
                 linkOAuthAccountRequest.shouldLink(),
                 linkOAuthAccountRequest.provider(),
                 linkOAuthAccountRequest.providerId(),

@@ -24,12 +24,12 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
 
     @Override
     @Transactional
-    public LoginUserResult executeInternal(LoginUserCommand loginUserCommand) {
+    public LoginUserResult executeInternal(LoginUserCommand cmd) {
         SecureUserInfoApiDto user = userApi
-                .getSecureUserDataByEmail(loginUserCommand.email())
+                .getSecureUserDataByEmail(cmd.email())
                 .orElseThrow(() -> new InvalidCredentialsException("Login credentials are invalid"));
 
-        if (!passwordEncoder.matches(loginUserCommand.password(), user.password())) {
+        if (!passwordEncoder.matches(cmd.password(), user.password())) {
             throw new InvalidCredentialsException("Login credentials are invalid");
         }
 

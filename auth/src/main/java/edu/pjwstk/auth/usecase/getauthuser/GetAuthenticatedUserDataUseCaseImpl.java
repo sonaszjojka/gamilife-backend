@@ -6,9 +6,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.AccessDeniedException;
-import java.util.Optional;
-
 @Service
 public class GetAuthenticatedUserDataUseCaseImpl implements GetAuthenticatedUserDataUseCase {
     @Override

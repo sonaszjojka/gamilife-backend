@@ -5,5 +5,5 @@ import edu.pjwstk.core.UseCase;
 
 import java.util.Optional;
 
-public interface LinkNewOAuthAccountUseCase extends UseCase<LinkNewOAuthAccountCommand, Optional<LoginUserResult>> {
+public interface LinkGoogleAccountUseCase extends UseCase<LinkGoogleAccountCommand, Optional<LoginUserResult>> {
 }

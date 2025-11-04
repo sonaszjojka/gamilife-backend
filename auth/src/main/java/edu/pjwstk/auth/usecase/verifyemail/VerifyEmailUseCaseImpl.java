@@ -21,13 +21,13 @@ public class VerifyEmailUseCaseImpl implements VerifyEmailUseCase {
     private final UserApi userApi;
 
     @Override
-    public LoginUserResult executeInternal(VerifyEmailCommand code) {
-        String hashedCode = emailVerificationService.hashCode(code.code());
+    public LoginUserResult executeInternal(VerifyEmailCommand cmd) {
+        String hashedCode = emailVerificationService.hashCode(cmd.code());
 
-        emailVerificationRepository.findByUserIdAndCode(code.userId(), hashedCode)
+        emailVerificationRepository.findByUserIdAndCode(cmd.userId(), hashedCode)
                 .orElseThrow(() -> new InvalidVerificationCodeException("Invalid verification code."));
 
-        BasicUserInfoApiDto user = userApi.confirmUserEmailVerification(code.userId());
+        BasicUserInfoApiDto user = userApi.confirmUserEmailVerification(cmd.userId());
 
         AuthTokens tokens = tokenService.generateTokenPair(user.userId(), user.email(), true);
 

@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCase {
+public class LinkGoogleAccountUseCaseImpl implements LinkGoogleAccountUseCase {
 
     private final UserApi userApi;
     private final PasswordEncoder passwordEncoder;
@@ -29,7 +29,7 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
 
     @Override
     @Transactional
-    public Optional<LoginUserResult> executeInternal(LinkNewOAuthAccountCommand cmd) {
+    public Optional<LoginUserResult> executeInternal(LinkGoogleAccountCommand cmd) {
         if (!cmd.shouldLink()) {
             return Optional.empty();
         }
