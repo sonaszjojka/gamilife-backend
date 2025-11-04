@@ -9,7 +9,7 @@ import edu.pjwstk.auth.exceptions.UserAlreadyLinkedToProviderException;
 import edu.pjwstk.auth.models.UserOAuthProvider;
 import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.usecase.LinkNewOAuthAccountUseCase;
-import edu.pjwstk.auth.util.TokenProvider;
+import edu.pjwstk.auth.service.TokenService;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
 import jakarta.transaction.Transactional;
@@ -27,7 +27,7 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
     private final UserApi userApi;
     private final PasswordEncoder passwordEncoder;
     private final JpaUserProviderRepository userProviderRepository;
-    private final TokenProvider tokenProvider;
+    private final TokenService tokenService;
 
     @Override
     @Transactional
@@ -60,7 +60,7 @@ public class LinkNewOAuthAccountUseCaseImpl implements LinkNewOAuthAccountUseCas
             userApi.confirmUserEmailVerification(user.userId());
         }
 
-        AuthTokens tokens = tokenProvider.generateTokenPair(user.userId(), user.email(), true);
+        AuthTokens tokens = tokenService.generateTokenPair(user.userId(), user.email(), true);
 
         return Optional.of(new LoginUserResult(
                 user.userId(),

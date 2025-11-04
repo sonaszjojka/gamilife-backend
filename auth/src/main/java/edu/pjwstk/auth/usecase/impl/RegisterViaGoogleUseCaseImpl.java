@@ -6,7 +6,7 @@ import edu.pjwstk.auth.usecase.result.LoginUserResult;
 import edu.pjwstk.auth.models.UserOAuthProvider;
 import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.usecase.RegisterViaGoogleUseCase;
-import edu.pjwstk.auth.util.TokenProvider;
+import edu.pjwstk.auth.service.TokenService;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.api.user.dto.RegisterUserApiDto;
@@ -23,7 +23,7 @@ public class RegisterViaGoogleUseCaseImpl implements RegisterViaGoogleUseCase {
 
     private final JpaUserProviderRepository userProviderRepository;
     private final UserApi userApi;
-    private final TokenProvider tokenProvider;
+    private final TokenService tokenService;
 
     @Override
     @Transactional
@@ -60,7 +60,7 @@ public class RegisterViaGoogleUseCaseImpl implements RegisterViaGoogleUseCase {
                         createdGoogleUser.email(),
                         createdGoogleUser.username(),
                         true,
-                        tokenProvider.generateTokenPair(
+                        tokenService.generateTokenPair(
                                 createdGoogleUser.userId(),
                                 createdGoogleUser.email(),
                                 true

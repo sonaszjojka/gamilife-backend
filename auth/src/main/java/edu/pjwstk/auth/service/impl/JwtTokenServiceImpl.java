@@ -1,7 +1,9 @@
-package edu.pjwstk.auth.util.impl;
+package edu.pjwstk.auth.service.impl;
 
 import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.auth.util.TokenProvider;
+import edu.pjwstk.auth.models.RefreshToken;
+import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
+import edu.pjwstk.auth.service.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -10,20 +12,24 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
-public class JwtTokenProviderImpl implements TokenProvider {
+public class JwtTokenServiceImpl implements TokenService {
 
+    private final JpaRefreshTokenRepository refreshTokenRepository;
     private final SecretKey secretKey;
     private final long accessTokenExpirationTime;
     private final long refreshTokenExpirationTime;
 
-    public JwtTokenProviderImpl(
+    public JwtTokenServiceImpl(
+            JpaRefreshTokenRepository refreshTokenRepository,
             String secretKey,
             long accessTokenExpirationTime,
             long refreshTokenExpirationTime
     ) {
+        this.refreshTokenRepository = refreshTokenRepository;
         this.secretKey = new SecretKeySpec(
                 secretKey.getBytes(StandardCharsets.UTF_8),
                 "HmacSHA256"
@@ -54,20 +60,26 @@ public class JwtTokenProviderImpl implements TokenProvider {
 
     @Override
     public AuthTokens generateTokenPair(UUID userId, String email, boolean isEmailVerified) {
-        return new AuthTokens(
+        AuthTokens authTokens = new AuthTokens(
                 generateAccessToken(userId, email),
                 UUID.randomUUID().toString()
         );
+
+        refreshTokenRepository.save(new RefreshToken(
+                UUID.randomUUID(),
+                userId,
+                hashToken(authTokens.refreshToken()),
+                LocalDateTime.now(),
+                LocalDateTime.now().plusSeconds(refreshTokenExpirationTime),
+                false
+        ));
+
+        return authTokens;
     }
 
     @Override
     public String hashToken(String token) {
         return DigestUtils.sha256Hex(token);
-    }
-
-    @Override
-    public long getRefreshTokenExpirationTime() {
-        return refreshTokenExpirationTime;
     }
 
 }

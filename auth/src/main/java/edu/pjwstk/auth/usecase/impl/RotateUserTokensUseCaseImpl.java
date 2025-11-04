@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.auth.usecase.GenerateAuthTokenPairUseCase;
+import edu.pjwstk.auth.service.TokenService;
 import edu.pjwstk.auth.usecase.RevokeAllUserCodesAndTokensUseCase;
 import edu.pjwstk.auth.usecase.RotateUserTokensUseCase;
 import edu.pjwstk.api.auth.dto.RotateUserTokensCommand;
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 public class RotateUserTokensUseCaseImpl implements RotateUserTokensUseCase {
 
     private final RevokeAllUserCodesAndTokensUseCase revokeAllUserCodesAndTokensUseCase;
-    private final GenerateAuthTokenPairUseCase generateAuthTokenPairUseCase;
+    private final TokenService tokenService;
 
     @Override
     public AuthTokens execute(RotateUserTokensCommand cmd) {
         revokeAllUserCodesAndTokensUseCase.execute(cmd.userId());
 
-        return generateAuthTokenPairUseCase.execute(
+        return tokenService.generateTokenPair(
                 cmd.userId(),
                 cmd.email(),
                 cmd.isEmailVerified()

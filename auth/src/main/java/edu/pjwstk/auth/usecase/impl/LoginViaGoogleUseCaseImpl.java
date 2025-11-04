@@ -3,7 +3,7 @@ package edu.pjwstk.auth.usecase.impl;
 import edu.pjwstk.auth.usecase.result.GoogleLoginResult;
 import edu.pjwstk.auth.usecase.result.LoginUserResult;
 import edu.pjwstk.auth.usecase.LoginViaGoogleUseCase;
-import edu.pjwstk.auth.util.TokenProvider;
+import edu.pjwstk.auth.service.TokenService;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.api.user.exception.UserNotFoundException;
@@ -17,7 +17,7 @@ import java.util.UUID;
 public class LoginViaGoogleUseCaseImpl implements LoginViaGoogleUseCase {
 
     private final UserApi userApi;
-    private final TokenProvider tokenProvider;
+    private final TokenService tokenService;
 
     @Override
     public GoogleLoginResult execute(UUID userId, String googleEmail) {
@@ -37,7 +37,7 @@ public class LoginViaGoogleUseCaseImpl implements LoginViaGoogleUseCase {
                         user.email(),
                         user.username(),
                         true,
-                        tokenProvider.generateTokenPair(user.userId(), user.email(), true)
+                        tokenService.generateTokenPair(user.userId(), user.email(), true)
                 )
         );
     }

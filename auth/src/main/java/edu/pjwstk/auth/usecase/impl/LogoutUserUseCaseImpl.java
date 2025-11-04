@@ -5,7 +5,7 @@ import edu.pjwstk.auth.exceptions.RefreshTokenUnknownException;
 import edu.pjwstk.auth.models.RefreshToken;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.usecase.LogoutUserUseCase;
-import edu.pjwstk.auth.util.TokenProvider;
+import edu.pjwstk.auth.service.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class LogoutUserUseCaseImpl implements LogoutUserUseCase {
 
-    private final TokenProvider tokenProvider;
+    private final TokenService tokenService;
     private final JpaRefreshTokenRepository refreshTokenRepository;
 
     @Override
@@ -23,7 +23,7 @@ public class LogoutUserUseCaseImpl implements LogoutUserUseCase {
         if (refreshToken.isBlank()) {
             throw new RefreshTokenNotProvidedException("Refresh token is blank value");
         }
-        String hashedToken = tokenProvider.hashToken(refreshToken);
+        String hashedToken = tokenService.hashToken(refreshToken);
 
         RefreshToken refreshTokenFromDb = refreshTokenRepository
                 .findByToken(hashedToken)

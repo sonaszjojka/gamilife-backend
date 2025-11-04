@@ -4,10 +4,9 @@ import edu.pjwstk.api.auth.dto.AuthTokens;
 import edu.pjwstk.auth.usecase.result.LoginUserResult;
 import edu.pjwstk.auth.usecase.command.VerifyEmailCommand;
 import edu.pjwstk.auth.exceptions.InvalidVerificationCodeException;
-import edu.pjwstk.auth.models.EmailVerificationCode;
 import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
 import edu.pjwstk.auth.usecase.VerifyEmailUseCase;
-import edu.pjwstk.auth.util.TokenProvider;
+import edu.pjwstk.auth.service.TokenService;
 import edu.pjwstk.auth.util.VerificationCodeUtil;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
@@ -20,7 +19,7 @@ public class VerifyEmailUseCaseImpl implements VerifyEmailUseCase {
 
     private final JpaEmailVerificationRepository emailVerificationRepository;
     private final VerificationCodeUtil verificationCodeUtil;
-    private final TokenProvider tokenProvider;
+    private final TokenService tokenService;
     private final UserApi userApi;
 
     @Override
@@ -32,7 +31,7 @@ public class VerifyEmailUseCaseImpl implements VerifyEmailUseCase {
 
         BasicUserInfoApiDto user = userApi.confirmUserEmailVerification(code.userId());
 
-        AuthTokens tokens = tokenProvider.generateTokenPair(user.userId(), user.email(), true);
+        AuthTokens tokens = tokenService.generateTokenPair(user.userId(), user.email(), true);
 
         return new LoginUserResult(
                 user.userId(),

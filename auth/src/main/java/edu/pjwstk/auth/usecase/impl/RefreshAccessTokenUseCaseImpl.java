@@ -7,7 +7,7 @@ import edu.pjwstk.auth.exceptions.RefreshTokenUnknownException;
 import edu.pjwstk.auth.models.RefreshToken;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.usecase.RefreshAccessTokenUseCase;
-import edu.pjwstk.auth.util.TokenProvider;
+import edu.pjwstk.auth.service.TokenService;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.api.user.exception.UserNotFoundException;
@@ -21,14 +21,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class RefreshAccessTokenUseCaseImpl implements RefreshAccessTokenUseCase {
 
-    private final TokenProvider tokenProvider;
+    private final TokenService tokenService;
     private final JpaRefreshTokenRepository refreshTokenRepository;
     private final UserApi userApi;
 
     @Override
     @Transactional
     public AuthTokens execute(String refreshToken) {
-        String hashedRefreshToken = tokenProvider.hashToken(refreshToken);
+        String hashedRefreshToken = tokenService.hashToken(refreshToken);
         RefreshToken existingRefreshToken = refreshTokenRepository
                 .findByToken(hashedRefreshToken)
                 .orElseThrow(() -> new RefreshTokenUnknownException("Refresh token not found"));
@@ -45,7 +45,7 @@ public class RefreshAccessTokenUseCaseImpl implements RefreshAccessTokenUseCase 
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         return new AuthTokens(
-                tokenProvider.generateAccessToken(user.userId(), user.email()),
+                tokenService.generateAccessToken(user.userId(), user.email()),
                 refreshToken
         );
     }
