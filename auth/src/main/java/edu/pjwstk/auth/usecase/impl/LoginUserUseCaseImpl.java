@@ -1,15 +1,15 @@
 package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.auth.service.TokenService;
-import edu.pjwstk.auth.usecase.command.LoginUserCommand;
-import edu.pjwstk.auth.usecase.result.LoginUserResult;
-import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewEmailVerificationCodeException;
-import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
-import edu.pjwstk.auth.usecase.LoginUserUseCase;
-import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewEmailVerificationCodeException;
+import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
+import edu.pjwstk.auth.service.TokenService;
+import edu.pjwstk.auth.usecase.LoginUserUseCase;
+import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
+import edu.pjwstk.auth.usecase.command.LoginUserCommand;
+import edu.pjwstk.auth.usecase.result.LoginUserResult;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

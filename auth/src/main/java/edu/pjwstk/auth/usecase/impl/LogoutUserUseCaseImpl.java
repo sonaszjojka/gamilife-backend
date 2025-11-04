@@ -4,8 +4,8 @@ import edu.pjwstk.auth.exceptions.RefreshTokenNotProvidedException;
 import edu.pjwstk.auth.exceptions.RefreshTokenUnknownException;
 import edu.pjwstk.auth.models.RefreshToken;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
-import edu.pjwstk.auth.usecase.LogoutUserUseCase;
 import edu.pjwstk.auth.service.TokenService;
+import edu.pjwstk.auth.usecase.LogoutUserUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

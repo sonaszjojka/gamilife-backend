@@ -1,15 +1,15 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.usecase.command.ResetPasswordCommand;
-import edu.pjwstk.auth.exceptions.OldAndNewPasswordAreTheSameException;
-import edu.pjwstk.auth.models.ForgotPasswordCode;
-import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
-import edu.pjwstk.auth.usecase.ResetPasswordUseCase;
-import edu.pjwstk.auth.usecase.RevokeAllUserCodesAndTokensUseCase;
-import edu.pjwstk.auth.service.ForgotPasswordCodeService;
 import edu.pjwstk.api.auth.exception.ResetPasswordGenericException;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import edu.pjwstk.auth.exceptions.OldAndNewPasswordAreTheSameException;
+import edu.pjwstk.auth.models.ForgotPasswordCode;
+import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
+import edu.pjwstk.auth.service.ForgotPasswordCodeService;
+import edu.pjwstk.auth.usecase.ResetPasswordUseCase;
+import edu.pjwstk.auth.usecase.RevokeAllUserCodesAndTokensUseCase;
+import edu.pjwstk.auth.usecase.command.ResetPasswordCommand;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

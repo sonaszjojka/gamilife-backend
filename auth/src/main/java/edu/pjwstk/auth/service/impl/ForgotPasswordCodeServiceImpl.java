@@ -2,7 +2,6 @@ package edu.pjwstk.auth.service.impl;
 
 import edu.pjwstk.auth.service.ForgotPasswordCodeService;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

@@ -1,15 +1,15 @@
 package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.auth.usecase.result.LoginUserResult;
-import edu.pjwstk.auth.usecase.command.VerifyEmailCommand;
-import edu.pjwstk.auth.exceptions.InvalidVerificationCodeException;
-import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
-import edu.pjwstk.auth.usecase.VerifyEmailUseCase;
-import edu.pjwstk.auth.service.TokenService;
-import edu.pjwstk.auth.service.EmailVerificationCodeService;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import edu.pjwstk.auth.exceptions.InvalidVerificationCodeException;
+import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
+import edu.pjwstk.auth.service.EmailVerificationCodeService;
+import edu.pjwstk.auth.service.TokenService;
+import edu.pjwstk.auth.usecase.VerifyEmailUseCase;
+import edu.pjwstk.auth.usecase.command.VerifyEmailCommand;
+import edu.pjwstk.auth.usecase.result.LoginUserResult;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

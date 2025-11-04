@@ -2,8 +2,19 @@ package edu.pjwstk.auth.service.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import edu.pjwstk.api.user.dto.RegisterUserApiDto;
+import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import edu.pjwstk.api.user.exception.UserNotFoundException;
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
+import edu.pjwstk.auth.models.UserOAuthProvider;
+import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.service.OAuthService;
+import edu.pjwstk.auth.service.TokenService;
+import edu.pjwstk.auth.usecase.result.GoogleLoginResult;
+import edu.pjwstk.auth.usecase.result.LoginUserResult;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -15,11 +26,16 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class OAuthServiceImpl implements OAuthService {
 
     private final WebClient webClient;
+    private final TokenService tokenService;
+    private final UserApi userApi;
+    private final JpaUserProviderRepository userProviderRepository;
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String googleClientId;
@@ -27,8 +43,11 @@ public class OAuthServiceImpl implements OAuthService {
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String googleClientSecret;
 
-    public OAuthServiceImpl(WebClient webClient) {
+    public OAuthServiceImpl(WebClient webClient, TokenService tokenService, UserApi userApi, JpaUserProviderRepository userProviderRepository) {
         this.webClient = webClient;
+        this.tokenService = tokenService;
+        this.userApi = userApi;
+        this.userProviderRepository = userProviderRepository;
     }
 
     @Override
@@ -62,5 +81,73 @@ public class OAuthServiceImpl implements OAuthService {
                 jwt.getClaim("family_name").asString()
         );
     }
+
+    @Override
+    public GoogleLoginResult loginViaGoogle(UUID userId, String googleEmail) {
+        // User already exists with this Google provider ID
+        SecureUserInfoApiDto user = userApi.getSecureUserDataById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        // Update email only if the user has no local account set up and the email is different
+        if (user.password() == null && !user.email().equals(googleEmail)) {
+            userApi.updateUserEmail(user.userId(), googleEmail);
+        }
+
+        return new GoogleLoginResult(
+                GoogleLoginResult.LoginType.EXISTING_USER,
+                new LoginUserResult(
+                        user.userId(),
+                        user.email(),
+                        user.username(),
+                        true,
+                        tokenService.generateTokenPair(user.userId(), user.email(), true)
+                )
+        );
+    }
+
+    @Override
+    @Transactional
+    public GoogleLoginResult registerViaGoogle(GoogleUserDto googleUserDto) {
+        String username = googleUserDto.firstName().substring(0, 3).toLowerCase() + "_" +
+                googleUserDto.lastName().substring(0, 3).toLowerCase() + "_" +
+                ThreadLocalRandom.current().nextInt(1000, 9999);
+
+        RegisterUserApiDto newGoogleUser = new RegisterUserApiDto(
+                googleUserDto.firstName(),
+                googleUserDto.lastName(),
+                googleUserDto.email(),
+                null,
+                username,
+                null, // No birthdate provided
+                false, // Default to not sending budget reports
+                false, // Default to private profile
+                true
+        );
+        BasicUserInfoApiDto createdGoogleUser = userApi.registerNewUser(newGoogleUser);
+
+        userProviderRepository.save(new UserOAuthProvider(
+                UUID.randomUUID(),
+                createdGoogleUser.userId(),
+                "google",
+                googleUserDto.sub()
+        ));
+
+
+        return new GoogleLoginResult(
+                GoogleLoginResult.LoginType.NEW_USER,
+                new LoginUserResult(
+                        createdGoogleUser.userId(),
+                        createdGoogleUser.email(),
+                        createdGoogleUser.username(),
+                        true,
+                        tokenService.generateTokenPair(
+                                createdGoogleUser.userId(),
+                                createdGoogleUser.email(),
+                                true
+                        )
+                )
+        );
+    }
+
 
 }

@@ -7,5 +7,5 @@ import java.util.UUID;
 public record VerifyEmailCommand(
         UUID userId,
         String code
-) implements Command  {
+) implements Command {
 }

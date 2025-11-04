@@ -1,17 +1,17 @@
 package edu.pjwstk.auth.usecase.impl;
 
-import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewEmailVerificationCodeException;
-import edu.pjwstk.auth.exceptions.EmailAlreadyVerifiedException;
-import edu.pjwstk.auth.models.EmailVerificationCode;
-import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
-import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
-import edu.pjwstk.auth.service.EmailVerificationCodeService;
 import edu.pjwstk.api.emailSender.EmailSenderApi;
 import edu.pjwstk.api.emailSender.EmailSendingException;
 import edu.pjwstk.api.emailSender.MailContentType;
 import edu.pjwstk.api.emailSender.MailDto;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.CheckIfUsersEmailIsVerifiedApiDto;
+import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewEmailVerificationCodeException;
+import edu.pjwstk.auth.exceptions.EmailAlreadyVerifiedException;
+import edu.pjwstk.auth.models.EmailVerificationCode;
+import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
+import edu.pjwstk.auth.service.EmailVerificationCodeService;
+import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;

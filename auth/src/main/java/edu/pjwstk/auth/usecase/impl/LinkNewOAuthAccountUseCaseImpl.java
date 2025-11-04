@@ -1,17 +1,17 @@
 package edu.pjwstk.auth.usecase.impl;
 
 import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.auth.usecase.command.LinkNewOAuthAccountCommand;
-import edu.pjwstk.auth.usecase.result.LoginUserResult;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.exceptions.LinkedUserNotFoundException;
 import edu.pjwstk.auth.exceptions.UserAlreadyLinkedToProviderException;
 import edu.pjwstk.auth.models.UserOAuthProvider;
 import edu.pjwstk.auth.repository.JpaUserProviderRepository;
-import edu.pjwstk.auth.usecase.LinkNewOAuthAccountUseCase;
 import edu.pjwstk.auth.service.TokenService;
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import edu.pjwstk.auth.usecase.LinkNewOAuthAccountUseCase;
+import edu.pjwstk.auth.usecase.command.LinkNewOAuthAccountCommand;
+import edu.pjwstk.auth.usecase.result.LoginUserResult;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

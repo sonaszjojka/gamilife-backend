@@ -1,15 +1,15 @@
 package edu.pjwstk.auth.config;
 
+import edu.pjwstk.api.emailSender.EmailSenderApi;
+import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
+import edu.pjwstk.auth.service.EmailVerificationCodeService;
+import edu.pjwstk.auth.service.ForgotPasswordCodeService;
 import edu.pjwstk.auth.usecase.SendEmailVerificationCodeUseCase;
 import edu.pjwstk.auth.usecase.SendForgotPasswordTokenUseCase;
 import edu.pjwstk.auth.usecase.impl.SendEmailVerificationCodeUseCaseImpl;
 import edu.pjwstk.auth.usecase.impl.SendForgotPasswordTokenUseCaseImpl;
-import edu.pjwstk.auth.service.ForgotPasswordCodeService;
-import edu.pjwstk.auth.service.EmailVerificationCodeService;
-import edu.pjwstk.api.emailSender.EmailSenderApi;
-import edu.pjwstk.api.user.UserApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,8 +1,8 @@
 package edu.pjwstk.auth.usecase.impl;
 
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.auth.security.UserDetailsImpl;
 import edu.pjwstk.auth.usecase.GetAuthenticatedUserDataUseCase;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

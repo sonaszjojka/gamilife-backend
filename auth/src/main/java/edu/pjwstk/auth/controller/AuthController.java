@@ -1,11 +1,11 @@
 package edu.pjwstk.auth.controller;
 
 import edu.pjwstk.api.auth.dto.AuthTokens;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.auth.controller.request.*;
 import edu.pjwstk.auth.controller.response.AfterLoginResponse;
 import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
 import edu.pjwstk.auth.usecase.*;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.auth.usecase.command.LoginUserCommand;
 import edu.pjwstk.auth.usecase.command.RegisterUserCommand;
 import edu.pjwstk.auth.usecase.command.ResetPasswordCommand;
