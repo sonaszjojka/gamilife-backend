@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.controller.response;
 
-import edu.pjwstk.auth.usecase.result.LoginUserResult;
+import edu.pjwstk.auth.usecase.login.LoginUserResult;
 
 import java.util.UUID;
 

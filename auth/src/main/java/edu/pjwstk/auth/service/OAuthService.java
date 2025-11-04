@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.service;
 
 import edu.pjwstk.auth.dto.service.GoogleUserDto;
-import edu.pjwstk.auth.usecase.result.GoogleLoginResult;
+import edu.pjwstk.auth.usecase.googlesignin.GoogleLoginResult;
 
 import java.util.Map;
 import java.util.UUID;
