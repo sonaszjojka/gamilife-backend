@@ -9,7 +9,9 @@ import edu.pjwstk.auth.usecase.getauthuser.GetAuthenticatedUserCommand;
 import edu.pjwstk.auth.usecase.getauthuser.GetAuthenticatedUserDataUseCase;
 import edu.pjwstk.auth.usecase.login.LoginUserCommand;
 import edu.pjwstk.auth.usecase.login.LoginUserUseCase;
+import edu.pjwstk.auth.usecase.logout.LogoutUserCommand;
 import edu.pjwstk.auth.usecase.logout.LogoutUserUseCase;
+import edu.pjwstk.auth.usecase.refreshtoken.RefreshAccessTokenCommand;
 import edu.pjwstk.auth.usecase.refreshtoken.RefreshAccessTokenUseCase;
 import edu.pjwstk.auth.usecase.registeruser.RegisterUserCommand;
 import edu.pjwstk.auth.usecase.registeruser.RegisterUserUseCase;
@@ -88,7 +90,7 @@ public class AuthController {
     @PreAuthorize("hasAnyRole('VERIFIED', 'UNVERIFIED')")
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@CookieValue(name = "REFRESH-TOKEN") String refreshToken, HttpServletResponse response) {
-        logoutUserUseCase.execute(refreshToken);
+        logoutUserUseCase.execute(new LogoutUserCommand(refreshToken));
 
         invalidateTokenCookies(response);
 
@@ -100,7 +102,7 @@ public class AuthController {
     @PostMapping("/refresh")
     public ResponseEntity<Void> refreshTokens(
             @CookieValue(name = "REFRESH-TOKEN") String refreshToken, HttpServletResponse response) {
-        AuthTokens authTokens = refreshAccessTokenUseCase.execute(refreshToken);
+        AuthTokens authTokens = refreshAccessTokenUseCase.execute(new RefreshAccessTokenCommand(refreshToken));
 
         ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(authTokens.accessToken());
         response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
