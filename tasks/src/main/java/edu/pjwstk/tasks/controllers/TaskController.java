@@ -7,12 +7,15 @@ import edu.pjwstk.tasks.application.deletetask.DeleteTaskUseCase;
 import edu.pjwstk.tasks.application.edittask.EditTaskRequest;
 import edu.pjwstk.tasks.application.edittask.EditTaskResponse;
 import edu.pjwstk.tasks.application.edittask.EditTaskUseCase;
+import edu.pjwstk.tasks.application.getusertasks.GetUserTasksResponse;
+import edu.pjwstk.tasks.application.getusertasks.GetUserTasksUseCase;
 import edu.pjwstk.tasks.shared.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,13 +25,15 @@ public class TaskController {
     private final CreateTaskUseCase createTaskUseCase;
     private final EditTaskUseCase editTaskUseCase;
     private final DeleteTaskUseCase deleteTaskUseCase;
+    private final GetUserTasksUseCase getUserTasksUseCase;
 
     public TaskController(CreateTaskUseCase createTaskUseCase,
                           EditTaskUseCase editTaskUseCase,
-                          DeleteTaskUseCase deleteTaskUseCase) {
+                          DeleteTaskUseCase deleteTaskUseCase, GetUserTasksUseCase getUserTasksUseCase) {
         this.createTaskUseCase = createTaskUseCase;
         this.editTaskUseCase = editTaskUseCase;
         this.deleteTaskUseCase = deleteTaskUseCase;
+        this.getUserTasksUseCase = getUserTasksUseCase;
     }
 
     @PostMapping
@@ -49,4 +54,12 @@ public class TaskController {
         deleteTaskUseCase.execute(taskId);
         return ResponseEntity.ok(new ApiResponse("Task with id: " + taskId + " deleted successfully."));
     }
+
+    @GetMapping
+    public ResponseEntity<GetUserTasksResponse> getUserTasks() {
+
+        GetUserTasksResponse response = getUserTasksUseCase.execute();
+        return ResponseEntity.ok(response);
+    }
+
 }
