@@ -17,6 +17,6 @@ public record RegisterUserCommand(
 ) implements Serializable, Command {
     @Override
     public void validate() {
-
+        // Already validated in Request
     }
 }

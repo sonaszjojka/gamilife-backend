@@ -20,6 +20,12 @@ public record RotateUserTokensCommand(
 
     @Override
     public void validate() {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
 
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email cannot be null or blank");
+        }
     }
 }

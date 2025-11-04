@@ -11,6 +11,12 @@ public record VerifyEmailCommand(
 
     @Override
     public void validate() {
-        // No specific validation logic
+        if (userId == null) {
+            throw new IllegalArgumentException("User id cannot be null");
+        }
+
+        if (code == null || code.isBlank()) {
+            throw new IllegalArgumentException("Code cannot be null or blank");
+        }
     }
 }
