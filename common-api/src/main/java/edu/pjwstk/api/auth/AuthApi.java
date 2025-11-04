@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public interface AuthApi {
 
-    @Deprecated(forRemoval = true)
     Optional<CurrentUserDto> getCurrentUser();
 
     String handleChangePassword(ChangePasswordCommand dto);
