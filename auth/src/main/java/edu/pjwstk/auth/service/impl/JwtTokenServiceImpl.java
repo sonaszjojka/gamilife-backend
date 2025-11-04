@@ -82,6 +82,11 @@ public class JwtTokenServiceImpl implements TokenService {
         return DigestUtils.sha256Hex(token);
     }
 
+    @Override
+    public void revokeAllActiveRefreshTokensByUserId(UUID userId) {
+        refreshTokenRepository.revokeAllActiveRefreshTokensByUserId(userId);
+    }
+
     private String generateRefreshToken() {
         return UUID.randomUUID().toString();
     }

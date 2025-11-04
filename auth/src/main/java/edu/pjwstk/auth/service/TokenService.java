@@ -13,4 +13,6 @@ public interface TokenService {
     AuthTokens generateTokenPair(UUID userId, String email, boolean isEmailVerified);
 
     String hashToken(String token);
+
+    void revokeAllActiveRefreshTokensByUserId(UUID userId);
 }

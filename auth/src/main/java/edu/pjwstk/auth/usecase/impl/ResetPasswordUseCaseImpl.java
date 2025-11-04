@@ -7,8 +7,8 @@ import edu.pjwstk.auth.exceptions.OldAndNewPasswordAreTheSameException;
 import edu.pjwstk.auth.models.ForgotPasswordCode;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.service.ForgotPasswordCodeService;
+import edu.pjwstk.auth.service.SecureCodesAndTokensService;
 import edu.pjwstk.auth.usecase.ResetPasswordUseCase;
-import edu.pjwstk.auth.usecase.RevokeAllUserCodesAndTokensUseCase;
 import edu.pjwstk.auth.usecase.command.ResetPasswordCommand;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -26,8 +26,8 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
     private final JpaForgotPasswordCodeRepository forgotPasswordCodeRepository;
     private final ForgotPasswordCodeService forgotPasswordCodeService;
     private final UserApi userApi;
-    private final RevokeAllUserCodesAndTokensUseCase revokeAllUserCodesAndTokensUseCase;
     private final PasswordEncoder passwordEncoder;
+    private final SecureCodesAndTokensService secureCodesAndTokensService;
 
     @Override
     @Transactional
@@ -52,6 +52,6 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
                 passwordEncoder.encode(command.newPassword())
         );
 
-        revokeAllUserCodesAndTokensUseCase.execute(forgotPasswordCode.getUserId());
+        secureCodesAndTokensService.revokeAllTokensAndCodesForUser(forgotPasswordCode.getUserId());
     }
 }
