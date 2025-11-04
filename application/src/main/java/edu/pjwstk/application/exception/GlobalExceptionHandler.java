@@ -12,6 +12,7 @@ import edu.pjwstk.api.user.exception.UserAlreadyExistsException;
 import edu.pjwstk.api.user.exception.UserNotFoundException;
 import edu.pjwstk.tasks.exception.*;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -65,7 +66,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             DateTimeParseException.class,
-            InvalidParameterException.class
+            InvalidParameterException.class,
+            ValidationException.class
     })
     public ProblemDetail handleValidation(Exception ex) {
         ProblemDetail problem = formatErrorResponse(ErrorCode.VALIDATION_ERROR, "Validation failed");
