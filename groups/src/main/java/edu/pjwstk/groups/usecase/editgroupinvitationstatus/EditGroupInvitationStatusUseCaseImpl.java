@@ -48,6 +48,10 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
                 .orElseThrow(() -> new GroupInvitationNotFoundException("Group invitation with id: " + groupInvitationId
                         + " not found!"));
 
+        InvitationStatus invitationStatus = invitationStatusRepository.findById(request.invitationStatusId())
+                .orElseThrow(() -> new InvitationStatusNotFoundException("Group invitation with id: " + groupInvitationId
+                        + " not found!"));
+
         CurrentUserDto currentUserDto = authApi.getCurrentUser()
                 .orElseThrow();
 
@@ -69,16 +73,12 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
             throw new InvalidGroupInvitationDataException("Group invitation with status ACCEPTED or DECLINED are final and cannot be changed!");
         }
 
-        if (request.invitationStatus() == InvitationStatusEnum.SENT) {
+        if (invitationStatus.toEnum() == InvitationStatusEnum.SENT) {
             throw new InvalidGroupDataException("Group invitation with id: " + groupInvitationId + " has already status: SENT");
         }
 
-        InvitationStatus invitationStatus = invitationStatusRepository.findById(request.invitationStatus().getId())
-                .orElseThrow(() -> new InvitationStatusNotFoundException("Group invitation with id: " + groupInvitationId
-                        + " not found!"));
-
         CreateGroupMemberResponse createGroupMemberResponse = null;
-        if (request.invitationStatus() == InvitationStatusEnum.ACCEPTED) {
+        if (invitationStatus.toEnum()  == InvitationStatusEnum.ACCEPTED) {
             createGroupMemberResponse = createGroupMemberAfterAcceptationUseCase.execute(
                     CreateGroupMemberAfterAcceptationRequest.builder()
                             .groupId(groupInvitation.getGroupInvited().getGroupId())

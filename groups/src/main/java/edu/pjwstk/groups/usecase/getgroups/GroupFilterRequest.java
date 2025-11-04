@@ -1,7 +1,5 @@
 package edu.pjwstk.groups.usecase.getgroups;
 
-import edu.pjwstk.groups.shared.GroupTypeEnum;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
 public record GroupFilterRequest(
