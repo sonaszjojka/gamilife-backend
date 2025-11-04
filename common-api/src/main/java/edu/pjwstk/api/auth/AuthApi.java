@@ -5,8 +5,6 @@ import edu.pjwstk.api.auth.dto.ChangePasswordDto;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.api.auth.dto.RotateUserTokensDto;
 
-import java.util.Optional;
-
 public interface AuthApi {
 
     CurrentUserDto getCurrentUser();
