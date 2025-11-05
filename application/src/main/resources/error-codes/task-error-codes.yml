@@ -25,8 +25,3 @@ error-codes:
       title: "Task Difficulty Not Found"
       detail: "The specified task difficulty could not be found."
       status: 404
-    TASK_NOT_FOUND:
-      code: 6006
-      title: "Task Not Found"
-      detail: "The specified task could not be found."
-      status: 404

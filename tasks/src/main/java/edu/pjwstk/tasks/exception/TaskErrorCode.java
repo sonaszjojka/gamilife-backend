@@ -7,8 +7,7 @@ public enum TaskErrorCode implements ErrorCode {
     INVALID_HABIT_DATA,
     INVALID_TASK_DATA,
     TASK_CATEGORY_NOT_FOUND,
-    TASK_DIFFICULTY_NOT_FOUND,
-    TASK_NOT_FOUND;
+    TASK_DIFFICULTY_NOT_FOUND;
 
     @Override
     public String getKey() {
