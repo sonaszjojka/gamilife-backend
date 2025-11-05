@@ -3,8 +3,8 @@ package edu.pjwstk.auth.usecase.verifyemail;
 import edu.pjwstk.api.auth.dto.AuthTokens;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.auth.exceptions.EmailVerificationCodeExpiredException;
-import edu.pjwstk.auth.exceptions.InvalidVerificationCodeException;
+import edu.pjwstk.auth.exception.domain.EmailVerificationCodeExpiredException;
+import edu.pjwstk.auth.exception.domain.InvalidEmailVerificationCodeException;
 import edu.pjwstk.auth.models.EmailVerificationCode;
 import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
 import edu.pjwstk.auth.service.EmailVerificationService;
@@ -29,7 +29,7 @@ public class VerifyEmailUseCaseImpl implements VerifyEmailUseCase {
         String hashedCode = emailVerificationService.hashCode(cmd.code());
 
         EmailVerificationCode emailVerificationCode = emailVerificationRepository.findByUserIdAndCode(cmd.userId(), hashedCode)
-                .orElseThrow(() -> new InvalidVerificationCodeException("Invalid verification code."));
+                .orElseThrow(() -> new InvalidEmailVerificationCodeException("Invalid verification code."));
 
         if (emailVerificationCode.isRevoked() || emailVerificationCode.getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new EmailVerificationCodeExpiredException("Email verification code has expired.");

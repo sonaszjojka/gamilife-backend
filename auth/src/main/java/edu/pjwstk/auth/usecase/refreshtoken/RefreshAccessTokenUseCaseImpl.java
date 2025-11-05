@@ -4,9 +4,8 @@ import edu.pjwstk.api.auth.dto.AuthTokens;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
-import edu.pjwstk.auth.exceptions.RefreshTokenExpiredException;
-import edu.pjwstk.auth.exceptions.RefreshTokenRevokedException;
-import edu.pjwstk.auth.exceptions.RefreshTokenUnknownException;
+import edu.pjwstk.auth.exception.domain.RefreshTokenExpiredException;
+import edu.pjwstk.auth.exception.domain.InvalidRefreshTokenException;
 import edu.pjwstk.auth.models.RefreshToken;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.service.TokenService;
@@ -30,13 +29,9 @@ public class RefreshAccessTokenUseCaseImpl implements RefreshAccessTokenUseCase 
         String hashedRefreshToken = tokenService.hashToken(cmd.refreshToken());
         RefreshToken existingRefreshToken = refreshTokenRepository
                 .findByToken(hashedRefreshToken)
-                .orElseThrow(() -> new RefreshTokenUnknownException("Refresh token not found"));
+                .orElseThrow(() -> new InvalidRefreshTokenException("Refresh token not found"));
 
-        if (existingRefreshToken.isRevoked()) {
-            throw new RefreshTokenRevokedException("Refresh token has been revoked");
-        }
-
-        if (existingRefreshToken.getExpiresAt().isBefore(LocalDateTime.now())) {
+        if (existingRefreshToken.isRevoked() || existingRefreshToken.getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new RefreshTokenExpiredException("Refresh token has expired");
         }
 

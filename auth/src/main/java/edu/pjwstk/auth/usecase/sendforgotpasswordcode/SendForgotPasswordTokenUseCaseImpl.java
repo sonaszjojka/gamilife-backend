@@ -6,7 +6,7 @@ import edu.pjwstk.api.emailSender.MailContentType;
 import edu.pjwstk.api.emailSender.MailDto;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewForgotPasswordCodeException;
+import edu.pjwstk.auth.exception.domain.CannotCurrentlyCreateNewForgotPasswordCodeException;
 import edu.pjwstk.auth.models.ForgotPasswordCode;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.service.ForgotPasswordCodeService;

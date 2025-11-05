@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.usecase.changepassword;
 
-import edu.pjwstk.auth.exceptions.InvalidCredentialsException;
-import edu.pjwstk.auth.exceptions.OldAndNewPasswordAreTheSameException;
+import edu.pjwstk.auth.exception.domain.InvalidCredentialsException;
+import edu.pjwstk.auth.exception.domain.OldAndNewPasswordAreTheSameException;
 import edu.pjwstk.auth.validators.PasswordValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

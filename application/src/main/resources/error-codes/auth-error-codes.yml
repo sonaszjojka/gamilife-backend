@@ -15,11 +15,6 @@ error-codes:
       title: "Invalid Refresh Token"
       detail: "The refresh token provided is invalid."
       status: 401
-    REFRESH_TOKEN_REVOKED:
-      code: 2004
-      title: "Refresh Token Revoked"
-      detail: "The refresh token has been revoked."
-      status: 401
     LINKED_USER_NOT_FOUND:
       code: 2005
       title: "Linked User Not Found"
@@ -35,22 +30,12 @@ error-codes:
       title: "Access Denied"
       detail: "You do not have permission to access this resource."
       status: 403
-    REFRESH_TOKEN_UNKNOWN:
-      code: 2010
-      title: "Refresh Token Unknown"
-      detail: "The refresh token is not recognized."
-      status: 401
-    REFRESH_TOKEN_NOT_PROVIDED:
-      code: 2011
-      title: "Refresh Token Not Provided"
-      detail: "No refresh token was provided in the request."
-      status: 400
     EMAIL_VERIFICATION_CODE_TOO_MANY_REQUESTS:
       code: 2012
       title: "Email Verification Code Too Many Requests"
       detail: "Too many requests for email verification codes. Please try again later."
       status: 429
-    PASSWORD_RESET_CODE_TOO_MANY_REQUESTS:
+    FORGOT_PASSWORD_CODE_TOO_MANY_REQUESTS:
       code: 2013
       title: "Password Reset Code Too Many Requests"
       detail: "Too many requests for password reset codes. Please try again later."
@@ -69,4 +54,9 @@ error-codes:
       code: 2016
       title: "Email Verification Code Expired"
       detail: "The email verification code has expired."
+      status: 400
+    USER_ALREADY_LINKED_TO_PROVIDER:
+      code: 2017
+      title: "User Already Linked to Provider"
+      detail: "The user is already linked to the specified authentication provider."
       status: 400

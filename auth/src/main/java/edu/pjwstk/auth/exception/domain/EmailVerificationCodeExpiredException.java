@@ -1,5 +1,6 @@
-package edu.pjwstk.auth.exceptions;
+package edu.pjwstk.auth.exception.domain;
 
+import edu.pjwstk.auth.exception.AuthErrorCode;
 import edu.pjwstk.core.exception.DomainException;
 
 public class EmailVerificationCodeExpiredException extends DomainException {
