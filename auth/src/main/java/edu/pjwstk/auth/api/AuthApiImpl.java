@@ -1,18 +1,18 @@
 package edu.pjwstk.auth.api;
 
-import edu.pjwstk.auth.dto.service.ChangePasswordInternalCommand;
-import edu.pjwstk.auth.usecase.ChangePasswordUseCase;
-import edu.pjwstk.auth.usecase.GetAuthenticatedUserDataUseCase;
-import edu.pjwstk.auth.usecase.RotateUserTokensUseCase;
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.AuthTokens;
-import edu.pjwstk.common.authApi.dto.ChangePasswordCommand;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.authApi.dto.RotateUserTokensCommand;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.AuthTokens;
+import edu.pjwstk.api.auth.dto.ChangePasswordDto;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.auth.dto.RotateUserTokensDto;
+import edu.pjwstk.auth.usecase.changepassword.ChangePasswordCommand;
+import edu.pjwstk.auth.usecase.changepassword.ChangePasswordUseCase;
+import edu.pjwstk.auth.usecase.getauthuser.GetAuthenticatedUserCommand;
+import edu.pjwstk.auth.usecase.getauthuser.GetAuthenticatedUserDataUseCase;
+import edu.pjwstk.auth.usecase.rotatetokens.RotateUserTokensCommand;
+import edu.pjwstk.auth.usecase.rotatetokens.RotateUserTokensUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -23,22 +23,18 @@ public class AuthApiImpl implements AuthApi {
     private RotateUserTokensUseCase rotateUserTokensUseCase;
 
     @Override
-    public Optional<CurrentUserDto> getCurrentUser() {
-        return getAuthenticatedUserDataUseCase.execute();
+    public CurrentUserDto getCurrentUser() {
+        return getAuthenticatedUserDataUseCase.execute(new GetAuthenticatedUserCommand());
     }
 
     @Override
-    public String handleChangePassword(ChangePasswordCommand dto) {
-        return changePasswordUseCase.execute(new ChangePasswordInternalCommand(
-                dto.providedPassword(),
-                dto.hashedUserPassword(),
-                dto.newPassword()
-        ));
+    public String handleChangePassword(ChangePasswordDto dto) {
+        return changePasswordUseCase.execute(ChangePasswordCommand.from(dto));
     }
 
     @Override
-    public AuthTokens rotateUserTokens(RotateUserTokensCommand rotateUserTokensCommand) {
-        return rotateUserTokensUseCase.execute(rotateUserTokensCommand);
+    public AuthTokens rotateUserTokens(RotateUserTokensDto dto) {
+        return rotateUserTokensUseCase.execute(RotateUserTokensCommand.from(dto));
     }
 
 }

@@ -1,13 +1,16 @@
 package edu.pjwstk.groupshop.usecase.editownedgroupitem;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.groupsApi.GroupApi;
-import edu.pjwstk.common.groupsApi.dto.GroupDto;
-import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.groups.GroupApi;
+import edu.pjwstk.api.groups.dto.GroupDto;
+import edu.pjwstk.api.groups.exception.GroupMemberNotFoundException;
 import edu.pjwstk.groupshop.entity.GroupShop;
 import edu.pjwstk.groupshop.entity.OwnedGroupItem;
-import edu.pjwstk.groupshop.exception.*;
+import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
+import edu.pjwstk.groupshop.exception.InactiveGroupShopException;
+import edu.pjwstk.groupshop.exception.UnauthorizedUserActionException;
+import edu.pjwstk.groupshop.exception.UserNotAdministratorException;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
 import edu.pjwstk.groupshop.repository.OwnedGroupItemRpository;
 import org.springframework.stereotype.Service;
@@ -45,7 +48,7 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
             throw new InactiveGroupShopException("This group has group shop inactive!");
         }
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         GroupDto groupDto = groupProvider.findGroupById(groupId);
         if (!currentUserDto.userId().equals(groupDto.adminId()) && !currentUserDto.userId().equals(groupProvider.findGroupMemberById(groupMemberId).userId())) {
             throw new UnauthorizedUserActionException("Only group administrators or the member themselves can edit items in inventory!");

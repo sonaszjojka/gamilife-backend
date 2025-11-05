@@ -1,8 +1,8 @@
 package edu.pjwstk.groupshop.api;
 
-import edu.pjwstk.common.groupshopApi.GroupShopApi;
-import edu.pjwstk.common.groupshopApi.dto.CreateGroupShopForGroupRequestDto;
-import edu.pjwstk.common.groupshopApi.dto.CreateGroupShopForGroupResponseDto;
+import edu.pjwstk.api.groupshop.GroupShopApi;
+import edu.pjwstk.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
+import edu.pjwstk.api.groupshop.dto.CreateGroupShopForGroupResponseDto;
 import edu.pjwstk.groupshop.usecase.creategroupshopforgroup.CreateGroupShopForGroupUseCase;
 import org.springframework.stereotype.Service;
 

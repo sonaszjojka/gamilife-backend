@@ -1,12 +1,13 @@
 package edu.pjwstk.tasks.application.createtaskforgrouptask;
 
-import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskRequestDto;
-import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskResponseDto;
-import edu.pjwstk.tasks.entity.Habit;
+import edu.pjwstk.api.tasks.dto.TaskForGroupTaskRequestDto;
+import edu.pjwstk.api.tasks.dto.TaskForGroupTaskResponseDto;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
 import edu.pjwstk.tasks.entity.TaskDifficulty;
-import edu.pjwstk.tasks.exception.*;
+import edu.pjwstk.tasks.exception.InvalidTaskDataException;
+import edu.pjwstk.tasks.exception.TaskCategoryNotFoundException;
+import edu.pjwstk.tasks.exception.TaskDifficultyNotFoundException;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import edu.pjwstk.tasks.repository.TaskCategoryRepository;
 import edu.pjwstk.tasks.repository.TaskDifficultyRepository;

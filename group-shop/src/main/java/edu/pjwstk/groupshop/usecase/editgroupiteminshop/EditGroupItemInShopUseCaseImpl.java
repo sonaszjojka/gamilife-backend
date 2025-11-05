@@ -1,15 +1,17 @@
 package edu.pjwstk.groupshop.usecase.editgroupiteminshop;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.groupsApi.GroupApi;
-import edu.pjwstk.common.groupsApi.dto.GroupDto;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.groups.GroupApi;
+import edu.pjwstk.api.groups.dto.GroupDto;
 import edu.pjwstk.groupshop.entity.GroupItemInShop;
 import edu.pjwstk.groupshop.entity.GroupShop;
-import edu.pjwstk.groupshop.exception.*;
+import edu.pjwstk.groupshop.exception.GroupItemInShopNotFoundException;
+import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
+import edu.pjwstk.groupshop.exception.InactiveGroupShopException;
+import edu.pjwstk.groupshop.exception.UserNotAdministratorException;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
-import edu.pjwstk.groupshop.usecase.creategroupiteminshop.CreateGroupItemInShopMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -39,8 +41,7 @@ public class EditGroupItemInShopUseCaseImpl implements EditGroupItemInShopUseCas
             throw new InactiveGroupShopException("This group has group shop inactive!");
         }
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         GroupDto groupDto = groupApi.findGroupById(groupId);
 
         if (!currentUserDto.userId().equals(groupDto.adminId())&& Boolean.TRUE.equals(request.isActive())) {

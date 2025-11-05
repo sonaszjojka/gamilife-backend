@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS "user" CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
 DROP TABLE IF EXISTS user_oauth_provider CASCADE;
 DROP TABLE IF EXISTS refresh_token CASCADE;
-DROP TABLE IF EXISTS email_verification CASCADE;
+DROP TABLE IF EXISTS email_verification_code CASCADE;
 DROP TABLE IF EXISTS forgot_password_code CASCADE;
 DROP TABLE IF EXISTS task_notification CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
@@ -137,7 +137,7 @@ CREATE TABLE refresh_token (
     CONSTRAINT pk_refresh_token PRIMARY KEY (id)
 );
 
-CREATE TABLE email_verification
+CREATE TABLE email_verification_code
 (
     id         uuid         NOT NULL,
     user_id    uuid         NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE email_verification
     issued_at  timestamp(6) NOT NULL,
     expires_at timestamp(6) NOT NULL,
     revoked    boolean      NOT NULL,
-    CONSTRAINT email_verification_pk PRIMARY KEY (id)
+    CONSTRAINT email_verification_code_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE "user" (
@@ -186,7 +186,7 @@ ADD CONSTRAINT refresh_token_user
     FOREIGN KEY (user_id)
         REFERENCES "user" (id);
 
-ALTER TABLE email_verification
+ALTER TABLE email_verification_code
     ADD CONSTRAINT email_validation_tokens_users
         FOREIGN KEY (user_id)
             REFERENCES "user" (id);

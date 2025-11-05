@@ -1,8 +1,8 @@
 package edu.pjwstk.groups.usecase.deletegroup;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.groupsApi.exception.GroupNotFoundException;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.groups.exception.GroupNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.exception.UserNotGroupAdministratorAccessDeniedException;
 import edu.pjwstk.groups.repository.GroupRepository;
@@ -29,8 +29,7 @@ public class DeleteGroupUseCaseImpl implements DeleteGroupUseCase {
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
 
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (!Objects.equals(currentUserDto.userId(), group.getAdminId())) {
             throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators can delete groups!");

@@ -1,22 +1,20 @@
 package edu.pjwstk.application.exception;
 
 
+import edu.pjwstk.api.auth.exception.ResetPasswordGenericException;
+import edu.pjwstk.api.groups.exception.GroupMemberNotFoundException;
+import edu.pjwstk.api.user.exception.UserAlreadyExistsException;
+import edu.pjwstk.api.user.exception.UserNotFoundException;
+import edu.pjwstk.auth.exceptions.*;
 import edu.pjwstk.groups.exception.*;
 import edu.pjwstk.groupshop.exception.*;
-import edu.pjwstk.grouptasks.exception.*;
-import edu.pjwstk.groups.exception.*;
-import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
-import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
-import edu.pjwstk.auth.exceptions.*;
-import edu.pjwstk.common.authApi.exception.ResetPasswordGenericException;
-import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
-import edu.pjwstk.common.userApi.exception.UserAlreadyExistsException;
-import edu.pjwstk.common.userApi.exception.UserNotFoundException;
-import edu.pjwstk.groups.exception.*;
+import edu.pjwstk.grouptasks.exception.GroupTaskMemberNotFoundException;
+import edu.pjwstk.grouptasks.exception.GroupTaskNotFoundException;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
 import edu.pjwstk.tasks.exception.*;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,7 +30,6 @@ import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
-@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -71,7 +68,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             DateTimeParseException.class,
-            InvalidParameterException.class
+            InvalidParameterException.class,
+            ValidationException.class
     })
     public ProblemDetail handleValidation(Exception ex) {
         ProblemDetail problem = formatErrorResponse(ErrorCode.VALIDATION_ERROR, "Validation failed");

@@ -1,11 +1,14 @@
 package edu.pjwstk.groupshop.usecase.deletegroupiteminshop;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.groupsApi.GroupApi;
-import edu.pjwstk.common.groupsApi.dto.GroupDto;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.groups.GroupApi;
+import edu.pjwstk.api.groups.dto.GroupDto;
 import edu.pjwstk.groupshop.entity.GroupShop;
-import edu.pjwstk.groupshop.exception.*;
+import edu.pjwstk.groupshop.exception.GroupItemInShopNotFoundException;
+import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
+import edu.pjwstk.groupshop.exception.InactiveGroupShopException;
+import edu.pjwstk.groupshop.exception.UserNotAdministratorException;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
 import org.springframework.stereotype.Service;
@@ -31,7 +34,7 @@ public class DeleteGroupItemInShopUseCaseImpl implements DeleteGroupItemInShopUs
     @Override
     public void deleteById(UUID groupItemInShopId,UUID groupId) {
 
-        CurrentUserDto currentUser = currentUserProvider.getCurrentUser().orElseThrow();
+        CurrentUserDto currentUser = currentUserProvider.getCurrentUser();
         GroupDto groupDto = groupProvider.findGroupById(groupId);
 
         GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(()->

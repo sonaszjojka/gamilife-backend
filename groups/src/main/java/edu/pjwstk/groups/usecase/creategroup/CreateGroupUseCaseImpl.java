@@ -1,10 +1,10 @@
 package edu.pjwstk.groups.usecase.creategroup;
 
-import edu.pjwstk.common.groupshopApi.GroupShopApi;
-import edu.pjwstk.common.groupshopApi.dto.CreateGroupShopForGroupRequestDto;
-import edu.pjwstk.common.userApi.UserApi;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
-import edu.pjwstk.common.userApi.exception.UserNotFoundException;
+import edu.pjwstk.api.groupshop.GroupShopApi;
+import edu.pjwstk.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import edu.pjwstk.api.user.exception.UserNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.entity.GroupType;
@@ -54,10 +54,8 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
         }
 
         String joinCode = joinCodeGenerator.generate(20);
-
         Group group = createGroupUseCaseMapper.toEntity(request, joinCode, UUID.randomUUID(), groupType);
         Group savedGroup = groupRepository.save(group);
-
         GroupMember groupMemberAdmin = GroupMember.builder()
                 .groupMemberId(UUID.randomUUID())
                 .memberGroup(group)

@@ -1,9 +1,7 @@
 package edu.pjwstk.groupshop.usecase.creategroupshopforgroup;
 
-import edu.pjwstk.common.groupshopApi.dto.CreateGroupShopForGroupRequestDto;
-import edu.pjwstk.common.groupshopApi.dto.CreateGroupShopForGroupResponseDto;
-
-import java.util.UUID;
+import edu.pjwstk.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
+import edu.pjwstk.api.groupshop.dto.CreateGroupShopForGroupResponseDto;
 
 public interface CreateGroupShopForGroupUseCase {
     CreateGroupShopForGroupResponseDto execute(CreateGroupShopForGroupRequestDto request);

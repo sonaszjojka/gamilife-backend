@@ -1,7 +1,7 @@
 package edu.pjwstk.tasks.application.edittasknotification;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.tasks.entity.TaskNotification;
 import edu.pjwstk.tasks.exception.TaskNotFoundException;
 import edu.pjwstk.tasks.exception.UnauthorizedTaskAccessException;
@@ -35,7 +35,7 @@ public class EditTaskNotificationUseCaseImpl implements EditTaskNotificationUseC
                         "Task notification with id: " + taskNotificationId + " for task with id: " + taskId + " not found!"
                 ));
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         if (!currentUserDto.userId().equals(taskNotification.getTask().getUserId())) {
             throw new UnauthorizedTaskAccessException("User is not authorized to edit notification for another user!");
         }

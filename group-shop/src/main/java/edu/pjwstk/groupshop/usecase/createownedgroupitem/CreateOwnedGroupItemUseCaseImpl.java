@@ -1,10 +1,10 @@
 package edu.pjwstk.groupshop.usecase.createownedgroupitem;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.groupsApi.GroupApi;
-import edu.pjwstk.common.groupsApi.dto.GroupDto;
-import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.groups.GroupApi;
+import edu.pjwstk.api.groups.dto.GroupDto;
+import edu.pjwstk.api.groups.exception.GroupMemberNotFoundException;
 import edu.pjwstk.groupshop.entity.GroupItemInShop;
 import edu.pjwstk.groupshop.entity.GroupShop;
 import edu.pjwstk.groupshop.entity.OwnedGroupItem;
@@ -43,7 +43,7 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
     public CreateOwnedGroupItemResponse execute(CreateOwnedGroupItemRequest request, UUID groupMemberId,UUID groupId) {
 
         GroupDto groupDto = groupProvider.findGroupById(groupId);
-        CurrentUserDto currentUser = currentUserProvider.getCurrentUser().orElseThrow();
+        CurrentUserDto currentUser = currentUserProvider.getCurrentUser();
 
         if (groupProvider.findGroupMemberById(groupMemberId)==null) {
             throw new GroupMemberNotFoundException("Group member not found in the specified group!");

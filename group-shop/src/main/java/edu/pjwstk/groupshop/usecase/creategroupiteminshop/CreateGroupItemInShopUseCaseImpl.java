@@ -1,14 +1,13 @@
 package edu.pjwstk.groupshop.usecase.creategroupiteminshop;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.groupsApi.GroupApi;
-import edu.pjwstk.common.groupsApi.dto.GroupDto;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.groups.GroupApi;
+import edu.pjwstk.api.groups.dto.GroupDto;
 import edu.pjwstk.groupshop.entity.GroupItemInShop;
 import edu.pjwstk.groupshop.entity.GroupShop;
 import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
 import edu.pjwstk.groupshop.exception.InactiveGroupShopException;
-import edu.pjwstk.groupshop.exception.InvalidOwnedGroupItemDataException;
 import edu.pjwstk.groupshop.exception.UserNotAdministratorException;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
@@ -44,15 +43,13 @@ public class CreateGroupItemInShopUseCaseImpl implements CreateGroupItemInShopUs
         }
 
         GroupDto groupDto = groupProvider.findGroupById(groupId);
-        if (!groupShop.getGroupId().equals(groupId))
-        {
+        if (!groupShop.getGroupId().equals(groupId)) {
             throw new GroupShopNotFoundException("Group shop with id: " + groupShopId + " does not belong to group with id: " + groupId + "!");
         }
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
 
-        if (!currentUserDto.userId().equals(groupDto.adminId())&& Boolean.TRUE.equals(request.isActive())) {
+        if (!currentUserDto.userId().equals(groupDto.adminId()) && Boolean.TRUE.equals(request.isActive())) {
             throw new UserNotAdministratorException("Only group administrators can create active group item in shop!");
         }
         GroupItemInShop groupItemInShop = createGroupItemInShopMapper.toEntity(request, groupShop, UUID.randomUUID());

@@ -1,7 +1,9 @@
 package edu.pjwstk.groupshop.entity;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
 import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -9,7 +11,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@ToString
 @Builder
 @Entity
 @AllArgsConstructor
