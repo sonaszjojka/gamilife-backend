@@ -1,8 +1,8 @@
 package edu.pjwstk.groups.api.controller;
 
+import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberInOpenGroupUseCase;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberRequest;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
-import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberInOpenGroupUseCase;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberRequest;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberResponse;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberUseCase;

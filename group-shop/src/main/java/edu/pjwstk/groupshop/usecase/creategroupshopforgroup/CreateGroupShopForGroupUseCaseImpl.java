@@ -21,7 +21,7 @@ public class CreateGroupShopForGroupUseCaseImpl implements CreateGroupShopForGro
     @Override
     public CreateGroupShopForGroupResponseDto execute(CreateGroupShopForGroupRequestDto request) {
 
-        GroupShop groupShop = createGroupShopForGroupMapper.toEntity(request,UUID.randomUUID());
+        GroupShop groupShop = createGroupShopForGroupMapper.toEntity(request, UUID.randomUUID());
         groupShopRepository.save(groupShop);
 
         return createGroupShopForGroupMapper.toResponse(groupShop);

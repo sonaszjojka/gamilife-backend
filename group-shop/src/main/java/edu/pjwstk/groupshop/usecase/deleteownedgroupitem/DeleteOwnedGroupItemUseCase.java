@@ -4,5 +4,5 @@ import java.util.UUID;
 
 public interface DeleteOwnedGroupItemUseCase {
 
-    void execute (UUID groupId, UUID memberId,UUID ownedGroupItemId);
+    void execute(UUID groupId, UUID memberId, UUID ownedGroupItemId);
 }

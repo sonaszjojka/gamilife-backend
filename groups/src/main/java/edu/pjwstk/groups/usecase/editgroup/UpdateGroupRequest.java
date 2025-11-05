@@ -1,9 +1,6 @@
 package edu.pjwstk.groups.usecase.editgroup;
 
-import edu.pjwstk.groups.shared.GroupTypeEnum;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 
 import java.util.UUID;
 
@@ -11,11 +8,15 @@ public record UpdateGroupRequest(
         @NotNull(message = "Admin ID cannot be null")
         UUID adminId,
 
+        @NotBlank(message = "Group name cannot be blank")
+        @Size(max = 50, message = "Group name cannot exceed 50 characters")
+        String groupName,
+
         @NotNull(message = "Group currency symbol cannot be null")
         Character groupCurrencySymbol,
 
         @NotNull(message = "Group type cannot be null")
-        GroupTypeEnum groupType,
+        Integer groupTypeId,
 
         @NotNull(message = "Members limit cannot be null")
         @Min(value = 2, message = "Members limit must be at least 2")

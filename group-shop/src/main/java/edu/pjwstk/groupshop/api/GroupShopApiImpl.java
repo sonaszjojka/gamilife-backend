@@ -16,8 +16,7 @@ public class GroupShopApiImpl implements GroupShopApi {
     }
 
     @Override
-    public CreateGroupShopForGroupResponseDto createGroupShopOnGroupInit(CreateGroupShopForGroupRequestDto requestDto)
-    {
+    public CreateGroupShopForGroupResponseDto createGroupShopOnGroupInit(CreateGroupShopForGroupRequestDto requestDto) {
         return createGroupShopForGroupUseCase.execute(requestDto);
     }
 }

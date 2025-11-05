@@ -31,28 +31,27 @@ public class OwnedGroupItemController {
 
 
     @PostMapping("")
-    public ResponseEntity<CreateOwnedGroupItemResponse> createOwnedGroupItem(@PathVariable (name="groupId") UUID groupId,
-                                                                             @PathVariable (name="memberId") UUID memberId,
+    public ResponseEntity<CreateOwnedGroupItemResponse> createOwnedGroupItem(@PathVariable(name = "groupId") UUID groupId,
+                                                                             @PathVariable(name = "memberId") UUID memberId,
                                                                              @RequestBody @Valid CreateOwnedGroupItemRequest request) {
 
-        CreateOwnedGroupItemResponse response= createOwnedGroupItemUseCase.execute(request, memberId,groupId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response) ;
+        CreateOwnedGroupItemResponse response = createOwnedGroupItemUseCase.execute(request, memberId, groupId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @DeleteMapping("/{ownedGroupItemId}")
-    public ResponseEntity<ApiResponse> deleteOwnedGroupItem(@PathVariable (name="groupId") UUID groupId,
-                                                            @PathVariable (name="memberId") UUID memberId,
-                                                            @PathVariable (name="ownedGroupItemId") UUID ownedGroupItemId) {
-        deleteOwnedGroupItemUseCase.execute( groupId, memberId, ownedGroupItemId);
+    public ResponseEntity<ApiResponse> deleteOwnedGroupItem(@PathVariable(name = "groupId") UUID groupId,
+                                                            @PathVariable(name = "memberId") UUID memberId,
+                                                            @PathVariable(name = "ownedGroupItemId") UUID ownedGroupItemId) {
+        deleteOwnedGroupItemUseCase.execute(groupId, memberId, ownedGroupItemId);
         return ResponseEntity.ok(new ApiResponse("Owned group item with id: " + ownedGroupItemId + " deleted successfully."));
     }
 
     @PutMapping("/{ownedGroupItemId}")
-    public ResponseEntity<EditOwnedGroupItemResponse> editOwnedGroupItem(@PathVariable (name="groupId") UUID groupId,
-                                                                         @PathVariable (name="memberId") UUID memberId,
-                                                                         @PathVariable (name="ownedGroupItemId") UUID ownedGroupItemId,
-                                                                         @RequestBody @Valid EditOwnedGroupItemRequest request)
-    {
+    public ResponseEntity<EditOwnedGroupItemResponse> editOwnedGroupItem(@PathVariable(name = "groupId") UUID groupId,
+                                                                         @PathVariable(name = "memberId") UUID memberId,
+                                                                         @PathVariable(name = "ownedGroupItemId") UUID ownedGroupItemId,
+                                                                         @RequestBody @Valid EditOwnedGroupItemRequest request) {
         EditOwnedGroupItemResponse response = editOwnedGroupItemUseCase.execute(request, ownedGroupItemId, memberId, groupId);
         return ResponseEntity.ok(response);
     }

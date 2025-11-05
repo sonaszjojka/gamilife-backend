@@ -11,6 +11,7 @@ public class FindGroupByIdMapperImpl implements FindGroupByIdMapper {
     public GroupDto toResponse(Group savedGroup) {
         return GroupDto.builder()
                 .groupId(savedGroup.getGroupId())
+                .groupName(savedGroup.getName())
                 .joinCode(savedGroup.getJoinCode())
                 .adminId(savedGroup.getAdminId())
                 .groupCurrencySymbol(savedGroup.getGroupCurrencySymbol())

@@ -38,10 +38,10 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
     @Override
     public EditOwnedGroupItemResponse execute(EditOwnedGroupItemRequest request, UUID ownedGroupItemId, UUID groupMemberId, UUID groupId) {
 
-        if (groupProvider.findGroupMemberById(groupMemberId)==null) {
+        if (groupProvider.findGroupMemberById(groupMemberId) == null) {
             throw new GroupMemberNotFoundException("Group member not found in the specified group!");
         }
-        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(()->
+        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(() ->
                 new GroupShopNotFoundException("Group shop for the specified group not found!"));
 
         if (Boolean.FALSE.equals(groupShop.getIsActive())) {
@@ -59,9 +59,9 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
         );
 
         if (!currentUserDto.userId().equals(groupDto.adminId()) &&
-                Boolean.TRUE.equals(ownedGroupItem.getIsUsedUp())&&
+                Boolean.TRUE.equals(ownedGroupItem.getIsUsedUp()) &&
                 Boolean.FALSE.equals(request.isUsedUp())) {
-            throw new UserNotAdministratorException( "Only group administrators can mark used up items as unused!" );
+            throw new UserNotAdministratorException("Only group administrators can mark used up items as unused!");
 
         }
         ownedGroupItem.setIsUsedUp(request.isUsedUp());
@@ -69,10 +69,9 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
             ownedGroupItem.setUseDate(Instant.now());
         }
 
-        if (currentUserDto.userId().equals(groupDto.adminId())&&
-                Boolean.TRUE.equals(ownedGroupItem.getIsUsedUp())&&
-                Boolean.FALSE.equals(request.isUsedUp()))
-        {
+        if (currentUserDto.userId().equals(groupDto.adminId()) &&
+                Boolean.TRUE.equals(ownedGroupItem.getIsUsedUp()) &&
+                Boolean.FALSE.equals(request.isUsedUp())) {
             ownedGroupItem.setUseDate(null);
         }
 

@@ -28,7 +28,7 @@ public class GroupShopRepositoryImpl implements GroupShopRepository {
 
     @Override
     public GroupShop save(GroupShop groupShop) {
-       return groupShopRepositoryJpa.save(groupShop);
+        return groupShopRepositoryJpa.save(groupShop);
     }
 
     @Override

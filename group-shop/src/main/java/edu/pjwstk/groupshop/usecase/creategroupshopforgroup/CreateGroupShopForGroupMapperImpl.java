@@ -20,6 +20,7 @@ public class CreateGroupShopForGroupMapperImpl implements CreateGroupShopForGrou
                 .isActive(true)
                 .build();
     }
+
     @Override
     public CreateGroupShopForGroupResponseDto toResponse(GroupShop groupShop) {
         return CreateGroupShopForGroupResponseDto.builder()

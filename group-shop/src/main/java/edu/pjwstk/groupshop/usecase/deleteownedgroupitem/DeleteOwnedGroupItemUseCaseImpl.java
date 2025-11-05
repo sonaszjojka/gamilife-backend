@@ -17,10 +17,10 @@ import java.util.UUID;
 
 @Service
 public class DeleteOwnedGroupItemUseCaseImpl implements DeleteOwnedGroupItemUseCase {
-private final OwnedGroupItemRpository ownedGroupItemRpository;
-private final AuthApi currentUserProvider;
-private final GroupApi groupApi;
-private final GroupShopRepository groupShopRepository;
+    private final OwnedGroupItemRpository ownedGroupItemRpository;
+    private final AuthApi currentUserProvider;
+    private final GroupApi groupApi;
+    private final GroupShopRepository groupShopRepository;
 
     public DeleteOwnedGroupItemUseCaseImpl(OwnedGroupItemRpository ownedGroupItemRpository, AuthApi currentUserProvider, GroupApi groupApi, GroupShopRepository groupShopRepository) {
         this.ownedGroupItemRpository = ownedGroupItemRpository;
@@ -33,10 +33,10 @@ private final GroupShopRepository groupShopRepository;
     public void execute(UUID groupId, UUID memberId, UUID ownedGroupItemId) {
 
         ownedGroupItemRpository.findById(ownedGroupItemId).orElseThrow(
-                ()->new OwnedGroupItemNotFoundException("Owned group item not found"));
+                () -> new OwnedGroupItemNotFoundException("Owned group item not found"));
 
 
-        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(()->
+        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(() ->
                 new GroupShopNotFoundException("Group shop for the specified group not found!"));
 
         if (Boolean.FALSE.equals(groupShop.getIsActive())) {

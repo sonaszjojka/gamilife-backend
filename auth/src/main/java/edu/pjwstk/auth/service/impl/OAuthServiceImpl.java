@@ -43,6 +43,9 @@ public class OAuthServiceImpl implements OAuthService {
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String googleClientSecret;
 
+    @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
+    private String googleRedirectUri;
+
     public OAuthServiceImpl(WebClient webClient, TokenService tokenService, UserApi userApi, JpaUserProviderRepository userProviderRepository) {
         this.webClient = webClient;
         this.tokenService = tokenService;
@@ -57,7 +60,7 @@ public class OAuthServiceImpl implements OAuthService {
         formData.add("code", code);
         formData.add("client_id", googleClientId);
         formData.add("client_secret", googleClientSecret);
-        formData.add("redirect_uri", "http://localhost:4200/oauth2/callback");
+        formData.add("redirect_uri", googleRedirectUri);
         formData.add("code_verifier", codeVerifier);
 
         return webClient.post()

@@ -19,7 +19,7 @@ public class EditGroupShopUseCaseImpl implements EditGroupShopUseCase {
     GroupApi groupApi;
     AuthApi authApi;
 
-    public EditGroupShopUseCaseImpl(GroupShopRepository groupShopRepository,EditGroupShopMapper groupShopMapper, GroupApi groupApi, AuthApi authApi) {
+    public EditGroupShopUseCaseImpl(GroupShopRepository groupShopRepository, EditGroupShopMapper groupShopMapper, GroupApi groupApi, AuthApi authApi) {
         this.groupShopRepository = groupShopRepository;
         this.editGroupShopMapper = groupShopMapper;
         this.groupApi = groupApi;

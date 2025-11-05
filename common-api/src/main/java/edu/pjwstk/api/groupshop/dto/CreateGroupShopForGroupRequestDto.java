@@ -8,11 +8,11 @@ import java.util.UUID;
 public record CreateGroupShopForGroupRequestDto(
 
         @NotNull
-        @Size(max =100)
+        @Size(max = 100)
         String name,
 
         @NotNull
-        @Size(max=300)
+        @Size(max = 300)
         String description,
 
         @NotNull

@@ -20,6 +20,7 @@ public class EditPomodoroTaskUseCaseImpl implements EditPomodoroTaskUseCase {
     private final EditPomodoroTaskMapper editPomodoroTaskMapper;
     private final AuthApi currentUserProvider;
     private final TasksApi tasksProvider;
+
     public EditPomodoroTaskUseCaseImpl(PomodoroTaskRepository pomodoroTaskRepository, EditPomodoroTaskMapper editPomodoroTaskMapper, AuthApi currentUserProvider, TasksApi tasksProvider) {
         this.pomodoroTaskRepository = pomodoroTaskRepository;
         this.editPomodoroTaskMapper = editPomodoroTaskMapper;
@@ -34,13 +35,12 @@ public class EditPomodoroTaskUseCaseImpl implements EditPomodoroTaskUseCase {
             throw new InvalidPomodoroTaskData("Work cycles completed cannot be larger than work cycles needed!");
         }
 
-        PomodoroTask pomodoroTask = pomodoroTaskRepository.findByPomodoroTaskId(pomodoroTaskId).orElseThrow(()->
+        PomodoroTask pomodoroTask = pomodoroTaskRepository.findByPomodoroTaskId(pomodoroTaskId).orElseThrow(() ->
                 new PomodoroTaskNotFound("Pomodoro task with id: " + pomodoroTaskId + " does not exist"));
 
-        TaskDto taskDto= tasksProvider.findTaskByTaskId(pomodoroTask.getTaskId());
+        TaskDto taskDto = tasksProvider.findTaskByTaskId(pomodoroTask.getTaskId());
         CurrentUserDto currentUser = currentUserProvider.getCurrentUser();
-        if (!taskDto.userId().equals(currentUser.userId()))
-        {
+        if (!taskDto.userId().equals(currentUser.userId())) {
             throw new UnauthorizedActionException("User is not owner of the task with id: " + pomodoroTask.getTaskId());
         }
 

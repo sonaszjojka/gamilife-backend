@@ -11,7 +11,6 @@ import java.util.UUID;
 public class CreateGroupItemInShopMapperImpl implements CreateGroupItemInShopMapper {
 
 
-
     @Override
     public GroupItemInShop toEntity(CreateGroupItemInShopRequest request, GroupShop groupShop, UUID groupItemId) {
         return GroupItemInShop.builder()

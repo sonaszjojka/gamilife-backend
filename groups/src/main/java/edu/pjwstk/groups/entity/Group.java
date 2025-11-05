@@ -23,6 +23,9 @@ public class Group {
     @Column(name = "join_code", unique = true, updatable = false, length = 20, nullable = false)
     private String joinCode;
 
+    @Column(name = "group_name", updatable = false, length = 50, nullable = false)
+    private String name;
+
     @Column(name = "admin_id", nullable = false)
     private UUID adminId;
 

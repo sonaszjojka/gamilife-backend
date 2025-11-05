@@ -23,6 +23,7 @@ public class EditGroupItemInShopUseCaseImpl implements EditGroupItemInShopUseCas
     private final GroupShopRepository groupShopRepository;
     private final AuthApi currentUserProvider;
     private final GroupApi groupApi;
+
     public EditGroupItemInShopUseCaseImpl(EditGroupItemInShopMapper editGroupItemInShopMapper, GroupItemInShopRepository groupItemInShopRepository, GroupShopRepository groupShopRepository, AuthApi currentUserProvider, GroupApi groupApi) {
         this.editGroupItemInShopMapper = editGroupItemInShopMapper;
         this.groupItemInShopRepository = groupItemInShopRepository;
@@ -34,7 +35,7 @@ public class EditGroupItemInShopUseCaseImpl implements EditGroupItemInShopUseCas
     @Override
     public EditGroupItemInShopResponse execute(UUID groupItemId, UUID groupId, EditGroupItemInShopRequest request) {
 
-        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(()->
+        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(() ->
                 new GroupShopNotFoundException("Group shop for the specified group not found!"));
 
         if (Boolean.FALSE.equals(groupShop.getIsActive())) {
@@ -44,7 +45,7 @@ public class EditGroupItemInShopUseCaseImpl implements EditGroupItemInShopUseCas
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         GroupDto groupDto = groupApi.findGroupById(groupId);
 
-        if (!currentUserDto.userId().equals(groupDto.adminId())&& Boolean.TRUE.equals(request.isActive())) {
+        if (!currentUserDto.userId().equals(groupDto.adminId()) && Boolean.TRUE.equals(request.isActive())) {
             throw new UserNotAdministratorException("Only group administrators can make group items active!");
         }
         GroupItemInShop groupItemInShop = groupItemInShopRepository.findById(groupItemId).orElseThrow(

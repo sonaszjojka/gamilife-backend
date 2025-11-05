@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EditGroupItemInShopMapperImpl implements EditGroupItemInShopMapper {
     @Override
-    public EditGroupItemInShopResponse toResponse( GroupItemInShop groupItemInShop ) {
+    public EditGroupItemInShopResponse toResponse(GroupItemInShop groupItemInShop) {
 
         return EditGroupItemInShopResponse.builder()
                 .groupItemInShopId(groupItemInShop.getGroupItemId())

@@ -32,18 +32,17 @@ public class DeleteGroupItemInShopUseCaseImpl implements DeleteGroupItemInShopUs
 
 
     @Override
-    public void deleteById(UUID groupItemInShopId,UUID groupId) {
+    public void deleteById(UUID groupItemInShopId, UUID groupId) {
 
         CurrentUserDto currentUser = currentUserProvider.getCurrentUser();
         GroupDto groupDto = groupProvider.findGroupById(groupId);
 
-        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(()->
+        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(() ->
                 new GroupShopNotFoundException("Group shop for the specified group not found!"));
 
         if (Boolean.FALSE.equals(groupShop.getIsActive())) {
             throw new InactiveGroupShopException("This group has group shop inactive!");
         }
-
 
 
         if (!currentUser.userId().equals(groupDto.adminId())) {

@@ -3,8 +3,6 @@ package edu.pjwstk.groupshop.usecase.editgroupshop;
 import edu.pjwstk.groupshop.entity.GroupShop;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 public class EditGroupShopMapperImpl implements EditGroupShopMapper {
     @Override

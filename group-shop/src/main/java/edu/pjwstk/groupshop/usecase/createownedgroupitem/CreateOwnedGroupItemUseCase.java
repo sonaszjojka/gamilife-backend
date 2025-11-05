@@ -4,5 +4,5 @@ import java.util.UUID;
 
 public interface CreateOwnedGroupItemUseCase {
 
-    CreateOwnedGroupItemResponse execute(CreateOwnedGroupItemRequest request, UUID groupMemberId,UUID groupId);
+    CreateOwnedGroupItemResponse execute(CreateOwnedGroupItemRequest request, UUID groupMemberId, UUID groupId);
 }

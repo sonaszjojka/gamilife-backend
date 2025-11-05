@@ -43,6 +43,10 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
         GroupRequest groupRequest = groupRequestRepository.findById(groupRequestId)
                 .orElseThrow(() -> new GroupRequestNotFoundException("Group request with id:" + groupRequestId + " not found!"));
 
+        GroupRequestStatus groupRequestStatus = groupRequestStatusRepository.findById(request.groupRequestStatusId())
+                .orElseThrow(() -> new GroupRequestStatusNotFoundException("Group request status with id: "
+                        + request.groupRequestStatusId() + " not found!"));
+
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (!Objects.equals(currentUserDto.userId(), groupRequest.getGroupRequested().getAdminId())) {
@@ -54,16 +58,12 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
             throw new InvalidGroupDataException("Group requests with status ACCEPTED or DECLINED are final and cannot be changed!");
         }
 
-        if (request.groupRequestStatus() == GroupRequestStatusEnum.SENT) {
+        if (groupRequestStatus.toEnum() == GroupRequestStatusEnum.SENT) {
             throw new InvalidGroupDataException("Group requests with id: " + groupRequestId + " has already status: SENT");
         }
 
-        GroupRequestStatus groupRequestStatus = groupRequestStatusRepository.findById(request.groupRequestStatus().getId())
-                .orElseThrow(() -> new GroupRequestStatusNotFoundException("Group request status with id: "
-                        + request.groupRequestStatus().getId() + " not found!"));
-
         CreateGroupMemberResponse createGroupMemberResponse = null;
-        if (request.groupRequestStatus() == GroupRequestStatusEnum.ACCEPTED) {
+        if (groupRequestStatus.toEnum()  == GroupRequestStatusEnum.ACCEPTED) {
             createGroupMemberResponse = createGroupMemberAfterAcceptationUseCase.execute(
                     CreateGroupMemberAfterAcceptationRequest.builder()
                             .groupId(groupRequest.getGroupRequested().getGroupId())

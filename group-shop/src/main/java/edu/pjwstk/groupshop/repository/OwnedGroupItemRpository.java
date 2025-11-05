@@ -8,7 +8,9 @@ import java.util.UUID;
 public interface OwnedGroupItemRpository {
 
     OwnedGroupItem save(OwnedGroupItem ownedGroupItem);
+
     void deleteById(UUID ownedGroupItemId);
+
     Optional<OwnedGroupItem> findById(UUID ownedGroupItemId);
 
 }

@@ -40,23 +40,23 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
     }
 
     @Override
-    public CreateOwnedGroupItemResponse execute(CreateOwnedGroupItemRequest request, UUID groupMemberId,UUID groupId) {
+    public CreateOwnedGroupItemResponse execute(CreateOwnedGroupItemRequest request, UUID groupMemberId, UUID groupId) {
 
         GroupDto groupDto = groupProvider.findGroupById(groupId);
         CurrentUserDto currentUser = currentUserProvider.getCurrentUser();
 
-        if (groupProvider.findGroupMemberById(groupMemberId)==null) {
+        if (groupProvider.findGroupMemberById(groupMemberId) == null) {
             throw new GroupMemberNotFoundException("Group member not found in the specified group!");
         }
 
-        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(()->
+        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(() ->
                 new GroupShopNotFoundException("Group shop for the specified group not found!"));
 
         if (Boolean.FALSE.equals(groupShop.getIsActive())) {
             throw new InactiveGroupShopException("This group has group shop inactive!");
         }
 
-        if (!currentUser.userId().equals(groupDto.adminId()) &&  !currentUser.userId().equals(groupProvider.findGroupMemberById(groupMemberId).userId())) {
+        if (!currentUser.userId().equals(groupDto.adminId()) && !currentUser.userId().equals(groupProvider.findGroupMemberById(groupMemberId).userId())) {
             throw new UnauthorizedUserActionException("Only group administrators or the member themselves can add items to inventory!");
         }
 
@@ -64,13 +64,12 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
         GroupItemInShop groupItemInShop = groupItemInShopRepository.findById(request.groupItemId())
                 .orElseThrow(() -> new RuntimeException("Group item in shop not found"));
 
-        if (Boolean.FALSE.equals(groupItemInShop.getIsActive()))
-        {
+        if (Boolean.FALSE.equals(groupItemInShop.getIsActive())) {
             throw new InvalidOwnedGroupItemDataException("Cannot add inactive group item to inventory!");
         }
 
         Instant useDate = request.isUsedUp() ? Instant.now() : null;
-        OwnedGroupItem ownedGroupItem = createOwnedGroupItemMapper.toEntity(request, groupMemberId, groupItemInShop,UUID.randomUUID(),useDate);
+        OwnedGroupItem ownedGroupItem = createOwnedGroupItemMapper.toEntity(request, groupMemberId, groupItemInShop, UUID.randomUUID(), useDate);
         return createOwnedGroupItemMapper.toResponse(ownedGroupItemRpository.save(ownedGroupItem));
     }
 }

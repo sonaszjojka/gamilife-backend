@@ -66,10 +66,10 @@ VALUES ('Sent'),
 -- =========================
 -- Tabela: "group"
 -- =========================
-INSERT INTO "group" (group_id, join_code, admin_id, group_currency_symbol, members_limit, group_type_id)
-VALUES ('11111111-1111-1111-1111-111111111111', 'FAM123', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '€', 5, 1),
-       ('22222222-2222-2222-2222-222222222222', 'FRN456', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '$', 10, 2),
-       ('33333333-3333-3333-3333-333333333333', 'WRK789', 'cccccccc-cccc-cccc-cccc-cccccccccccc', '£', 15, 3);
+INSERT INTO "group" (group_id, join_code, group_name, admin_id, group_currency_symbol, members_limit, group_type_id)
+VALUES ('11111111-1111-1111-1111-111111111111', 'FAM123', 'group 1', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '€', 5, 1),
+       ('22222222-2222-2222-2222-222222222222', 'FRN456', 'group 2', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '$', 10, 2),
+       ('33333333-3333-3333-3333-333333333333', 'WRK789', 'group 3', 'cccccccc-cccc-cccc-cccc-cccccccccccc', '£', 15, 3);
 
 -- =========================
 -- Tabela: group_member
