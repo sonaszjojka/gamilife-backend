@@ -1,17 +1,16 @@
 package edu.pjwstk.auth.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.security.JwtAuthenticationEntryPoint;
 import edu.pjwstk.auth.security.JwtAuthenticationFilter;
-import edu.pjwstk.auth.util.TokenProvider;
-import edu.pjwstk.auth.util.impl.JwtTokenProviderImpl;
+import edu.pjwstk.auth.service.TokenService;
+import edu.pjwstk.auth.service.impl.JwtTokenServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -61,29 +60,23 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(TokenProvider tokenProvider, UserDetailsService userDetailsService) {
-        return new JwtAuthenticationFilter(tokenProvider, userDetailsService);
+    public JwtAuthenticationFilter jwtAuthenticationFilter(TokenService tokenService, UserDetailsService userDetailsService) {
+        return new JwtAuthenticationFilter(tokenService, userDetailsService);
     }
 
     @Bean
-    public JwtTokenProviderImpl jwtTokenProvider(
+    public JwtTokenServiceImpl jwtTokenService(
+            JpaRefreshTokenRepository refreshTokenRepository,
             @Value("${spring.tokens.jwt.secret}") String secretKey,
             @Value("${spring.tokens.access-token.expires-in}") long accessTokenExpirationTime,
             @Value("${spring.tokens.refresh-token.expires-in}") long refreshTokenExpirationTime
     ) {
-        return new JwtTokenProviderImpl(
+        return new JwtTokenServiceImpl(
+                refreshTokenRepository,
                 secretKey,
                 accessTokenExpirationTime,
                 refreshTokenExpirationTime
         );
-    }
-
-    @Bean
-    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-        return daoAuthenticationProvider;
     }
 
     @Bean

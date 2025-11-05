@@ -1,7 +1,7 @@
 package edu.pjwstk.application.configuration;
 
 import edu.pjwstk.EmailSenderApiImpl;
-import edu.pjwstk.common.emailSenderApi.EmailSenderApi;
+import edu.pjwstk.api.emailSender.EmailSenderApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

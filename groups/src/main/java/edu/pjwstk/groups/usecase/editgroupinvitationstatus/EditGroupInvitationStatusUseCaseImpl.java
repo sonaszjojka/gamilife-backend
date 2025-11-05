@@ -1,25 +1,22 @@
 package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.entity.InvitationStatus;
 import edu.pjwstk.groups.exception.*;
 import edu.pjwstk.groups.repository.GroupInvitationRepository;
 import edu.pjwstk.groups.repository.InvitationStatusRepository;
-import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
 import edu.pjwstk.groups.shared.InvitationStatusEnum;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
 import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationRequest;
 import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationUseCase;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -52,8 +49,7 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
                 .orElseThrow(() -> new InvitationStatusNotFoundException("Group invitation with id: " + groupInvitationId
                         + " not found!"));
 
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (!Objects.equals(currentUserDto.userId(), groupInvitation.getUserId())) {
             throw new UserNotOwnerAccessDeniedException("Only user who is assigned to this invitation can change group invitation status!");

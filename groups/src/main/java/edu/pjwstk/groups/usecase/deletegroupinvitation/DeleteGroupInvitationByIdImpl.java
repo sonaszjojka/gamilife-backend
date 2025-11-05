@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.deletegroupinvitation;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.exception.GroupInvitationNotFoundException;
 import edu.pjwstk.groups.exception.UserNotGroupAdministratorAccessDeniedException;
@@ -30,8 +30,7 @@ public class DeleteGroupInvitationByIdImpl implements DeleteGroupInvitationById 
                 .orElseThrow(() -> new GroupInvitationNotFoundException("Group invitation with id:"
                         + groupInvitationId + " not found!"));
 
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (!Objects.equals(currentUserDto.userId(), groupInvitation.getGroupInvited().getAdminId())) {
             throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators can delete group invitations!");

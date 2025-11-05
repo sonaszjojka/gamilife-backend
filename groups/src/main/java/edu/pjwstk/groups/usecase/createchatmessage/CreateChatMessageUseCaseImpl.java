@@ -1,9 +1,9 @@
 package edu.pjwstk.groups.usecase.createchatmessage;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
-import edu.pjwstk.common.groupsApi.exception.GroupNotFoundException;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.groups.exception.GroupMemberNotFoundException;
+import edu.pjwstk.api.groups.exception.GroupNotFoundException;
 import edu.pjwstk.groups.entity.ChatMessage;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
@@ -48,8 +48,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
         GroupMember groupMember = groupMemberRepository.findById(groupMemberId)
                 .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: " + groupMemberId + " not found!"));
 
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (groupMember.getLeftAt() != null) {
             throw new UserLeftGroupException("Group member with id: " + groupMemberId + " left group with id: "

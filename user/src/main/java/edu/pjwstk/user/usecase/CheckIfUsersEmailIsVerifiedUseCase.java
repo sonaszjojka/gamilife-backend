@@ -1,6 +1,6 @@
 package edu.pjwstk.user.usecase;
 
-import edu.pjwstk.common.userApi.dto.CheckIfUsersEmailIsVerifiedApiDto;
+import edu.pjwstk.api.user.dto.CheckIfUsersEmailIsVerifiedApiDto;
 
 import java.util.UUID;
 

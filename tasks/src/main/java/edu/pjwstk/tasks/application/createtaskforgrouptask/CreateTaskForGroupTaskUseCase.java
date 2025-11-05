@@ -1,7 +1,7 @@
 package edu.pjwstk.tasks.application.createtaskforgrouptask;
 
-import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskRequestDto;
-import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskResponseDto;
+import edu.pjwstk.api.tasks.dto.TaskForGroupTaskRequestDto;
+import edu.pjwstk.api.tasks.dto.TaskForGroupTaskResponseDto;
 
 public interface CreateTaskForGroupTaskUseCase {
     TaskForGroupTaskResponseDto execute(TaskForGroupTaskRequestDto request);

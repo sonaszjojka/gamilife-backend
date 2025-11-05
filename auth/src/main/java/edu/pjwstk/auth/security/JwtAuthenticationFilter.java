@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.security;
 
-import edu.pjwstk.auth.util.TokenProvider;
+import edu.pjwstk.auth.service.TokenService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,7 +23,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final TokenProvider tokenProvider;
+    private final TokenService tokenService;
     private final UserDetailsService userDetailsService;
 
     @Override
@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = extractToken(request);
         if (token != null) {
             try {
-                Claims claims = tokenProvider.validateTokenAndExtractClaims(token);
+                Claims claims = tokenService.validateTokenAndExtractClaims(token);
                 String username = claims.getSubject();
                 UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
                 Instant issuedAt = claims.getIssuedAt().toInstant();

@@ -1,8 +1,8 @@
 package edu.pjwstk.groups.api.controller;
 
+import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberInOpenGroupUseCase;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberRequest;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
-import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberInOpenGroupUseCase;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberRequest;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberResponse;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberUseCase;
@@ -46,7 +46,7 @@ public class GroupMemberController {
 
     @PutMapping("/{groupMemberId}/leave")
     private ResponseEntity<LeaveGroupResponse> leaveGroup(@PathVariable("groupId") UUID groupId,
-                                                        @PathVariable("groupMemberId") UUID groupMemberId) {
+                                                          @PathVariable("groupMemberId") UUID groupMemberId) {
         LeaveGroupResponse response = leaveGroupUseCase.execute(groupMemberId, groupId);
         return ResponseEntity.ok(response);
     }
