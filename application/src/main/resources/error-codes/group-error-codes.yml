@@ -4,17 +4,17 @@ error-codes:
       code: 3001
       title: "Admin Cannot Leave Group"
       detail: "The group administrator cannot leave the group without transferring admin rights."
-      status: 400
+      status: 422
     GROUP_FULL:
       code: 3002
       title: "Group Full"
       detail: "The group has reached its maximum capacity."
-      status: 400
+      status: 409
     GROUP_INVITATION_EXPIRED:
       code: 3003
       title: "Group Invitation Expired"
       detail: "The invitation to join the group has expired."
-      status: 400
+      status: 410
     GROUP_INVITATION_NOT_FOUND:
       code: 3004
       title: "Group Invitation Not Found"
@@ -59,7 +59,7 @@ error-codes:
       code: 3012
       title: "User Already Member of Group"
       detail: "The user is already a member of the specified group."
-      status: 400
+      status: 409
     USER_JOIN_GROUP_ACCESS_DENIED:
       code: 3013
       title: "User Join Group Access Denied"
@@ -69,4 +69,4 @@ error-codes:
       code: 3014
       title: "User Left Group"
       detail: "The user has already left the specified group."
-      status: 400
+      status: 409

@@ -14,7 +14,7 @@ error-codes:
       code: 5003
       title: "Inactive Group Shop"
       detail: "The group shop is inactive and cannot be accessed."
-      status: 403
+      status: 409
     INVALID_OWNED_GROUP_ITEM_DATA:
       code: 5004
       title: "Invalid Owned Group Item Data"

@@ -19,7 +19,7 @@ error-codes:
       code: 1004
       title: "Password Reset Failed"
       detail: "The password reset process could not be completed."
-      status: 400
+      status: 500
     GROUP_NOT_FOUND:
       code: 1005
       title: "Group Not Found"

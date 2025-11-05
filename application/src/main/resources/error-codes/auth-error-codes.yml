@@ -44,7 +44,7 @@ error-codes:
       code: 2009
       title: "Email Already Verified"
       detail: "The email address has already been verified."
-      status: 400
+      status: 409
     INVALID_EMAIL_VERIFICATION_CODE:
       code: 2010
       title: "Invalid Email Verification Code"
@@ -54,9 +54,9 @@ error-codes:
       code: 2011
       title: "Email Verification Code Expired"
       detail: "The email verification code has expired."
-      status: 400
+      status: 410
     USER_ALREADY_LINKED_TO_PROVIDER:
       code: 2012
       title: "User Already Linked to Provider"
       detail: "The user is already linked to the specified authentication provider."
-      status: 400
+      status: 409
