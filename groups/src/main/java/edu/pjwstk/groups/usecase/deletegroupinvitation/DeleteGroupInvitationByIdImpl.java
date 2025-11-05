@@ -4,7 +4,7 @@ import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.exception.GroupInvitationNotFoundException;
-import edu.pjwstk.core.exception.common.GroupAdminPrivilegesRequiredException;
+import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.GroupInvitationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

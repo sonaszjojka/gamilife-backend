@@ -2,13 +2,13 @@ package edu.pjwstk.groups.usecase.createchatmessage;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.core.exception.common.GroupMemberNotFoundException;
-import edu.pjwstk.core.exception.common.GroupNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.entity.ChatMessage;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.exception.UserLeftGroupException;
-import edu.pjwstk.core.exception.common.ResourceOwnerPrivilegesRequiredException;
+import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.ChatMessageRepository;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.groups.repository.GroupRepository;

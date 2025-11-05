@@ -2,9 +2,9 @@ package edu.pjwstk.groups.usecase.deletegroup;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.core.exception.common.GroupNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.entity.Group;
-import edu.pjwstk.core.exception.common.GroupAdminPrivilegesRequiredException;
+import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.GroupRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

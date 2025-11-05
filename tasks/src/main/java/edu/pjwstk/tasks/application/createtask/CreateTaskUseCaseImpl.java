@@ -2,8 +2,8 @@ package edu.pjwstk.tasks.application.createtask;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.core.exception.common.ResourceOwnerPrivilegesRequiredException;
-import edu.pjwstk.core.exception.common.TaskNotFoundException;
+import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
+import edu.pjwstk.core.exception.common.domain.TaskNotFoundException;
 import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;

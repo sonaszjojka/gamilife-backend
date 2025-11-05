@@ -4,7 +4,7 @@ import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.AuthTokens;
 import edu.pjwstk.api.auth.dto.ChangePasswordDto;
 import edu.pjwstk.api.auth.dto.RotateUserTokensDto;
-import edu.pjwstk.core.exception.common.UserNotFoundException;
+import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.dto.service.ChangeUserPasswordCommand;
 import edu.pjwstk.user.persistence.UserRepository;

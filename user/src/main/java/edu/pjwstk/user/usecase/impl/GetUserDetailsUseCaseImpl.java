@@ -1,6 +1,6 @@
 package edu.pjwstk.user.usecase.impl;
 
-import edu.pjwstk.core.exception.common.UserNotFoundException;
+import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.dto.service.UserDetailsDto;
 import edu.pjwstk.user.persistence.UserRepository;

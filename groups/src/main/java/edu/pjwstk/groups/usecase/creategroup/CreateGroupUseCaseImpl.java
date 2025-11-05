@@ -4,7 +4,7 @@ import edu.pjwstk.api.groupshop.GroupShopApi;
 import edu.pjwstk.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.core.exception.common.UserNotFoundException;
+import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.entity.GroupType;

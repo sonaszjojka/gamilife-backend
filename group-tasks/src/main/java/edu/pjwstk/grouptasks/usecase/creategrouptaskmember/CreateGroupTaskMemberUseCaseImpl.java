@@ -1,7 +1,7 @@
 package edu.pjwstk.grouptasks.usecase.creategrouptaskmember;
 
 import edu.pjwstk.api.groups.GroupApi;
-import edu.pjwstk.core.exception.common.GroupMemberNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
 import edu.pjwstk.grouptasks.entity.GroupTask;
 import edu.pjwstk.grouptasks.entity.GroupTaskMember;
 import edu.pjwstk.grouptasks.exception.GroupTaskNotFoundException;

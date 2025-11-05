@@ -4,7 +4,7 @@ import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.api.groups.GroupApi;
 import edu.pjwstk.api.groups.dto.GroupDto;
-import edu.pjwstk.core.exception.common.GroupAdminPrivilegesRequiredException;
+import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groupshop.entity.GroupShop;
 import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;

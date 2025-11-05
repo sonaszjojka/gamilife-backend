@@ -2,7 +2,7 @@ package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.core.exception.common.ResourceOwnerPrivilegesRequiredException;
+import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.entity.InvitationStatus;
 import edu.pjwstk.groups.exception.*;

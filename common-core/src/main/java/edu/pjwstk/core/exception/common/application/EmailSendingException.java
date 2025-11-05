@@ -1,4 +1,4 @@
-package edu.pjwstk.core.exception.common;
+package edu.pjwstk.core.exception.common.application;
 
 import edu.pjwstk.core.exception.ApplicationException;
 

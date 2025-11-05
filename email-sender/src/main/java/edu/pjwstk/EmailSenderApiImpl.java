@@ -8,7 +8,7 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import edu.pjwstk.api.emailSender.EmailSenderApi;
-import edu.pjwstk.core.exception.common.EmailSendingException;
+import edu.pjwstk.core.exception.common.application.EmailSendingException;
 import edu.pjwstk.api.emailSender.MailDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

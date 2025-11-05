@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.resetpassword;
 
-import edu.pjwstk.core.exception.common.ResetPasswordGenericException;
+import edu.pjwstk.core.exception.common.domain.ResetPasswordGenericException;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.auth.exceptions.OldAndNewPasswordAreTheSameException;

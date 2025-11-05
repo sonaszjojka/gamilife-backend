@@ -7,7 +7,7 @@ import edu.pjwstk.groups.entity.GroupRequestStatus;
 import edu.pjwstk.groups.exception.GroupRequestNotFoundException;
 import edu.pjwstk.groups.exception.GroupRequestStatusNotFoundException;
 import edu.pjwstk.groups.exception.InvalidGroupDataException;
-import edu.pjwstk.core.exception.common.GroupAdminPrivilegesRequiredException;
+import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.GroupRequestRepository;
 import edu.pjwstk.groups.repository.GroupRequestStatusRepository;
 import edu.pjwstk.groups.shared.GroupRequestStatusEnum;

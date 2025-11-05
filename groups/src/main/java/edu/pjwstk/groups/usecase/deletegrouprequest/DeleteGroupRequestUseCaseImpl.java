@@ -4,7 +4,7 @@ import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.groups.entity.GroupRequest;
 import edu.pjwstk.groups.exception.GroupRequestNotFoundException;
-import edu.pjwstk.core.exception.common.ResourceOwnerPrivilegesRequiredException;
+import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.GroupRequestRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
