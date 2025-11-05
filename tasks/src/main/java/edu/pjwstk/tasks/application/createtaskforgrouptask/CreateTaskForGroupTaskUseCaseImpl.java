@@ -24,14 +24,12 @@ public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTask
     private final TaskRepository taskRepository;
     private final TaskCategoryRepository taskCategoryRepository;
     private final TaskDifficultyRepository taskDifficultyRepository;
-    private final HabitRepository habitRepository;
     private final CreateTaskForGroupTaskMapper createTaskForGroupTaskMapper;
 
     public CreateTaskForGroupTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, HabitRepository habitRepository, CreateTaskForGroupTaskMapper createTaskForGroupTaskMapper) {
         this.taskRepository = taskRepository;
         this.taskCategoryRepository = taskCategoryRepository;
         this.taskDifficultyRepository = taskDifficultyRepository;
-        this.habitRepository = habitRepository;
         this.createTaskForGroupTaskMapper = createTaskForGroupTaskMapper;
     }
 

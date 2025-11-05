@@ -4,5 +4,5 @@ import edu.pjwstk.groupshop.entity.GroupItemInShop;
 
 public interface EditGroupItemInShopMapper {
 
-    public EditGroupItemInShopResponse toResponse(GroupItemInShop groupItemInShop);
+    EditGroupItemInShopResponse toResponse(GroupItemInShop groupItemInShop);
 }
