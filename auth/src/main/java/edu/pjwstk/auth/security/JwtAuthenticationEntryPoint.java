@@ -1,43 +1,54 @@
 package edu.pjwstk.auth.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.pjwstk.auth.exception.AuthErrorCode;
+import edu.pjwstk.commonweb.ErrorCodesRepository;
+import edu.pjwstk.commonweb.ErrorResponse;
+import edu.pjwstk.core.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
+import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URI;
 
+@Component
+@AllArgsConstructor
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final ObjectMapper objectMapper;
-
-    public JwtAuthenticationEntryPoint(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
+    private final ErrorCodesRepository errorCodesRepository;
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        // TODO make it use ErrorCode
-        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
-                HttpStatus.UNAUTHORIZED,
-                "Unauthorized"
-        );
-        problem.setTitle("Unauthorized");
-        problem.setType(URI.create("https://inz-api.com/errors/unauthorized"));
-        problem.setProperty("errorCode", 1019);
+    public void commence(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException authException
+    ) throws IOException {
 
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/problem+json");
+        ErrorCode errorCode = AuthErrorCode.UNAUTHORIZED;
+        ErrorCodesRepository.ErrorDefinition errorDefinition =
+                errorCodesRepository.get(errorCode.getKey());
+
+        ErrorResponse errorResponse = ErrorResponse.of(
+                errorDefinition.getStatus(),
+                "https://gamilife.pl/errors/"
+                        + errorCode.getModule().toLowerCase().replace("_", "-") + "/"
+                        + errorCode.getKey().toLowerCase().replace("_", "-"),
+                errorDefinition.getTitle(),
+                errorDefinition.getDetail(),
+                request.getRequestURI()
+        );
+        errorResponse.setCode(String.valueOf(errorDefinition.getCode()));
+
+        response.setStatus(errorDefinition.getStatus());
+        response.setContentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
 
-        try (OutputStream os = response.getOutputStream()) {
-            objectMapper.writeValue(os, problem);
-            os.flush();
-        }
+        objectMapper.writeValue(response.getOutputStream(), errorResponse);
     }
+
 }

@@ -14,7 +14,8 @@ public enum AuthErrorCode implements ErrorCode {
     EMAIL_ALREADY_VERIFIED,
     INVALID_EMAIL_VERIFICATION_CODE,
     EMAIL_VERIFICATION_CODE_EXPIRED,
-    USER_ALREADY_LINKED_TO_PROVIDER;
+    USER_ALREADY_LINKED_TO_PROVIDER,
+    UNAUTHORIZED;
 
     @Override
     public String getKey() {

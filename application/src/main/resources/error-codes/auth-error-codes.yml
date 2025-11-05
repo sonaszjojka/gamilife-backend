@@ -60,3 +60,8 @@ error-codes:
       title: "User Already Linked to Provider"
       detail: "The user is already linked to the specified authentication provider."
       status: 409
+    UNAUTHORIZED:
+      code: 2013
+      title: "Unauthorized"
+      detail: "Authentication is required to access this resource."
+      status: 401

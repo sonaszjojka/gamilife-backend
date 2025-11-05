@@ -22,7 +22,9 @@ public class GlobalExceptionHandler {
 
         ErrorResponse response = ErrorResponse.of(
                 errorDefinition.getStatus(),
-                "https://gamilife.pl/errors/" + errorCode.getModule() + "/" + errorCode.getKey(),
+                "https://gamilife.pl/errors/"
+                        + errorCode.getModule().toLowerCase().replace("_", "-") + "/"
+                        + errorCode.getKey().toLowerCase().replace("_", "-"),
                 errorDefinition.getTitle(),
                 errorDefinition.getDetail(),
                 "/api/error"
@@ -44,7 +46,9 @@ public class GlobalExceptionHandler {
 
         ErrorResponse response = ErrorResponse.of(
                 errorDefinition.getStatus(),
-                "https://gamilife.pl/errors/" + errorCode.getModule() + "/" + errorCode.getKey(),
+                "https://gamilife.pl/errors/"
+                        + errorCode.getModule().toLowerCase().replace("_", "-") + "/"
+                        + errorCode.getKey().toLowerCase().replace("_", "-"),
                 errorDefinition.getTitle(),
                 errorDefinition.getDetail(),
                 "/api/error"
