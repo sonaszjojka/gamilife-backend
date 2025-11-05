@@ -22,7 +22,7 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
     }
 
     @Override
-    public GetUserTasksResponse execute() {
+    public GetUserTasksResponse execute(GetUserTasksFilterDto getUserTasksFilterDto) {
 
        CurrentUserDto userDto = authApi.getCurrentUser().orElseThrow();
        UUID userId = userDto.userId();

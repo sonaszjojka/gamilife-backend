@@ -4,5 +4,5 @@ import java.util.UUID;
 
 public interface GetUserTasksUseCase {
 
-    GetUserTasksResponse execute();
+    GetUserTasksResponse execute(GetUserTasksFilterDto dto);
 }
