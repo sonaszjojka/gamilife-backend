@@ -16,12 +16,12 @@ error-codes:
       detail: "The group shop is inactive and cannot be accessed."
       status: 403
     INVALID_OWNED_GROUP_ITEM_DATA:
-      code: 5006
+      code: 5004
       title: "Invalid Owned Group Item Data"
       detail: "The data provided for the owned group item is invalid."
       status: 400
     OWNED_GROUP_ITEM_NOT_FOUND:
-      code: 5007
+      code: 5005
       title: "Owned Group Item Not Found"
       detail: "The specified owned group item does not exist."
       status: 404
