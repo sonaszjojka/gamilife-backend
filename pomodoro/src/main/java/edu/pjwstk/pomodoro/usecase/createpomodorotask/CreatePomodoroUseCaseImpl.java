@@ -6,7 +6,7 @@ import edu.pjwstk.api.tasks.TasksApi;
 import edu.pjwstk.api.tasks.dto.TaskDto;
 import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.pomodoro.entity.PomodoroTask;
-import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
+import edu.pjwstk.pomodoro.exception.domain.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
