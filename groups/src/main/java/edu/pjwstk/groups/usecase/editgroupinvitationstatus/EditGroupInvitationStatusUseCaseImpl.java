@@ -2,6 +2,7 @@ package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.core.exception.common.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.entity.InvitationStatus;
 import edu.pjwstk.groups.exception.*;
@@ -52,7 +53,7 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (!Objects.equals(currentUserDto.userId(), groupInvitation.getUserId())) {
-            throw new UserNotOwnerAccessDeniedException("Only user who is assigned to this invitation can change group invitation status!");
+            throw new ResourceOwnerPrivilegesRequiredException("Only user who is assigned to this invitation can change group invitation status!");
         }
 
         if (!groupInvitationUtil.verifyToken(request.token(), groupInvitation.getTokenHash())) {

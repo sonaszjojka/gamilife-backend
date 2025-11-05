@@ -2,10 +2,10 @@ package edu.pjwstk.tasks.application.createtasknotification;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.core.exception.common.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskNotification;
 import edu.pjwstk.tasks.exception.TaskNotFoundException;
-import edu.pjwstk.tasks.exception.UnauthorizedTaskAccessException;
 import edu.pjwstk.tasks.repository.TaskNotificationRepository;
 import edu.pjwstk.tasks.repository.TaskRepository;
 import org.springframework.stereotype.Component;
@@ -40,7 +40,7 @@ public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotification
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         if (!currentUserDto.userId().equals(task.getUserId())) {
-            throw new UnauthorizedTaskAccessException("User is not authorized to create notification for another user!");
+            throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to create notification for another user!");
         }
 
         TaskNotification taskNotification = taskNotificationRepository

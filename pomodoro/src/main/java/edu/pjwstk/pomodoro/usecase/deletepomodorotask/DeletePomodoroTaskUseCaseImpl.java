@@ -4,9 +4,9 @@ import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.api.tasks.TasksApi;
 import edu.pjwstk.api.tasks.dto.TaskDto;
+import edu.pjwstk.core.exception.common.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.pomodoro.entity.PomodoroTask;
 import edu.pjwstk.pomodoro.exception.PomodoroTaskNotFound;
-import edu.pjwstk.pomodoro.exception.UnauthorizedActionException;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +35,7 @@ public class DeletePomodoroTaskUseCaseImpl implements DeletePomodoroTaskUseCase 
         TaskDto taskDto = tasksProvider.findTaskByTaskId(pomodoroTask.getTaskId());
         CurrentUserDto currentUser = currentUserProvider.getCurrentUser();
         if (!taskDto.userId().equals(currentUser.userId())) {
-            throw new UnauthorizedActionException("User is not owner of the task with id: " + pomodoroTask.getTaskId());
+            throw new ResourceOwnerPrivilegesRequiredException("User is not owner of the task with id: " + pomodoroTask.getTaskId());
         }
 
         pomodoroTaskRepository.deleteByPomodoroTaskId(pomodoroTaskId);

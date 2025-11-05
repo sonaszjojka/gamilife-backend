@@ -1,0 +1,17 @@
+error-codes:
+  definitions:
+    GROUP_TASK_MEMBER_NOT_FOUND:
+      code: 4001
+      title: "Group Task Member Not Found"
+      detail: "The specified group task member does not exist."
+      status: 404
+    GROUP_TASK_NOT_FOUND:
+      code: 4002
+      title: "Group Task Not Found"
+      detail: "The specified group task does not exist."
+      status: 404
+    INVALID_GROUP_TASK_MEMBER_DATA:
+      code: 4003
+      title: "Invalid Group Task Member Data"
+      detail: "The provided data for the group task member is invalid."
+      status: 400

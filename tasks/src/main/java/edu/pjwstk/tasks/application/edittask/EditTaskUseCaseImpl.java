@@ -2,6 +2,7 @@ package edu.pjwstk.tasks.application.edittask;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.core.exception.common.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
@@ -46,7 +47,7 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         if (!currentUserDto.userId().equals(task.getUserId())) {
-            throw new UnauthorizedTaskAccessException("User is not authorized to edit task for another user!");
+            throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to edit task for another user!");
         }
 
         if (request.endTime() != null && request.startTime().isAfter(request.endTime())) {

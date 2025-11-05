@@ -9,7 +9,7 @@ import edu.pjwstk.api.user.exception.UserNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupType;
 import edu.pjwstk.groups.exception.GroupTypeNotFoundException;
-import edu.pjwstk.groups.exception.UserNotGroupAdministratorAccessDeniedException;
+import edu.pjwstk.core.exception.common.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.repository.GroupTypeRepository;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class UpdateGroupUseCaseImpl implements UpdateGroupUseCase {
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));
 
         if (currentUserDto.userId() != group.getAdminId()) {
-            throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators can edit group!");
+            throw new GroupAdminPrivilegesRequiredException("Only group administrators can edit group!");
         }
 
         Optional<BasicUserInfoApiDto> admin = userApi.getUserById(request.adminId());

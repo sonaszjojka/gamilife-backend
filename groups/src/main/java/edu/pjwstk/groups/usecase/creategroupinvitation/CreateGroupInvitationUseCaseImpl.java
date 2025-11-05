@@ -15,7 +15,7 @@ import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.entity.InvitationStatus;
 import edu.pjwstk.groups.exception.GroupFullException;
 import edu.pjwstk.groups.exception.InvitationStatusNotFoundException;
-import edu.pjwstk.groups.exception.UserNotGroupAdministratorAccessDeniedException;
+import edu.pjwstk.core.exception.common.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.GroupInvitationRepository;
 import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.repository.InvitationStatusRepository;
@@ -64,7 +64,7 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));
 
         if (!Objects.equals(currentUserDto.userId(), group.getAdminId())) {
-            throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators " +
+            throw new GroupAdminPrivilegesRequiredException("Only group administrators " +
                     "can create group invitations!");
         }
 

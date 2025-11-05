@@ -7,7 +7,7 @@ import edu.pjwstk.groups.entity.GroupRequestStatus;
 import edu.pjwstk.groups.exception.GroupRequestNotFoundException;
 import edu.pjwstk.groups.exception.GroupRequestStatusNotFoundException;
 import edu.pjwstk.groups.exception.InvalidGroupDataException;
-import edu.pjwstk.groups.exception.UserNotGroupAdministratorAccessDeniedException;
+import edu.pjwstk.core.exception.common.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.GroupRequestRepository;
 import edu.pjwstk.groups.repository.GroupRequestStatusRepository;
 import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
@@ -50,7 +50,7 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (!Objects.equals(currentUserDto.userId(), groupRequest.getGroupRequested().getAdminId())) {
-            throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators can change status group request!");
+            throw new GroupAdminPrivilegesRequiredException("Only group administrators can change status group request!");
         }
 
         if (groupRequest.getGroupRequestStatus().toEnum() == GroupRequestStatusEnum.ACCEPTED

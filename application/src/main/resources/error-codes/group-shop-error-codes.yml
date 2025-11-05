@@ -1,0 +1,42 @@
+error-codes:
+  definitions:
+    GROUP_ITEM_IN_SHOP_NOT_FOUND:
+      code: 5001
+      title: "Group Item in Shop Not Found"
+      detail: "The specified group item in the shop does not exist."
+      status: 404
+    GROUP_SHOP_NOT_FOUND:
+      code: 5002
+      title: "Group Shop Not Found"
+      detail: "The specified group shop does not exist."
+      status: 404
+    INACTIVE_GROUP_SHOP:
+      code: 5003
+      title: "Inactive Group Shop"
+      detail: "The group shop is inactive and cannot be accessed."
+      status: 403
+    INVALID_GROUP_ITEM_IN_SHOP_DATA:
+      code: 5004
+      title: "Invalid Group Item in Shop Data"
+      detail: "The data provided for the group item in the shop is invalid."
+      status: 400
+    INVALID_GROUP_SHOP_DATA:
+      code: 5005
+      title: "Invalid Group Shop Data"
+      detail: "The data provided for the group shop is invalid."
+      status: 400
+    INVALID_OWNED_GROUP_ITEM_DATA:
+      code: 5006
+      title: "Invalid Owned Group Item Data"
+      detail: "The data provided for the owned group item is invalid."
+      status: 400
+    OWNED_GROUP_ITEM_NOT_FOUND:
+      code: 5007
+      title: "Owned Group Item Not Found"
+      detail: "The specified owned group item does not exist."
+      status: 404
+    SHOP_FOR_GROUP_ALREADY_EXISTS:
+      code: 5008
+      title: "Shop for Group Already Exists"
+      detail: "A shop for the specified group already exists."
+      status: 409

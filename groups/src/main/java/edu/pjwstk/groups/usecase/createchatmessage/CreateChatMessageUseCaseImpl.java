@@ -8,7 +8,7 @@ import edu.pjwstk.groups.entity.ChatMessage;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.exception.UserLeftGroupException;
-import edu.pjwstk.groups.exception.UserNotOwnerAccessDeniedException;
+import edu.pjwstk.core.exception.common.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.ChatMessageRepository;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.groups.repository.GroupRepository;
@@ -56,7 +56,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
         }
 
         if (!Objects.equals(currentUserDto.userId(), groupMember.getUserId())) {
-            throw new UserNotOwnerAccessDeniedException("User with id: " + groupMember.getUserId()
+            throw new ResourceOwnerPrivilegesRequiredException("User with id: " + groupMember.getUserId()
                     + " is not group member with id: " + groupMemberId);
         }
 

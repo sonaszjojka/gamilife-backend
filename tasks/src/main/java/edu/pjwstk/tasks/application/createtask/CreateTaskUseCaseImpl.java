@@ -2,6 +2,7 @@ package edu.pjwstk.tasks.application.createtask;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.core.exception.common.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
@@ -43,7 +44,7 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         if (!currentUserDto.userId().equals(request.userId())) {
             System.out.println(currentUserDto.userId()+ " "+request.userId()+"================================================================================================");
-            throw new UnauthorizedTaskAccessException("User is not authorized to create task for another user!");
+            throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to create task for another user!");
         }
 
         if (request.startTime().isAfter(request.endTime())) {

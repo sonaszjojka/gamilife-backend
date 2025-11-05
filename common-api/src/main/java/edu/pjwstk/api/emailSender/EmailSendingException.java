@@ -1,6 +1,8 @@
 package edu.pjwstk.api.emailSender;
 
-public class EmailSendingException extends Exception {
+import edu.pjwstk.core.exception.ApplicationException;
+
+public class EmailSendingException extends ApplicationException {
     public EmailSendingException(String message) {
         super(message);
     }

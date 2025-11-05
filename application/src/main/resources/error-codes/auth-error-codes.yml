@@ -1,0 +1,72 @@
+error-codes:
+  definitions:
+    INVALID_CREDENTIALS:
+      code: 2001
+      title: "Invalid Credentials"
+      detail: "The provided credentials are incorrect."
+      status: 401
+    REFRESH_TOKEN_EXPIRED:
+      code: 2002
+      title: "Refresh Token Expired"
+      detail: "The refresh token has expired."
+      status: 401
+    INVALID_REFRESH_TOKEN:
+      code: 2003
+      title: "Invalid Refresh Token"
+      detail: "The refresh token provided is invalid."
+      status: 401
+    REFRESH_TOKEN_REVOKED:
+      code: 2004
+      title: "Refresh Token Revoked"
+      detail: "The refresh token has been revoked."
+      status: 401
+    LINKED_USER_NOT_FOUND:
+      code: 2005
+      title: "Linked User Not Found"
+      detail: "The user linked to the provided credentials does not exist."
+      status: 404
+    OLD_AND_NEW_PASSWORD_ARE_SAME:
+      code: 2008
+      title: "Old and New Password Are Same"
+      detail: "The new password must be different from the old password."
+      status: 400
+    ACCESS_DENIED:
+      code: 2009
+      title: "Access Denied"
+      detail: "You do not have permission to access this resource."
+      status: 403
+    REFRESH_TOKEN_UNKNOWN:
+      code: 2010
+      title: "Refresh Token Unknown"
+      detail: "The refresh token is not recognized."
+      status: 401
+    REFRESH_TOKEN_NOT_PROVIDED:
+      code: 2011
+      title: "Refresh Token Not Provided"
+      detail: "No refresh token was provided in the request."
+      status: 400
+    EMAIL_VERIFICATION_CODE_TOO_MANY_REQUESTS:
+      code: 2012
+      title: "Email Verification Code Too Many Requests"
+      detail: "Too many requests for email verification codes. Please try again later."
+      status: 429
+    PASSWORD_RESET_CODE_TOO_MANY_REQUESTS:
+      code: 2013
+      title: "Password Reset Code Too Many Requests"
+      detail: "Too many requests for password reset codes. Please try again later."
+      status: 429
+    EMAIL_ALREADY_VERIFIED:
+      code: 2014
+      title: "Email Already Verified"
+      detail: "The email address has already been verified."
+      status: 400
+    INVALID_EMAIL_VERIFICATION_CODE:
+      code: 2015
+      title: "Invalid Email Verification Code"
+      detail: "The provided email verification code is invalid."
+      status: 400
+    EMAIL_VERIFICATION_CODE_EXPIRED:
+      code: 2016
+      title: "Email Verification Code Expired"
+      detail: "The email verification code has expired."
+      status: 400

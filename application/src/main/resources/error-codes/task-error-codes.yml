@@ -1,0 +1,32 @@
+error-codes:
+  definitions:
+    HABIT_NOT_FOUND:
+      code: 6001
+      title: "Habit Not Found"
+      detail: "The specified habit could not be found."
+      status: 404
+    INVALID_HABIT_DATA:
+      code: 6002
+      title: "Invalid Habit Data"
+      detail: "The provided habit data is invalid."
+      status: 400
+    INVALID_TASK_DATA:
+      code: 6003
+      title: "Invalid Task Data"
+      detail: "The provided task data is invalid."
+      status: 400
+    TASK_CATEGORY_NOT_FOUND:
+      code: 6004
+      title: "Task Category Not Found"
+      detail: "The specified task category could not be found."
+      status: 404
+    TASK_DIFFICULTY_NOT_FOUND:
+      code: 6005
+      title: "Task Difficulty Not Found"
+      detail: "The specified task difficulty could not be found."
+      status: 404
+    TASK_NOT_FOUND:
+      code: 6006
+      title: "Task Not Found"
+      detail: "The specified task could not be found."
+      status: 404
