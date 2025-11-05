@@ -7,9 +7,9 @@ import edu.pjwstk.api.groups.dto.GroupDto;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groupshop.entity.GroupItemInShop;
 import edu.pjwstk.groupshop.entity.GroupShop;
-import edu.pjwstk.groupshop.exception.GroupItemInShopNotFoundException;
-import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
-import edu.pjwstk.groupshop.exception.InactiveGroupShopException;
+import edu.pjwstk.groupshop.exception.domain.GroupShopItemNotFoundException;
+import edu.pjwstk.groupshop.exception.domain.GroupShopNotFoundException;
+import edu.pjwstk.groupshop.exception.domain.InactiveGroupShopException;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
 import org.springframework.stereotype.Service;
@@ -49,7 +49,7 @@ public class EditGroupItemInShopUseCaseImpl implements EditGroupItemInShopUseCas
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can make group items active!");
         }
         GroupItemInShop groupItemInShop = groupItemInShopRepository.findById(groupItemId).orElseThrow(
-                () -> new GroupItemInShopNotFoundException("Group item in shop with id: " + groupItemId + " not found!"));
+                () -> new GroupShopItemNotFoundException("Group item in shop with id: " + groupItemId + " not found!"));
 
         groupItemInShop.setPrice(request.price());
         groupItemInShop.setName(request.name());

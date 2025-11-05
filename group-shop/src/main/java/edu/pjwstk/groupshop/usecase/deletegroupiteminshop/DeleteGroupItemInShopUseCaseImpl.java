@@ -6,9 +6,9 @@ import edu.pjwstk.api.groups.GroupApi;
 import edu.pjwstk.api.groups.dto.GroupDto;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groupshop.entity.GroupShop;
-import edu.pjwstk.groupshop.exception.GroupItemInShopNotFoundException;
-import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
-import edu.pjwstk.groupshop.exception.InactiveGroupShopException;
+import edu.pjwstk.groupshop.exception.domain.GroupShopItemNotFoundException;
+import edu.pjwstk.groupshop.exception.domain.GroupShopNotFoundException;
+import edu.pjwstk.groupshop.exception.domain.InactiveGroupShopException;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
 import org.springframework.stereotype.Service;
@@ -49,7 +49,7 @@ public class DeleteGroupItemInShopUseCaseImpl implements DeleteGroupItemInShopUs
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can delete group item in shop!");
         }
         groupItemInShopRepository.findById(groupItemInShopId).orElseThrow(
-                () -> new GroupItemInShopNotFoundException("Group item in shop with id: " + groupItemInShopId + " not found!"));
+                () -> new GroupShopItemNotFoundException("Group item in shop with id: " + groupItemInShopId + " not found!"));
 
         groupItemInShopRepository.deleteById(groupItemInShopId);
 

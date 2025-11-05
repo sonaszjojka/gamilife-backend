@@ -9,8 +9,8 @@ import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredExcep
 import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groupshop.entity.GroupShop;
 import edu.pjwstk.groupshop.entity.OwnedGroupItem;
-import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
-import edu.pjwstk.groupshop.exception.InactiveGroupShopException;
+import edu.pjwstk.groupshop.exception.domain.GroupShopNotFoundException;
+import edu.pjwstk.groupshop.exception.domain.InactiveGroupShopException;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
 import edu.pjwstk.groupshop.repository.OwnedGroupItemRpository;
 import org.springframework.stereotype.Service;

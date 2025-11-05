@@ -6,7 +6,7 @@ import edu.pjwstk.api.groups.GroupApi;
 import edu.pjwstk.api.groups.dto.GroupDto;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groupshop.entity.GroupShop;
-import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
+import edu.pjwstk.groupshop.exception.domain.GroupShopNotFoundException;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
 import org.springframework.stereotype.Service;
 
