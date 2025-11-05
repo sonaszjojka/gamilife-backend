@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.getgroups;
 
 import edu.pjwstk.groups.entity.Group;
-import edu.pjwstk.groups.exception.InvalidGroupDataException;
+import edu.pjwstk.groups.exception.domain.GroupTypeNotFoundException;
 import edu.pjwstk.groups.repository.jpa.GroupRepositoryJpa;
 import edu.pjwstk.groups.shared.GroupTypeEnum;
 import edu.pjwstk.groups.util.GroupSpecificationBuilder;
@@ -32,7 +32,7 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
         try {
             groupType = GroupTypeEnum.fromId(request.type());
         }catch (RuntimeException e){
-            throw new InvalidGroupDataException("Group type does not exists!");
+            throw new GroupTypeNotFoundException("Group type does not exists!");
         }
 
         Specification<Group> spec = specificationBuilder.buildSpecification(

@@ -8,7 +8,7 @@ import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupType;
-import edu.pjwstk.groups.exception.GroupTypeNotFoundException;
+import edu.pjwstk.groups.exception.domain.GroupTypeNotFoundException;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.repository.GroupTypeRepository;

@@ -7,7 +7,7 @@ import edu.pjwstk.api.emailSender.MailDto;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.groups.entity.GroupInvitation;
-import edu.pjwstk.groups.exception.GroupInvitationNotFoundException;
+import edu.pjwstk.groups.exception.domain.GroupInvitationNotFoundException;
 import edu.pjwstk.groups.repository.GroupInvitationRepository;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
 import org.springframework.stereotype.Service;

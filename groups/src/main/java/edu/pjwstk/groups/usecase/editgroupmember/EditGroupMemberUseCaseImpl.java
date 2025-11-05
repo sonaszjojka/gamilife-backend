@@ -2,7 +2,7 @@ package edu.pjwstk.groups.usecase.editgroupmember;
 
 import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
 import edu.pjwstk.groups.entity.GroupMember;
-import edu.pjwstk.groups.exception.UserLeftGroupException;
+import edu.pjwstk.groups.exception.domain.UserLeftGroupException;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import org.springframework.stereotype.Service;
 

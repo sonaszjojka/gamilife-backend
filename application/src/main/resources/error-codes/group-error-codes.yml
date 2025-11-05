@@ -35,10 +35,10 @@ error-codes:
       title: "Group Type Not Found"
       detail: "The specified group type does not exist."
       status: 404
-    INVALID_GROUP_REQUEST_DATA:
+    INVALID_GROUP_DATA:
       code: 3008
-      title: "Invalid Group Request Data"
-      detail: "The data provided for the group request is invalid."
+      title: "Invalid Group Data"
+      detail: "The data provided for the group is invalid."
       status: 400
     INVALID_GROUP_INVITATION_DATA:
       code: 3009

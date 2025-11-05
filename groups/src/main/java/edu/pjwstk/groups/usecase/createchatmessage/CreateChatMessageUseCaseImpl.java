@@ -7,7 +7,7 @@ import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.entity.ChatMessage;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
-import edu.pjwstk.groups.exception.UserLeftGroupException;
+import edu.pjwstk.groups.exception.domain.UserLeftGroupException;
 import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.ChatMessageRepository;
 import edu.pjwstk.groups.repository.GroupMemberRepository;

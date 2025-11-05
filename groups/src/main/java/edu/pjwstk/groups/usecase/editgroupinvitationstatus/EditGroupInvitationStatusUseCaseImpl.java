@@ -5,7 +5,7 @@ import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.entity.InvitationStatus;
-import edu.pjwstk.groups.exception.*;
+import edu.pjwstk.groups.exception.domain.*;
 import edu.pjwstk.groups.repository.GroupInvitationRepository;
 import edu.pjwstk.groups.repository.InvitationStatusRepository;
 import edu.pjwstk.groups.shared.InvitationStatusEnum;
