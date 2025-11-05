@@ -1,7 +1,10 @@
 package edu.pjwstk.core.exception.common;
 
-public class ResetPasswordGenericException extends RuntimeException {
+import edu.pjwstk.core.exception.CommonErrorCode;
+import edu.pjwstk.core.exception.DomainException;
+
+public class ResetPasswordGenericException extends DomainException {
     public ResetPasswordGenericException() {
-        super("Reset Password Failed");
+        super(CommonErrorCode.PASSWORD_RESET_FAILED, "An error occurred while resetting the password.");
     }
 }

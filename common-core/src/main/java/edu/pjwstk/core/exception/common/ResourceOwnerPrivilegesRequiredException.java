@@ -1,7 +1,10 @@
 package edu.pjwstk.core.exception.common;
 
-public class ResourceOwnerPrivilegesRequiredException extends RuntimeException {
+import edu.pjwstk.core.exception.CommonErrorCode;
+import edu.pjwstk.core.exception.DomainException;
+
+public class ResourceOwnerPrivilegesRequiredException extends DomainException {
     public ResourceOwnerPrivilegesRequiredException(String message) {
-        super(message);
+        super(CommonErrorCode.RESOURCE_OWNER_PRIVILEGES_REQUIRED, message);
     }
 }

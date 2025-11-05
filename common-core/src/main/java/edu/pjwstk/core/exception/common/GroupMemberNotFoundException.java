@@ -1,7 +1,10 @@
 package edu.pjwstk.core.exception.common;
 
-public class GroupMemberNotFoundException extends RuntimeException {
+import edu.pjwstk.core.exception.CommonErrorCode;
+import edu.pjwstk.core.exception.DomainException;
+
+public class GroupMemberNotFoundException extends DomainException {
     public GroupMemberNotFoundException(String message) {
-        super(message);
+        super(CommonErrorCode.GROUP_MEMBER_NOT_FOUND, message);
     }
 }

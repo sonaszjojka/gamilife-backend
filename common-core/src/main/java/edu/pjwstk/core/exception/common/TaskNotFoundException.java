@@ -1,7 +1,10 @@
 package edu.pjwstk.core.exception.common;
 
-public class TaskNotFoundException extends RuntimeException {
+import edu.pjwstk.core.exception.CommonErrorCode;
+import edu.pjwstk.core.exception.DomainException;
+
+public class TaskNotFoundException extends DomainException {
     public TaskNotFoundException(String message) {
-        super(message);
+        super(CommonErrorCode.TASK_NOT_FOUND, message);
     }
 }

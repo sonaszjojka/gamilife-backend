@@ -1,7 +1,10 @@
 package edu.pjwstk.core.exception.common;
 
-public class GroupNotFoundException extends RuntimeException {
+import edu.pjwstk.core.exception.CommonErrorCode;
+import edu.pjwstk.core.exception.DomainException;
+
+public class GroupNotFoundException extends DomainException {
     public GroupNotFoundException(String message) {
-        super(message);
+        super(CommonErrorCode.GROUP_NOT_FOUND, message);
     }
 }

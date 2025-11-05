@@ -1,7 +1,10 @@
 package edu.pjwstk.core.exception.common;
 
-public class UserNotFoundException extends RuntimeException {
+import edu.pjwstk.core.exception.CommonErrorCode;
+import edu.pjwstk.core.exception.DomainException;
+
+public class UserNotFoundException extends DomainException {
     public UserNotFoundException(String message) {
-        super(message);
+        super(CommonErrorCode.USER_NOT_FOUND, message);
     }
 }
