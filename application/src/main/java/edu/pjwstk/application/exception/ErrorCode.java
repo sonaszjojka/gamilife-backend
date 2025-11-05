@@ -55,6 +55,15 @@ public enum ErrorCode {
     GROUP_INVITATION_EXPIRED(ErrorCode.GROUP_INVITATION_EXPIRED_CODE, "Group Invitation Has Expired", HttpStatus.GONE),
     ADMIN_CANNOT_LEAVE_GROUP(ErrorCode.ADMIN_CANNOT_LEAVE_GROUP_CODE, "Admin Cannot Leave Group", HttpStatus.UNPROCESSABLE_ENTITY),
     INVALID_GROUP_INVITATION_TOKEN(ErrorCode.INVALID_GROUP_INVITATION_TOKEN_CODE, "Invalid Invitation Group Token", HttpStatus.BAD_REQUEST),
+    SHOP_FOR_GROUP_ALREADY_EXISTS(ErrorCode.SHOP_FOR_GROUP_ALREADY_EXISTS_CODE, "Shop For Group Already Exists", HttpStatus.CONFLICT),
+    GROUP_SHOP_NOT_FOUND(ErrorCode.GROUP_SHOP_NOT_FOUND_CODE, "Shop For Group Does Not Exist", HttpStatus.NOT_FOUND),
+    GROUP_ITEM_IN_SHOP_NOT_FOUND(ErrorCode.GROUP_ITEM_IN_SHOP_NOT_FOUND_CODE, "Group Item In Shop Not Found", HttpStatus.NOT_FOUND),
+    OWNED_GROUP_ITEM_NOT_FOUND(ErrorCode.OWNED_GROUP_ITEM_NOT_FOUND_CODE, "Owned Group Item Not Found", HttpStatus.NOT_FOUND),
+    INVALID_GROUP_ITEM_IN_SHOP_DATA(ErrorCode.INVALID_GROUP_ITEM_DATA_CODE, "Invalid Group Item Data", HttpStatus.BAD_REQUEST),
+    INVALID_GROUP_SHOP_DATA(ErrorCode.INVALID_GROUP_SHOP_DATA_CODE, "Invalid Group Shop Data", HttpStatus.BAD_REQUEST),
+    INVALID_OWNED_GROUP_ITEM_DATA(ErrorCode.INVALID_OWNED_GROUP_ITEM_DATA_CODE, "Invalid Owned Group Item Data", HttpStatus.BAD_REQUEST),
+    USER_NOT_ADMINISTRATOR(ErrorCode.USER_NOT_ADMINISTRATOR_CODE, "User Not Administrator", HttpStatus.FORBIDDEN),
+    UNAUTHORIZED_USER_ACTION(ErrorCode.UNAUTHORIZED_USER_ACTION_CODE, "Unauthorized User Action", HttpStatus.FORBIDDEN),
     GROUP_TASK_NOT_FOUND(ErrorCode.GROUP_TASK_NOT_FOUND_CODE, "Group Task Not Found", HttpStatus.NOT_FOUND),
     Group_TASK_MEMBER_NOT_FOUND(ErrorCode.Group_TASK_MEMBER_NOT_FOUND_CODE, "Group Task Member Not Found", HttpStatus.NOT_FOUND),
     UNAUTHORIZED_TASK_ACCESS(ErrorCode.UNAUTHORIZED_TASK_ACCESS_CODE, " Unauthorized Task Access", HttpStatus.UNAUTHORIZED),
@@ -113,6 +122,15 @@ public enum ErrorCode {
     public static final int USER_LEFT_GROUP_CODE = 3044;
     public static final int ADMIN_CANNOT_LEAVE_GROUP_CODE = 3055;
     public static final int INVALID_GROUP_INVITATION_TOKEN_CODE = 3056;
+    public static final int SHOP_FOR_GROUP_ALREADY_EXISTS_CODE = 5001;
+    public static final int GROUP_SHOP_NOT_FOUND_CODE = 5002;
+    public static final int GROUP_ITEM_IN_SHOP_NOT_FOUND_CODE = 5003;
+    public static final int OWNED_GROUP_ITEM_NOT_FOUND_CODE = 5004;
+    public static final int INVALID_GROUP_ITEM_DATA_CODE = 5005;
+    public static final int INVALID_GROUP_SHOP_DATA_CODE = 5006;
+    public static final int INVALID_OWNED_GROUP_ITEM_DATA_CODE = 5007;
+    public static final int USER_NOT_ADMINISTRATOR_CODE = 5008;
+    public static final int UNAUTHORIZED_USER_ACTION_CODE = 5009;
     public static final int UNAUTHORIZED_TASK_ACCESS_CODE = 1033;
 
     private final int code;

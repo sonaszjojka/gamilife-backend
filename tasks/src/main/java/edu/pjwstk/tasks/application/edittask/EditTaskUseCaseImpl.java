@@ -7,7 +7,10 @@ import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
 import edu.pjwstk.tasks.entity.TaskDifficulty;
 import edu.pjwstk.tasks.exception.*;
-import edu.pjwstk.tasks.repository.*;
+import edu.pjwstk.tasks.repository.HabitRepository;
+import edu.pjwstk.tasks.repository.TaskCategoryRepository;
+import edu.pjwstk.tasks.repository.TaskDifficultyRepository;
+import edu.pjwstk.tasks.repository.TaskRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

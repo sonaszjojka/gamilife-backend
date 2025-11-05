@@ -1,8 +1,8 @@
 package edu.pjwstk.groups.usecase.findgroupbyid;
 
+import edu.pjwstk.api.groups.dto.GroupDto;
 import edu.pjwstk.groups.entity.Group;
 import org.springframework.stereotype.Component;
-import edu.pjwstk.api.groups.dto.GroupDto;
 
 @Component
 public class FindGroupByIdMapperImpl implements FindGroupByIdMapper {

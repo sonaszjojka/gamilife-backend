@@ -8,7 +8,6 @@ import edu.pjwstk.tasks.application.createtaskforgrouptask.CreateTaskForGroupTas
 import edu.pjwstk.tasks.application.deletetask.DeleteTaskUseCase;
 import edu.pjwstk.tasks.application.findtaskbyid.FindTaskByIdUseCase;
 import edu.pjwstk.tasks.application.taskexistsbyid.ExistsByTaskIdUseCase;
-
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
