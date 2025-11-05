@@ -9,7 +9,8 @@ public enum CommonErrorCode implements ErrorCode {
     GROUP_MEMBER_NOT_FOUND,
     TASK_NOT_FOUND,
     GROUP_ADMIN_PRIVILEGES_REQUIRED,
-    RESOURCE_OWNER_PRIVILEGES_REQUIRED;
+    RESOURCE_OWNER_PRIVILEGES_REQUIRED,
+    INTERNAL_SERVER_ERROR;
 
     @Override
     public String getKey() {
