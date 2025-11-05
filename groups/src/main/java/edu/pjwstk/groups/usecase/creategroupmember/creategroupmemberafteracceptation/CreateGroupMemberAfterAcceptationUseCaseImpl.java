@@ -1,9 +1,9 @@
 package edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation;
 
-import edu.pjwstk.api.groups.exception.GroupNotFoundException;
+import edu.pjwstk.core.exception.common.GroupNotFoundException;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.api.user.exception.UserNotFoundException;
+import edu.pjwstk.core.exception.common.UserNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.exception.GroupFullException;

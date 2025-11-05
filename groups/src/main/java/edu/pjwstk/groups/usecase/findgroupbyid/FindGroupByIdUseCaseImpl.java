@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.findgroupbyid;
 
 import edu.pjwstk.api.groups.dto.GroupDto;
-import edu.pjwstk.api.groups.exception.GroupNotFoundException;
+import edu.pjwstk.core.exception.common.GroupNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.repository.GroupRepository;
 import org.springframework.stereotype.Service;

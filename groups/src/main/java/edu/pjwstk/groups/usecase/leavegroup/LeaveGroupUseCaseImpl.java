@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.leavegroup;
 
-import edu.pjwstk.api.groups.exception.GroupMemberNotFoundException;
-import edu.pjwstk.api.groups.exception.GroupNotFoundException;
+import edu.pjwstk.core.exception.common.GroupMemberNotFoundException;
+import edu.pjwstk.core.exception.common.GroupNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.exception.AdministratorCannotLeaveGroupException;

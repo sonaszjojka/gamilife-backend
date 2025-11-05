@@ -1,6 +1,6 @@
 package edu.pjwstk.user.usecase.impl;
 
-import edu.pjwstk.api.auth.exception.ResetPasswordGenericException;
+import edu.pjwstk.core.exception.common.ResetPasswordGenericException;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.persistence.UserRepository;
 import edu.pjwstk.user.usecase.ResetUserPasswordUseCase;

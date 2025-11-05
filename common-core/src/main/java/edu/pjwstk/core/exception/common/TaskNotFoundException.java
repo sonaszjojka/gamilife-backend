@@ -1,4 +1,4 @@
-package edu.pjwstk.api.tasks.exception;
+package edu.pjwstk.core.exception.common;
 
 public class TaskNotFoundException extends RuntimeException {
     public TaskNotFoundException(String message) {

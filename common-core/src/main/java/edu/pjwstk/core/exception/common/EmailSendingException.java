@@ -1,4 +1,4 @@
-package edu.pjwstk.api.emailSender;
+package edu.pjwstk.core.exception.common;
 
 import edu.pjwstk.core.exception.ApplicationException;
 

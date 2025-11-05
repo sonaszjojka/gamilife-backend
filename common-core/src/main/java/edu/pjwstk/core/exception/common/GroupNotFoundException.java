@@ -1,4 +1,4 @@
-package edu.pjwstk.api.groups.exception;
+package edu.pjwstk.core.exception.common;
 
 public class GroupNotFoundException extends RuntimeException {
     public GroupNotFoundException(String message) {

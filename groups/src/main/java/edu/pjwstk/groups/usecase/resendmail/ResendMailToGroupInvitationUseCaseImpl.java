@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.resendmail;
 
 import edu.pjwstk.api.emailSender.EmailSenderApi;
-import edu.pjwstk.api.emailSender.EmailSendingException;
+import edu.pjwstk.core.exception.common.EmailSendingException;
 import edu.pjwstk.api.emailSender.MailContentType;
 import edu.pjwstk.api.emailSender.MailDto;
 import edu.pjwstk.api.user.UserApi;

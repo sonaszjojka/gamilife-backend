@@ -1,4 +1,4 @@
-package edu.pjwstk.api.auth.exception;
+package edu.pjwstk.core.exception.common;
 
 public class ResetPasswordGenericException extends RuntimeException {
     public ResetPasswordGenericException() {

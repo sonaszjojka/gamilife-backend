@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.editgroupmember;
 
-import edu.pjwstk.api.groups.exception.GroupMemberNotFoundException;
+import edu.pjwstk.core.exception.common.GroupMemberNotFoundException;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.exception.UserLeftGroupException;
 import edu.pjwstk.groups.repository.GroupMemberRepository;

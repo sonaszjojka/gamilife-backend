@@ -1,4 +1,4 @@
-package edu.pjwstk.api.groups.exception;
+package edu.pjwstk.core.exception.common;
 
 public class GroupMemberNotFoundException extends RuntimeException {
     public GroupMemberNotFoundException(String message) {
