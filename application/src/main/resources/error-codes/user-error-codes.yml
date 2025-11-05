@@ -1,0 +1,7 @@
+error-codes:
+  definitions:
+    USER_NOT_FOUND:
+      code: 1001
+      title: "User Not Found"
+      detail: "The specified user does not exist."
+      status: 404

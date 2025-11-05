@@ -1,7 +1,14 @@
 package edu.pjwstk.auth.exceptions;
 
-public class InvalidCredentialsException extends RuntimeException {
+import edu.pjwstk.core.exception.DomainException;
+
+public class InvalidCredentialsException extends DomainException {
+
+    public InvalidCredentialsException() {
+        super(AuthErrorCode.INVALID_CREDENTIALS, "Invalid Credentials");
+    }
+
     public InvalidCredentialsException(String message) {
-        super(message);
+        super(AuthErrorCode.INVALID_CREDENTIALS, message);
     }
 }
