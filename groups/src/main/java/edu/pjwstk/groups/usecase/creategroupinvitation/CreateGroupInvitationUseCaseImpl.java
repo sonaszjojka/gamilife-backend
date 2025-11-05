@@ -1,15 +1,15 @@
 package edu.pjwstk.groups.usecase.creategroupinvitation;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.emailSenderApi.EmailSenderApi;
-import edu.pjwstk.common.emailSenderApi.EmailSendingException;
-import edu.pjwstk.common.emailSenderApi.MailContentType;
-import edu.pjwstk.common.emailSenderApi.MailDto;
-import edu.pjwstk.common.groupsApi.exception.GroupNotFoundException;
-import edu.pjwstk.common.userApi.UserApi;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
-import edu.pjwstk.common.userApi.exception.UserNotFoundException;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.emailSender.EmailSenderApi;
+import edu.pjwstk.api.emailSender.EmailSendingException;
+import edu.pjwstk.api.emailSender.MailContentType;
+import edu.pjwstk.api.emailSender.MailDto;
+import edu.pjwstk.api.groups.exception.GroupNotFoundException;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import edu.pjwstk.api.user.exception.UserNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.entity.InvitationStatus;
@@ -20,7 +20,6 @@ import edu.pjwstk.groups.repository.GroupInvitationRepository;
 import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.repository.InvitationStatusRepository;
 import edu.pjwstk.groups.shared.InvitationStatusEnum;
-import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationUseCase;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,8 +58,7 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     @Override
     @Transactional
     public CreateGroupInvitationResponse execute(UUID groupId, CreateGroupInvitationRequest request) {
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));

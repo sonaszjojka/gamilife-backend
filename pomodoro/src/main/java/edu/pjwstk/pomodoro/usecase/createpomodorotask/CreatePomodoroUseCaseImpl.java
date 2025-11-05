@@ -1,6 +1,6 @@
 package edu.pjwstk.pomodoro.usecase.createpomodorotask;
 
-import edu.pjwstk.common.tasksApi.TasksApi;
+import edu.pjwstk.api.tasks.TasksApi;
 import edu.pjwstk.pomodoro.entity.PomodoroTask;
 import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;

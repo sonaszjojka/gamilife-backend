@@ -62,7 +62,7 @@
         </dependency>
         <dependency>
             <groupId>edu.pjwstk</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>common-api</artifactId>
             <version>0.0.1-alpha-v01</version>
             <scope>compile</scope>
         </dependency>

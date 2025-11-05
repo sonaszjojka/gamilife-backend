@@ -1,7 +1,7 @@
 package edu.pjwstk.tasks.application.deletetask;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.exception.TaskNotFoundException;
 import edu.pjwstk.tasks.exception.UnauthorizedTaskAccessException;
@@ -31,7 +31,7 @@ public class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
                         "Task with id " + taskId + " not found!"
                 ));
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         if (!task.getIsGroupTask()&&!currentUserDto.userId().equals(task.getUserId())) {
             throw new UnauthorizedTaskAccessException("User is not authorized to delete task for another user!");
         }

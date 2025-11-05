@@ -1,10 +1,10 @@
 package edu.pjwstk.user.api;
 
-import edu.pjwstk.common.userApi.UserApi;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
-import edu.pjwstk.common.userApi.dto.CheckIfUsersEmailIsVerifiedApiDto;
-import edu.pjwstk.common.userApi.dto.RegisterUserApiDto;
-import edu.pjwstk.common.userApi.dto.SecureUserInfoApiDto;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import edu.pjwstk.api.user.dto.CheckIfUsersEmailIsVerifiedApiDto;
+import edu.pjwstk.api.user.dto.RegisterUserApiDto;
+import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.user.usecase.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
