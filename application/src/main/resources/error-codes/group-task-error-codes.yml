@@ -10,8 +10,3 @@ error-codes:
       title: "Group Task Not Found"
       detail: "The specified group task does not exist."
       status: 404
-    INVALID_GROUP_TASK_MEMBER_DATA:
-      code: 4003
-      title: "Invalid Group Task Member Data"
-      detail: "The provided data for the group task member is invalid."
-      status: 400

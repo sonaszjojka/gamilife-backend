@@ -2,7 +2,7 @@ package edu.pjwstk.grouptasks.usecase.editgrouptaskmember;
 
 import edu.pjwstk.api.groups.GroupApi;
 import edu.pjwstk.grouptasks.entity.GroupTaskMember;
-import edu.pjwstk.grouptasks.exception.GroupTaskMemberNotFoundException;
+import edu.pjwstk.grouptasks.exception.domain.GroupTaskMemberNotFoundException;
 import edu.pjwstk.grouptasks.repository.GroupTaskMemberRepository;
 import edu.pjwstk.grouptasks.repository.GroupTaskRepository;
 import jakarta.transaction.Transactional;

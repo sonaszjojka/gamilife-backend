@@ -4,7 +4,7 @@ import edu.pjwstk.api.groups.GroupApi;
 import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
 import edu.pjwstk.grouptasks.entity.GroupTask;
 import edu.pjwstk.grouptasks.entity.GroupTaskMember;
-import edu.pjwstk.grouptasks.exception.GroupTaskNotFoundException;
+import edu.pjwstk.grouptasks.exception.domain.GroupTaskNotFoundException;
 import edu.pjwstk.grouptasks.repository.GroupTaskMemberRepository;
 import edu.pjwstk.grouptasks.repository.GroupTaskRepository;
 import org.springframework.stereotype.Service;
