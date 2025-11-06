@@ -4,15 +4,15 @@ spring:
     version: ${project.version}
   config:
     import:
-      - classpath:error-codes/common-error-codes.yml
-      - classpath:error-codes/auth-error-codes.yml
-      - classpath:error-codes/user-error-codes.yml
-      - classpath:error-codes/task-error-codes.yml
-      - classpath:error-codes/group-error-codes.yml
-      - classpath:error-codes/group-shop-error-codes.yml
-      - classpath:error-codes/gamification-error-codes.yml
-      - classpath:error-codes/pomodoro-error-codes.yml
-      - classpath:error-codes/group-task-error-codes.yml
+      - classpath:common-error-codes.yml
+      - classpath:auth-error-codes.yml
+      - classpath:user-error-codes.yml
+      - classpath:task-error-codes.yml
+      - classpath:group-error-codes.yml
+      - classpath:group-shop-error-codes.yml
+      - classpath:gamification-error-codes.yml
+      - classpath:pomodoro-error-codes.yml
+      - classpath:group-task-error-codes.yml
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
