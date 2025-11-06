@@ -50,3 +50,38 @@ error-codes:
       title: "Internal Server Error"
       detail: "An unexpected error occurred on the server."
       status: 500
+    MALFORMED_REQUEST:
+      code: 1011
+      title: "Malformed Request"
+      detail: "The request could not be understood by the server due to malformed syntax."
+      status: 400
+    MISSING_PARAMETER:
+      code: 1012
+      status: 400
+      title: "Missing Parameter"
+      detail: "A required parameter is missing"
+    METHOD_NOT_ALLOWED:
+      code: 1013
+      status: 405
+      title: "Method Not Allowed"
+      detail: "The HTTP method is not supported for this endpoint"
+    UNSUPPORTED_MEDIA_TYPE:
+      code: 1014
+      status: 415
+      title: "Unsupported Media Type"
+      detail: "The provided Content-Type is not supported"
+    ACCESS_DENIED:
+      code: 1015
+      title: "Access Denied"
+      detail: "You do not have permission to access this resource."
+      status: 403
+    TYPE_MISMATCH:
+      code: 1016
+      status: 400
+      title: "Type Mismatch"
+      detail: "A parameter has an invalid type"
+    MISSING_REQUEST_BODY:
+      code: 1017
+      status: 400
+      title: "Missing Request Body"
+      detail: "Request body is required but missing"

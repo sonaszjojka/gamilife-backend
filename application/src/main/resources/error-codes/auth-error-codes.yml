@@ -25,11 +25,6 @@ error-codes:
       title: "Old and New Password Are Same"
       detail: "The new password must be different from the old password."
       status: 400
-    ACCESS_DENIED:
-      code: 2006
-      title: "Access Denied"
-      detail: "You do not have permission to access this resource."
-      status: 403
     EMAIL_VERIFICATION_CODE_TOO_MANY_REQUESTS:
       code: 2007
       title: "Email Verification Code Too Many Requests"

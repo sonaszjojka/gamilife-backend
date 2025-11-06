@@ -6,12 +6,15 @@ import org.springframework.http.ProblemDetail;
 
 import java.net.URI;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @Setter
 public class ErrorResponse extends ProblemDetail {
     private String code;
     private Instant timestamp;
+    private Map<String, String> fieldErrors = new HashMap<>();
 
     private ErrorResponse() {
         super();
@@ -40,5 +43,9 @@ public class ErrorResponse extends ProblemDetail {
         error.setTimestamp(Instant.now());
 
         return error;
+    }
+
+    public void addValidationError(String fieldName, String message) {
+        fieldErrors.put(fieldName, message);
     }
 }
