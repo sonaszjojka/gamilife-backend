@@ -2,11 +2,16 @@ package edu.pjwstk.tasks.application.createtask;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
+import edu.pjwstk.core.exception.common.domain.TaskNotFoundException;
 import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
 import edu.pjwstk.tasks.entity.TaskDifficulty;
-import edu.pjwstk.tasks.exception.*;
+import edu.pjwstk.tasks.exception.domain.HabitNotFoundException;
+import edu.pjwstk.tasks.exception.domain.InvalidTaskDataException;
+import edu.pjwstk.tasks.exception.domain.TaskCategoryNotFoundException;
+import edu.pjwstk.tasks.exception.domain.TaskDifficultyNotFoundException;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import edu.pjwstk.tasks.repository.TaskCategoryRepository;
 import edu.pjwstk.tasks.repository.TaskDifficultyRepository;
@@ -43,7 +48,7 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         if (!currentUserDto.userId().equals(request.userId())) {
             System.out.println(currentUserDto.userId()+ " "+request.userId()+"================================================================================================");
-            throw new UnauthorizedTaskAccessException("User is not authorized to create task for another user!");
+            throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to create task for another user!");
         }
 
         if (request.startTime().isAfter(request.endTime())) {

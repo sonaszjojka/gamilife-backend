@@ -1,8 +1,8 @@
 package edu.pjwstk.tasks.application.findtaskbyid;
 
 import edu.pjwstk.api.tasks.dto.TaskDto;
+import edu.pjwstk.core.exception.common.domain.TaskNotFoundException;
 import edu.pjwstk.tasks.entity.Task;
-import edu.pjwstk.tasks.exception.TaskNotFoundException;
 import edu.pjwstk.tasks.repository.TaskRepository;
 import edu.pjwstk.tasks.shared.TaskProviderMapper;
 import org.springframework.stereotype.Component;

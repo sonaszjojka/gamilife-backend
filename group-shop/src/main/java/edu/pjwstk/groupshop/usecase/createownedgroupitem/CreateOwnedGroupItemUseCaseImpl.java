@@ -4,14 +4,14 @@ import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.api.groups.GroupApi;
 import edu.pjwstk.api.groups.dto.GroupDto;
-import edu.pjwstk.api.groups.exception.GroupMemberNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
+import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groupshop.entity.GroupItemInShop;
 import edu.pjwstk.groupshop.entity.GroupShop;
 import edu.pjwstk.groupshop.entity.OwnedGroupItem;
-import edu.pjwstk.groupshop.exception.GroupShopNotFoundException;
-import edu.pjwstk.groupshop.exception.InactiveGroupShopException;
-import edu.pjwstk.groupshop.exception.InvalidOwnedGroupItemDataException;
-import edu.pjwstk.groupshop.exception.UnauthorizedUserActionException;
+import edu.pjwstk.groupshop.exception.domain.GroupShopNotFoundException;
+import edu.pjwstk.groupshop.exception.domain.InactiveGroupShopException;
+import edu.pjwstk.groupshop.exception.domain.InvalidOwnedGroupItemDataException;
 import edu.pjwstk.groupshop.repository.GroupItemInShopRepository;
 import edu.pjwstk.groupshop.repository.GroupShopRepository;
 import edu.pjwstk.groupshop.repository.OwnedGroupItemRpository;
@@ -57,7 +57,7 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
         }
 
         if (!currentUser.userId().equals(groupDto.adminId()) && !currentUser.userId().equals(groupProvider.findGroupMemberById(groupMemberId).userId())) {
-            throw new UnauthorizedUserActionException("Only group administrators or the member themselves can add items to inventory!");
+            throw new ResourceOwnerPrivilegesRequiredException("Only group administrators or the member themselves can add items to inventory!");
         }
 
 

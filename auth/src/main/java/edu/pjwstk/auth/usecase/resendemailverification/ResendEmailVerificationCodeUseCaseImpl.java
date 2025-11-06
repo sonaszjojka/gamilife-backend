@@ -2,8 +2,8 @@ package edu.pjwstk.auth.usecase.resendemailverification;
 
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.CheckIfUsersEmailIsVerifiedApiDto;
-import edu.pjwstk.auth.exceptions.CannotCurrentlyCreateNewEmailVerificationCodeException;
-import edu.pjwstk.auth.exceptions.EmailAlreadyVerifiedException;
+import edu.pjwstk.auth.exception.domain.CannotCurrentlyCreateNewEmailVerificationCodeException;
+import edu.pjwstk.auth.exception.domain.EmailAlreadyVerifiedException;
 import edu.pjwstk.auth.models.EmailVerificationCode;
 import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
 import edu.pjwstk.auth.service.EmailVerificationService;

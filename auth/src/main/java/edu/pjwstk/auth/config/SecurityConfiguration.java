@@ -1,8 +1,6 @@
 package edu.pjwstk.auth.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
-import edu.pjwstk.auth.security.JwtAuthenticationEntryPoint;
 import edu.pjwstk.auth.security.JwtAuthenticationFilter;
 import edu.pjwstk.auth.service.TokenService;
 import edu.pjwstk.auth.service.impl.JwtTokenServiceImpl;
@@ -100,11 +98,6 @@ public class SecurityConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
-
-    @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint(ObjectMapper objectMapper) {
-        return new JwtAuthenticationEntryPoint(objectMapper);
     }
 
     @Bean

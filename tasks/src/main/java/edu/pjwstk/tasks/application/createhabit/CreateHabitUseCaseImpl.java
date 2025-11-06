@@ -1,7 +1,7 @@
 package edu.pjwstk.tasks.application.createhabit;
 
 import edu.pjwstk.tasks.entity.Habit;
-import edu.pjwstk.tasks.exception.InvalidHabitDataException;
+import edu.pjwstk.tasks.exception.domain.InvalidHabitDataException;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import org.springframework.stereotype.Component;
 

@@ -3,19 +3,19 @@ package edu.pjwstk.groups.usecase.creategroupinvitation;
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.api.emailSender.EmailSenderApi;
-import edu.pjwstk.api.emailSender.EmailSendingException;
+import edu.pjwstk.core.exception.common.application.EmailSendingException;
 import edu.pjwstk.api.emailSender.MailContentType;
 import edu.pjwstk.api.emailSender.MailDto;
-import edu.pjwstk.api.groups.exception.GroupNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.api.user.exception.UserNotFoundException;
+import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.entity.InvitationStatus;
-import edu.pjwstk.groups.exception.GroupFullException;
-import edu.pjwstk.groups.exception.InvitationStatusNotFoundException;
-import edu.pjwstk.groups.exception.UserNotGroupAdministratorAccessDeniedException;
+import edu.pjwstk.groups.exception.domain.GroupFullException;
+import edu.pjwstk.groups.exception.domain.InvitationStatusNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.GroupInvitationRepository;
 import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.repository.InvitationStatusRepository;
@@ -64,7 +64,7 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));
 
         if (!Objects.equals(currentUserDto.userId(), group.getAdminId())) {
-            throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators " +
+            throw new GroupAdminPrivilegesRequiredException("Only group administrators " +
                     "can create group invitations!");
         }
 

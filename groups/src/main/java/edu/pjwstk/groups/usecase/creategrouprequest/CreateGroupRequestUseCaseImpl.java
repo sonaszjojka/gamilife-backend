@@ -2,13 +2,13 @@ package edu.pjwstk.groups.usecase.creategrouprequest;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.api.groups.exception.GroupNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupRequest;
 import edu.pjwstk.groups.entity.GroupRequestStatus;
-import edu.pjwstk.groups.exception.GroupFullException;
-import edu.pjwstk.groups.exception.GroupRequestStatusNotFoundException;
-import edu.pjwstk.groups.exception.InvalidGroupDataException;
+import edu.pjwstk.groups.exception.domain.GroupFullException;
+import edu.pjwstk.groups.exception.domain.GroupRequestStatusNotFoundException;
+import edu.pjwstk.groups.exception.domain.InvalidGroupDataException;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.repository.GroupRequestRepository;

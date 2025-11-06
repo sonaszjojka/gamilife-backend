@@ -1,10 +1,10 @@
 package edu.pjwstk.groups.usecase.leavegroup;
 
-import edu.pjwstk.api.groups.exception.GroupMemberNotFoundException;
-import edu.pjwstk.api.groups.exception.GroupNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
-import edu.pjwstk.groups.exception.AdministratorCannotLeaveGroupException;
+import edu.pjwstk.groups.exception.domain.AdminCannotLeaveGroupException;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.groups.repository.GroupRepository;
 import org.springframework.stereotype.Service;
@@ -36,12 +36,12 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
 
         if (Objects.equals(group.getAdminId(), groupMemberId) && group.getGroupMembers().size() > 1) {
-            throw new AdministratorCannotLeaveGroupException("Administrator cannot leave group! " +
+            throw new AdminCannotLeaveGroupException("Administrator cannot leave group! " +
                     "Change group administrator before leaving.");
         }
 
         if (Objects.equals(group.getAdminId(), groupMemberId) && group.getGroupMembers().size() == 1) {
-            throw new AdministratorCannotLeaveGroupException("Administrator cannot leave group! " +
+            throw new AdminCannotLeaveGroupException("Administrator cannot leave group! " +
                     "Delete group instead of leaving.");
         }
 

@@ -4,9 +4,9 @@ import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.api.tasks.TasksApi;
 import edu.pjwstk.api.tasks.dto.TaskDto;
+import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.pomodoro.entity.PomodoroTask;
-import edu.pjwstk.pomodoro.exception.InvalidPomodoroTaskData;
-import edu.pjwstk.pomodoro.exception.UnauthorizedActionException;
+import edu.pjwstk.pomodoro.exception.domain.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +42,7 @@ public class CreatePomodoroUseCaseImpl implements CreatePomodoroUseCase {
         TaskDto taskDto = tasksProvider.findTaskByTaskId(taskId);
         CurrentUserDto currentUser = currentUserProvider.getCurrentUser();
         if (!taskDto.userId().equals(currentUser.userId())) {
-            throw new UnauthorizedActionException("User is not owner of the task with id: " + taskId);
+            throw new ResourceOwnerPrivilegesRequiredException("User is not owner of the task with id: " + taskId);
         }
 
         PomodoroTask pomodoroTask = createPomodoroTaskMapper.toEntity(request, UUID.randomUUID(), taskId);
