@@ -1,8 +1,10 @@
 package edu.pjwstk.tasks.application.getusertasks;
 
+import org.springframework.data.domain.Page;
+
 import java.util.UUID;
 
 public interface GetUserTasksUseCase {
 
-    GetUserTasksResponse execute(GetUserTasksFilterDto dto);
+    Page<GetUserTasksDto> execute(GetUserTasksFilterDto dto);
 }

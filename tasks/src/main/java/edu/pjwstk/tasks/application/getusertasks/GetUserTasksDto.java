@@ -9,13 +9,18 @@ import java.util.UUID;
 public record GetUserTasksDto(
         UUID taskId,
         String title,
+        String description,
         LocalDateTime startTime,
         LocalDateTime endTime,
         Integer categoryId,
         Integer difficultyId,
         LocalDateTime completedAt,
-        UUID habitTaskId,
-        UUID previousTaskId,
-        String description
+        String categoryName,
+        String difficultyName,
+        Boolean isGroupTask
+
+
+
+
 ) {
 }
