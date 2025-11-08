@@ -1,5 +1,6 @@
 package edu.pjwstk.groups.model;
 
+import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,4 +40,7 @@ public class GroupRequest {
     @JoinColumn(name = "status_id", nullable = false)
     private GroupRequestStatus groupRequestStatus;
 
+    public boolean hasStatus(GroupRequestStatusEnum statusEnum) {
+        return this.groupRequestStatus.toEnum() == statusEnum;
+    }
 }

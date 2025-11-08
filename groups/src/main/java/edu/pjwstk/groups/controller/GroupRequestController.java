@@ -1,11 +1,12 @@
 package edu.pjwstk.groups.controller;
 
+import edu.pjwstk.groups.controller.request.EditGroupRequestStatusForGroupRequestRequest;
 import edu.pjwstk.groups.shared.ApiResponse;
 import edu.pjwstk.groups.usecase.creategrouprequest.CreateGroupRequestResponse;
 import edu.pjwstk.groups.usecase.creategrouprequest.CreateGroupRequestUseCase;
 import edu.pjwstk.groups.usecase.deletegrouprequest.DeleteGroupRequestUseCase;
-import edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest.EditGroupRequestStatusForGroupRequestRequest;
-import edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest.EditGroupRequestStatusForGroupRequestResponse;
+import edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest.EditGroupRequestStatusForGroupRequestCommand;
+import edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest.EditGroupRequestStatusForGroupRequestResult;
 import edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest.EditGroupRequestStatusForGroupRequestUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -42,10 +43,16 @@ public class GroupRequestController {
     }
 
     @PutMapping("/{groupRequestId}/status")
-    private ResponseEntity<EditGroupRequestStatusForGroupRequestResponse> editStatusById(@PathVariable("groupRequestId") UUID groupRequestId,
-                                                                                   @PathVariable("groupId") UUID groupId,
-                                                                                   @Valid @RequestBody EditGroupRequestStatusForGroupRequestRequest request) {
-        EditGroupRequestStatusForGroupRequestResponse response = editGroupRequestStatusForGroupRequestUseCase.execute(groupRequestId, request);
+    private ResponseEntity<EditGroupRequestStatusForGroupRequestResult> editStatusById(@PathVariable("groupRequestId") UUID groupRequestId,
+                                                                                       @PathVariable("groupId") UUID groupId,
+                                                                                       @Valid @RequestBody EditGroupRequestStatusForGroupRequestRequest request) {
+        EditGroupRequestStatusForGroupRequestResult response = editGroupRequestStatusForGroupRequestUseCase.execute(
+                new EditGroupRequestStatusForGroupRequestCommand(
+                        groupId,
+                        groupRequestId,
+                        request.groupRequestStatusId()
+                )
+        );
         return ResponseEntity.ok(response);
     }
 

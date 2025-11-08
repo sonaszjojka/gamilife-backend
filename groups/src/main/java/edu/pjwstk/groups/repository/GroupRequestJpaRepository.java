@@ -14,4 +14,6 @@ public interface GroupRequestJpaRepository extends JpaRepository<GroupRequest, U
     Optional<GroupRequest> findByUserIdAndGroupRequestedAndGroupRequestStatus(UUID userId, Group groupRequested, GroupRequestStatus groupRequestStatus);
 
     Optional<GroupRequest> findByUserIdAndGroupRequestedAndGroupRequestStatus_GroupRequestStatusId(UUID userId, Group groupRequested, Integer groupRequestStatusGroupRequestStatusId);
+
+    Optional<GroupRequest> findByGroupRequestIdAndGroupRequested_GroupId(UUID groupRequestId, UUID groupId);
 }
