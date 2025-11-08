@@ -1,6 +1,5 @@
 package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 
-import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
 import lombok.Builder;
 
 import java.io.Serializable;
@@ -11,10 +10,10 @@ import java.util.UUID;
  * DTO for {@link edu.pjwstk.groups.model.GroupInvitation}
  */
 @Builder
-public record EditGroupInvitationStatusResponse(UUID groupInvitationId, GroupDto groupInvited, UUID userId,
-                                                LocalDateTime expiresAt, LocalDateTime mailSentAt, String link,
-                                                InvitationStatusDto invitationStatus,
-                                                CreateGroupMemberResponse groupMemberResponse) implements Serializable {
+public record EditGroupInvitationStatusResult(UUID groupInvitationId, GroupDto groupInvited, UUID userId,
+                                              LocalDateTime expiresAt, LocalDateTime mailSentAt, String link,
+                                              InvitationStatusDto invitationStatus,
+                                              UUID groupMemberId) implements Serializable {
     /**
      * DTO for {@link edu.pjwstk.groups.model.Group}
      */

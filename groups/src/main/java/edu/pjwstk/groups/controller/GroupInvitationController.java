@@ -1,13 +1,14 @@
 package edu.pjwstk.groups.controller;
 
 import edu.pjwstk.groups.controller.request.CreateGroupInvitationRequest;
+import edu.pjwstk.groups.controller.request.EditGroupInvitationStatusRequest;
 import edu.pjwstk.groups.shared.ApiResponse;
 import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationCommand;
 import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationResult;
 import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationUseCase;
 import edu.pjwstk.groups.usecase.deletegroupinvitation.DeleteGroupInvitationById;
-import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusRequest;
-import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusResponse;
+import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusCommand;
+import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusResult;
 import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusUseCase;
 import edu.pjwstk.groups.usecase.resendmail.ResendMailToGroupInvitationUseCase;
 import jakarta.validation.Valid;
@@ -44,16 +45,24 @@ public class GroupInvitationController {
     }
 
     @PutMapping("/{groupInvitationId}/status")
-    private ResponseEntity<EditGroupInvitationStatusResponse> editInvitationStatusById(
+    private ResponseEntity<EditGroupInvitationStatusResult> editInvitationStatusById(
             @PathVariable("groupId") UUID groupId,
             @PathVariable("groupInvitationId") UUID groupInvitationId,
             @RequestBody @Valid EditGroupInvitationStatusRequest request) {
-        EditGroupInvitationStatusResponse response = editGroupInvitationStatusUseCase.execute(groupInvitationId, request);
+        EditGroupInvitationStatusResult response = editGroupInvitationStatusUseCase.execute(
+                new EditGroupInvitationStatusCommand(
+                        groupId,
+                        groupInvitationId,
+                        request.invitationStatusId(),
+                        request.token()
+                )
+        );
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{groupInvitationId}")
-    private ResponseEntity<ApiResponse> deleteById(@PathVariable("groupInvitationId") UUID groupInvitationId) {
+    private ResponseEntity<ApiResponse> deleteById(@PathVariable("groupInvitationId") UUID groupInvitationId,
+                                                   @PathVariable String groupId) {
         deleteGroupInvitationById.execute(groupInvitationId);
         return ResponseEntity.ok(new ApiResponse("Group Invitation with id: " + groupInvitationId + " deleted successfully."));
     }

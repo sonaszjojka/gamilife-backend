@@ -12,4 +12,6 @@ public interface GroupInvitationJpaRepository extends JpaRepository<GroupInvitat
     boolean existsByGroupInvitedAndUserIdAndInvitationStatus_InvitationStatusId(Group groupInvited, UUID userId, Integer invitationStatusInvitationStatusId);
 
     Optional<GroupInvitation> findByUserIdAndGroupInvitedAndInvitationStatus_InvitationStatusId(UUID userId, Group groupInvited, Integer invitationStatusInvitationStatusId);
+
+    Optional<GroupInvitation> findByGroupInvitationIdAndGroupInvited_GroupId(UUID groupInvitationId, UUID groupId);
 }
