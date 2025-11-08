@@ -3,110 +3,126 @@ package edu.pjwstk.groups.usecase.creategroupinvitation;
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.api.emailSender.EmailSenderApi;
-import edu.pjwstk.core.exception.common.application.EmailSendingException;
 import edu.pjwstk.api.emailSender.MailContentType;
 import edu.pjwstk.api.emailSender.MailDto;
+import edu.pjwstk.core.exception.common.application.EmailSendingException;
+import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
+import edu.pjwstk.groups.exception.domain.GroupFullException;
+import edu.pjwstk.groups.exception.domain.InvitationStatusNotFoundException;
 import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.model.GroupInvitation;
 import edu.pjwstk.groups.model.InvitationStatus;
-import edu.pjwstk.groups.exception.domain.GroupFullException;
-import edu.pjwstk.groups.exception.domain.InvitationStatusNotFoundException;
-import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.GroupInvitationJpaRepository;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.repository.InvitationStatusJpaRepository;
 import edu.pjwstk.groups.shared.InvitationStatusEnum;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUseCase {
 
     private final GroupInvitationJpaRepository groupInvitationRepository;
     private final InvitationStatusJpaRepository invitationStatusRepository;
     private final GroupJpaRepository groupRepository;
-    private final UserApi userApi;
     private final AuthApi authApi;
-    private final CreateGroupInvitationMapper createGroupInvitationStatusMapper;
     private final GroupInvitationUtil groupInvitationUtil;
     private final EmailSenderApi emailSenderApi;
 
-    public CreateGroupInvitationUseCaseImpl(GroupInvitationJpaRepository groupInvitationRepository,
-                                            InvitationStatusJpaRepository invitationStatusRepository,
-                                            GroupJpaRepository groupRepository,
-                                            UserApi userApi, AuthApi authApi,
-                                            CreateGroupInvitationMapper createGroupInvitationStatusMapper,
-                                            GroupInvitationUtil groupInvitationUtil, EmailSenderApi emailSenderApi) {
-        this.groupInvitationRepository = groupInvitationRepository;
-        this.invitationStatusRepository = invitationStatusRepository;
-        this.groupRepository = groupRepository;
-        this.userApi = userApi;
-        this.authApi = authApi;
-        this.createGroupInvitationStatusMapper = createGroupInvitationStatusMapper;
-        this.groupInvitationUtil = groupInvitationUtil;
-        this.emailSenderApi = emailSenderApi;
-    }
-
     @Override
     @Transactional
-    public CreateGroupInvitationResponse execute(UUID groupId, CreateGroupInvitationRequest request) {
+    public CreateGroupInvitationResult executeInternal(CreateGroupInvitationCommand cmd) {
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
+        Group group = groupRepository.findById(cmd.groupId())
+                .orElseThrow(() -> new GroupNotFoundException("Group with id:" + cmd.groupId() + " not found!"));
 
-        Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));
-
-        if (!Objects.equals(currentUserDto.userId(), group.getAdminId())) {
+        if (!checkIfUserIsGroupAdmin(currentUserDto.userId(), group)) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators " +
                     "can create group invitations!");
         }
 
-        if (group.getGroupMembers().size() >= group.getMembersLimit()) {
-            throw new GroupFullException("Group with id: " + groupId + " is full!");
+        if (checkIfGroupIsFull(group)) {
+            throw new GroupFullException("Group with id: " + cmd.groupId() + " is full!");
         }
-
-        BasicUserInfoApiDto basicUserInfoApiDto = userApi.getUserById(request.userId())
-                .orElseThrow(() -> new UserNotFoundException("User with id: " + request.userId() + " not found!"));
 
         InvitationStatus invitationStatus = invitationStatusRepository.findById(InvitationStatusEnum.SENT.getId())
                 .orElseThrow(() -> new InvitationStatusNotFoundException("Invitation stauts with id: "
                         + InvitationStatusEnum.SENT.getId() + " not found!"));
 
-        UUID groupInvitationId = UUID.randomUUID();
-        String token = groupInvitationUtil.generateToken();
-        String hashedToken = groupInvitationUtil.hashToken(token);
-        String link = groupInvitationUtil.generateGroupInvitationLink(groupId, groupInvitationId, token);
-
-        GroupInvitation groupInvitation = createGroupInvitationStatusMapper.toEntity(
-                group,
-                invitationStatus,
-                basicUserInfoApiDto.userId(),
-                groupInvitationUtil.calculateExpirationDate(),
-                link,
-                groupInvitationId,
-                hashedToken
-        );
-        GroupInvitation savedGroupInvitation = groupInvitationRepository.save(groupInvitation);
+        GroupInvitation groupInvitation = createGroupInvitation(group, invitationStatus, cmd.userId());
 
         try {
             emailSenderApi.sendEmail(MailDto.builder()
-                    .toEmail(basicUserInfoApiDto.email())
+                    .toEmail(currentUserDto.email())
                     .subject(groupInvitationUtil.generateInvitationMailSubjectMessage())
-                    .content(groupInvitationUtil.generateInvitationMailContentMessage(link, group.getJoinCode()))
+                    .content(groupInvitationUtil.generateInvitationMailContentMessage(groupInvitation.getLink(), group.getJoinCode()))
                     .mailContentType(MailContentType.HTML)
                     .build());
         } catch (EmailSendingException e) {
-            //todo - ?
-            throw new RuntimeException(e);
+            // TODO resend email or mark for resend
         }
 
-        return createGroupInvitationStatusMapper.toResponse(savedGroupInvitation);
+        return createResponse(groupInvitation);
+    }
+
+    private boolean checkIfUserIsGroupAdmin(UUID userId, Group group) {
+        return userId.equals(group.getAdminId());
+    }
+
+    private boolean checkIfGroupIsFull(Group group) {
+        return group.getGroupMembers().size() >= group.getMembersLimit();
+    }
+
+    private GroupInvitation createGroupInvitation(Group group, InvitationStatus invitationStatus, UUID userId) {
+        UUID groupInvitationId = UUID.randomUUID();
+        String token = groupInvitationUtil.generateToken();
+        String hashedToken = groupInvitationUtil.hashToken(token);
+        String link = groupInvitationUtil.generateGroupInvitationLink(group.getGroupId(), groupInvitationId, token);
+
+
+        GroupInvitation groupInvitation = GroupInvitation.builder()
+                .groupInvitationId(groupInvitationId)
+                .userId(userId)
+                .groupInvited(group)
+                .expiresAt(groupInvitationUtil.calculateExpirationDate())
+                .mailSentAt(LocalDateTime.now())
+                .link(link)
+                .tokenHash(hashedToken)
+                .invitationStatus(invitationStatus)
+                .build();
+
+        return groupInvitationRepository.save(groupInvitation);
+    }
+
+    private CreateGroupInvitationResult createResponse(GroupInvitation groupInvitation) {
+        return CreateGroupInvitationResult.builder()
+                .groupInvitationId(groupInvitation.getGroupInvitationId())
+                .groupInvited(
+                        groupInvitation.getGroupInvited() != null
+                                ? CreateGroupInvitationResult.GroupDto.builder()
+                                .groupId(groupInvitation.getGroupInvited().getGroupId())
+                                .build()
+                                : null
+                )
+                .userId(groupInvitation.getUserId())
+                .expiresAt(groupInvitation.getExpiresAt())
+                .mailSentAt(groupInvitation.getMailSentAt())
+                .link(groupInvitation.getLink())
+                .invitationStatus(
+                        groupInvitation.getInvitationStatus() != null
+                                ? CreateGroupInvitationResult.InvitationStatusDto.builder()
+                                .invitationStatusId(groupInvitation.getInvitationStatus().getInvitationStatusId())
+                                .title(groupInvitation.getInvitationStatus().getTitle())
+                                .build()
+                                : null
+                )
+                .build();
     }
 }

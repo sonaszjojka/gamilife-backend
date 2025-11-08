@@ -10,11 +10,11 @@ import java.util.UUID;
  * DTO for {@link edu.pjwstk.groups.model.GroupInvitation}
  */
 @Builder
-public record CreateGroupInvitationResponse(UUID groupInvitationId,
-                                            CreateGroupInvitationResponse.GroupDto groupInvited,
-                                            UUID userId,
-                                            LocalDateTime expiresAt, LocalDateTime mailSentAt, String link,
-                                            CreateGroupInvitationResponse.InvitationStatusDto invitationStatus)
+public record CreateGroupInvitationResult(UUID groupInvitationId,
+                                          CreateGroupInvitationResult.GroupDto groupInvited,
+                                          UUID userId,
+                                          LocalDateTime expiresAt, LocalDateTime mailSentAt, String link,
+                                          CreateGroupInvitationResult.InvitationStatusDto invitationStatus)
         implements Serializable {
     /**
      * DTO for {@link edu.pjwstk.groups.model.Group}

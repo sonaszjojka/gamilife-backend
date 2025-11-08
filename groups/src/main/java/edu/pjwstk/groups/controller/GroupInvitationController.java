@@ -1,8 +1,9 @@
 package edu.pjwstk.groups.controller;
 
+import edu.pjwstk.groups.controller.request.CreateGroupInvitationRequest;
 import edu.pjwstk.groups.shared.ApiResponse;
-import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationRequest;
-import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationResponse;
+import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationCommand;
+import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationResult;
 import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationUseCase;
 import edu.pjwstk.groups.usecase.deletegroupinvitation.DeleteGroupInvitationById;
 import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusRequest;
@@ -33,9 +34,12 @@ public class GroupInvitationController {
     }
 
     @PostMapping
-    private ResponseEntity<CreateGroupInvitationResponse> save(@PathVariable("groupId") UUID groupId,
-                                                               @RequestBody @Valid CreateGroupInvitationRequest request) {
-        CreateGroupInvitationResponse response = createGroupInvitationUseCase.execute(groupId, request);
+    private ResponseEntity<CreateGroupInvitationResult> save(@PathVariable("groupId") UUID groupId,
+                                                             @RequestBody @Valid CreateGroupInvitationRequest request) {
+        CreateGroupInvitationResult response = createGroupInvitationUseCase.execute(new CreateGroupInvitationCommand(
+                groupId,
+                request.userId()
+        ));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
