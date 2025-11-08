@@ -8,12 +8,12 @@ import edu.pjwstk.groups.exception.domain.GroupRequestNotFoundException;
 import edu.pjwstk.groups.exception.domain.GroupRequestStatusNotFoundException;
 import edu.pjwstk.groups.exception.domain.InvalidGroupDataException;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import edu.pjwstk.groups.repository.GroupRequestRepository;
-import edu.pjwstk.groups.repository.GroupRequestStatusRepository;
+import edu.pjwstk.groups.repository.GroupRequestJpaRepository;
+import edu.pjwstk.groups.repository.GroupRequestStatusJpaRepository;
 import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
-import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationRequest;
-import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationUseCase;
+import edu.pjwstk.groups.usecase.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationRequest;
+import edu.pjwstk.groups.usecase.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationUseCase;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,13 +23,13 @@ import java.util.UUID;
 @Service
 public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGroupRequestStatusForGroupRequestUseCase {
 
-    private final GroupRequestRepository groupRequestRepository;
-    private final GroupRequestStatusRepository groupRequestStatusRepository;
+    private final GroupRequestJpaRepository groupRequestRepository;
+    private final GroupRequestStatusJpaRepository groupRequestStatusRepository;
     private final EditGroupRequestStatusForGroupRequestMapper editGroupRequestStatusForGroupRequestMapper;
     private final AuthApi authApi;
     private final CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase;
 
-    public EditGroupRequestStatusForGroupRequestUseCaseImpl(GroupRequestRepository groupRequestRepository, GroupRequestStatusRepository groupRequestStatusRepository, EditGroupRequestStatusForGroupRequestMapper editGroupRequestStatusForGroupRequestMapper, AuthApi authApi, CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase) {
+    public EditGroupRequestStatusForGroupRequestUseCaseImpl(GroupRequestJpaRepository groupRequestRepository, GroupRequestStatusJpaRepository groupRequestStatusRepository, EditGroupRequestStatusForGroupRequestMapper editGroupRequestStatusForGroupRequestMapper, AuthApi authApi, CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase) {
         this.groupRequestRepository = groupRequestRepository;
         this.groupRequestStatusRepository = groupRequestStatusRepository;
         this.editGroupRequestStatusForGroupRequestMapper = editGroupRequestStatusForGroupRequestMapper;

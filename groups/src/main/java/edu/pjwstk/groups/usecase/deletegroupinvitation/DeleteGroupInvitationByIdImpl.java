@@ -5,7 +5,7 @@ import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.exception.domain.GroupInvitationNotFoundException;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import edu.pjwstk.groups.repository.GroupInvitationRepository;
+import edu.pjwstk.groups.repository.GroupInvitationJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +15,10 @@ import java.util.UUID;
 @Service
 public class DeleteGroupInvitationByIdImpl implements DeleteGroupInvitationById {
 
-    private final GroupInvitationRepository groupInvitationRepository;
+    private final GroupInvitationJpaRepository groupInvitationRepository;
     private final AuthApi authApi;
 
-    public DeleteGroupInvitationByIdImpl(GroupInvitationRepository groupInvitationRepository, AuthApi authApi) {
+    public DeleteGroupInvitationByIdImpl(GroupInvitationJpaRepository groupInvitationRepository, AuthApi authApi) {
         this.groupInvitationRepository = groupInvitationRepository;
         this.authApi = authApi;
     }

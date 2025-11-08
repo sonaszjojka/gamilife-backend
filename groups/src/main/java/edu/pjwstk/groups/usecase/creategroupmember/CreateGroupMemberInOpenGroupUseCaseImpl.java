@@ -9,8 +9,8 @@ import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.exception.domain.GroupFullException;
 import edu.pjwstk.groups.exception.domain.UserAlreadyMemberOfGroupException;
 import edu.pjwstk.groups.exception.domain.UserJoinGroupAccessDeniedException;
-import edu.pjwstk.groups.repository.GroupMemberRepository;
-import edu.pjwstk.groups.repository.GroupRepository;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
+import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
 import edu.pjwstk.groups.shared.GroupTypeEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +21,12 @@ import java.util.UUID;
 @Service
 public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMemberInOpenGroupUseCase {
 
-    private final GroupMemberRepository groupMemberRepository;
-    private final GroupRepository groupRepository;
+    private final GroupMemberJpaRepository groupMemberRepository;
+    private final GroupJpaRepository groupRepository;
     private final UserApi userApi;
     private final CreateGroupMemberMapper createGroupMemberMapper;
 
-    public CreateGroupMemberInOpenGroupUseCaseImpl(GroupMemberRepository groupMemberRepository, GroupRepository groupRepository,
+    public CreateGroupMemberInOpenGroupUseCaseImpl(GroupMemberJpaRepository groupMemberRepository, GroupJpaRepository groupRepository,
                                                    UserApi userApi, CreateGroupMemberMapper createGroupMemberMapper) {
         this.groupMemberRepository = groupMemberRepository;
         this.groupRepository = groupRepository;
@@ -53,7 +53,7 @@ public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMembe
                     " - invitation or request must be accepted.");
         }
 
-        Optional<GroupMember> groupMemberOpt = groupMemberRepository.findByUserIdAndGroup(group, userInfoApiDto.userId());
+        Optional<GroupMember> groupMemberOpt = groupMemberRepository.findByUserIdAndMemberGroup(userInfoApiDto.userId(), group);
 
         if (groupMemberOpt.isPresent()) {
             GroupMember groupMember = groupMemberOpt.get();

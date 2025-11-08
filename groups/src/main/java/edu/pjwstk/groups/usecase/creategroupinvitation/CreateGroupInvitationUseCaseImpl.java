@@ -16,9 +16,9 @@ import edu.pjwstk.groups.entity.InvitationStatus;
 import edu.pjwstk.groups.exception.domain.GroupFullException;
 import edu.pjwstk.groups.exception.domain.InvitationStatusNotFoundException;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import edu.pjwstk.groups.repository.GroupInvitationRepository;
-import edu.pjwstk.groups.repository.GroupRepository;
-import edu.pjwstk.groups.repository.InvitationStatusRepository;
+import edu.pjwstk.groups.repository.GroupInvitationJpaRepository;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
+import edu.pjwstk.groups.repository.InvitationStatusJpaRepository;
 import edu.pjwstk.groups.shared.InvitationStatusEnum;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
 import org.springframework.stereotype.Service;
@@ -30,18 +30,18 @@ import java.util.UUID;
 @Service
 public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUseCase {
 
-    private final GroupInvitationRepository groupInvitationRepository;
-    private final InvitationStatusRepository invitationStatusRepository;
-    private final GroupRepository groupRepository;
+    private final GroupInvitationJpaRepository groupInvitationRepository;
+    private final InvitationStatusJpaRepository invitationStatusRepository;
+    private final GroupJpaRepository groupRepository;
     private final UserApi userApi;
     private final AuthApi authApi;
     private final CreateGroupInvitationMapper createGroupInvitationStatusMapper;
     private final GroupInvitationUtil groupInvitationUtil;
     private final EmailSenderApi emailSenderApi;
 
-    public CreateGroupInvitationUseCaseImpl(GroupInvitationRepository groupInvitationRepository,
-                                            InvitationStatusRepository invitationStatusRepository,
-                                            GroupRepository groupRepository,
+    public CreateGroupInvitationUseCaseImpl(GroupInvitationJpaRepository groupInvitationRepository,
+                                            InvitationStatusJpaRepository invitationStatusRepository,
+                                            GroupJpaRepository groupRepository,
                                             UserApi userApi, AuthApi authApi,
                                             CreateGroupInvitationMapper createGroupInvitationStatusMapper,
                                             GroupInvitationUtil groupInvitationUtil, EmailSenderApi emailSenderApi) {

@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.repository.jpa;
+package edu.pjwstk.groups.repository;
 
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface GroupMemberRepositoryJpa extends JpaRepository<GroupMember, UUID> {
+public interface GroupMemberJpaRepository extends JpaRepository<GroupMember, UUID> {
     boolean existsByUserIdAndMemberGroup(UUID userId, Group memberGroup);
 
     Integer countByMemberGroup(Group memberGroup);

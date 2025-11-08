@@ -8,7 +8,7 @@ import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.exception.domain.GroupInvitationNotFoundException;
-import edu.pjwstk.groups.repository.GroupInvitationRepository;
+import edu.pjwstk.groups.repository.GroupInvitationJpaRepository;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +18,12 @@ import java.util.UUID;
 @Service
 public class ResendMailToGroupInvitationUseCaseImpl implements ResendMailToGroupInvitationUseCase {
 
-    private final GroupInvitationRepository groupInvitationRepository;
+    private final GroupInvitationJpaRepository groupInvitationRepository;
     private final EmailSenderApi emailSenderApi;
     private final UserApi userApi;
     private final GroupInvitationUtil groupInvitationUtil;
 
-    public ResendMailToGroupInvitationUseCaseImpl(GroupInvitationRepository groupInvitationRepository, EmailSenderApi emailSenderApi, UserApi userApi, GroupInvitationUtil groupInvitationUtil) {
+    public ResendMailToGroupInvitationUseCaseImpl(GroupInvitationJpaRepository groupInvitationRepository, EmailSenderApi emailSenderApi, UserApi userApi, GroupInvitationUtil groupInvitationUtil) {
         this.groupInvitationRepository = groupInvitationRepository;
         this.emailSenderApi = emailSenderApi;
         this.userApi = userApi;

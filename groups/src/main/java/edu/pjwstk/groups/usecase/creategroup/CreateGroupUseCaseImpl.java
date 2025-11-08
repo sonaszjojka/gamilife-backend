@@ -9,9 +9,9 @@ import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.entity.GroupType;
 import edu.pjwstk.groups.exception.domain.GroupTypeNotFoundException;
-import edu.pjwstk.groups.repository.GroupMemberRepository;
-import edu.pjwstk.groups.repository.GroupRepository;
-import edu.pjwstk.groups.repository.GroupTypeRepository;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
+import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
+import edu.pjwstk.groups.repository.GroupTypeJpaRepository;
 import edu.pjwstk.groups.util.JoinCodeGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,15 +22,15 @@ import java.util.UUID;
 @Service
 public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
 
-    private final GroupRepository groupRepository;
+    private final GroupJpaRepository groupRepository;
     private final CreateGroupMapper createGroupUseCaseMapper;
     private final UserApi userApi;
-    private final GroupTypeRepository groupTypeRepository;
-    private final GroupMemberRepository groupMemberRepository;
+    private final GroupTypeJpaRepository groupTypeRepository;
+    private final GroupMemberJpaRepository groupMemberRepository;
     private final JoinCodeGenerator joinCodeGenerator;
     private final GroupShopApi groupShopApi;
 
-    public CreateGroupUseCaseImpl(GroupRepository groupRepository, UserApi userApi, CreateGroupMapper createGroupUseCaseMapper, GroupTypeRepository groupTypeRepository, GroupMemberRepository groupMemberRepository, JoinCodeGenerator joinCodeGenerator, GroupShopApi groupShopApi) {
+    public CreateGroupUseCaseImpl(GroupJpaRepository groupRepository, UserApi userApi, CreateGroupMapper createGroupUseCaseMapper, GroupTypeJpaRepository groupTypeRepository, GroupMemberJpaRepository groupMemberRepository, JoinCodeGenerator joinCodeGenerator, GroupShopApi groupShopApi) {
         this.groupRepository = groupRepository;
         this.userApi = userApi;
         this.createGroupUseCaseMapper = createGroupUseCaseMapper;

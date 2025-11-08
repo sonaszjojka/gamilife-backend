@@ -9,9 +9,9 @@ import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.exception.domain.UserLeftGroupException;
 import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
-import edu.pjwstk.groups.repository.ChatMessageRepository;
-import edu.pjwstk.groups.repository.GroupMemberRepository;
-import edu.pjwstk.groups.repository.GroupRepository;
+import edu.pjwstk.groups.repository.ChatMessageJpaRepository;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
+import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,14 +21,14 @@ import java.util.UUID;
 @Service
 public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
 
-    private final ChatMessageRepository chatMessageRepository;
-    private final GroupMemberRepository groupMemberRepository;
-    private final GroupRepository groupRepository;
+    private final ChatMessageJpaRepository chatMessageRepository;
+    private final GroupMemberJpaRepository groupMemberRepository;
+    private final GroupJpaRepository groupRepository;
     private final CreateChatMessageMapper createChatMessageMapper;
     private final AuthApi authApi;
 
-    public CreateChatMessageUseCaseImpl(ChatMessageRepository chatMessageRepository,
-                                        GroupMemberRepository groupMemberRepository, GroupRepository groupRepository,
+    public CreateChatMessageUseCaseImpl(ChatMessageJpaRepository chatMessageRepository,
+                                        GroupMemberJpaRepository groupMemberRepository, GroupJpaRepository groupRepository,
                                         CreateChatMessageMapper createChatMessageMapper, AuthApi authApi) {
         this.chatMessageRepository = chatMessageRepository;
         this.groupMemberRepository = groupMemberRepository;

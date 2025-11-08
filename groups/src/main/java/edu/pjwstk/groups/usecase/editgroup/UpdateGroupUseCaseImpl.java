@@ -10,8 +10,8 @@ import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupType;
 import edu.pjwstk.groups.exception.domain.GroupTypeNotFoundException;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import edu.pjwstk.groups.repository.GroupRepository;
-import edu.pjwstk.groups.repository.GroupTypeRepository;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
+import edu.pjwstk.groups.repository.GroupTypeJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,13 +21,13 @@ import java.util.UUID;
 @Service
 public class UpdateGroupUseCaseImpl implements UpdateGroupUseCase {
 
-    private final GroupRepository groupRepository;
-    private final GroupTypeRepository groupTypeRepository;
+    private final GroupJpaRepository groupRepository;
+    private final GroupTypeJpaRepository groupTypeRepository;
     private final UserApi userApi;
     private final UpdateGroupMapper updateGroupMapper;
     private final AuthApi authApi;
 
-    public UpdateGroupUseCaseImpl(GroupRepository groupRepository, GroupTypeRepository groupTypeRepository, UserApi userApi, UpdateGroupMapper updateGroupMapper, AuthApi authApi) {
+    public UpdateGroupUseCaseImpl(GroupJpaRepository groupRepository, GroupTypeJpaRepository groupTypeRepository, UserApi userApi, UpdateGroupMapper updateGroupMapper, AuthApi authApi) {
         this.groupRepository = groupRepository;
         this.groupTypeRepository = groupTypeRepository;
         this.userApi = userApi;

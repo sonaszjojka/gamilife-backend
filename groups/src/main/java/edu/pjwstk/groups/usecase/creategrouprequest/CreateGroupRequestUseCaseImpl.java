@@ -9,10 +9,10 @@ import edu.pjwstk.groups.entity.GroupRequestStatus;
 import edu.pjwstk.groups.exception.domain.GroupFullException;
 import edu.pjwstk.groups.exception.domain.GroupRequestStatusNotFoundException;
 import edu.pjwstk.groups.exception.domain.InvalidGroupDataException;
-import edu.pjwstk.groups.repository.GroupMemberRepository;
-import edu.pjwstk.groups.repository.GroupRepository;
-import edu.pjwstk.groups.repository.GroupRequestRepository;
-import edu.pjwstk.groups.repository.GroupRequestStatusRepository;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
+import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
+import edu.pjwstk.groups.repository.GroupRequestJpaRepository;
+import edu.pjwstk.groups.repository.GroupRequestStatusJpaRepository;
 import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
 import edu.pjwstk.groups.shared.GroupTypeEnum;
 import org.springframework.stereotype.Service;
@@ -23,14 +23,14 @@ import java.util.UUID;
 @Service
 public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase {
 
-    private final GroupRequestRepository groupRequestRepository;
-    private final GroupRepository groupRepository;
-    private final GroupMemberRepository groupMemberRepository;
-    private final GroupRequestStatusRepository groupRequestStatusRepository;
+    private final GroupRequestJpaRepository groupRequestRepository;
+    private final GroupJpaRepository groupRepository;
+    private final GroupMemberJpaRepository groupMemberRepository;
+    private final GroupRequestStatusJpaRepository groupRequestStatusRepository;
     private final AuthApi authApi;
     private final CreateGroupRequestMapper createGroupRequestMapper;
 
-    public CreateGroupRequestUseCaseImpl(GroupRequestRepository groupRequestRepository, GroupRepository groupRepository, GroupMemberRepository groupMemberRepository, GroupRequestStatusRepository groupRequestStatusRepository, AuthApi authApi, CreateGroupRequestMapper createGroupRequestMapper) {
+    public CreateGroupRequestUseCaseImpl(GroupRequestJpaRepository groupRequestRepository, GroupJpaRepository groupRepository, GroupMemberJpaRepository groupMemberRepository, GroupRequestStatusJpaRepository groupRequestStatusRepository, AuthApi authApi, CreateGroupRequestMapper createGroupRequestMapper) {
         this.groupRequestRepository = groupRequestRepository;
         this.groupRepository = groupRepository;
         this.groupMemberRepository = groupMemberRepository;
@@ -47,7 +47,7 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
 
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
-        if (groupMemberRepository.existsByUserIdAndGroup(group, currentUserDto.userId())) {
+        if (groupMemberRepository.existsByUserIdAndMemberGroup(currentUserDto.userId(), group)) {
             throw new InvalidGroupDataException("User with id: " + currentUserDto.userId()
                     + " is already added to group with id:" + groupId);
         }
@@ -61,7 +61,7 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
                 .orElseThrow(() -> new GroupRequestStatusNotFoundException("Group request status with id: "
                         + GroupRequestStatusEnum.SENT.getId() + " not found!"));
 
-        if (groupRequestRepository.existsByGroupAndUserIdAndGroupRequestStatus(group, currentUserDto.userId(), groupRequestStatus)) {
+        if (groupRequestRepository.existsByGroupRequestedAndUserIdAndGroupRequestStatus(group, currentUserDto.userId(), groupRequestStatus)) {
             throw new InvalidGroupDataException("User with id: " + currentUserDto.userId()
                     + " has already group request with status: SENT to group with id:" + groupId);
         }

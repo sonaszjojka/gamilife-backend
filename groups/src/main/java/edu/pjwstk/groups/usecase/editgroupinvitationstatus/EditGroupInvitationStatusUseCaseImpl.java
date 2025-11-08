@@ -6,12 +6,12 @@ import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredEx
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.entity.InvitationStatus;
 import edu.pjwstk.groups.exception.domain.*;
-import edu.pjwstk.groups.repository.GroupInvitationRepository;
-import edu.pjwstk.groups.repository.InvitationStatusRepository;
+import edu.pjwstk.groups.repository.GroupInvitationJpaRepository;
+import edu.pjwstk.groups.repository.InvitationStatusJpaRepository;
 import edu.pjwstk.groups.shared.InvitationStatusEnum;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
-import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationRequest;
-import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationUseCase;
+import edu.pjwstk.groups.usecase.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationRequest;
+import edu.pjwstk.groups.usecase.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationUseCase;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +23,14 @@ import java.util.UUID;
 @Service
 public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitationStatusUseCase {
 
-    private final GroupInvitationRepository groupInvitationRepository;
-    private final InvitationStatusRepository invitationStatusRepository;
+    private final GroupInvitationJpaRepository groupInvitationRepository;
+    private final InvitationStatusJpaRepository invitationStatusRepository;
     private final AuthApi authApi;
     private final EditGroupInvitationStatusMapper editGroupInvitationStatusMapper;
     private final CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase;
     private final GroupInvitationUtil groupInvitationUtil;
 
-    public EditGroupInvitationStatusUseCaseImpl(GroupInvitationRepository groupInvitationRepository, InvitationStatusRepository invitationStatusRepository, AuthApi authApi, EditGroupInvitationStatusMapper editGroupInvitationStatusMapper, CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase, GroupInvitationUtil groupInvitationUtil) {
+    public EditGroupInvitationStatusUseCaseImpl(GroupInvitationJpaRepository groupInvitationRepository, InvitationStatusJpaRepository invitationStatusRepository, AuthApi authApi, EditGroupInvitationStatusMapper editGroupInvitationStatusMapper, CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase, GroupInvitationUtil groupInvitationUtil) {
         this.groupInvitationRepository = groupInvitationRepository;
         this.invitationStatusRepository = invitationStatusRepository;
         this.authApi = authApi;

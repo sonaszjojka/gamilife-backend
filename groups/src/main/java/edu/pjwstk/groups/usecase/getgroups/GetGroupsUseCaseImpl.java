@@ -2,7 +2,7 @@ package edu.pjwstk.groups.usecase.getgroups;
 
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.exception.domain.GroupTypeNotFoundException;
-import edu.pjwstk.groups.repository.jpa.GroupRepositoryJpa;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.shared.GroupTypeEnum;
 import edu.pjwstk.groups.util.GroupSpecificationBuilder;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
 
-    private final GroupRepositoryJpa groupRepository;
+    private final GroupJpaRepository groupRepository;
     private final GroupSpecificationBuilder specificationBuilder;
 
     @Override

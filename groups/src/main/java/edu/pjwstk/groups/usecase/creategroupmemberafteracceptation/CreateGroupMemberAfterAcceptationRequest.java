@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation;
+package edu.pjwstk.groups.usecase.creategroupmemberafteracceptation;
 
 import edu.pjwstk.groups.entity.GroupInvitation;
 import edu.pjwstk.groups.entity.GroupRequest;

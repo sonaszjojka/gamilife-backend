@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation;
+package edu.pjwstk.groups.usecase.creategroupmemberafteracceptation;
 
 import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.api.user.UserApi;
@@ -8,8 +8,8 @@ import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.exception.domain.GroupFullException;
 import edu.pjwstk.groups.exception.domain.UserAlreadyMemberOfGroupException;
-import edu.pjwstk.groups.repository.GroupMemberRepository;
-import edu.pjwstk.groups.repository.GroupRepository;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
+import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberMapper;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
 import jakarta.validation.Valid;
@@ -22,13 +22,13 @@ import java.util.UUID;
 @Service
 public class CreateGroupMemberAfterAcceptationUseCaseImpl implements CreateGroupMemberAfterAcceptationUseCase {
 
-    private final GroupMemberRepository groupMemberRepository;
-    private final GroupRepository groupRepository;
+    private final GroupMemberJpaRepository groupMemberRepository;
+    private final GroupJpaRepository groupRepository;
     private final UserApi userApi;
     private final CreateGroupMemberMapper createGroupMemberMapper;
 
-    public CreateGroupMemberAfterAcceptationUseCaseImpl(GroupMemberRepository groupMemberRepository,
-                                                        GroupRepository groupRepository,
+    public CreateGroupMemberAfterAcceptationUseCaseImpl(GroupMemberJpaRepository groupMemberRepository,
+                                                        GroupJpaRepository groupRepository,
                                                         UserApi userApi, CreateGroupMemberMapper createGroupMemberMapper) {
         this.groupMemberRepository = groupMemberRepository;
         this.groupRepository = groupRepository;
@@ -49,7 +49,7 @@ public class CreateGroupMemberAfterAcceptationUseCaseImpl implements CreateGroup
             throw new GroupFullException("Group with id: " + request.groupId() + " is full!");
         }
 
-        Optional<GroupMember> groupMemberOpt = groupMemberRepository.findByUserIdAndGroup(group, userInfoApiDto.userId());
+        Optional<GroupMember> groupMemberOpt = groupMemberRepository.findByUserIdAndMemberGroup(userInfoApiDto.userId(), group);
 
         if (groupMemberOpt.isPresent()) {
             GroupMember groupMember = groupMemberOpt.get();

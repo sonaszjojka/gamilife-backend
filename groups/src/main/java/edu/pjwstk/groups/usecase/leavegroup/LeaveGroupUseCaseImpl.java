@@ -5,8 +5,8 @@ import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.exception.domain.AdminCannotLeaveGroupException;
-import edu.pjwstk.groups.repository.GroupMemberRepository;
-import edu.pjwstk.groups.repository.GroupRepository;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
+import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -16,11 +16,11 @@ import java.util.UUID;
 @Service
 public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
 
-    private final GroupMemberRepository groupMemberRepository;
-    private final GroupRepository groupRepository;
+    private final GroupMemberJpaRepository groupMemberRepository;
+    private final GroupJpaRepository groupRepository;
     private final LeaveGroupMapper leaveGroupMapper;
 
-    public LeaveGroupUseCaseImpl(GroupMemberRepository groupMemberRepository, GroupRepository groupRepository, LeaveGroupMapper leaveGroupMapper) {
+    public LeaveGroupUseCaseImpl(GroupMemberJpaRepository groupMemberRepository, GroupJpaRepository groupRepository, LeaveGroupMapper leaveGroupMapper) {
         this.groupMemberRepository = groupMemberRepository;
         this.groupRepository = groupRepository;
         this.leaveGroupMapper = leaveGroupMapper;

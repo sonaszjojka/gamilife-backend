@@ -3,7 +3,7 @@ package edu.pjwstk.groups.usecase.editgroupmember;
 import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
 import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.exception.domain.UserLeftGroupException;
-import edu.pjwstk.groups.repository.GroupMemberRepository;
+import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -11,10 +11,10 @@ import java.util.UUID;
 @Service
 public class EditGroupMemberUseCaseImpl implements EditGroupMemberUseCase {
 
-    private final GroupMemberRepository groupMemberRepository;
+    private final GroupMemberJpaRepository groupMemberRepository;
     private final EditGroupMemberMapper editGroupMemberMapper;
 
-    public EditGroupMemberUseCaseImpl(GroupMemberRepository groupMemberRepository, EditGroupMemberMapper editGroupMemberMapper) {
+    public EditGroupMemberUseCaseImpl(GroupMemberJpaRepository groupMemberRepository, EditGroupMemberMapper editGroupMemberMapper) {
         this.groupMemberRepository = groupMemberRepository;
         this.editGroupMemberMapper = editGroupMemberMapper;
     }

@@ -5,7 +5,7 @@ import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.groups.entity.GroupRequest;
 import edu.pjwstk.groups.exception.domain.GroupRequestNotFoundException;
 import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
-import edu.pjwstk.groups.repository.GroupRequestRepository;
+import edu.pjwstk.groups.repository.GroupRequestJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +15,10 @@ import java.util.UUID;
 @Service
 public class DeleteGroupRequestUseCaseImpl implements DeleteGroupRequestUseCase {
 
-    private final GroupRequestRepository groupRequestRepository;
+    private final GroupRequestJpaRepository groupRequestRepository;
     private final AuthApi authApi;
 
-    public DeleteGroupRequestUseCaseImpl(GroupRequestRepository groupRequestRepository, AuthApi authApi) {
+    public DeleteGroupRequestUseCaseImpl(GroupRequestJpaRepository groupRequestRepository, AuthApi authApi) {
         this.groupRequestRepository = groupRequestRepository;
         this.authApi = authApi;
     }
