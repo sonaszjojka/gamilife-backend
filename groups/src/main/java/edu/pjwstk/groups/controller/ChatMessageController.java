@@ -1,7 +1,8 @@
 package edu.pjwstk.groups.controller;
 
-import edu.pjwstk.groups.usecase.createchatmessage.CreateChatMessageRequest;
-import edu.pjwstk.groups.usecase.createchatmessage.CreateChatMessageResponse;
+import edu.pjwstk.groups.controller.request.CreateChatMessageRequest;
+import edu.pjwstk.groups.usecase.createchatmessage.CreateChatMessageCommand;
+import edu.pjwstk.groups.usecase.createchatmessage.CreateChatMessageResult;
 import edu.pjwstk.groups.usecase.createchatmessage.CreateChatMessageUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -21,10 +22,15 @@ public class ChatMessageController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateChatMessageResponse> save(@RequestBody @Valid CreateChatMessageRequest request,
-                                                          @PathVariable("groupId") UUID groupId,
-                                                          @PathVariable("groupMemberId") UUID groupMemberId) {
-        CreateChatMessageResponse response = createChatMessageUseCase.execute(request, groupId, groupMemberId);
+    public ResponseEntity<CreateChatMessageResult> save(@RequestBody @Valid CreateChatMessageRequest request,
+                                                        @PathVariable("groupId") UUID groupId,
+                                                        @PathVariable("groupMemberId") UUID groupMemberId) {
+        CreateChatMessageResult response = createChatMessageUseCase.execute(new CreateChatMessageCommand(
+                groupId,
+                groupMemberId,
+                request.content(),
+                request.isImportant()
+        ));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.usecase.createchatmessage;
+package edu.pjwstk.groups.controller.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
