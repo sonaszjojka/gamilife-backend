@@ -1,9 +1,9 @@
 package edu.pjwstk.groups.controller;
 
 import edu.pjwstk.groups.shared.ApiResponse;
-import edu.pjwstk.groups.shared.GroupTypeEnum;
-import edu.pjwstk.groups.usecase.creategroup.CreateGroupRequest;
-import edu.pjwstk.groups.usecase.creategroup.CreateGroupResponse;
+import edu.pjwstk.groups.controller.request.CreateGroupRequest;
+import edu.pjwstk.groups.usecase.creategroup.CreateGroupCommand;
+import edu.pjwstk.groups.usecase.creategroup.CreateGroupResult;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupUseCase;
 import edu.pjwstk.groups.usecase.deletegroup.DeleteGroupUseCase;
 import edu.pjwstk.groups.usecase.editgroup.UpdateGroupRequest;
@@ -39,8 +39,14 @@ public class GroupController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateGroupResponse> save(@RequestBody @Valid CreateGroupRequest request) {
-        CreateGroupResponse response = createGroupUseCase.execute(request);
+    public ResponseEntity<CreateGroupResult> save(@RequestBody @Valid CreateGroupRequest request) {
+        CreateGroupResult response = createGroupUseCase.execute(new CreateGroupCommand(
+                request.adminId(),
+                request.groupName(),
+                request.groupCurrencySymbol(),
+                request.groupTypeId(),
+                request.membersLimit()
+        ));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

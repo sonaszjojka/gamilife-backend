@@ -9,8 +9,8 @@ import java.util.UUID;
  * DTO for {@link edu.pjwstk.groups.model.Group}
  */
 @Builder
-public record CreateGroupResponse(UUID groupId, String groupName, String joinCode, UUID adminId, Character groupCurrencySymbol,
-                                  Integer membersLimit, GroupTypeDto groupType)
+public record CreateGroupResult(UUID groupId, String groupName, String joinCode, UUID adminId, Character groupCurrencySymbol,
+                                Integer membersLimit, GroupTypeDto groupType)
         implements Serializable {
     /**
      * DTO for {@link edu.pjwstk.groups.model.GroupType}

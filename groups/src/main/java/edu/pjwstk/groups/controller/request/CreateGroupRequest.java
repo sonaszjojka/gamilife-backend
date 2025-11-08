@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.usecase.creategroup;
+package edu.pjwstk.groups.controller.request;
 
 import jakarta.validation.constraints.*;
 
