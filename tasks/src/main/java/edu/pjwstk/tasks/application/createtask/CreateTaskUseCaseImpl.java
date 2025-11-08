@@ -15,6 +15,7 @@ import edu.pjwstk.tasks.repository.impl.TaskRepositoryImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -44,6 +45,10 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
         if (!currentUserDto.userId().equals(request.userId())) {
             System.out.println(currentUserDto.userId()+ " "+request.userId()+"================================================================================================");
             throw new UnauthorizedTaskAccessException("User is not authorized to create task for another user!");
+        }
+
+        if (request.endTime().isAfter(LocalDateTime.now())) {
+            throw new InvalidTaskDataException("End date cannot be before creation date");
         }
 
         if (request.startTime().isAfter(request.endTime())) {

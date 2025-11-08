@@ -11,6 +11,7 @@ import edu.pjwstk.tasks.repository.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -48,6 +49,9 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
 
         if (request.endTime() != null && request.startTime().isAfter(request.endTime())) {
             throw new InvalidTaskDataException("Start time cannot be after end time!");
+        }
+        if (request.endTime()!=null&& request.endTime().isAfter(LocalDateTime.now())) {
+            throw new InvalidTaskDataException("End time cannot be before creation date");
         }
 
         if (request.completedAt() != null && request.startTime().isAfter(request.completedAt())) {
