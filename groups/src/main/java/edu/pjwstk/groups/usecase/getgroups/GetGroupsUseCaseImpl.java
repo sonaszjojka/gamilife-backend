@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.getgroups;
 
-import edu.pjwstk.groups.entity.Group;
+import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.exception.domain.GroupTypeNotFoundException;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.shared.GroupTypeEnum;

@@ -1,6 +1,5 @@
 package edu.pjwstk.groups.usecase.creategroupinvitation;
 
-import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
 import lombok.Builder;
 
 import java.io.Serializable;
@@ -8,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * DTO for {@link edu.pjwstk.groups.entity.GroupInvitation}
+ * DTO for {@link edu.pjwstk.groups.model.GroupInvitation}
  */
 @Builder
 public record CreateGroupInvitationResponse(UUID groupInvitationId,
@@ -18,14 +17,14 @@ public record CreateGroupInvitationResponse(UUID groupInvitationId,
                                             CreateGroupInvitationResponse.InvitationStatusDto invitationStatus)
         implements Serializable {
     /**
-     * DTO for {@link edu.pjwstk.groups.entity.Group}
+     * DTO for {@link edu.pjwstk.groups.model.Group}
      */
     @Builder
     public record GroupDto(UUID groupId) implements Serializable {
     }
 
     /**
-     * DTO for {@link edu.pjwstk.groups.entity.InvitationStatus}
+     * DTO for {@link edu.pjwstk.groups.model.InvitationStatus}
      */
     @Builder
     public record InvitationStatusDto(Integer invitationStatusId, String title) implements Serializable {

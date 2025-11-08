@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.repository;
 
-import edu.pjwstk.groups.entity.Group;
-import edu.pjwstk.groups.entity.GroupMember;
+import edu.pjwstk.groups.model.Group;
+import edu.pjwstk.groups.model.GroupMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

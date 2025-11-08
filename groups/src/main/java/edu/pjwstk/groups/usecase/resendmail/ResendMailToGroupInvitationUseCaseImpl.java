@@ -6,7 +6,7 @@ import edu.pjwstk.api.emailSender.MailContentType;
 import edu.pjwstk.api.emailSender.MailDto;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.groups.entity.GroupInvitation;
+import edu.pjwstk.groups.model.GroupInvitation;
 import edu.pjwstk.groups.exception.domain.GroupInvitationNotFoundException;
 import edu.pjwstk.groups.repository.GroupInvitationJpaRepository;
 import edu.pjwstk.groups.util.GroupInvitationUtil;

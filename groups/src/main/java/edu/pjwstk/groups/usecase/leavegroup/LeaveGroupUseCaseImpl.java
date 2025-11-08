@@ -2,8 +2,8 @@ package edu.pjwstk.groups.usecase.leavegroup;
 
 import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
 import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
-import edu.pjwstk.groups.entity.Group;
-import edu.pjwstk.groups.entity.GroupMember;
+import edu.pjwstk.groups.model.Group;
+import edu.pjwstk.groups.model.GroupMember;
 import edu.pjwstk.groups.exception.domain.AdminCannotLeaveGroupException;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.repository.GroupMemberJpaRepository;

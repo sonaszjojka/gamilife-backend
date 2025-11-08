@@ -6,14 +6,14 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * DTO for {@link edu.pjwstk.groups.entity.Group}
+ * DTO for {@link edu.pjwstk.groups.model.Group}
  */
 @Builder
 public record CreateGroupResponse(UUID groupId, String groupName, String joinCode, UUID adminId, Character groupCurrencySymbol,
                                   Integer membersLimit, GroupTypeDto groupType)
         implements Serializable {
     /**
-     * DTO for {@link edu.pjwstk.groups.entity.GroupType}
+     * DTO for {@link edu.pjwstk.groups.model.GroupType}
      */
     public record GroupTypeDto(Integer groupTypeId, String title) implements Serializable {
     }

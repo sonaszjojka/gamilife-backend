@@ -1,8 +1,8 @@
 package edu.pjwstk.groups.repository;
 
-import edu.pjwstk.groups.entity.Group;
-import edu.pjwstk.groups.entity.GroupRequest;
-import edu.pjwstk.groups.entity.GroupRequestStatus;
+import edu.pjwstk.groups.model.Group;
+import edu.pjwstk.groups.model.GroupRequest;
+import edu.pjwstk.groups.model.GroupRequestStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

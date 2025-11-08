@@ -1,15 +1,12 @@
 package edu.pjwstk.groups.usecase.editgroupmember;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Builder;
 
 import java.io.Serializable;
-import java.time.Instant;
 
 /**
- * DTO for {@link edu.pjwstk.groups.entity.GroupMember}
+ * DTO for {@link edu.pjwstk.groups.model.GroupMember}
  */
 @Builder
 public record EditGroupMemberRequest(

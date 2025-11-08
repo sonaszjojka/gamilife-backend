@@ -2,8 +2,8 @@ package edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.groups.entity.GroupRequest;
-import edu.pjwstk.groups.entity.GroupRequestStatus;
+import edu.pjwstk.groups.model.GroupRequest;
+import edu.pjwstk.groups.model.GroupRequestStatus;
 import edu.pjwstk.groups.exception.domain.GroupRequestNotFoundException;
 import edu.pjwstk.groups.exception.domain.GroupRequestStatusNotFoundException;
 import edu.pjwstk.groups.exception.domain.InvalidGroupDataException;

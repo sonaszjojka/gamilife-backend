@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.entity;
+package edu.pjwstk.groups.model;
 
 import edu.pjwstk.groups.shared.InvitationStatusEnum;
 import jakarta.persistence.*;

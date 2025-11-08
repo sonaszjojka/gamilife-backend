@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.api.controller;
+package edu.pjwstk.groups.controller;
 
 import edu.pjwstk.groups.shared.ApiResponse;
 import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationRequest;

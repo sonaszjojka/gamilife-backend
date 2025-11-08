@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.findgroupmemberbyid;
 
 import edu.pjwstk.api.groups.dto.GroupMemberDto;
-import edu.pjwstk.groups.entity.GroupMember;
+import edu.pjwstk.groups.model.GroupMember;
 import org.springframework.stereotype.Component;
 
 @Component

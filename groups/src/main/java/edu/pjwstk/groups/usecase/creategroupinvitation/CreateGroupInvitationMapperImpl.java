@@ -1,8 +1,8 @@
 package edu.pjwstk.groups.usecase.creategroupinvitation;
 
-import edu.pjwstk.groups.entity.Group;
-import edu.pjwstk.groups.entity.GroupInvitation;
-import edu.pjwstk.groups.entity.InvitationStatus;
+import edu.pjwstk.groups.model.Group;
+import edu.pjwstk.groups.model.GroupInvitation;
+import edu.pjwstk.groups.model.InvitationStatus;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

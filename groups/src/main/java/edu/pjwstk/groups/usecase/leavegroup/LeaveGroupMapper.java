@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.leavegroup;
 
-import edu.pjwstk.groups.entity.GroupMember;
+import edu.pjwstk.groups.model.GroupMember;
 
 public interface LeaveGroupMapper {
 

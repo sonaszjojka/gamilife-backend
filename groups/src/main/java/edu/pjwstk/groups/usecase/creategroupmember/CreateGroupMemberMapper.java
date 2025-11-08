@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.creategroupmember;
 
-import edu.pjwstk.groups.entity.Group;
-import edu.pjwstk.groups.entity.GroupMember;
+import edu.pjwstk.groups.model.Group;
+import edu.pjwstk.groups.model.GroupMember;
 
 import java.util.UUID;
 

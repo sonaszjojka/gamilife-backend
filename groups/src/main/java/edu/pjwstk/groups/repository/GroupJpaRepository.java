@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.repository;
 
-import edu.pjwstk.groups.entity.Group;
+import edu.pjwstk.groups.model.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

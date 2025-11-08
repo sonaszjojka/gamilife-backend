@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * DTO for {@link edu.pjwstk.groups.entity.GroupInvitation}
+ * DTO for {@link edu.pjwstk.groups.model.GroupInvitation}
  */
 @Builder
 public record EditGroupInvitationStatusResponse(UUID groupInvitationId, GroupDto groupInvited, UUID userId,
@@ -16,14 +16,14 @@ public record EditGroupInvitationStatusResponse(UUID groupInvitationId, GroupDto
                                                 InvitationStatusDto invitationStatus,
                                                 CreateGroupMemberResponse groupMemberResponse) implements Serializable {
     /**
-     * DTO for {@link edu.pjwstk.groups.entity.Group}
+     * DTO for {@link edu.pjwstk.groups.model.Group}
      */
     @Builder
     public record GroupDto(UUID groupId) implements Serializable {
     }
 
     /**
-     * DTO for {@link edu.pjwstk.groups.entity.InvitationStatus}
+     * DTO for {@link edu.pjwstk.groups.model.InvitationStatus}
      */
     @Builder
     public record InvitationStatusDto(Integer invitationStatusId, String title) implements Serializable {

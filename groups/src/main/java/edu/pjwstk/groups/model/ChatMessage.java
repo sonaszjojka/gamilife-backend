@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.entity;
+package edu.pjwstk.groups.model;
 
 import jakarta.persistence.*;
 import lombok.*;

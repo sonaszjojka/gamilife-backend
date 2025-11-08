@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 
-import edu.pjwstk.groups.entity.GroupInvitation;
+import edu.pjwstk.groups.model.GroupInvitation;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
 
 public interface EditGroupInvitationStatusMapper {

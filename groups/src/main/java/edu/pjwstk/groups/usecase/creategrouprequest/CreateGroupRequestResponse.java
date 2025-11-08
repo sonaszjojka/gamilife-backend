@@ -7,19 +7,19 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * DTO for {@link edu.pjwstk.groups.entity.GroupRequest}
+ * DTO for {@link edu.pjwstk.groups.model.GroupRequest}
  */
 @Builder
 public record CreateGroupRequestResponse(UUID groupRequestId, UUID userId, GroupDto groupRequested, Instant createdAt, GroupRequestStatusDto groupRequestStatus) implements Serializable {
     /**
-     * DTO for {@link edu.pjwstk.groups.entity.Group}
+     * DTO for {@link edu.pjwstk.groups.model.Group}
      */
     @Builder
     public record GroupDto(UUID groupId) implements Serializable {
     }
 
     /**
-     * DTO for {@link edu.pjwstk.groups.entity.GroupRequestStatus}
+     * DTO for {@link edu.pjwstk.groups.model.GroupRequestStatus}
      */
     @Builder
     public record GroupRequestStatusDto(Integer groupRequestStatusId, String title) implements Serializable {

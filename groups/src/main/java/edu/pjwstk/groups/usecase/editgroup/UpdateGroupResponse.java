@@ -10,7 +10,7 @@ public record UpdateGroupResponse(UUID groupId, String joinCode, String groupNam
                                   Integer membersLimit, UpdateGroupResponse.GroupTypeDto groupType)
         implements Serializable {
     /**
-     * DTO for {@link edu.pjwstk.groups.entity.GroupType}
+     * DTO for {@link edu.pjwstk.groups.model.GroupType}
      */
     public record GroupTypeDto(Integer groupTypeId, String title) implements Serializable {
     }

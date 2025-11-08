@@ -1,7 +1,6 @@
 package edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest;
 
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
-import edu.pjwstk.groups.usecase.creategrouprequest.CreateGroupRequestResponse;
 import lombok.Builder;
 
 import java.io.Serializable;
@@ -16,14 +15,14 @@ public record EditGroupRequestStatusForGroupRequestResponse(UUID groupRequestId,
                                                             CreateGroupMemberResponse groupMember)
         implements Serializable {
     /**
-     * DTO for {@link edu.pjwstk.groups.entity.Group}
+     * DTO for {@link edu.pjwstk.groups.model.Group}
      */
     @Builder
     public record GroupDto(UUID groupId) implements Serializable {
     }
 
     /**
-     * DTO for {@link edu.pjwstk.groups.entity.GroupRequestStatus}
+     * DTO for {@link edu.pjwstk.groups.model.GroupRequestStatus}
      */
     @Builder
     public record GroupRequestStatusDto(Integer groupRequestStatusId, String title) implements Serializable {

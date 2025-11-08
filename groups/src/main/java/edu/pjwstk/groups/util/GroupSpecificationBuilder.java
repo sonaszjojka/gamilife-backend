@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.util;
 
-import edu.pjwstk.groups.entity.Group;
+import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.shared.GroupTypeEnum;
 import org.springframework.data.jpa.domain.Specification;
 
