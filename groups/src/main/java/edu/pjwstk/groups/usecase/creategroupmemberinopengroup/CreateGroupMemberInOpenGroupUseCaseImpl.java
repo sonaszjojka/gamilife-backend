@@ -13,6 +13,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMemberInOpenGroupUseCase {
@@ -24,8 +26,7 @@ public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMembe
     @Override
     @Transactional
     public CreateGroupMemberInOpenGroupResult executeInternal(CreateGroupMemberInOpenGroupCommand cmd) {
-        Group group = groupRepository.findById(cmd.groupId())
-                .orElseThrow(() -> new GroupNotFoundException("Group with id: " + cmd.groupId() + " not found!"));
+        Group group = getGroup(cmd.groupId());
 
         if (group.isOfType(GroupTypeEnum.OPEN)) {
             throw new UserJoinGroupAccessDeniedException("To add user to group which type is: REQUEST_ONLY or CLOSED " +
@@ -37,6 +38,11 @@ public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMembe
 
         GroupMember groupMember = groupMemberService.createGroupMember(group, cmd.userId());
         return buildCreateGroupMemberResponse(groupMember);
+    }
+
+    private Group getGroup(UUID groupId) {
+        return groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
     }
 
     private CreateGroupMemberInOpenGroupResult buildCreateGroupMemberResponse(GroupMember groupMember) {

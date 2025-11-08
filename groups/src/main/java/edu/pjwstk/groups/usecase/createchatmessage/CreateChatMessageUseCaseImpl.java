@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -31,22 +30,16 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
     @Override
     @Transactional
     public CreateChatMessageResult executeInternal(CreateChatMessageCommand cmd) {
-        Group group = groupRepository.findById(cmd.groupId())
-                .orElseThrow(
-                        () -> new GroupNotFoundException("Group with id: " + cmd.groupId() + " not found!")
-                );
-
-        GroupMember groupMember = groupMemberRepository.findById(cmd.groupMemberId())
-                .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: " + cmd.groupMemberId() + " not found!"));
-
+        Group group = getGroup(cmd.groupId());
+        GroupMember groupMember = getGroupMember(cmd.groupId(), cmd.groupMemberId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
-        if (groupMember.getLeftAt() != null) {
+        if (!groupMember.isActive()) {
             throw new UserLeftGroupException("Group member with id: " + cmd.groupMemberId() + " left group with id: "
                     + groupMember.getMemberGroup().getGroupId() + " and is no longer member of it!");
         }
 
-        if (!Objects.equals(currentUserDto.userId(), groupMember.getUserId())) {
+        if (groupMember.isUser(currentUserDto.userId())) {
             throw new ResourceOwnerPrivilegesRequiredException("User with id: " + groupMember.getUserId()
                     + " is not group member with id: " + cmd.groupMemberId());
         }
@@ -60,16 +53,34 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
                 .build();
         ChatMessage savedChatMessage = chatMessageRepository.save(chatMessage);
 
+        return buildCreateChatMessageResult(savedChatMessage);
+    }
+
+    private Group getGroup(UUID groupId) {
+        return groupRepository.findById(groupId)
+                .orElseThrow(
+                        () -> new GroupNotFoundException("Group with id: " + groupId + " not found!")
+                );
+    }
+
+    private GroupMember getGroupMember(UUID groupId, UUID groupMemberId) {
+        return groupMemberRepository.findByGroupMemberIdAndMemberGroup_GroupId(groupMemberId, groupId)
+                .orElseThrow(
+                        () -> new GroupMemberNotFoundException("Group member with id: " + groupMemberId + " not found!")
+                );
+    }
+
+    private CreateChatMessageResult buildCreateChatMessageResult(ChatMessage chatMessage) {
         return CreateChatMessageResult.builder()
-                .messageId(savedChatMessage.getMessageId())
-                .isImportant(savedChatMessage.getIsImportant())
-                .sendAt(savedChatMessage.getSendAt())
-                .content(savedChatMessage.getContent())
-                .group(new CreateChatMessageResult.GroupDto(savedChatMessage.getGroup().getGroupId()))
+                .messageId(chatMessage.getMessageId())
+                .isImportant(chatMessage.getIsImportant())
+                .sendAt(chatMessage.getSendAt())
+                .content(chatMessage.getContent())
+                .group(new CreateChatMessageResult.GroupDto(chatMessage.getGroup().getGroupId()))
                 .senderGroupMember(new CreateChatMessageResult.GroupMemberDto(
-                        savedChatMessage.getSenderGroupMember().getGroupMemberId(),
-                        savedChatMessage.getSenderGroupMember().getUserId(),
-                        savedChatMessage.getSenderGroupMember().getJoinedAt()
+                        chatMessage.getSenderGroupMember().getGroupMemberId(),
+                        chatMessage.getSenderGroupMember().getUserId(),
+                        chatMessage.getSenderGroupMember().getJoinedAt()
                 ))
                 .build();
     }

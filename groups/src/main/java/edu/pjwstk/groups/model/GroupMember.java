@@ -52,4 +52,8 @@ public class GroupMember {
     public boolean isActive() {
         return this.leftAt == null;
     }
+
+    public boolean isUser(UUID userId) {
+        return this.userId.equals(userId);
+    }
 }

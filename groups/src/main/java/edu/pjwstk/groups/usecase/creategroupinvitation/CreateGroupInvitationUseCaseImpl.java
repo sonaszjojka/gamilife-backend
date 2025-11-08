@@ -40,8 +40,7 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     @Transactional
     public CreateGroupInvitationResult executeInternal(CreateGroupInvitationCommand cmd) {
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
-        Group group = groupRepository.findById(cmd.groupId())
-                .orElseThrow(() -> new GroupNotFoundException("Group with id:" + cmd.groupId() + " not found!"));
+        Group group = getGroup(cmd.groupId());
 
         if (!group.isUserAdmin(currentUserDto.userId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators " +
@@ -52,9 +51,7 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
             throw new GroupFullException("Group with id: " + cmd.groupId() + " is full!");
         }
 
-        InvitationStatus invitationStatus = invitationStatusRepository.findById(InvitationStatusEnum.SENT.getId())
-                .orElseThrow(() -> new InvitationStatusNotFoundException("Invitation stauts with id: "
-                        + InvitationStatusEnum.SENT.getId() + " not found!"));
+        InvitationStatus invitationStatus = getSentInvitationStatus();
 
         GroupInvitation groupInvitation = createGroupInvitation(group, invitationStatus, cmd.userId());
 
@@ -70,6 +67,17 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
         }
 
         return createResponse(groupInvitation);
+    }
+
+    private InvitationStatus getSentInvitationStatus() {
+        return invitationStatusRepository.findById(InvitationStatusEnum.SENT.getId())
+                .orElseThrow(() -> new InvitationStatusNotFoundException("Invitation stauts with id: "
+                        + InvitationStatusEnum.SENT.getId() + " not found!"));
+    }
+
+    private Group getGroup(UUID groupId) {
+        return groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));
     }
 
     private GroupInvitation createGroupInvitation(Group group, InvitationStatus invitationStatus, UUID userId) {
