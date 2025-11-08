@@ -43,12 +43,12 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
         Group group = groupRepository.findById(cmd.groupId())
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + cmd.groupId() + " not found!"));
 
-        if (!checkIfUserIsGroupAdmin(currentUserDto.userId(), group)) {
+        if (!group.isUserAdmin(currentUserDto.userId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators " +
                     "can create group invitations!");
         }
 
-        if (checkIfGroupIsFull(group)) {
+        if (group.isFull()) {
             throw new GroupFullException("Group with id: " + cmd.groupId() + " is full!");
         }
 
@@ -70,14 +70,6 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
         }
 
         return createResponse(groupInvitation);
-    }
-
-    private boolean checkIfUserIsGroupAdmin(UUID userId, Group group) {
-        return userId.equals(group.getAdminId());
-    }
-
-    private boolean checkIfGroupIsFull(Group group) {
-        return group.getGroupMembers().size() >= group.getMembersLimit();
     }
 
     private GroupInvitation createGroupInvitation(Group group, InvitationStatus invitationStatus, UUID userId) {

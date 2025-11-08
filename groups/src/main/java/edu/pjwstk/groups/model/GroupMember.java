@@ -48,4 +48,8 @@ public class GroupMember {
     @OneToMany(mappedBy = "senderGroupMember")
     @ToString.Exclude
     private List<ChatMessage> chatMessages;
+
+    public boolean isActive() {
+        return this.leftAt == null;
+    }
 }

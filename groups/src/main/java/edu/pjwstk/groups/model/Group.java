@@ -1,5 +1,6 @@
 package edu.pjwstk.groups.model;
 
+import edu.pjwstk.groups.shared.GroupTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -54,4 +55,16 @@ public class Group {
     @OneToMany(mappedBy = "groupInvited", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
     private List<GroupInvitation> groupInvitations;
+
+    public boolean isFull() {
+        return groupMembers != null && groupMembers.size() >= membersLimit;
+    }
+
+    public boolean isUserAdmin(UUID userId) {
+        return adminId.equals(userId);
+    }
+
+    public boolean isOfType(GroupTypeEnum typeEnum) {
+        return groupType != null && groupType.toEnum() == typeEnum;
+    }
 }

@@ -1,5 +1,6 @@
 package edu.pjwstk.groups.model;
 
+import edu.pjwstk.groups.shared.InvitationStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -42,4 +43,20 @@ public class GroupInvitation {
     @ManyToOne
     @JoinColumn(name = "invitation_status_id", nullable = false)
     private InvitationStatus invitationStatus;
+
+    public boolean doesBelongToUser(UUID userId) {
+        return this.userId.equals(userId);
+    }
+
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(this.expiresAt);
+    }
+
+    public boolean hasStatus(InvitationStatusEnum statusEnum) {
+        return this.invitationStatus.toEnum() == statusEnum;
+    }
+
+    public boolean doesBelongToGroup(UUID groupId) {
+        return this.groupInvited.getGroupId().equals(groupId);
+    }
 }

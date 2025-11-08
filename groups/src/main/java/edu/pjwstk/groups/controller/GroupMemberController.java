@@ -1,8 +1,9 @@
 package edu.pjwstk.groups.controller;
 
-import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberInOpenGroupUseCase;
-import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberRequest;
-import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
+import edu.pjwstk.groups.controller.request.CreateGroupMemberRequest;
+import edu.pjwstk.groups.usecase.creategroupmemberinopengroup.CreateGroupMemberInOpenGroupCommand;
+import edu.pjwstk.groups.usecase.creategroupmemberinopengroup.CreateGroupMemberInOpenGroupResult;
+import edu.pjwstk.groups.usecase.creategroupmemberinopengroup.CreateGroupMemberInOpenGroupUseCase;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberRequest;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberResponse;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberUseCase;
@@ -30,9 +31,11 @@ public class GroupMemberController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateGroupMemberResponse> save(@RequestBody @Valid CreateGroupMemberRequest request,
-                                                          @PathVariable("groupId") UUID groupId) {
-        CreateGroupMemberResponse response = createGroupMemberUseCase.execute(request, groupId);
+    public ResponseEntity<CreateGroupMemberInOpenGroupResult> save(@RequestBody @Valid CreateGroupMemberRequest request,
+                                                                   @PathVariable("groupId") UUID groupId) {
+        CreateGroupMemberInOpenGroupResult response = createGroupMemberUseCase.execute(
+                new CreateGroupMemberInOpenGroupCommand(request.userId(), groupId)
+        );
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
