@@ -1,8 +1,11 @@
 package edu.pjwstk.groups.shared;
 
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum InvitationStatusEnum {
     SENT(1),
     ACCEPTED(2),
@@ -12,10 +15,6 @@ public enum InvitationStatusEnum {
 
     InvitationStatusEnum(int id) {
         this.id = id;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public static InvitationStatusEnum fromId(int id) {

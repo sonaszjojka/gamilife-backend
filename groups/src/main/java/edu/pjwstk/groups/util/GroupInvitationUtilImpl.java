@@ -14,13 +14,11 @@ import java.util.UUID;
 @Component
 public class GroupInvitationUtilImpl implements GroupInvitationUtil {
 
+    private static final SecureRandom secureRandom = new SecureRandom();
     @Value("${app.invitation.expiration-days:14}")
     private int groupInvitationExpirationDays;
-
     @Value("${app.invitation.invitation-url-prefix}")
     private String invitationUrlPrefix;
-
-    private static final SecureRandom secureRandom = new SecureRandom();
 
     @Override
     public String generateGroupInvitationLink(UUID groupId, UUID groupInvitationId, String token) {

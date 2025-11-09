@@ -31,7 +31,7 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
         GroupTypeEnum groupType;
         try {
             groupType = GroupTypeEnum.fromId(cmd.type());
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new GroupTypeNotFoundException("Group type does not exists!");
         }
 

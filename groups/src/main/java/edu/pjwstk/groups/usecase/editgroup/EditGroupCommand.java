@@ -1,7 +1,6 @@
 package edu.pjwstk.groups.usecase.editgroup;
 
 import edu.pjwstk.core.Command;
-import jakarta.validation.constraints.*;
 
 import java.util.UUID;
 

@@ -12,7 +12,9 @@ public enum GroupTypeEnum {
 
     private final int id;
 
-    GroupTypeEnum(int id) { this.id = id; }
+    GroupTypeEnum(int id) {
+        this.id = id;
+    }
 
     public static GroupTypeEnum fromId(int id) {
         return Arrays.stream(values())
