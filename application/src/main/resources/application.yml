@@ -52,6 +52,7 @@ spring:
 app:
   invitation:
     invitation-url-prefix: ${INVITATION-URL-PREFIX}
+    expiration-days: 14
   frontend-urls:
     main-url: {MAIN_URL}
     reset-password-url: "/reset-password"

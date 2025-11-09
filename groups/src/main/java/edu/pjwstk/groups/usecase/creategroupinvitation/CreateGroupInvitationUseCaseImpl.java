@@ -19,7 +19,7 @@ import edu.pjwstk.groups.model.InvitationStatus;
 import edu.pjwstk.groups.repository.GroupInvitationJpaRepository;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.repository.InvitationStatusJpaRepository;
-import edu.pjwstk.groups.shared.InvitationStatusEnum;
+import edu.pjwstk.groups.enums.InvitationStatusEnum;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

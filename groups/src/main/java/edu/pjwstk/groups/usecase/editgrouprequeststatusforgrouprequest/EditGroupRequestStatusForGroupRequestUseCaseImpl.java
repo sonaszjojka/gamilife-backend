@@ -12,7 +12,7 @@ import edu.pjwstk.groups.model.GroupRequestStatus;
 import edu.pjwstk.groups.repository.GroupRequestJpaRepository;
 import edu.pjwstk.groups.repository.GroupRequestStatusJpaRepository;
 import edu.pjwstk.groups.service.GroupMemberService;
-import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
+import edu.pjwstk.groups.enums.GroupRequestStatusEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

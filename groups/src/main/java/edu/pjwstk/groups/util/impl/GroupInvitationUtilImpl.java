@@ -1,5 +1,6 @@
-package edu.pjwstk.groups.util;
+package edu.pjwstk.groups.util.impl;
 
+import edu.pjwstk.groups.util.GroupInvitationUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ import java.util.UUID;
 public class GroupInvitationUtilImpl implements GroupInvitationUtil {
 
     private static final SecureRandom secureRandom = new SecureRandom();
-    @Value("${app.invitation.expiration-days:14}")
+    @Value("${app.invitation.expiration-days}")
     private int groupInvitationExpirationDays;
     @Value("${app.invitation.invitation-url-prefix}")
     private String invitationUrlPrefix;

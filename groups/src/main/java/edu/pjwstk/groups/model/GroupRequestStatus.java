@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.model;
 
-import edu.pjwstk.groups.shared.GroupRequestStatusEnum;
+import edu.pjwstk.groups.enums.GroupRequestStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 

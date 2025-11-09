@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.shared;
+package edu.pjwstk.groups.enums;
 
 import lombok.Getter;
 

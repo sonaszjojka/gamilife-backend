@@ -1,5 +1,6 @@
-package edu.pjwstk.groups.util;
+package edu.pjwstk.groups.util.impl;
 
+import edu.pjwstk.groups.util.JoinCodeGenerator;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;

@@ -8,7 +8,7 @@ import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.model.GroupMember;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.service.GroupMemberService;
-import edu.pjwstk.groups.shared.GroupTypeEnum;
+import edu.pjwstk.groups.enums.GroupTypeEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
