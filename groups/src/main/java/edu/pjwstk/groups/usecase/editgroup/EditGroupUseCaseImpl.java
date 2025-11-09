@@ -68,12 +68,6 @@ public class EditGroupUseCaseImpl implements EditGroupUseCase {
     }
 
     private EditGroupResult buildEditGroupResult(Group group) {
-        EditGroupResult.GroupTypeDto groupTypeDto = group.getGroupType() != null ?
-                new EditGroupResult.GroupTypeDto(
-                        group.getGroupType().getGroupTypeId(),
-                        group.getGroupType().getTitle()
-                ) : null;
-
         return EditGroupResult.builder()
                 .groupId(group.getGroupId())
                 .groupName(group.getName())
@@ -81,7 +75,10 @@ public class EditGroupUseCaseImpl implements EditGroupUseCase {
                 .adminId(group.getAdminId())
                 .groupCurrencySymbol(group.getGroupCurrencySymbol())
                 .membersLimit(group.getMembersLimit())
-                .groupType(groupTypeDto)
+                .groupType(new EditGroupResult.GroupTypeDto(
+                        group.getGroupType().getGroupTypeId(),
+                        group.getGroupType().getTitle()
+                ))
                 .build();
     }
 }

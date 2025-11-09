@@ -1,7 +1,6 @@
 package edu.pjwstk.groups.usecase.leavegroup;
 
 import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
-import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.exception.domain.AdminCannotLeaveGroupException;
 import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.model.GroupMember;
@@ -21,17 +20,12 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
     private final GroupJpaRepository groupRepository;
 
     @Override
-    public LeaveGroupResult execute(UUID groupMemberId, UUID groupId) {
-        Group group = getGroup(groupId);
-        GroupMember groupMember = getGroupMember(groupId, groupMemberId);
+    public LeaveGroupResult executeInternal(LeaveGroupCommand cmd) {
+        GroupMember groupMember = getGroupMemberWithGroup(cmd.groupId(), cmd.groupMemberId());
+        Group group = groupMember.getMemberGroup();
 
         if (group.isUserAdmin(groupMember.getUserId())) {
-            if (group.getGroupMembers().size() > 1) {
-                throw new AdminCannotLeaveGroupException("Administrator cannot leave group! " +
-                        "Change group administrator before leaving.");
-            }
-            throw new AdminCannotLeaveGroupException("Administrator cannot leave group! " +
-                    "Delete group instead of leaving.");
+            throw new AdminCannotLeaveGroupException("Administrator cannot leave group!");
         }
 
         groupMember.setLeftAt(Instant.now());
@@ -40,13 +34,8 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
         return buildLeaveGroupResult(savedGroupMember);
     }
 
-    private Group getGroup(UUID groupId) {
-        return groupRepository.findById(groupId)
-                .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
-    }
-
-    private GroupMember getGroupMember(UUID groupId, UUID groupMemberId) {
-        return groupMemberRepository.findByGroupMemberIdAndMemberGroup_GroupId(groupMemberId, groupId)
+    private GroupMember getGroupMemberWithGroup(UUID groupId, UUID groupMemberId) {
+        return groupMemberRepository.findWithMemberGroupByGroupMemberIdAndMemberGroup_GroupId(groupMemberId, groupId)
                 .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: "
                         + groupMemberId + " not found!"));
     }

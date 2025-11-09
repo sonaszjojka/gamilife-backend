@@ -44,7 +44,7 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     @Transactional
     public CreateGroupInvitationResult executeInternal(CreateGroupInvitationCommand cmd) {
         CurrentUserDto adminDto = authApi.getCurrentUser();
-        Group group = getGroup(cmd.groupId());
+        Group group = getGroupWithMembers(cmd.groupId());
         BasicUserInfoApiDto userToInvite = getUserToInvite(cmd.userId());
 
         if (!group.isUserAdmin(adminDto.userId())) {
@@ -84,8 +84,8 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
                         + InvitationStatusEnum.SENT.getId() + " not found!"));
     }
 
-    private Group getGroup(UUID groupId) {
-        return groupRepository.findById(groupId)
+    private Group getGroupWithMembers(UUID groupId) {
+        return groupRepository.findWithGroupMembersByGroupId(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));
     }
 

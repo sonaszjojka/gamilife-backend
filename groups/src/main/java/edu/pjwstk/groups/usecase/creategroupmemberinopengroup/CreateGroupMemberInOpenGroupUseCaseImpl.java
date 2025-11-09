@@ -26,7 +26,7 @@ public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMembe
     @Override
     @Transactional
     public CreateGroupMemberInOpenGroupResult executeInternal(CreateGroupMemberInOpenGroupCommand cmd) {
-        Group group = getGroup(cmd.groupId());
+        Group group = getGroupWithMembers(cmd.groupId());
 
         if (group.isOfType(GroupTypeEnum.OPEN)) {
             throw new UserJoinGroupAccessDeniedException("To add user to group which type is: REQUEST_ONLY or CLOSED " +
@@ -40,8 +40,8 @@ public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMembe
         return buildCreateGroupMemberResponse(groupMember);
     }
 
-    private Group getGroup(UUID groupId) {
-        return groupRepository.findById(groupId)
+    private Group getGroupWithMembers(UUID groupId) {
+        return groupRepository.findWithGroupMembersByGroupId(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
     }
 

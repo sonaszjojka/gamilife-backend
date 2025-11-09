@@ -81,12 +81,6 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
     }
 
     private CreateGroupResult buildCreateGroupResult(Group group) {
-        CreateGroupResult.GroupTypeDto groupTypeDto = group.getGroupType() != null ?
-                new CreateGroupResult.GroupTypeDto(
-                        group.getGroupType().getGroupTypeId(),
-                        group.getGroupType().getTitle()
-                ) : null;
-
         return CreateGroupResult.builder()
                 .groupId(group.getGroupId())
                 .groupName(group.getName())
@@ -94,7 +88,10 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
                 .adminId(group.getAdminId())
                 .groupCurrencySymbol(group.getGroupCurrencySymbol())
                 .membersLimit(group.getMembersLimit())
-                .groupType(groupTypeDto)
+                .groupType(new CreateGroupResult.GroupTypeDto(
+                        group.getGroupType().getGroupTypeId(),
+                        group.getGroupType().getTitle()
+                ))
                 .build();
     }
 }

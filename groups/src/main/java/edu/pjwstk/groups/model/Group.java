@@ -4,7 +4,9 @@ import edu.pjwstk.groups.enums.GroupTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -36,25 +38,28 @@ public class Group {
     @Column(name = "members_limit", updatable = true, nullable = false)
     private Integer membersLimit;
 
-    @ManyToOne
+    @Column(name = "group_type_id", insertable = false, updatable = false, nullable = false)
+    private Integer groupTypeId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_type_id", nullable = false)
     private GroupType groupType;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
-    private List<ChatMessage> chatMessages;
+    private Set<ChatMessage> chatMessages = new HashSet<>();
 
     @OneToMany(mappedBy = "memberGroup", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
-    private List<GroupMember> groupMembers;
+    private Set<GroupMember> groupMembers = new HashSet<>();
 
     @OneToMany(mappedBy = "groupRequested", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
-    private List<GroupRequest> groupRequests;
+    private Set<GroupRequest> groupRequests = new HashSet<>();
 
     @OneToMany(mappedBy = "groupInvited", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
-    private List<GroupInvitation> groupInvitations;
+    private Set<GroupInvitation> groupInvitations = new HashSet<>();
 
     public boolean isFull() {
         return groupMembers != null && groupMembers.size() >= membersLimit;
@@ -65,6 +70,18 @@ public class Group {
     }
 
     public boolean isOfType(GroupTypeEnum typeEnum) {
-        return groupType != null && groupType.toEnum() == typeEnum;
+        return groupTypeId == typeEnum.getId();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Group group = (Group) o;
+        return Objects.equals(groupId, group.groupId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(groupId);
     }
 }

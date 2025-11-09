@@ -3,6 +3,8 @@ package edu.pjwstk.groups.usecase.creategrouprequest;
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
+import edu.pjwstk.groups.enums.GroupRequestStatusEnum;
+import edu.pjwstk.groups.enums.GroupTypeEnum;
 import edu.pjwstk.groups.exception.domain.GroupFullException;
 import edu.pjwstk.groups.exception.domain.GroupRequestStatusNotFoundException;
 import edu.pjwstk.groups.exception.domain.InvalidGroupDataException;
@@ -13,8 +15,6 @@ import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
 import edu.pjwstk.groups.repository.GroupRequestJpaRepository;
 import edu.pjwstk.groups.repository.GroupRequestStatusJpaRepository;
-import edu.pjwstk.groups.enums.GroupRequestStatusEnum;
-import edu.pjwstk.groups.enums.GroupTypeEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +34,7 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
     @Override
     @Transactional
     public CreateGroupRequestResult executeInternal(CreateGroupRequestCommand cmd) {
-        Group group = getGroup(cmd.groupId());
+        Group group = getGroupWithMembers(cmd.groupId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (isUserMemberOfGroup(currentUserDto.userId(), group)) {
@@ -48,7 +48,6 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
         }
 
         GroupRequestStatus sentGroupRequestStatus = getSentGroupRequestStatus();
-
         if (hasUserSentRequestToGroup(group, currentUserDto, sentGroupRequestStatus)) {
             throw new InvalidGroupDataException("User with id: " + currentUserDto.userId()
                     + " has already group request with status: SENT to group with id:" + cmd.groupId());
@@ -81,8 +80,8 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
         return groupMemberRepository.existsByUserIdAndMemberGroup(userId, group);
     }
 
-    private Group getGroup(UUID groupId) {
-        return groupRepository.findById(groupId)
+    private Group getGroupWithMembers(UUID groupId) {
+        return groupRepository.findWithGroupMembersByGroupId(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
     }
 
