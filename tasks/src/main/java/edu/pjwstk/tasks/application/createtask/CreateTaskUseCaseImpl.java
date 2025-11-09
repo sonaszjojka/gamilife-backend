@@ -47,7 +47,7 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
             throw new UnauthorizedTaskAccessException("User is not authorized to create task for another user!");
         }
 
-        if (request.endTime().isAfter(LocalDateTime.now())) {
+        if (request.endTime().isBefore(LocalDateTime.now())) {
             throw new InvalidTaskDataException("End date cannot be before creation date");
         }
 
