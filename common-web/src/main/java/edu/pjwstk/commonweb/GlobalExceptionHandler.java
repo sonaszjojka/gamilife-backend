@@ -10,6 +10,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -114,6 +115,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestPartException.class)
     public ErrorResponse handleMissingRequestPart() {
         ErrorCode errorCode = CommonErrorCode.MISSING_REQUEST_BODY;
+        ErrorResponse response = buildErrorResponseFor(errorCode);
+        logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
+
+        return response;
+    }
+
+    @ExceptionHandler(MissingRequestCookieException.class)
+    public ErrorResponse handleMissingRequestCookieException(MissingRequestCookieException ex) {
+
+        ErrorCode errorCode = switch(ex.getCookieName()){
+            case "REFRESH-TOKEN" -> CommonErrorCode.MISSING_REFRESH_TOKEN_COOKIE;
+            case "ACCESS-TOKEN" -> CommonErrorCode.MISSING_ACCESS_TOKEN_COOKIE;
+            default -> CommonErrorCode.MISSING_REQUEST_COOKIE;
+        };
+
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 

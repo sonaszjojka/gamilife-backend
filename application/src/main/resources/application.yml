@@ -52,6 +52,10 @@ spring:
 app:
   invitation:
     invitation-url-prefix: ${INVITATION-URL-PREFIX}
+  frontend-urls:
+    main-url: {MAIN_URL}
+    reset-password-url: "/reset-password"
+    email-verification-url: "/verify-email"
 sendgrid:
   api-key: ${SENDGRID_API_KEY}
   send-emails: true
