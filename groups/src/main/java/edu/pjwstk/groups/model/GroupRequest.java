@@ -39,4 +39,8 @@ public class GroupRequest {
     public boolean hasStatus(GroupRequestStatusEnum statusEnum) {
         return this.groupRequestStatus.toEnum() == statusEnum;
     }
+
+    public boolean belongsToUser(UUID userId) {
+        return this.userId.equals(userId);
+    }
 }

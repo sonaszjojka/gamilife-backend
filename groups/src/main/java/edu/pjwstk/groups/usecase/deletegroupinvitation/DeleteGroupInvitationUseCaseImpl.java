@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -26,7 +25,7 @@ public class DeleteGroupInvitationUseCaseImpl implements DeleteGroupInvitationUs
         GroupInvitation groupInvitation = getGroupInvitation(cmd.groupId(), cmd.groupInvitationId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
-        if (!Objects.equals(currentUserDto.userId(), groupInvitation.getGroupInvited().getAdminId())) {
+        if (!groupInvitation.getGroupInvited().isUserAdmin(currentUserDto.userId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can delete group invitations!");
         }
 

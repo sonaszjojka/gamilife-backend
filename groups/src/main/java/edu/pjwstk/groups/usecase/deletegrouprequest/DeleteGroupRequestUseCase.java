@@ -1,7 +1,6 @@
 package edu.pjwstk.groups.usecase.deletegrouprequest;
 
-import java.util.UUID;
+import edu.pjwstk.core.UseCase;
 
-public interface DeleteGroupRequestUseCase {
-    void execute(UUID groupRequestId);
+public interface DeleteGroupRequestUseCase extends UseCase<DeleteGroupRequestCommand, Void> {
 }

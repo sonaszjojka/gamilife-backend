@@ -5,6 +5,7 @@ import edu.pjwstk.groups.controller.response.ApiResponse;
 import edu.pjwstk.groups.usecase.creategrouprequest.CreateGroupRequestCommand;
 import edu.pjwstk.groups.usecase.creategrouprequest.CreateGroupRequestResult;
 import edu.pjwstk.groups.usecase.creategrouprequest.CreateGroupRequestUseCase;
+import edu.pjwstk.groups.usecase.deletegrouprequest.DeleteGroupRequestCommand;
 import edu.pjwstk.groups.usecase.deletegrouprequest.DeleteGroupRequestUseCase;
 import edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest.EditGroupRequestStatusForGroupRequestCommand;
 import edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest.EditGroupRequestStatusForGroupRequestResult;
@@ -41,7 +42,10 @@ public class GroupRequestController {
     @DeleteMapping("/{groupRequestId}")
     private ResponseEntity<ApiResponse> deleteById(@PathVariable("groupRequestId") UUID groupRequestId,
                                                    @PathVariable("groupId") UUID groupId) {
-        deleteGroupRequestUseCase.execute(groupRequestId);
+        deleteGroupRequestUseCase.execute(new DeleteGroupRequestCommand(
+                groupId,
+                groupRequestId
+        ));
         return ResponseEntity.ok(new ApiResponse("Group request with id: " + groupRequestId + " deleted successfully."));
     }
 
