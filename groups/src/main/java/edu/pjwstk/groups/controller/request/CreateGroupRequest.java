@@ -2,13 +2,7 @@ package edu.pjwstk.groups.controller.request;
 
 import jakarta.validation.constraints.*;
 
-import java.util.UUID;
-
 public record CreateGroupRequest(
-
-        @NotNull(message = "Admin ID cannot be null")
-        UUID adminId,
-
         @NotBlank(message = "Group name cannot be blank")
         @Size(max = 50, message = "Group name cannot exceed 50 characters")
         String groupName,

@@ -41,7 +41,6 @@ public class GroupController {
     @PostMapping
     public ResponseEntity<CreateGroupResult> save(@RequestBody @Valid CreateGroupRequest request) {
         CreateGroupResult response = createGroupUseCase.execute(new CreateGroupCommand(
-                request.adminId(),
                 request.groupName(),
                 request.groupCurrencySymbol(),
                 request.groupTypeId(),

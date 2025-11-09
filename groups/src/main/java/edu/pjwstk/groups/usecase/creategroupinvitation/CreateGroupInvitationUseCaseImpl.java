@@ -5,9 +5,12 @@ import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.api.emailSender.EmailSenderApi;
 import edu.pjwstk.api.emailSender.MailContentType;
 import edu.pjwstk.api.emailSender.MailDto;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.core.exception.common.application.EmailSendingException;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
+import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.groups.exception.domain.GroupFullException;
 import edu.pjwstk.groups.exception.domain.InvitationStatusNotFoundException;
 import edu.pjwstk.groups.model.Group;
@@ -35,29 +38,30 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     private final AuthApi authApi;
     private final GroupInvitationUtil groupInvitationUtil;
     private final EmailSenderApi emailSenderApi;
+    private final UserApi userApi;
 
     @Override
     @Transactional
     public CreateGroupInvitationResult executeInternal(CreateGroupInvitationCommand cmd) {
-        CurrentUserDto currentUserDto = authApi.getCurrentUser();
+        CurrentUserDto adminDto = authApi.getCurrentUser();
         Group group = getGroup(cmd.groupId());
+        BasicUserInfoApiDto userToInvite = getUserToInvite(cmd.userId());
 
-        if (!group.isUserAdmin(currentUserDto.userId())) {
-            throw new GroupAdminPrivilegesRequiredException("Only group administrators " +
-                    "can create group invitations!");
+        if (!group.isUserAdmin(adminDto.userId())) {
+            throw new GroupAdminPrivilegesRequiredException("Only group administrators can create group invitations!");
         }
 
         if (group.isFull()) {
-            throw new GroupFullException("Group with id: " + cmd.groupId() + " is full!");
+            throw new GroupFullException("Group with id: " + group.getGroupId() + " is full!");
         }
 
         InvitationStatus invitationStatus = getSentInvitationStatus();
 
-        GroupInvitation groupInvitation = createGroupInvitation(group, invitationStatus, cmd.userId());
+        GroupInvitation groupInvitation = createGroupInvitation(group, invitationStatus, userToInvite.userId());
 
         try {
             emailSenderApi.sendEmail(MailDto.builder()
-                    .toEmail(currentUserDto.email())
+                    .toEmail(userToInvite.email())
                     .subject(groupInvitationUtil.generateInvitationMailSubjectMessage())
                     .content(groupInvitationUtil.generateInvitationMailContentMessage(groupInvitation.getLink(), group.getJoinCode()))
                     .mailContentType(MailContentType.HTML)
@@ -67,6 +71,11 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
         }
 
         return createResponse(groupInvitation);
+    }
+
+    private BasicUserInfoApiDto getUserToInvite(UUID userId) {
+        return userApi.getUserById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " not found!"));
     }
 
     private InvitationStatus getSentInvitationStatus() {
