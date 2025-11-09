@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.usecase.editgroupmember;
+package edu.pjwstk.groups.controller.request;
 
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Builder;

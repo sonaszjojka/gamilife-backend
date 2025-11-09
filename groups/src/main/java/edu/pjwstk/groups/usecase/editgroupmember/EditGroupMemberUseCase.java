@@ -1,10 +1,9 @@
 package edu.pjwstk.groups.usecase.editgroupmember;
 
-import jakarta.validation.Valid;
+import edu.pjwstk.core.UseCase;
+import edu.pjwstk.groups.controller.request.EditGroupMemberRequest;
 
 import java.util.UUID;
 
-public interface EditGroupMemberUseCase {
-
-    EditGroupMemberResponse execute(UUID groupMemberId, EditGroupMemberRequest request);
+public interface EditGroupMemberUseCase extends UseCase<EditGroupMemberCommand, EditGroupMemberResult> {
 }

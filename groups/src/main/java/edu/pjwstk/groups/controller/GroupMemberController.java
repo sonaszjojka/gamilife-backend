@@ -1,11 +1,12 @@
 package edu.pjwstk.groups.controller;
 
 import edu.pjwstk.groups.controller.request.CreateGroupMemberRequest;
+import edu.pjwstk.groups.controller.request.EditGroupMemberRequest;
 import edu.pjwstk.groups.usecase.creategroupmemberinopengroup.CreateGroupMemberInOpenGroupCommand;
 import edu.pjwstk.groups.usecase.creategroupmemberinopengroup.CreateGroupMemberInOpenGroupResult;
 import edu.pjwstk.groups.usecase.creategroupmemberinopengroup.CreateGroupMemberInOpenGroupUseCase;
-import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberRequest;
-import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberResponse;
+import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberCommand;
+import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberResult;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberUseCase;
 import edu.pjwstk.groups.usecase.leavegroup.LeaveGroupResult;
 import edu.pjwstk.groups.usecase.leavegroup.LeaveGroupUseCase;
@@ -40,10 +41,15 @@ public class GroupMemberController {
     }
 
     @PutMapping("/{groupMemberId}")
-    private ResponseEntity<EditGroupMemberResponse> editById(@PathVariable("groupId") UUID groupId,
-                                                             @PathVariable("groupMemberId") UUID groupMemberId,
-                                                             @RequestBody @Valid EditGroupMemberRequest request) {
-        EditGroupMemberResponse response = editGroupMemberUseCase.execute(groupMemberId, request);
+    private ResponseEntity<EditGroupMemberResult> editById(@PathVariable("groupId") UUID groupId,
+                                                           @PathVariable("groupMemberId") UUID groupMemberId,
+                                                           @RequestBody @Valid EditGroupMemberRequest request) {
+        EditGroupMemberResult response = editGroupMemberUseCase.execute(new EditGroupMemberCommand(
+                groupId,
+                groupMemberId,
+                request.groupMoney(),
+                request.totalEarnedMoney()
+        ));
         return ResponseEntity.ok(response);
     }
 
