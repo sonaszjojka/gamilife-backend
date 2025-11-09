@@ -18,6 +18,7 @@ import edu.pjwstk.groups.usecase.getgroups.GetGroupsUseCase;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/groups")
 public class GroupController {
 
@@ -33,13 +35,6 @@ public class GroupController {
     private final EditGroupUseCase editGroupUseCase;
     private final DeleteGroupUseCase deleteGroupUseCase;
     private final GetGroupsUseCase getGroupsUseCase;
-
-    public GroupController(CreateGroupUseCase createGroupUseCase, EditGroupUseCase editGroupUseCase, DeleteGroupUseCase deleteGroupUseCase, GetGroupsUseCase getGroupsUseCase) {
-        this.createGroupUseCase = createGroupUseCase;
-        this.editGroupUseCase = editGroupUseCase;
-        this.deleteGroupUseCase = deleteGroupUseCase;
-        this.getGroupsUseCase = getGroupsUseCase;
-    }
 
     @PostMapping
     public ResponseEntity<CreateGroupResult> save(@RequestBody @Valid CreateGroupRequest request) {

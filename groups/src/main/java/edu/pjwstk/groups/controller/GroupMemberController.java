@@ -11,6 +11,7 @@ import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberUseCase;
 import edu.pjwstk.groups.usecase.leavegroup.LeaveGroupResult;
 import edu.pjwstk.groups.usecase.leavegroup.LeaveGroupUseCase;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,18 +19,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/groups/{groupId}/members")
 public class GroupMemberController {
 
     private final CreateGroupMemberInOpenGroupUseCase createGroupMemberUseCase;
     private final EditGroupMemberUseCase editGroupMemberUseCase;
     private final LeaveGroupUseCase leaveGroupUseCase;
-
-    public GroupMemberController(CreateGroupMemberInOpenGroupUseCase createGroupMemberUseCase, EditGroupMemberUseCase editGroupMemberUseCase, LeaveGroupUseCase leaveGroupUseCase) {
-        this.createGroupMemberUseCase = createGroupMemberUseCase;
-        this.editGroupMemberUseCase = editGroupMemberUseCase;
-        this.leaveGroupUseCase = leaveGroupUseCase;
-    }
 
     @PostMapping
     public ResponseEntity<CreateGroupMemberInOpenGroupResult> save(@RequestBody @Valid CreateGroupMemberRequest request,

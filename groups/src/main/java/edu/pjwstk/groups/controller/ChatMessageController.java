@@ -5,6 +5,7 @@ import edu.pjwstk.groups.usecase.createchatmessage.CreateChatMessageCommand;
 import edu.pjwstk.groups.usecase.createchatmessage.CreateChatMessageResult;
 import edu.pjwstk.groups.usecase.createchatmessage.CreateChatMessageUseCase;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/groups/{groupId}/members/{groupMemberId}/chat-messages")
 public class ChatMessageController {
 
     private final CreateChatMessageUseCase createChatMessageUseCase;
-
-    public ChatMessageController(CreateChatMessageUseCase createChatMessageUseCase) {
-        this.createChatMessageUseCase = createChatMessageUseCase;
-    }
 
     @PostMapping
     public ResponseEntity<CreateChatMessageResult> save(@RequestBody @Valid CreateChatMessageRequest request,
