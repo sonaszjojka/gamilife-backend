@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -29,5 +30,17 @@ public class InvitationStatus {
 
     public InvitationStatusEnum toEnum() {
         return InvitationStatusEnum.fromId(this.invitationStatusId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        InvitationStatus that = (InvitationStatus) o;
+        return Objects.equals(invitationStatusId, that.invitationStatusId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(invitationStatusId);
     }
 }

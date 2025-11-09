@@ -40,7 +40,7 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
         GroupRequestStatus newGroupRequestStatus = getGroupRequestStatus(cmd.newGroupRequestStatusId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
-        if (groupRequest.getGroupRequested().isUserAdmin(currentUserDto.userId())) {
+        if (group.isUserAdmin(currentUserDto.userId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can change status group request!");
         }
 
@@ -90,27 +90,15 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
             GroupRequest groupRequest,
             UUID groupMemberId
     ) {
-        EditGroupRequestStatusForGroupRequestResult.GroupDto groupDto =
-                groupRequest.getGroupRequested() != null ?
-                        new EditGroupRequestStatusForGroupRequestResult.GroupDto(
-                                groupRequest.getGroupRequested().getGroupId()
-                        ) :
-                        null;
-
-        EditGroupRequestStatusForGroupRequestResult.GroupRequestStatusDto statusDto =
-                groupRequest.getGroupRequestStatus() != null ?
-                        new EditGroupRequestStatusForGroupRequestResult.GroupRequestStatusDto(
-                                groupRequest.getGroupRequestStatus().getGroupRequestStatusId(),
-                                groupRequest.getGroupRequestStatus().getTitle()
-                        ) :
-                        null;
-
         return EditGroupRequestStatusForGroupRequestResult.builder()
                 .groupRequestId(groupRequest.getGroupRequestId())
                 .userId(groupRequest.getUserId())
-                .groupRequested(groupDto)
+                .groupRequested(new EditGroupRequestStatusForGroupRequestResult.GroupDto(groupRequest.getGroupId()))
                 .createdAt(groupRequest.getCreatedAt())
-                .groupRequestStatus(statusDto)
+                .groupRequestStatus(new EditGroupRequestStatusForGroupRequestResult.GroupRequestStatusDto(
+                        groupRequest.getGroupRequestStatus().getGroupRequestStatusId(),
+                        groupRequest.getGroupRequestStatus().getTitle()
+                ))
                 .groupMemberId(groupMemberId)
                 .build();
     }

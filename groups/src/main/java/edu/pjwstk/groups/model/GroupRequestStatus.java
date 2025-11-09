@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Getter
@@ -30,5 +31,17 @@ public class GroupRequestStatus {
 
     public GroupRequestStatusEnum toEnum() {
         return GroupRequestStatusEnum.fromId(this.groupRequestStatusId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        GroupRequestStatus that = (GroupRequestStatus) o;
+        return Objects.equals(groupRequestStatusId, that.groupRequestStatusId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(groupRequestStatusId);
     }
 }

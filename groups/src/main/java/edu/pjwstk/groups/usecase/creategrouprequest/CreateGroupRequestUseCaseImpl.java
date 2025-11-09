@@ -97,23 +97,15 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
     }
 
     private CreateGroupRequestResult createGroupRequestResult(GroupRequest groupRequest) {
-        CreateGroupRequestResult.GroupDto groupDto = groupRequest.getGroupRequested() != null ?
-                new CreateGroupRequestResult.GroupDto(
-                        groupRequest.getGroupRequested().getGroupId()
-                ) : null;
-
-        CreateGroupRequestResult.GroupRequestStatusDto statusDto = groupRequest.getGroupRequestStatus() != null ?
-                new CreateGroupRequestResult.GroupRequestStatusDto(
-                        groupRequest.getGroupRequestStatus().getGroupRequestStatusId(),
-                        groupRequest.getGroupRequestStatus().getTitle()
-                ) : null;
-
         return CreateGroupRequestResult.builder()
                 .groupRequestId(groupRequest.getGroupRequestId())
                 .userId(groupRequest.getUserId())
-                .groupRequested(groupDto)
+                .groupRequested(new CreateGroupRequestResult.GroupDto(groupRequest.getGroupId()))
                 .createdAt(groupRequest.getCreatedAt())
-                .groupRequestStatus(statusDto)
+                .groupRequestStatus(new CreateGroupRequestResult.GroupRequestStatusDto(
+                        groupRequest.getGroupRequestStatus().getGroupRequestStatusId(),
+                        groupRequest.getGroupRequestStatus().getTitle()
+                ))
                 .build();
     }
 }

@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -49,7 +52,9 @@ public class GroupMember {
 
     @PrePersist
     public void prePersist() {
-        this.joinedAt = Instant.now();
+        if (this.joinedAt == null && this.leftAt != null) {
+            this.joinedAt = Instant.now();
+        }
     }
 
     public boolean isActive() {

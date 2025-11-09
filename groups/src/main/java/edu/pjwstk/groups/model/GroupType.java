@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -29,5 +30,17 @@ public class GroupType {
 
     public GroupTypeEnum toEnum() {
         return GroupTypeEnum.fromId(this.groupTypeId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        GroupType groupType = (GroupType) o;
+        return Objects.equals(groupTypeId, groupType.groupTypeId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(groupTypeId);
     }
 }
