@@ -1,18 +1,19 @@
 package edu.pjwstk.groups.controller;
 
-import edu.pjwstk.groups.shared.ApiResponse;
 import edu.pjwstk.groups.controller.request.CreateGroupRequest;
+import edu.pjwstk.groups.controller.request.EditGroupRequest;
+import edu.pjwstk.groups.controller.request.GroupFilterRequest;
+import edu.pjwstk.groups.shared.ApiResponse;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupCommand;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupResult;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupUseCase;
 import edu.pjwstk.groups.usecase.deletegroup.DeleteGroupUseCase;
-import edu.pjwstk.groups.controller.request.EditGroupRequest;
 import edu.pjwstk.groups.usecase.editgroup.EditGroupCommand;
 import edu.pjwstk.groups.usecase.editgroup.EditGroupResult;
 import edu.pjwstk.groups.usecase.editgroup.EditGroupUseCase;
+import edu.pjwstk.groups.usecase.getgroups.GetGroupsCommand;
+import edu.pjwstk.groups.usecase.getgroups.GetGroupsResult;
 import edu.pjwstk.groups.usecase.getgroups.GetGroupsUseCase;
-import edu.pjwstk.groups.usecase.getgroups.GroupDto;
-import edu.pjwstk.groups.usecase.getgroups.GroupFilterRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -71,7 +72,7 @@ public class GroupController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<GroupDto>> getAllGroups(
+    public ResponseEntity<Page<GetGroupsResult>> getAllGroups(
             @RequestParam(required = false) String joinCode,
 
             @RequestParam(required = false) Integer groupType,
@@ -87,7 +88,15 @@ public class GroupController {
         GroupFilterRequest request = new GroupFilterRequest(
                 joinCode, groupType, groupName, page, size
         );
-        Page<GroupDto> response = getGroupsUseCase.execute(request);
+        Page<GetGroupsResult> response = getGroupsUseCase.execute(
+                new GetGroupsCommand(
+                        request.joinCode(),
+                        request.type(),
+                        request.name(),
+                        request.page(),
+                        request.size()
+                )
+        );
         return ResponseEntity.ok(response);
     }
 }

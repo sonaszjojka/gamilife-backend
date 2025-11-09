@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.getgroups;
 
-import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.exception.domain.GroupTypeNotFoundException;
+import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.shared.GroupTypeEnum;
 import edu.pjwstk.groups.util.GroupSpecificationBuilder;
@@ -25,44 +25,43 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<GroupDto> execute(GroupFilterRequest request) {
-        log.debug("Fetching groups with filters: {}", request);
+    public Page<GetGroupsResult> executeInternal(GetGroupsCommand cmd) {
+        log.debug("Fetching groups with filters: {}", cmd);
 
         GroupTypeEnum groupType;
         try {
-            groupType = GroupTypeEnum.fromId(request.type());
+            groupType = GroupTypeEnum.fromId(cmd.type());
         }catch (RuntimeException e){
             throw new GroupTypeNotFoundException("Group type does not exists!");
         }
 
         Specification<Group> spec = specificationBuilder.buildSpecification(
-                request.joinCode(),
+                cmd.joinCode(),
                 groupType,
-                request.name()
+                cmd.name()
         );
 
-        Pageable pageable = createPageable(request);
-
+        Pageable pageable = createPageable(cmd);
         Page<Group> groups = groupRepository.findAll(spec, pageable);
 
         log.debug("Found {} groups", groups.getTotalElements());
 
-        return groups.map(group -> new GroupDto(
+        return groups.map(group -> new GetGroupsResult(
                 group.getGroupId(),
                 group.getJoinCode(),
                 group.getName(),
                 group.getAdminId(),
                 group.getGroupCurrencySymbol(),
                 group.getMembersLimit(),
-                new GroupDto.GroupTypeDto(group.getGroupType().getTitle()),
+                new GetGroupsResult.GroupTypeDto(group.getGroupType().getTitle()),
                 group.getGroupMembers().size()
         ));
     }
 
-    private Pageable createPageable(GroupFilterRequest request) {
+    private Pageable createPageable(GetGroupsCommand cmd) {
         return PageRequest.of(
-                request.page(),
-                request.size(),
+                cmd.page(),
+                cmd.size(),
                 Sort.by(Sort.Direction.ASC, "name")
         );
     }
