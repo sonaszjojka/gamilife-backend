@@ -17,7 +17,6 @@ import java.util.List;
 public class GroupType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "group_type_id", nullable = false, updatable = false, unique = true)
     private Integer groupTypeId;
 

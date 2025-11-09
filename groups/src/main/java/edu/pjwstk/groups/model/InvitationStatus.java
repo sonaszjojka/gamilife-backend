@@ -17,7 +17,6 @@ import java.util.List;
 public class InvitationStatus {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "invitation_status_id", nullable = false, updatable = false, unique = true)
     private Integer invitationStatusId;
 

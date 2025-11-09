@@ -18,7 +18,6 @@ import java.util.List;
 public class GroupRequestStatus {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "group_request_status_id", nullable = false, updatable = false, unique = true)
     private Integer groupRequestStatusId;
 
