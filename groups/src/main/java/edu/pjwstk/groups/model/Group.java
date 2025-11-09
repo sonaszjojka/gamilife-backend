@@ -47,18 +47,22 @@ public class Group {
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
+    @Builder.Default
     private Set<ChatMessage> chatMessages = new HashSet<>();
 
     @OneToMany(mappedBy = "memberGroup", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
+    @Builder.Default
     private Set<GroupMember> groupMembers = new HashSet<>();
 
     @OneToMany(mappedBy = "groupRequested", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
+    @Builder.Default
     private Set<GroupRequest> groupRequests = new HashSet<>();
 
-    @OneToMany(mappedBy = "groupInvited", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
+    @Builder.Default
     private Set<GroupInvitation> groupInvitations = new HashSet<>();
 
     public boolean isFull() {

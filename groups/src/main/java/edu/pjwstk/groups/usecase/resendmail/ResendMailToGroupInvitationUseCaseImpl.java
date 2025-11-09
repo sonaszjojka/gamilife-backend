@@ -29,7 +29,7 @@ public class ResendMailToGroupInvitationUseCaseImpl implements ResendMailToGroup
     @Override
     @Transactional
     public Void executeInternal(ResendMailToGroupInvitationCommand cmd) {
-        GroupInvitation groupInvitation = getGroupInvitation(cmd.groupId(), cmd.groupInvitationId());
+        GroupInvitation groupInvitation = getGroupInvitationWithGroup(cmd.groupId(), cmd.groupInvitationId());
         BasicUserInfoApiDto invitedUserDto = getInvitedUser(groupInvitation);
 
         try {
@@ -38,7 +38,7 @@ public class ResendMailToGroupInvitationUseCaseImpl implements ResendMailToGroup
                     .subject(groupInvitationUtil.generateInvitationMailSubjectMessage())
                     .content(groupInvitationUtil.generateInvitationMailContentMessage(
                             groupInvitation.getLink(),
-                            groupInvitation.getGroupInvited().getJoinCode()))
+                            groupInvitation.getGroup().getJoinCode()))
                     .mailContentType(MailContentType.HTML)
                     .build());
         } catch (EmailSendingException e) {
@@ -55,8 +55,8 @@ public class ResendMailToGroupInvitationUseCaseImpl implements ResendMailToGroup
                 );
     }
 
-    private GroupInvitation getGroupInvitation(UUID groupId, UUID groupInvitationId) {
-        return groupInvitationRepository.findByGroupInvitationIdAndGroupInvited_GroupId(groupInvitationId, groupId)
+    private GroupInvitation getGroupInvitationWithGroup(UUID groupId, UUID groupInvitationId) {
+        return groupInvitationRepository.findWithGroupByGroupInvitationIdAndGroupId(groupInvitationId, groupId)
                 .orElseThrow(
                         () -> new GroupInvitationNotFoundException("Group invitation with id: " + groupInvitationId
                                 + " not found!")

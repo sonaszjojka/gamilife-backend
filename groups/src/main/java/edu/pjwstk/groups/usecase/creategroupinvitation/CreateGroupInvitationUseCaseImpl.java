@@ -11,6 +11,7 @@ import edu.pjwstk.core.exception.common.application.EmailSendingException;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
+import edu.pjwstk.groups.enums.InvitationStatusEnum;
 import edu.pjwstk.groups.exception.domain.GroupFullException;
 import edu.pjwstk.groups.exception.domain.InvitationStatusNotFoundException;
 import edu.pjwstk.groups.model.Group;
@@ -19,7 +20,6 @@ import edu.pjwstk.groups.model.InvitationStatus;
 import edu.pjwstk.groups.repository.GroupInvitationJpaRepository;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.repository.InvitationStatusJpaRepository;
-import edu.pjwstk.groups.enums.InvitationStatusEnum;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -95,11 +95,10 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
         String hashedToken = groupInvitationUtil.hashToken(token);
         String link = groupInvitationUtil.generateGroupInvitationLink(group.getGroupId(), groupInvitationId, token);
 
-
         GroupInvitation groupInvitation = GroupInvitation.builder()
                 .groupInvitationId(groupInvitationId)
                 .userId(userId)
-                .groupInvited(group)
+                .group(group)
                 .expiresAt(groupInvitationUtil.calculateExpirationDate())
                 .mailSentAt(LocalDateTime.now())
                 .link(link)
@@ -113,25 +112,17 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     private CreateGroupInvitationResult createResponse(GroupInvitation groupInvitation) {
         return CreateGroupInvitationResult.builder()
                 .groupInvitationId(groupInvitation.getGroupInvitationId())
-                .groupInvited(
-                        groupInvitation.getGroupInvited() != null
-                                ? CreateGroupInvitationResult.GroupDto.builder()
-                                .groupId(groupInvitation.getGroupInvited().getGroupId())
-                                .build()
-                                : null
-                )
+                .groupInvited(new CreateGroupInvitationResult.GroupDto(
+                        groupInvitation.getGroupId()
+                ))
                 .userId(groupInvitation.getUserId())
                 .expiresAt(groupInvitation.getExpiresAt())
                 .mailSentAt(groupInvitation.getMailSentAt())
                 .link(groupInvitation.getLink())
-                .invitationStatus(
-                        groupInvitation.getInvitationStatus() != null
-                                ? CreateGroupInvitationResult.InvitationStatusDto.builder()
-                                .invitationStatusId(groupInvitation.getInvitationStatus().getInvitationStatusId())
-                                .title(groupInvitation.getInvitationStatus().getTitle())
-                                .build()
-                                : null
-                )
+                .invitationStatus(new CreateGroupInvitationResult.InvitationStatusDto(
+                        groupInvitation.getInvitationStatus().getInvitationStatusId(),
+                        groupInvitation.getInvitationStatus().getTitle()
+                ))
                 .build();
     }
 }

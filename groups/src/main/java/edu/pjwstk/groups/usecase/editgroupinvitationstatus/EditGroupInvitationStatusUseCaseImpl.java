@@ -3,6 +3,7 @@ package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
+import edu.pjwstk.groups.enums.InvitationStatusEnum;
 import edu.pjwstk.groups.exception.domain.*;
 import edu.pjwstk.groups.model.GroupInvitation;
 import edu.pjwstk.groups.model.GroupMember;
@@ -10,7 +11,6 @@ import edu.pjwstk.groups.model.InvitationStatus;
 import edu.pjwstk.groups.repository.GroupInvitationJpaRepository;
 import edu.pjwstk.groups.repository.InvitationStatusJpaRepository;
 import edu.pjwstk.groups.service.GroupMemberService;
-import edu.pjwstk.groups.enums.InvitationStatusEnum;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
     @Override
     @Transactional
     public EditGroupInvitationStatusResult executeInternal(EditGroupInvitationStatusCommand cmd) {
-        GroupInvitation groupInvitation = getGroupInvitation(cmd.groupInvitationId(), cmd.groupId());
+        GroupInvitation groupInvitation = getGroupInvitationWithGroup(cmd.groupInvitationId(), cmd.groupId());
         InvitationStatus newInvitationStatus = getInvitationStatus(cmd.invitationStatusId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
@@ -68,7 +68,7 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
         GroupMember groupMember = null;
         if (newInvitationStatus.toEnum() == InvitationStatusEnum.ACCEPTED) {
             groupMember = groupMemberService.createGroupMember(
-                    groupInvitation.getGroupInvited(),
+                    groupInvitation.getGroup(),
                     groupInvitation.getUserId()
             );
         }
@@ -88,8 +88,8 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
                         invitationStatusId + " not found"));
     }
 
-    private GroupInvitation getGroupInvitation(UUID groupInvitationId, UUID groupId) {
-        return groupInvitationRepository.findByGroupInvitationIdAndGroupInvited_GroupId(groupInvitationId, groupId)
+    private GroupInvitation getGroupInvitationWithGroup(UUID groupInvitationId, UUID groupId) {
+        return groupInvitationRepository.findWithGroupByGroupInvitationIdAndGroupId(groupInvitationId, groupId)
                 .orElseThrow(() -> new GroupInvitationNotFoundException("Group invitation with id: " + groupInvitationId
                         + " not found!"));
     }
@@ -100,25 +100,17 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
     ) {
         return EditGroupInvitationStatusResult.builder()
                 .groupInvitationId(groupInvitation.getGroupInvitationId())
-                .groupInvited(
-                        groupInvitation.getGroupInvited() != null
-                                ? EditGroupInvitationStatusResult.GroupDto.builder()
-                                .groupId(groupInvitation.getGroupInvited().getGroupId())
-                                .build()
-                                : null
-                )
+                .groupInvited(new EditGroupInvitationStatusResult.GroupDto(
+                        groupInvitation.getGroupId()
+                ))
                 .userId(groupInvitation.getUserId())
                 .expiresAt(groupInvitation.getExpiresAt())
                 .mailSentAt(groupInvitation.getMailSentAt())
                 .link(groupInvitation.getLink())
-                .invitationStatus(
-                        groupInvitation.getInvitationStatus() != null
-                                ? EditGroupInvitationStatusResult.InvitationStatusDto.builder()
-                                .invitationStatusId(groupInvitation.getInvitationStatus().getInvitationStatusId())
-                                .title(groupInvitation.getInvitationStatus().getTitle())
-                                .build()
-                                : null
-                )
+                .invitationStatus(new EditGroupInvitationStatusResult.InvitationStatusDto(
+                        groupInvitation.getInvitationStatus().getInvitationStatusId(),
+                        groupInvitation.getInvitationStatus().getTitle()
+                ))
                 .groupMemberId(groupMemberId)
                 .build();
     }

@@ -21,9 +21,13 @@ public class GroupInvitation {
     @Column(name = "group_invitation_id", nullable = false, updatable = false, unique = true)
     private UUID groupInvitationId;
 
-    @ManyToOne
+    @Column(name = "group_id", nullable = false, updatable = false, insertable = false)
+    private UUID groupId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     @JoinColumn(name = "group_id", nullable = false, updatable = false)
-    private Group groupInvited;
+    private Group group;
 
     @Column(name = "user_id", nullable = false, updatable = false)
     private UUID userId;
@@ -40,7 +44,10 @@ public class GroupInvitation {
     @Column(name = "token_hash", nullable = false)
     private String tokenHash;
 
-    @ManyToOne
+    @Column(name = "invitation_status_id", nullable = false, insertable = false, updatable = false)
+    private Integer invitationStatusId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "invitation_status_id", nullable = false)
     private InvitationStatus invitationStatus;
 
@@ -57,6 +64,6 @@ public class GroupInvitation {
     }
 
     public boolean doesBelongToGroup(UUID groupId) {
-        return this.groupInvited.getGroupId().equals(groupId);
+        return this.groupId.equals(groupId);
     }
 }

@@ -22,10 +22,10 @@ public class DeleteGroupInvitationUseCaseImpl implements DeleteGroupInvitationUs
     @Override
     @Transactional
     public Void executeInternal(DeleteGroupInvitationCommand cmd) {
-        GroupInvitation groupInvitation = getGroupInvitation(cmd.groupId(), cmd.groupInvitationId());
+        GroupInvitation groupInvitation = getGroupInvitationWithGroup(cmd.groupId(), cmd.groupInvitationId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
-        if (!groupInvitation.getGroupInvited().isUserAdmin(currentUserDto.userId())) {
+        if (!groupInvitation.getGroup().isUserAdmin(currentUserDto.userId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can delete group invitations!");
         }
 
@@ -34,8 +34,8 @@ public class DeleteGroupInvitationUseCaseImpl implements DeleteGroupInvitationUs
         return null;
     }
 
-    private GroupInvitation getGroupInvitation(UUID groupId, UUID groupInvitationId) {
-        return groupInvitationRepository.findByGroupInvitationIdAndGroupInvited_GroupId(groupInvitationId, groupId)
+    private GroupInvitation getGroupInvitationWithGroup(UUID groupId, UUID groupInvitationId) {
+        return groupInvitationRepository.findWithGroupByGroupInvitationIdAndGroupId(groupInvitationId, groupId)
                 .orElseThrow(() -> new GroupInvitationNotFoundException("Group invitation with id:"
                         + groupInvitationId + " not found!"));
     }
