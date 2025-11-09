@@ -77,7 +77,7 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
     }
 
     private boolean isUserMemberOfGroup(UUID userId, Group group) {
-        return groupMemberRepository.existsByUserIdAndMemberGroup(userId, group);
+        return groupMemberRepository.existsByUserIdAndGroup(userId, group);
     }
 
     private Group getGroupWithMembers(UUID groupId) {

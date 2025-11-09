@@ -50,7 +50,7 @@ public class Group {
     @Builder.Default
     private Set<ChatMessage> chatMessages = new HashSet<>();
 
-    @OneToMany(mappedBy = "memberGroup", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
     @Builder.Default
     private Set<GroupMember> groupMembers = new HashSet<>();

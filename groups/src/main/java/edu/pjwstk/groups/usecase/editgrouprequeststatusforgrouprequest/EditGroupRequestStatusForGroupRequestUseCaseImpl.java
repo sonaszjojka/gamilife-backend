@@ -3,16 +3,19 @@ package edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest;
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
+import edu.pjwstk.groups.enums.GroupRequestStatusEnum;
 import edu.pjwstk.groups.exception.domain.GroupRequestNotFoundException;
 import edu.pjwstk.groups.exception.domain.GroupRequestStatusNotFoundException;
 import edu.pjwstk.groups.exception.domain.InvalidGroupDataException;
+import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.model.GroupMember;
 import edu.pjwstk.groups.model.GroupRequest;
 import edu.pjwstk.groups.model.GroupRequestStatus;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.repository.GroupRequestJpaRepository;
 import edu.pjwstk.groups.repository.GroupRequestStatusJpaRepository;
 import edu.pjwstk.groups.service.GroupMemberService;
-import edu.pjwstk.groups.enums.GroupRequestStatusEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,10 +30,12 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
     private final GroupRequestStatusJpaRepository groupRequestStatusRepository;
     private final AuthApi authApi;
     private final GroupMemberService groupMemberService;
+    private final GroupJpaRepository groupJpaRepository;
 
     @Override
     @Transactional
     public EditGroupRequestStatusForGroupRequestResult executeInternal(EditGroupRequestStatusForGroupRequestCommand cmd) {
+        Group group = getGroupWithMembers(cmd.groupId());
         GroupRequest groupRequest = getGroupRequest(cmd.groupId(), cmd.groupRequestId());
         GroupRequestStatus newGroupRequestStatus = getGroupRequestStatus(cmd.newGroupRequestStatusId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
@@ -51,7 +56,7 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
         GroupMember groupMember = null;
         if (newGroupRequestStatus.toEnum() == GroupRequestStatusEnum.ACCEPTED) {
             groupMember = groupMemberService.createGroupMember(
-                    groupRequest.getGroupRequested(),
+                    group,
                     groupRequest.getUserId()
             );
         }
@@ -63,6 +68,11 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
                 savedGroupRequest,
                 groupMember != null ? groupMember.getGroupMemberId() : null
         );
+    }
+
+    private Group getGroupWithMembers(UUID groupId) {
+        return groupJpaRepository.findWithGroupMembersByGroupId(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
     }
 
     private GroupRequest getGroupRequest(UUID groupId, UUID groupRequestId) {

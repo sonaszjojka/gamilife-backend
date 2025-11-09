@@ -25,7 +25,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
         }
 
         Optional<GroupMember> groupMemberOpt = groupMemberRepository
-                .findByUserIdAndMemberGroup(userId, group);
+                .findByUserIdAndGroup(userId, group);
         if (groupMemberOpt.isPresent()) {
             GroupMember groupMember = groupMemberOpt.get();
 
@@ -50,7 +50,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     private GroupMember createNewGroupMember(UUID userId, Group group) {
         GroupMember newGroupMember = GroupMember.builder()
                 .groupMemberId(UUID.randomUUID())
-                .memberGroup(group)
+                .group(group)
                 .userId(userId)
                 .leftAt(null)
                 .totalEarnedMoney(0)

@@ -9,12 +9,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface GroupMemberJpaRepository extends JpaRepository<GroupMember, UUID> {
-    boolean existsByUserIdAndMemberGroup(UUID userId, Group memberGroup);
+    boolean existsByUserIdAndGroup(UUID userId, Group memberGroup);
 
-    Optional<GroupMember> findByUserIdAndMemberGroup(UUID userId, Group memberGroup);
+    Optional<GroupMember> findByUserIdAndGroup(UUID userId, Group memberGroup);
 
-    Optional<GroupMember> findByGroupMemberIdAndMemberGroup_GroupId(UUID groupMemberId, UUID groupId);
+    Optional<GroupMember> findByGroupMemberIdAndGroupId(UUID groupMemberId, UUID groupId);
 
-    @EntityGraph(attributePaths = {"memberGroup"})
-    Optional<GroupMember> findWithMemberGroupByGroupMemberIdAndMemberGroup_GroupId(UUID groupMemberId, UUID groupId);
+    @EntityGraph(attributePaths = {"group"})
+    Optional<GroupMember> findWithGroupByGroupMemberIdAndGroupId(UUID groupMemberId, UUID groupId);
 }

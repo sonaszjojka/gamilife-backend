@@ -17,6 +17,6 @@ public record EditGroupMemberResult(UUID groupMemberId, GroupDto memberGroup, UU
      * DTO for {@link edu.pjwstk.groups.model.Group}
      */
     @Builder
-    public record GroupDto(UUID groupId, UUID adminId) implements Serializable {
+    public record GroupDto(UUID groupId) implements Serializable {
     }
 }

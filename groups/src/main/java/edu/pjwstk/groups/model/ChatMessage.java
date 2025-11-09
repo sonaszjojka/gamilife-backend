@@ -38,12 +38,12 @@ public class ChatMessage {
     private Group group;
 
     @Column(name = "sender_id", nullable = false, updatable = false, insertable = false)
-    private UUID senderGroupMemberId;
+    private UUID groupMemberId;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id", nullable = false)
-    private GroupMember senderGroupMember;
+    private GroupMember groupMember;
 
     @PrePersist
     public void prePersist() {

@@ -20,7 +20,7 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
     @Override
     public LeaveGroupResult executeInternal(LeaveGroupCommand cmd) {
         GroupMember groupMember = getGroupMemberWithGroup(cmd.groupId(), cmd.groupMemberId());
-        Group group = groupMember.getMemberGroup();
+        Group group = groupMember.getGroup();
 
         if (group.isUserAdmin(groupMember.getUserId())) {
             throw new AdminCannotLeaveGroupException("Administrator cannot leave group!");
@@ -33,7 +33,7 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
     }
 
     private GroupMember getGroupMemberWithGroup(UUID groupId, UUID groupMemberId) {
-        return groupMemberRepository.findWithMemberGroupByGroupMemberIdAndMemberGroup_GroupId(groupMemberId, groupId)
+        return groupMemberRepository.findWithGroupByGroupMemberIdAndGroupId(groupMemberId, groupId)
                 .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: "
                         + groupMemberId + " not found!"));
     }
@@ -41,14 +41,7 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
     private LeaveGroupResult buildLeaveGroupResult(GroupMember groupMember) {
         return LeaveGroupResult.builder()
                 .groupMemberId(groupMember.getGroupMemberId())
-                .memberGroup(
-                        groupMember.getMemberGroup() != null
-                                ? LeaveGroupResult.GroupDto.builder()
-                                .groupId(groupMember.getMemberGroup().getGroupId())
-                                .adminId(groupMember.getMemberGroup().getAdminId())
-                                .build()
-                                : null
-                )
+                .group(new LeaveGroupResult.GroupDto(groupMember.getGroupId()))
                 .userId(groupMember.getUserId())
                 .joinedAt(groupMember.getJoinedAt())
                 .leftAt(groupMember.getLeftAt())

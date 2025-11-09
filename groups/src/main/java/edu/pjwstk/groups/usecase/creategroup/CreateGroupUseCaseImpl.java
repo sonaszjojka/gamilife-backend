@@ -70,7 +70,7 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
     private void addGroupAdmin(Group group, UUID adminUserId) {
         GroupMember groupMemberAdmin = GroupMember.builder()
                 .groupMemberId(UUID.randomUUID())
-                .memberGroup(group)
+                .group(group)
                 .userId(adminUserId)
                 .leftAt(null)
                 .groupMoney(0)

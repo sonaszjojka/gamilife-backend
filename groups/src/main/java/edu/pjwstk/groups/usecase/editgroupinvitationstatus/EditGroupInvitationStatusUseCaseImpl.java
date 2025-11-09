@@ -2,13 +2,16 @@ package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groups.enums.InvitationStatusEnum;
 import edu.pjwstk.groups.exception.domain.*;
+import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.model.GroupInvitation;
 import edu.pjwstk.groups.model.GroupMember;
 import edu.pjwstk.groups.model.InvitationStatus;
 import edu.pjwstk.groups.repository.GroupInvitationJpaRepository;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.repository.InvitationStatusJpaRepository;
 import edu.pjwstk.groups.service.GroupMemberService;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
@@ -27,18 +30,15 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
     private final AuthApi authApi;
     private final GroupMemberService groupMemberService;
     private final GroupInvitationUtil groupInvitationUtil;
+    private final GroupJpaRepository groupRepository;
 
     @Override
     @Transactional
     public EditGroupInvitationStatusResult executeInternal(EditGroupInvitationStatusCommand cmd) {
+        Group group = getGroupWithMembers(cmd.groupId());
         GroupInvitation groupInvitation = getGroupInvitationWithGroup(cmd.groupInvitationId(), cmd.groupId());
         InvitationStatus newInvitationStatus = getInvitationStatus(cmd.invitationStatusId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
-
-        if (groupInvitation.doesBelongToGroup(cmd.groupId())) {
-            throw new ResourceOwnerPrivilegesRequiredException(
-                    "Invitation " + cmd.groupInvitationId() + " does not belong to group " + cmd.groupId() + "!");
-        }
 
         if (groupInvitation.doesBelongToUser(currentUserDto.userId())) {
             throw new ResourceOwnerPrivilegesRequiredException(
@@ -68,7 +68,7 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
         GroupMember groupMember = null;
         if (newInvitationStatus.toEnum() == InvitationStatusEnum.ACCEPTED) {
             groupMember = groupMemberService.createGroupMember(
-                    groupInvitation.getGroup(),
+                    group,
                     groupInvitation.getUserId()
             );
         }
@@ -80,6 +80,11 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
                 savedGroupInvitation,
                 groupMember != null ? groupMember.getGroupMemberId() : null
         );
+    }
+
+    private Group getGroupWithMembers(UUID groupId) {
+        return groupRepository.findWithGroupMembersByGroupId(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
     }
 
     private InvitationStatus getInvitationStatus(Integer invitationStatusId) {

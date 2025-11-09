@@ -25,7 +25,7 @@ public class FindGroupMemberByIdUseCaseImpl implements FindGroupMemberByIdUseCas
     private GroupMemberDto buildGroupMemberDto(GroupMember groupMember) {
         return GroupMemberDto.builder()
                 .groupMemberId(groupMember.getGroupMemberId())
-                .memberGroup(new GroupMemberDto.GroupDto(groupMember.getMemberGroup().getGroupId()))
+                .memberGroup(new GroupMemberDto.GroupDto(groupMember.getGroupId()))
                 .userId(groupMember.getUserId())
                 .joinedAt(groupMember.getJoinedAt())
                 .leftAt(groupMember.getLeftAt())

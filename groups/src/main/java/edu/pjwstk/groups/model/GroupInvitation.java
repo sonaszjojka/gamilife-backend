@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -65,5 +66,17 @@ public class GroupInvitation {
 
     public boolean doesBelongToGroup(UUID groupId) {
         return this.groupId.equals(groupId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        GroupInvitation that = (GroupInvitation) o;
+        return Objects.equals(groupInvitationId, that.groupInvitationId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(groupInvitationId);
     }
 }

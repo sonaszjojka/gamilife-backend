@@ -49,7 +49,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
                 .isImportant(cmd.isImportant())
                 .group(group)
                 .content(cmd.content())
-                .senderGroupMember(groupMember)
+                .groupMember(groupMember)
                 .build();
         ChatMessage savedChatMessage = chatMessageRepository.save(chatMessage);
 
@@ -64,7 +64,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
     }
 
     private GroupMember getGroupMember(UUID groupId, UUID groupMemberId) {
-        return groupMemberRepository.findByGroupMemberIdAndMemberGroup_GroupId(groupMemberId, groupId)
+        return groupMemberRepository.findByGroupMemberIdAndGroupId(groupMemberId, groupId)
                 .orElseThrow(
                         () -> new GroupMemberNotFoundException("Group member with id: " + groupMemberId + " not found!")
                 );
@@ -78,7 +78,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
                 .content(chatMessage.getContent())
                 .group(new CreateChatMessageResult.GroupDto(chatMessage.getGroupId()))
                 .senderGroupMember(new CreateChatMessageResult.GroupMemberDto(
-                        chatMessage.getSenderGroupMemberId()
+                        chatMessage.getGroupMemberId()
                 ))
                 .build();
     }

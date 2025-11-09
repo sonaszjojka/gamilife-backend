@@ -21,7 +21,7 @@ public class EditGroupMemberUseCaseImpl implements EditGroupMemberUseCase {
 
         if (!groupMember.isActive()) {
             throw new UserLeftGroupException("Group member with id: " + cmd.groupMemberId() + " left group with id: "
-                    + groupMember.getMemberGroup().getGroupId() + " and is no longer member of it!");
+                    + groupMember.getGroup().getGroupId() + " and is no longer member of it!");
         }
 
         groupMember.setGroupMoney(cmd.groupMoney());
@@ -31,7 +31,7 @@ public class EditGroupMemberUseCaseImpl implements EditGroupMemberUseCase {
     }
 
     private GroupMember getGroupMember(UUID groupId, UUID groupMemberId) {
-        return groupMemberRepository.findByGroupMemberIdAndMemberGroup_GroupId(groupMemberId, groupId)
+        return groupMemberRepository.findByGroupMemberIdAndGroupId(groupMemberId, groupId)
                 .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: "
                         + groupMemberId + " not found!"));
     }
@@ -39,14 +39,7 @@ public class EditGroupMemberUseCaseImpl implements EditGroupMemberUseCase {
     private EditGroupMemberResult buildEditGroupMemberResult(GroupMember groupMember) {
         return EditGroupMemberResult.builder()
                 .groupMemberId(groupMember.getGroupMemberId())
-                .memberGroup(
-                        groupMember.getMemberGroup() != null
-                                ? EditGroupMemberResult.GroupDto.builder()
-                                .groupId(groupMember.getMemberGroup().getGroupId())
-                                .adminId(groupMember.getMemberGroup().getAdminId())
-                                .build()
-                                : null
-                )
+                .memberGroup(new EditGroupMemberResult.GroupDto(groupMember.getGroupId()))
                 .userId(groupMember.getUserId())
                 .joinedAt(groupMember.getJoinedAt())
                 .leftAt(groupMember.getLeftAt())
