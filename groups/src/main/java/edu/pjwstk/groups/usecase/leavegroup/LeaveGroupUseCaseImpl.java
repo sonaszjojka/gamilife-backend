@@ -21,7 +21,7 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
     private final GroupJpaRepository groupRepository;
 
     @Override
-    public LeaveGroupResponse execute(UUID groupMemberId, UUID groupId) {
+    public LeaveGroupResult execute(UUID groupMemberId, UUID groupId) {
         Group group = getGroup(groupId);
         GroupMember groupMember = getGroupMember(groupId, groupMemberId);
 
@@ -37,7 +37,7 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
         groupMember.setLeftAt(Instant.now());
         GroupMember savedGroupMember = groupMemberRepository.save(groupMember);
 
-        return buildLeaveGroupResponse(savedGroupMember);
+        return buildLeaveGroupResult(savedGroupMember);
     }
 
     private Group getGroup(UUID groupId) {
@@ -51,12 +51,12 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
                         + groupMemberId + " not found!"));
     }
 
-    private LeaveGroupResponse buildLeaveGroupResponse(GroupMember groupMember) {
-        return LeaveGroupResponse.builder()
+    private LeaveGroupResult buildLeaveGroupResult(GroupMember groupMember) {
+        return LeaveGroupResult.builder()
                 .groupMemberId(groupMember.getGroupMemberId())
                 .memberGroup(
                         groupMember.getMemberGroup() != null
-                                ? LeaveGroupResponse.GroupDto.builder()
+                                ? LeaveGroupResult.GroupDto.builder()
                                 .groupId(groupMember.getMemberGroup().getGroupId())
                                 .adminId(groupMember.getMemberGroup().getAdminId())
                                 .build()

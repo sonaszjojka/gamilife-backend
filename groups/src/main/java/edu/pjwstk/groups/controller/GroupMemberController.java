@@ -7,7 +7,7 @@ import edu.pjwstk.groups.usecase.creategroupmemberinopengroup.CreateGroupMemberI
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberRequest;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberResponse;
 import edu.pjwstk.groups.usecase.editgroupmember.EditGroupMemberUseCase;
-import edu.pjwstk.groups.usecase.leavegroup.LeaveGroupResponse;
+import edu.pjwstk.groups.usecase.leavegroup.LeaveGroupResult;
 import edu.pjwstk.groups.usecase.leavegroup.LeaveGroupUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -48,9 +48,9 @@ public class GroupMemberController {
     }
 
     @PutMapping("/{groupMemberId}/leave")
-    private ResponseEntity<LeaveGroupResponse> leaveGroup(@PathVariable("groupId") UUID groupId,
-                                                          @PathVariable("groupMemberId") UUID groupMemberId) {
-        LeaveGroupResponse response = leaveGroupUseCase.execute(groupMemberId, groupId);
+    private ResponseEntity<LeaveGroupResult> leaveGroup(@PathVariable("groupId") UUID groupId,
+                                                        @PathVariable("groupMemberId") UUID groupMemberId) {
+        LeaveGroupResult response = leaveGroupUseCase.execute(groupMemberId, groupId);
         return ResponseEntity.ok(response);
     }
 }

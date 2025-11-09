@@ -10,7 +10,7 @@ import java.util.UUID;
  * DTO for {@link edu.pjwstk.groups.model.GroupRequest}
  */
 @Builder
-public record CreateGroupRequestResponse(UUID groupRequestId, UUID userId, GroupDto groupRequested, Instant createdAt, GroupRequestStatusDto groupRequestStatus) implements Serializable {
+public record CreateGroupRequestResult(UUID groupRequestId, UUID userId, GroupDto groupRequested, Instant createdAt, GroupRequestStatusDto groupRequestStatus) implements Serializable {
     /**
      * DTO for {@link edu.pjwstk.groups.model.Group}
      */

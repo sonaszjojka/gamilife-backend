@@ -10,9 +10,9 @@ import java.util.UUID;
  * DTO for {@link edu.pjwstk.groups.model.GroupMember}
  */
 @Builder
-public record LeaveGroupResponse(UUID groupMemberId, GroupDto memberGroup, UUID userId, Instant joinedAt,
-                                 Instant leftAt, Integer groupMoney,
-                                 Integer totalEarnedMoney) implements Serializable {
+public record LeaveGroupResult(UUID groupMemberId, GroupDto memberGroup, UUID userId, Instant joinedAt,
+                               Instant leftAt, Integer groupMoney,
+                               Integer totalEarnedMoney) implements Serializable {
     /**
      * DTO for {@link edu.pjwstk.groups.model.Group}
      */
