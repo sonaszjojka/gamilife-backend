@@ -22,6 +22,6 @@ public record CreateChatMessageResult(UUID messageId, Boolean isImportant, Insta
     /**
      * DTO for {@link edu.pjwstk.groups.model.GroupMember}
      */
-    public record GroupMemberDto(UUID groupMemberId, UUID userId, Instant joinedAt) implements Serializable {
+    public record GroupMemberDto(UUID groupMemberId) implements Serializable {
     }
 }

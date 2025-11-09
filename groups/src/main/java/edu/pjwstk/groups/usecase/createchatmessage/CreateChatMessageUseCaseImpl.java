@@ -36,12 +36,12 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
 
         if (!groupMember.isActive()) {
             throw new UserLeftGroupException("Group member with id: " + cmd.groupMemberId() + " left group with id: "
-                    + groupMember.getMemberGroup().getGroupId() + " and is no longer member of it!");
+                    + group.getGroupId() + " and is no longer member of it!");
         }
 
         if (groupMember.isUser(currentUserDto.userId())) {
-            throw new ResourceOwnerPrivilegesRequiredException("User with id: " + groupMember.getUserId()
-                    + " is not group member with id: " + cmd.groupMemberId());
+            throw new ResourceOwnerPrivilegesRequiredException("User with id: " + currentUserDto.userId()
+                    + " is not a group member with id: " + cmd.groupMemberId());
         }
 
         ChatMessage chatMessage = ChatMessage.builder()
@@ -74,13 +74,11 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
         return CreateChatMessageResult.builder()
                 .messageId(chatMessage.getMessageId())
                 .isImportant(chatMessage.getIsImportant())
-                .sendAt(chatMessage.getSendAt())
+                .sendAt(chatMessage.getSentAt())
                 .content(chatMessage.getContent())
-                .group(new CreateChatMessageResult.GroupDto(chatMessage.getGroup().getGroupId()))
+                .group(new CreateChatMessageResult.GroupDto(chatMessage.getGroupId()))
                 .senderGroupMember(new CreateChatMessageResult.GroupMemberDto(
-                        chatMessage.getSenderGroupMember().getGroupMemberId(),
-                        chatMessage.getSenderGroupMember().getUserId(),
-                        chatMessage.getSenderGroupMember().getJoinedAt()
+                        chatMessage.getSenderGroupMemberId()
                 ))
                 .build();
     }
