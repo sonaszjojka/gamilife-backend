@@ -3,7 +3,7 @@ package edu.pjwstk.groups.controller;
 import edu.pjwstk.groups.controller.request.CreateGroupRequest;
 import edu.pjwstk.groups.controller.request.EditGroupRequest;
 import edu.pjwstk.groups.controller.request.GroupFilterRequest;
-import edu.pjwstk.groups.shared.ApiResponse;
+import edu.pjwstk.groups.controller.response.ApiResponse;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupCommand;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupResult;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupUseCase;

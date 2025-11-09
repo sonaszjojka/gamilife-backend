@@ -2,7 +2,7 @@ package edu.pjwstk.groups.controller;
 
 import edu.pjwstk.groups.controller.request.CreateGroupInvitationRequest;
 import edu.pjwstk.groups.controller.request.EditGroupInvitationStatusRequest;
-import edu.pjwstk.groups.shared.ApiResponse;
+import edu.pjwstk.groups.controller.response.ApiResponse;
 import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationCommand;
 import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationResult;
 import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationUseCase;
