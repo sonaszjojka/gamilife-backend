@@ -31,5 +31,4 @@ public class GroupType {
     public GroupTypeEnum toEnum() {
         return GroupTypeEnum.fromId(this.groupTypeId);
     }
-
 }

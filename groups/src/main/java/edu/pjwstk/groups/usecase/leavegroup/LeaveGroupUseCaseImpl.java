@@ -4,7 +4,6 @@ import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
 import edu.pjwstk.groups.exception.domain.AdminCannotLeaveGroupException;
 import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.model.GroupMember;
-import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import java.util.UUID;
 public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
 
     private final GroupMemberJpaRepository groupMemberRepository;
-    private final GroupJpaRepository groupRepository;
 
     @Override
     public LeaveGroupResult executeInternal(LeaveGroupCommand cmd) {

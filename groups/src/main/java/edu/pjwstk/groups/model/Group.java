@@ -35,7 +35,7 @@ public class Group {
     @Column(name = "group_currency_symbol", nullable = false)
     private Character groupCurrencySymbol;
 
-    @Column(name = "members_limit", updatable = true, nullable = false)
+    @Column(name = "members_limit", nullable = false)
     private Integer membersLimit;
 
     @Column(name = "group_type_id", insertable = false, updatable = false, nullable = false)
