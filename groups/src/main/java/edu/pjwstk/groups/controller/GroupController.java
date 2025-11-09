@@ -7,6 +7,7 @@ import edu.pjwstk.groups.controller.response.ApiResponse;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupCommand;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupResult;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupUseCase;
+import edu.pjwstk.groups.usecase.deletegroup.DeleteGroupCommand;
 import edu.pjwstk.groups.usecase.deletegroup.DeleteGroupUseCase;
 import edu.pjwstk.groups.usecase.editgroup.EditGroupCommand;
 import edu.pjwstk.groups.usecase.editgroup.EditGroupResult;
@@ -67,7 +68,7 @@ public class GroupController {
 
     @DeleteMapping("/{groupId}")
     public ResponseEntity<ApiResponse> deleteById(@PathVariable("groupId") UUID groupId) {
-        deleteGroupUseCase.execute(groupId);
+        deleteGroupUseCase.execute(new DeleteGroupCommand(groupId));
         return ResponseEntity.ok(new ApiResponse("Group with id: " + groupId + " deleted successfully."));
     }
 
