@@ -1,7 +1,6 @@
 package edu.pjwstk.groups.usecase.getgroups;
 
 import edu.pjwstk.groups.enums.GroupTypeEnum;
-import edu.pjwstk.groups.exception.domain.GroupTypeNotFoundException;
 import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.util.GroupSpecificationBuilder;
@@ -28,21 +27,14 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
     public Page<GetGroupsResult> executeInternal(GetGroupsCommand cmd) {
         log.debug("Fetching groups with filters: {}", cmd);
 
-        GroupTypeEnum groupType;
-        try {
-            groupType = GroupTypeEnum.fromId(cmd.type());
-        } catch (RuntimeException e) {
-            throw new GroupTypeNotFoundException("Group type does not exists!");
-        }
+        GroupTypeEnum groupType = cmd.type() != null
+                ? GroupTypeEnum.fromId(cmd.type())
+                : null;
 
-        Specification<Group> spec = specificationBuilder.buildSpecification(
-                cmd.joinCode(),
-                groupType,
-                cmd.name()
+        Page<Group> groups = groupRepository.findWithGroupMembersAll(
+                getGroupSpecification(cmd, groupType),
+                createPageable(cmd)
         );
-
-        Pageable pageable = createPageable(cmd);
-        Page<Group> groups = groupRepository.findAll(spec, pageable);
 
         log.debug("Found {} groups", groups.getTotalElements());
 
@@ -56,6 +48,14 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
                 new GetGroupsResult.GroupTypeDto(group.getGroupType().getTitle()),
                 group.getGroupMembers().size()
         ));
+    }
+
+    private Specification<Group> getGroupSpecification(GetGroupsCommand cmd, GroupTypeEnum groupType) {
+        return specificationBuilder.buildSpecification(
+                cmd.joinCode(),
+                groupType,
+                cmd.name()
+        );
     }
 
     private Pageable createPageable(GetGroupsCommand cmd) {

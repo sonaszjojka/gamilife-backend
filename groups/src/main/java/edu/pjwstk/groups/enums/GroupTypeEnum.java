@@ -1,5 +1,6 @@
 package edu.pjwstk.groups.enums;
 
+import edu.pjwstk.groups.exception.domain.GroupTypeNotFoundException;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -20,6 +21,6 @@ public enum GroupTypeEnum {
         return Arrays.stream(values())
                 .filter(t -> t.id == id)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Unknown GroupType id: " + id));
+                .orElseThrow(() -> new GroupTypeNotFoundException("Unknown GroupType id: " + id));
     }
 }
