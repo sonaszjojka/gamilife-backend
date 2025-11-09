@@ -4,6 +4,7 @@ import edu.pjwstk.api.groups.GroupApi;
 import edu.pjwstk.api.groups.dto.GroupDto;
 import edu.pjwstk.api.groups.dto.GroupMemberDto;
 import edu.pjwstk.groups.usecase.findgroupbyid.FindGroupByIdUseCase;
+import edu.pjwstk.groups.usecase.findgroupmemberbyid.FindGroupMemberByIdCommand;
 import edu.pjwstk.groups.usecase.findgroupmemberbyid.FindGroupMemberByIdUseCase;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,9 @@ public class GroupApiImpl implements GroupApi {
 
     @Override
     public GroupMemberDto findGroupMemberById(UUID groupMemberId) {
-        return findGroupMemberByIdUseCase.execute(groupMemberId);
+        return findGroupMemberByIdUseCase.execute(
+                new FindGroupMemberByIdCommand(groupMemberId)
+        );
     }
 
     @Override
