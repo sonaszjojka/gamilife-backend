@@ -6,7 +6,8 @@ import edu.pjwstk.groups.controller.response.ApiResponse;
 import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationCommand;
 import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationResult;
 import edu.pjwstk.groups.usecase.creategroupinvitation.CreateGroupInvitationUseCase;
-import edu.pjwstk.groups.usecase.deletegroupinvitation.DeleteGroupInvitationById;
+import edu.pjwstk.groups.usecase.deletegroupinvitation.DeleteGroupInvitationUseCase;
+import edu.pjwstk.groups.usecase.deletegroupinvitation.DeleteGroupInvitationCommand;
 import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusCommand;
 import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusResult;
 import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusUseCase;
@@ -23,13 +24,13 @@ import java.util.UUID;
 @RequestMapping("/api/v1/groups/{groupId}/invitations")
 public class GroupInvitationController {
 
-    private final DeleteGroupInvitationById deleteGroupInvitationById;
+    private final DeleteGroupInvitationUseCase deleteGroupInvitationUseCase;
     private final EditGroupInvitationStatusUseCase editGroupInvitationStatusUseCase;
     private final CreateGroupInvitationUseCase createGroupInvitationUseCase;
     private final ResendMailToGroupInvitationUseCase resendMailByInvitationIdUseCase;
 
-    public GroupInvitationController(DeleteGroupInvitationById deleteGroupInvitationById, EditGroupInvitationStatusUseCase editGroupInvitationStatusUseCase, CreateGroupInvitationUseCase createGroupInvitationUseCase, ResendMailToGroupInvitationUseCase resendMailByInvitationIdUseCase) {
-        this.deleteGroupInvitationById = deleteGroupInvitationById;
+    public GroupInvitationController(DeleteGroupInvitationUseCase deleteGroupInvitationUseCase, EditGroupInvitationStatusUseCase editGroupInvitationStatusUseCase, CreateGroupInvitationUseCase createGroupInvitationUseCase, ResendMailToGroupInvitationUseCase resendMailByInvitationIdUseCase) {
+        this.deleteGroupInvitationUseCase = deleteGroupInvitationUseCase;
         this.editGroupInvitationStatusUseCase = editGroupInvitationStatusUseCase;
         this.createGroupInvitationUseCase = createGroupInvitationUseCase;
         this.resendMailByInvitationIdUseCase = resendMailByInvitationIdUseCase;
@@ -63,8 +64,11 @@ public class GroupInvitationController {
 
     @DeleteMapping("/{groupInvitationId}")
     private ResponseEntity<ApiResponse> deleteById(@PathVariable("groupInvitationId") UUID groupInvitationId,
-                                                   @PathVariable String groupId) {
-        deleteGroupInvitationById.execute(groupInvitationId);
+                                                   @PathVariable UUID groupId) {
+        deleteGroupInvitationUseCase.execute(new DeleteGroupInvitationCommand(
+                groupId,
+                groupInvitationId
+        ));
         return ResponseEntity.ok(new ApiResponse("Group Invitation with id: " + groupInvitationId + " deleted successfully."));
     }
 
