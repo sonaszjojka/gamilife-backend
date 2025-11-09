@@ -25,7 +25,7 @@ public class GroupRequestStatus {
     @Column(name = "title", length = 100, nullable = false, updatable = false)
     private String title;
 
-    @OneToMany(mappedBy = "groupRequestStatus")
+    @OneToMany(mappedBy = "groupRequestStatus", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<GroupRequest> groupRequests;
 

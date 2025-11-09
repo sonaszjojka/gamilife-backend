@@ -24,7 +24,7 @@ public class InvitationStatus {
     @Column(name = "title", length = 100, nullable = false, updatable = false)
     private String title;
 
-    @OneToMany(mappedBy = "invitationStatus")
+    @OneToMany(mappedBy = "invitationStatus", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<GroupInvitation> groupInvitations;
 

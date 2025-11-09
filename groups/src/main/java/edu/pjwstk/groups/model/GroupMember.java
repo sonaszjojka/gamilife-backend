@@ -45,7 +45,7 @@ public class GroupMember {
     @Column(name = "left_at")
     protected Instant leftAt;
 
-    @OneToMany(mappedBy = "groupMember")
+    @OneToMany(mappedBy = "groupMember", fetch = FetchType.LAZY)
     @ToString.Exclude
     @Builder.Default
     private Set<ChatMessage> chatMessages = new HashSet<>();

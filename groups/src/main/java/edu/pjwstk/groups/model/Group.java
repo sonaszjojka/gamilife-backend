@@ -45,22 +45,22 @@ public class Group {
     @JoinColumn(name = "group_type_id", nullable = false)
     private GroupType groupType;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     @Builder.Default
     private Set<ChatMessage> chatMessages = new HashSet<>();
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     @Builder.Default
     private Set<GroupMember> groupMembers = new HashSet<>();
 
-    @OneToMany(mappedBy = "groupRequested", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "groupRequested", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     @Builder.Default
     private Set<GroupRequest> groupRequests = new HashSet<>();
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     @Builder.Default
     private Set<GroupInvitation> groupInvitations = new HashSet<>();
@@ -74,7 +74,7 @@ public class Group {
     }
 
     public boolean isOfType(GroupTypeEnum typeEnum) {
-        return groupTypeId == typeEnum.getId();
+        return groupType.toEnum() == typeEnum;
     }
 
     @Override

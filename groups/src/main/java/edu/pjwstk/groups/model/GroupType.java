@@ -24,7 +24,7 @@ public class GroupType {
     @Column(name = "title", length = 50, nullable = false, updatable = false)
     private String title;
 
-    @OneToMany(mappedBy = "groupType")
+    @OneToMany(mappedBy = "groupType", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Group> groups;
 
