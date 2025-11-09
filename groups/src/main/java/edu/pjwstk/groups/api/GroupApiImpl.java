@@ -3,6 +3,7 @@ package edu.pjwstk.groups.api;
 import edu.pjwstk.api.groups.GroupApi;
 import edu.pjwstk.api.groups.dto.GroupDto;
 import edu.pjwstk.api.groups.dto.GroupMemberDto;
+import edu.pjwstk.groups.usecase.findgroupbyid.FindGroupByIdCommand;
 import edu.pjwstk.groups.usecase.findgroupbyid.FindGroupByIdUseCase;
 import edu.pjwstk.groups.usecase.findgroupmemberbyid.FindGroupMemberByIdCommand;
 import edu.pjwstk.groups.usecase.findgroupmemberbyid.FindGroupMemberByIdUseCase;
@@ -31,6 +32,6 @@ public class GroupApiImpl implements GroupApi {
 
     @Override
     public GroupDto findGroupById(UUID groupId) {
-        return findGroupByIdUseCase.execute(groupId);
+        return findGroupByIdUseCase.execute(new FindGroupByIdCommand(groupId));
     }
 }
