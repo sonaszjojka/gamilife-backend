@@ -11,9 +11,5 @@ import java.util.UUID;
 public interface GroupRequestJpaRepository extends JpaRepository<GroupRequest, UUID> {
     boolean existsByGroupRequestedAndUserIdAndGroupRequestStatus(Group group, UUID userId, GroupRequestStatus groupRequestStatus);
 
-    Optional<GroupRequest> findByUserIdAndGroupRequestedAndGroupRequestStatus(UUID userId, Group groupRequested, GroupRequestStatus groupRequestStatus);
-
-    Optional<GroupRequest> findByUserIdAndGroupRequestedAndGroupRequestStatus_GroupRequestStatusId(UUID userId, Group groupRequested, Integer groupRequestStatusGroupRequestStatusId);
-
     Optional<GroupRequest> findByGroupRequestIdAndGroupRequested_GroupId(UUID groupRequestId, UUID groupId);
 }

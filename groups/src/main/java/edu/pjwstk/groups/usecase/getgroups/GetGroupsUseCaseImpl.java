@@ -1,9 +1,9 @@
 package edu.pjwstk.groups.usecase.getgroups;
 
+import edu.pjwstk.groups.enums.GroupTypeEnum;
 import edu.pjwstk.groups.exception.domain.GroupTypeNotFoundException;
 import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
-import edu.pjwstk.groups.enums.GroupTypeEnum;
 import edu.pjwstk.groups.util.GroupSpecificationBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

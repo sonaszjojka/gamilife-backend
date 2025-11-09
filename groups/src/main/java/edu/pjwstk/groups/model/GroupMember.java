@@ -18,33 +18,25 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "group_member")
 public class GroupMember {
+    @Column(name = "joined_at", nullable = false)
+    protected Instant joinedAt;
+    @Column(name = "left_at")
+    protected Instant leftAt;
     @Id
     @Column(name = "group_member_id", nullable = false, updatable = false, unique = true)
     private UUID groupMemberId;
-
     @Column(name = "group_id", updatable = false, nullable = false, insertable = false)
     private UUID groupId;
-
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", nullable = false, updatable = false)
     private Group group;
-
     @Column(name = "user_id", updatable = false, nullable = false)
     private UUID userId;
-
     @Column(name = "group_money", nullable = false)
     private Integer groupMoney;
-
     @Column(name = "total_earned_money", nullable = false)
     private Integer totalEarnedMoney;
-
-    @Column(name = "joined_at", nullable = false)
-    protected Instant joinedAt;
-
-    @Column(name = "left_at")
-    protected Instant leftAt;
-
     @OneToMany(mappedBy = "groupMember", fetch = FetchType.LAZY)
     @ToString.Exclude
     @Builder.Default

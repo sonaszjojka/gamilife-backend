@@ -18,16 +18,13 @@ import java.util.UUID;
 @Table(name = "group_request")
 public class GroupRequest {
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    protected Instant createdAt;
     @Id
     @Column(name = "group_request_id", nullable = false, updatable = false, unique = true)
     private UUID groupRequestId;
-
     @Column(name = "user_id", nullable = false, updatable = false)
     private UUID userId;
-
-    @Column(name = "created_at", nullable = false, updatable = false)
-    protected Instant createdAt;
-
     @Column(name = "group_id", nullable = false, updatable = false, insertable = false)
     private UUID groupId;
 

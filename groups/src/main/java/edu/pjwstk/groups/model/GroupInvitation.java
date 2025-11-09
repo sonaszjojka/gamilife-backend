@@ -64,10 +64,6 @@ public class GroupInvitation {
         return this.invitationStatus.toEnum() == statusEnum;
     }
 
-    public boolean doesBelongToGroup(UUID groupId) {
-        return this.groupId.equals(groupId);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

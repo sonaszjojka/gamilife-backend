@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.util.impl;
 
-import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.enums.GroupTypeEnum;
+import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.util.GroupSpecificationBuilder;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
