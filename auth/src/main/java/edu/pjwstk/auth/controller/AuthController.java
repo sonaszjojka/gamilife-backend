@@ -86,7 +86,6 @@ public class AuthController {
         return ResponseEntity.ok(AfterLoginResponse.from(result));
     }
 
-    @PreAuthorize("hasAnyRole('VERIFIED', 'UNVERIFIED')")
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@CookieValue(name = "REFRESH-TOKEN") String refreshToken, HttpServletResponse response) {
         logoutUserUseCase.execute(new LogoutUserCommand(refreshToken));
