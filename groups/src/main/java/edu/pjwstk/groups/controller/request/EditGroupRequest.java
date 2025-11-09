@@ -1,10 +1,10 @@
-package edu.pjwstk.groups.usecase.editgroup;
+package edu.pjwstk.groups.controller.request;
 
 import jakarta.validation.constraints.*;
 
 import java.util.UUID;
 
-public record UpdateGroupRequest(
+public record EditGroupRequest(
         @NotNull(message = "Admin ID cannot be null")
         UUID adminId,
 

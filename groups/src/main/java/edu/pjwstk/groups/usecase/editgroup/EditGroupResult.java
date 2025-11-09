@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Builder
-public record UpdateGroupResponse(UUID groupId, String joinCode, String groupName, UUID adminId, Character groupCurrencySymbol,
-                                  Integer membersLimit, UpdateGroupResponse.GroupTypeDto groupType)
+public record EditGroupResult(UUID groupId, String joinCode, String groupName, UUID adminId, Character groupCurrencySymbol,
+                              Integer membersLimit, EditGroupResult.GroupTypeDto groupType)
         implements Serializable {
     /**
      * DTO for {@link edu.pjwstk.groups.model.GroupType}

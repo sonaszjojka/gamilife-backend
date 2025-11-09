@@ -6,9 +6,10 @@ import edu.pjwstk.groups.usecase.creategroup.CreateGroupCommand;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupResult;
 import edu.pjwstk.groups.usecase.creategroup.CreateGroupUseCase;
 import edu.pjwstk.groups.usecase.deletegroup.DeleteGroupUseCase;
-import edu.pjwstk.groups.usecase.editgroup.UpdateGroupRequest;
-import edu.pjwstk.groups.usecase.editgroup.UpdateGroupResponse;
-import edu.pjwstk.groups.usecase.editgroup.UpdateGroupUseCase;
+import edu.pjwstk.groups.controller.request.EditGroupRequest;
+import edu.pjwstk.groups.usecase.editgroup.EditGroupCommand;
+import edu.pjwstk.groups.usecase.editgroup.EditGroupResult;
+import edu.pjwstk.groups.usecase.editgroup.EditGroupUseCase;
 import edu.pjwstk.groups.usecase.getgroups.GetGroupsUseCase;
 import edu.pjwstk.groups.usecase.getgroups.GroupDto;
 import edu.pjwstk.groups.usecase.getgroups.GroupFilterRequest;
@@ -27,13 +28,13 @@ import java.util.UUID;
 public class GroupController {
 
     private final CreateGroupUseCase createGroupUseCase;
-    private final UpdateGroupUseCase updateGroupUseCase;
+    private final EditGroupUseCase editGroupUseCase;
     private final DeleteGroupUseCase deleteGroupUseCase;
     private final GetGroupsUseCase getGroupsUseCase;
 
-    public GroupController(CreateGroupUseCase createGroupUseCase, UpdateGroupUseCase updateGroupUseCase, DeleteGroupUseCase deleteGroupUseCase, GetGroupsUseCase getGroupsUseCase) {
+    public GroupController(CreateGroupUseCase createGroupUseCase, EditGroupUseCase editGroupUseCase, DeleteGroupUseCase deleteGroupUseCase, GetGroupsUseCase getGroupsUseCase) {
         this.createGroupUseCase = createGroupUseCase;
-        this.updateGroupUseCase = updateGroupUseCase;
+        this.editGroupUseCase = editGroupUseCase;
         this.deleteGroupUseCase = deleteGroupUseCase;
         this.getGroupsUseCase = getGroupsUseCase;
     }
@@ -50,9 +51,16 @@ public class GroupController {
     }
 
     @PutMapping("/{groupId}")
-    public ResponseEntity<UpdateGroupResponse> save(@RequestBody @Valid UpdateGroupRequest request,
-                                                    @PathVariable("groupId") UUID groupId) {
-        UpdateGroupResponse response = updateGroupUseCase.execute(request, groupId);
+    public ResponseEntity<EditGroupResult> save(@RequestBody @Valid EditGroupRequest request,
+                                                @PathVariable("groupId") UUID groupId) {
+        EditGroupResult response = editGroupUseCase.execute(new EditGroupCommand(
+                groupId,
+                request.adminId(),
+                request.groupName(),
+                request.groupCurrencySymbol(),
+                request.groupTypeId(),
+                request.membersLimit()
+        ));
         return ResponseEntity.ok(response);
     }
 
