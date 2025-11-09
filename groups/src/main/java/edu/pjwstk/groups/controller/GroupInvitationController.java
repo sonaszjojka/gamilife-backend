@@ -10,6 +10,7 @@ import edu.pjwstk.groups.usecase.deletegroupinvitation.DeleteGroupInvitationById
 import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusCommand;
 import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusResult;
 import edu.pjwstk.groups.usecase.editgroupinvitationstatus.EditGroupInvitationStatusUseCase;
+import edu.pjwstk.groups.usecase.resendmail.ResendMailToGroupInvitationCommand;
 import edu.pjwstk.groups.usecase.resendmail.ResendMailToGroupInvitationUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -69,7 +70,7 @@ public class GroupInvitationController {
 
     @PostMapping("/{groupInvitationId}/resend")
     private ResponseEntity<ApiResponse> resendMailByInvitationId(@PathVariable UUID groupId, @PathVariable UUID groupInvitationId) {
-        resendMailByInvitationIdUseCase.execute(groupId, groupInvitationId);
+        resendMailByInvitationIdUseCase.execute(new ResendMailToGroupInvitationCommand(groupId, groupInvitationId));
         return ResponseEntity.ok(new ApiResponse("Mail resend successfully."));
     }
 
