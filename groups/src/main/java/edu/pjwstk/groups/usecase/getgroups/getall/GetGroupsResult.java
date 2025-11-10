@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.usecase.getgroups;
+package edu.pjwstk.groups.usecase.getgroups.getall;
 
 import java.io.Serializable;
 import java.util.Collection;

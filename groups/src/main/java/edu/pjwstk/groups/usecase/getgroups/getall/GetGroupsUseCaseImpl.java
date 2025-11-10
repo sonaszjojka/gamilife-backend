@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.usecase.getgroups;
+package edu.pjwstk.groups.usecase.getgroups.getall;
 
 import edu.pjwstk.groups.enums.GroupTypeEnum;
 import edu.pjwstk.groups.model.Group;

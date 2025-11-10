@@ -12,13 +12,17 @@ import edu.pjwstk.groups.usecase.deletegroup.DeleteGroupUseCase;
 import edu.pjwstk.groups.usecase.editgroup.EditGroupCommand;
 import edu.pjwstk.groups.usecase.editgroup.EditGroupResult;
 import edu.pjwstk.groups.usecase.editgroup.EditGroupUseCase;
-import edu.pjwstk.groups.usecase.getgroups.GetGroupsCommand;
-import edu.pjwstk.groups.usecase.getgroups.GetGroupsResult;
-import edu.pjwstk.groups.usecase.getgroups.GetGroupsUseCase;
+import edu.pjwstk.groups.usecase.getgroups.getall.GetGroupsCommand;
+import edu.pjwstk.groups.usecase.getgroups.getall.GetGroupsResult;
+import edu.pjwstk.groups.usecase.getgroups.getall.GetGroupsUseCase;
+import edu.pjwstk.groups.usecase.getgroups.getbyid.GetGroupByIdCommand;
+import edu.pjwstk.groups.usecase.getgroups.getbyid.GetGroupByIdResult;
+import edu.pjwstk.groups.usecase.getgroups.getbyid.GetGroupByIdUseCase;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +38,7 @@ public class GroupController {
     private final EditGroupUseCase editGroupUseCase;
     private final DeleteGroupUseCase deleteGroupUseCase;
     private final GetGroupsUseCase getGroupsUseCase;
+    private final GetGroupByIdUseCase getGroupByIdUseCase;
 
     @PostMapping
     public ResponseEntity<CreateGroupResult> save(@RequestBody @Valid CreateGroupRequest request) {
@@ -92,6 +97,12 @@ public class GroupController {
                         request.size()
                 )
         );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{groupId}")
+    public ResponseEntity<GetGroupByIdResult> getById(@PathVariable(name = "groupId") UUID groupId) {
+        GetGroupByIdResult response = getGroupByIdUseCase.execute(new GetGroupByIdCommand(groupId));
         return ResponseEntity.ok(response);
     }
 }
