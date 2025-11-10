@@ -23,9 +23,6 @@ public record CreateTaskRequest(
         @NotNull(message = "Difficulty Id cannot be null")
         Integer difficultyId,
 
-        @NotNull(message = "User Id cannot be null")
-        UUID userId,
-
         LocalDateTime completedAt,
 
         UUID habitTaskId,

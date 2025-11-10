@@ -62,7 +62,8 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                         task.getCompletedAt(),
                         task.getCategory().getTitle(),
                         task.getDifficulty().getTitle(),
-                        task.getIsGroupTask()
+                        task.getIsGroupTask(),
+                        task.getUserId()
                 ));
         return tasks;
     }

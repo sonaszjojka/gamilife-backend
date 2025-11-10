@@ -17,7 +17,8 @@ public record GetUserTasksDto(
         LocalDateTime completedAt,
         String categoryName,
         String difficultyName,
-        Boolean isGroupTask
+        Boolean isGroupTask,
+        UUID userId
 
 
 

@@ -16,7 +16,9 @@ public class CreateTaskMapperImpl implements CreateTaskMapper {
                          TaskCategory category,
                          TaskDifficulty difficulty,
                          Habit habitTask,
-                         Task previousTask) {
+                         Task previousTask,
+                         UUID userId
+    ) {
 
         return Task.builder()
                 .id(taskId)
@@ -25,7 +27,7 @@ public class CreateTaskMapperImpl implements CreateTaskMapper {
                 .endTime(req.endTime())
                 .category(category)
                 .difficulty(difficulty)
-                .userId(req.userId())
+                .userId(userId)
                 .habitTask(habitTask)
                 .previousTask(previousTask)
                 .description(req.description())

@@ -42,10 +42,6 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     public CreateTaskResponse execute(CreateTaskRequest request) {
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
-        if (!currentUserDto.userId().equals(request.userId())) {
-            System.out.println(currentUserDto.userId()+ " "+request.userId()+"================================================================================================");
-            throw new UnauthorizedTaskAccessException("User is not authorized to create task for another user!");
-        }
 
         if (request.endTime().isBefore(LocalDateTime.now())) {
             throw new InvalidTaskDataException("End date cannot be before creation date");
@@ -96,7 +92,8 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                         taskCategory,
                         taskDifficulty,
                         habit,
-                        previousTask
+                        previousTask,
+                        currentUserDto.userId()
                 )
         );
 
