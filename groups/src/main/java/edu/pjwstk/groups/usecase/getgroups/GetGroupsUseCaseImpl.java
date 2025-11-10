@@ -14,6 +14,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -24,30 +28,30 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<GetGroupsResult> executeInternal(GetGroupsCommand cmd) {
+    public GetGroupsResult executeInternal(GetGroupsCommand cmd) {
         log.debug("Fetching groups with filters: {}", cmd);
 
         GroupTypeEnum groupType = cmd.type() != null
                 ? GroupTypeEnum.fromId(cmd.type())
                 : null;
 
-        Page<Group> groups = groupRepository.findWithGroupMembersAll(
+        Page<Group> groupPage = groupRepository.findAll(
                 getGroupSpecification(cmd, groupType),
                 createPageable(cmd)
         );
+        List<UUID> groupIds = groupPage.map(Group::getGroupId).getContent();
 
-        log.debug("Found {} groups", groups.getTotalElements());
+        List<Group> groupsWithDetails;
+        if (!groupIds.isEmpty()) {
+            groupsWithDetails = groupRepository.findWithGroupMembersByGroupIdIn(groupIds);
+            groupsWithDetails.sort(Comparator.comparingInt(g -> groupIds.indexOf(g.getGroupId())));
+        } else {
+            groupsWithDetails = List.of();
+        }
 
-        return groups.map(group -> new GetGroupsResult(
-                group.getGroupId(),
-                group.getJoinCode(),
-                group.getName(),
-                group.getAdminId(),
-                group.getGroupCurrencySymbol(),
-                group.getMembersLimit(),
-                new GetGroupsResult.GroupTypeDto(group.getGroupType().getTitle()),
-                group.getGroupMembers().size()
-        ));
+        log.debug("Found {} groups", groupPage.getTotalElements());
+
+        return buildGetGroupsResult(groupPage, groupsWithDetails);
     }
 
     private Specification<Group> getGroupSpecification(GetGroupsCommand cmd, GroupTypeEnum groupType) {
@@ -63,6 +67,25 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
                 cmd.page(),
                 cmd.size(),
                 Sort.by(Sort.Direction.ASC, "name")
+        );
+    }
+
+    private GetGroupsResult buildGetGroupsResult(Page<Group> groupPage, List<Group> groups) {
+        return new GetGroupsResult(
+                groupPage.getTotalPages(),
+                groupPage.getTotalPages(),
+                groupPage.getNumber(),
+                groupPage.getSize(),
+                groups.stream().map(g -> new GetGroupsResult.GroupDto(
+                        g.getGroupId(),
+                        g.getJoinCode(),
+                        g.getName(),
+                        g.getAdminId(),
+                        g.getGroupCurrencySymbol(),
+                        g.getMembersLimit(),
+                        new GetGroupsResult.GroupTypeDto(g.getGroupType().getTitle()),
+                        g.getGroupMembers().size()
+                )).toList()
         );
     }
 }

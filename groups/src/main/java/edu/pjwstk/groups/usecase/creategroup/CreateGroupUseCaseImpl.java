@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -73,6 +74,7 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
                 .group(group)
                 .userId(adminUserId)
                 .leftAt(null)
+                .joinedAt(Instant.now())
                 .groupMoney(0)
                 .totalEarnedMoney(0)
                 .build();

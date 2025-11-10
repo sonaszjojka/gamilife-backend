@@ -9,6 +9,7 @@ import edu.pjwstk.groups.service.GroupMemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,6 +44,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 
     private GroupMember reactivatePreviousMember(GroupMember groupMember) {
         groupMember.setLeftAt(null);
+        groupMember.setJoinedAt(Instant.now());
 
         return groupMemberRepository.save(groupMember);
     }
@@ -53,6 +55,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
                 .group(group)
                 .userId(userId)
                 .leftAt(null)
+                .joinedAt(Instant.now())
                 .totalEarnedMoney(0)
                 .groupMoney(0)
                 .build();
