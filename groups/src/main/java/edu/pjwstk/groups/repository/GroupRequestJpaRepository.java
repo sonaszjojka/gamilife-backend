@@ -9,7 +9,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface GroupRequestJpaRepository extends JpaRepository<GroupRequest, UUID> {
-    boolean existsByGroupRequestedAndUserIdAndGroupRequestStatus(Group group, UUID userId, GroupRequestStatus groupRequestStatus);
+    boolean existsByGroupRequestedAndUserIdAndGroupRequestStatusId(Group group, UUID userId, Integer groupRequestStatus);
 
     Optional<GroupRequest> findByGroupRequestIdAndGroupRequested_GroupId(UUID groupRequestId, UUID groupId);
+
+    boolean existsByGroupRequestedAndUserIdAndGroupRequestStatus(Group groupRequested, UUID userId, GroupRequestStatus groupRequestStatus);
 }
