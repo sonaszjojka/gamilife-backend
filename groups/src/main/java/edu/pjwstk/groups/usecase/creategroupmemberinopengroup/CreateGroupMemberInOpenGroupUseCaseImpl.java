@@ -28,7 +28,7 @@ public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMembe
     public CreateGroupMemberInOpenGroupResult executeInternal(CreateGroupMemberInOpenGroupCommand cmd) {
         Group group = getGroupWithMembers(cmd.groupId());
 
-        if (group.isOfType(GroupTypeEnum.OPEN)) {
+        if (!group.isOfType(GroupTypeEnum.OPEN)) {
             throw new UserJoinGroupAccessDeniedException("To add user to group which type is: REQUEST_ONLY or CLOSED " +
                     " - invitation or request must be accepted.");
         }

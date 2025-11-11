@@ -22,7 +22,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -101,8 +100,12 @@ public class GroupController {
     }
 
     @GetMapping("/{groupId}")
-    public ResponseEntity<GetGroupByIdResult> getById(@PathVariable(name = "groupId") UUID groupId) {
-        GetGroupByIdResult response = getGroupByIdUseCase.execute(new GetGroupByIdCommand(groupId));
+    public ResponseEntity<GetGroupByIdResult> getById(
+            @PathVariable(name = "groupId") UUID groupId,
+
+            @RequestParam(required = false) Boolean isForLoggedUser
+    ) {
+        GetGroupByIdResult response = getGroupByIdUseCase.execute(new GetGroupByIdCommand(groupId, isForLoggedUser));
         return ResponseEntity.ok(response);
     }
 }

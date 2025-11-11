@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public record GetGroupByIdCommand(
-        UUID groupId
-) implements Command, Serializable {
+        UUID groupId,
+        Boolean isForLoggedUser) implements Command, Serializable {
     @Override
     public void validate() {
 

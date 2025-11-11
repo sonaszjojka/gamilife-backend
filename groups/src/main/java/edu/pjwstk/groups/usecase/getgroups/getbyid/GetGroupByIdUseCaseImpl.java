@@ -1,22 +1,17 @@
 package edu.pjwstk.groups.usecase.getgroups.getbyid;
 
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
-import edu.pjwstk.groups.enums.GroupTypeEnum;
+import edu.pjwstk.groups.enums.GroupRequestStatusEnum;
 import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
-import edu.pjwstk.groups.util.GroupSpecificationBuilder;
+import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
+import edu.pjwstk.groups.repository.GroupRequestJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,20 +20,61 @@ import java.util.UUID;
 public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
 
     private final GroupJpaRepository groupRepository;
+    private final GroupMemberJpaRepository groupMemberRepository;
+    private final GroupRequestJpaRepository groupRequestJpaRepository;
+    private final AuthApi authApi;
 
     @Override
     public GetGroupByIdResult executeInternal(GetGroupByIdCommand cmd) {
-        log.debug("Fetching group by id: {}", cmd);
+        Group group = getGroupById(cmd.groupId());
+        CurrentUserDto currentUser = getCurrentUser();
 
-        Group group = groupRepository.findById(cmd.groupId())
-                .orElseThrow(() -> new GroupNotFoundException("Group with id: " + cmd.groupId() + " not found!"));
-
-        log.debug("Found group with id: {}", cmd);
-
-        return buildGetGroupByIdResult(group);
+        if(cmd.isForLoggedUser() != null && cmd.isForLoggedUser()) {
+            boolean isGroupMember = checkGroupMembership(currentUser.userId(), group);
+            boolean hasActiveGroupRequest = !isGroupMember && hasActiveGroupRequest(currentUser.userId(), group);
+            return buildGetGroupByIdResult(group, isGroupMember, hasActiveGroupRequest);
+        }
+        return buildGetGroupByIdResult(group, null, null);
     }
 
-    private GetGroupByIdResult buildGetGroupByIdResult(Group group) {
+    private Group getGroupById(UUID groupId) {
+        log.debug("Fetching group by id: {}", groupId);
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
+        log.debug("Found group with id: {}", group.getGroupId());
+        return group;
+    }
+
+    private CurrentUserDto getCurrentUser() {
+        CurrentUserDto currentUser = authApi.getCurrentUser();
+        log.debug("Fetched current user with id: {}", currentUser.userId());
+        return currentUser;
+    }
+
+    private boolean checkGroupMembership(UUID userId, Group group) {
+        boolean isMember = groupMemberRepository.existsByUserIdAndGroup(userId, group);
+        log.debug("User with id: {} is {}member of group with id: {}",
+                userId, isMember ? "" : "not ", group.getGroupId());
+        return isMember;
+    }
+
+    private boolean hasActiveGroupRequest(UUID userId, Group group) {
+        boolean hasActiveGroupRequest = groupRequestJpaRepository
+                .existsByGroupRequestedAndUserIdAndGroupRequestStatusId(
+                        group,
+                        userId,
+                        GroupRequestStatusEnum.SENT.getId()
+                );
+        log.debug("User with id: {} has {}active request for group with id: {}",
+                userId, hasActiveGroupRequest ? "" : "no ", group.getGroupId());
+        return hasActiveGroupRequest;
+    }
+
+    private GetGroupByIdResult buildGetGroupByIdResult(
+            Group group,
+             Boolean isGroupMember,
+             Boolean hasActiveGroupRequest
+    ) {
         return new GetGroupByIdResult(
                 group.getGroupId(),
                 group.getJoinCode(),
@@ -47,7 +83,9 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
                 group.getGroupCurrencySymbol(),
                 group.getMembersLimit(),
                 new GetGroupByIdResult.GroupTypeDto(group.getGroupType().getTitle()),
-                group.getGroupMembers().size()
+                group.getGroupMembers().size(),
+                isGroupMember,
+                hasActiveGroupRequest
         );
     }
 }
