@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @AllArgsConstructor
 @Service
@@ -22,6 +23,7 @@ public class FindAllGroupsByUserIdWhereUserIsMemberUseCaseImpl implements FindAl
     private final UserGroupsSpecificationBuilder specificationBuilder;
 
     @Override
+    @Transactional(readOnly = true)
     public FindAllGroupsByUserIdWhereUserIsMemberResult executeInternal(FindAllGroupsByUserIdWhereUserIsMemberCommand command) {
         GroupTypeEnum groupType = command.groupType() != null
                 ? GroupTypeEnum.fromId(command.groupType())
