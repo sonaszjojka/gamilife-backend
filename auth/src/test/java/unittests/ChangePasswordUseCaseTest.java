@@ -6,7 +6,6 @@ import edu.pjwstk.auth.usecase.changepassword.ChangePasswordCommand;
 import edu.pjwstk.auth.usecase.changepassword.ChangePasswordUseCaseImpl;
 import edu.pjwstk.auth.validators.PasswordValidator;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
