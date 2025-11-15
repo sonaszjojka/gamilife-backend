@@ -5,13 +5,16 @@ import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.enums.GroupRequestStatusEnum;
 import edu.pjwstk.groups.model.Group;
+import edu.pjwstk.groups.model.GroupMember;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
 import edu.pjwstk.groups.repository.GroupRequestJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,17 +28,24 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     private final AuthApi authApi;
 
     @Override
+    @Transactional(readOnly = true)
     public GetGroupByIdResult executeInternal(GetGroupByIdCommand cmd) {
         Group group = getGroupById(cmd.groupId());
         CurrentUserDto currentUser = getCurrentUser();
 
-        if(cmd.isForLoggedUser() != null && cmd.isForLoggedUser()) {
-            boolean isGroupMember = checkGroupMembership(currentUser.userId(), group);
+        if (Boolean.TRUE.equals(cmd.isForLoggedUser())) {
+            Optional<GroupMember> groupMemberOpt = checkGroupMembership(currentUser.userId(), group);
+
+            boolean isGroupMember = groupMemberOpt.isPresent();
+            UUID groupMemberIdForLoggedUser = groupMemberOpt.map(GroupMember::getGroupMemberId).orElse(null);
             boolean hasActiveGroupRequest = !isGroupMember && hasActiveGroupRequest(currentUser.userId(), group);
-            return buildGetGroupByIdResult(group, isGroupMember, hasActiveGroupRequest);
+
+            return buildGetGroupByIdResult(group, isGroupMember, hasActiveGroupRequest, groupMemberIdForLoggedUser);
         }
-        return buildGetGroupByIdResult(group, null, null);
+
+        return buildGetGroupByIdResult(group, null, null, null);
     }
+
 
     private Group getGroupById(UUID groupId) {
         log.debug("Fetching group by id: {}", groupId);
@@ -51,11 +61,11 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
         return currentUser;
     }
 
-    private boolean checkGroupMembership(UUID userId, Group group) {
-        boolean isMember = groupMemberRepository.existsByUserIdAndGroup(userId, group);
+    private Optional<GroupMember> checkGroupMembership(UUID userId, Group group) {
+        Optional<GroupMember> groupMember = groupMemberRepository.findByUserIdAndGroup(userId, group);
         log.debug("User with id: {} is {}member of group with id: {}",
-                userId, isMember ? "" : "not ", group.getGroupId());
-        return isMember;
+                userId, groupMember.isPresent() ? "" : "not ", group.getGroupId());
+        return groupMember;
     }
 
     private boolean hasActiveGroupRequest(UUID userId, Group group) {
@@ -72,8 +82,9 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
 
     private GetGroupByIdResult buildGetGroupByIdResult(
             Group group,
-             Boolean isGroupMember,
-             Boolean hasActiveGroupRequest
+            Boolean isGroupMember,
+            Boolean hasActiveGroupRequest,
+            UUID groupMemberIdForLoggedUser
     ) {
         return new GetGroupByIdResult(
                 group.getGroupId(),
@@ -85,7 +96,8 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
                 new GetGroupByIdResult.GroupTypeDto(group.getGroupType().getTitle()),
                 group.getGroupMembers().size(),
                 isGroupMember,
-                hasActiveGroupRequest
+                hasActiveGroupRequest,
+                groupMemberIdForLoggedUser
         );
     }
 }

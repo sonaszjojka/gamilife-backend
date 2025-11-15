@@ -14,7 +14,8 @@ public record GetGroupByIdResult(
         GroupTypeDto groupType,
         Integer membersCount,
         Boolean isMember,
-        Boolean hasActiveGroupRequest
+        Boolean hasActiveGroupRequest,
+        UUID groupMemberIdForLoggedUser
 ) implements Serializable {
 
     /**
