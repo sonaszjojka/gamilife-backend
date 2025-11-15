@@ -62,7 +62,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     }
 
     private Optional<GroupMember> checkGroupMembership(UUID userId, Group group) {
-        Optional<GroupMember> groupMember = groupMemberRepository.findByUserIdAndGroup(userId, group);
+        Optional<GroupMember> groupMember = groupMemberRepository.findByUserIdAndGroupAndLeftAtIsNull(userId, group);
         log.debug("User with id: {} is {}member of group with id: {}",
                 userId, groupMember.isPresent() ? "" : "not ", group.getGroupId());
         return groupMember;

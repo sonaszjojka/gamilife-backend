@@ -17,4 +17,7 @@ public interface GroupMemberJpaRepository extends JpaRepository<GroupMember, UUI
 
     @EntityGraph(attributePaths = {"group"})
     Optional<GroupMember> findWithGroupByGroupMemberIdAndGroupId(UUID groupMemberId, UUID groupId);
+
+    Optional<GroupMember> findByUserIdAndGroupAndLeftAtIsNull(UUID userId, Group group);
+
 }
