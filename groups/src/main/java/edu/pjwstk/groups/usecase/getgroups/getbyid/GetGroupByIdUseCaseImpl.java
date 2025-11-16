@@ -74,6 +74,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
             Boolean hasActiveRequest,
             GroupMember loggedUserMembership
     ) {
+        List<GetGroupByIdResult.GroupMemberDto> activeMembers = getActiveMembers(group);
         return new GetGroupByIdResult(
                 group.getGroupId(),
                 group.getJoinCode(),
@@ -85,11 +86,11 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
                         group.getGroupType().getGroupTypeId(),
                         group.getGroupType().getTitle()
                 ),
-                group.getGroupMembers().size(),
+                activeMembers.size(),
                 isMember,
                 hasActiveRequest,
                 buildGroupMemberDto(loggedUserMembership),
-                getActiveMembers(group),
+                activeMembers,
                 getAdminUsername(group.getAdminId())
         );
     }
