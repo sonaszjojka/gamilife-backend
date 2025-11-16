@@ -2,6 +2,8 @@ package edu.pjwstk.groups.usecase.getgroups.getbyid;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.enums.GroupRequestStatusEnum;
 import edu.pjwstk.groups.model.Group;
@@ -25,6 +27,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     private final GroupMemberJpaRepository groupMemberRepository;
     private final GroupRequestJpaRepository groupRequestJpaRepository;
     private final AuthApi authApi;
+    private final UserApi userApi;
 
     @Override
     @Transactional(readOnly = true)
@@ -97,7 +100,8 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
                 gm.getGroupMoney(),
                 gm.getTotalEarnedMoney(),
                 gm.getJoinedAt(),
-                gm.getLeftAt()
+                gm.getLeftAt(),
+                getUsernameByUserId(gm.getUserId())
         );
     }
 
@@ -107,4 +111,11 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
                 .map(this::buildGroupMemberDto)
                 .toList();
     }
+
+    private String getUsernameByUserId(UUID userId) {
+        return userApi.getUserById(userId)
+                .map(BasicUserInfoApiDto::username)
+                .orElse(null);
+    }
+
 }

@@ -28,6 +28,6 @@ public record GetGroupByIdResult(
      * DTO for {@link edu.pjwstk.groups.model.GroupMember}
      */
     public record GroupMemberDto(UUID groupMemberId, UUID groupId, UUID userId, Integer groupMoney,
-                                 Integer totalEarnedMoney, Instant joinedAt, Instant leftAt) implements Serializable {
+                                 Integer totalEarnedMoney, Instant joinedAt, Instant leftAt, String username) implements Serializable {
     }
 }
