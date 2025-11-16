@@ -10,10 +10,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/users/{userId}/achievements")
-public class userAchievementController {
+public class UserAchievementController {
 
     @GetMapping
     public ResponseEntity<String> getUserAchievements(@PathVariable UUID userId) {
-        return ResponseEntity.ok("Hello World, User Achievement Controller!");
+        return ResponseEntity.ok(String.format("Hello World, User Achievement Controller for user %s!", userId));
     }
 }
