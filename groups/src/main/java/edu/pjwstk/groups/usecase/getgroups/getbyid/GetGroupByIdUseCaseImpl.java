@@ -81,7 +81,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
                 group.getAdminId(),
                 group.getGroupCurrencySymbol(),
                 group.getMembersLimit(),
-                new GetGroupByIdResult.GroupTypeDto(group.getGroupType().getTitle()),
+                new GetGroupByIdResult.GroupTypeDto(group.getGroupType().getGroupTypeId(), group.getGroupType().getTitle()),
                 group.getGroupMembers().size(),
                 isMember,
                 hasActiveRequest,

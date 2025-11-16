@@ -21,7 +21,7 @@ public record GetGroupByIdResult(
         Collection<GroupMemberDto> members
 ) implements Serializable {
 
-    public record GroupTypeDto(String title) implements Serializable {
+    public record GroupTypeDto(Integer id, String title) implements Serializable {
     }
 
     /**
