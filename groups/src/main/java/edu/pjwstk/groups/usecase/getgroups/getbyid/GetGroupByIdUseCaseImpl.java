@@ -37,7 +37,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
 
         if (Boolean.TRUE.equals(cmd.isForLoggedUser())) {
             Optional<GroupMember> memberOpt =
-                    groupMemberRepository.findByUserIdAndGroupAndLeftAtIsNull(currentUser.userId(), group);
+                    groupMemberRepository.findActiveMember(currentUser.userId(), group);
 
             boolean isMember = memberOpt.isPresent();
             boolean hasRequest = !isMember && hasActiveGroupRequest(currentUser.userId(), group);
@@ -81,14 +81,23 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
                 group.getAdminId(),
                 group.getGroupCurrencySymbol(),
                 group.getMembersLimit(),
-                new GetGroupByIdResult.GroupTypeDto(group.getGroupType().getGroupTypeId(), group.getGroupType().getTitle()),
+                new GetGroupByIdResult.GroupTypeDto(
+                        group.getGroupType().getGroupTypeId(),
+                        group.getGroupType().getTitle()
+                ),
                 group.getGroupMembers().size(),
                 isMember,
                 hasActiveRequest,
                 buildGroupMemberDto(loggedUserMembership),
-                mapMembers(group),
+                getActiveMembers(group),
                 getAdminUsername(group.getAdminId())
         );
+    }
+
+    private List<GetGroupByIdResult.GroupMemberDto> getActiveMembers(Group group) {
+        return mapMembers(group).stream()
+                .filter(m -> m.leftAt() == null)
+                .toList();
     }
 
     private String getAdminUsername(UUID adminId) {

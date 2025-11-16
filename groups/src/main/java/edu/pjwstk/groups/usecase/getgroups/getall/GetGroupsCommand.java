@@ -13,6 +13,5 @@ public record GetGroupsCommand(
 ) implements Command, Serializable {
     @Override
     public void validate() {
-
     }
 }

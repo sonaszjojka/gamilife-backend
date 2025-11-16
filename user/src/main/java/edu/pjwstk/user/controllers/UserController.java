@@ -6,11 +6,14 @@ import edu.pjwstk.api.groups.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
 import edu.pjwstk.commonweb.CookieUtil;
 import edu.pjwstk.user.dto.request.ChangeUserPasswordRequest;
 import edu.pjwstk.user.dto.response.CurrentUserInfoResponse;
+import edu.pjwstk.user.dto.response.GetUsersResult;
 import edu.pjwstk.user.dto.response.UserDetailsResponse;
 import edu.pjwstk.user.dto.service.ChangeUserPasswordCommand;
+import edu.pjwstk.user.dto.service.GetUsersCommand;
 import edu.pjwstk.user.dto.service.UserDetailsDto;
 import edu.pjwstk.user.usecase.ChangeUserPasswordUseCase;
 import edu.pjwstk.user.usecase.GetUserDetailsUseCase;
+import edu.pjwstk.user.usecase.GetUsersUseCase;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.Max;
@@ -32,6 +35,7 @@ public class UserController {
 
     private GetUserDetailsUseCase getUserDetailsUseCase;
     private ChangeUserPasswordUseCase changeUserPasswordUseCase;
+    private GetUsersUseCase getUsersUseCase;
     private CookieUtil cookieUtil;
     private GroupApi groupsApi;
 
@@ -83,5 +87,16 @@ public class UserController {
         FindAllGroupsByUserIdWhereUserIsMemberResult response =  groupsApi
                 .findAllGroupsByUserIdWhereUserIsMember(userId, page, size, joinCode, groupType, groupName);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<GetUsersResult> getUsers(
+            @RequestParam(required = false) String username,
+            @RequestParam(defaultValue = "0") @Min(0) Integer page,
+            @RequestParam(defaultValue = "10") @Min(1) @Max(100) Integer size
+    ) {
+        GetUsersCommand cmd = new GetUsersCommand(username, page, size);
+        GetUsersResult result = getUsersUseCase.execute(cmd);
+        return ResponseEntity.ok(result);
     }
 }

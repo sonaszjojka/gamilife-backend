@@ -1,6 +1,9 @@
 package edu.pjwstk.user.persistence;
 
 import edu.pjwstk.user.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,4 +24,6 @@ public interface UserRepository {
     void updateUserEmail(UUID id, String newEmail);
 
     void updateUserEmailVerificationStatus(UUID userId, boolean newStatus);
+
+    Page<User> findAll(Specification<UserEntity> userSpecification, PageRequest pageRequest);
 }
