@@ -86,9 +86,17 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
                 isMember,
                 hasActiveRequest,
                 buildGroupMemberDto(loggedUserMembership),
-                mapMembers(group)
+                mapMembers(group),
+                getAdminUsername(group.getAdminId())
         );
     }
+
+    private String getAdminUsername(UUID adminId) {
+        return userApi.getUserById(adminId)
+                .map(BasicUserInfoApiDto::username)
+                .orElse(null);
+    }
+
 
     private GetGroupByIdResult.GroupMemberDto buildGroupMemberDto(GroupMember gm) {
         if (gm == null) return null;

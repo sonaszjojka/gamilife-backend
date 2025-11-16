@@ -18,7 +18,8 @@ public record GetGroupByIdResult(
         Boolean isMember,
         Boolean hasActiveGroupRequest,
         GroupMemberDto loggedUserMembershipDto,
-        Collection<GroupMemberDto> members
+        Collection<GroupMemberDto> members,
+        String adminUsername
 ) implements Serializable {
 
     public record GroupTypeDto(Integer id, String title) implements Serializable {
