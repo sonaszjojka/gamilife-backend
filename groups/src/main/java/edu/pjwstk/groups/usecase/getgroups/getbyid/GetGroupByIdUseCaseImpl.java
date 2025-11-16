@@ -14,8 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -34,57 +33,43 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
         CurrentUserDto currentUser = getCurrentUser();
 
         if (Boolean.TRUE.equals(cmd.isForLoggedUser())) {
-            Optional<GroupMember> groupMemberOpt = checkGroupMembership(currentUser.userId(), group);
+            Optional<GroupMember> memberOpt =
+                    groupMemberRepository.findByUserIdAndGroupAndLeftAtIsNull(currentUser.userId(), group);
 
-            boolean isGroupMember = groupMemberOpt.isPresent();
-            UUID groupMemberIdForLoggedUser = groupMemberOpt.map(GroupMember::getGroupMemberId).orElse(null);
-            boolean hasActiveGroupRequest = !isGroupMember && hasActiveGroupRequest(currentUser.userId(), group);
+            boolean isMember = memberOpt.isPresent();
+            boolean hasRequest = !isMember && hasActiveGroupRequest(currentUser.userId(), group);
 
-            return buildGetGroupByIdResult(group, isGroupMember, hasActiveGroupRequest, groupMemberIdForLoggedUser);
+            return buildGetGroupByIdResult(
+                    group,
+                    isMember,
+                    hasRequest,
+                    memberOpt.orElse(null)
+            );
         }
 
         return buildGetGroupByIdResult(group, null, null, null);
     }
 
-
     private Group getGroupById(UUID groupId) {
-        log.debug("Fetching group by id: {}", groupId);
-        Group group = groupRepository.findById(groupId)
+        return groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
-        log.debug("Found group with id: {}", group.getGroupId());
-        return group;
     }
 
     private CurrentUserDto getCurrentUser() {
-        CurrentUserDto currentUser = authApi.getCurrentUser();
-        log.debug("Fetched current user with id: {}", currentUser.userId());
-        return currentUser;
-    }
-
-    private Optional<GroupMember> checkGroupMembership(UUID userId, Group group) {
-        Optional<GroupMember> groupMember = groupMemberRepository.findByUserIdAndGroupAndLeftAtIsNull(userId, group);
-        log.debug("User with id: {} is {}member of group with id: {}",
-                userId, groupMember.isPresent() ? "" : "not ", group.getGroupId());
-        return groupMember;
+        return authApi.getCurrentUser();
     }
 
     private boolean hasActiveGroupRequest(UUID userId, Group group) {
-        boolean hasActiveGroupRequest = groupRequestJpaRepository
-                .existsByGroupRequestedAndUserIdAndGroupRequestStatusId(
-                        group,
-                        userId,
-                        GroupRequestStatusEnum.SENT.getId()
-                );
-        log.debug("User with id: {} has {}active request for group with id: {}",
-                userId, hasActiveGroupRequest ? "" : "no ", group.getGroupId());
-        return hasActiveGroupRequest;
+        return groupRequestJpaRepository.existsByGroupRequestedAndUserIdAndGroupRequestStatusId(
+                group, userId, GroupRequestStatusEnum.SENT.getId()
+        );
     }
 
     private GetGroupByIdResult buildGetGroupByIdResult(
             Group group,
-            Boolean isGroupMember,
-            Boolean hasActiveGroupRequest,
-            UUID groupMemberIdForLoggedUser
+            Boolean isMember,
+            Boolean hasActiveRequest,
+            GroupMember loggedUserMembership
     ) {
         return new GetGroupByIdResult(
                 group.getGroupId(),
@@ -95,9 +80,31 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
                 group.getMembersLimit(),
                 new GetGroupByIdResult.GroupTypeDto(group.getGroupType().getTitle()),
                 group.getGroupMembers().size(),
-                isGroupMember,
-                hasActiveGroupRequest,
-                groupMemberIdForLoggedUser
+                isMember,
+                hasActiveRequest,
+                buildGroupMemberDto(loggedUserMembership),
+                mapMembers(group)
         );
+    }
+
+    private GetGroupByIdResult.GroupMemberDto buildGroupMemberDto(GroupMember gm) {
+        if (gm == null) return null;
+
+        return new GetGroupByIdResult.GroupMemberDto(
+                gm.getGroupMemberId(),
+                gm.getGroup().getGroupId(),
+                gm.getUserId(),
+                gm.getGroupMoney(),
+                gm.getTotalEarnedMoney(),
+                gm.getJoinedAt(),
+                gm.getLeftAt()
+        );
+    }
+
+    private Collection<GetGroupByIdResult.GroupMemberDto> mapMembers(Group group) {
+        return group.getGroupMembers()
+                .stream()
+                .map(this::buildGroupMemberDto)
+                .toList();
     }
 }
