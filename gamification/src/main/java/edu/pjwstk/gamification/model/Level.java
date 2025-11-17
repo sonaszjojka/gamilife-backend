@@ -17,7 +17,7 @@ import java.util.Set;
 public class Level {
     @Id
     @Column(name = "level", nullable = false)
-    private Integer id;
+    private Integer level;
 
     @NotNull
     @Column(name = "required_experience", nullable = false)
