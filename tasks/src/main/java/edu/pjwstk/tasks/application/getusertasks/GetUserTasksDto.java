@@ -2,6 +2,7 @@ package edu.pjwstk.tasks.application.getusertasks;
 
 import lombok.Builder;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -18,7 +19,13 @@ public record GetUserTasksDto(
         String categoryName,
         String difficultyName,
         Boolean isGroupTask,
-        UUID userId
+        UUID userId,
+        UUID pomodoroId,
+        Integer workCyclesNeeded,
+        Integer workCyclesCompleted,
+        Instant createdAt
+
+
 
 
 

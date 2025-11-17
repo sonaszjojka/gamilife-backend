@@ -2,6 +2,8 @@ package edu.pjwstk.tasks.application.getusertasks;
 
 import edu.pjwstk.common.authApi.AuthApi;
 import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.common.pomodoroApi.PomodoroTaskApi;
+import edu.pjwstk.common.pomodoroApi.dto.PomodoroTaskDto;
 import edu.pjwstk.common.userApi.UserApi;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.repository.jpa.TaskRepositoryJpa;
@@ -20,11 +22,13 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
     private final TaskRepositoryJpa taskRepository;
     private final TasksSpecificationBuilder tasksSpecificationBuilder;
     private final AuthApi authApi;
+    private final PomodoroTaskApi pomodoroTaskApi;
 
-    public GetUserTasksUseCaseImpl(TaskRepositoryJpa taskRepository, TasksSpecificationBuilder tasksSpecificationBuilder, AuthApi authApi) {
+    public GetUserTasksUseCaseImpl(TaskRepositoryJpa taskRepository, TasksSpecificationBuilder tasksSpecificationBuilder, AuthApi authApi, PomodoroTaskApi pomodoroTaskApi) {
         this.taskRepository = taskRepository;
         this.tasksSpecificationBuilder = tasksSpecificationBuilder;
         this.authApi = authApi;
+        this.pomodoroTaskApi = pomodoroTaskApi;
     }
 
     @Override
@@ -50,21 +54,28 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
         Pageable pageable = createPageable(request);
 
 
-        Page<GetUserTasksDto> tasks = taskRepository.findAll(taskSpecification,pageable)
-                .map(task -> new GetUserTasksDto(
-                        task.getId(),
-                        task.getTitle(),
-                        task.getDescription(),
-                        task.getStartTime(),
-                        task.getEndTime(),
-                        task.getCategory().getId(),
-                        task.getDifficulty().getId(),
-                        task.getCompletedAt(),
-                        task.getCategory().getTitle(),
-                        task.getDifficulty().getTitle(),
-                        task.getIsGroupTask(),
-                        task.getUserId()
-                ));
+        Page<GetUserTasksDto> tasks = taskRepository.findAll(taskSpecification, pageable)
+                .map(task -> {
+                    PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
+                    return new GetUserTasksDto(
+                            task.getId(),
+                            task.getTitle(),
+                            task.getDescription(),
+                            task.getStartTime(),
+                            task.getEndTime(),
+                            task.getCategory().getId(),
+                            task.getDifficulty().getId(),
+                            task.getCompletedAt(),
+                            task.getCategory().getTitle(),
+                            task.getDifficulty().getTitle(),
+                            task.getIsGroupTask(),
+                            task.getUserId(),
+                            pomodoro == null ? null : pomodoro.pomodoroId(),
+                            pomodoro == null ? null : pomodoro.workCyclesNeeded(),
+                            pomodoro == null ? null : pomodoro.workCyclesCompleted(),
+                            pomodoro == null ? null : pomodoro.createdAt()
+                    );
+                });
         return tasks;
     }
 
