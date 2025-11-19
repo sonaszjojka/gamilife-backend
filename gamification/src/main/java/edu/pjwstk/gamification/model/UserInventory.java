@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -41,4 +42,15 @@ public class UserInventory {
     @Builder.Default
     private Boolean isEquipped = false;
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        UserInventory that = (UserInventory) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

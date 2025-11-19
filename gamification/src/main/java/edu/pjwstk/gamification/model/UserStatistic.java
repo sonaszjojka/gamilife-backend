@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -43,4 +44,15 @@ public class UserStatistic {
         return StatisticTypeEnum.fromId(this.statisticTypeId);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        UserStatistic that = (UserStatistic) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

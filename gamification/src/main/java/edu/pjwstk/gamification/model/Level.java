@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.hibernate.annotations.Immutable;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -26,4 +27,15 @@ public class Level {
     @OneToMany(mappedBy = "unlockLevel")
     private Set<Item> items = new HashSet<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Level that = (Level) o;
+        return Objects.equals(level, that.level);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(level);
+    }
 }

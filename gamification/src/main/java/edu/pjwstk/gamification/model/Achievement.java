@@ -9,6 +9,7 @@ import lombok.ToString;
 import org.hibernate.annotations.Immutable;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -67,4 +68,15 @@ public class Achievement {
         return StatisticTypeEnum.fromId(this.statisticTypeId);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Achievement that = (Achievement) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

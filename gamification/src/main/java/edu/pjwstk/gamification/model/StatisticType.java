@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.hibernate.annotations.Immutable;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -30,4 +31,16 @@ public class StatisticType {
 
     @OneToMany(mappedBy = "statisticType")
     private Set<Achievement> achievements = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        StatisticType that = (StatisticType) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

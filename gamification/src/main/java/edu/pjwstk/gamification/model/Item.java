@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.annotations.Immutable;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -79,6 +80,18 @@ public class Item {
 
     public RarityEnum getRarityEnum() {
         return RarityEnum.fromId(this.rarityId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Item that = (Item) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
 }
