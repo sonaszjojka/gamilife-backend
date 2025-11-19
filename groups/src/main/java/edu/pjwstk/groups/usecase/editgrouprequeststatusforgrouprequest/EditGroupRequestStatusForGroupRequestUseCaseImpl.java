@@ -40,7 +40,7 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
         GroupRequestStatus newGroupRequestStatus = getGroupRequestStatus(cmd.newGroupRequestStatusId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
-        if (group.isUserAdmin(currentUserDto.userId())) {
+        if (!group.isUserAdmin(currentUserDto.userId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can change status group request!");
         }
 

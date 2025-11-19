@@ -28,4 +28,6 @@ public interface GroupMemberJpaRepository extends JpaRepository<GroupMember, UUI
                   AND gm.leftAt IS NULL
             """)
     Optional<GroupMember> findActiveMember(UUID userId, Group group);
+
+    boolean existsByUserIdAndGroupAndLeftAt(UUID userId, Group group, Instant leftAt);
 }
