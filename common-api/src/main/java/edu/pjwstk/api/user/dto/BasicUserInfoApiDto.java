@@ -6,7 +6,8 @@ public record BasicUserInfoApiDto(
         UUID userId,
         String email,
         String username,
-        Integer experience,
-        Integer money
+        int level,
+        int experience,
+        int money
 ) {
 }

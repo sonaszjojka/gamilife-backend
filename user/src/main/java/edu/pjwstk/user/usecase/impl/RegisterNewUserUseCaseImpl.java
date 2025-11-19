@@ -1,5 +1,6 @@
 package edu.pjwstk.user.usecase.impl;
 
+import edu.pjwstk.api.gamification.GamificationApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.api.user.dto.RegisterUserApiDto;
 import edu.pjwstk.core.exception.common.domain.UserAlreadyExistsException;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
 
+    private final GamificationApi gamificationApi;
     private final UserRepository userRepository;
     private final GetUserByEmailUseCase getUserByEmailUseCase;
 
@@ -36,6 +38,7 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
                 dto.password(),
                 dto.username(),
                 dto.dateOfBirth(),
+                1,
                 0,
                 0,
                 dto.sendBudgetReports(),
@@ -46,10 +49,13 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
 
         userRepository.save(newUser);
 
+        gamificationApi.initUserStatisticsFor(newUser.getId());
+
         return new BasicUserInfoApiDto(
                 newUser.getId(),
                 newUser.getEmail(),
                 newUser.getUsername(),
+                newUser.getLevel(),
                 newUser.getExperience(),
                 newUser.getMoney()
         );

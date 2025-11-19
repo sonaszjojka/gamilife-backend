@@ -29,7 +29,6 @@ public class UserStatistic {
     @Column(name = "statistic_type_id", nullable = false)
     private Integer statisticTypeId;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "statistic_type_id", nullable = false, insertable = false, updatable = false)
     @Builder.Default

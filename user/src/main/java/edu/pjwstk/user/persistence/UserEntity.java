@@ -1,9 +1,7 @@
 package edu.pjwstk.user.persistence;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +41,10 @@ public class UserEntity {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
+    @NotNull
+    @Column(name = "level", nullable = false)
+    private int level;
+
     @Column(name = "experience", nullable = false)
     private int experience;
 
@@ -60,4 +62,5 @@ public class UserEntity {
 
     @Column(name = "password_change_date", nullable = false)
     private Long passwordChangeDate;
+
 }

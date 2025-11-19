@@ -26,6 +26,7 @@ public class ConfirmUserEmailVerificationUseCaseImpl implements ConfirmUserEmail
                 user.getId(),
                 user.getEmail(),
                 user.getUsername(),
+                user.getLevel(),
                 user.getExperience(),
                 user.getMoney()
         );
