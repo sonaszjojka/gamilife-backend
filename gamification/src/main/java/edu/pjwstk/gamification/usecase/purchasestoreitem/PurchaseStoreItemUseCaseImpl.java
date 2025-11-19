@@ -7,7 +7,7 @@ import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.gamification.exception.domain.ItemIsNotForSaleException;
 import edu.pjwstk.gamification.exception.domain.ItemNotFoundException;
 import edu.pjwstk.gamification.model.Item;
-import edu.pjwstk.gamification.model.UserInventory;
+import edu.pjwstk.gamification.model.UserInventoryItem;
 import edu.pjwstk.gamification.repository.ItemRepository;
 import edu.pjwstk.gamification.service.UserInventoryService;
 import jakarta.transaction.Transactional;
@@ -39,12 +39,12 @@ public class PurchaseStoreItemUseCaseImpl implements PurchaseStoreItemUseCase {
         }
 
         int newUserMoney = userApi.editUserMoneyBy(user.userId(), (-1) * item.getPrice());
-        UserInventory userInventory = userInventoryService.addItemToInventory(user, item);
+        UserInventoryItem userInventoryItem = userInventoryService.addItemToInventory(user, item);
 
         return new PurchaseStoreItemResult(
-                userInventory.getId(),
+                userInventoryItem.getId(),
                 item.getId(),
-                userInventory.getQuantity(),
+                userInventoryItem.getQuantity(),
                 newUserMoney
         );
     }

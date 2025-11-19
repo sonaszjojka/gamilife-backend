@@ -46,17 +46,17 @@ public class UserInventoryItemController {
         );
     }
 
-    @PatchMapping("/{userInventoryId}")
+    @PatchMapping("/{userInventoryItemId}")
     @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
     public ResponseEntity<EditInventoryItemResult> updateInventoryItem(
             @PathVariable UUID userId,
-            @PathVariable UUID userInventoryId,
+            @PathVariable UUID userInventoryItemId,
             @RequestBody UpdateInventoryItemRequest request
     ) {
         return ResponseEntity.ok(
                 editInventoryItemUseCase.execute(new EditInventoryItemCommand(
                         userId,
-                        userInventoryId,
+                        userInventoryItemId,
                         request.subtractQuantityBy(),
                         request.isEquipped()
                 ))

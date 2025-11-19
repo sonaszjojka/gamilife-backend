@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS item CASCADE;
 DROP TABLE IF EXISTS item_slot CASCADE;
 DROP TABLE IF EXISTS "level" CASCADE;
 DROP TABLE IF EXISTS user_achievement CASCADE;
-DROP TABLE IF EXISTS user_inventory CASCADE;
+DROP TABLE IF EXISTS user_inventory_item CASCADE;
 
 -- ==================== TASKS ====================
 DROP TABLE IF EXISTS task_notification CASCADE;
@@ -532,15 +532,15 @@ CREATE TABLE user_achievement
     CONSTRAINT user_achievement_pk PRIMARY KEY (id)
 );
 
--- Table: user_inventory
-CREATE TABLE user_inventory
+-- Table: user_inventory_item
+CREATE TABLE user_inventory_item
 (
     id          uuid    NOT NULL,
     item_id     uuid    NOT NULL,
     user_id     uuid    NOT NULL,
     quantity    int     NOT NULL,
     is_equipped boolean NOT NULL,
-    CONSTRAINT user_inventory_pk PRIMARY KEY (id)
+    CONSTRAINT user_inventory_item_pk PRIMARY KEY (id)
 );
 
 -- Reference: achievement_statistic_type (table: achievement)
@@ -588,18 +588,18 @@ ALTER TABLE item
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: user_inventory_item (table: user_inventory)
-ALTER TABLE user_inventory
-    ADD CONSTRAINT user_inventory_item
+-- Reference: user_inventory_item_item (table: user_inventory_item)
+ALTER TABLE user_inventory_item
+    ADD CONSTRAINT user_inventory_item_item
         FOREIGN KEY (item_id)
             REFERENCES item (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
--- Reference: user_inventory_user (table: user_inventory)
-ALTER TABLE user_inventory
-    ADD CONSTRAINT user_inventory_user
+-- Reference: user_inventory_item_user (table: user_inventory_item)
+ALTER TABLE user_inventory_item
+    ADD CONSTRAINT user_inventory_item_user
         FOREIGN KEY (user_id)
             REFERENCES "user" (id)
             NOT DEFERRABLE

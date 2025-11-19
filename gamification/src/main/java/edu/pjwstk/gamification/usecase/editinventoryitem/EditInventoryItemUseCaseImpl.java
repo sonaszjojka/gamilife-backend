@@ -6,8 +6,8 @@ import edu.pjwstk.gamification.exception.domain.ForbiddenItemAccessException;
 import edu.pjwstk.gamification.exception.domain.InventoryItemNotFound;
 import edu.pjwstk.gamification.exception.domain.UserDoesNotHaveEnoughItemsException;
 import edu.pjwstk.gamification.model.Item;
-import edu.pjwstk.gamification.model.UserInventory;
-import edu.pjwstk.gamification.repository.UserInventoryRepository;
+import edu.pjwstk.gamification.model.UserInventoryItem;
+import edu.pjwstk.gamification.repository.UserInventoryItemRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,13 +18,13 @@ import java.util.UUID;
 @AllArgsConstructor
 public class EditInventoryItemUseCaseImpl implements EditInventoryItemUseCase {
 
-    private final UserInventoryRepository userInventoryRepository;
+    private final UserInventoryItemRepository userInventoryItemRepository;
     private final UserApi userApi;
 
-    private static void checkIfUserCanSellGivenQuantityOfItems(UserInventory userInventory) {
-        if (userInventory.getQuantity() < 0) {
+    private static void checkIfUserCanSellGivenQuantityOfItems(UserInventoryItem userInventoryItem) {
+        if (userInventoryItem.getQuantity() < 0) {
             throw new UserDoesNotHaveEnoughItemsException(
-                    String.format("User has only %s such items in inventory", userInventory.getQuantity())
+                    String.format("User has only %s such items in inventory", userInventoryItem.getQuantity())
             );
         }
     }
@@ -33,41 +33,42 @@ public class EditInventoryItemUseCaseImpl implements EditInventoryItemUseCase {
     @Transactional
     public EditInventoryItemResult executeInternal(EditInventoryItemCommand cmd) {
         checkIfUserExists(cmd.userId());
-        UserInventory userInventory = getUserInventoryWithItem(cmd.userInventoryId());
+        UserInventoryItem userInventoryItem = getUserInventoryItemWithItem(cmd.userInventoryItemId());
 
-        if (!userInventory.doesBelongTo(cmd.userId())) {
+        if (!userInventoryItem.doesBelongTo(cmd.userId())) {
             throw new ForbiddenItemAccessException("User does not own this item");
         }
 
         var resultBuilder = EditInventoryItemResult.builder()
-                .userInventoryId(userInventory.getId());
+                .userInventoryItemId(userInventoryItem.getId());
 
         if (cmd.subtractQuantityBy() != null) {
-            Item item = userInventory.getItem();
+            Item item = userInventoryItem.getItem();
 
-            userInventory.setQuantity(userInventory.getQuantity() - cmd.subtractQuantityBy());
+            userInventoryItem.setQuantity(userInventoryItem.getQuantity() - cmd.subtractQuantityBy());
 
-            checkIfUserCanSellGivenQuantityOfItems(userInventory);
+            checkIfUserCanSellGivenQuantityOfItems(userInventoryItem);
             int newUserMoney = userApi.editUserMoneyBy(cmd.userId(), item.getQuickSellValue() * cmd.subtractQuantityBy());
 
-            if (userInventory.getQuantity() == 0) {
-                userInventoryRepository.delete(userInventory);
+            if (userInventoryItem.getQuantity() == 0) {
+                userInventoryItemRepository.delete(userInventoryItem);
             }
 
-            resultBuilder.newUserMoney(newUserMoney)
-                    .newQuantity(userInventory.getQuantity());
+            resultBuilder.userInventoryItemId(null)
+                    .newUserMoney(newUserMoney)
+                    .newQuantity(userInventoryItem.getQuantity());
 
-            if (userInventory.getQuantity() == 0) {
+            if (userInventoryItem.getQuantity() == 0) {
                 return resultBuilder.build();
             }
         }
 
-        if (userInventory.getIsEquipped() != cmd.isEquipped()) {
-            userInventory.setIsEquipped(cmd.isEquipped());
+        if (userInventoryItem.getIsEquipped() != cmd.isEquipped()) {
+            userInventoryItem.setIsEquipped(cmd.isEquipped());
             resultBuilder.newIsEquipped(cmd.isEquipped());
         }
 
-        userInventoryRepository.save(userInventory);
+        userInventoryItemRepository.save(userInventoryItem);
 
         return resultBuilder.build();
     }
@@ -77,8 +78,8 @@ public class EditInventoryItemUseCaseImpl implements EditInventoryItemUseCase {
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
-    private UserInventory getUserInventoryWithItem(UUID userInventoryId) {
-        return userInventoryRepository.findWithItemById(userInventoryId)
+    private UserInventoryItem getUserInventoryItemWithItem(UUID userInventoryItemId) {
+        return userInventoryItemRepository.findWithItemById(userInventoryItemId)
                 .orElseThrow(() -> new InventoryItemNotFound("Item in inventory not found"));
     }
 }

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @Builder
 public record EditInventoryItemResult(
-        UUID userInventoryId,
+        UUID userInventoryItemId,
         Integer newQuantity,
         Integer newUserMoney,
         Boolean newIsEquipped

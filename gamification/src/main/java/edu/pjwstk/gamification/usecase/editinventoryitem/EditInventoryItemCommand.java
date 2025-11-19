@@ -7,13 +7,13 @@ import java.util.UUID;
 
 public record EditInventoryItemCommand(
         UUID userId,
-        UUID userInventoryId,
+        UUID userInventoryItemId,
         Integer subtractQuantityBy,
         Boolean isEquipped
 ) implements Command {
     @Override
     public void validate() {
-        if (userId == null || userInventoryId == null) {
+        if (userId == null || userInventoryItemId == null) {
             throw new ValidationException("User ID and User Inventory ID cannot be null");
         }
 

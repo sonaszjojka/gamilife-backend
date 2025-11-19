@@ -14,8 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"item"})
-@Table(name = "user_inventory")
-public class UserInventory {
+@Table(name = "user_inventory_item")
+public class UserInventoryItem {
     @Id
     @Builder.Default
     @Column(name = "id", nullable = false)
@@ -45,7 +45,7 @@ public class UserInventory {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        UserInventory that = (UserInventory) o;
+        UserInventoryItem that = (UserInventoryItem) o;
         return Objects.equals(id, that.id);
     }
 

@@ -3,9 +3,9 @@ package edu.pjwstk.gamification.service;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.gamification.model.Item;
-import edu.pjwstk.gamification.model.UserInventory;
+import edu.pjwstk.gamification.model.UserInventoryItem;
 import edu.pjwstk.gamification.repository.ItemRepository;
-import edu.pjwstk.gamification.repository.UserInventoryRepository;
+import edu.pjwstk.gamification.repository.UserInventoryItemRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,34 +18,34 @@ public class UserInventoryServiceImpl implements UserInventoryService {
 
     private final UserApi userApi;
     private final ItemRepository itemRepository;
-    private final UserInventoryRepository userInventoryRepository;
+    private final UserInventoryItemRepository userInventoryItemRepository;
 
     @Override
-    public UserInventory addItemToInventory(BasicUserInfoApiDto userDto, Item item) {
-        Optional<UserInventory> usersInventoryOptional = getUserInventory(userDto.userId(), item);
-        UserInventory userInventory;
+    public UserInventoryItem addItemToInventory(BasicUserInfoApiDto userDto, Item item) {
+        Optional<UserInventoryItem> usersInventoryOptional = getUserInventoryItem(userDto.userId(), item);
+        UserInventoryItem userInventoryItem;
         if (usersInventoryOptional.isEmpty() || usersInventoryOptional.get().getQuantity() == null) {
-            userInventory = addNewItemToInventory(userDto.userId(), item);
+            userInventoryItem = addNewItemToInventory(userDto.userId(), item);
         } else {
-            userInventory = usersInventoryOptional.get();
-            userInventory.setQuantity(userInventory.getQuantity() + 1);
-            userInventoryRepository.save(userInventory);
+            userInventoryItem = usersInventoryOptional.get();
+            userInventoryItem.setQuantity(userInventoryItem.getQuantity() + 1);
+            userInventoryItemRepository.save(userInventoryItem);
         }
 
-        return userInventory;
+        return userInventoryItem;
     }
 
-    private Optional<UserInventory> getUserInventory(UUID userId, Item item) {
-        return userInventoryRepository.findByUserIdAndItem(userId, item);
+    private Optional<UserInventoryItem> getUserInventoryItem(UUID userId, Item item) {
+        return userInventoryItemRepository.findByUserIdAndItem(userId, item);
     }
 
-    private UserInventory addNewItemToInventory(UUID userId, Item item) {
-        UserInventory userInventory = UserInventory.builder()
+    private UserInventoryItem addNewItemToInventory(UUID userId, Item item) {
+        UserInventoryItem userInventoryItem = UserInventoryItem.builder()
                 .userId(userId)
                 .item(item)
                 .quantity(1)
                 .build();
 
-        return userInventoryRepository.save(userInventory);
+        return userInventoryItemRepository.save(userInventoryItem);
     }
 }

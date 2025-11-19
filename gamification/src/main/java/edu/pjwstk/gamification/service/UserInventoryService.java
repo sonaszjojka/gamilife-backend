@@ -2,8 +2,8 @@ package edu.pjwstk.gamification.service;
 
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.gamification.model.Item;
-import edu.pjwstk.gamification.model.UserInventory;
+import edu.pjwstk.gamification.model.UserInventoryItem;
 
 public interface UserInventoryService {
-    UserInventory addItemToInventory(BasicUserInfoApiDto userDto, Item item);
+    UserInventoryItem addItemToInventory(BasicUserInfoApiDto userDto, Item item);
 }
