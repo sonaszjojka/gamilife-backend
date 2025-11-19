@@ -82,6 +82,10 @@ public class Item {
         return RarityEnum.fromId(this.rarityId);
     }
 
+    public boolean isForSale() {
+        return price != null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

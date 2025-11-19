@@ -1,0 +1,12 @@
+error-codes:
+  definitions:
+    ITEM_NOT_FOUND:
+      code: 8001
+      title: "Item not found"
+      detail: "Item of given id does not exist"
+      status: 404
+    ITEM_NOT_FOR_SALE:
+      code: 8002
+      title: "Item is not for sale"
+      detail: "Item is not for sale"
+      status: 400

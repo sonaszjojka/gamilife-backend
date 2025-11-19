@@ -49,7 +49,9 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
         return new BasicUserInfoApiDto(
                 newUser.getId(),
                 newUser.getEmail(),
-                newUser.getUsername()
+                newUser.getUsername(),
+                newUser.getExperience(),
+                newUser.getMoney()
         );
     }
 }

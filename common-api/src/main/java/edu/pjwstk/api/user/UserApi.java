@@ -26,4 +26,6 @@ public interface UserApi {
     BasicUserInfoApiDto confirmUserEmailVerification(UUID userId);
 
     void resetUserPassword(UUID userId, String hashedNewPassword);
+
+    void subtractMoneyFrom(UUID userId, Integer money);
 }

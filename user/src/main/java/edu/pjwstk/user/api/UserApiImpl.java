@@ -6,6 +6,8 @@ import edu.pjwstk.api.user.dto.CheckIfUsersEmailIsVerifiedApiDto;
 import edu.pjwstk.api.user.dto.RegisterUserApiDto;
 import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.user.usecase.*;
+import edu.pjwstk.user.usecase.subtractomoneyfromuser.SubtractMoneyFromUserCommand;
+import edu.pjwstk.user.usecase.subtractomoneyfromuser.SubtractMoneyFromUserUseCase;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class UserApiImpl implements UserApi {
     private final RegisterNewUserUseCase registerNewUserUseCase;
     private final UpdateUserEmailUseCase updateUserEmailUseCase;
     private final ResetUserPasswordUseCase resetUserPasswordUseCase;
+    private final SubtractMoneyFromUserUseCase subtractMoneyFromUserUseCase;
 
     @Override
     @Transactional
@@ -70,5 +73,10 @@ public class UserApiImpl implements UserApi {
     @Override
     public void resetUserPassword(UUID userId, String hashedNewPassword) {
         resetUserPasswordUseCase.execute(userId, hashedNewPassword);
+    }
+
+    @Override
+    public void subtractMoneyFrom(UUID userId, Integer money) {
+        subtractMoneyFromUserUseCase.execute(new SubtractMoneyFromUserCommand(userId, money));
     }
 }

@@ -1,17 +1,26 @@
 package edu.pjwstk.gamification.controller;
 
-import edu.pjwstk.gamification.controller.request.PurchaseShopItemRequest;
+import edu.pjwstk.gamification.controller.request.PurchaseStoreItemRequest;
 import edu.pjwstk.gamification.controller.request.UpdateInventoryItemRequest;
+import edu.pjwstk.gamification.usecase.purchasestoreitem.PurchaseStoreItemCommand;
+import edu.pjwstk.gamification.usecase.purchasestoreitem.PurchaseStoreItemResult;
+import edu.pjwstk.gamification.usecase.purchasestoreitem.PurchaseStoreItemUseCase;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/users/{userId}/inventory/items")
 public class UserInventoryController {
 
+    private final PurchaseStoreItemUseCase purchaseStoreItemUseCase;
+
     @GetMapping
+    @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
     public ResponseEntity<String> getUserInventory(
             @PathVariable UUID userId,
             @RequestParam(required = false) String itemName,
@@ -22,16 +31,19 @@ public class UserInventoryController {
     }
 
     @PostMapping
-    public ResponseEntity<String> purchaseShopItem(
+    @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
+    public ResponseEntity<PurchaseStoreItemResult> purchaseStoreItem(
             @PathVariable UUID userId,
-            @RequestBody PurchaseShopItemRequest request
+            @RequestBody PurchaseStoreItemRequest request
     ) {
-        return ResponseEntity.ok(
-                String.format("Item has been added to inventory of user %s.", userId)
+        return ResponseEntity.ok(purchaseStoreItemUseCase.execute(
+                        new PurchaseStoreItemCommand(userId, request.itemId())
+                )
         );
     }
 
     @PatchMapping("/{itemId}")
+    @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
     public ResponseEntity<String> updateInventoryItem(
             @PathVariable UUID userId,
             @PathVariable UUID itemId,

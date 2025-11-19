@@ -57,4 +57,9 @@ public class UserRepositoryImpl implements UserRepository {
         jpaUserRepository.updateIsEmailVerifiedById(userId, newStatus);
     }
 
+    @Override
+    public void updateUserMoney(UUID userId, int newMoney) {
+        jpaUserRepository.updateMoneyById(newMoney, userId);
+    }
+
 }

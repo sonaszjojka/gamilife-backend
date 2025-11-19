@@ -21,4 +21,6 @@ public interface UserRepository {
     void updateUserEmail(UUID id, String newEmail);
 
     void updateUserEmailVerificationStatus(UUID userId, boolean newStatus);
+
+    void updateUserMoney(UUID userId, int newMoney);
 }

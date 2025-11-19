@@ -373,7 +373,7 @@ INSERT INTO item (id, name, description, image_path, quick_sell_value, item_slot
                   unlock_level)
 VALUES
     -- HEAD ITEMS (slot 1) - Common to Legendary
-    (gen_random_uuid(), 'Neon Runner Cap',
+    ('f246cdf5-29f4-4eea-a661-41f623ca6afe'::UUID, 'Neon Runner Cap',
      'A lightweight cap with a glowing neon trim and a micro-antenna. Perfect for rookie netrunners trying to blend into the megacity crowd while staying focused on their objectives.',
      '/images/items/head/neon_runner_cap.png', 8, 1, 1, 50,
      NULL, NULL),
