@@ -10,3 +10,19 @@ error-codes:
       title: "Item is not for sale"
       detail: "Item is not for sale"
       status: 400
+    INVENTORY_ITEM_NOT_FOUND:
+      code: 8003
+      title: "Inventory item not found"
+      detail: "Inventory item of given id does not exist"
+      status: 404
+    FORBIDDEN_ITEM_ACCESS:
+      code: 8004
+      title: "Forbidden item access"
+      detail: "User does not have permission to access this item"
+      status: 403
+    USER_DOES_NOT_HAVE_ENOUGH_ITEMS:
+      code: 8005
+      title: "User does not have enough items"
+      detail: "User does not have enough items"
+      status: 400
+

@@ -27,5 +27,5 @@ public interface UserApi {
 
     void resetUserPassword(UUID userId, String hashedNewPassword);
 
-    void subtractMoneyFrom(UUID userId, Integer money);
+    int editUserMoneyBy(UUID userId, Integer money);
 }

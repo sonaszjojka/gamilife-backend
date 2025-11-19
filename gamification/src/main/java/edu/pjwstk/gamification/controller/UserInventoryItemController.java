@@ -2,6 +2,9 @@ package edu.pjwstk.gamification.controller;
 
 import edu.pjwstk.gamification.controller.request.PurchaseStoreItemRequest;
 import edu.pjwstk.gamification.controller.request.UpdateInventoryItemRequest;
+import edu.pjwstk.gamification.usecase.editinventoryitem.EditInventoryItemCommand;
+import edu.pjwstk.gamification.usecase.editinventoryitem.EditInventoryItemResult;
+import edu.pjwstk.gamification.usecase.editinventoryitem.EditInventoryItemUseCase;
 import edu.pjwstk.gamification.usecase.purchasestoreitem.PurchaseStoreItemCommand;
 import edu.pjwstk.gamification.usecase.purchasestoreitem.PurchaseStoreItemResult;
 import edu.pjwstk.gamification.usecase.purchasestoreitem.PurchaseStoreItemUseCase;
@@ -15,13 +18,14 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/users/{userId}/inventory/items")
-public class UserInventoryController {
+public class UserInventoryItemController {
 
     private final PurchaseStoreItemUseCase purchaseStoreItemUseCase;
+    private final EditInventoryItemUseCase editInventoryItemUseCase;
 
     @GetMapping
     @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
-    public ResponseEntity<String> getUserInventory(
+    public ResponseEntity<String> getUserInventoryItems(
             @PathVariable UUID userId,
             @RequestParam(required = false) String itemName,
             @RequestParam(required = false) Integer itemSlot,
@@ -42,15 +46,20 @@ public class UserInventoryController {
         );
     }
 
-    @PatchMapping("/{itemId}")
+    @PatchMapping("/{userInventoryId}")
     @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
-    public ResponseEntity<String> updateInventoryItem(
+    public ResponseEntity<EditInventoryItemResult> updateInventoryItem(
             @PathVariable UUID userId,
-            @PathVariable UUID itemId,
+            @PathVariable UUID userInventoryId,
             @RequestBody UpdateInventoryItemRequest request
     ) {
         return ResponseEntity.ok(
-                String.format("Item with ID %s in inventory of user %s has been updated.", itemId, userId)
+                editInventoryItemUseCase.execute(new EditInventoryItemCommand(
+                        userId,
+                        userInventoryId,
+                        request.subtractQuantityBy(),
+                        request.isEquipped()
+                ))
         );
     }
 

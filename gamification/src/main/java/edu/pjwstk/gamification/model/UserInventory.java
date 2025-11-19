@@ -49,6 +49,10 @@ public class UserInventory {
         return Objects.equals(id, that.id);
     }
 
+    public boolean doesBelongTo(UUID userId) {
+        return this.userId.equals(userId);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(id);

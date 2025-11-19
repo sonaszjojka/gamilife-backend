@@ -38,13 +38,14 @@ public class PurchaseStoreItemUseCaseImpl implements PurchaseStoreItemUseCase {
             throw new UserHasNotEnoughMoneyException("User has not enough money");
         }
 
-        userApi.subtractMoneyFrom(user.userId(), item.getPrice());
+        int newUserMoney = userApi.editUserMoneyBy(user.userId(), (-1) * item.getPrice());
         UserInventory userInventory = userInventoryService.addItemToInventory(user, item);
 
         return new PurchaseStoreItemResult(
                 userInventory.getId(),
                 item.getId(),
-                userInventory.getQuantity()
+                userInventory.getQuantity(),
+                newUserMoney
         );
     }
 

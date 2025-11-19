@@ -6,8 +6,8 @@ import edu.pjwstk.api.user.dto.CheckIfUsersEmailIsVerifiedApiDto;
 import edu.pjwstk.api.user.dto.RegisterUserApiDto;
 import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.user.usecase.*;
-import edu.pjwstk.user.usecase.subtractomoneyfromuser.SubtractMoneyFromUserCommand;
-import edu.pjwstk.user.usecase.subtractomoneyfromuser.SubtractMoneyFromUserUseCase;
+import edu.pjwstk.user.usecase.editusermoney.EditUserMoneyCommand;
+import edu.pjwstk.user.usecase.editusermoney.EditUserMoneyUseCase;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class UserApiImpl implements UserApi {
     private final RegisterNewUserUseCase registerNewUserUseCase;
     private final UpdateUserEmailUseCase updateUserEmailUseCase;
     private final ResetUserPasswordUseCase resetUserPasswordUseCase;
-    private final SubtractMoneyFromUserUseCase subtractMoneyFromUserUseCase;
+    private final EditUserMoneyUseCase editUserMoneyUseCase;
 
     @Override
     @Transactional
@@ -76,7 +76,7 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public void subtractMoneyFrom(UUID userId, Integer money) {
-        subtractMoneyFromUserUseCase.execute(new SubtractMoneyFromUserCommand(userId, money));
+    public int editUserMoneyBy(UUID userId, Integer money) {
+        return editUserMoneyUseCase.execute(new EditUserMoneyCommand(userId, money));
     }
 }
