@@ -1,10 +1,8 @@
 package edu.pjwstk.gamification.service;
 
-import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.gamification.model.Item;
 import edu.pjwstk.gamification.model.UserInventoryItem;
-import edu.pjwstk.gamification.repository.ItemRepository;
 import edu.pjwstk.gamification.repository.UserInventoryItemRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,8 +14,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserInventoryServiceImpl implements UserInventoryService {
 
-    private final UserApi userApi;
-    private final ItemRepository itemRepository;
     private final UserInventoryItemRepository userInventoryItemRepository;
 
     @Override

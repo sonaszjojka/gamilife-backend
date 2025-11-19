@@ -21,14 +21,6 @@ public class EditInventoryItemUseCaseImpl implements EditInventoryItemUseCase {
     private final UserInventoryItemRepository userInventoryItemRepository;
     private final UserApi userApi;
 
-    private static void checkIfUserCanSellGivenQuantityOfItems(UserInventoryItem userInventoryItem) {
-        if (userInventoryItem.getQuantity() < 0) {
-            throw new UserDoesNotHaveEnoughItemsException(
-                    String.format("User has only %s such items in inventory", userInventoryItem.getQuantity())
-            );
-        }
-    }
-
     @Override
     @Transactional
     public EditInventoryItemResult executeInternal(EditInventoryItemCommand cmd) {
@@ -45,22 +37,26 @@ public class EditInventoryItemUseCaseImpl implements EditInventoryItemUseCase {
         if (cmd.subtractQuantityBy() != null) {
             Item item = userInventoryItem.getItem();
 
-            userInventoryItem.setQuantity(userInventoryItem.getQuantity() - cmd.subtractQuantityBy());
+            int newItemQuantity = userInventoryItem.getQuantity() - cmd.subtractQuantityBy();
+            if (newItemQuantity < 0) {
+                throw new UserDoesNotHaveEnoughItemsException(
+                        String.format("User has only %s such items in inventory", userInventoryItem.getQuantity())
+                );
+            }
 
-            checkIfUserCanSellGivenQuantityOfItems(userInventoryItem);
             int newUserMoney = userApi.editUserMoneyBy(cmd.userId(), item.getQuickSellValue() * cmd.subtractQuantityBy());
 
-            if (userInventoryItem.getQuantity() == 0) {
+            resultBuilder.newUserMoney(newUserMoney)
+                    .newQuantity(newItemQuantity);
+
+            if (newItemQuantity == 0) {
                 userInventoryItemRepository.delete(userInventoryItem);
+
+                return resultBuilder.userInventoryItemId(null)
+                        .build();
             }
 
-            resultBuilder.userInventoryItemId(null)
-                    .newUserMoney(newUserMoney)
-                    .newQuantity(userInventoryItem.getQuantity());
-
-            if (userInventoryItem.getQuantity() == 0) {
-                return resultBuilder.build();
-            }
+            userInventoryItem.setQuantity(userInventoryItem.getQuantity() - cmd.subtractQuantityBy());
         }
 
         if (userInventoryItem.getIsEquipped() != cmd.isEquipped()) {
