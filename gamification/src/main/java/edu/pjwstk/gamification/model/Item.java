@@ -41,18 +41,18 @@ public class Item {
     @Column(name = "quick_sell_value", nullable = false)
     private Integer quickSellValue;
 
+    @NotNull
     @Column(name = "item_slot_id", nullable = false)
     private Integer itemSlotId;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "item_slot_id", nullable = false, insertable = false, updatable = false)
     private ItemSlot itemSlot;
 
+    @NotNull
     @Column(name = "rarity_id", nullable = false)
     private Integer rarityId;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "rarity_id", nullable = false, insertable = false, updatable = false)
     private Rarity rarity;

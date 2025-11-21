@@ -26,6 +26,7 @@ public class UserStatistic {
     @Column(name = "user_id", nullable = false)
     private UUID userId;
 
+    @NotNull
     @Column(name = "statistic_type_id", nullable = false)
     private Integer statisticTypeId;
 

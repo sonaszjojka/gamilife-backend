@@ -38,10 +38,10 @@ public class Achievement {
     @Column(name = "image_path", nullable = false)
     private String imagePath;
 
+    @NotNull
     @Column(name = "statistic_type_id", nullable = false)
     private Integer statisticTypeId;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "statistic_type_id", nullable = false, insertable = false, updatable = false)
     private StatisticType statisticType;
