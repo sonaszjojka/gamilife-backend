@@ -33,9 +33,6 @@ public class CreatePomodoroUseCaseImpl implements CreatePomodoroUseCase {
             throw new InvalidPomodoroTaskData("Task with id:" + taskId + " has already pomodoro task!");
         }
 
-//        if (!tasksProvider.taskExistsByTaskId(taskId)) {
-//            throw new TaskNotFoundException("Task with id:" + taskId + " not found!");
-//        }
 
         tasksProvider.findTaskByTaskId(taskId);
 

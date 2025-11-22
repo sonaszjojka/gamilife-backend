@@ -4,8 +4,9 @@ import edu.pjwstk.common.authApi.AuthApi;
 import edu.pjwstk.common.authApi.dto.CurrentUserDto;
 import edu.pjwstk.common.pomodoroApi.PomodoroTaskApi;
 import edu.pjwstk.common.pomodoroApi.dto.PomodoroTaskDto;
-import edu.pjwstk.common.userApi.UserApi;
+import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
+import edu.pjwstk.tasks.repository.jpa.HabitRepositoryJpa;
 import edu.pjwstk.tasks.repository.jpa.TaskRepositoryJpa;
 import edu.pjwstk.tasks.util.TasksSpecificationBuilder;
 import jakarta.transaction.Transactional;
@@ -23,12 +24,14 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
     private final TasksSpecificationBuilder tasksSpecificationBuilder;
     private final AuthApi authApi;
     private final PomodoroTaskApi pomodoroTaskApi;
+    private final HabitRepositoryJpa habitRepository;
 
-    public GetUserTasksUseCaseImpl(TaskRepositoryJpa taskRepository, TasksSpecificationBuilder tasksSpecificationBuilder, AuthApi authApi, PomodoroTaskApi pomodoroTaskApi) {
+    public GetUserTasksUseCaseImpl(TaskRepositoryJpa taskRepository, TasksSpecificationBuilder tasksSpecificationBuilder, AuthApi authApi, PomodoroTaskApi pomodoroTaskApi, HabitRepositoryJpa habitRepository) {
         this.taskRepository = taskRepository;
         this.tasksSpecificationBuilder = tasksSpecificationBuilder;
         this.authApi = authApi;
         this.pomodoroTaskApi = pomodoroTaskApi;
+        this.habitRepository = habitRepository;
     }
 
     @Override
@@ -57,6 +60,25 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
         Page<GetUserTasksDto> tasks = taskRepository.findAll(taskSpecification, pageable)
                 .map(task -> {
                     PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
+                    TaskHabitDto taskHabitDto= null;
+
+                    if  (task.getHabitTask()!=null) {
+                        Habit habit = habitRepository.findHabitById(task.getHabitTask().getId());
+
+                        if (habit != null) {
+
+                            taskHabitDto = TaskHabitDto.builder()
+                                    .habitId(habit.getId())
+                                    .cycleLength(habit.getCycleLength())
+                                    .currentStreak(habit.getCurrentStreak())
+                                    .longestStreak(habit.getLongestStreak())
+                                    .isAccepted(habit.getIsAccepted())
+                                    .acceptedDate(habit.getAcceptedDate())
+                                    .declineMessage(habit.getDeclineMessage())
+                                    .build();
+                        }
+                    }
+
                     return new GetUserTasksDto(
                             task.getId(),
                             task.getTitle(),
@@ -73,7 +95,15 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                             pomodoro == null ? null : pomodoro.pomodoroId(),
                             pomodoro == null ? null : pomodoro.workCyclesNeeded(),
                             pomodoro == null ? null : pomodoro.workCyclesCompleted(),
-                            pomodoro == null ? null : pomodoro.createdAt()
+                            pomodoro == null ? null : pomodoro.createdAt(),
+                            taskHabitDto ==null?null: taskHabitDto.habitId(),
+                            taskHabitDto ==null?null: taskHabitDto.cycleLength(),
+                            taskHabitDto ==null?null: taskHabitDto.currentStreak(),
+                            taskHabitDto ==null?null: taskHabitDto.longestStreak(),
+                            taskHabitDto ==null?null: taskHabitDto.isAccepted(),
+                            taskHabitDto ==null?null: taskHabitDto.acceptedDate(),
+                            taskHabitDto ==null?null: taskHabitDto.declineMessage()
+
                     );
                 });
         return tasks;

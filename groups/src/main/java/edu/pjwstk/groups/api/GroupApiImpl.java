@@ -30,4 +30,6 @@ public class GroupApiImpl implements GroupApi {
     public GroupDto findGroupById(UUID groupId) {
         return findGroupByIdUseCase.execute(groupId);
     }
+
+
 }

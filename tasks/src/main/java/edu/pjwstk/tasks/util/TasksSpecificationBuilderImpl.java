@@ -1,4 +1,5 @@
 package edu.pjwstk.tasks.util;
+import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
 import edu.pjwstk.tasks.entity.TaskDifficulty;
@@ -103,6 +104,7 @@ public class TasksSpecificationBuilderImpl implements TasksSpecificationBuilder{
 
     @Override
     public Specification<Task> hasHabit() {
-        return null;
+
+     return null;
     }
 }
