@@ -76,14 +76,6 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                     ));
         }
 
-        Task previousTask = null;
-        if (request.previousTaskId() != null) {
-            previousTask = taskRepository
-                    .findById(request.previousTaskId())
-                    .orElseThrow(() -> new TaskNotFoundException(
-                            "Previous task with id " + request.previousTaskId() + " not found!"
-                    ));
-        }
 
         Task savedTask = taskRepository.save(
                 createTaskMapper.toEntity(
@@ -92,7 +84,6 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                         taskCategory,
                         taskDifficulty,
                         habit,
-                        previousTask,
                         currentUserDto.userId()
                 )
         );

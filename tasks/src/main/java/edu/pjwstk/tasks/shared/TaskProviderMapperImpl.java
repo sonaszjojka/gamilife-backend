@@ -36,13 +36,6 @@ public class TaskProviderMapperImpl implements TaskProviderMapper {
                                 ? new TaskDto.HabitDto(task.getHabitTask().getId())
                                 : null
                 )
-                .previousTask(
-                        task.getPreviousTask() != null
-                                ? TaskDto.builder()
-                                .id(task.getPreviousTask().getId())
-                                .build()
-                                : null
-                )
                 .description(task.getDescription())
                 .build();
     }

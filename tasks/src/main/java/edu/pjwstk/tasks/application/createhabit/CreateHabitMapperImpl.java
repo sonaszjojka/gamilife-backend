@@ -13,9 +13,7 @@ public class CreateHabitMapperImpl implements CreateHabitMapper {
                 .cycleLength(req.cycleLength())
                 .currentStreak(req.currentStreak())
                 .longestStreak(req.longestStreak())
-                .isAccepted(req.isAccepted())
                 .acceptedDate(req.acceptedDate())
-                .declineMessage(req.declineMessage())
                 .build();
     }
 
@@ -25,9 +23,7 @@ public class CreateHabitMapperImpl implements CreateHabitMapper {
                 habit.getCycleLength(),
                 habit.getCurrentStreak(),
                 habit.getLongestStreak(),
-                habit.getIsAccepted(),
                 habit.getAcceptedDate(),
-                habit.getDeclineMessage(),
                 habit.getUpdatedAt(),
                 habit.getCreatedAt()
         );

@@ -1,9 +1,8 @@
 package edu.pjwstk.tasks.application.getusertasks;
 
+import edu.pjwstk.common.pomodoroApi.dto.PomodoroTaskDto;
 import lombok.Builder;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -21,17 +20,8 @@ public record GetUserTasksDto(
         String difficultyName,
         Boolean isGroupTask,
         UUID userId,
-        UUID pomodoroId,
-        Integer workCyclesNeeded,
-        Integer workCyclesCompleted,
-        Instant createdAt,
-        UUID habitId,
-        Duration cycleLength,
-        Integer currentStreak,
-        Integer longestStreak,
-        Boolean isAccepted,
-        LocalDateTime acceptedDate,
-        String declineMessage
+        PomodoroTaskDto pomodoro,
+        TaskHabitDto taskHabitDto
 
 
 

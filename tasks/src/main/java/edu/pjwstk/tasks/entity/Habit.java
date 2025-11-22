@@ -31,17 +31,9 @@ public class Habit extends AbstractEntitySuperclass {
     @Column(name = "longest_streak", nullable = false)
     private Integer longestStreak;
 
-    @Column(name = "is_accepted", nullable = false)
-    private Boolean isAccepted;
-
     @Column(name = "accepted_date", nullable = true)
     private LocalDateTime acceptedDate;
 
-    @Column(name = "decline_message", length = 300, nullable = true)
-    private String declineMessage;
 
-    @OneToMany(mappedBy = "habitTask", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @ToString.Exclude
-    private List<Task> tasks;
 
 }

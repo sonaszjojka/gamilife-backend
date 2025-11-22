@@ -91,16 +91,6 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
             }
         }
 
-        if (request.previousTaskId() != null) {
-            if (!request.previousTaskId().equals(taskId)) {
-                Task previousTask = taskRepository
-                        .findById(request.previousTaskId())
-                        .orElseThrow(() -> new TaskNotFoundException("Previous task with id " + request.previousTaskId() + " not found!"));
-                task.setPreviousTask(previousTask);
-            }
-        } else {
-            task.setPreviousTask(null);
-        }
 
         return editTaskMapper.toResponse(taskRepository.save(task));
     }

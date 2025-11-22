@@ -14,9 +14,7 @@ public record TaskHabitDto(
         Duration cycleLength,
         Integer currentStreak,
         Integer longestStreak,
-        Boolean isAccepted,
         LocalDateTime acceptedDate,
-        String declineMessage,
         Instant updated_at,
         Instant created_at
 ) {

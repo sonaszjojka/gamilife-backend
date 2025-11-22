@@ -39,9 +39,7 @@ CREATE TABLE habit
     cycle_length    BIGINT                      NOT NULL,
     current_streak  INTEGER                     NOT NULL,
     longest_streak  INTEGER                     NOT NULL,
-    is_accepted     BOOLEAN                     NOT NULL,
     accepted_date   TIMESTAMP WITHOUT TIME ZONE,
-    decline_message VARCHAR(300),
     CONSTRAINT pk_habit PRIMARY KEY (habit_id)
 );
 
@@ -56,7 +54,6 @@ CREATE TABLE task
     user_id          UUID,
     completed_at     TIMESTAMP WITHOUT TIME ZONE,
     task_habit_id    UUID,
-    previous_task_id UUID,
     description      VARCHAR(200),
     is_group_task   BOOLEAN                     NOT NULL,
     CONSTRAINT pk_task PRIMARY KEY (task_id)
@@ -86,8 +83,7 @@ CREATE TABLE task_notification
     CONSTRAINT pk_task_notification PRIMARY KEY (id)
 );
 
-ALTER TABLE task
-    ADD CONSTRAINT uc_task_previous_task UNIQUE (previous_task_id);
+
 
 ALTER TABLE task_notification
     ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK FOREIGN KEY (task_id) REFERENCES task (task_id);
@@ -97,9 +93,6 @@ ALTER TABLE task
 
 ALTER TABLE task
     ADD CONSTRAINT FK_TASK_ON_DIFFICULTY FOREIGN KEY (difficulty_id) REFERENCES task_difficulty (difficulty_id);
-
-ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_PREVIOUS_TASK FOREIGN KEY (previous_task_id) REFERENCES task (task_id);
 
 ALTER TABLE task
     ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_habit_id) REFERENCES habit (habit_id);

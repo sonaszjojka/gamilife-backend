@@ -61,22 +61,18 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                 .map(task -> {
                     PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
                     TaskHabitDto taskHabitDto= null;
-
-                    if  (task.getHabitTask()!=null) {
-                        Habit habit = habitRepository.findHabitById(task.getHabitTask().getId());
-
-                        if (habit != null) {
+                    Habit habit=null;
+                    if (task.getHabitTask()!=null)habit = habitRepository.findHabitById(task.getHabitTask().getId());
+                    if(habit != null) {
 
                             taskHabitDto = TaskHabitDto.builder()
                                     .habitId(habit.getId())
                                     .cycleLength(habit.getCycleLength())
                                     .currentStreak(habit.getCurrentStreak())
                                     .longestStreak(habit.getLongestStreak())
-                                    .isAccepted(habit.getIsAccepted())
                                     .acceptedDate(habit.getAcceptedDate())
-                                    .declineMessage(habit.getDeclineMessage())
                                     .build();
-                        }
+
                     }
 
                     return new GetUserTasksDto(
@@ -92,17 +88,8 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                             task.getDifficulty().getTitle(),
                             task.getIsGroupTask(),
                             task.getUserId(),
-                            pomodoro == null ? null : pomodoro.pomodoroId(),
-                            pomodoro == null ? null : pomodoro.workCyclesNeeded(),
-                            pomodoro == null ? null : pomodoro.workCyclesCompleted(),
-                            pomodoro == null ? null : pomodoro.createdAt(),
-                            taskHabitDto ==null?null: taskHabitDto.habitId(),
-                            taskHabitDto ==null?null: taskHabitDto.cycleLength(),
-                            taskHabitDto ==null?null: taskHabitDto.currentStreak(),
-                            taskHabitDto ==null?null: taskHabitDto.longestStreak(),
-                            taskHabitDto ==null?null: taskHabitDto.isAccepted(),
-                            taskHabitDto ==null?null: taskHabitDto.acceptedDate(),
-                            taskHabitDto ==null?null: taskHabitDto.declineMessage()
+                            pomodoro,
+                            taskHabitDto
 
                     );
                 });

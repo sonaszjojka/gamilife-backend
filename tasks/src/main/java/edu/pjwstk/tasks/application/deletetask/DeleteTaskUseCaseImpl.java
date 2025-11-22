@@ -2,9 +2,11 @@ package edu.pjwstk.tasks.application.deletetask;
 
 import edu.pjwstk.common.authApi.AuthApi;
 import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.tasks.application.deletehabit.DeleteHabitUseCase;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.exception.TaskNotFoundException;
 import edu.pjwstk.tasks.exception.UnauthorizedTaskAccessException;
+import edu.pjwstk.tasks.repository.HabitRepository;
 import edu.pjwstk.tasks.repository.TaskRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,16 +16,23 @@ import java.util.UUID;
 @Component
 public class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
     private final TaskRepository taskRepository;
+    private final HabitRepository habitRepository;
+    private final DeleteHabitUseCase deleteHabitUseCase;
     private final AuthApi currentUserProvider;
 
-    public DeleteTaskUseCaseImpl(TaskRepository taskRepository, AuthApi currentUserProvider) {
+    public DeleteTaskUseCaseImpl(TaskRepository taskRepository, HabitRepository habitRepository, DeleteHabitUseCase deleteHabitUseCase, AuthApi currentUserProvider) {
         this.taskRepository = taskRepository;
+        this.habitRepository = habitRepository;
+        this.deleteHabitUseCase = deleteHabitUseCase;
         this.currentUserProvider = currentUserProvider;
     }
 
     @Override
     @Transactional
     public void execute(UUID taskId) {
+
+        habitRepository.findById(taskId).ifPresent(habit ->
+                deleteHabitUseCase.execute(habit.getId()));
 
         Task task = taskRepository
                 .findById(taskId)
