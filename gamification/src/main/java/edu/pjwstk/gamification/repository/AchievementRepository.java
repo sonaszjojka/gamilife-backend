@@ -37,11 +37,12 @@ public interface AchievementRepository extends JpaRepository<Achievement, UUID> 
     @Query("""
                 SELECT a
                 FROM Achievement a
+                LEFT JOIN a.items
                 WHERE a.statisticTypeId = :statisticTypeId
                 AND NOT EXISTS (SELECT 1 FROM a.userAchievements ua WHERE ua.userId = :userId)
                 ORDER BY a.goal
             """)
-    Optional<Achievement> findByStatisticTypeIdAndNotEarnedByUserId(
+    Optional<Achievement> findWithItemsByStatisticTypeIdAndNotEarnedByUserId(
             @Param("statisticTypeId") Integer statisticTypeId,
             @Param("userId") UUID userId,
             PageRequest pageable

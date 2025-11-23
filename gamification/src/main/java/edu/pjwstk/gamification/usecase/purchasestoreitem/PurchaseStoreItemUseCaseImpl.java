@@ -39,7 +39,7 @@ public class PurchaseStoreItemUseCaseImpl implements PurchaseStoreItemUseCase {
         }
 
         int newUserMoney = userApi.editUserMoneyBy(user.userId(), (-1) * item.getPrice());
-        UserInventoryItem userInventoryItem = userInventoryService.addItemToInventory(user, item);
+        UserInventoryItem userInventoryItem = userInventoryService.addItemToUsersInventory(user.userId(), item);
 
         return new PurchaseStoreItemResult(
                 userInventoryItem.getId(),

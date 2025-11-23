@@ -1,9 +1,13 @@
 package edu.pjwstk.gamification.service;
 
-import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.gamification.model.Item;
 import edu.pjwstk.gamification.model.UserInventoryItem;
 
+import java.util.Set;
+import java.util.UUID;
+
 public interface UserInventoryService {
-    UserInventoryItem addItemToInventory(BasicUserInfoApiDto userDto, Item item);
+    UserInventoryItem addItemToUsersInventory(UUID userId, Item item);
+
+    void addItemsToUsersInventory(UUID userId, Set<Item> items);
 }

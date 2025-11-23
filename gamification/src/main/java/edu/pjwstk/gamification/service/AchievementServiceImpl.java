@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -20,15 +21,17 @@ public class AchievementServiceImpl implements AchievementService {
 
     private final UserAchievementRepository userAchievementRepository;
     private final AchievementRepository achievementRepository;
+    private final UserInventoryService userInventoryService;
 
     @Override
     @Transactional
     public void checkIfUserQualifiesForAchievementOfType(UserStatistic userStatistic) {
-        Optional<Achievement> achievementOptional = achievementRepository.findByStatisticTypeIdAndNotEarnedByUserId(
-                userStatistic.getStatisticTypeId(),
-                userStatistic.getUserId(),
-                PageRequest.of(0, 1)
-        );
+        Optional<Achievement> achievementOptional =
+                achievementRepository.findWithItemsByStatisticTypeIdAndNotEarnedByUserId(
+                        userStatistic.getStatisticTypeId(),
+                        userStatistic.getUserId(),
+                        PageRequest.of(0, 1) // LIMIT 1
+                );
 
         // User has all achievements
         if (achievementOptional.isEmpty()) {
@@ -36,12 +39,24 @@ public class AchievementServiceImpl implements AchievementService {
             return;
         }
 
-        // Assign achievement to user
+        Achievement achievement = achievementOptional.get();
+        if (userStatistic.getCount() >= achievement.getGoal()) {
+            assignAchievementAndRewardsToUser(achievement, userStatistic.getUserId());
+        }
+    }
+
+    private void assignAchievementAndRewardsToUser(Achievement achievement, UUID userId) {
         UserAchievement userAchievement = UserAchievement.builder()
-                .achievement(achievementOptional.get())
-                .userId(userStatistic.getUserId())
+                .achievement(achievement)
+                .userId(userId)
                 .build();
+
         userAchievementRepository.save(userAchievement);
         log.info("User earned achievement: {}", userAchievement);
+
+        userInventoryService.addItemsToUsersInventory(userId, achievement.getItems());
+
+        // TODO: handle money and experience
     }
+
 }
