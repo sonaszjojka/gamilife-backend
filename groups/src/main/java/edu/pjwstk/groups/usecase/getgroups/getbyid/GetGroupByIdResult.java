@@ -18,7 +18,7 @@ public record GetGroupByIdResult(
         Boolean isMember,
         Boolean hasActiveGroupRequest,
         GroupMemberDto loggedUserMembershipDto,
-        Collection<GroupMemberDto> members,
+        Collection<GroupMemberDto> membersSortedDescByTotalEarnedMoney,
         String adminUsername
 ) implements Serializable {
 

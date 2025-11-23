@@ -98,6 +98,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     private List<GetGroupByIdResult.GroupMemberDto> getActiveMembers(Group group) {
         return mapMembers(group).stream()
                 .filter(m -> m.leftAt() == null)
+                .sorted(Comparator.comparing(GetGroupByIdResult.GroupMemberDto::totalEarnedMoney))
                 .toList();
     }
 
