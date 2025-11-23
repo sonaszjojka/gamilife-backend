@@ -25,7 +25,10 @@ public class ConfirmUserEmailVerificationUseCaseImpl implements ConfirmUserEmail
         return new BasicUserInfoApiDto(
                 user.getId(),
                 user.getEmail(),
-                user.getUsername()
+                user.getUsername(),
+                user.getLevel(),
+                user.getExperience(),
+                user.getMoney()
         );
     }
 }

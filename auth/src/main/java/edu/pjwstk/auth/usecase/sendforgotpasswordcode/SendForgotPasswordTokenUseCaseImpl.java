@@ -12,6 +12,8 @@ import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.service.ForgotPasswordCodeService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +21,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTokenUseCase {
 
     private final ForgotPasswordCodeService forgotPasswordCodeService;
     private final UserApi userApi;
     private final EmailSenderApi emailSenderApi;
     private final JpaForgotPasswordCodeRepository forgotPasswordCodeRepository;
+
+    @Value("${app.frontend-urls.reset-password-url}")
+    private String resetPasswordUrl;
+
+    @Value("${app.frontend-urls.main-url}")
+    private String appUrl;
+
 
     @Override
     @Transactional
@@ -45,7 +54,9 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
                 );
 
         if (!forgotPasswordCodeService.checkIfCanResendForgotPasswordCode(codes)) {
-            throw new CannotCurrentlyCreateNewForgotPasswordCodeException("Cannot currently create a new forgot password code. Please try again later.");
+            throw new CannotCurrentlyCreateNewForgotPasswordCodeException(
+                    "Cannot currently create a new forgot password code. Please try again later."
+            );
         }
 
         if (!codes.isEmpty()) {
@@ -53,23 +64,29 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
         }
 
         String code = forgotPasswordCodeService.generateAndSaveForgotPasswordCode(user.userId());
+
+        String resetLink = String.format("%s%s?code=%s", appUrl, resetPasswordUrl, code);
+
+        String htmlContent = """
+            <html>
+              <body>
+                <p>Hi,</p>
+                <p>In order to reset your password, please click the button below:</p>
+                <p><a href="%s" style="display:inline-block;padding:10px 20px;background-color:#1890ff;color:white;text-decoration:none;border-radius:4px;">Reset Password</a></p>
+                <p>If you did not request this, you can safely ignore this email.</p>
+                <br/>
+                <p>Best Regards,<br/>GamiLife Team</p>
+              </body>
+            </html>
+            """.formatted(resetLink);
+
         try {
             emailSenderApi.sendEmail(new MailDto(
-                            cmd.email(),
-                            "Reset your password",
-                            """
-                                    Hi,
-                                    
-                                    In order to reset your password use this link:
-                                    """ + code +
-                                    """
-                                            \n
-                                            Best Regards,
-                                            GamiLife Team
-                                            """,
-                            MailContentType.TEXT
-                    )
-            );
+                    cmd.email(),
+                    "Reset your password",
+                    htmlContent,
+                    MailContentType.HTML
+            ));
             return true;
         } catch (EmailSendingException ignored) {
             // TODO: resend logic

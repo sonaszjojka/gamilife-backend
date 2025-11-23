@@ -1,7 +1,6 @@
 package edu.pjwstk.groups.usecase.createchatmessage;
 
-import java.util.UUID;
+import edu.pjwstk.core.UseCase;
 
-public interface CreateChatMessageUseCase {
-    CreateChatMessageResponse execute(CreateChatMessageRequest request, UUID groupId, UUID groupMemberId);
+public interface CreateChatMessageUseCase extends UseCase<CreateChatMessageCommand, CreateChatMessageResult> {
 }

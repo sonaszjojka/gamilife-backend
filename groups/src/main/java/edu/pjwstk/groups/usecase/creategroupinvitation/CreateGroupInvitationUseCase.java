@@ -1,7 +1,6 @@
 package edu.pjwstk.groups.usecase.creategroupinvitation;
 
-import java.util.UUID;
+import edu.pjwstk.core.UseCase;
 
-public interface CreateGroupInvitationUseCase {
-    CreateGroupInvitationResponse execute(UUID groupId, CreateGroupInvitationRequest request);
+public interface CreateGroupInvitationUseCase extends UseCase<CreateGroupInvitationCommand, CreateGroupInvitationResult> {
 }

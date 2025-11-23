@@ -1,7 +1,9 @@
 package edu.pjwstk.user.persistence;
 
+import edu.pjwstk.user.domain.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
+public interface JpaUserRepository extends JpaRepository<UserEntity, UUID>, JpaSpecificationExecutor<UserEntity> {
     @Query("""
                 SELECT u
                 FROM UserEntity u
@@ -43,4 +45,9 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
             @Param("id") UUID id,
             @Param("status") boolean status
     );
+
+    @Transactional
+    @Modifying
+    @Query("update UserEntity u set u.money = ?1 where u.id = ?2")
+    void updateMoneyById(int money, UUID id);
 }

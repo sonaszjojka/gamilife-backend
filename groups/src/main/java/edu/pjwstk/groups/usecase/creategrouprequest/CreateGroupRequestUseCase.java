@@ -1,9 +1,6 @@
 package edu.pjwstk.groups.usecase.creategrouprequest;
 
-import jakarta.validation.Valid;
+import edu.pjwstk.core.UseCase;
 
-import java.util.UUID;
-
-public interface CreateGroupRequestUseCase {
-    CreateGroupRequestResponse execute(UUID groupId);
+public interface CreateGroupRequestUseCase extends UseCase<CreateGroupRequestCommand, CreateGroupRequestResult> {
 }

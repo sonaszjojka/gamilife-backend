@@ -1,53 +1,52 @@
 package edu.pjwstk.groups.usecase.leavegroup;
 
 import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
-import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
-import edu.pjwstk.groups.entity.Group;
-import edu.pjwstk.groups.entity.GroupMember;
 import edu.pjwstk.groups.exception.domain.AdminCannotLeaveGroupException;
-import edu.pjwstk.groups.repository.GroupMemberRepository;
-import edu.pjwstk.groups.repository.GroupRepository;
+import edu.pjwstk.groups.model.Group;
+import edu.pjwstk.groups.model.GroupMember;
+import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
 
-    private final GroupMemberRepository groupMemberRepository;
-    private final GroupRepository groupRepository;
-    private final LeaveGroupMapper leaveGroupMapper;
-
-    public LeaveGroupUseCaseImpl(GroupMemberRepository groupMemberRepository, GroupRepository groupRepository, LeaveGroupMapper leaveGroupMapper) {
-        this.groupMemberRepository = groupMemberRepository;
-        this.groupRepository = groupRepository;
-        this.leaveGroupMapper = leaveGroupMapper;
-    }
+    private final GroupMemberJpaRepository groupMemberRepository;
 
     @Override
-    public LeaveGroupResponse execute(UUID groupMemberId, UUID groupId) {
-        GroupMember groupMember = groupMemberRepository.findById(groupMemberId)
-                .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: "
-                        + groupMemberId + " not found!"));
+    public LeaveGroupResult executeInternal(LeaveGroupCommand cmd) {
+        GroupMember groupMember = getGroupMemberWithGroup(cmd.groupId(), cmd.groupMemberId());
+        Group group = groupMember.getGroup();
 
-        Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
-
-        if (Objects.equals(group.getAdminId(), groupMemberId) && group.getGroupMembers().size() > 1) {
-            throw new AdminCannotLeaveGroupException("Administrator cannot leave group! " +
-                    "Change group administrator before leaving.");
-        }
-
-        if (Objects.equals(group.getAdminId(), groupMemberId) && group.getGroupMembers().size() == 1) {
-            throw new AdminCannotLeaveGroupException("Administrator cannot leave group! " +
-                    "Delete group instead of leaving.");
+        if (group.isUserAdmin(groupMember.getUserId())) {
+            throw new AdminCannotLeaveGroupException("Administrator cannot leave group!");
         }
 
         groupMember.setLeftAt(Instant.now());
         GroupMember savedGroupMember = groupMemberRepository.save(groupMember);
 
-        return leaveGroupMapper.toResponse(savedGroupMember);
+        return buildLeaveGroupResult(savedGroupMember);
+    }
+
+    private GroupMember getGroupMemberWithGroup(UUID groupId, UUID groupMemberId) {
+        return groupMemberRepository.findWithGroupByGroupMemberIdAndGroupId(groupMemberId, groupId)
+                .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: "
+                        + groupMemberId + " not found!"));
+    }
+
+    private LeaveGroupResult buildLeaveGroupResult(GroupMember groupMember) {
+        return LeaveGroupResult.builder()
+                .groupMemberId(groupMember.getGroupMemberId())
+                .group(new LeaveGroupResult.GroupDto(groupMember.getGroupId()))
+                .userId(groupMember.getUserId())
+                .joinedAt(groupMember.getJoinedAt())
+                .leftAt(groupMember.getLeftAt())
+                .groupMoney(groupMember.getGroupMoney())
+                .totalEarnedMoney(groupMember.getTotalEarnedMoney())
+                .build();
     }
 }

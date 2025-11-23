@@ -1,7 +1,6 @@
 package edu.pjwstk.groups.usecase.creategroup;
 
-import jakarta.validation.Valid;
+import edu.pjwstk.core.UseCase;
 
-public interface CreateGroupUseCase {
-    CreateGroupResponse execute(CreateGroupRequest request);
+public interface CreateGroupUseCase extends UseCase<CreateGroupCommand, CreateGroupResult> {
 }

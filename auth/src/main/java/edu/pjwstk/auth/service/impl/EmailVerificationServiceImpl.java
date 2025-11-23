@@ -27,6 +27,12 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
     @Value("${spring.codes.verification-code.resend-interval}")
     private long emailVerificationResendInterval;
 
+    @Value("${app.frontend-urls.email-verification-url}")
+    private String emailVerificationUrl;
+
+    @Value("${app.frontend-urls.main-url}")
+    private String appUrl;
+
     public EmailVerificationServiceImpl(JpaEmailVerificationRepository emailVerificationRepository, EmailSenderApi emailSenderApi) {
         this.emailVerificationRepository = emailVerificationRepository;
         this.emailSenderApi = emailSenderApi;
@@ -62,22 +68,27 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
 
     @Override
     public void sendEmailVerificationCode(UUID userId, String email, String code) {
+        String verificationLink = String.format("%s%s?code=%s", appUrl, emailVerificationUrl, code);
+
+        String mailContent = """
+            <html>
+              <body>
+                <p>Hello!</p>
+                <p>Please verify your email by clicking the link below:</p>
+                <p><a href="%s">Verify Email</a></p>
+                <p>If you did not request this, you can ignore this email.</p>
+                <br/>
+                <p>Best regards,<br/>GamiLife Team</p>
+              </body>
+            </html>
+            """.formatted(verificationLink);
+
         try {
             emailSenderApi.sendEmail(new MailDto(
                     email,
-                    "Email verification code",
-                    """
-                            Hello!
-                            
-                            Here is your verification code:
-                            """ +
-                            code +
-                            """
-                                    \n
-                                    Best regards,
-                                    GamiLife Team
-                                    """,
-                    MailContentType.TEXT
+                    "Email Verification",
+                    mailContent,
+                    MailContentType.HTML
             ));
         } catch (EmailSendingException e) {
             throw new RuntimeException(e);

@@ -17,7 +17,11 @@ public enum CommonErrorCode implements ErrorCode {
     UNSUPPORTED_MEDIA_TYPE,
     ACCESS_DENIED,
     TYPE_MISMATCH,
-    MISSING_REQUEST_BODY;
+    MISSING_REQUEST_COOKIE,
+    MISSING_ACCESS_TOKEN_COOKIE,
+    MISSING_REFRESH_TOKEN_COOKIE,
+    MISSING_REQUEST_BODY,
+    USER_HAS_NOT_ENOUGH_MONEY;
 
     @Override
     public String getKey() {

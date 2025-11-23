@@ -1,8 +1,8 @@
 package edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest;
 
 
-import java.util.UUID;
+import edu.pjwstk.core.UseCase;
 
-public interface EditGroupRequestStatusForGroupRequestUseCase {
-    EditGroupRequestStatusForGroupRequestResponse execute(UUID groupRequestId, EditGroupRequestStatusForGroupRequestRequest request);
+public interface EditGroupRequestStatusForGroupRequestUseCase
+        extends UseCase<EditGroupRequestStatusForGroupRequestCommand, EditGroupRequestStatusForGroupRequestResult> {
 }

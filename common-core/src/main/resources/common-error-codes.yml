@@ -85,3 +85,23 @@ error-codes:
       status: 400
       title: "Missing Request Body"
       detail: "Request body is required but missing"
+    MISSING_REQUEST_COOKIE:
+      code: 1018
+      title: "Missing Request Cookie"
+      detail: "Missing request cookie to process."
+      status: 401
+    MISSING_ACCESS_TOKEN_COOKIE:
+      code: 1019
+      title: "Missing Access Token Cookie"
+      detail: "Missing access token cookie to process."
+      status: 401
+    MISSING_REFRESH_TOKEN_COOKIE:
+      code: 1020
+      title: "Missing Refresh Token Cookie"
+      detail: "Missing refresh token cookie to process."
+      status: 401
+    USER_HAS_NOT_ENOUGH_MONEY:
+      code: 1021
+      title: "User Has Not Enough Money"
+      detail: "User has not enough money"
+      status: 400

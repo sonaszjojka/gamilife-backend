@@ -18,6 +18,7 @@ public class User {
     private String password;
     private String username;
     private LocalDate dateOfBirth;
+    private int level;
     private int experience;
     private int money;
     private boolean sendBudgetReports;
