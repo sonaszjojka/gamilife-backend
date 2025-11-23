@@ -1,7 +1,5 @@
 package edu.pjwstk.gamification.usecase.inituserstatistics;
 
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.gamification.model.UserStatistic;
 import edu.pjwstk.gamification.repository.StatisticTypeRepository;
 import edu.pjwstk.gamification.repository.UserStatisticRepository;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
