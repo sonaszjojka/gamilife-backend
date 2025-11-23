@@ -1,6 +1,7 @@
 package edu.pjwstk.pomodoro.repository.jpa;
 
-import edu.pjwstk.common.pomodoroApi.dto.PomodoroTaskDto;
+
+import edu.pjwstk.api.pomodoro.PomodoroTaskDto.PomodoroTaskDto;
 import edu.pjwstk.pomodoro.entity.PomodoroTask;
 import org.springframework.data.jpa.repository.JpaRepository;
 

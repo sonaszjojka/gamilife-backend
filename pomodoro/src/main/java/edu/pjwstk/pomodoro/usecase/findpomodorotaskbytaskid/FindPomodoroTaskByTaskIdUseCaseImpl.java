@@ -1,9 +1,10 @@
 package edu.pjwstk.pomodoro.usecase.findpomodorotaskbytaskid;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.pomodoroApi.dto.PomodoroTaskDto;
-import edu.pjwstk.common.tasksApi.TasksApi;
+
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.pomodoro.PomodoroTaskDto.PomodoroTaskDto;
+import edu.pjwstk.api.tasks.TasksApi;
 import edu.pjwstk.pomodoro.repository.jpa.PomodoroTaskRepositoryJpa;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,7 @@ public class FindPomodoroTaskByTaskIdUseCaseImpl implements FindPomodoroTaskByTa
     @Override
     public PomodoroTaskDto execute(UUID taskId) {
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
 
         if (!currentUserDto.userId().equals(tasksProvider.findTaskByTaskId(taskId).userId())) {
 

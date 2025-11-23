@@ -1,6 +1,8 @@
 package edu.pjwstk.pomodoro.usecase.findpomodorotaskbytaskid;
 
-import edu.pjwstk.common.pomodoroApi.dto.PomodoroTaskDto;
+
+
+import edu.pjwstk.api.pomodoro.PomodoroTaskDto.PomodoroTaskDto;
 
 import java.util.UUID;
 

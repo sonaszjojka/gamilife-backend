@@ -1,9 +1,9 @@
 package edu.pjwstk.tasks.application.getusertasks;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.pomodoroApi.PomodoroTaskApi;
-import edu.pjwstk.common.pomodoroApi.dto.PomodoroTaskDto;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.api.pomodoro.PomodoroApi;
+import edu.pjwstk.api.pomodoro.PomodoroTaskDto.PomodoroTaskDto;
 import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.repository.jpa.HabitRepositoryJpa;
@@ -23,10 +23,10 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
     private final TaskRepositoryJpa taskRepository;
     private final TasksSpecificationBuilder tasksSpecificationBuilder;
     private final AuthApi authApi;
-    private final PomodoroTaskApi pomodoroTaskApi;
+    private final PomodoroApi pomodoroTaskApi;
     private final HabitRepositoryJpa habitRepository;
 
-    public GetUserTasksUseCaseImpl(TaskRepositoryJpa taskRepository, TasksSpecificationBuilder tasksSpecificationBuilder, AuthApi authApi, PomodoroTaskApi pomodoroTaskApi, HabitRepositoryJpa habitRepository) {
+    public GetUserTasksUseCaseImpl(TaskRepositoryJpa taskRepository, TasksSpecificationBuilder tasksSpecificationBuilder, AuthApi authApi, PomodoroApi pomodoroTaskApi, HabitRepositoryJpa habitRepository) {
         this.taskRepository = taskRepository;
         this.tasksSpecificationBuilder = tasksSpecificationBuilder;
         this.authApi = authApi;
@@ -38,7 +38,7 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
     @Transactional()
     public Page<GetUserTasksDto> execute(GetUserTasksFilterDto request) {
 
-       CurrentUserDto userDto = authApi.getCurrentUser().orElseThrow();
+       CurrentUserDto userDto = authApi.getCurrentUser();
        UUID userId = userDto.userId();
 
 
