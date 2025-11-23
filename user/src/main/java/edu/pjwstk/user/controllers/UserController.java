@@ -93,7 +93,6 @@ public class UserController {
             @Min(1) @Max(100) Integer size
 
     ) {
-        System.out.println("xd1");
         FindAllGroupsByUserIdWhereUserIsMemberResult response = groupsApi
                 .findAllGroupsByUserIdWhereUserIsMember(userId, page, size, joinCode, groupType, groupName);
         return ResponseEntity.ok(response);
