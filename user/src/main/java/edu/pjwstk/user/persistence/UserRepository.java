@@ -25,5 +25,7 @@ public interface UserRepository {
 
     void updateUserEmailVerificationStatus(UUID userId, boolean newStatus);
 
+    void updateUserMoney(UUID userId, int newMoney);
+  
     Page<User> findAll(Specification<UserEntity> userSpecification, PageRequest pageRequest);
 }

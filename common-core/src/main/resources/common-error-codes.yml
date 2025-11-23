@@ -100,3 +100,8 @@ error-codes:
       title: "Missing Refresh Token Cookie"
       detail: "Missing refresh token cookie to process."
       status: 401
+    USER_HAS_NOT_ENOUGH_MONEY:
+      code: 1021
+      title: "User Has Not Enough Money"
+      detail: "User has not enough money"
+      status: 400

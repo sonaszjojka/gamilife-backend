@@ -46,7 +46,10 @@ public class SecurityConfiguration {
                         ).permitAll()
                         .requestMatchers(
                                 // TODO add here all other mappings that will be available only after email verification
-                                "/api/v1/users/**"
+                                "/api/v1/users/**",
+                                "/api/v1/store/**",
+                                "/api/v1/item-rarities/**",
+                                "api/v1/levels/**"
                         ).hasRole("VERIFIED")
                         .anyRequest().authenticated()
                 )

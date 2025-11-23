@@ -16,6 +16,8 @@ import edu.pjwstk.tasks.repository.HabitRepository;
 import edu.pjwstk.tasks.repository.TaskCategoryRepository;
 import edu.pjwstk.tasks.repository.TaskDifficultyRepository;
 import edu.pjwstk.tasks.repository.TaskRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Component
+@AllArgsConstructor
 public class EditTaskUseCaseImpl implements EditTaskUseCase {
 
     private final TaskRepository taskRepository;
@@ -31,17 +34,7 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
     private final TaskCategoryRepository taskCategoryRepository;
     private final HabitRepository habitRepository;
     private final AuthApi currentUserProvider;
-
-    public EditTaskUseCaseImpl(TaskRepository taskRepository, EditTaskMapper editTaskMapper,
-                               TaskDifficultyRepository taskDifficultyRepository,
-                               TaskCategoryRepository taskCategoryRepository, HabitRepository habitRepository, AuthApi currentUserProvider) {
-        this.taskRepository = taskRepository;
-        this.editTaskMapper = editTaskMapper;
-        this.taskDifficultyRepository = taskDifficultyRepository;
-        this.taskCategoryRepository = taskCategoryRepository;
-        this.habitRepository = habitRepository;
-        this.currentUserProvider = currentUserProvider;
-    }
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional

@@ -45,4 +45,9 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, UUID>, JpaS
             @Param("id") UUID id,
             @Param("status") boolean status
     );
+
+    @Transactional
+    @Modifying
+    @Query("update UserEntity u set u.money = ?1 where u.id = ?2")
+    void updateMoneyById(int money, UUID id);
 }
