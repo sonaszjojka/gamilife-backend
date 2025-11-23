@@ -34,7 +34,7 @@ public class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
     @Transactional
     public void execute(UUID taskId) {
 
-       Habit habit= habitRepository.findHabitByHabitTaskId(taskId);
+       Habit habit= habitRepository.findHabitByTaskId(taskId);
        if (habit!=null) {
            deleteHabitUseCase.execute(habit.getId());
            return;

@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface CreateHabitMapper {
 
-    Habit toEntity(CreateHabitRequest req, UUID habitId, Task HabitTask);
+    Habit toEntity(CreateHabitRequest req, UUID habitId, Task habitTask);
 
     CreateHabitResponse toResponse(Habit habit);
 }

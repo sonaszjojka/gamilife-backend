@@ -8,10 +8,10 @@ import java.util.UUID;
 
 @Component
 public class CreateHabitMapperImpl implements CreateHabitMapper {
-    public Habit toEntity(CreateHabitRequest req, UUID habitId, Task HabitTask) {
+    public Habit toEntity(CreateHabitRequest req, UUID habitId, Task habitTask) {
         return Habit.builder()
                 .id(habitId)
-                .habitTask(HabitTask)
+                .task(habitTask)
                 .cycleLength(req.cycleLength())
                 .currentStreak(req.currentStreak())
                 .longestStreak(req.longestStreak())

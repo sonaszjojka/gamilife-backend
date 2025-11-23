@@ -61,7 +61,7 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                 .map(task -> {
                     PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
                     TaskHabitDto taskHabitDto= null;
-                    Habit habit=habitRepository.findHabitByHabitTaskId(task.getId());
+                    Habit habit=habitRepository.findHabitByTaskId(task.getId());
                     if(habit != null) {
 
                             taskHabitDto = TaskHabitDto.builder()

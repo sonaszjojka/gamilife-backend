@@ -5,7 +5,6 @@ import lombok.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -23,8 +22,8 @@ public class Habit extends AbstractEntitySuperclass {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "task_habit_id", nullable = false, updatable = false)
-    private Task habitTask;
+    @JoinColumn(name = "task_id", nullable = false, updatable = false)
+    private Task task;
 
     @Column(name = "cycle_length", nullable = false)
     private Duration cycleLength;
@@ -37,7 +36,5 @@ public class Habit extends AbstractEntitySuperclass {
 
     @Column(name = "accepted_date", nullable = true)
     private LocalDateTime acceptedDate;
-
-
 
 }

@@ -52,7 +52,7 @@ CREATE TABLE task
 CREATE TABLE habit
 (
     habit_id        UUID                        NOT NULL,
-    task_habit_id    UUID,
+    task_id    UUID,
     updated_at      TIMESTAMP WITHOUT TIME ZONE,
     created_at      TIMESTAMP WITHOUT TIME ZONE,
     cycle_length    BIGINT                      NOT NULL,
@@ -100,7 +100,7 @@ ALTER TABLE task
     ADD CONSTRAINT FK_TASK_ON_DIFFICULTY FOREIGN KEY (difficulty_id) REFERENCES task_difficulty (difficulty_id);
 
 ALTER TABLE habit
-    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_habit_id) REFERENCES task (task_id);
+    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_id) REFERENCES task (task_id);
 
 --- Pomodoro todo users + schemas per module
 
