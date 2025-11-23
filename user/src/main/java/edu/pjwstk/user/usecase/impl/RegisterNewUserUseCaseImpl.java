@@ -29,7 +29,6 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
         if (getUserByEmailUseCase.execute(dto.email()).isPresent()) {
             throw new UserAlreadyExistsException("This email address is already taken");
         }
-
         User newUser = new User(
                 UUID.randomUUID(),
                 dto.firstName(),
@@ -44,9 +43,9 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
                 dto.sendBudgetReports(),
                 dto.isProfilePublic(),
                 dto.isEmailVerified(),
+                dto.isTutorialCompleted(),
                 Instant.now()
         );
-
         userRepository.save(newUser);
 
         gamificationApi.initUserStatisticsFor(newUser.getId());

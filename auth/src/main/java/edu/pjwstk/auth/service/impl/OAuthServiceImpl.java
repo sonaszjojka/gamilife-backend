@@ -103,6 +103,7 @@ public class OAuthServiceImpl implements OAuthService {
                         user.email(),
                         user.username(),
                         true,
+                        user.isTutorialCompleted(),
                         tokenService.generateTokenPair(user.userId(), user.email(), true)
                 )
         );
@@ -124,7 +125,8 @@ public class OAuthServiceImpl implements OAuthService {
                 null, // No birthdate provided
                 false, // Default to not sending budget reports
                 false, // Default to private profile
-                true
+                true,
+                false // Default to no onboarding completed
         );
         BasicUserInfoApiDto createdGoogleUser = userApi.registerNewUser(newGoogleUser);
 
@@ -142,6 +144,7 @@ public class OAuthServiceImpl implements OAuthService {
                         createdGoogleUser.userId(),
                         createdGoogleUser.email(),
                         createdGoogleUser.username(),
+                        false,
                         true,
                         tokenService.generateTokenPair(
                                 createdGoogleUser.userId(),

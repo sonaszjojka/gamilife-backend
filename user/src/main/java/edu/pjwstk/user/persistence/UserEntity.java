@@ -60,6 +60,9 @@ public class UserEntity {
     @Column(name = "is_email_verified", nullable = false)
     private boolean isEmailVerified;
 
+    @Column(name = "is_tutorial_completed", nullable = false)
+    private boolean isTutorialCompleted;
+
     @Column(name = "password_change_date", nullable = false)
     private Long passwordChangeDate;
 

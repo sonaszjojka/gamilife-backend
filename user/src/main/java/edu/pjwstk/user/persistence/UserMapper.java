@@ -20,6 +20,7 @@ public class UserMapper {
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),
                 user.isEmailVerified(),
+                user.isTutorialCompleted(),
                 user.getPasswordChangeDate().getEpochSecond()
         );
     }
@@ -39,6 +40,7 @@ public class UserMapper {
                 userEntity.isSendBudgetReports(),
                 userEntity.isProfilePublic(),
                 userEntity.isEmailVerified(),
+                userEntity.isTutorialCompleted(),
                 Instant.ofEpochSecond(userEntity.getPasswordChangeDate())
         );
     }

@@ -52,6 +52,7 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
                 user.email(),
                 user.username(),
                 user.isEmailVerified(),
+                user.isTutorialCompleted(),
                 tokens
         );
     }
