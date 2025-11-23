@@ -15,7 +15,6 @@ public class CreateTaskMapperImpl implements CreateTaskMapper {
                          UUID taskId,
                          TaskCategory category,
                          TaskDifficulty difficulty,
-                         Habit habitTask,
                          UUID userId
     ) {
 
@@ -27,7 +26,6 @@ public class CreateTaskMapperImpl implements CreateTaskMapper {
                 .category(category)
                 .difficulty(difficulty)
                 .userId(userId)
-                .habitTask(habitTask)
                 .description(req.description())
                 .completedAt(req.completedAt())
                 .isGroupTask(false)
@@ -43,7 +41,6 @@ public class CreateTaskMapperImpl implements CreateTaskMapper {
                 .categoryId(task.getCategory() != null ? task.getCategory().getId() : null)
                 .difficultyId(task.getDifficulty() != null ? task.getDifficulty().getId() : null)
                 .userId(task.getUserId())
-                .habitTaskId(task.getHabitTask() != null ? task.getHabitTask().getId() : null)
                 .description(task.getDescription())
                 .completedAt(task.getCompletedAt())
                 .build();

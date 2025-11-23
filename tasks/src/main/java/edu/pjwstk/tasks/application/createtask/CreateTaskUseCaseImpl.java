@@ -29,15 +29,13 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     private final TaskRepository taskRepository;
     private final TaskCategoryRepository taskCategoryRepository;
     private final TaskDifficultyRepository taskDifficultyRepository;
-    private final HabitRepository habitRepository;
     private final CreateTaskMapper createTaskMapper;
     private final AuthApi currentUserProvider;
 
-    public CreateTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, HabitRepository habitRepository, CreateTaskMapper createTaskMapper, AuthApi currentUserProvider) {
+    public CreateTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, CreateTaskMapper createTaskMapper, AuthApi currentUserProvider) {
         this.taskRepository = taskRepository;
         this.taskCategoryRepository = taskCategoryRepository;
         this.taskDifficultyRepository = taskDifficultyRepository;
-        this.habitRepository = habitRepository;
         this.createTaskMapper = createTaskMapper;
         this.currentUserProvider = currentUserProvider;
     }
@@ -68,14 +66,6 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                         "Task difficulty with id " + request.difficultyId() + " not found!"
                 ));
 
-        Habit habit = null;
-        if (request.habitTaskId() != null) {
-            habit = habitRepository
-                    .findById(request.habitTaskId())
-                    .orElseThrow(() -> new HabitNotFoundException(
-                            "Habit with id " + request.habitTaskId() + " not found!"
-                    ));
-        }
 
 
         Task savedTask = taskRepository.save(
@@ -84,7 +74,6 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                         UUID.randomUUID(),
                         taskCategory,
                         taskDifficulty,
-                        habit,
                         currentUserDto.userId()
                 )
         );

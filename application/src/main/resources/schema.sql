@@ -33,18 +33,6 @@ DROP TABLE IF EXISTS group_item_in_shop CASCADE;
 DROP TABLE IF EXISTS owned_group_item CASCADE;
 
 -- ==================== TASKS ====================
-CREATE TABLE habit
-(
-    habit_id        UUID                        NOT NULL,
-    updated_at      TIMESTAMP WITHOUT TIME ZONE,
-    created_at      TIMESTAMP WITHOUT TIME ZONE,
-    cycle_length    BIGINT                      NOT NULL,
-    current_streak  INTEGER                     NOT NULL,
-    longest_streak  INTEGER                     NOT NULL,
-    accepted_date   TIMESTAMP WITHOUT TIME ZONE,
-    CONSTRAINT pk_habit PRIMARY KEY (habit_id)
-);
-
 CREATE TABLE task
 (
     task_id          UUID                        NOT NULL,
@@ -55,11 +43,26 @@ CREATE TABLE task
     difficulty_id    INTEGER                     NOT NULL,
     user_id          UUID,
     completed_at     TIMESTAMP WITHOUT TIME ZONE,
-    task_habit_id    UUID,
+
     description      VARCHAR(200),
     is_group_task   BOOLEAN                     NOT NULL,
     CONSTRAINT pk_task PRIMARY KEY (task_id)
 );
+
+CREATE TABLE habit
+(
+    habit_id        UUID                        NOT NULL,
+    task_habit_id    UUID,
+    updated_at      TIMESTAMP WITHOUT TIME ZONE,
+    created_at      TIMESTAMP WITHOUT TIME ZONE,
+    cycle_length    BIGINT                      NOT NULL,
+    current_streak  INTEGER                     NOT NULL,
+    longest_streak  INTEGER                     NOT NULL,
+    accepted_date   TIMESTAMP WITHOUT TIME ZONE,
+    CONSTRAINT pk_habit PRIMARY KEY (habit_id)
+);
+
+
 
 CREATE TABLE task_category
 (
@@ -96,8 +99,8 @@ ALTER TABLE task
 ALTER TABLE task
     ADD CONSTRAINT FK_TASK_ON_DIFFICULTY FOREIGN KEY (difficulty_id) REFERENCES task_difficulty (difficulty_id);
 
-ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_habit_id) REFERENCES habit (habit_id);
+ALTER TABLE habit
+    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_habit_id) REFERENCES task (task_id);
 
 --- Pomodoro todo users + schemas per module
 

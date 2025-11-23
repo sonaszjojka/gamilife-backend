@@ -25,8 +25,6 @@ public record CreateTaskRequest(
 
         LocalDateTime completedAt,
 
-        UUID habitTaskId,
-
         @Size(max = 200, message = "Description cannot exceed 200 characters")
         String description
 

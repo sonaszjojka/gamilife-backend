@@ -6,9 +6,11 @@ import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.core.exception.common.domain.TaskNotFoundException;
+import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import edu.pjwstk.tasks.repository.TaskRepository;
+import edu.pjwstk.tasks.repository.jpa.HabitRepositoryJpa;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +19,11 @@ import java.util.UUID;
 @Component
 public class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
     private final TaskRepository taskRepository;
-    private final HabitRepository habitRepository;
+    private final HabitRepositoryJpa habitRepository;
     private final DeleteHabitUseCase deleteHabitUseCase;
     private final AuthApi currentUserProvider;
 
-    public DeleteTaskUseCaseImpl(TaskRepository taskRepository, HabitRepository habitRepository, DeleteHabitUseCase deleteHabitUseCase, AuthApi currentUserProvider) {
+    public DeleteTaskUseCaseImpl(TaskRepository taskRepository, HabitRepositoryJpa habitRepository, DeleteHabitUseCase deleteHabitUseCase, AuthApi currentUserProvider) {
         this.taskRepository = taskRepository;
         this.habitRepository = habitRepository;
         this.deleteHabitUseCase = deleteHabitUseCase;
@@ -32,8 +34,11 @@ public class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
     @Transactional
     public void execute(UUID taskId) {
 
-        habitRepository.findById(taskId).ifPresent(habit ->
-                deleteHabitUseCase.execute(habit.getId()));
+       Habit habit= habitRepository.findHabitByHabitTaskId(taskId);
+       if (habit!=null) {
+           deleteHabitUseCase.execute(habit.getId());
+           return;
+       }
 
         Task task = taskRepository
                 .findById(taskId)

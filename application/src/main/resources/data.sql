@@ -19,20 +19,23 @@ VALUES (1, 'Easy', 1),
 -- =========================
 -- Tabela: task
 -- =========================
-INSERT INTO habit (habit_id, cycle_length, current_streak, longest_streak, created_at, accepted_date, updated_at)
-
-VALUES ('aaaa0000-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 7, 3, 5, NOW(),  NOW(), NOW()),
-       ('bbbb0000-bbbb-bbbb-bbbb-bbbbbbbbbbbb',30, 10, 12, NOW(),  NULL,  NOW());
-
-INSERT INTO task (task_id, title, start_time, end_time, category_id, difficulty_id,task_habit_id,
+INSERT INTO task (task_id, title, start_time, end_time, category_id, difficulty_id,
                   user_id, completed_at, description,is_group_task)
 VALUES ('11111111-1111-1111-1111-111111111111', 'Finish report', NOW(), NOW() + INTERVAL '2 days',
-        1, 2, 'aaaa0000-aaaa-aaaa-aaaa-aaaaaaaaaaaa', NULL,null,
+        1, 2, NULL,null,
         'Finish the monthly report',false),
 
        ('22222222-2222-2222-2222-222222222222', 'Morning workout', NOW(), NOW() + INTERVAL '1 day',
-        3, 1, 'bbbb0000-bbbb-bbbb-bbbb-bbbbbbbbbbbb', NULL,null,
+        3, 1,  NULL,null,
         '30 minutes jogging',false);
+
+
+INSERT INTO habit (habit_id,task_habit_id, cycle_length, current_streak, longest_streak, created_at, accepted_date, updated_at)
+
+VALUES ('aaaa0000-aaaa-aaaa-aaaa-aaaaaaaaaaaa','11111111-1111-1111-1111-111111111111', 7, 3, 5, NOW(),  NOW(), NOW()),
+       ('bbbb0000-bbbb-bbbb-bbbb-bbbbbbbbbbbb','22222222-2222-2222-2222-222222222222',30, 10, 12, NOW(),  NULL,  NOW());
+
+
 -- =========================
 -- Tabela: habit
 -- =========================

@@ -13,7 +13,6 @@ public interface CreateTaskMapper {
                   UUID taskId,
                   TaskCategory category,
                   TaskDifficulty difficulty,
-                  Habit habitTask,
                   UUID userId);
 
     CreateTaskResponse toResponse(Task task);

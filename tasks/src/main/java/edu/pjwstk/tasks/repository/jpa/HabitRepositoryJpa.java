@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface HabitRepositoryJpa extends JpaRepository<Habit, UUID> {
    Habit findHabitById(UUID id);
+   Habit findHabitByHabitTaskId(UUID id);
 }

@@ -1,15 +1,17 @@
 package edu.pjwstk.tasks.application.createhabit;
 
 import edu.pjwstk.tasks.entity.Habit;
+import edu.pjwstk.tasks.entity.Task;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
 public class CreateHabitMapperImpl implements CreateHabitMapper {
-    public Habit toEntity(CreateHabitRequest req, UUID habitId) {
+    public Habit toEntity(CreateHabitRequest req, UUID habitId, Task HabitTask) {
         return Habit.builder()
                 .id(habitId)
+                .habitTask(HabitTask)
                 .cycleLength(req.cycleLength())
                 .currentStreak(req.currentStreak())
                 .longestStreak(req.longestStreak())

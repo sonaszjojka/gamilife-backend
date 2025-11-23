@@ -86,18 +86,7 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
             task.setDifficulty(taskDifficulty);
         }
 
-        if (request.habitTaskId() != null) {
-            if (task.getHabitTask() == null) {
-                Habit habit = habitRepository
-                        .findById(request.habitTaskId())
-                        .orElseThrow(() -> new HabitNotFoundException(
-                                "Habit with id " + request.habitTaskId() + " not found!"
-                        ));
-                task.setHabitTask(habit);
-            } else if(!Objects.equals(task.getHabitTask().getId(), request.habitTaskId())){
-                throw new InvalidTaskDataException("Habit task cannot be changed after assigning!");
-            }
-        }
+
 
 
         return editTaskMapper.toResponse(taskRepository.save(task));

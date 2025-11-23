@@ -22,6 +22,10 @@ public class Habit extends AbstractEntitySuperclass {
     @Column(name = "habit_id", nullable = false, updatable = false)
     private UUID id;
 
+    @OneToOne
+    @JoinColumn(name = "task_habit_id", nullable = false, updatable = false)
+    private Task habitTask;
+
     @Column(name = "cycle_length", nullable = false)
     private Duration cycleLength;
 

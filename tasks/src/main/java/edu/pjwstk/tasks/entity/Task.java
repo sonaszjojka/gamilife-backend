@@ -37,9 +37,7 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "difficulty_id", nullable = false)
     private TaskDifficulty difficulty;
-    @OneToOne
-    @JoinColumn(name = "task_habit_id", nullable = true)
-    private Habit habitTask;
+
 
     @Column(name = "user_id", nullable = true)
     private UUID userId;
