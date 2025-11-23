@@ -10,6 +10,8 @@ import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
 @AllArgsConstructor
@@ -19,7 +21,7 @@ public class GroupItemEventHandler {
     private final UserStatisticsService userStatisticsService;
 
     @Async("gamificationEventExecutor")
-    @EventListener
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupItemPurchased(GroupItemPurchasedEvent event) {
         userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.GROUP_ITEMS_PURCHASED);
