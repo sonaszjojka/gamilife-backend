@@ -1,5 +1,6 @@
 package edu.pjwstk.user.dto.response;
 
+import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.dto.service.UserDetailsDto;
 
 import java.time.LocalDate;
@@ -31,6 +32,22 @@ public record UserDetailsResponse(
                 dto.sendBudgetReports(),
                 dto.isProfilePublic(),
                 dto.isEmailVerified()
+        );
+    }
+
+    public static UserDetailsResponse from(User user) {
+        return new UserDetailsResponse(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getUsername(),
+                user.getDateOfBirth(),
+                user.getExperience(),
+                user.getMoney(),
+                user.isSendBudgetReports(),
+                user.isProfilePublic(),
+                user.isEmailVerified()
         );
     }
 }

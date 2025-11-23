@@ -1,6 +1,9 @@
 package edu.pjwstk.user.persistence;
 
 import edu.pjwstk.user.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -60,6 +63,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void updateUserMoney(UUID userId, int newMoney) {
         jpaUserRepository.updateMoneyById(newMoney, userId);
+    }
+  
+    public Page<User> findAll(Specification<UserEntity> specification, PageRequest pageRequest) {
+        return jpaUserRepository.findAll(specification, pageRequest).map(UserMapper::toDomain);
     }
 
 }

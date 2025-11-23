@@ -2,39 +2,35 @@ package edu.pjwstk.groups.usecase.deletegroup;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
-import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import edu.pjwstk.groups.repository.GroupRepository;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
+import edu.pjwstk.groups.model.Group;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-import java.util.UUID;
-
 @Service
+@AllArgsConstructor
 public class DeleteGroupUseCaseImpl implements DeleteGroupUseCase {
 
-    private final GroupRepository groupRepository;
+    private final GroupJpaRepository groupRepository;
     private final AuthApi authApi;
-
-    public DeleteGroupUseCaseImpl(GroupRepository groupRepository, AuthApi authApi) {
-        this.groupRepository = groupRepository;
-        this.authApi = authApi;
-    }
 
     @Override
     @Transactional
-    public void execute(UUID groupId) {
-        Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
+    public Void executeInternal(DeleteGroupCommand cmd) {
+        Group group = groupRepository.findById(cmd.groupId())
+                .orElseThrow(() -> new GroupNotFoundException("Group with id: " + cmd.groupId() + " not found!"));
 
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
-        if (!Objects.equals(currentUserDto.userId(), group.getAdminId())) {
+        if (!group.isUserAdmin(currentUserDto.userId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can delete groups!");
         }
 
-        groupRepository.deleteById(groupId);
+        groupRepository.deleteById(cmd.groupId());
+
+        return null;
     }
 }

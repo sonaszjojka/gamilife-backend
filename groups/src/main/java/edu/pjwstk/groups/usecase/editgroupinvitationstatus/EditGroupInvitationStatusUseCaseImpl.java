@@ -2,89 +2,121 @@ package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
-import edu.pjwstk.groups.entity.GroupInvitation;
-import edu.pjwstk.groups.entity.InvitationStatus;
+import edu.pjwstk.groups.enums.InvitationStatusEnum;
 import edu.pjwstk.groups.exception.domain.*;
-import edu.pjwstk.groups.repository.GroupInvitationRepository;
-import edu.pjwstk.groups.repository.InvitationStatusRepository;
-import edu.pjwstk.groups.shared.InvitationStatusEnum;
-import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberResponse;
-import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationRequest;
-import edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation.CreateGroupMemberAfterAcceptationUseCase;
+import edu.pjwstk.groups.model.Group;
+import edu.pjwstk.groups.model.GroupInvitation;
+import edu.pjwstk.groups.model.GroupMember;
+import edu.pjwstk.groups.model.InvitationStatus;
+import edu.pjwstk.groups.repository.GroupInvitationJpaRepository;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
+import edu.pjwstk.groups.repository.InvitationStatusJpaRepository;
+import edu.pjwstk.groups.service.GroupMemberService;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitationStatusUseCase {
 
-    private final GroupInvitationRepository groupInvitationRepository;
-    private final InvitationStatusRepository invitationStatusRepository;
+    private final GroupInvitationJpaRepository groupInvitationRepository;
+    private final InvitationStatusJpaRepository invitationStatusRepository;
     private final AuthApi authApi;
-    private final EditGroupInvitationStatusMapper editGroupInvitationStatusMapper;
-    private final CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase;
+    private final GroupMemberService groupMemberService;
     private final GroupInvitationUtil groupInvitationUtil;
-
-    public EditGroupInvitationStatusUseCaseImpl(GroupInvitationRepository groupInvitationRepository, InvitationStatusRepository invitationStatusRepository, AuthApi authApi, EditGroupInvitationStatusMapper editGroupInvitationStatusMapper, CreateGroupMemberAfterAcceptationUseCase createGroupMemberAfterAcceptationUseCase, GroupInvitationUtil groupInvitationUtil) {
-        this.groupInvitationRepository = groupInvitationRepository;
-        this.invitationStatusRepository = invitationStatusRepository;
-        this.authApi = authApi;
-        this.editGroupInvitationStatusMapper = editGroupInvitationStatusMapper;
-        this.createGroupMemberAfterAcceptationUseCase = createGroupMemberAfterAcceptationUseCase;
-        this.groupInvitationUtil = groupInvitationUtil;
-    }
+    private final GroupJpaRepository groupRepository;
 
     @Override
     @Transactional
-    public EditGroupInvitationStatusResponse execute(UUID groupInvitationId, EditGroupInvitationStatusRequest request) {
-        GroupInvitation groupInvitation = groupInvitationRepository.findById(groupInvitationId)
-                .orElseThrow(() -> new GroupInvitationNotFoundException("Group invitation with id: " + groupInvitationId
-                        + " not found!"));
-
-        InvitationStatus invitationStatus = invitationStatusRepository.findById(request.invitationStatusId())
-                .orElseThrow(() -> new InvitationStatusNotFoundException("Group invitation with id: " + groupInvitationId
-                        + " not found!"));
-
+    public EditGroupInvitationStatusResult executeInternal(EditGroupInvitationStatusCommand cmd) {
+        Group group = getGroupWithMembers(cmd.groupId());
+        GroupInvitation groupInvitation = getGroupInvitationWithGroup(cmd.groupInvitationId(), cmd.groupId());
+        InvitationStatus newInvitationStatus = getInvitationStatus(cmd.invitationStatusId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
-        if (!Objects.equals(currentUserDto.userId(), groupInvitation.getUserId())) {
-            throw new ResourceOwnerPrivilegesRequiredException("Only user who is assigned to this invitation can change group invitation status!");
+        if (groupInvitation.doesBelongToUser(currentUserDto.userId())) {
+            throw new ResourceOwnerPrivilegesRequiredException(
+                    "Only user who is assigned to this invitation can change group invitation status!");
         }
 
-        if (!groupInvitationUtil.verifyToken(request.token(), groupInvitation.getTokenHash())) {
+        if (!groupInvitationUtil.verifyToken(cmd.token(), groupInvitation.getTokenHash())) {
             throw new InvalidGroupInvitationTokenException("Invalid or tampered group invitation token!");
         }
 
-        if (LocalDateTime.now().isAfter(groupInvitation.getExpiresAt())) {
+        if (groupInvitation.isExpired()) {
             throw new GroupInvitationExpiredException("Group invitation has expired at: "
                     + groupInvitation.getExpiresAt());
         }
 
-        if (groupInvitation.getInvitationStatus().toEnum() == InvitationStatusEnum.ACCEPTED
-                || groupInvitation.getInvitationStatus().toEnum() == InvitationStatusEnum.DECLINED) {
-            throw new InvalidGroupInvitationDataException("Group invitation with status ACCEPTED or DECLINED are final and cannot be changed!");
+        if (!groupInvitation.hasStatus(InvitationStatusEnum.SENT)) {
+            throw new InvalidGroupInvitationDataException(
+                    "Group invitation with status ACCEPTED or DECLINED are final and cannot be changed!");
         }
 
-        if (invitationStatus.toEnum() == InvitationStatusEnum.SENT) {
-            throw new InvalidGroupDataException("Group invitation with id: " + groupInvitationId + " has already status: SENT");
+        if (newInvitationStatus.toEnum() == InvitationStatusEnum.SENT) {
+            throw new InvalidGroupDataException(
+                    "Group invitation with id: " + cmd.groupInvitationId() + " has already status: SENT");
         }
 
-        CreateGroupMemberResponse createGroupMemberResponse = null;
-        if (invitationStatus.toEnum()  == InvitationStatusEnum.ACCEPTED) {
-            createGroupMemberResponse = createGroupMemberAfterAcceptationUseCase.execute(
-                    CreateGroupMemberAfterAcceptationRequest.builder()
-                            .groupId(groupInvitation.getGroupInvited().getGroupId())
-                            .userId(groupInvitation.getUserId())
-                            .build());
+        // If invitation is accepted, create a new group member
+        GroupMember groupMember = null;
+        if (newInvitationStatus.toEnum() == InvitationStatusEnum.ACCEPTED) {
+            groupMember = groupMemberService.createGroupMember(
+                    group,
+                    groupInvitation.getUserId()
+            );
         }
 
-        groupInvitation.setInvitationStatus(invitationStatus);
+        groupInvitation.setInvitationStatus(newInvitationStatus);
         GroupInvitation savedGroupInvitation = groupInvitationRepository.save(groupInvitation);
-        return editGroupInvitationStatusMapper.toResponse(savedGroupInvitation, createGroupMemberResponse);
+
+        return buildEditGroupInvitationStatusResponse(
+                savedGroupInvitation,
+                groupMember != null ? groupMember.getGroupMemberId() : null
+        );
+    }
+
+    private Group getGroupWithMembers(UUID groupId) {
+        return groupRepository.findWithGroupMembersByGroupId(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
+    }
+
+    private InvitationStatus getInvitationStatus(Integer invitationStatusId) {
+        return invitationStatusRepository.findById(invitationStatusId)
+                .orElseThrow(() -> new InvitationStatusNotFoundException("Group invitation status with id: " +
+                        invitationStatusId + " not found"));
+    }
+
+    private GroupInvitation getGroupInvitationWithGroup(UUID groupInvitationId, UUID groupId) {
+        return groupInvitationRepository.findWithGroupByGroupInvitationIdAndGroupId(groupInvitationId, groupId)
+                .orElseThrow(() -> new GroupInvitationNotFoundException("Group invitation with id: " + groupInvitationId
+                        + " not found!"));
+    }
+
+    private EditGroupInvitationStatusResult buildEditGroupInvitationStatusResponse(
+            GroupInvitation groupInvitation,
+            UUID groupMemberId
+    ) {
+        return EditGroupInvitationStatusResult.builder()
+                .groupInvitationId(groupInvitation.getGroupInvitationId())
+                .groupInvited(new EditGroupInvitationStatusResult.GroupDto(
+                        groupInvitation.getGroupId()
+                ))
+                .userId(groupInvitation.getUserId())
+                .expiresAt(groupInvitation.getExpiresAt())
+                .mailSentAt(groupInvitation.getMailSentAt())
+                .link(groupInvitation.getLink())
+                .invitationStatus(new EditGroupInvitationStatusResult.InvitationStatusDto(
+                        groupInvitation.getInvitationStatus().getInvitationStatusId(),
+                        groupInvitation.getInvitationStatus().getTitle()
+                ))
+                .groupMemberId(groupMemberId)
+                .build();
     }
 }

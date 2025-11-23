@@ -4,65 +4,82 @@ import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
 import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
-import edu.pjwstk.groups.entity.ChatMessage;
-import edu.pjwstk.groups.entity.Group;
-import edu.pjwstk.groups.entity.GroupMember;
-import edu.pjwstk.groups.exception.domain.UserLeftGroupException;
 import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
-import edu.pjwstk.groups.repository.ChatMessageRepository;
-import edu.pjwstk.groups.repository.GroupMemberRepository;
-import edu.pjwstk.groups.repository.GroupRepository;
+import edu.pjwstk.groups.exception.domain.UserLeftGroupException;
+import edu.pjwstk.groups.model.ChatMessage;
+import edu.pjwstk.groups.model.Group;
+import edu.pjwstk.groups.model.GroupMember;
+import edu.pjwstk.groups.repository.ChatMessageJpaRepository;
+import edu.pjwstk.groups.repository.GroupJpaRepository;
+import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
 
-    private final ChatMessageRepository chatMessageRepository;
-    private final GroupMemberRepository groupMemberRepository;
-    private final GroupRepository groupRepository;
-    private final CreateChatMessageMapper createChatMessageMapper;
+    private final ChatMessageJpaRepository chatMessageRepository;
+    private final GroupMemberJpaRepository groupMemberRepository;
+    private final GroupJpaRepository groupRepository;
     private final AuthApi authApi;
-
-    public CreateChatMessageUseCaseImpl(ChatMessageRepository chatMessageRepository,
-                                        GroupMemberRepository groupMemberRepository, GroupRepository groupRepository,
-                                        CreateChatMessageMapper createChatMessageMapper, AuthApi authApi) {
-        this.chatMessageRepository = chatMessageRepository;
-        this.groupMemberRepository = groupMemberRepository;
-        this.groupRepository = groupRepository;
-        this.createChatMessageMapper = createChatMessageMapper;
-        this.authApi = authApi;
-    }
 
     @Override
     @Transactional
-    public CreateChatMessageResponse execute(CreateChatMessageRequest request, UUID groupId, UUID groupMemberId) {
-        Group group = groupRepository.findById(groupId)
+    public CreateChatMessageResult executeInternal(CreateChatMessageCommand cmd) {
+        Group group = getGroup(cmd.groupId());
+        GroupMember groupMember = getGroupMember(cmd.groupId(), cmd.groupMemberId());
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
+
+        if (!groupMember.isActive()) {
+            throw new UserLeftGroupException("Group member with id: " + cmd.groupMemberId() + " left group with id: "
+                    + group.getGroupId() + " and is no longer member of it!");
+        }
+
+        if (groupMember.isUser(currentUserDto.userId())) {
+            throw new ResourceOwnerPrivilegesRequiredException("User with id: " + currentUserDto.userId()
+                    + " is not a group member with id: " + cmd.groupMemberId());
+        }
+
+        ChatMessage chatMessage = ChatMessage.builder()
+                .messageId(UUID.randomUUID())
+                .isImportant(cmd.isImportant())
+                .group(group)
+                .content(cmd.content())
+                .groupMember(groupMember)
+                .build();
+        ChatMessage savedChatMessage = chatMessageRepository.save(chatMessage);
+
+        return buildCreateChatMessageResult(savedChatMessage);
+    }
+
+    private Group getGroup(UUID groupId) {
+        return groupRepository.findById(groupId)
                 .orElseThrow(
                         () -> new GroupNotFoundException("Group with id: " + groupId + " not found!")
                 );
+    }
 
-        GroupMember groupMember = groupMemberRepository.findById(groupMemberId)
-                .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: " + groupMemberId + " not found!"));
+    private GroupMember getGroupMember(UUID groupId, UUID groupMemberId) {
+        return groupMemberRepository.findByGroupMemberIdAndGroupId(groupMemberId, groupId)
+                .orElseThrow(
+                        () -> new GroupMemberNotFoundException("Group member with id: " + groupMemberId + " not found!")
+                );
+    }
 
-        CurrentUserDto currentUserDto = authApi.getCurrentUser();
-
-        if (groupMember.getLeftAt() != null) {
-            throw new UserLeftGroupException("Group member with id: " + groupMemberId + " left group with id: "
-                    + groupMember.getMemberGroup().getGroupId() + " and is no longer member of it!");
-        }
-
-        if (!Objects.equals(currentUserDto.userId(), groupMember.getUserId())) {
-            throw new ResourceOwnerPrivilegesRequiredException("User with id: " + groupMember.getUserId()
-                    + " is not group member with id: " + groupMemberId);
-        }
-
-        ChatMessage chatMessage = createChatMessageMapper.toEntity(request, group, UUID.randomUUID(), groupMember);
-        ChatMessage savedChatMessage = chatMessageRepository.save(chatMessage);
-
-        return createChatMessageMapper.toResponse(savedChatMessage);
+    private CreateChatMessageResult buildCreateChatMessageResult(ChatMessage chatMessage) {
+        return CreateChatMessageResult.builder()
+                .messageId(chatMessage.getMessageId())
+                .isImportant(chatMessage.getIsImportant())
+                .sendAt(chatMessage.getSentAt())
+                .content(chatMessage.getContent())
+                .group(new CreateChatMessageResult.GroupDto(chatMessage.getGroupId()))
+                .senderGroupMember(new CreateChatMessageResult.GroupMemberDto(
+                        chatMessage.getGroupMemberId()
+                ))
+                .build();
     }
 }

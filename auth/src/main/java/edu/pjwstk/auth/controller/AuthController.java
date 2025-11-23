@@ -95,7 +95,6 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasAnyRole('VERIFIED', 'UNVERIFIED')")
     @SecurityRequirement(name = "refreshToken")
     @PostMapping("/refresh")
     public ResponseEntity<Void> refreshTokens(

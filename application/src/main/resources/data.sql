@@ -86,7 +86,7 @@ VALUES ('22222222-1111-1111-1111-111111111111', '11111111-1111-1111-1111-1111111
 -- =========================
 -- Tabela: chat_message
 -- =========================
-INSERT INTO chat_message (message_id, content, is_important, send_at, group_id, sender_id)
+INSERT INTO chat_message (message_id, content, is_important, sent_at, group_id, sender_id)
 VALUES ('aaaa1111-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Hey everyone! Meeting at 6 PM today.', true, '2025-10-12 12:00:00',
         '11111111-1111-1111-1111-111111111111', '22222222-1111-1111-1111-111111111111'),
        ('bbbb2222-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Who’s up for a movie night?', false, '2025-10-12 13:00:00',

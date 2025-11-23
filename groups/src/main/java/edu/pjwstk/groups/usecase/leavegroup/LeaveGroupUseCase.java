@@ -1,8 +1,6 @@
 package edu.pjwstk.groups.usecase.leavegroup;
 
-import java.util.UUID;
+import edu.pjwstk.core.UseCase;
 
-public interface LeaveGroupUseCase {
-    LeaveGroupResponse execute(UUID groupMemberId, UUID groupId);
-
+public interface LeaveGroupUseCase extends UseCase<LeaveGroupCommand, LeaveGroupResult> {
 }

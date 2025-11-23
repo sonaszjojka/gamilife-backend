@@ -1,9 +1,6 @@
 package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 
-import jakarta.validation.Valid;
+import edu.pjwstk.core.UseCase;
 
-import java.util.UUID;
-
-public interface EditGroupInvitationStatusUseCase {
-    EditGroupInvitationStatusResponse execute(UUID groupInvitationId, EditGroupInvitationStatusRequest request);
+public interface EditGroupInvitationStatusUseCase extends UseCase<EditGroupInvitationStatusCommand, EditGroupInvitationStatusResult> {
 }

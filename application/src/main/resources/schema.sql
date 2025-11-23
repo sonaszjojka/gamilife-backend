@@ -225,7 +225,7 @@ CREATE TABLE chat_message
     message_id   UUID    NOT NULL,
     content      VARCHAR(255) NOT NULL,
     is_important BOOLEAN NOT NULL,
-    send_at      TIMESTAMP WITHOUT TIME ZONE,
+    sent_at      TIMESTAMP WITHOUT TIME ZONE,
     group_id     UUID    NOT NULL,
     sender_id    UUID    NOT NULL,
     CONSTRAINT pk_chat_message PRIMARY KEY (message_id)
