@@ -2,7 +2,6 @@ package edu.pjwstk.tasks.application.edithabit;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -20,13 +19,8 @@ public record EditHabitRequest(
         @Positive(message = "Longest streak must be positive")
         Integer longestStreak,
 
-        @NotNull(message = "isAccepted cannot be null")
-        Boolean isAccepted,
+        LocalDateTime acceptedDate
 
-        LocalDateTime acceptedDate,
-
-        @Size(max = 300, message = "Decline message cannot exceed 300 characters")
-        String declineMessage
 
 ) {
 }

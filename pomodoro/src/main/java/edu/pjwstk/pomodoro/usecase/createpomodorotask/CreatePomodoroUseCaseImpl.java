@@ -45,6 +45,8 @@ public class CreatePomodoroUseCaseImpl implements CreatePomodoroUseCase {
             throw new ResourceOwnerPrivilegesRequiredException("User is not owner of the task with id: " + taskId);
         }
 
+        tasksProvider.findTaskByTaskId(taskId);
+
         PomodoroTask pomodoroTask = createPomodoroTaskMapper.toEntity(request, UUID.randomUUID(), taskId);
         PomodoroTask savedPomodoroTask = pomodoroRepository.save(pomodoroTask);
         return createPomodoroTaskMapper.toResponse(savedPomodoroTask);

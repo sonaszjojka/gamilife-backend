@@ -12,9 +12,7 @@ public class EditHabitMapperImpl implements EditHabitMapper {
                 habit.getCycleLength(),
                 habit.getCurrentStreak(),
                 habit.getLongestStreak(),
-                habit.getIsAccepted(),
                 habit.getAcceptedDate(),
-                habit.getDeclineMessage(),
                 habit.getUpdatedAt(),
                 habit.getCreatedAt()
         );

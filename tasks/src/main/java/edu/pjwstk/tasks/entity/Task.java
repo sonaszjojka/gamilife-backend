@@ -38,22 +38,13 @@ public class Task {
     @JoinColumn(name = "difficulty_id", nullable = false)
     private TaskDifficulty difficulty;
 
+
     @Column(name = "user_id", nullable = true)
     private UUID userId;
 
     @Column(name = "completed_at", nullable = true)
     private LocalDateTime completedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "task_habit_id", nullable = true)
-    private Habit habitTask;
-
-    @OneToOne
-    @JoinColumn(name = "previous_task_id", nullable = true)
-    private Task previousTask;
-
-    @OneToOne(mappedBy = "previousTask")
-    private Task inversePreviousTask;
 
     @Column(name = "description", length = 200)
     private String description;
@@ -65,6 +56,6 @@ public class Task {
     @ToString.Exclude
     private List<TaskNotification> taskNotifications;
 
-    //todo: pomodoro + group_task relations when they are done
+    //tdo: pomodoro + group_task relations when they are done
 
 }

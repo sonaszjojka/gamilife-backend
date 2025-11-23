@@ -42,25 +42,6 @@ DROP TABLE IF EXISTS user_achievement CASCADE;
 DROP TABLE IF EXISTS user_inventory_item CASCADE;
 
 -- ==================== TASKS ====================
-DROP TABLE IF EXISTS task_notification CASCADE;
-DROP TABLE IF EXISTS task_category CASCADE;
-DROP TABLE IF EXISTS task_difficulty CASCADE;
-DROP TABLE IF EXISTS habit CASCADE;
-DROP TABLE IF EXISTS task CASCADE;
-
-CREATE TABLE habit
-(
-    habit_id       UUID    NOT NULL,
-    updated_at      TIMESTAMP WITHOUT TIME ZONE,
-    created_at      TIMESTAMP WITHOUT TIME ZONE,
-    cycle_length   BIGINT  NOT NULL,
-    current_streak INTEGER NOT NULL,
-    longest_streak INTEGER NOT NULL,
-    is_accepted    BOOLEAN NOT NULL,
-    accepted_date   TIMESTAMP WITHOUT TIME ZONE,
-    decline_message VARCHAR(300),
-    CONSTRAINT pk_habit PRIMARY KEY (habit_id)
-);
 
 CREATE TABLE task
 (
@@ -72,12 +53,25 @@ CREATE TABLE task
     difficulty_id    INTEGER                     NOT NULL,
     user_id          UUID,
     completed_at     TIMESTAMP WITHOUT TIME ZONE,
-    task_habit_id    UUID,
-    previous_task_id UUID,
     description      VARCHAR(200),
     is_group_task BOOLEAN NOT NULL,
     CONSTRAINT pk_task PRIMARY KEY (task_id)
 );
+
+CREATE TABLE habit
+(
+    habit_id        UUID                        NOT NULL,
+    task_id    UUID,
+    updated_at      TIMESTAMP WITHOUT TIME ZONE,
+    created_at      TIMESTAMP WITHOUT TIME ZONE,
+    cycle_length    BIGINT                      NOT NULL,
+    current_streak  INTEGER                     NOT NULL,
+    longest_streak  INTEGER                     NOT NULL,
+    accepted_date   TIMESTAMP WITHOUT TIME ZONE,
+    CONSTRAINT pk_habit PRIMARY KEY (habit_id)
+);
+
+
 
 CREATE TABLE task_category
 (
@@ -103,8 +97,7 @@ CREATE TABLE task_notification
     CONSTRAINT pk_task_notification PRIMARY KEY (id)
 );
 
-ALTER TABLE task
-    ADD CONSTRAINT uc_task_previous_task UNIQUE (previous_task_id);
+
 
 ALTER TABLE task_notification
     ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK FOREIGN KEY (task_id) REFERENCES task (task_id);
@@ -115,11 +108,8 @@ ALTER TABLE task
 ALTER TABLE task
     ADD CONSTRAINT FK_TASK_ON_DIFFICULTY FOREIGN KEY (difficulty_id) REFERENCES task_difficulty (difficulty_id);
 
-ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_PREVIOUS_TASK FOREIGN KEY (previous_task_id) REFERENCES task (task_id);
-
-ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_habit_id) REFERENCES habit (habit_id);
+ALTER TABLE habit
+    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_id) REFERENCES task (task_id);
 
 --- Pomodoro todo users + schemas per module
 

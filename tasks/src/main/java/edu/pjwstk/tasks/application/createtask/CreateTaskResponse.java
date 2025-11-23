@@ -9,6 +9,7 @@ import java.util.UUID;
 public record CreateTaskResponse(
         UUID taskId,
         String title,
+        String description,
         LocalDateTime startTime,
         LocalDateTime endTime,
         Integer categoryId,
@@ -16,8 +17,8 @@ public record CreateTaskResponse(
         UUID userId,
         LocalDateTime completedAt,
         UUID habitTaskId,
-        UUID previousTaskId,
-        String description
+        UUID previousTaskId
+
 ) {
 
 }

@@ -20,6 +20,7 @@ import edu.pjwstk.tasks.repository.impl.TaskRepositoryImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -28,15 +29,13 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     private final TaskRepository taskRepository;
     private final TaskCategoryRepository taskCategoryRepository;
     private final TaskDifficultyRepository taskDifficultyRepository;
-    private final HabitRepository habitRepository;
     private final CreateTaskMapper createTaskMapper;
     private final AuthApi currentUserProvider;
 
-    public CreateTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, HabitRepository habitRepository, CreateTaskMapper createTaskMapper, AuthApi currentUserProvider) {
+    public CreateTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, CreateTaskMapper createTaskMapper, AuthApi currentUserProvider) {
         this.taskRepository = taskRepository;
         this.taskCategoryRepository = taskCategoryRepository;
         this.taskDifficultyRepository = taskDifficultyRepository;
-        this.habitRepository = habitRepository;
         this.createTaskMapper = createTaskMapper;
         this.currentUserProvider = currentUserProvider;
     }
@@ -46,10 +45,6 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     public CreateTaskResponse execute(CreateTaskRequest request) {
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
-        if (!currentUserDto.userId().equals(request.userId())) {
-            System.out.println(currentUserDto.userId()+ " "+request.userId()+"================================================================================================");
-            throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to create task for another user!");
-        }
 
         if (request.startTime().isAfter(request.endTime())) {
             throw new InvalidTaskDataException("End time date cannot be after start time date!");
@@ -71,23 +66,7 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                         "Task difficulty with id " + request.difficultyId() + " not found!"
                 ));
 
-        Habit habit = null;
-        if (request.habitTaskId() != null) {
-            habit = habitRepository
-                    .findById(request.habitTaskId())
-                    .orElseThrow(() -> new HabitNotFoundException(
-                            "Habit with id " + request.habitTaskId() + " not found!"
-                    ));
-        }
 
-        Task previousTask = null;
-        if (request.previousTaskId() != null) {
-            previousTask = taskRepository
-                    .findById(request.previousTaskId())
-                    .orElseThrow(() -> new TaskNotFoundException(
-                            "Previous task with id " + request.previousTaskId() + " not found!"
-                    ));
-        }
 
         Task savedTask = taskRepository.save(
                 createTaskMapper.toEntity(
@@ -95,8 +74,7 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                         UUID.randomUUID(),
                         taskCategory,
                         taskDifficulty,
-                        habit,
-                        previousTask
+                        currentUserDto.userId()
                 )
         );
 

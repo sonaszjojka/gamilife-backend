@@ -21,6 +21,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -50,6 +51,9 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
         if (request.endTime() != null && request.startTime().isAfter(request.endTime())) {
             throw new InvalidTaskDataException("Start time cannot be after end time!");
         }
+        if (request.endTime()!=null&& request.endTime().isBefore(LocalDateTime.now())) {
+            throw new InvalidTaskDataException("End time cannot be before creation date");
+        }
 
         if (request.completedAt() != null && request.startTime().isAfter(request.completedAt())) {
             throw new InvalidTaskDataException("Start time cannot be after completion date!");
@@ -75,29 +79,8 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
             task.setDifficulty(taskDifficulty);
         }
 
-        if (request.habitTaskId() != null) {
-            if (task.getHabitTask() == null) {
-                Habit habit = habitRepository
-                        .findById(request.habitTaskId())
-                        .orElseThrow(() -> new HabitNotFoundException(
-                                "Habit with id " + request.habitTaskId() + " not found!"
-                        ));
-                task.setHabitTask(habit);
-            } else if(!Objects.equals(task.getHabitTask().getId(), request.habitTaskId())){
-                throw new InvalidTaskDataException("Habit task cannot be changed after assigning!");
-            }
-        }
 
-        if (request.previousTaskId() != null) {
-            if (!request.previousTaskId().equals(taskId)) {
-                Task previousTask = taskRepository
-                        .findById(request.previousTaskId())
-                        .orElseThrow(() -> new TaskNotFoundException("Previous task with id " + request.previousTaskId() + " not found!"));
-                task.setPreviousTask(previousTask);
-            }
-        } else {
-            task.setPreviousTask(null);
-        }
+
 
         return editTaskMapper.toResponse(taskRepository.save(task));
     }

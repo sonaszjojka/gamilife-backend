@@ -25,8 +25,6 @@ public class CreateTaskForGroupTaskMapperImpl implements CreateTaskForGroupTaskM
                 .endTime(req.endTime())
                 .category(category)
                 .difficulty(difficulty)
-                .habitTask(null)
-                .previousTask(null)
                 .userId(null)
                 .description(req.description())
                 .completedAt(req.completedAt())
