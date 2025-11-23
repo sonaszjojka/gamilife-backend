@@ -32,7 +32,7 @@ public class GroupMemberController {
     public ResponseEntity<CreateGroupMemberInOpenGroupResult> save(@RequestBody @Valid CreateGroupMemberRequest request,
                                                                    @PathVariable("groupId") UUID groupId) {
         CreateGroupMemberInOpenGroupResult response = createGroupMemberUseCase.execute(
-                new CreateGroupMemberInOpenGroupCommand(request.userId(), groupId)
+                new CreateGroupMemberInOpenGroupCommand(groupId, request.userId())
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

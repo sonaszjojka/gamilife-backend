@@ -1,4 +1,4 @@
-package edu.pjwstk.groups.usecase.getgroups;
+package edu.pjwstk.groups.usecase.getgroups.getall;
 
 import edu.pjwstk.core.Command;
 
@@ -13,6 +13,5 @@ public record GetGroupsCommand(
 ) implements Command, Serializable {
     @Override
     public void validate() {
-
     }
 }

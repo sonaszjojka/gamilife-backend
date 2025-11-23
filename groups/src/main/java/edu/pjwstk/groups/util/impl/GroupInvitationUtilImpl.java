@@ -23,7 +23,7 @@ public class GroupInvitationUtilImpl implements GroupInvitationUtil {
 
     @Override
     public String generateGroupInvitationLink(UUID groupId, UUID groupInvitationId, String token) {
-        return invitationUrlPrefix + "api/v1/groups/" + groupId + "/group-invitations/" + groupInvitationId + "?token=" + token;
+        return invitationUrlPrefix + "/app/groups/" + groupId + "/group-invitations/" + groupInvitationId + "?token=" + token;
     }
 
     @Override

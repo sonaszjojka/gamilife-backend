@@ -34,7 +34,7 @@ public class GroupRequest {
     private Group groupRequested;
 
     @Column(name = "status_id", nullable = false, updatable = false, insertable = false)
-    private UUID groupRequestStatusId;
+    private Integer groupRequestStatusId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id", nullable = false)

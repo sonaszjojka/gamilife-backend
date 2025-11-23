@@ -34,7 +34,7 @@ public class EditGroupUseCaseImpl implements EditGroupUseCase {
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
         Group group = getGroup(cmd.groupId());
 
-        if (group.isUserAdmin(currentUserDto.userId())) {
+        if (!group.isUserAdmin(currentUserDto.userId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can edit group!");
         }
 

@@ -42,7 +42,7 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
                     + " is already added to group with id:" + cmd.groupId());
         }
 
-        if (group.isOfType(GroupTypeEnum.REQUEST_ONLY)) {
+        if (!group.isOfType(GroupTypeEnum.REQUEST_ONLY)) {
             throw new InvalidGroupDataException("This group does not accept join requests. " +
                     "Only 'REQUEST_ONLY' groups can receive join requests.");
         }
@@ -77,7 +77,7 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
     }
 
     private boolean isUserMemberOfGroup(UUID userId, Group group) {
-        return groupMemberRepository.existsByUserIdAndGroup(userId, group);
+        return groupMemberRepository.existsByUserIdAndGroupAndLeftAt(userId, group, null);
     }
 
     private Group getGroupWithMembers(UUID groupId) {
