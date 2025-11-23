@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS "user" CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
 DROP TABLE IF EXISTS user_oauth_provider CASCADE;
 DROP TABLE IF EXISTS refresh_token CASCADE;
-DROP TABLE IF EXISTS email_verification CASCADE;
+DROP TABLE IF EXISTS email_verification_code CASCADE;
 DROP TABLE IF EXISTS forgot_password_code CASCADE;
 DROP TABLE IF EXISTS task_notification CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
@@ -28,7 +28,9 @@ DROP TABLE IF EXISTS group_invitation CASCADE;
 DROP TABLE IF EXISTS chat_message CASCADE;
 DROP TABLE IF EXISTS "group" CASCADE;
 
-
+DROP TABLE IF EXISTS group_shop CASCADE;
+DROP TABLE IF EXISTS group_item_in_shop CASCADE;
+DROP TABLE IF EXISTS owned_group_item CASCADE;
 
 -- ==================== TASKS ====================
 CREATE TABLE habit
@@ -128,7 +130,7 @@ CREATE TABLE refresh_token (
     CONSTRAINT pk_refresh_token PRIMARY KEY (id)
 );
 
-CREATE TABLE email_verification
+CREATE TABLE email_verification_code
 (
     id         uuid         NOT NULL,
     user_id    uuid         NOT NULL,
@@ -136,7 +138,7 @@ CREATE TABLE email_verification
     issued_at  timestamp(6) NOT NULL,
     expires_at timestamp(6) NOT NULL,
     revoked    boolean      NOT NULL,
-    CONSTRAINT email_verification_pk PRIMARY KEY (id)
+    CONSTRAINT email_verification_code_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE "user" (
@@ -177,7 +179,7 @@ ADD CONSTRAINT refresh_token_user
     FOREIGN KEY (user_id)
         REFERENCES "user" (id);
 
-ALTER TABLE email_verification
+ALTER TABLE email_verification_code
     ADD CONSTRAINT email_validation_tokens_users
         FOREIGN KEY (user_id)
             REFERENCES "user" (id);
@@ -207,6 +209,7 @@ CREATE TABLE "group"
 (
     group_id              UUID        NOT NULL,
     join_code             VARCHAR(20) NOT NULL,
+    group_name            VARCHAR(50) NOT NULL,
     admin_id              UUID        NOT NULL,
     group_currency_symbol CHAR        NOT NULL,
     members_limit         INTEGER     NOT NULL,
@@ -293,6 +296,76 @@ ALTER TABLE group_request
 
 ALTER TABLE group_request
     ADD CONSTRAINT FK_GROUP_REQUEST_ON_STATUS FOREIGN KEY (status_id) REFERENCES group_request_status (group_request_status_id);
+---------------------GROUP SHOP MODULE---------------------
+-- Table: group_item_in_shop
+CREATE TABLE group_item_in_shop
+(
+    group_item_in_shop_id UUID        NOT NULL,
+    price                 int         NOT NULL,
+    name                  varchar(30) NOT NULL,
+    created_at            timestamp   NOT NULL,
+    is_active             boolean     NOT NULL,
+    group_shop_id         uuid        NOT NULL,
+    CONSTRAINT group_item_in_shop_pk PRIMARY KEY (group_item_in_shop_id)
+);
+
+-- Table: group_shop
+CREATE TABLE group_shop
+(
+    group_shop_id UUID         NOT NULL,
+    name          varchar(100) NOT NULL,
+    description   varchar(500) NOT NULL,
+    group_id      uuid         NOT NULL,
+    is_active     boolean      NOT NULL,
+    CONSTRAINT group_shop_pk PRIMARY KEY (group_shop_id)
+);
+
+-- Table: owned_group_item
+CREATE TABLE owned_group_item
+(
+    owned_group_item_id   UUID      NOT NULL,
+    group_member_id       uuid      NOT NULL,
+    group_item_in_shop_id uuid      NOT NULL,
+    is_used_up            boolean   NOT NULL,
+    use_date              timestamp NULL,
+    CONSTRAINT owned_group_item_pk PRIMARY KEY (owned_group_item_id)
+);
+
+--foreign keys
+ALTER TABLE group_item_in_shop
+    ADD CONSTRAINT group_item_in_shop_group_shop
+        FOREIGN KEY (group_shop_id)
+            REFERENCES group_shop (group_shop_id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Reference: group_shop_group (table: group_shop)
+ALTER TABLE group_shop
+    ADD CONSTRAINT group_shop_group
+        FOREIGN KEY (group_id)
+            REFERENCES "group" (group_id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Reference: owned_group_item_group_item_in_shop (table: owned_group_item)
+ALTER TABLE owned_group_item
+    ADD CONSTRAINT owned_group_item_group_item_in_shop
+        FOREIGN KEY (group_item_in_shop_id)
+            REFERENCES group_item_in_shop (group_item_in_shop_id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Reference: owned_group_item_group_member (table: owned_group_item)
+ALTER TABLE owned_group_item
+    ADD CONSTRAINT owned_group_item_group_member
+        FOREIGN KEY (group_member_id)
+            REFERENCES group_member (group_member_id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
 
 
 

@@ -1,14 +1,13 @@
 package edu.pjwstk.tasks;
 
-import edu.pjwstk.common.tasksApi.TasksApi;
-import edu.pjwstk.common.tasksApi.dto.TaskDto;
-import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskRequestDto;
-import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskResponseDto;
+import edu.pjwstk.api.tasks.TasksApi;
+import edu.pjwstk.api.tasks.dto.TaskDto;
+import edu.pjwstk.api.tasks.dto.TaskForGroupTaskRequestDto;
+import edu.pjwstk.api.tasks.dto.TaskForGroupTaskResponseDto;
 import edu.pjwstk.tasks.application.createtaskforgrouptask.CreateTaskForGroupTaskUseCase;
 import edu.pjwstk.tasks.application.deletetask.DeleteTaskUseCase;
 import edu.pjwstk.tasks.application.findtaskbyid.FindTaskByIdUseCase;
 import edu.pjwstk.tasks.application.taskexistsbyid.ExistsByTaskIdUseCase;
-
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

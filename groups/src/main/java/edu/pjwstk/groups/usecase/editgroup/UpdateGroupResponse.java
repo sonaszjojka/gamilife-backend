@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Builder
-public record UpdateGroupResponse(UUID groupId, String joinCode, UUID adminId, Character groupCurrencySymbol,
+public record UpdateGroupResponse(UUID groupId, String joinCode, String groupName, UUID adminId, Character groupCurrencySymbol,
                                   Integer membersLimit, UpdateGroupResponse.GroupTypeDto groupType)
         implements Serializable {
     /**

@@ -1,13 +1,13 @@
 package edu.pjwstk.groups.usecase.creategroupmember.creategroupmemberafteracceptation;
 
-import edu.pjwstk.common.groupsApi.exception.GroupNotFoundException;
-import edu.pjwstk.common.userApi.UserApi;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
-import edu.pjwstk.common.userApi.exception.UserNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
-import edu.pjwstk.groups.exception.GroupFullException;
-import edu.pjwstk.groups.exception.UserAlreadyMemberOfGroupException;
+import edu.pjwstk.groups.exception.domain.GroupFullException;
+import edu.pjwstk.groups.exception.domain.UserAlreadyMemberOfGroupException;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.usecase.creategroupmember.CreateGroupMemberMapper;

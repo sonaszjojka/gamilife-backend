@@ -2,6 +2,17 @@ spring:
   application:
     name: GamiLife
     version: ${project.version}
+  config:
+    import:
+      - classpath:common-error-codes.yml
+      - classpath:auth-error-codes.yml
+      - classpath:user-error-codes.yml
+      - classpath:task-error-codes.yml
+      - classpath:group-error-codes.yml
+      - classpath:group-shop-error-codes.yml
+      - classpath:gamification-error-codes.yml
+      - classpath:pomodoro-error-codes.yml
+      - classpath:group-task-error-codes.yml
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
@@ -37,6 +48,7 @@ spring:
               - openid
               - profile
               - email
+            redirect-uri: ${OAUTH2_GOOGLE_REDIRECT_URI}
 app:
   invitation:
     invitation-url-prefix: ${INVITATION-URL-PREFIX}

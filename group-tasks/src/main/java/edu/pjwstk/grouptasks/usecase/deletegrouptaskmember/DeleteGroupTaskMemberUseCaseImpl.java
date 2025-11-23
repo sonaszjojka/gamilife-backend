@@ -1,6 +1,6 @@
 package edu.pjwstk.grouptasks.usecase.deletegrouptaskmember;
 
-import edu.pjwstk.grouptasks.exception.GroupTaskMemberNotFoundException;
+import edu.pjwstk.grouptasks.exception.domain.GroupTaskMemberNotFoundException;
 import edu.pjwstk.grouptasks.repository.GroupTaskMemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

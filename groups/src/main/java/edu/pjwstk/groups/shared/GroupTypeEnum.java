@@ -1,7 +1,10 @@
 package edu.pjwstk.groups.shared;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum GroupTypeEnum {
     OPEN(1),
     CLOSED(2),
@@ -10,8 +13,6 @@ public enum GroupTypeEnum {
     private final int id;
 
     GroupTypeEnum(int id) { this.id = id; }
-
-    public int getId() { return id; }
 
     public static GroupTypeEnum fromId(int id) {
         return Arrays.stream(values())

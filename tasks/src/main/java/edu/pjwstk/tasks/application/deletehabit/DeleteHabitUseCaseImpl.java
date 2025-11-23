@@ -1,7 +1,7 @@
 package edu.pjwstk.tasks.application.deletehabit;
 
 import edu.pjwstk.tasks.entity.Habit;
-import edu.pjwstk.tasks.exception.HabitNotFoundException;
+import edu.pjwstk.tasks.exception.domain.HabitNotFoundException;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,7 +1,7 @@
 package edu.pjwstk.tasks.shared;
 
-import edu.pjwstk.common.tasksApi.dto.TaskCategoryDto;
-import edu.pjwstk.common.tasksApi.dto.TaskDto;
+import edu.pjwstk.api.tasks.dto.TaskCategoryDto;
+import edu.pjwstk.api.tasks.dto.TaskDto;
 import edu.pjwstk.tasks.entity.Task;
 import org.springframework.stereotype.Component;
 

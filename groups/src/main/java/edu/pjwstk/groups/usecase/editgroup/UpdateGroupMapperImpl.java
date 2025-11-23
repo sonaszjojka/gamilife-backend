@@ -18,6 +18,7 @@ public class UpdateGroupMapperImpl implements UpdateGroupMapper {
 
         return UpdateGroupResponse.builder()
                 .groupId(savedGroup.getGroupId())
+                .groupName(savedGroup.getName())
                 .joinCode(savedGroup.getJoinCode())
                 .adminId(savedGroup.getAdminId())
                 .groupCurrencySymbol(savedGroup.getGroupCurrencySymbol())

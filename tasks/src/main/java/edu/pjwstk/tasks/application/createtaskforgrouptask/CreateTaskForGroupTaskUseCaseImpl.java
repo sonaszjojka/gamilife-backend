@@ -1,12 +1,13 @@
 package edu.pjwstk.tasks.application.createtaskforgrouptask;
 
-import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskRequestDto;
-import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskResponseDto;
-import edu.pjwstk.tasks.entity.Habit;
+import edu.pjwstk.api.tasks.dto.TaskForGroupTaskRequestDto;
+import edu.pjwstk.api.tasks.dto.TaskForGroupTaskResponseDto;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
 import edu.pjwstk.tasks.entity.TaskDifficulty;
-import edu.pjwstk.tasks.exception.*;
+import edu.pjwstk.tasks.exception.domain.InvalidTaskDataException;
+import edu.pjwstk.tasks.exception.domain.TaskCategoryNotFoundException;
+import edu.pjwstk.tasks.exception.domain.TaskDifficultyNotFoundException;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import edu.pjwstk.tasks.repository.TaskCategoryRepository;
 import edu.pjwstk.tasks.repository.TaskDifficultyRepository;
@@ -23,14 +24,12 @@ public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTask
     private final TaskRepository taskRepository;
     private final TaskCategoryRepository taskCategoryRepository;
     private final TaskDifficultyRepository taskDifficultyRepository;
-    private final HabitRepository habitRepository;
     private final CreateTaskForGroupTaskMapper createTaskForGroupTaskMapper;
 
     public CreateTaskForGroupTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, HabitRepository habitRepository, CreateTaskForGroupTaskMapper createTaskForGroupTaskMapper) {
         this.taskRepository = taskRepository;
         this.taskCategoryRepository = taskCategoryRepository;
         this.taskDifficultyRepository = taskDifficultyRepository;
-        this.habitRepository = habitRepository;
         this.createTaskForGroupTaskMapper = createTaskForGroupTaskMapper;
     }
 

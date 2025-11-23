@@ -1,11 +1,10 @@
 package edu.pjwstk.grouptasks.usecase.creategrouptask;
-import edu.pjwstk.common.tasksApi.TasksApi;
-import edu.pjwstk.common.tasksApi.dto.TaskForGroupTaskRequestDto;
-import edu.pjwstk.common.tasksApi.exception.TaskNotFoundException;
+
+import edu.pjwstk.api.tasks.TasksApi;
+import edu.pjwstk.api.tasks.dto.TaskForGroupTaskRequestDto;
 import edu.pjwstk.grouptasks.entity.GroupTask;
 import edu.pjwstk.grouptasks.repository.GroupTaskRepository;
 import jakarta.transaction.Transactional;
-
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

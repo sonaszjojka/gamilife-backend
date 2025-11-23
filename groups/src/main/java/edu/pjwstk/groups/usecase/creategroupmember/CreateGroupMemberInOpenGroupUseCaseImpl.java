@@ -1,13 +1,16 @@
 package edu.pjwstk.groups.usecase.creategroupmember;
 
-import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
-import edu.pjwstk.common.groupsApi.exception.GroupNotFoundException;
-import edu.pjwstk.common.userApi.UserApi;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
-import edu.pjwstk.common.userApi.exception.UserNotFoundException;
-import edu.pjwstk.groups.entity.*;
-import edu.pjwstk.groups.exception.*;
-import edu.pjwstk.groups.repository.*;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
+import edu.pjwstk.groups.entity.Group;
+import edu.pjwstk.groups.entity.GroupMember;
+import edu.pjwstk.groups.exception.domain.GroupFullException;
+import edu.pjwstk.groups.exception.domain.UserAlreadyMemberOfGroupException;
+import edu.pjwstk.groups.exception.domain.UserJoinGroupAccessDeniedException;
+import edu.pjwstk.groups.repository.GroupMemberRepository;
+import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.shared.GroupTypeEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

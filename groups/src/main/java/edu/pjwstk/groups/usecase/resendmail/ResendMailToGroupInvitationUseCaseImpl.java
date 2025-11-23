@@ -1,14 +1,13 @@
 package edu.pjwstk.groups.usecase.resendmail;
 
-import edu.pjwstk.common.emailSenderApi.EmailSenderApi;
-import edu.pjwstk.common.emailSenderApi.EmailSendingException;
-import edu.pjwstk.common.emailSenderApi.MailContentType;
-import edu.pjwstk.common.emailSenderApi.MailDto;
-import edu.pjwstk.common.userApi.UserApi;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
-import edu.pjwstk.groups.entity.Group;
+import edu.pjwstk.api.emailSender.EmailSenderApi;
+import edu.pjwstk.core.exception.common.application.EmailSendingException;
+import edu.pjwstk.api.emailSender.MailContentType;
+import edu.pjwstk.api.emailSender.MailDto;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.groups.entity.GroupInvitation;
-import edu.pjwstk.groups.exception.GroupInvitationNotFoundException;
+import edu.pjwstk.groups.exception.domain.GroupInvitationNotFoundException;
 import edu.pjwstk.groups.repository.GroupInvitationRepository;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
 import org.springframework.stereotype.Service;

@@ -1,0 +1,12 @@
+error-codes:
+  definitions:
+    POMODORO_TASK_NOT_FOUND:
+      code: 7001
+      title: "Pomodoro Task Not Found"
+      detail: "The specified Pomodoro task could not be found."
+      status: 404
+    INVALID_POMODORO_TASK_DATA:
+      code: 7002
+      title: "Invalid Pomodoro Task Data"
+      detail: "The provided data for the Pomodoro task is invalid."
+      status: 400

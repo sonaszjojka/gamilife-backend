@@ -1,16 +1,17 @@
 package edu.pjwstk.groups.usecase.findgroupbyid;
 
+import edu.pjwstk.api.groups.dto.GroupDto;
 import edu.pjwstk.groups.entity.Group;
 import org.springframework.stereotype.Component;
-import edu.pjwstk.common.groupsApi.dto.GroupDto;
 
 @Component
 public class FindGroupByIdMapperImpl implements FindGroupByIdMapper {
 
     @Override
     public GroupDto toResponse(Group savedGroup) {
-        return edu.pjwstk.common.groupsApi.dto.GroupDto.builder()
+        return GroupDto.builder()
                 .groupId(savedGroup.getGroupId())
+                .groupName(savedGroup.getName())
                 .joinCode(savedGroup.getJoinCode())
                 .adminId(savedGroup.getAdminId())
                 .groupCurrencySymbol(savedGroup.getGroupCurrencySymbol())

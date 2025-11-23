@@ -1,10 +1,10 @@
 package edu.pjwstk.tasks.application.edittasknotification;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
+import edu.pjwstk.core.exception.common.domain.TaskNotFoundException;
 import edu.pjwstk.tasks.entity.TaskNotification;
-import edu.pjwstk.tasks.exception.TaskNotFoundException;
-import edu.pjwstk.tasks.exception.UnauthorizedTaskAccessException;
 import edu.pjwstk.tasks.repository.TaskNotificationRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,9 +35,9 @@ public class EditTaskNotificationUseCaseImpl implements EditTaskNotificationUseC
                         "Task notification with id: " + taskNotificationId + " for task with id: " + taskId + " not found!"
                 ));
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         if (!currentUserDto.userId().equals(taskNotification.getTask().getUserId())) {
-            throw new UnauthorizedTaskAccessException("User is not authorized to edit notification for another user!");
+            throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to edit notification for another user!");
         }
 
 

@@ -1,8 +1,8 @@
 package edu.pjwstk.grouptasks.usecase.deletegrouptask;
 
-import edu.pjwstk.common.tasksApi.TasksApi;
+import edu.pjwstk.api.tasks.TasksApi;
 import edu.pjwstk.grouptasks.entity.GroupTask;
-import edu.pjwstk.grouptasks.exception.GroupTaskNotFoundException;
+import edu.pjwstk.grouptasks.exception.domain.GroupTaskNotFoundException;
 import edu.pjwstk.grouptasks.repository.GroupTaskRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

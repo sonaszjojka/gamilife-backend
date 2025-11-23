@@ -1,14 +1,14 @@
 package edu.pjwstk.groups.usecase.createchatmessage;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.groupsApi.exception.GroupMemberNotFoundException;
-import edu.pjwstk.common.groupsApi.exception.GroupNotFoundException;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.entity.ChatMessage;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupMember;
-import edu.pjwstk.groups.exception.UserLeftGroupException;
-import edu.pjwstk.groups.exception.UserNotOwnerAccessDeniedException;
+import edu.pjwstk.groups.exception.domain.UserLeftGroupException;
+import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.ChatMessageRepository;
 import edu.pjwstk.groups.repository.GroupMemberRepository;
 import edu.pjwstk.groups.repository.GroupRepository;
@@ -48,8 +48,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
         GroupMember groupMember = groupMemberRepository.findById(groupMemberId)
                 .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: " + groupMemberId + " not found!"));
 
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (groupMember.getLeftAt() != null) {
             throw new UserLeftGroupException("Group member with id: " + groupMemberId + " left group with id: "
@@ -57,7 +56,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
         }
 
         if (!Objects.equals(currentUserDto.userId(), groupMember.getUserId())) {
-            throw new UserNotOwnerAccessDeniedException("User with id: " + groupMember.getUserId()
+            throw new ResourceOwnerPrivilegesRequiredException("User with id: " + groupMember.getUserId()
                     + " is not group member with id: " + groupMemberId);
         }
 

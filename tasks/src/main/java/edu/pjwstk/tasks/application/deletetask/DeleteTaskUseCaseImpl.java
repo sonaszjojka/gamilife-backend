@@ -1,11 +1,12 @@
 package edu.pjwstk.tasks.application.deletetask;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
+
 import edu.pjwstk.tasks.application.deletehabit.DeleteHabitUseCase;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
+import edu.pjwstk.core.exception.common.domain.TaskNotFoundException;
 import edu.pjwstk.tasks.entity.Task;
-import edu.pjwstk.tasks.exception.TaskNotFoundException;
-import edu.pjwstk.tasks.exception.UnauthorizedTaskAccessException;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import edu.pjwstk.tasks.repository.TaskRepository;
 import org.springframework.stereotype.Component;
@@ -40,9 +41,9 @@ public class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
                         "Task with id " + taskId + " not found!"
                 ));
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser().orElseThrow();
+        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
         if (!task.getIsGroupTask()&&!currentUserDto.userId().equals(task.getUserId())) {
-            throw new UnauthorizedTaskAccessException("User is not authorized to delete task for another user!");
+            throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to delete task for another user!");
         }
         taskRepository.deleteById(taskId);
     }

@@ -1,15 +1,15 @@
 package edu.pjwstk.groups.usecase.editgroup;
 
-import edu.pjwstk.common.authApi.AuthApi;
-import edu.pjwstk.common.authApi.dto.CurrentUserDto;
-import edu.pjwstk.common.groupsApi.exception.GroupNotFoundException;
-import edu.pjwstk.common.userApi.UserApi;
-import edu.pjwstk.common.userApi.dto.BasicUserInfoApiDto;
-import edu.pjwstk.common.userApi.exception.UserNotFoundException;
+import edu.pjwstk.api.auth.AuthApi;
+import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
+import edu.pjwstk.api.user.UserApi;
+import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.groups.entity.Group;
 import edu.pjwstk.groups.entity.GroupType;
-import edu.pjwstk.groups.exception.GroupTypeNotFoundException;
-import edu.pjwstk.groups.exception.UserNotGroupAdministratorAccessDeniedException;
+import edu.pjwstk.groups.exception.domain.GroupTypeNotFoundException;
+import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groups.repository.GroupRepository;
 import edu.pjwstk.groups.repository.GroupTypeRepository;
 import org.springframework.stereotype.Service;
@@ -38,14 +38,13 @@ public class UpdateGroupUseCaseImpl implements UpdateGroupUseCase {
     @Override
     @Transactional
     public UpdateGroupResponse execute(UpdateGroupRequest request, UUID groupId) {
-        CurrentUserDto currentUserDto = authApi.getCurrentUser()
-                .orElseThrow();
+        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));
 
         if (currentUserDto.userId() != group.getAdminId()) {
-            throw new UserNotGroupAdministratorAccessDeniedException("Only group administrators can edit group!");
+            throw new GroupAdminPrivilegesRequiredException("Only group administrators can edit group!");
         }
 
         Optional<BasicUserInfoApiDto> admin = userApi.getUserById(request.adminId());
@@ -54,14 +53,15 @@ public class UpdateGroupUseCaseImpl implements UpdateGroupUseCase {
             throw new UserNotFoundException("User (admin) with id: " + request.adminId() + " not found!");
         }
 
-        GroupType groupType = groupTypeRepository.findById(request.groupType().getId())
+        GroupType groupType = groupTypeRepository.findById(request.groupTypeId())
                 .orElseThrow(() -> new GroupTypeNotFoundException("Group type with id: " +
-                        request.groupType().getId() + " not found!"));
+                        request.groupTypeId() + " not found!"));
 
         group.setGroupCurrencySymbol(request.groupCurrencySymbol());
         group.setMembersLimit(request.membersLimit());
         group.setAdminId(admin.get().userId());
         group.setGroupType(groupType);
+        group.setName(request.groupName());
 
         Group savedGroup = groupRepository.save(group);
         return updateGroupMapper.toResponse(savedGroup);
