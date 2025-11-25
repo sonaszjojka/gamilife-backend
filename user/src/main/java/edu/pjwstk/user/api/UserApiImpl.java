@@ -5,6 +5,10 @@ import edu.pjwstk.api.user.dto.*;
 import edu.pjwstk.user.usecase.*;
 import edu.pjwstk.user.usecase.editusermoney.EditUserMoneyCommand;
 import edu.pjwstk.user.usecase.editusermoney.EditUserMoneyUseCase;
+import edu.pjwstk.user.usecase.levelupuser.LevelUpUserCommand;
+import edu.pjwstk.user.usecase.levelupuser.LevelUpUserUseCase;
+import edu.pjwstk.user.usecase.grantrewardstouser.GrantRewardsToUserCommand;
+import edu.pjwstk.user.usecase.grantrewardstouser.GrantRewardsToUserUseCase;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,8 @@ public class UserApiImpl implements UserApi {
     private final UpdateUserEmailUseCase updateUserEmailUseCase;
     private final ResetUserPasswordUseCase resetUserPasswordUseCase;
     private final EditUserMoneyUseCase editUserMoneyUseCase;
+    private final GrantRewardsToUserUseCase grantRewardsToUserUseCase;
+    private final LevelUpUserUseCase levelUpUserUseCase;
 
     @Override
     @Transactional
@@ -79,12 +85,15 @@ public class UserApiImpl implements UserApi {
 
     @Override
     public RewardedUserApiDto grantRewardsToUser(UUID userId, int experience, int money) {
-        // TODO: implement
-        return null;
+        return grantRewardsToUserUseCase.execute(new GrantRewardsToUserCommand(
+                userId,
+                experience,
+                money
+        ));
     }
 
     @Override
     public void levelUpUser(UUID userId, int level) {
-        // TODO: implement
+        levelUpUserUseCase.execute(new LevelUpUserCommand(userId, level));
     }
 }
