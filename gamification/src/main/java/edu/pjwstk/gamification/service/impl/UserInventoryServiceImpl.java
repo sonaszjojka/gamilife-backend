@@ -8,9 +8,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -36,9 +35,32 @@ public class UserInventoryServiceImpl implements UserInventoryService {
     @Override
     @Transactional
     public void addItemsToUsersInventory(UUID userId, Set<Item> items) {
-        for (Item i : items) {
-            addItemToUsersInventory(userId, i);
+        if (items == null || items.isEmpty()) {
+            return;
         }
+
+        List<UserInventoryItem> existingInventoryItems = userInventoryItemRepository.findAllByUserIdAndItemIn(userId, items);
+
+        Map<Item, UserInventoryItem> inventoryMap = existingInventoryItems.stream()
+                .collect(Collectors.toMap(UserInventoryItem::getItem, uii -> uii));
+
+        List<UserInventoryItem> toSave = new ArrayList<>();
+        for (Item item : items) {
+            if (inventoryMap.containsKey(item)) {
+                UserInventoryItem existing = inventoryMap.get(item);
+                existing.setQuantity(existing.getQuantity() + 1);
+                toSave.add(existing);
+            } else {
+                UserInventoryItem newItem = UserInventoryItem.builder()
+                        .userId(userId)
+                        .item(item)
+                        .quantity(1)
+                        .build();
+                toSave.add(newItem);
+            }
+        }
+
+        userInventoryItemRepository.saveAll(toSave);
     }
 
     private Optional<UserInventoryItem> getUserInventoryItem(UUID userId, Item item) {

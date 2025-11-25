@@ -6,6 +6,7 @@ import edu.pjwstk.gamification.model.UserStatistic;
 import edu.pjwstk.gamification.repository.AchievementRepository;
 import edu.pjwstk.gamification.repository.UserAchievementRepository;
 import edu.pjwstk.gamification.service.AchievementService;
+import edu.pjwstk.gamification.service.RewardService;
 import edu.pjwstk.gamification.service.UserInventoryService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class AchievementServiceImpl implements AchievementService {
     private final UserAchievementRepository userAchievementRepository;
     private final AchievementRepository achievementRepository;
     private final UserInventoryService userInventoryService;
+    private final RewardService rewardService;
 
     @Override
     @Transactional
@@ -58,7 +60,7 @@ public class AchievementServiceImpl implements AchievementService {
 
         userInventoryService.addItemsToUsersInventory(userId, achievement.getItems());
 
-        // TODO: handle money and experience
+        rewardService.rewardUser(userId, achievement.getExperienceReward(), achievement.getMoneyReward());
     }
 
 }

@@ -533,6 +533,7 @@ CREATE TABLE user_inventory_item
     user_id     uuid    NOT NULL,
     quantity    int     NOT NULL,
     is_equipped boolean NOT NULL,
+    CONSTRAINT item_id_user_id_unique UNIQUE (item_id, user_id),
     CONSTRAINT quantity_must_be_positive CHECK (quantity > 0) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT user_inventory_item_pk PRIMARY KEY (id)
 );

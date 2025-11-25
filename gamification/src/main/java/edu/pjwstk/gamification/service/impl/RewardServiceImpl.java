@@ -41,7 +41,13 @@ public class RewardServiceImpl implements RewardService {
         }
         Reward reward = rewardOptional.get();
 
-        RewardedUserApiDto rewardedUser = userApi.grantRewardsToUser(userId, reward.getExperience(), reward.getMoney());
+        rewardUser(userId, reward.getExperience(), reward.getMoney());
+    }
+
+    @Transactional
+    @Override
+    public void rewardUser(UUID userId, int experience, int money) {
+        RewardedUserApiDto rewardedUser = userApi.grantRewardsToUser(userId, experience, money);
 
         List<Level> level = levelRepository.findWithRewardsForExperienceAmount(
                 rewardedUser.experience(),
