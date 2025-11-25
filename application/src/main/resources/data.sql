@@ -268,6 +268,12 @@ VALUES (1, 'Completed Tasks'),
        (7, 'Items Purchased'),
        (8, 'Group Items Purchased');
 
+INSERT INTO reward (id, statistic_type_id, experience, money)
+VALUES (gen_random_uuid(), 1, 10, 5),
+       (gen_random_uuid(), 2, 15, 10),
+       (gen_random_uuid(), 3, 15, 5),
+       (gen_random_uuid(), 4, 10, 0);
+
 -- Tabela: achievement
 -- =========================
 INSERT INTO achievement (id, name, description, image_path, statistic_type_id, goal, money_reward, experience_reward)

@@ -31,6 +31,7 @@ DROP TABLE IF EXISTS group_shop CASCADE;
 DROP TABLE IF EXISTS group_item_in_shop CASCADE;
 DROP TABLE IF EXISTS owned_group_item CASCADE;
 
+DROP TABLE IF EXISTS reward CASCADE;
 DROP TABLE IF EXISTS rarity CASCADE;
 DROP TABLE IF EXISTS achievement CASCADE;
 DROP TABLE IF EXISTS statistic_type CASCADE;
@@ -554,6 +555,16 @@ CREATE TABLE user_inventory_item
     CONSTRAINT user_inventory_item_pk PRIMARY KEY (id)
 );
 
+-- Table: reward
+CREATE TABLE reward
+(
+    id                uuid NOT NULL,
+    statistic_type_id int  NOT NULL,
+    experience        int  NOT NULL,
+    money             int  NOT NULL,
+    CONSTRAINT reward_pk PRIMARY KEY (id)
+);
+
 -- Reference: achievement_statistic_type (table: achievement)
 ALTER TABLE achievement
     ADD CONSTRAINT achievement_statistic_type
@@ -658,6 +669,15 @@ ALTER TABLE user_statistic
     ADD CONSTRAINT user_statistic_user
         FOREIGN KEY (user_id)
             REFERENCES "user" (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Reference: reward_statistic_type (table: reward)
+ALTER TABLE reward
+    ADD CONSTRAINT reward_statistic_type
+        FOREIGN KEY (statistic_type_id)
+            REFERENCES statistic_type (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;

@@ -1,8 +1,9 @@
-package edu.pjwstk.gamification.service;
+package edu.pjwstk.gamification.service.impl;
 
 import edu.pjwstk.gamification.model.Item;
 import edu.pjwstk.gamification.model.UserInventoryItem;
 import edu.pjwstk.gamification.repository.UserInventoryItemRepository;
+import edu.pjwstk.gamification.service.UserInventoryService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

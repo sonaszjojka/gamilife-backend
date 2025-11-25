@@ -1,10 +1,12 @@
-package edu.pjwstk.gamification.service;
+package edu.pjwstk.gamification.service.impl;
 
 import edu.pjwstk.gamification.model.Achievement;
 import edu.pjwstk.gamification.model.UserAchievement;
 import edu.pjwstk.gamification.model.UserStatistic;
 import edu.pjwstk.gamification.repository.AchievementRepository;
 import edu.pjwstk.gamification.repository.UserAchievementRepository;
+import edu.pjwstk.gamification.service.AchievementService;
+import edu.pjwstk.gamification.service.UserInventoryService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

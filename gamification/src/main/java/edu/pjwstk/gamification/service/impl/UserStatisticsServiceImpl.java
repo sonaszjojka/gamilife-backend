@@ -1,8 +1,10 @@
-package edu.pjwstk.gamification.service;
+package edu.pjwstk.gamification.service.impl;
 
 import edu.pjwstk.core.enums.StatisticTypeEnum;
 import edu.pjwstk.gamification.model.UserStatistic;
 import edu.pjwstk.gamification.repository.UserStatisticRepository;
+import edu.pjwstk.gamification.service.AchievementService;
+import edu.pjwstk.gamification.service.UserStatisticsService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
