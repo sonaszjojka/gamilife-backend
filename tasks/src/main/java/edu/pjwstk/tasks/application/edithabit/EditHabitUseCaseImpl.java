@@ -32,7 +32,6 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
         habit.setCycleLength(request.cycleLength());
         habit.setCurrentStreak(request.currentStreak());
         habit.setLongestStreak(request.longestStreak()); //todo: business logic
-        habit.setIsAccepted(request.isAccepted());
 
         if (request.acceptedDate() != null &&
                 request.acceptedDate().isBefore(LocalDateTime.now())) {
@@ -40,7 +39,6 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
         }
 
         habit.setAcceptedDate(request.acceptedDate());
-        habit.setDeclineMessage(request.declineMessage());
 
         return editHabitMapper.toResponse(habitRepository.save(habit));
     }

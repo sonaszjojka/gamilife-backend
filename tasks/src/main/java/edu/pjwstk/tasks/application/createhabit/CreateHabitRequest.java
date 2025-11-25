@@ -6,8 +6,12 @@ import jakarta.validation.constraints.Size;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record CreateHabitRequest(
+        @NotNull(message = "Habit Task Id cannot be null")
+        UUID taskId,
+
         @NotNull(message = "Cycle length cannot be null")
         Duration cycleLength,
 

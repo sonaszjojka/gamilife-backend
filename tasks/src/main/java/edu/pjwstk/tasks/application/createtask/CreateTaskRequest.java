@@ -23,14 +23,7 @@ public record CreateTaskRequest(
         @NotNull(message = "Difficulty Id cannot be null")
         Integer difficultyId,
 
-        @NotNull(message = "User Id cannot be null")
-        UUID userId,
-
         LocalDateTime completedAt,
-
-        UUID habitTaskId,
-
-        UUID previousTaskId,
 
         @Size(max = 200, message = "Description cannot exceed 200 characters")
         String description

@@ -16,8 +16,6 @@ public class EditTaskMapperImpl implements EditTaskMapper {
                 .categoryId(task.getCategory() != null ? task.getCategory().getId() : null)
                 .difficultyId(task.getDifficulty() != null ? task.getDifficulty().getId() : null)
                 .userId(task.getUserId())
-                .habitTaskId(task.getHabitTask() != null ? task.getHabitTask().getId() : null)
-                .previousTaskId(task.getPreviousTask() != null ? task.getPreviousTask().getId() : null)
                 .description(task.getDescription())
                 .completedAt(task.getCompletedAt())
                 .build();
