@@ -144,8 +144,8 @@ public class OAuthServiceImpl implements OAuthService {
                         createdGoogleUser.userId(),
                         createdGoogleUser.email(),
                         createdGoogleUser.username(),
-                        false,
                         true,
+                        false,
                         tokenService.generateTokenPair(
                                 createdGoogleUser.userId(),
                                 createdGoogleUser.email(),
