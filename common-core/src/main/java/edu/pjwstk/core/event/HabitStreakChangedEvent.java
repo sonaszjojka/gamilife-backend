@@ -7,6 +7,7 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class HabitStreakDownEvent {
+public class HabitStreakChangedEvent {
     private UUID userId;
+    private int streakValue;
 }

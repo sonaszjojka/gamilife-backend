@@ -1,9 +1,11 @@
 package edu.pjwstk.gamification.event.handler;
 
-import edu.pjwstk.core.enums.StatisticTypeEnum;
 import edu.pjwstk.core.event.ItemAcquiredEvent;
 import edu.pjwstk.core.event.ItemBoughtEvent;
-import edu.pjwstk.gamification.service.UserStatisticsService;
+import edu.pjwstk.gamification.usecase.processitemacquisition.ProcessItemAcquisitionCommand;
+import edu.pjwstk.gamification.usecase.processitemacquisition.ProcessItemAcquisitionUseCase;
+import edu.pjwstk.gamification.usecase.processitempurchase.ProcessItemPurchaseCommand;
+import edu.pjwstk.gamification.usecase.processitempurchase.ProcessItemPurchaseUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Recover;
@@ -13,30 +15,26 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import java.util.Set;
-
 @Component
 @AllArgsConstructor
 @Slf4j
 public class ItemEventHandler {
 
-    private final UserStatisticsService userStatisticsService;
+    private final ProcessItemAcquisitionUseCase processItemAcquisitionUseCase;
+    private final ProcessItemPurchaseUseCase processItemPurchaseUseCase;
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onItemBought(ItemBoughtEvent event) {
-        userStatisticsService.registerProgressForAll(
-                event.getUserId(),
-                Set.of(StatisticTypeEnum.ITEMS_PURCHASED, StatisticTypeEnum.OWNED_ITEMS)
-        );
+        processItemPurchaseUseCase.execute(new ProcessItemPurchaseCommand(event.getUserId()));
     }
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onItemAcquired(ItemAcquiredEvent event) {
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.OWNED_ITEMS);
+        processItemAcquisitionUseCase.execute(new ProcessItemAcquisitionCommand(event.getUserId()));
     }
 
     @Recover

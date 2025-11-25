@@ -1,10 +1,11 @@
 package edu.pjwstk.gamification.event.handler;
 
-import edu.pjwstk.core.enums.StatisticTypeEnum;
 import edu.pjwstk.core.event.GroupTaskCompletedEvent;
 import edu.pjwstk.core.event.GroupTaskUndoneEvent;
-import edu.pjwstk.gamification.service.RewardService;
-import edu.pjwstk.gamification.service.UserStatisticsService;
+import edu.pjwstk.gamification.usecase.processgrouptaskcompletion.ProcessGroupTaskCompletionCommand;
+import edu.pjwstk.gamification.usecase.processgrouptaskcompletion.ProcessGroupTaskCompletionUseCase;
+import edu.pjwstk.gamification.usecase.rollbackgrouptaskcompletion.RollbackGroupTaskCompletionCommand;
+import edu.pjwstk.gamification.usecase.rollbackgrouptaskcompletion.RollbackGroupTaskCompletionUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Recover;
@@ -19,28 +20,24 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Slf4j
 public class GroupTaskEventHandler {
 
-    private final UserStatisticsService userStatisticsService;
-    private final RewardService rewardService;
+    private final ProcessGroupTaskCompletionUseCase processGroupTaskCompletionUseCase;
+    private final RollbackGroupTaskCompletionUseCase rollbackGroupTaskCompletionUseCase;
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupTaskCompleted(GroupTaskCompletedEvent event) {
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.GROUP_TASKS_COMPLETED);
-
-        if (!event.isRewardGranted()) {
-            rewardService.rewardUser(
-                    event.getUserId(),
-                    StatisticTypeEnum.GROUP_TASKS_COMPLETED
-            );
-        }
+        processGroupTaskCompletionUseCase.execute(new ProcessGroupTaskCompletionCommand(
+                event.getUserId(),
+                event.isRewardGranted()
+        ));
     }
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupTaskUndone(GroupTaskUndoneEvent event) {
-        userStatisticsService.rollbackProgress(event.getUserId(), StatisticTypeEnum.GROUP_TASKS_COMPLETED);
+        rollbackGroupTaskCompletionUseCase.execute(new RollbackGroupTaskCompletionCommand(event.getUserId()));
     }
 
     @Recover

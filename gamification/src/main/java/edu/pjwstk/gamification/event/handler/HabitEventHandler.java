@@ -1,10 +1,8 @@
 package edu.pjwstk.gamification.event.handler;
 
-import edu.pjwstk.core.enums.StatisticTypeEnum;
-import edu.pjwstk.core.event.HabitStreakDownEvent;
-import edu.pjwstk.core.event.HabitStreakUpEvent;
-import edu.pjwstk.gamification.service.RewardService;
-import edu.pjwstk.gamification.service.UserStatisticsService;
+import edu.pjwstk.core.event.HabitStreakChangedEvent;
+import edu.pjwstk.gamification.usecase.processhabitstreakchange.ProcessHabitStreakChangeCommand;
+import edu.pjwstk.gamification.usecase.processhabitstreakchange.ProcessHabitStreakChangeUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Recover;
@@ -19,28 +17,16 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Slf4j
 public class HabitEventHandler {
 
-    private final UserStatisticsService userStatisticsService;
-    private final RewardService rewardService;
+    private final ProcessHabitStreakChangeUseCase processHabitStreakChangeUseCase;
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
-    public void onHabitStreakUp(HabitStreakUpEvent event) {
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.HABIT_STREAK);
-
-        if (!event.isRewardGranted()) {
-            rewardService.rewardUser(
-                    event.getUserId(),
-                    StatisticTypeEnum.HABIT_STREAK
-            );
-        }
-    }
-
-    @Async("gamificationEventExecutor")
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    @Retryable
-    public void onHabitStreakDown(HabitStreakDownEvent event) {
-        userStatisticsService.rollbackProgress(event.getUserId(), StatisticTypeEnum.HABIT_STREAK);
+    public void onHabitStreakUp(HabitStreakChangedEvent event) {
+        processHabitStreakChangeUseCase.execute(new ProcessHabitStreakChangeCommand(
+                event.getUserId(),
+                event.getStreakValue()
+        ));
     }
 
     @Recover

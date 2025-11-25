@@ -24,15 +24,15 @@ public class FindAllGroupsByUserIdWhereUserIsMemberUseCaseImpl implements FindAl
 
     @Override
     @Transactional(readOnly = true)
-    public FindAllGroupsByUserIdWhereUserIsMemberResult executeInternal(FindAllGroupsByUserIdWhereUserIsMemberCommand command) {
-        GroupTypeEnum groupType = command.groupType() != null
-                ? GroupTypeEnum.fromId(command.groupType())
+    public FindAllGroupsByUserIdWhereUserIsMemberResult executeInternal(FindAllGroupsByUserIdWhereUserIsMemberCommand cmd) {
+        GroupTypeEnum groupType = cmd.groupType() != null
+                ? GroupTypeEnum.fromId(cmd.groupType())
                 : null;
 
         Page<Group> groupPage = groupRepository
                 .findAll(
-                        getGroupSpecification(command, groupType),
-                        createPageable(command)
+                        getGroupSpecification(cmd, groupType),
+                        createPageable(cmd)
                 );
         return buildFindAllGroupsByUserIdResult(groupPage);
     }

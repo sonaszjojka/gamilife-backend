@@ -1,8 +1,8 @@
 package edu.pjwstk.gamification.event.handler;
 
-import edu.pjwstk.core.enums.StatisticTypeEnum;
 import edu.pjwstk.core.event.JoinedGroupEvent;
-import edu.pjwstk.gamification.service.UserStatisticsService;
+import edu.pjwstk.gamification.usecase.processgroupjoin.ProcessGroupJoinCommand;
+import edu.pjwstk.gamification.usecase.processgroupjoin.ProcessGroupJoinUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Recover;
@@ -17,17 +17,13 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Slf4j
 public class JoinedGroupEventHandler {
 
-    private final UserStatisticsService userStatisticsService;
+    private final ProcessGroupJoinUseCase processGroupJoinUseCase;
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupJoined(JoinedGroupEvent event) {
-        if (!event.isFirstTimeJoin()) {
-            return;
-        }
-
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.JOINED_GROUPS);
+        processGroupJoinUseCase.execute(new ProcessGroupJoinCommand(event.getUserId(), event.isFirstTimeJoin()));
     }
 
     @Recover

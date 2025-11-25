@@ -10,5 +10,7 @@ public interface UserStatisticsService {
 
     void registerProgressForAll(UUID userId, Set<StatisticTypeEnum> statisticTypes);
 
+    void registerProgressIfHigherThan(UUID userId, StatisticTypeEnum statisticTypeEnum, Integer newValue);
+
     void rollbackProgress(UUID userId, StatisticTypeEnum statisticTypeEnum);
 }

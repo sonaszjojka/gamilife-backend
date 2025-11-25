@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,8 +18,8 @@ import java.util.UUID;
 @Slf4j
 public class UserStatisticsServiceImpl implements UserStatisticsService {
 
-    private UserStatisticRepository userStatisticRepository;
-    private AchievementService achievementService;
+    private final UserStatisticRepository userStatisticRepository;
+    private final AchievementService achievementService;
 
     @Override
     @Transactional
@@ -31,36 +30,70 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
     @Override
     @Transactional
     public void registerProgress(UUID userId, StatisticTypeEnum statisticTypeEnum) {
-        Optional<UserStatistic> userStatisticOptional =
-                userStatisticRepository.findByUserIdAndStatisticTypeId(userId, statisticTypeEnum.getStatisticTypeId());
-
-        UserStatistic userStatistic;
-        if (userStatisticOptional.isEmpty()) {
-            log.warn("User has no statistic type: {}. Creating new one.", statisticTypeEnum);
-            userStatistic = UserStatistic.builder()
-                    .userId(userId)
-                    .statisticTypeId(statisticTypeEnum.getStatisticTypeId())
-                    .count(1)
-                    .build();
-        } else {
-            userStatistic = userStatisticOptional.get();
-            userStatistic.setCount(userStatistic.getCount() + 1);
-        }
-
-        userStatisticRepository.save(userStatistic);
-        log.info("User progressed by 1 in {}", statisticTypeEnum);
-
-        achievementService.checkIfUserQualifiesForAchievementOfType(userStatistic);
+        UserStatistic userStatistic = findOrCreateUserStatistic(userId, statisticTypeEnum);
+        userStatistic.setCount(userStatistic.getCount() + 1);
+        saveAndCheckAchievements(userStatistic);
     }
 
     @Override
+    @Transactional
+    public void registerProgressIfHigherThan(UUID userId, StatisticTypeEnum statisticTypeEnum, Integer newValue) {
+        UserStatistic userStatistic = findOrCreateUserStatistic(userId, statisticTypeEnum);
+
+        if (newValue > userStatistic.getCount()) {
+            log.debug(
+                    "Updating statistic {} for user {} from {} to new value {}",
+                    statisticTypeEnum,
+                    userId,
+                    userStatistic.getCount(),
+                    newValue
+            );
+            userStatistic.setCount(newValue);
+            saveAndCheckAchievements(userStatistic);
+        } else {
+            log.debug(
+                    "Statistic {} for user {} with current value {} is not updated as new value {} is not higher.",
+                    statisticTypeEnum,
+                    userId,
+                    userStatistic.getCount(),
+                    newValue
+            );
+        }
+    }
+
+    @Override
+    @Transactional
     public void rollbackProgress(UUID userId, StatisticTypeEnum statisticTypeEnum) {
         userStatisticRepository
                 .findByUserIdAndStatisticTypeId(userId, statisticTypeEnum.getStatisticTypeId())
                 .ifPresent(us -> {
                     us.setCount(us.getCount() - 1);
-                    userStatisticRepository.save(us);
-                    log.warn("User progressed by -1 in {}.", statisticTypeEnum);
+                    saveAndCheckAchievements(us);
                 });
+    }
+
+    private UserStatistic findOrCreateUserStatistic(UUID userId, StatisticTypeEnum statisticTypeEnum) {
+        return userStatisticRepository.findByUserIdAndStatisticTypeId(userId, statisticTypeEnum.getStatisticTypeId())
+                .orElseGet(() -> {
+                    log.warn("User has no statistic type: {}. Creating a new one.", statisticTypeEnum);
+                    return UserStatistic.builder()
+                            .userId(userId)
+                            .statisticTypeId(statisticTypeEnum.getStatisticTypeId())
+                            .count(0)
+                            .build();
+                });
+    }
+
+    private void saveAndCheckAchievements(UserStatistic userStatistic) {
+        userStatisticRepository.save(userStatistic);
+
+        log.debug(
+                "User statistic {} for user {} changed. New count: {}",
+                StatisticTypeEnum.fromId(userStatistic.getStatisticTypeId()),
+                userStatistic.getUserId(),
+                userStatistic.getCount()
+        );
+
+        achievementService.checkIfUserQualifiesForAchievementOfType(userStatistic);
     }
 }

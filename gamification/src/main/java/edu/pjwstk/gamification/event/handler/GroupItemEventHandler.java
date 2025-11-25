@@ -1,8 +1,8 @@
 package edu.pjwstk.gamification.event.handler;
 
-import edu.pjwstk.core.enums.StatisticTypeEnum;
 import edu.pjwstk.core.event.GroupItemPurchasedEvent;
-import edu.pjwstk.gamification.service.UserStatisticsService;
+import edu.pjwstk.gamification.usecase.processgroupitempurchase.ProcessGroupItemPurchaseCommand;
+import edu.pjwstk.gamification.usecase.processgroupitempurchase.ProcessGroupItemPurchaseUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Recover;
@@ -17,13 +17,13 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Slf4j
 public class GroupItemEventHandler {
 
-    private final UserStatisticsService userStatisticsService;
+    private final ProcessGroupItemPurchaseUseCase processGroupItemPurchaseUseCase;
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupItemPurchased(GroupItemPurchasedEvent event) {
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.GROUP_ITEMS_PURCHASED);
+        processGroupItemPurchaseUseCase.execute(new ProcessGroupItemPurchaseCommand(event.getUserId()));
     }
 
     @Recover

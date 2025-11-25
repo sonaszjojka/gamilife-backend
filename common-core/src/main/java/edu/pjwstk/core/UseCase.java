@@ -7,5 +7,5 @@ public interface UseCase<C extends Command, R> {
         return executeInternal(command);
     }
 
-    R executeInternal(C command);
+    R executeInternal(C cmd);
 }

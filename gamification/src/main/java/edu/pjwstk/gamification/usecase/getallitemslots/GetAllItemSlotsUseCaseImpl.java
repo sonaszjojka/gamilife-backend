@@ -11,7 +11,7 @@ public class GetAllItemSlotsUseCaseImpl implements GetAllItemSlotsUseCase {
     private final ItemSlotRepository repository;
 
     @Override
-    public GetAllItemSlotsResult executeInternal(GetAllItemSlotsCommand command) {
+    public GetAllItemSlotsResult executeInternal(GetAllItemSlotsCommand cmd) {
         return new GetAllItemSlotsResult(
                 repository.findAll().stream()
                         .map(itemSlot -> new GetAllItemSlotsResult.ItemSlotDTO(
