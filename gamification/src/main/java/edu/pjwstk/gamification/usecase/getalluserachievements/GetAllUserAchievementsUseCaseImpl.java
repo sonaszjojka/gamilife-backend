@@ -31,7 +31,7 @@ public class GetAllUserAchievementsUseCaseImpl implements GetAllUserAchievements
                         details.description(),
                         details.imagePath(),
                         details.isUnlocked(),
-                        details.progress().intValue(),
+                        details.progress(),
                         details.goal()
                 ))
                 .collect(Collectors.toList());
