@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import java.util.Set;
+
 @Component
 @AllArgsConstructor
 @Slf4j
@@ -24,8 +26,10 @@ public class ItemEventHandler {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onItemBought(ItemBoughtEvent event) {
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.ITEMS_PURCHASED);
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.OWNED_ITEMS);
+        userStatisticsService.registerProgressForAll(
+                event.getUserId(),
+                Set.of(StatisticTypeEnum.ITEMS_PURCHASED, StatisticTypeEnum.OWNED_ITEMS)
+        );
     }
 
     @Async("gamificationEventExecutor")

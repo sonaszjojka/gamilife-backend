@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -20,6 +21,12 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
 
     private UserStatisticRepository userStatisticRepository;
     private AchievementService achievementService;
+
+    @Override
+    @Transactional
+    public void registerProgressForAll(UUID userId, Set<StatisticTypeEnum> statisticTypes) {
+        statisticTypes.forEach(type -> registerProgress(userId, type));
+    }
 
     @Override
     @Transactional
