@@ -23,13 +23,8 @@ public record CreateHabitRequest(
         @Positive(message = "Longest streak must be positive")
         Integer longestStreak,
 
-        @NotNull(message = "isAccepted cannot be null")
-        Boolean isAccepted,
+        LocalDateTime acceptedDate
 
-        LocalDateTime acceptedDate,
-
-        @Size(max = 300, message = "Decline message cannot exceed 300 characters")
-        String declineMessage
 
 ) {
 }

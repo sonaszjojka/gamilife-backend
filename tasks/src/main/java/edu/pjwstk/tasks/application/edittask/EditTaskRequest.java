@@ -32,8 +32,6 @@ public record EditTaskRequest(
 
         LocalDateTime completedAt,
 
-        UUID previousTaskId,
-
         @Size(max = 200, message = "Description cannot exceed 200 characters")
         String description
 ) {

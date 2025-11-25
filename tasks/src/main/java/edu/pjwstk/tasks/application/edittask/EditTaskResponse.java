@@ -15,7 +15,6 @@ public record EditTaskResponse(
         Integer difficultyId,
         UUID userId,
         LocalDateTime completedAt,
-        UUID previousTaskId,
         String description
 ) {
 }
