@@ -1,8 +1,7 @@
-package edu.pjwstk.gamification.envent.handler;
+package edu.pjwstk.gamification.event.handler;
 
 import edu.pjwstk.core.enums.StatisticTypeEnum;
-import edu.pjwstk.core.event.HabitStreakDownEvent;
-import edu.pjwstk.core.event.HabitStreakUpEvent;
+import edu.pjwstk.core.event.JoinedGroupEvent;
 import edu.pjwstk.gamification.service.UserStatisticsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,22 +15,19 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class HabitEventHandler {
+public class JoinedGroupEventHandler {
 
     private final UserStatisticsService userStatisticsService;
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
-    public void onHabitStreakUp(HabitStreakUpEvent event) {
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.HABIT_STREAK);
-    }
+    public void onGroupJoined(JoinedGroupEvent event) {
+        if (!event.isFirstTimeJoin()) {
+            return;
+        }
 
-    @Async("gamificationEventExecutor")
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    @Retryable
-    public void onHabitStreakDown(HabitStreakDownEvent event) {
-        userStatisticsService.rollbackProgress(event.getUserId(), StatisticTypeEnum.HABIT_STREAK);
+        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.JOINED_GROUPS);
     }
 
     @Recover

@@ -1,8 +1,7 @@
-package edu.pjwstk.gamification.envent.handler;
+package edu.pjwstk.gamification.event.handler;
 
 import edu.pjwstk.core.enums.StatisticTypeEnum;
-import edu.pjwstk.core.event.ItemAcquiredEvent;
-import edu.pjwstk.core.event.ItemBoughtEvent;
+import edu.pjwstk.core.event.GroupItemPurchasedEvent;
 import edu.pjwstk.gamification.service.UserStatisticsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,23 +15,15 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class ItemEventHandler {
+public class GroupItemEventHandler {
 
     private final UserStatisticsService userStatisticsService;
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
-    public void onItemBought(ItemBoughtEvent event) {
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.ITEMS_PURCHASED);
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.OWNED_ITEMS);
-    }
-
-    @Async("gamificationEventExecutor")
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    @Retryable
-    public void onItemAcquired(ItemAcquiredEvent event) {
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.OWNED_ITEMS);
+    public void onGroupItemPurchased(GroupItemPurchasedEvent event) {
+        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.GROUP_ITEMS_PURCHASED);
     }
 
     @Recover

@@ -1,8 +1,8 @@
-package edu.pjwstk.gamification.envent.handler;
+package edu.pjwstk.gamification.event.handler;
 
 import edu.pjwstk.core.enums.StatisticTypeEnum;
-import edu.pjwstk.core.event.PomodoroTaskCompletedEvent;
-import edu.pjwstk.core.event.PomodoroTaskUndoneEvent;
+import edu.pjwstk.core.event.ItemAcquiredEvent;
+import edu.pjwstk.core.event.ItemBoughtEvent;
 import edu.pjwstk.gamification.service.UserStatisticsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,22 +16,23 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class PomodoroEventHandler {
+public class ItemEventHandler {
 
     private final UserStatisticsService userStatisticsService;
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
-    public void onPomodoroTaskCompleted(PomodoroTaskCompletedEvent event) {
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.POMODORO_TASKS_COMPLETED);
+    public void onItemBought(ItemBoughtEvent event) {
+        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.ITEMS_PURCHASED);
+        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.OWNED_ITEMS);
     }
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
-    public void onPomodoroTaskUndone(PomodoroTaskUndoneEvent event) {
-        userStatisticsService.rollbackProgress(event.getUserId(), StatisticTypeEnum.POMODORO_TASKS_COMPLETED);
+    public void onItemAcquired(ItemAcquiredEvent event) {
+        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.OWNED_ITEMS);
     }
 
     @Recover

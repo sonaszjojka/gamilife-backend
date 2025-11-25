@@ -1,10 +1,7 @@
 package edu.pjwstk.user.api;
 
 import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.api.user.dto.CheckIfUsersEmailIsVerifiedApiDto;
-import edu.pjwstk.api.user.dto.RegisterUserApiDto;
-import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import edu.pjwstk.api.user.dto.*;
 import edu.pjwstk.user.usecase.*;
 import edu.pjwstk.user.usecase.editusermoney.EditUserMoneyCommand;
 import edu.pjwstk.user.usecase.editusermoney.EditUserMoneyUseCase;
@@ -78,5 +75,16 @@ public class UserApiImpl implements UserApi {
     @Override
     public int editUserMoneyBy(UUID userId, Integer money) {
         return editUserMoneyUseCase.execute(new EditUserMoneyCommand(userId, money));
+    }
+
+    @Override
+    public RewardedUserApiDto grantRewardsToUser(UUID userId, int experience, int money) {
+        // TODO: implement
+        return null;
+    }
+
+    @Override
+    public void levelUpUser(UUID userId, int level) {
+        // TODO: implement
     }
 }

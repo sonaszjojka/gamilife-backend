@@ -1,8 +1,8 @@
-package edu.pjwstk.gamification.envent.handler;
+package edu.pjwstk.gamification.event.handler;
 
 import edu.pjwstk.core.enums.StatisticTypeEnum;
-import edu.pjwstk.core.event.TaskCompletedEvent;
-import edu.pjwstk.core.event.TaskUndoneEvent;
+import edu.pjwstk.core.event.GroupTaskCompletedEvent;
+import edu.pjwstk.core.event.GroupTaskUndoneEvent;
 import edu.pjwstk.gamification.service.UserStatisticsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,22 +16,22 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class TaskEventHandler {
+public class GroupTaskEventHandler {
 
     private final UserStatisticsService userStatisticsService;
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
-    public void onTaskCompleted(TaskCompletedEvent event) {
-        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.COMPLETED_TASKS);
+    public void onGroupTaskCompleted(GroupTaskCompletedEvent event) {
+        userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.GROUP_TASKS_COMPLETED);
     }
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
-    public void onTaskUndone(TaskUndoneEvent event) {
-        userStatisticsService.rollbackProgress(event.getUserId(), StatisticTypeEnum.COMPLETED_TASKS);
+    public void onGroupTaskUndone(GroupTaskUndoneEvent event) {
+        userStatisticsService.rollbackProgress(event.getUserId(), StatisticTypeEnum.GROUP_TASKS_COMPLETED);
     }
 
     @Recover
