@@ -20,18 +20,19 @@ public interface LevelRepository extends JpaRepository<Level, Integer> {
     List<Level> findAllWithItemsByOrderByLevelAsc();
 
     @Query("""
-                SELECT DISTINCT l
-                FROM Level l
-                LEFT JOIN FETCH l.items i
-                WHERE l.requiredExperience <= :experience
-                ORDER BY l.level DESC
-            """)
-    List<Level> findWithRewardsForExperienceAmount(@Param("experience") int experience, Pageable pageable);
-
-    @Query("""
                     SELECT l
                     FROM Level l
                     ORDER BY l.level ASC
             """)
     List<Level> findStartingLevel(Pageable pageable);
+
+    @Query("""
+            SELECT DISTINCT l
+            FROM Level l
+            LEFT JOIN FETCH l.items i
+            WHERE l.level > :currentLevel
+              AND l.requiredExperience <= :experience
+            ORDER BY l.level ASC
+            """)
+    List<Level> findLevelsGained(@Param("currentLevel") int currentLevel, @Param("experience") int experience);
 }

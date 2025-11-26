@@ -3,6 +3,7 @@ package edu.pjwstk.gamification.service.impl;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.RewardedUserApiDto;
 import edu.pjwstk.core.enums.StatisticTypeEnum;
+import edu.pjwstk.gamification.model.Item;
 import edu.pjwstk.gamification.model.Level;
 import edu.pjwstk.gamification.model.Reward;
 import edu.pjwstk.gamification.repository.LevelRepository;
@@ -12,12 +13,9 @@ import edu.pjwstk.gamification.service.UserInventoryService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -49,23 +47,25 @@ public class RewardServiceImpl implements RewardService {
     public void rewardUser(UUID userId, int experience, int money) {
         RewardedUserApiDto rewardedUser = userApi.grantRewardsToUser(userId, experience, money);
 
-        List<Level> level = levelRepository.findWithRewardsForExperienceAmount(
-                rewardedUser.experience(),
-                PageRequest.of(0, 1)
+        List<Level> gainedLevels = levelRepository.findLevelsGained(
+                rewardedUser.level(),
+                rewardedUser.experience()
         );
 
-        if (level.isEmpty()) {
-            log.warn("Could not get level for experience amount: {}", rewardedUser.experience());
-            return;
+        if (!gainedLevels.isEmpty()) {
+            processLevelUp(rewardedUser, gainedLevels);
         }
-
-        checkAndLevelUpUser(rewardedUser, level.getFirst());
     }
 
-    private void checkAndLevelUpUser(RewardedUserApiDto user, Level level) {
-        if (user.level() < level.getLevel()) {
-            userApi.levelUpUser(user.userId(), level.getLevel());
-            userInventoryService.addItemsToUsersInventory(user.userId(), level.getItems());
+    private void processLevelUp(RewardedUserApiDto user, List<Level> gainedLevels) {
+        Set<Item> rewardsForLevels = new HashSet<>();
+        for (Level level : gainedLevels) {
+            rewardsForLevels.addAll(level.getItems());
         }
+
+        userInventoryService.addItemsToUsersInventory(user.userId(), rewardsForLevels);
+
+        Level targetLevel = gainedLevels.getLast();
+        userApi.levelUpUser(user.userId(), targetLevel.getLevel());
     }
 }
