@@ -25,13 +25,13 @@ public class CreateHabitUseCaseImpl implements CreateHabitUseCase {
     }
 
     @Override
-    public CreateHabitResponse execute(CreateHabitRequest request) {
+    public CreateHabitResponse execute(CreateHabitRequest request, UUID taskId) {
         if (request.acceptedDate() != null &&
                 request.acceptedDate().isBefore(LocalDateTime.now())) {
             throw new InvalidHabitDataException("Accepted date cannot be earlier than creation date");
         }
-        Task habitTask = taskRepository.findById(request.taskId())
-                .orElseThrow(() -> new TaskNotFoundException("Task with id " + request.taskId() + " does not exist."));
+        Task habitTask = taskRepository.findById(taskId)
+                .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " does not exist."));
 
         Habit habit = habitRepository.save(habitMapper.toEntity(request, UUID.randomUUID(), habitTask));
         return habitMapper.toResponse(habit);
