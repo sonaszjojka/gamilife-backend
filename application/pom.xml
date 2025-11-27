@@ -143,13 +143,4 @@
         </resources>
     </build>
 
-    <profiles>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <skipTests>true</skipTests>
-            </properties>
-        </profile>
-    </profiles>
-
 </project>
