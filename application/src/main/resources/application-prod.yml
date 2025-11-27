@@ -24,7 +24,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: false
@@ -47,7 +47,7 @@ spring:
     refresh-token:
       expires-in: 604800   # 7 days
     access-token:
-      expires-in: 900      # 15 days
+      expires-in: 900      # 15 min
 
   codes:
     verification-code:
