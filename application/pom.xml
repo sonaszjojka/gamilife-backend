@@ -84,12 +84,6 @@
 
         <dependency>
             <groupId>edu.pjwstk</groupId>
-            <artifactId>modules</artifactId>
-            <version>0.0.1-alpha-v01</version>
-        </dependency>
-
-        <dependency>
-            <groupId>edu.pjwstk</groupId>
             <artifactId>pomodoro</artifactId>
             <version>0.0.1-alpha-v01</version>
         </dependency>
