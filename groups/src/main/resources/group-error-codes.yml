@@ -1,0 +1,72 @@
+error-codes:
+  definitions:
+    ADMIN_CANNOT_LEAVE_GROUP:
+      code: 3001
+      title: "Admin Cannot Leave Group"
+      detail: "The group administrator cannot leave the group without transferring admin rights."
+      status: 422
+    GROUP_FULL:
+      code: 3002
+      title: "Group Full"
+      detail: "The group has reached its maximum capacity."
+      status: 409
+    GROUP_INVITATION_EXPIRED:
+      code: 3003
+      title: "Group Invitation Expired"
+      detail: "The invitation to join the group has expired."
+      status: 410
+    GROUP_INVITATION_NOT_FOUND:
+      code: 3004
+      title: "Group Invitation Not Found"
+      detail: "The specified group invitation does not exist."
+      status: 404
+    GROUP_REQUEST_NOT_FOUND:
+      code: 3005
+      title: "Group Request Not Found"
+      detail: "The specified request to join the group does not exist."
+      status: 404
+    GROUP_REQUEST_STATUS_NOT_FOUND:
+      code: 3006
+      title: "Group Request Status Not Found"
+      detail: "The specified status for the group request is invalid."
+      status: 404
+    GROUP_TYPE_NOT_FOUND:
+      code: 3007
+      title: "Group Type Not Found"
+      detail: "The specified group type does not exist."
+      status: 404
+    INVALID_GROUP_DATA:
+      code: 3008
+      title: "Invalid Group Data"
+      detail: "The data provided for the group is invalid."
+      status: 400
+    INVALID_GROUP_INVITATION_DATA:
+      code: 3009
+      title: "Invalid Group Invitation Data"
+      detail: "The data provided for the group invitation is invalid."
+      status: 400
+    INVALID_GROUP_INVITATION_TOKEN:
+      code: 3010
+      title: "Invalid Group Invitation Token"
+      detail: "The token provided for the group invitation is invalid."
+      status: 400
+    INVITATION_STATUS_NOT_FOUND:
+      code: 3011
+      title: "Invitation Status Not Found"
+      detail: "The specified status for the group invitation is invalid."
+      status: 404
+    USER_ALREADY_MEMBER_OF_GROUP:
+      code: 3012
+      title: "User Already Member of Group"
+      detail: "The user is already a member of the specified group."
+      status: 409
+    USER_JOIN_GROUP_ACCESS_DENIED:
+      code: 3013
+      title: "User Join Group Access Denied"
+      detail: "The user does not have permission to join the specified group."
+      status: 403
+    USER_LEFT_GROUP:
+      code: 3014
+      title: "User Left Group"
+      detail: "The user has already left the specified group."
+      status: 409
