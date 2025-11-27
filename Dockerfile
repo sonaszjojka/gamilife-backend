@@ -29,7 +29,7 @@ FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/application/target/*.jar app.jar
 
 ENV SPRING_PROFILES_ACTIVE=prod
 ENV TZ=Europe/Warsaw
