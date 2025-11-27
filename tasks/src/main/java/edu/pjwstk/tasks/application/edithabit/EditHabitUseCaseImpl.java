@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -47,10 +48,7 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
         habit.setCurrentStreak(request.currentStreak());
         habit.setLongestStreak(request.longestStreak()); //todo: business logic
 
-        if (request.acceptedDate() != null &&
-                request.acceptedDate().isBefore(LocalDateTime.now())) {
-            throw new InvalidHabitDataException("Accepted date cannot be earlier than creation date");
-        }
+
 
         habit.setAcceptedDate(request.acceptedDate());
 

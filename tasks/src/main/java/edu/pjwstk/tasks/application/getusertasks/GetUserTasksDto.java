@@ -22,7 +22,7 @@ public record GetUserTasksDto(
         Boolean isGroupTask,
         UUID userId,
         PomodoroTaskDto pomodoro,
-        TaskHabitDto taskHabitDto
+        TaskHabitDto taskHabit
 
 
 

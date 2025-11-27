@@ -60,17 +60,20 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
         Page<GetUserTasksDto> tasks = taskRepository.findAll(taskSpecification, pageable)
                 .map(task -> {
                     PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
-                    TaskHabitDto taskHabitDto= null;
-                    Habit habit=habitRepository.findHabitByTaskId(task.getId());
+                    TaskHabitDto taskHabit= null;
+                    Habit habit=habitRepository.findHabitByTaskId(task.getId()).orElse(null);
                     if(habit != null) {
 
-                            taskHabitDto = TaskHabitDto.builder()
+                        taskHabit = TaskHabitDto.builder()
                                     .habitId(habit.getId())
                                     .cycleLength(habit.getCycleLength())
                                     .currentStreak(habit.getCurrentStreak())
                                     .longestStreak(habit.getLongestStreak())
                                     .acceptedDate(habit.getAcceptedDate())
                                     .build();
+
+                        System.out.println("===============================================================================");
+
 
                     }
 
@@ -88,8 +91,7 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                             task.getIsGroupTask(),
                             task.getUserId(),
                             pomodoro,
-                            taskHabitDto
-
+                            taskHabit
                     );
                 });
         return tasks;

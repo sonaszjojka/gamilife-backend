@@ -33,6 +33,10 @@ public class CreateHabitUseCaseImpl implements CreateHabitUseCase {
         Task habitTask = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " does not exist."));
 
+        if (habitRepository.findHabitByTaskId(taskId).isPresent()) {
+            throw new InvalidHabitDataException("Habit for task with id " + taskId + " already exists.");
+        }
+
         Habit habit = habitRepository.save(habitMapper.toEntity(request, UUID.randomUUID(), habitTask));
         return habitMapper.toResponse(habit);
     }

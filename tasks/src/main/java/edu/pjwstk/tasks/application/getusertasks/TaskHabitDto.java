@@ -14,9 +14,7 @@ public record TaskHabitDto(
         Duration cycleLength,
         Integer currentStreak,
         Integer longestStreak,
-        LocalDateTime acceptedDate,
-        Instant updated_at,
-        Instant created_at
+        LocalDateTime acceptedDate
 ) {
 
 

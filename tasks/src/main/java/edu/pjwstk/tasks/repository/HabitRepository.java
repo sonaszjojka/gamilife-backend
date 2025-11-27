@@ -9,6 +9,7 @@ public interface HabitRepository {
     Habit save(Habit habit);
 
     Optional<Habit> findById(UUID habitId);
+    Optional<Habit> findHabitByTaskId(UUID taskId);
 
     void deleteById(UUID habitId);
 }

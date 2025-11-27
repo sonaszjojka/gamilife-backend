@@ -55,9 +55,7 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
             throw new InvalidTaskDataException("End time cannot be before creation date");
         }
 
-        if (request.completedAt() != null && request.startTime().isAfter(request.completedAt())) {
-            throw new InvalidTaskDataException("Start time cannot be after completion date!");
-        }
+
 
         task.setTitle(request.title());
         task.setStartTime(request.startTime());
