@@ -15,7 +15,6 @@
         <module>group-shop</module>
         <module>group-tasks</module>
         <module>groups</module>
-        <module>modules</module>
         <module>pomodoro</module>
         <module>tasks</module>
         <module>user</module>

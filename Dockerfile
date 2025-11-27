@@ -7,7 +7,6 @@ COPY pom.xml .
 COPY application/pom.xml application/
 COPY auth/pom.xml auth/
 COPY budget/pom.xml budget/
-COPY common/pom.xml common/
 COPY common-api/pom.xml common-api/
 COPY common-core/pom.xml common-core/
 COPY common-web/pom.xml common-web/
