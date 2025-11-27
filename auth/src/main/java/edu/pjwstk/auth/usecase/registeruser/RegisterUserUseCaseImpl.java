@@ -32,6 +32,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
                 cmd.dateOfBirth(),
                 cmd.sendBudgetReports(),
                 cmd.isProfilePublic(),
+                false,
                 false
         );
 

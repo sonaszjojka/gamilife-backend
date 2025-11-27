@@ -42,6 +42,25 @@ DROP TABLE IF EXISTS user_achievement CASCADE;
 DROP TABLE IF EXISTS user_inventory_item CASCADE;
 
 -- ==================== TASKS ====================
+DROP TABLE IF EXISTS task_notification CASCADE;
+DROP TABLE IF EXISTS task_category CASCADE;
+DROP TABLE IF EXISTS task_difficulty CASCADE;
+DROP TABLE IF EXISTS habit CASCADE;
+DROP TABLE IF EXISTS task CASCADE;
+
+CREATE TABLE habit
+(
+    habit_id        UUID    NOT NULL,
+    updated_at      TIMESTAMP WITHOUT TIME ZONE,
+    created_at      TIMESTAMP WITHOUT TIME ZONE,
+    cycle_length    BIGINT  NOT NULL,
+    current_streak  INTEGER NOT NULL,
+    longest_streak  INTEGER NOT NULL,
+    is_accepted     BOOLEAN NOT NULL,
+    accepted_date   TIMESTAMP WITHOUT TIME ZONE,
+    decline_message VARCHAR(300),
+    CONSTRAINT pk_habit PRIMARY KEY (habit_id)
+);
 
 CREATE TABLE task
 (
@@ -54,7 +73,7 @@ CREATE TABLE task
     user_id          UUID,
     completed_at     TIMESTAMP WITHOUT TIME ZONE,
     description      VARCHAR(200),
-    is_group_task BOOLEAN NOT NULL,
+    is_group_task    BOOLEAN                     NOT NULL,
     CONSTRAINT pk_task PRIMARY KEY (task_id)
 );
 
@@ -157,20 +176,21 @@ CREATE TABLE email_verification_code
 
 CREATE TABLE "user"
 (
-    id                   uuid         NOT NULL,
-    first_name           varchar(100) NOT NULL,
-    last_name            varchar(100) NOT NULL,
-    email                varchar(320) NOT NULL,
-    password             varchar(200) NULL,
-    username             varchar(100) NOT NULL,
-    date_of_birth        date         NULL,
-    experience           int          NOT NULL,
-    "level"              int          NOT NULL,
-    money                int          NOT NULL,
-    send_budget_reports  boolean      NOT NULL,
-    is_profile_public    boolean      NOT NULL,
-    is_email_verified    boolean      NOT NULL,
-    password_change_date BIGINT       NOT NULL,
+    id                    uuid         NOT NULL,
+    first_name            varchar(100) NOT NULL,
+    last_name             varchar(100) NOT NULL,
+    email                 varchar(320) NOT NULL,
+    password              varchar(200) NULL,
+    username              varchar(100) NOT NULL,
+    date_of_birth         date         NULL,
+    experience            int          NOT NULL,
+    "level"               int          NOT NULL,
+    money                 int          NOT NULL,
+    send_budget_reports   boolean      NOT NULL,
+    is_profile_public     boolean      NOT NULL,
+    is_email_verified     boolean      NOT NULL,
+    is_tutorial_completed boolean      NOT NULL,
+    password_change_date  BIGINT       NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
@@ -212,12 +232,12 @@ ALTER TABLE forgot_password_code
 
 CREATE TABLE chat_message
 (
-    message_id   UUID    NOT NULL,
+    message_id   UUID         NOT NULL,
     content      VARCHAR(255) NOT NULL,
-    is_important BOOLEAN NOT NULL,
+    is_important BOOLEAN      NOT NULL,
     sent_at      TIMESTAMP WITHOUT TIME ZONE,
-    group_id     UUID    NOT NULL,
-    sender_id    UUID    NOT NULL,
+    group_id     UUID         NOT NULL,
+    sender_id    UUID         NOT NULL,
     CONSTRAINT pk_chat_message PRIMARY KEY (message_id)
 );
 
@@ -388,7 +408,7 @@ ALTER TABLE owned_group_item
 CREATE TABLE group_task
 (
     group_task_id   uuid         NOT NULL,
-    task_id uuid NOT NULL,
+    task_id         uuid         NOT NULL,
     group_id        uuid         NOT NULL,
     reward          int          NULL,
     is_accepted     boolean      NULL,
@@ -403,7 +423,7 @@ CREATE TABLE group_task_member
 (
     group_task_member_id uuid    NOT NULL,
     group_task_id        uuid    NOT NULL,
-    group_member_id uuid NOT NULL,
+    group_member_id      uuid    NOT NULL,
     is_marked_done       boolean NOT NULL,
     CONSTRAINT group_task_member_pk PRIMARY KEY (group_task_member_id)
 );

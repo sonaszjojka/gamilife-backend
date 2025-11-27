@@ -9,6 +9,7 @@ public record LoginUserResult(
         String email,
         String username,
         boolean isEmailVerified,
+        boolean isTutorialCompleted,
         AuthTokens authTokens
 ) {
 }

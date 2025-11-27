@@ -8,14 +8,16 @@ public record AfterLoginResponse(
         UUID userId,
         String email,
         String username,
-        boolean isEmailVerified) {
+        boolean isEmailVerified,
+        boolean isTutorialCompleted) {
 
     public static AfterLoginResponse from(LoginUserResult result) {
         return new AfterLoginResponse(
                 result.userId(),
                 result.email(),
                 result.username(),
-                result.isEmailVerified()
+                result.isEmailVerified(),
+                result.isTutorialCompleted()
         );
     }
 }

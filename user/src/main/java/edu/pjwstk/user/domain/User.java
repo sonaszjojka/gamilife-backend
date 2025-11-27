@@ -24,6 +24,7 @@ public class User {
     private boolean sendBudgetReports;
     private boolean isProfilePublic;
     private boolean isEmailVerified;
+    private boolean isTutorialCompleted;
 
     @Setter(AccessLevel.NONE)
     private Instant passwordChangeDate;

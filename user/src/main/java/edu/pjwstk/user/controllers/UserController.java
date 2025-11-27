@@ -12,6 +12,7 @@ import edu.pjwstk.user.dto.service.ChangeUserPasswordCommand;
 import edu.pjwstk.user.dto.service.GetUsersCommand;
 import edu.pjwstk.user.dto.service.UserDetailsDto;
 import edu.pjwstk.user.usecase.ChangeUserPasswordUseCase;
+import edu.pjwstk.user.usecase.CompleteOnboardingUseCase;
 import edu.pjwstk.user.usecase.GetUserDetailsUseCase;
 import edu.pjwstk.user.usecase.GetUsersUseCase;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -36,6 +37,7 @@ public class UserController {
     private GetUserDetailsUseCase getUserDetailsUseCase;
     private ChangeUserPasswordUseCase changeUserPasswordUseCase;
     private GetUsersUseCase getUsersUseCase;
+    private CompleteOnboardingUseCase completeOnboardingUseCase;
     private CookieUtil cookieUtil;
     private GroupApi groupsApi;
 
@@ -66,8 +68,15 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{userId}/complete-onboarding")
+    public ResponseEntity<UserDetailsResponse> completeOnboarding(
+            @PathVariable UUID userId
+    ) {
+        UserDetailsDto dto = completeOnboardingUseCase.execute(userId);
+        return ResponseEntity.ok(UserDetailsResponse.from(dto));
+    }
+
     @GetMapping("/{userId}/groups")
-    @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
     public ResponseEntity<FindAllGroupsByUserIdWhereUserIsMemberResult> getAllGroupsByUserId(
             @PathVariable("userId") UUID userId,
 
@@ -83,8 +92,8 @@ public class UserController {
             @RequestParam(defaultValue = "10")
             @Min(1) @Max(100) Integer size
 
-    ){
-        FindAllGroupsByUserIdWhereUserIsMemberResult response =  groupsApi
+    ) {
+        FindAllGroupsByUserIdWhereUserIsMemberResult response = groupsApi
                 .findAllGroupsByUserIdWhereUserIsMember(userId, page, size, joinCode, groupType, groupName);
         return ResponseEntity.ok(response);
     }

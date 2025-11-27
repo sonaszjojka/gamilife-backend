@@ -17,7 +17,9 @@ public record UserDetailsResponse(
         int money,
         boolean sendBudgetReports,
         boolean isProfilePublic,
-        boolean isEmailVerified
+        boolean isEmailVerified,
+        boolean isTutorialCompleted
+
 ) {
     public static UserDetailsResponse from(UserDetailsDto dto) {
         return new UserDetailsResponse(
@@ -31,7 +33,8 @@ public record UserDetailsResponse(
                 dto.money(),
                 dto.sendBudgetReports(),
                 dto.isProfilePublic(),
-                dto.isEmailVerified()
+                dto.isEmailVerified(),
+                dto.isTutorialCompleted()
         );
     }
 
@@ -47,7 +50,8 @@ public record UserDetailsResponse(
                 user.getMoney(),
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),
-                user.isEmailVerified()
+                user.isEmailVerified(),
+                user.isTutorialCompleted()
         );
     }
 }

@@ -14,6 +14,7 @@ public record UserDetailsDto(
         int money,
         boolean sendBudgetReports,
         boolean isProfilePublic,
-        boolean isEmailVerified
+        boolean isEmailVerified,
+        boolean isTutorialCompleted
 ) {
 }

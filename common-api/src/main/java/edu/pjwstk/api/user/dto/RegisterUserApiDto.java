@@ -11,6 +11,7 @@ public record RegisterUserApiDto(
         LocalDate dateOfBirth,
         boolean sendBudgetReports,
         boolean isProfilePublic,
-        boolean isEmailVerified
+        boolean isEmailVerified,
+        boolean isTutorialCompleted
 ) {
 }
