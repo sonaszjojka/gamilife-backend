@@ -27,4 +27,11 @@ public interface LevelRepository extends JpaRepository<Level, Integer> {
                 ORDER BY l.level DESC
             """)
     List<Level> findWithRewardsForExperienceAmount(@Param("experience") int experience, Pageable pageable);
+
+    @Query("""
+                    SELECT l
+                    FROM Level l
+                    ORDER BY l.level ASC
+            """)
+    List<Level> findStartingLevel(Pageable pageable);
 }

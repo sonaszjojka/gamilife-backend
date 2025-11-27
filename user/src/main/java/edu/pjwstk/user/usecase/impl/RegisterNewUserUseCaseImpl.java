@@ -1,6 +1,7 @@
 package edu.pjwstk.user.usecase.impl;
 
 import edu.pjwstk.api.gamification.GamificationApi;
+import edu.pjwstk.api.gamification.dto.StartingGamificationValuesDto;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.api.user.dto.RegisterUserApiDto;
 import edu.pjwstk.core.exception.common.domain.UserAlreadyExistsException;
@@ -29,6 +30,8 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
         if (getUserByEmailUseCase.execute(dto.email()).isPresent()) {
             throw new UserAlreadyExistsException("This email address is already taken");
         }
+
+        StartingGamificationValuesDto startingGamificationValues = gamificationApi.getStartingGamificationValues();
         User newUser = new User(
                 UUID.randomUUID(),
                 dto.firstName(),
@@ -37,9 +40,9 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
                 dto.password(),
                 dto.username(),
                 dto.dateOfBirth(),
-                1,
-                0,
-                0,
+                startingGamificationValues.level(),
+                startingGamificationValues.experience(),
+                startingGamificationValues.money(),
                 dto.sendBudgetReports(),
                 dto.isProfilePublic(),
                 dto.isEmailVerified(),
