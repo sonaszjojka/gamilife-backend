@@ -20,14 +20,14 @@ VALUES (1, 'Easy', 1),
 -- Tabela: task
 -- =========================
 INSERT INTO task (task_id, title, start_time, end_time, category_id, difficulty_id,
-                  user_id, completed_at, description,is_group_task)
+                  user_id, completed_at, description, is_group_task, reward_issued)
 VALUES ('11111111-1111-1111-1111-111111111111', 'Finish report', NOW(), NOW() + INTERVAL '2 days',
-        1, 2, NULL,null,
-        'Finish the monthly report',false),
+        1, 2, NULL, NULL,
+        'Finish the monthly report', false, false),
 
        ('22222222-2222-2222-2222-222222222222', 'Morning workout', NOW(), NOW() + INTERVAL '1 day',
-        3, 1,  NULL,null,
-        '30 minutes jogging',false);
+        3, 1, NULL, NULL,
+        '30 minutes jogging', false, false);
 
 -- =========================
 -- Tabela: habit
@@ -134,8 +134,9 @@ VALUES ('11112222-3333-4444-5555-666677771111', '11112222-3333-4444-5555-6666777
 -- Tabela: level
 -- =========================
 INSERT INTO "level" (level, required_experience)
-VALUES (1, 0),
-       (2, 100),
+VALUES (0, 0),
+       (1, 100),
+       (2, 200),
        (3, 300),
        (4, 600),
        (5, 1000),
@@ -267,6 +268,12 @@ VALUES (1, 'Completed Tasks'),
        (6, 'Owned Items'),
        (7, 'Items Purchased'),
        (8, 'Group Items Purchased');
+
+INSERT INTO reward (id, statistic_type_id, experience, money)
+VALUES (gen_random_uuid(), 1, 10, 5),
+       (gen_random_uuid(), 2, 15, 10),
+       (gen_random_uuid(), 3, 15, 5),
+       (gen_random_uuid(), 4, 10, 0);
 
 -- Tabela: achievement
 -- =========================

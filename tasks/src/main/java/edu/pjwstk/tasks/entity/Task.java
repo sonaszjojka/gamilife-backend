@@ -52,6 +52,10 @@ public class Task {
     @Column(name = "is_group_task", nullable = false,updatable = false)
     private Boolean isGroupTask;
 
+    @Column(name = "reward_issued", nullable = false)
+    @Builder.Default
+    private boolean rewardIssued = false;
+
     @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
     private List<TaskNotification> taskNotifications;

@@ -11,7 +11,7 @@ public class GetAllLevelsWithRewardsUseCaseImpl implements GetAllLevelsWithRewar
     private final LevelRepository levelRepository;
 
     @Override
-    public GetAllLevelsWithRewardsResult executeInternal(GetAllLevelsWithRewardsCommand command) {
+    public GetAllLevelsWithRewardsResult executeInternal(GetAllLevelsWithRewardsCommand cmd) {
         return new GetAllLevelsWithRewardsResult(
                 levelRepository.findAllWithItemsByOrderByLevelAsc()
                         .stream()

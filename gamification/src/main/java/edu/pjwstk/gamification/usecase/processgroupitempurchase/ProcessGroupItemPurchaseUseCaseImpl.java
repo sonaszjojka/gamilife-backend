@@ -1,0 +1,19 @@
+package edu.pjwstk.gamification.usecase.processgroupitempurchase;
+
+import edu.pjwstk.core.enums.StatisticTypeEnum;
+import edu.pjwstk.gamification.service.UserStatisticsService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+public class ProcessGroupItemPurchaseUseCaseImpl implements ProcessGroupItemPurchaseUseCase {
+
+    private final UserStatisticsService userStatisticsService;
+
+    @Override
+    public Void executeInternal(ProcessGroupItemPurchaseCommand cmd) {
+        userStatisticsService.registerProgress(cmd.userId(), StatisticTypeEnum.GROUP_ITEMS_PURCHASED);
+        return null;
+    }
+}

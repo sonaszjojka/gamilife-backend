@@ -18,7 +18,7 @@ public class GetAllUserAchievementsUseCaseImpl implements GetAllUserAchievements
     private final AuthApi authApi;
 
     @Override
-    public GetAllUserAchievementsResult executeInternal(GetAllUserAchievementsCommand command) {
+    public GetAllUserAchievementsResult executeInternal(GetAllUserAchievementsCommand cmd) {
         CurrentUserDto currentUser = authApi.getCurrentUser();
         var userId = currentUser.userId();
 
@@ -31,7 +31,7 @@ public class GetAllUserAchievementsUseCaseImpl implements GetAllUserAchievements
                         details.description(),
                         details.imagePath(),
                         details.isUnlocked(),
-                        details.progress().intValue(),
+                        details.progress(),
                         details.goal()
                 ))
                 .collect(Collectors.toList());

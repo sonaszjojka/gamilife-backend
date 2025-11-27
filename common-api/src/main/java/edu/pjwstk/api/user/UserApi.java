@@ -1,9 +1,6 @@
 package edu.pjwstk.api.user;
 
-import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.api.user.dto.CheckIfUsersEmailIsVerifiedApiDto;
-import edu.pjwstk.api.user.dto.RegisterUserApiDto;
-import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import edu.pjwstk.api.user.dto.*;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -28,4 +25,8 @@ public interface UserApi {
     void resetUserPassword(UUID userId, String hashedNewPassword);
 
     int editUserMoneyBy(UUID userId, Integer money);
+
+    RewardedUserApiDto grantRewardsToUser(UUID userId, int experience, int money);
+
+    void levelUpUser(UUID userId, int level);
 }

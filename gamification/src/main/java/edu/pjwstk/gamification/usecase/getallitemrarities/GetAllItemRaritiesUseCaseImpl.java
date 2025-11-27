@@ -11,7 +11,7 @@ public class GetAllItemRaritiesUseCaseImpl implements GetAllItemRaritiesUseCase 
     private final RarityRepository rarityRepository;
 
     @Override
-    public GetAllItemRaritiesResult executeInternal(GetAllItemRaritiesCommand command) {
+    public GetAllItemRaritiesResult executeInternal(GetAllItemRaritiesCommand cmd) {
         return new GetAllItemRaritiesResult(
                 rarityRepository.findAll().stream()
                         .map(rarity -> new GetAllItemRaritiesResult.ItemRarityDTO(

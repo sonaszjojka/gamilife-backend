@@ -31,6 +31,7 @@ DROP TABLE IF EXISTS group_shop CASCADE;
 DROP TABLE IF EXISTS group_item_in_shop CASCADE;
 DROP TABLE IF EXISTS owned_group_item CASCADE;
 
+DROP TABLE IF EXISTS reward CASCADE;
 DROP TABLE IF EXISTS rarity CASCADE;
 DROP TABLE IF EXISTS achievement CASCADE;
 DROP TABLE IF EXISTS statistic_type CASCADE;
@@ -42,25 +43,6 @@ DROP TABLE IF EXISTS user_achievement CASCADE;
 DROP TABLE IF EXISTS user_inventory_item CASCADE;
 
 -- ==================== TASKS ====================
-DROP TABLE IF EXISTS task_notification CASCADE;
-DROP TABLE IF EXISTS task_category CASCADE;
-DROP TABLE IF EXISTS task_difficulty CASCADE;
-DROP TABLE IF EXISTS habit CASCADE;
-DROP TABLE IF EXISTS task CASCADE;
-
-CREATE TABLE habit
-(
-    habit_id        UUID    NOT NULL,
-    updated_at      TIMESTAMP WITHOUT TIME ZONE,
-    created_at      TIMESTAMP WITHOUT TIME ZONE,
-    cycle_length    BIGINT  NOT NULL,
-    current_streak  INTEGER NOT NULL,
-    longest_streak  INTEGER NOT NULL,
-    is_accepted     BOOLEAN NOT NULL,
-    accepted_date   TIMESTAMP WITHOUT TIME ZONE,
-    decline_message VARCHAR(300),
-    CONSTRAINT pk_habit PRIMARY KEY (habit_id)
-);
 
 CREATE TABLE task
 (
@@ -73,7 +55,8 @@ CREATE TABLE task
     user_id          UUID,
     completed_at     TIMESTAMP WITHOUT TIME ZONE,
     description      VARCHAR(200),
-    is_group_task    BOOLEAN                     NOT NULL,
+    is_group_task BOOLEAN                        NOT NULL,
+    reward_issued BOOLEAN                        NOT NULL,
     CONSTRAINT pk_task PRIMARY KEY (task_id)
 );
 
@@ -550,8 +533,19 @@ CREATE TABLE user_inventory_item
     user_id     uuid    NOT NULL,
     quantity    int     NOT NULL,
     is_equipped boolean NOT NULL,
+    CONSTRAINT item_id_user_id_unique UNIQUE (item_id, user_id),
     CONSTRAINT quantity_must_be_positive CHECK (quantity > 0) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT user_inventory_item_pk PRIMARY KEY (id)
+);
+
+-- Table: reward
+CREATE TABLE reward
+(
+    id                uuid NOT NULL,
+    statistic_type_id int  NOT NULL,
+    experience        int  NOT NULL,
+    money             int  NOT NULL,
+    CONSTRAINT reward_pk PRIMARY KEY (id)
 );
 
 -- Reference: achievement_statistic_type (table: achievement)
@@ -658,6 +652,15 @@ ALTER TABLE user_statistic
     ADD CONSTRAINT user_statistic_user
         FOREIGN KEY (user_id)
             REFERENCES "user" (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Reference: reward_statistic_type (table: reward)
+ALTER TABLE reward
+    ADD CONSTRAINT reward_statistic_type
+        FOREIGN KEY (statistic_type_id)
+            REFERENCES statistic_type (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;

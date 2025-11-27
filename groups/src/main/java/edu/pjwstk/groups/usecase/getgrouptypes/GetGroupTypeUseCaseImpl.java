@@ -13,7 +13,7 @@ public class GetGroupTypeUseCaseImpl implements GetGroupTypesUseCase {
     private final GroupTypeJpaRepository groupTypeRepository;
 
     @Override
-    public List<GetGroupTypesResult> executeInternal(GetGroupTypesCommand command) {
+    public List<GetGroupTypesResult> executeInternal(GetGroupTypesCommand cmd) {
         return groupTypeRepository.findAll().stream().map(groupType -> new GetGroupTypesResult(
                 groupType.getGroupTypeId(),
                 groupType.getTitle()

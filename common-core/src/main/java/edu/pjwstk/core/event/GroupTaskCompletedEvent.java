@@ -9,4 +9,5 @@ import java.util.UUID;
 @AllArgsConstructor
 public class GroupTaskCompletedEvent {
     private UUID userId;
+    private boolean rewardGranted;
 }
