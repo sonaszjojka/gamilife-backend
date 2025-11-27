@@ -43,25 +43,6 @@ DROP TABLE IF EXISTS user_achievement CASCADE;
 DROP TABLE IF EXISTS user_inventory_item CASCADE;
 
 -- ==================== TASKS ====================
-DROP TABLE IF EXISTS task_notification CASCADE;
-DROP TABLE IF EXISTS task_category CASCADE;
-DROP TABLE IF EXISTS task_difficulty CASCADE;
-DROP TABLE IF EXISTS habit CASCADE;
-DROP TABLE IF EXISTS task CASCADE;
-
-CREATE TABLE habit
-(
-    habit_id        UUID    NOT NULL,
-    updated_at      TIMESTAMP WITHOUT TIME ZONE,
-    created_at      TIMESTAMP WITHOUT TIME ZONE,
-    cycle_length    BIGINT  NOT NULL,
-    current_streak  INTEGER NOT NULL,
-    longest_streak  INTEGER NOT NULL,
-    is_accepted     BOOLEAN NOT NULL,
-    accepted_date   TIMESTAMP WITHOUT TIME ZONE,
-    decline_message VARCHAR(300),
-    CONSTRAINT pk_habit PRIMARY KEY (habit_id)
-);
 
 CREATE TABLE task
 (
@@ -74,7 +55,8 @@ CREATE TABLE task
     user_id          UUID,
     completed_at     TIMESTAMP WITHOUT TIME ZONE,
     description      VARCHAR(200),
-    is_group_task    BOOLEAN                     NOT NULL,
+    is_group_task BOOLEAN                        NOT NULL,
+    reward_issued BOOLEAN                        NOT NULL,
     CONSTRAINT pk_task PRIMARY KEY (task_id)
 );
 

@@ -3,6 +3,7 @@ package edu.pjwstk.gamification.event.handler;
 import edu.pjwstk.core.enums.StatisticTypeEnum;
 import edu.pjwstk.core.event.HabitStreakDownEvent;
 import edu.pjwstk.core.event.HabitStreakUpEvent;
+import edu.pjwstk.gamification.service.RewardService;
 import edu.pjwstk.gamification.service.UserStatisticsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +20,20 @@ import org.springframework.transaction.event.TransactionalEventListener;
 public class HabitEventHandler {
 
     private final UserStatisticsService userStatisticsService;
+    private final RewardService rewardService;
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onHabitStreakUp(HabitStreakUpEvent event) {
         userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.HABIT_STREAK);
+
+        if (!event.isRewardGranted()) {
+            rewardService.rewardUser(
+                    event.getUserId(),
+                    StatisticTypeEnum.HABIT_STREAK
+            );
+        }
     }
 
     @Async("gamificationEventExecutor")

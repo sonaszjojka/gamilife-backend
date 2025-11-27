@@ -20,14 +20,14 @@ VALUES (1, 'Easy', 1),
 -- Tabela: task
 -- =========================
 INSERT INTO task (task_id, title, start_time, end_time, category_id, difficulty_id,
-                  user_id, completed_at, description,is_group_task)
+                  user_id, completed_at, description, is_group_task, reward_issued)
 VALUES ('11111111-1111-1111-1111-111111111111', 'Finish report', NOW(), NOW() + INTERVAL '2 days',
-        1, 2, NULL,null,
-        'Finish the monthly report',false),
+        1, 2, NULL, NULL,
+        'Finish the monthly report', false, false),
 
        ('22222222-2222-2222-2222-222222222222', 'Morning workout', NOW(), NOW() + INTERVAL '1 day',
-        3, 1,  NULL,null,
-        '30 minutes jogging',false);
+        3, 1, NULL, NULL,
+        '30 minutes jogging', false, false);
 
 -- =========================
 -- Tabela: habit

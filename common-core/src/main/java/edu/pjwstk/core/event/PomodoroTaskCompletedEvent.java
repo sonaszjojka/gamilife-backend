@@ -9,4 +9,5 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PomodoroTaskCompletedEvent {
     private UUID userId;
+    private boolean rewardGranted;
 }

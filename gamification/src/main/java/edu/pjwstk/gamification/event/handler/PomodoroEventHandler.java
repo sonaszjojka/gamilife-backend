@@ -3,6 +3,7 @@ package edu.pjwstk.gamification.event.handler;
 import edu.pjwstk.core.enums.StatisticTypeEnum;
 import edu.pjwstk.core.event.PomodoroTaskCompletedEvent;
 import edu.pjwstk.core.event.PomodoroTaskUndoneEvent;
+import edu.pjwstk.gamification.service.RewardService;
 import edu.pjwstk.gamification.service.UserStatisticsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +20,20 @@ import org.springframework.transaction.event.TransactionalEventListener;
 public class PomodoroEventHandler {
 
     private final UserStatisticsService userStatisticsService;
+    private final RewardService rewardService;
 
     @Async("gamificationEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onPomodoroTaskCompleted(PomodoroTaskCompletedEvent event) {
         userStatisticsService.registerProgress(event.getUserId(), StatisticTypeEnum.POMODORO_TASKS_COMPLETED);
+
+        if (!event.isRewardGranted()) {
+            rewardService.rewardUser(
+                    event.getUserId(),
+                    StatisticTypeEnum.POMODORO_TASKS_COMPLETED
+            );
+        }
     }
 
     @Async("gamificationEventExecutor")

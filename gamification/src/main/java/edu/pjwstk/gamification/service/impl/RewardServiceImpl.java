@@ -2,8 +2,11 @@ package edu.pjwstk.gamification.service.impl;
 
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.RewardedUserApiDto;
+import edu.pjwstk.core.enums.StatisticTypeEnum;
 import edu.pjwstk.gamification.model.Level;
+import edu.pjwstk.gamification.model.Reward;
 import edu.pjwstk.gamification.repository.LevelRepository;
+import edu.pjwstk.gamification.repository.RewardRepository;
 import edu.pjwstk.gamification.service.RewardService;
 import edu.pjwstk.gamification.service.UserInventoryService;
 import jakarta.transaction.Transactional;
@@ -13,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,11 +27,21 @@ public class RewardServiceImpl implements RewardService {
     private final UserApi userApi;
     private final LevelRepository levelRepository;
     private final UserInventoryService userInventoryService;
+    private final RewardRepository rewardRepository;
 
     @Override
     @Transactional
-    public void rewardUser(UUID userId, int experience, int money) {
-        RewardedUserApiDto rewardedUser = userApi.grantRewardsToUser(userId, experience, money);
+    public void rewardUser(UUID userId, StatisticTypeEnum statisticTypeEnum) {
+        Optional<Reward> rewardOptional =
+                rewardRepository.findByStatisticTypeId(statisticTypeEnum.getStatisticTypeId());
+
+        if (rewardOptional.isEmpty()) {
+            log.warn("Reward not found for statistic type: {}", statisticTypeEnum);
+            return;
+        }
+        Reward reward = rewardOptional.get();
+
+        RewardedUserApiDto rewardedUser = userApi.grantRewardsToUser(userId, reward.getExperience(), reward.getMoney());
 
         List<Level> level = levelRepository.findWithRewardsForExperienceAmount(
                 rewardedUser.experience(),

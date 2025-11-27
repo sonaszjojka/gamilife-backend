@@ -1,7 +1,9 @@
 package edu.pjwstk.gamification.service;
 
+import edu.pjwstk.core.enums.StatisticTypeEnum;
+
 import java.util.UUID;
 
 public interface RewardService {
-    void rewardUser(UUID userId, int experience, int money);
+    void rewardUser(UUID userId, StatisticTypeEnum statisticTypeEnum);
 }
