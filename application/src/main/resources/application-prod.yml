@@ -29,6 +29,7 @@ spring:
       hibernate:
         format_sql: false
         use_sql_comments: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
     defer-datasource-initialization: false
 
