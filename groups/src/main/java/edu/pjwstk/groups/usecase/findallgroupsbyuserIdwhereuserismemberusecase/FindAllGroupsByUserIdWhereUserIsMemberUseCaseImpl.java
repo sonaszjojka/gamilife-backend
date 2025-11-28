@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 @Service
 @Slf4j
+@Transactional(readOnly = true)
 public class FindAllGroupsByUserIdWhereUserIsMemberUseCaseImpl implements FindAllGroupsByUserIdWhereUserIsMemberUseCase {
 
     private final GroupJpaRepository groupRepository;
     private final UserGroupsSpecificationBuilder specificationBuilder;
 
     @Override
-    @Transactional(readOnly = true)
     public FindAllGroupsByUserIdWhereUserIsMemberResult executeInternal(FindAllGroupsByUserIdWhereUserIsMemberCommand cmd) {
         GroupTypeEnum groupType = cmd.groupType() != null
                 ? GroupTypeEnum.fromId(cmd.groupType())
