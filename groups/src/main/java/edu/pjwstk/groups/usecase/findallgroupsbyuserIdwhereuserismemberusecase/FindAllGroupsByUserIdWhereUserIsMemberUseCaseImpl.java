@@ -39,7 +39,7 @@ public class FindAllGroupsByUserIdWhereUserIsMemberUseCaseImpl implements FindAl
 
     private FindAllGroupsByUserIdWhereUserIsMemberResult buildFindAllGroupsByUserIdResult(Page<Group> groupPage) {
         return new FindAllGroupsByUserIdWhereUserIsMemberResult(
-                groupPage.getTotalPages(),
+                (int) groupPage.getTotalElements(),
                 groupPage.getTotalPages(),
                 groupPage.getNumber(),
                 groupPage.getSize(),
