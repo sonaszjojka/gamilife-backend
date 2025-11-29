@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface GroupTaskMemberRepositoryJpa extends JpaRepository<GroupTaskMember, UUID> {
-    boolean findByGroupTaskId(GroupTask groupTaskId);
-    List<GroupTaskMember> findByGroupTaskId(UUID groupTaskId);
+    List<GroupTaskMember> findByGroupTaskId(GroupTask groupTaskId);
+
 }

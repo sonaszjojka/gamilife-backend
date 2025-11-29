@@ -49,7 +49,7 @@ public class GetGroupTasksUseCaseImpl implements GetGroupTasksUseCase {
                 groupTask ->{
                     TaskDto taskDto = tasksApi.findTaskByTaskId(groupTask.getTaskId());
                     List<GetGroupTaskMemberDto> groupTaskMembers =
-                            groupTaskMemberRepository.findByGroupTaskId(groupTask.getGroupTaskId())
+                            groupTaskMemberRepository.findByGroupTaskId(groupTask)
                                     .stream()
                                     .map(g -> new GetGroupTaskMemberDto(
                                             g.getGroupTaskMemberId(),
