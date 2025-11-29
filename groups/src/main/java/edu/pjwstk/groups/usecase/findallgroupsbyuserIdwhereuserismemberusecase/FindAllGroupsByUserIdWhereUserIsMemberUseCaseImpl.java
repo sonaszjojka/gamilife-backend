@@ -30,7 +30,7 @@ public class FindAllGroupsByUserIdWhereUserIsMemberUseCaseImpl implements FindAl
                 : null;
 
         Page<Group> groupPage = groupRepository
-                .findAll(
+                .findAllWithMembers(
                         getGroupSpecification(cmd, groupType),
                         createPageable(cmd)
                 );

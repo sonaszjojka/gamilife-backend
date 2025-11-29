@@ -1,6 +1,9 @@
 package edu.pjwstk.groups.repository;
 
 import edu.pjwstk.groups.model.Group;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -17,4 +20,6 @@ public interface GroupJpaRepository extends JpaRepository<Group, UUID>, JpaSpeci
     @EntityGraph(attributePaths = {"groupMembers"})
     List<Group> findWithGroupMembersByGroupIdIn(List<UUID> groupIds);
 
+    @EntityGraph(attributePaths = {"groupMembers"})
+    Page<Group> findAllWithMembers(Specification<Group> spec, Pageable pageable);
 }
