@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 public record GetGroupRequestsResult(
-        int totalElements,
+        long totalElements,
         int totalPages,
         int currentPage,
         int pageSize,

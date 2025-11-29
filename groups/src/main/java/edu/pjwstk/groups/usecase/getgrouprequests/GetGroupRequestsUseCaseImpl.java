@@ -75,7 +75,7 @@ public class GetGroupRequestsUseCaseImpl implements GetGroupRequestsUseCase {
 
     private GetGroupRequestsResult buildGetGroupRequestsResult(Page<GroupRequest> requestPage, List<GroupRequest> requests) {
         return new GetGroupRequestsResult(
-                requestPage.getTotalPages(),
+                requestPage.getTotalElements(),
                 requestPage.getTotalPages(),
                 requestPage.getNumber(),
                 requestPage.getSize(),

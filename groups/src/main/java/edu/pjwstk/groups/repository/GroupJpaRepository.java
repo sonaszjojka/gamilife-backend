@@ -14,14 +14,14 @@ import java.util.UUID;
 
 public interface GroupJpaRepository extends JpaRepository<Group, UUID>, JpaSpecificationExecutor<Group> {
 
-    @EntityGraph(attributePaths = {"groupMembers"})
+    @EntityGraph(attributePaths = {"groupMembers", "groupType"})
     Optional<Group> findWithGroupMembersByGroupId(UUID groupId);
 
-    @EntityGraph(attributePaths = {"groupMembers"})
+    @EntityGraph(attributePaths = {"groupMembers",  "groupType"})
     List<Group> findWithGroupMembersByGroupIdIn(List<UUID> groupIds);
 
     @Override
-    @EntityGraph(attributePaths = "groupMembers")
+    @EntityGraph(attributePaths = {"groupMembers", "groupType"})
     Page<Group> findAll(Specification<Group> spec, Pageable pageable);
 
 }
