@@ -860,4 +860,5 @@ VALUES
 INSERT INTO notification_type (id, name)
 VALUES (1, 'Task Completed'),
        (2, 'Item Acquired'),
-       (3, 'Level Up');
+       (3, 'Level Up'),
+       (99, 'Other');

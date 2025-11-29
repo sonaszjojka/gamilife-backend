@@ -43,7 +43,6 @@ public class NotificationRetry {
     @Column(name = "original_timestamp", nullable = false)
     private Instant originalTimestamp;
 
-    @NotNull
     @Column(name = "data", nullable = false)
     @JdbcTypeCode(SqlTypes.JSON)
     private Map<String, Object> data;

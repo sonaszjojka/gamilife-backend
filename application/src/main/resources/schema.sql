@@ -676,7 +676,7 @@ CREATE TABLE notification_retry
     title                varchar(100) NOT NULL,
     message              varchar(255) NOT NULL,
     original_timestamp   timestamp    NOT NULL,
-    data                 jsonb        NOT NULL,
+    data jsonb NULL,
     notification_type_id int          NOT NULL,
     CONSTRAINT notification_retry_pk PRIMARY KEY (id)
 );
