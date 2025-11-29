@@ -45,7 +45,7 @@ public class CookieUtilImpl implements CookieUtil {
                 .httpOnly(true)
                 .maxAge(Duration.ofSeconds(expiry))
                 .secure(secure)
-                .sameSite("None")
+                .sameSite("None") // comment on dev profile
                 .build();
     }
 }
