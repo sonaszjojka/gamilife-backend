@@ -24,4 +24,6 @@ public interface GroupJpaRepository extends JpaRepository<Group, UUID>, JpaSpeci
     @EntityGraph(attributePaths = {"groupMembers", "groupType"})
     Page<Group> findAll(Specification<Group> spec, Pageable pageable);
 
+    @EntityGraph(attributePaths = {"groupMembers", "groupType"})
+    Optional<Group> findWithGroupMembersAndGroupTypeByGroupId(UUID groupId);
 }
