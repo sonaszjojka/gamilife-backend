@@ -102,7 +102,7 @@
 
         <dependency>
             <groupId>edu.pjwstk</groupId>
-            <artifactId>notification</artifactId>
+            <artifactId>communication</artifactId>
             <version>0.0.1-alpha-v01</version>
         </dependency>
 

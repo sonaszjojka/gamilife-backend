@@ -22,7 +22,7 @@
         <module>email-sender</module>
         <module>common-web</module>
         <module>common-core</module>
-        <module>notification</module>
+        <module>communication</module>
     </modules>
     <name>gami-life</name>
     <description>Backend application GamiLife</description>
