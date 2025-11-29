@@ -41,10 +41,6 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
        CurrentUserDto userDto = authApi.getCurrentUser();
        UUID userId = userDto.userId();
 
-
-
-
-
         Specification<Task> taskSpecification = tasksSpecificationBuilder.build(
                 request.categoryId(),
                 request.difficultyId(),
@@ -71,12 +67,7 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                                     .longestStreak(habit.getLongestStreak())
                                     .acceptedDate(habit.getAcceptedDate())
                                     .build();
-
-                        System.out.println("===============================================================================");
-
-
                     }
-
                     return new GetUserTasksDto(
                             task.getId(),
                             task.getTitle(),
