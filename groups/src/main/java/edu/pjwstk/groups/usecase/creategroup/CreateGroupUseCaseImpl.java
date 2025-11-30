@@ -20,6 +20,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
 
@@ -31,8 +32,7 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
     private final GroupShopApi groupShopApi;
 
     @Override
-    @Transactional
-    public CreateGroupResult executeInternal(CreateGroupCommand cmd) {
+    public CreateGroupResult execute(CreateGroupCommand cmd) {
         GroupType groupType = getGroupType(cmd.groupTypeId());
         CurrentUserDto admin = authApi.getCurrentUser();
 

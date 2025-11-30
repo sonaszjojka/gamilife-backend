@@ -17,7 +17,7 @@ public class LogoutUserUseCaseImpl implements LogoutUserUseCase {
     private final JpaRefreshTokenRepository refreshTokenRepository;
 
     @Override
-    public Void executeInternal(LogoutUserCommand cmd) {
+    public Void execute(LogoutUserCommand cmd) {
         String hashedToken = tokenService.hashToken(cmd.refreshToken());
 
         RefreshToken refreshTokenFromDb = refreshTokenRepository

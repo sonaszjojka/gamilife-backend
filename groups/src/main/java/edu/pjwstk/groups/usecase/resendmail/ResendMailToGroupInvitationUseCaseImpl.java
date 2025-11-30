@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class ResendMailToGroupInvitationUseCaseImpl implements ResendMailToGroupInvitationUseCase {
 
@@ -27,8 +28,7 @@ public class ResendMailToGroupInvitationUseCaseImpl implements ResendMailToGroup
     private final GroupInvitationUtil groupInvitationUtil;
 
     @Override
-    @Transactional
-    public Void executeInternal(ResendMailToGroupInvitationCommand cmd) {
+    public Void execute(ResendMailToGroupInvitationCommand cmd) {
         GroupInvitation groupInvitation = getGroupInvitationWithGroup(cmd.groupId(), cmd.groupInvitationId());
         BasicUserInfoApiDto invitedUserDto = getInvitedUser(groupInvitation);
 

@@ -8,12 +8,13 @@ import edu.pjwstk.auth.exception.domain.InvalidCredentialsException;
 import edu.pjwstk.auth.service.EmailVerificationService;
 import edu.pjwstk.auth.service.TokenService;
 import edu.pjwstk.auth.usecase.common.LoginUserResult;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class LoginUserUseCaseImpl implements LoginUserUseCase {
 
@@ -23,8 +24,7 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
     private final EmailVerificationService emailVerificationService;
 
     @Override
-    @Transactional
-    public LoginUserResult executeInternal(LoginUserCommand cmd) {
+    public LoginUserResult execute(LoginUserCommand cmd) {
         SecureUserInfoApiDto user = userApi
                 .getSecureUserDataByEmail(cmd.email())
                 .orElseThrow(() -> new InvalidCredentialsException("Login credentials are invalid"));

@@ -12,10 +12,12 @@ import edu.pjwstk.auth.service.TokenService;
 import edu.pjwstk.auth.usecase.common.LoginUserResult;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class VerifyEmailUseCaseImpl implements VerifyEmailUseCase {
 
@@ -25,7 +27,7 @@ public class VerifyEmailUseCaseImpl implements VerifyEmailUseCase {
     private final UserApi userApi;
 
     @Override
-    public LoginUserResult executeInternal(VerifyEmailCommand cmd) {
+    public LoginUserResult execute(VerifyEmailCommand cmd) {
         String hashedCode = emailVerificationService.hashCode(cmd.code());
 
         EmailVerificationCode emailVerificationCode = emailVerificationRepository.findByUserIdAndCode(cmd.userId(), hashedCode)

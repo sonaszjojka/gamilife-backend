@@ -8,13 +8,14 @@ import edu.pjwstk.gamification.exception.domain.UserDoesNotHaveEnoughItemsExcept
 import edu.pjwstk.gamification.model.Item;
 import edu.pjwstk.gamification.model.UserInventoryItem;
 import edu.pjwstk.gamification.repository.UserInventoryItemRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class EditInventoryItemUseCaseImpl implements EditInventoryItemUseCase {
 
@@ -22,8 +23,7 @@ public class EditInventoryItemUseCaseImpl implements EditInventoryItemUseCase {
     private final UserApi userApi;
 
     @Override
-    @Transactional
-    public EditInventoryItemResult executeInternal(EditInventoryItemCommand cmd) {
+    public EditInventoryItemResult execute(EditInventoryItemCommand cmd) {
         checkIfUserExists(cmd.userId());
         UserInventoryItem userInventoryItem = getUserInventoryItemWithItem(cmd.userInventoryItemId());
 

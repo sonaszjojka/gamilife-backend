@@ -9,10 +9,12 @@ import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
 import edu.pjwstk.auth.service.EmailVerificationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class ResendEmailVerificationCodeUseCaseImpl implements ResendEmailVerificationCodeUseCase {
 
@@ -22,7 +24,7 @@ public class ResendEmailVerificationCodeUseCaseImpl implements ResendEmailVerifi
 
 
     @Override
-    public Void executeInternal(ResendEmailVerificationCodeCommand cmd) {
+    public Void execute(ResendEmailVerificationCodeCommand cmd) {
         CheckIfUsersEmailIsVerifiedApiDto dto = userApi.checkIfUsersEmailIsVerified(cmd.userId());
         if (dto.isVerified()) {
             throw new EmailAlreadyVerifiedException("Email already verified");

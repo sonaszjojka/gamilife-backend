@@ -18,7 +18,7 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
     private final GroupMemberJpaRepository groupMemberRepository;
 
     @Override
-    public LeaveGroupResult executeInternal(LeaveGroupCommand cmd) {
+    public LeaveGroupResult execute(LeaveGroupCommand cmd) {
         GroupMember groupMember = getGroupMemberWithGroup(cmd.groupId(), cmd.groupMemberId());
         Group group = groupMember.getGroup();
 

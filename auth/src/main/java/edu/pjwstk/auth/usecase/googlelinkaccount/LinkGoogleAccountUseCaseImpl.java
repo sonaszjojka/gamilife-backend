@@ -10,15 +10,16 @@ import edu.pjwstk.auth.models.UserOAuthProvider;
 import edu.pjwstk.auth.repository.JpaUserProviderRepository;
 import edu.pjwstk.auth.service.TokenService;
 import edu.pjwstk.auth.usecase.common.LoginUserResult;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class LinkGoogleAccountUseCaseImpl implements LinkGoogleAccountUseCase {
 
@@ -28,8 +29,7 @@ public class LinkGoogleAccountUseCaseImpl implements LinkGoogleAccountUseCase {
     private final TokenService tokenService;
 
     @Override
-    @Transactional
-    public Optional<LoginUserResult> executeInternal(LinkGoogleAccountCommand cmd) {
+    public Optional<LoginUserResult> execute(LinkGoogleAccountCommand cmd) {
         if (!cmd.shouldLink()) {
             return Optional.empty();
         }

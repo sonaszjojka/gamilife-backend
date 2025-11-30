@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
@@ -30,8 +31,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     private final UserApi userApi;
 
     @Override
-    @Transactional(readOnly = true)
-    public GetGroupByIdResult executeInternal(GetGroupByIdCommand cmd) {
+    public GetGroupByIdResult execute(GetGroupByIdCommand cmd) {
         Group group = getGroupById(cmd.groupId());
         CurrentUserDto currentUser = getCurrentUser();
 

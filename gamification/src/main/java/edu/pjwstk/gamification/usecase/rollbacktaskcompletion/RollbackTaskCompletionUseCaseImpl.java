@@ -12,7 +12,7 @@ public class RollbackTaskCompletionUseCaseImpl implements RollbackTaskCompletion
     private final UserStatisticsService userStatisticsService;
 
     @Override
-    public Void executeInternal(RollbackTaskCompletionCommand cmd) {
+    public Void execute(RollbackTaskCompletionCommand cmd) {
         userStatisticsService.rollbackProgress(cmd.userId(), StatisticTypeEnum.COMPLETED_TASKS);
         return null;
     }

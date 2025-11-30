@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase {
 
@@ -32,8 +33,7 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
     private final AuthApi authApi;
 
     @Override
-    @Transactional
-    public CreateGroupRequestResult executeInternal(CreateGroupRequestCommand cmd) {
+    public CreateGroupRequestResult execute(CreateGroupRequestCommand cmd) {
         Group group = getGroupWithMembers(cmd.groupId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 

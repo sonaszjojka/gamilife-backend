@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
 
@@ -28,8 +29,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
     private final AuthApi authApi;
 
     @Override
-    @Transactional
-    public CreateChatMessageResult executeInternal(CreateChatMessageCommand cmd) {
+    public CreateChatMessageResult execute(CreateChatMessageCommand cmd) {
         Group group = getGroup(cmd.groupId());
         GroupMember groupMember = getGroupMember(cmd.groupId(), cmd.groupMemberId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();

@@ -16,7 +16,7 @@ public class GetStartingGamificationValuesUseCaseImpl implements GetStartingGami
     private final LevelRepository levelRepository;
 
     @Override
-    public StartingGamificationValuesDto executeInternal(GetStartingGamificationValuesCommand cmd) {
+    public StartingGamificationValuesDto execute(GetStartingGamificationValuesCommand cmd) {
         List<Level> level = levelRepository.findStartingLevel(PageRequest.of(0, 1));
 
         if (level.isEmpty()) {

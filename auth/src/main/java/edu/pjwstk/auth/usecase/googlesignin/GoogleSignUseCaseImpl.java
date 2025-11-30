@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class GoogleSignUseCaseImpl implements GoogleSignInUseCase {
 
@@ -22,8 +23,7 @@ public class GoogleSignUseCaseImpl implements GoogleSignInUseCase {
     private final UserApi userApi;
 
     @Override
-    @Transactional
-    public GoogleSignInResult executeInternal(GoogleSignInCommand cmd) {
+    public GoogleSignInResult execute(GoogleSignInCommand cmd) {
         Map<String, String> tokenResponse = oAuthService.exchangeCodeForTokens(cmd.code(), cmd.codeVerifier());
         GoogleUserDto googleUserDto = oAuthService.extractUserInfoFromIdToken(tokenResponse.get("id_token"));
 

@@ -4,14 +4,13 @@ import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.api.user.dto.RegisterUserApiDto;
 import edu.pjwstk.auth.validators.PasswordValidator;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Validated
+@Transactional
 @AllArgsConstructor
 public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
     private final PasswordEncoder passwordEncoder;
@@ -19,8 +18,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
     private final UserApi userApi;
 
     @Override
-    @Transactional
-    public BasicUserInfoApiDto executeInternal(RegisterUserCommand cmd) {
+    public BasicUserInfoApiDto execute(RegisterUserCommand cmd) {
         passwordValidator.validate(cmd.password());
 
         RegisterUserApiDto user = new RegisterUserApiDto(

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class DeleteGroupInvitationUseCaseImpl implements DeleteGroupInvitationUseCase {
 
@@ -20,8 +21,7 @@ public class DeleteGroupInvitationUseCaseImpl implements DeleteGroupInvitationUs
     private final AuthApi authApi;
 
     @Override
-    @Transactional
-    public Void executeInternal(DeleteGroupInvitationCommand cmd) {
+    public Void execute(DeleteGroupInvitationCommand cmd) {
         GroupInvitation groupInvitation = getGroupInvitationWithGroup(cmd.groupId(), cmd.groupInvitationId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 

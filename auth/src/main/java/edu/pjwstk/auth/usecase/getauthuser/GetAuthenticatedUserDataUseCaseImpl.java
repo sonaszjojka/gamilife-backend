@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class GetAuthenticatedUserDataUseCaseImpl implements GetAuthenticatedUserDataUseCase {
     @Override
-    public CurrentUserDto executeInternal(GetAuthenticatedUserCommand cmd) {
+    public CurrentUserDto execute(GetAuthenticatedUserCommand cmd) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object userDetails = authentication.getPrincipal();
 

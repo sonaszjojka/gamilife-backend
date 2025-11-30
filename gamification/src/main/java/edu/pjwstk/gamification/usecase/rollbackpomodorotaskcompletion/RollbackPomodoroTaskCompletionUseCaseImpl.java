@@ -12,7 +12,7 @@ public class RollbackPomodoroTaskCompletionUseCaseImpl implements RollbackPomodo
     private final UserStatisticsService userStatisticsService;
 
     @Override
-    public Void executeInternal(RollbackPomodoroTaskCompletionCommand cmd) {
+    public Void execute(RollbackPomodoroTaskCompletionCommand cmd) {
         userStatisticsService.rollbackProgress(cmd.userId(), StatisticTypeEnum.POMODORO_TASKS_COMPLETED);
         return null;
     }

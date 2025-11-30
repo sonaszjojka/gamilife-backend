@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class DeleteGroupUseCaseImpl implements DeleteGroupUseCase {
 
@@ -18,8 +19,7 @@ public class DeleteGroupUseCaseImpl implements DeleteGroupUseCase {
     private final AuthApi authApi;
 
     @Override
-    @Transactional
-    public Void executeInternal(DeleteGroupCommand cmd) {
+    public Void execute(DeleteGroupCommand cmd) {
         Group group = groupRepository.findById(cmd.groupId())
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + cmd.groupId() + " not found!"));
 

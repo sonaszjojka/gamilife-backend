@@ -12,7 +12,7 @@ public class ProcessItemAcquisitionUseCaseImpl implements ProcessItemAcquisition
     private final UserStatisticsService userStatisticsService;
 
     @Override
-    public Void executeInternal(ProcessItemAcquisitionCommand cmd) {
+    public Void execute(ProcessItemAcquisitionCommand cmd) {
         userStatisticsService.registerProgress(cmd.userId(), StatisticTypeEnum.OWNED_ITEMS);
         return null;
     }

@@ -6,10 +6,8 @@ import edu.pjwstk.auth.validators.PasswordValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 @Service
-@Validated
 @AllArgsConstructor
 public class ChangePasswordUseCaseImpl implements ChangePasswordUseCase {
 
@@ -17,7 +15,7 @@ public class ChangePasswordUseCaseImpl implements ChangePasswordUseCase {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public String executeInternal(ChangePasswordCommand cmd) {
+    public String execute(ChangePasswordCommand cmd) {
         passwordValidator.validate(cmd.newPassword());
 
         if (!passwordEncoder.matches(cmd.providedPassword(), cmd.hashedUserPassword())) {

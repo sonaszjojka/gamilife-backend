@@ -1,7 +1,6 @@
 package edu.pjwstk.auth.usecase.sendforgotpasswordcode;
 
 import edu.pjwstk.api.emailSender.EmailSenderApi;
-import edu.pjwstk.core.exception.common.application.EmailSendingException;
 import edu.pjwstk.api.emailSender.MailContentType;
 import edu.pjwstk.api.emailSender.MailDto;
 import edu.pjwstk.api.user.UserApi;
@@ -10,17 +9,18 @@ import edu.pjwstk.auth.exception.domain.CannotCurrentlyCreateNewForgotPasswordCo
 import edu.pjwstk.auth.models.ForgotPasswordCode;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.service.ForgotPasswordCodeService;
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import edu.pjwstk.core.exception.common.application.EmailSendingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTokenUseCase {
 
@@ -37,8 +37,7 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
 
 
     @Override
-    @Transactional
-    public Boolean executeInternal(SendForgotPasswordCodeCommand cmd) {
+    public Boolean execute(SendForgotPasswordCodeCommand cmd) {
         Optional<BasicUserInfoApiDto> foundUser = userApi.getUserByEmail(cmd.email());
         if (foundUser.isEmpty()) {
             // No exception for security reasons

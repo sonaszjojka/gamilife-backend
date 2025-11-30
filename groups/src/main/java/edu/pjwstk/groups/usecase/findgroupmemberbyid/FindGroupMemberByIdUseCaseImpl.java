@@ -14,7 +14,7 @@ public class FindGroupMemberByIdUseCaseImpl implements FindGroupMemberByIdUseCas
     private final GroupMemberJpaRepository groupMemberRepository;
 
     @Override
-    public GroupMemberDto executeInternal(FindGroupMemberByIdCommand cmd) {
+    public GroupMemberDto execute(FindGroupMemberByIdCommand cmd) {
         GroupMember groupMember = groupMemberRepository.findById(cmd.groupMemberId())
                 .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: " +
                         cmd.groupMemberId() + " not found")

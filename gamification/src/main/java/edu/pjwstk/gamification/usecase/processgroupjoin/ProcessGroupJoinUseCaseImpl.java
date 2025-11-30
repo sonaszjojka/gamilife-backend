@@ -12,7 +12,7 @@ public class ProcessGroupJoinUseCaseImpl implements ProcessGroupJoinUseCase {
     private final UserStatisticsService userStatisticsService;
 
     @Override
-    public Void executeInternal(ProcessGroupJoinCommand cmd) {
+    public Void execute(ProcessGroupJoinCommand cmd) {
         if (cmd.isFirstTimeJoin()) {
             userStatisticsService.registerProgress(cmd.userId(), StatisticTypeEnum.JOINED_GROUPS);
         }

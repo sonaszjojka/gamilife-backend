@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @AllArgsConstructor
 public class FindGroupByIdUseCaseImpl implements FindGroupByIdUseCase {
 
     private final GroupJpaRepository groupRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public GroupDto executeInternal(FindGroupByIdCommand cmd) {
+    public GroupDto execute(FindGroupByIdCommand cmd) {
         Group group = groupRepository.findById(cmd.groupId())
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + cmd.groupId() + " not found!"));
 
