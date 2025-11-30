@@ -43,7 +43,7 @@ public class SendUserEmailUseCaseImpl implements SendUserEmailUseCase {
     private boolean sendEmails;
 
     @Override
-    public Void executeInternal(SendUserEmailCommand cmd) {
+    public Void execute(SendUserEmailCommand cmd) {
         if (!sendEmails) {
             log.info("Email sending is disabled - skipping");
             return null;

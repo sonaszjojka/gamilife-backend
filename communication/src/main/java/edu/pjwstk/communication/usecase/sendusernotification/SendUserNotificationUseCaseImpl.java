@@ -11,7 +11,7 @@ public class SendUserNotificationUseCaseImpl implements SendUserNotificationUseC
     private final NotificationService notificationService;
 
     @Override
-    public Void executeInternal(SendUserNotificationCommand cmd) {
+    public Void execute(SendUserNotificationCommand cmd) {
         notificationService.sendUserNotification(cmd.userId(), cmd.notificationDto());
 
         return null;
