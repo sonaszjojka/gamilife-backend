@@ -11,6 +11,7 @@ public record UserDetailsDto(
         String username,
         LocalDate dateOfBirth,
         int experience,
+        int level,
         int money,
         boolean sendBudgetReports,
         boolean isProfilePublic,

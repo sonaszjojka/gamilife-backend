@@ -30,6 +30,7 @@ public class GetUserDetailsUseCaseImpl implements GetUserDetailsUseCase {
                 user.getUsername(),
                 user.getDateOfBirth(),
                 user.getExperience(),
+                user.getLevel(),
                 user.getMoney(),
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),
