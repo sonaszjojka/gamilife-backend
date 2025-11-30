@@ -72,7 +72,7 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
 
     private GetGroupsResult buildGetGroupsResult(Page<Group> groupPage, List<Group> groups) {
         return new GetGroupsResult(
-                groupPage.getTotalPages(),
+                groupPage.getTotalElements(),
                 groupPage.getTotalPages(),
                 groupPage.getNumber(),
                 groupPage.getSize(),

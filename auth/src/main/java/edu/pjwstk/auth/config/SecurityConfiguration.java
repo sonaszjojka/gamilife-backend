@@ -49,7 +49,7 @@ public class SecurityConfiguration {
                                 "/api/v1/users/**",
                                 "/api/v1/store/**",
                                 "/api/v1/item-rarities/**",
-                                "api/v1/levels/**"
+                                "/api/v1/levels/**"
                         ).hasRole("VERIFIED")
                         .anyRequest().authenticated()
                 )
@@ -96,7 +96,7 @@ public class SecurityConfiguration {
     ) {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(frontendUrl));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "X-Requested-With", "Cookie"));
         configuration.setAllowCredentials(true);
 

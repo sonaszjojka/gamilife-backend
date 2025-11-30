@@ -24,11 +24,12 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: false
         use_sql_comments: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
     defer-datasource-initialization: false
 
@@ -46,7 +47,7 @@ spring:
     refresh-token:
       expires-in: 604800   # 7 days
     access-token:
-      expires-in: 900      # 15 days
+      expires-in: 900      # 15 min
 
   codes:
     verification-code:
@@ -64,7 +65,7 @@ spring:
           google:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
-            redirect-uri: "https://twoja-domena.pl/oauth2/callback"
+            redirect-uri: "${FRONTEND_URL}/oauth2/callback"
             scope:
               - openid
               - profile
@@ -84,6 +85,9 @@ logging:
 
 server:
   port: 8080
+  ssl:
+    enabled: false
+    secure: true
 
 app:
   invitation:

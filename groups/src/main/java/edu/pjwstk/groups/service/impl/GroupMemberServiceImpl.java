@@ -8,6 +8,7 @@ import edu.pjwstk.groups.repository.GroupMemberJpaRepository;
 import edu.pjwstk.groups.service.GroupMemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -20,6 +21,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     private final GroupMemberJpaRepository groupMemberRepository;
 
     @Override
+    @Transactional
     public GroupMember createGroupMember(Group group, UUID userId) {
         if (group.isFull()) {
             throw new GroupFullException("Group with id: " + group.getGroupId() + " is full!");

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 
 public record GetGroupsResult(
-        int totalElements,
+        long totalElements,
         int totalPages,
         int currentPage,
         int pageSize,

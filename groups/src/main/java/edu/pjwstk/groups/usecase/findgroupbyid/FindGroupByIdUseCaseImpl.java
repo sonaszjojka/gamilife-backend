@@ -6,6 +6,7 @@ import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -14,6 +15,7 @@ public class FindGroupByIdUseCaseImpl implements FindGroupByIdUseCase {
     private final GroupJpaRepository groupRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public GroupDto executeInternal(FindGroupByIdCommand cmd) {
         Group group = groupRepository.findById(cmd.groupId())
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + cmd.groupId() + " not found!"));

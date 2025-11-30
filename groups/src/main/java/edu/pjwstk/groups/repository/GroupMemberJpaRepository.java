@@ -13,8 +13,10 @@ import java.util.UUID;
 public interface GroupMemberJpaRepository extends JpaRepository<GroupMember, UUID> {
     boolean existsByUserIdAndGroup(UUID userId, Group memberGroup);
 
+    @EntityGraph(attributePaths = {"group"})
     Optional<GroupMember> findByUserIdAndGroup(UUID userId, Group memberGroup);
 
+    @EntityGraph(attributePaths = {"group"})
     Optional<GroupMember> findByGroupMemberIdAndGroupId(UUID groupMemberId, UUID groupId);
 
     @EntityGraph(attributePaths = {"group"})
@@ -27,6 +29,7 @@ public interface GroupMemberJpaRepository extends JpaRepository<GroupMember, UUI
                   AND gm.group = :group
                   AND gm.leftAt IS NULL
             """)
+    @EntityGraph(attributePaths = {"group"})
     Optional<GroupMember> findActiveMember(UUID userId, Group group);
 
     boolean existsByUserIdAndGroupAndLeftAt(UUID userId, Group group, Instant leftAt);

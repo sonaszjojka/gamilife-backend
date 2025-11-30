@@ -54,7 +54,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     }
 
     private Group getGroupById(UUID groupId) {
-        return groupRepository.findById(groupId)
+        return groupRepository.findWithGroupMembersAndGroupTypeByGroupId(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
     }
 

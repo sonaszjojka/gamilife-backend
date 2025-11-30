@@ -17,18 +17,17 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 @Service
 @Slf4j
+@Transactional(readOnly = true)
 public class FindAllGroupsByUserIdWhereUserIsMemberUseCaseImpl implements FindAllGroupsByUserIdWhereUserIsMemberUseCase {
 
     private final GroupJpaRepository groupRepository;
     private final UserGroupsSpecificationBuilder specificationBuilder;
 
     @Override
-    @Transactional(readOnly = true)
     public FindAllGroupsByUserIdWhereUserIsMemberResult executeInternal(FindAllGroupsByUserIdWhereUserIsMemberCommand cmd) {
         GroupTypeEnum groupType = cmd.groupType() != null
                 ? GroupTypeEnum.fromId(cmd.groupType())
                 : null;
-
         Page<Group> groupPage = groupRepository
                 .findAll(
                         getGroupSpecification(cmd, groupType),
@@ -39,7 +38,7 @@ public class FindAllGroupsByUserIdWhereUserIsMemberUseCaseImpl implements FindAl
 
     private FindAllGroupsByUserIdWhereUserIsMemberResult buildFindAllGroupsByUserIdResult(Page<Group> groupPage) {
         return new FindAllGroupsByUserIdWhereUserIsMemberResult(
-                groupPage.getTotalPages(),
+                (int) groupPage.getTotalElements(),
                 groupPage.getTotalPages(),
                 groupPage.getNumber(),
                 groupPage.getSize(),
