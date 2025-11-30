@@ -19,7 +19,7 @@ public class JoinedGroupEventHandler {
 
     private final ProcessGroupJoinUseCase processGroupJoinUseCase;
 
-    @Async("gamificationEventExecutor")
+    @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupJoined(JoinedGroupEvent event) {

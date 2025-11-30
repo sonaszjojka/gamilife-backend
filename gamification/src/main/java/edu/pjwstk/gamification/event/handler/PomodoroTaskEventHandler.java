@@ -23,7 +23,7 @@ public class PomodoroTaskEventHandler {
     private final ProcessPomodoroTaskCompletionUseCase processPomodoroTaskCompletionUseCase;
     private final RollbackPomodoroTaskCompletionUseCase rollbackPomodoroTaskCompletionUseCase;
 
-    @Async("gamificationEventExecutor")
+    @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onPomodoroTaskCompleted(PomodoroTaskCompletedEvent event) {
@@ -33,7 +33,7 @@ public class PomodoroTaskEventHandler {
         ));
     }
 
-    @Async("gamificationEventExecutor")
+    @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onPomodoroTaskUndone(PomodoroTaskUndoneEvent event) {

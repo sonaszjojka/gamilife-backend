@@ -49,7 +49,8 @@ public class SecurityConfiguration {
                                 "/api/v1/users/**",
                                 "/api/v1/store/**",
                                 "/api/v1/item-rarities/**",
-                                "/api/v1/levels/**"
+                                "/api/v1/levels/**",
+                                "/ws"
                         ).hasRole("VERIFIED")
                         .anyRequest().authenticated()
                 )

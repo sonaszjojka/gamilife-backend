@@ -23,7 +23,7 @@ public class GroupTaskEventHandler {
     private final ProcessGroupTaskCompletionUseCase processGroupTaskCompletionUseCase;
     private final RollbackGroupTaskCompletionUseCase rollbackGroupTaskCompletionUseCase;
 
-    @Async("gamificationEventExecutor")
+    @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupTaskCompleted(GroupTaskCompletedEvent event) {
@@ -33,7 +33,7 @@ public class GroupTaskEventHandler {
         ));
     }
 
-    @Async("gamificationEventExecutor")
+    @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupTaskUndone(GroupTaskUndoneEvent event) {

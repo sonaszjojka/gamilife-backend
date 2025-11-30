@@ -19,7 +19,7 @@ public class GroupItemEventHandler {
 
     private final ProcessGroupItemPurchaseUseCase processGroupItemPurchaseUseCase;
 
-    @Async("gamificationEventExecutor")
+    @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupItemPurchased(GroupItemPurchasedEvent event) {
