@@ -1,9 +1,9 @@
-package edu.pjwstk.communication.event;
+package edu.pjwstk.communication.event.handler;
 
 import edu.pjwstk.communication.dto.NotificationDto;
 import edu.pjwstk.communication.model.NotificationRetry;
 import edu.pjwstk.communication.repository.NotificationRetryRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Slf4j
 public class WebSocketEventHandler {
 

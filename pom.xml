@@ -19,7 +19,6 @@
         <module>tasks</module>
         <module>user</module>
         <module>common-api</module>
-        <module>email-sender</module>
         <module>common-web</module>
         <module>common-core</module>
         <module>communication</module>

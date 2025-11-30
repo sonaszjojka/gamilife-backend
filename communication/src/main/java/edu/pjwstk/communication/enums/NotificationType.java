@@ -9,6 +9,7 @@ public enum NotificationType {
     TASK_COMPLETED(1),
     ITEM_ACQUIRED(2),
     LEVEL_UP(3),
+    GROUP_INVITATION(4),
     OTHER(99);
 
     private final int id;

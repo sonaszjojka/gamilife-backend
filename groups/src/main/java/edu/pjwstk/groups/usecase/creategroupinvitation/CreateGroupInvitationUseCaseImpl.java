@@ -3,11 +3,9 @@ package edu.pjwstk.groups.usecase.creategroupinvitation;
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.api.emailSender.EmailSenderApi;
-import edu.pjwstk.api.emailSender.MailContentType;
-import edu.pjwstk.api.emailSender.MailDto;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.core.exception.common.application.EmailSendingException;
+import edu.pjwstk.core.event.GroupInvitationCreatedEvent;
 import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
@@ -22,6 +20,7 @@ import edu.pjwstk.groups.repository.GroupJpaRepository;
 import edu.pjwstk.groups.repository.InvitationStatusJpaRepository;
 import edu.pjwstk.groups.util.GroupInvitationUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,8 +37,8 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     private final GroupJpaRepository groupRepository;
     private final AuthApi authApi;
     private final GroupInvitationUtil groupInvitationUtil;
-    private final EmailSenderApi emailSenderApi;
     private final UserApi userApi;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public CreateGroupInvitationResult execute(CreateGroupInvitationCommand cmd) {
@@ -59,16 +58,11 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
 
         GroupInvitation groupInvitation = createGroupInvitation(group, invitationStatus, userToInvite.userId());
 
-        try {
-            emailSenderApi.sendEmail(MailDto.builder()
-                    .toEmail(userToInvite.email())
-                    .subject(groupInvitationUtil.generateInvitationMailSubjectMessage())
-                    .content(groupInvitationUtil.generateInvitationMailContentMessage(groupInvitation.getLink(), group.getJoinCode()))
-                    .mailContentType(MailContentType.HTML)
-                    .build());
-        } catch (EmailSendingException e) {
-            // TODO resend email or mark for resend
-        }
+        eventPublisher.publishEvent(new GroupInvitationCreatedEvent(
+                userToInvite.userId(),
+                group.getJoinCode(),
+                groupInvitation.getLink()
+        ));
 
         return createResponse(groupInvitation);
     }
