@@ -1,5 +1,7 @@
 package edu.pjwstk.user.usecase.impl;
 
+import edu.pjwstk.api.gamification.GamificationApi;
+import edu.pjwstk.api.gamification.dto.StartingGamificationValuesDto;
 import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.dto.service.UserDetailsDto;
@@ -7,6 +9,7 @@ import edu.pjwstk.user.persistence.UserRepository;
 import edu.pjwstk.user.usecase.GetUserDetailsUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -30,6 +33,7 @@ public class GetUserDetailsUseCaseImpl implements GetUserDetailsUseCase {
                 user.getUsername(),
                 user.getDateOfBirth(),
                 user.getExperience(),
+                user.getLevel(),
                 user.getMoney(),
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),
