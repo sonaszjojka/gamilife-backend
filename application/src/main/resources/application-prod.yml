@@ -97,3 +97,9 @@ app:
     main-url: ${FRONTEND_URL}
     reset-password-url: "/reset-password"
     email-verification-url: "/verify-email"
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

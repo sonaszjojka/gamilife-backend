@@ -11,14 +11,14 @@ import java.util.concurrent.Executor;
 @EnableAsync
 public class AsyncConfiguration {
 
-    @Bean(name = "gamificationEventExecutor")
+    @Bean(name = "eventExecutor")
     public Executor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
         executor.setCorePoolSize(10);
         executor.setMaxPoolSize(100);
         executor.setQueueCapacity(500);
-        executor.setThreadNamePrefix("GamificationAsync-");
+        executor.setThreadNamePrefix("EventAsync-");
         executor.initialize();
 
         return executor;

@@ -23,14 +23,14 @@ public class ItemEventHandler {
     private final ProcessItemAcquisitionUseCase processItemAcquisitionUseCase;
     private final ProcessItemPurchaseUseCase processItemPurchaseUseCase;
 
-    @Async("gamificationEventExecutor")
+    @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onItemBought(ItemBoughtEvent event) {
         processItemPurchaseUseCase.execute(new ProcessItemPurchaseCommand(event.getUserId()));
     }
 
-    @Async("gamificationEventExecutor")
+    @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onItemAcquired(ItemAcquiredEvent event) {

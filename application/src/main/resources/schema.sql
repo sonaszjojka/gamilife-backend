@@ -26,7 +26,6 @@ DROP TABLE IF EXISTS group_member CASCADE;
 DROP TABLE IF EXISTS group_invitation CASCADE;
 DROP TABLE IF EXISTS chat_message CASCADE;
 
-
 DROP TABLE IF EXISTS group_shop CASCADE;
 DROP TABLE IF EXISTS group_item_in_shop CASCADE;
 DROP TABLE IF EXISTS owned_group_item CASCADE;
@@ -41,6 +40,9 @@ DROP TABLE IF EXISTS item_slot CASCADE;
 DROP TABLE IF EXISTS "level" CASCADE;
 DROP TABLE IF EXISTS user_achievement CASCADE;
 DROP TABLE IF EXISTS user_inventory_item CASCADE;
+
+DROP TABLE IF EXISTS notification_retry CASCADE;
+DROP TABLE IF EXISTS notification_type CASCADE;
 
 -- ==================== TASKS ====================
 
@@ -665,3 +667,42 @@ ALTER TABLE reward
                 INITIALLY IMMEDIATE
 ;
 
+-- ==========================================Communication==========================================
+-- Table: notification_retry
+CREATE TABLE notification_retry
+(
+    id                   uuid         NOT NULL,
+    user_id              uuid         NOT NULL,
+    title                varchar(100) NOT NULL,
+    message              varchar(255) NOT NULL,
+    original_timestamp   timestamp    NOT NULL,
+    data jsonb NULL,
+    notification_type_id int          NOT NULL,
+    CONSTRAINT notification_retry_pk PRIMARY KEY (id)
+);
+
+-- Table: notification_type
+CREATE TABLE notification_type
+(
+    id   int          NOT NULL,
+    name varchar(255) NOT NULL,
+    CONSTRAINT notification_type_pk PRIMARY KEY (id)
+);
+
+-- Reference: notification_retry_notification_type (table: notification_retry)
+ALTER TABLE notification_retry
+    ADD CONSTRAINT notification_retry_notification_type
+        FOREIGN KEY (notification_type_id)
+            REFERENCES notification_type (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Reference: notification_retry_user (table: notification_retry)
+ALTER TABLE notification_retry
+    ADD CONSTRAINT notification_retry_user
+        FOREIGN KEY (user_id)
+            REFERENCES "user" (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;

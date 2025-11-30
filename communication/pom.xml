@@ -9,7 +9,7 @@
         <version>0.0.1-alpha-v01</version>
     </parent>
 
-    <artifactId>email-sender</artifactId>
+    <artifactId>communication</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -19,24 +19,36 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.sendgrid</groupId>
-            <artifactId>sendgrid-java</artifactId>
-            <version>4.10.3</version>
+            <groupId>edu.pjwstk</groupId>
+            <artifactId>common-core</artifactId>
+            <version>0.0.1-alpha-v01</version>
         </dependency>
+
         <dependency>
             <groupId>edu.pjwstk</groupId>
             <artifactId>common-api</artifactId>
             <version>0.0.1-alpha-v01</version>
         </dependency>
+
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.17</version>
+            <groupId>com.sendgrid</groupId>
+            <artifactId>sendgrid-java</artifactId>
+            <version>4.10.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
         </dependency>
     </dependencies>
 

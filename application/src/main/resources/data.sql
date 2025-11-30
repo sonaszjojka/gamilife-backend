@@ -856,3 +856,10 @@ VALUES
      'An orb of data mist—with every turn, it shows a different scenario. Which one will you choose?',
      '/images/items/accessory/mystic_orb_v2.png', 96, 5, 4, NULL,
      (SELECT id FROM achievement WHERE name = 'Community Member'), NULL);
+
+INSERT INTO notification_type (id, name)
+VALUES (1, 'Task Completed'),
+       (2, 'Item Acquired'),
+       (3, 'Level Up'),
+       (4, 'Group Invitation'),
+       (99, 'Other');

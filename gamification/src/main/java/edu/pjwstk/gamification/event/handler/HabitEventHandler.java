@@ -19,7 +19,7 @@ public class HabitEventHandler {
 
     private final ProcessHabitStreakChangeUseCase processHabitStreakChangeUseCase;
 
-    @Async("gamificationEventExecutor")
+    @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onHabitStreakUp(HabitStreakChangedEvent event) {
