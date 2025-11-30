@@ -3,11 +3,12 @@ package edu.pjwstk.gamification.usecase.processhabitstreakchange;
 import edu.pjwstk.core.enums.StatisticTypeEnum;
 import edu.pjwstk.gamification.service.RewardService;
 import edu.pjwstk.gamification.service.UserStatisticsService;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class ProcessHabitStreakChangeUseCaseImpl implements ProcessHabitStreakChangeUseCase {
 
@@ -15,8 +16,7 @@ public class ProcessHabitStreakChangeUseCaseImpl implements ProcessHabitStreakCh
     private final RewardService rewardService;
 
     @Override
-    @Transactional
-    public Void executeInternal(ProcessHabitStreakChangeCommand cmd) {
+    public Void execute(ProcessHabitStreakChangeCommand cmd) {
         userStatisticsService.registerProgressIfHigherThan(
                 cmd.userId(),
                 StatisticTypeEnum.HABIT_STREAK,

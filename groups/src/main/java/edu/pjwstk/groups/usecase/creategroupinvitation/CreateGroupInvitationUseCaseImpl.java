@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUseCase {
 
@@ -41,8 +42,7 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     private final UserApi userApi;
 
     @Override
-    @Transactional
-    public CreateGroupInvitationResult executeInternal(CreateGroupInvitationCommand cmd) {
+    public CreateGroupInvitationResult execute(CreateGroupInvitationCommand cmd) {
         CurrentUserDto adminDto = authApi.getCurrentUser();
         Group group = getGroupWithMembers(cmd.groupId());
         BasicUserInfoApiDto userToInvite = getUserToInvite(cmd.userId());

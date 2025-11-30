@@ -3,11 +3,12 @@ package edu.pjwstk.gamification.usecase.processpomodorotaskcompletion;
 import edu.pjwstk.core.enums.StatisticTypeEnum;
 import edu.pjwstk.gamification.service.RewardService;
 import edu.pjwstk.gamification.service.UserStatisticsService;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class ProcessPomodoroTaskCompletionUseCaseImpl implements ProcessPomodoroTaskCompletionUseCase {
 
@@ -15,8 +16,7 @@ public class ProcessPomodoroTaskCompletionUseCaseImpl implements ProcessPomodoro
     private final RewardService rewardService;
 
     @Override
-    @Transactional
-    public Void executeInternal(ProcessPomodoroTaskCompletionCommand cmd) {
+    public Void execute(ProcessPomodoroTaskCompletionCommand cmd) {
         userStatisticsService.registerProgress(cmd.userId(), StatisticTypeEnum.POMODORO_TASKS_COMPLETED);
 
         if (!cmd.rewardGranted()) {

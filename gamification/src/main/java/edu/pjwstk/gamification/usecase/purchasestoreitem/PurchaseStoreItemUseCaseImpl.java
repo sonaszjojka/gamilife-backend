@@ -10,13 +10,14 @@ import edu.pjwstk.gamification.model.Item;
 import edu.pjwstk.gamification.model.UserInventoryItem;
 import edu.pjwstk.gamification.repository.ItemRepository;
 import edu.pjwstk.gamification.service.UserInventoryService;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class PurchaseStoreItemUseCaseImpl implements PurchaseStoreItemUseCase {
 
@@ -25,8 +26,7 @@ public class PurchaseStoreItemUseCaseImpl implements PurchaseStoreItemUseCase {
     private final ItemRepository itemRepository;
 
     @Override
-    @Transactional
-    public PurchaseStoreItemResult executeInternal(PurchaseStoreItemCommand cmd) {
+    public PurchaseStoreItemResult execute(PurchaseStoreItemCommand cmd) {
         BasicUserInfoApiDto user = getUser(cmd.userId());
         Item item = getItem(cmd.itemId());
 

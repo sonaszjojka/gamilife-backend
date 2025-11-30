@@ -3,11 +3,12 @@ package edu.pjwstk.gamification.usecase.processgrouptaskcompletion;
 import edu.pjwstk.core.enums.StatisticTypeEnum;
 import edu.pjwstk.gamification.service.RewardService;
 import edu.pjwstk.gamification.service.UserStatisticsService;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class ProcessGroupTaskCompletionUseCaseImpl implements ProcessGroupTaskCompletionUseCase {
 
@@ -15,8 +16,7 @@ public class ProcessGroupTaskCompletionUseCaseImpl implements ProcessGroupTaskCo
     private final RewardService rewardService;
 
     @Override
-    @Transactional
-    public Void executeInternal(ProcessGroupTaskCompletionCommand cmd) {
+    public Void execute(ProcessGroupTaskCompletionCommand cmd) {
         userStatisticsService.registerProgress(cmd.userId(), StatisticTypeEnum.GROUP_TASKS_COMPLETED);
 
         if (!cmd.rewardGranted()) {

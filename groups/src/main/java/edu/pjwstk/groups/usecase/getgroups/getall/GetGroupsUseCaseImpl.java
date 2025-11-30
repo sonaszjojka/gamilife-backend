@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
@@ -27,8 +28,7 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
     private final GroupSpecificationBuilder specificationBuilder;
 
     @Override
-    @Transactional(readOnly = true)
-    public GetGroupsResult executeInternal(GetGroupsCommand cmd) {
+    public GetGroupsResult execute(GetGroupsCommand cmd) {
         log.debug("Fetching groups with filters: {}", cmd);
 
         GroupTypeEnum groupType = cmd.type() != null

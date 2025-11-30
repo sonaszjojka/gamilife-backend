@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class DeleteGroupRequestUseCaseImpl implements DeleteGroupRequestUseCase {
 
@@ -20,8 +21,7 @@ public class DeleteGroupRequestUseCaseImpl implements DeleteGroupRequestUseCase 
     private final AuthApi authApi;
 
     @Override
-    @Transactional
-    public Void executeInternal(DeleteGroupRequestCommand cmd) {
+    public Void execute(DeleteGroupRequestCommand cmd) {
         GroupRequest groupRequest = getGroupRequest(cmd.groupId(), cmd.groupRequestId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 

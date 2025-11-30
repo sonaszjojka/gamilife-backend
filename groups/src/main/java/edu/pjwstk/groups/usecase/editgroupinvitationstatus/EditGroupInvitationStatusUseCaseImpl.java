@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitationStatusUseCase {
 
@@ -33,8 +34,7 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
     private final GroupJpaRepository groupRepository;
 
     @Override
-    @Transactional
-    public EditGroupInvitationStatusResult executeInternal(EditGroupInvitationStatusCommand cmd) {
+    public EditGroupInvitationStatusResult execute(EditGroupInvitationStatusCommand cmd) {
         Group group = getGroupWithMembers(cmd.groupId());
         GroupInvitation groupInvitation = getGroupInvitationWithGroup(cmd.groupInvitationId(), cmd.groupId());
         InvitationStatus newInvitationStatus = getInvitationStatus(cmd.invitationStatusId());

@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGroupRequestStatusForGroupRequestUseCase {
 
@@ -33,8 +34,7 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
     private final GroupJpaRepository groupJpaRepository;
 
     @Override
-    @Transactional
-    public EditGroupRequestStatusForGroupRequestResult executeInternal(EditGroupRequestStatusForGroupRequestCommand cmd) {
+    public EditGroupRequestStatusForGroupRequestResult execute(EditGroupRequestStatusForGroupRequestCommand cmd) {
         Group group = getGroupWithMembers(cmd.groupId());
         GroupRequest groupRequest = getGroupRequest(cmd.groupId(), cmd.groupRequestId());
         GroupRequestStatus newGroupRequestStatus = getGroupRequestStatus(cmd.newGroupRequestStatusId());

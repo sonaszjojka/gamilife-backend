@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMemberInOpenGroupUseCase {
 
@@ -24,8 +25,7 @@ public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMembe
     private final GroupMemberService groupMemberService;
 
     @Override
-    @Transactional
-    public CreateGroupMemberInOpenGroupResult executeInternal(CreateGroupMemberInOpenGroupCommand cmd) {
+    public CreateGroupMemberInOpenGroupResult execute(CreateGroupMemberInOpenGroupCommand cmd) {
         Group group = getGroupWithMembers(cmd.groupId());
 
         if (!group.isOfType(GroupTypeEnum.OPEN)) {

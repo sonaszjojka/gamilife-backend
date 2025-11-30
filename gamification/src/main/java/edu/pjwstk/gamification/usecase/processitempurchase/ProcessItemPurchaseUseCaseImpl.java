@@ -14,7 +14,7 @@ public class ProcessItemPurchaseUseCaseImpl implements ProcessItemPurchaseUseCas
     private final UserStatisticsService userStatisticsService;
 
     @Override
-    public Void executeInternal(ProcessItemPurchaseCommand cmd) {
+    public Void execute(ProcessItemPurchaseCommand cmd) {
         userStatisticsService.registerProgressForAll(
                 cmd.userId(),
                 Set.of(StatisticTypeEnum.ITEMS_PURCHASED, StatisticTypeEnum.OWNED_ITEMS)

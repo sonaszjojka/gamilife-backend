@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 public class GetChatMessagesUseCaseImpl implements GetChatMessagesUseCase {
@@ -29,8 +30,7 @@ public class GetChatMessagesUseCaseImpl implements GetChatMessagesUseCase {
     private final UserApi userApi;
 
     @Override
-    @Transactional(readOnly = true)
-    public GetChatMessagesResult executeInternal(GetChatMessagesCommand cmd) {
+    public GetChatMessagesResult execute(GetChatMessagesCommand cmd) {
         log.debug("Fetching chat messages with filters: {}", cmd);
 
         Page<ChatMessage> messagePage = chatMessageRepository.findAll(

@@ -12,7 +12,7 @@ public class ProcessGroupItemPurchaseUseCaseImpl implements ProcessGroupItemPurc
     private final UserStatisticsService userStatisticsService;
 
     @Override
-    public Void executeInternal(ProcessGroupItemPurchaseCommand cmd) {
+    public Void execute(ProcessGroupItemPurchaseCommand cmd) {
         userStatisticsService.registerProgress(cmd.userId(), StatisticTypeEnum.GROUP_ITEMS_PURCHASED);
         return null;
     }

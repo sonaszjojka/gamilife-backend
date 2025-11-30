@@ -4,21 +4,21 @@ import edu.pjwstk.core.exception.common.domain.UserHasNotEnoughMoneyException;
 import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.persistence.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class EditUserMoneyUseCaseImpl implements EditUserMoneyUseCase {
 
     private final UserRepository userRepository;
 
     @Override
-    @Transactional
-    public Integer executeInternal(EditUserMoneyCommand cmd) {
+    public Integer execute(EditUserMoneyCommand cmd) {
         User user = getUser(cmd.userId());
 
         int newUserMoney = user.getMoney() + cmd.money();

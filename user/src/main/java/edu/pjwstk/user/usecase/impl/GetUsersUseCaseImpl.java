@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 public class GetUsersUseCaseImpl implements GetUsersUseCase {
@@ -24,8 +25,7 @@ public class GetUsersUseCaseImpl implements GetUsersUseCase {
     private final UserSpecificationBuilder specificationBuilder;
 
     @Override
-    @Transactional(readOnly = true)
-    public GetUsersResult executeInternal(GetUsersCommand cmd) {
+    public GetUsersResult execute(GetUsersCommand cmd) {
         Page<User> userPage = userRepository.findAll(
                 specificationBuilder.buildSpecification(cmd.username()),
                 PageRequest.of(cmd.page(), cmd.size(), Sort.by("username").ascending())

@@ -16,7 +16,7 @@ public class EditGroupMemberUseCaseImpl implements EditGroupMemberUseCase {
     private final GroupMemberJpaRepository groupMemberRepository;
 
     @Override
-    public EditGroupMemberResult executeInternal(EditGroupMemberCommand cmd) {
+    public EditGroupMemberResult execute(EditGroupMemberCommand cmd) {
         GroupMember groupMember = getGroupMember(cmd.groupId(), cmd.groupMemberId());
 
         if (!groupMember.isActive()) {

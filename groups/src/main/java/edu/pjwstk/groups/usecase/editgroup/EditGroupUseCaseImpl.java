@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class EditGroupUseCaseImpl implements EditGroupUseCase {
 
@@ -29,8 +30,7 @@ public class EditGroupUseCaseImpl implements EditGroupUseCase {
     private final AuthApi authApi;
 
     @Override
-    @Transactional
-    public EditGroupResult executeInternal(EditGroupCommand cmd) {
+    public EditGroupResult execute(EditGroupCommand cmd) {
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
         Group group = getGroup(cmd.groupId());
 

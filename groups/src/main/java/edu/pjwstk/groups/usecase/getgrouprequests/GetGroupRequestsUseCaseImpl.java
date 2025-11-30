@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 public class GetGroupRequestsUseCaseImpl implements GetGroupRequestsUseCase {
@@ -30,8 +31,7 @@ public class GetGroupRequestsUseCaseImpl implements GetGroupRequestsUseCase {
     private final UserApi userApi;
 
     @Override
-    @Transactional(readOnly = true)
-    public GetGroupRequestsResult executeInternal(GetGroupRequestsCommand cmd) {
+    public GetGroupRequestsResult execute(GetGroupRequestsCommand cmd) {
         log.debug("Fetching group requests with filters: {}", cmd);
 
         GroupRequestStatusEnum statusEnum = cmd.statusId() != null

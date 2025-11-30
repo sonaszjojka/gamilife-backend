@@ -14,20 +14,21 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@AllArgsConstructor
 @Service
-@Slf4j
 @Transactional(readOnly = true)
+@AllArgsConstructor
+@Slf4j
 public class FindAllGroupsByUserIdWhereUserIsMemberUseCaseImpl implements FindAllGroupsByUserIdWhereUserIsMemberUseCase {
 
     private final GroupJpaRepository groupRepository;
     private final UserGroupsSpecificationBuilder specificationBuilder;
 
     @Override
-    public FindAllGroupsByUserIdWhereUserIsMemberResult executeInternal(FindAllGroupsByUserIdWhereUserIsMemberCommand cmd) {
+    public FindAllGroupsByUserIdWhereUserIsMemberResult execute(FindAllGroupsByUserIdWhereUserIsMemberCommand cmd) {
         GroupTypeEnum groupType = cmd.groupType() != null
                 ? GroupTypeEnum.fromId(cmd.groupType())
                 : null;
+
         Page<Group> groupPage = groupRepository
                 .findAll(
                         getGroupSpecification(cmd, groupType),
