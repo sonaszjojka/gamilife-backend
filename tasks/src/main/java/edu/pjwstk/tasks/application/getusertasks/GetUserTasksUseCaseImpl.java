@@ -41,10 +41,6 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
        CurrentUserDto userDto = authApi.getCurrentUser();
        UUID userId = userDto.userId();
 
-
-
-
-
         Specification<Task> taskSpecification = tasksSpecificationBuilder.build(
                 request.categoryId(),
                 request.difficultyId(),
@@ -60,20 +56,18 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
         Page<GetUserTasksDto> tasks = taskRepository.findAll(taskSpecification, pageable)
                 .map(task -> {
                     PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
-                    TaskHabitDto taskHabitDto= null;
-                    Habit habit=habitRepository.findHabitByTaskId(task.getId());
+                    TaskHabitDto taskHabit= null;
+                    Habit habit=habitRepository.findHabitByTaskId(task.getId()).orElse(null);
                     if(habit != null) {
 
-                            taskHabitDto = TaskHabitDto.builder()
+                        taskHabit = TaskHabitDto.builder()
                                     .habitId(habit.getId())
                                     .cycleLength(habit.getCycleLength())
                                     .currentStreak(habit.getCurrentStreak())
                                     .longestStreak(habit.getLongestStreak())
                                     .acceptedDate(habit.getAcceptedDate())
                                     .build();
-
                     }
-
                     return new GetUserTasksDto(
                             task.getId(),
                             task.getTitle(),
@@ -88,8 +82,7 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                             task.getIsGroupTask(),
                             task.getUserId(),
                             pomodoro,
-                            taskHabitDto
-
+                            taskHabit
                     );
                 });
         return tasks;

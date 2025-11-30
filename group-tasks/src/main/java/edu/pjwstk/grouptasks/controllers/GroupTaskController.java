@@ -8,7 +8,13 @@ import edu.pjwstk.grouptasks.usecase.deletegrouptask.DeleteGroupTaskUseCase;
 import edu.pjwstk.grouptasks.usecase.editgrouptask.EditGroupTaskRequest;
 import edu.pjwstk.grouptasks.usecase.editgrouptask.EditGroupTaskResponse;
 import edu.pjwstk.grouptasks.usecase.editgrouptask.EditGroupTaskUseCase;
+import edu.pjwstk.grouptasks.usecase.getgrouptasks.GetGroupTaskDto;
+import edu.pjwstk.grouptasks.usecase.getgrouptasks.GetGroupTasksRequestFilter;
+import edu.pjwstk.grouptasks.usecase.getgrouptasks.GetGroupTasksResponse;
+import edu.pjwstk.grouptasks.usecase.getgrouptasks.GetGroupTasksUseCase;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +27,12 @@ public class GroupTaskController {
     private final CreateGroupTaskUseCase createGroupTaskUseCase;
     private final DeleteGroupTaskUseCase deleteGroupTaskUseCase;
     private final EditGroupTaskUseCase editGroupTaskUseCase;
-    public GroupTaskController(CreateGroupTaskUseCase createGroupTaskUseCase, DeleteGroupTaskUseCase deleteGroupTaskUseCase, EditGroupTaskUseCase editGroupTaskUseCase) {
+    private final GetGroupTasksUseCase getGroupTasksUseCase;
+    public GroupTaskController(CreateGroupTaskUseCase createGroupTaskUseCase, DeleteGroupTaskUseCase deleteGroupTaskUseCase, EditGroupTaskUseCase editGroupTaskUseCase, GetGroupTasksUseCase getGroupTasksUseCase) {
         this.createGroupTaskUseCase = createGroupTaskUseCase;
         this.deleteGroupTaskUseCase = deleteGroupTaskUseCase;
         this.editGroupTaskUseCase = editGroupTaskUseCase;
+        this.getGroupTasksUseCase = getGroupTasksUseCase;
     }
 
     @PostMapping("")
@@ -51,6 +59,18 @@ public class GroupTaskController {
         EditGroupTaskResponse response = editGroupTaskUseCase.execute(groupTaskId, request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Page<GetGroupTaskDto>> get (@PathVariable ("groupId") UUID groupId,
+                                                      @RequestParam(required = false) Boolean isAccepted,
+                                                      @RequestParam(defaultValue ="0") @Min(0) Integer page,
+                                                      @RequestParam(defaultValue ="10") @Min(1) Integer size) {
+        GetGroupTasksRequestFilter filter = new GetGroupTasksRequestFilter(isAccepted, page, size);
+
+        Page<GetGroupTaskDto> response = getGroupTasksUseCase.execute(groupId, filter);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+
     }
 
 }

@@ -35,8 +35,6 @@ public class CreateGroupTaskUseCaseImpl implements CreateGroupTaskUseCase {
                 request.description()
         );
 
-        //Todo Check if group exists
-
 
         GroupTask groupTask = createGroupTaskMapper.toEntity(request,UUID.randomUUID(),groupId,
                                                             tasksProvider.createTaskForGroupTask(taskForGroupTaskRequestDto).taskId());

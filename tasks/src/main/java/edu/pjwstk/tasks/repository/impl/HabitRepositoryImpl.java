@@ -26,6 +26,10 @@ public class HabitRepositoryImpl implements HabitRepository {
     public Optional<Habit> findById(UUID habitId) {
         return repositoryJpa.findById(habitId);
     }
+    @Override
+    public Optional<Habit> findHabitByTaskId(UUID taskId) {
+        return repositoryJpa.findHabitByTaskId(taskId);
+    }
 
 
     @Override

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/habits")
+@RequestMapping("/api/v1/tasks/{taskId}/habits")
 public class HabitController {
 
     private final CreateHabitUseCase createHabitUseCase;
@@ -32,20 +32,24 @@ public class HabitController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateHabitResponse> create(@RequestBody @Valid CreateHabitRequest request) {
-        CreateHabitResponse response = createHabitUseCase.execute(request);
+    public ResponseEntity<CreateHabitResponse> create(@PathVariable UUID taskId,
+                                                      @RequestBody @Valid CreateHabitRequest request) {
+        CreateHabitResponse response = createHabitUseCase.execute(request,taskId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{habitId}")
-    public ResponseEntity<EditHabitResponse> edit(@PathVariable UUID habitId,
+    public ResponseEntity<EditHabitResponse> edit(
+                                                  @PathVariable UUID habitId,
+                                                  @PathVariable UUID taskId,
                                                   @RequestBody @Valid EditHabitRequest request) {
-        EditHabitResponse response = editHabitUseCase.execute(request, habitId);
+        EditHabitResponse response = editHabitUseCase.execute(request, habitId,taskId);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{habitId}")
-    public ResponseEntity<ApiResponse> delete(@PathVariable UUID habitId) {
+    public ResponseEntity<ApiResponse> delete(
+                                              @PathVariable UUID habitId) {
         deleteHabitUseCase.execute(habitId);
         return ResponseEntity.ok(new ApiResponse("Habit with id: " + habitId + " deleted successfully."));
     }
