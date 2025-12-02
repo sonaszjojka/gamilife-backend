@@ -18,10 +18,10 @@
         <module>communication</module>
         <module>gamification</module>
         <module>group-shop</module>
-        <module>group-tasks</module>
-        <module>groups</module>
+        <module>group-task</module>
+        <module>group</module>
         <module>pomodoro</module>
-        <module>tasks</module>
+        <module>task</module>
         <module>user</module>
     </modules>
 
