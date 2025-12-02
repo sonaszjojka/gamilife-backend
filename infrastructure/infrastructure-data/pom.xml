@@ -10,23 +10,22 @@
     </parent>
 
     <artifactId>infrastructure-data</artifactId>
-
-    <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <name>Infrastructure Data</name>
 
     <dependencies>
+        <!-- Infrastructure Modules -->
         <dependency>
             <groupId>edu.pjwstk</groupId>
             <artifactId>infrastructure-core</artifactId>
-            <version>0.0.1-alpha-v01</version>
         </dependency>
+
+        <!-- Spring Modules -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
+        <!-- External Modules -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>

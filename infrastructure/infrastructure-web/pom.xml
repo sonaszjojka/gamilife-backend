@@ -10,19 +10,16 @@
     </parent>
 
     <artifactId>infrastructure-web</artifactId>
-
-    <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <name>Infrastructure Web</name>
 
     <dependencies>
+        <!-- Infrastructure Modules -->
         <dependency>
             <groupId>edu.pjwstk</groupId>
             <artifactId>infrastructure-core</artifactId>
-            <version>0.0.1-alpha-v01</version>
         </dependency>
+
+        <!-- Spring Modules -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -39,6 +36,8 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
+
+        <!-- External Modules -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

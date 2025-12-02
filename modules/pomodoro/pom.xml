@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>edu.pjwstk</groupId>
+        <artifactId>modules</artifactId>
+        <version>0.0.1-alpha-v01</version>
+    </parent>
+
+    <artifactId>pomodoro</artifactId>
+    <name>Pomodoro Module</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>edu.pjwstk</groupId>
+            <artifactId>infrastructure-data</artifactId>
+            <version>0.0.1-alpha-v01</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.pjwstk</groupId>
+            <artifactId>infrastructure-web</artifactId>
+            <version>0.0.1-alpha-v01</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>edu.pjwstk</groupId>
+            <artifactId>task-api</artifactId>
+            <version>0.0.1-alpha-v01</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>edu.pjwstk</groupId>
+            <artifactId>auth-api</artifactId>
+            <version>0.0.1-alpha-v01</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>edu.pjwstk</groupId>
+            <artifactId>pomodoro-api</artifactId>
+            <version>0.0.1-alpha-v01</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+</project>

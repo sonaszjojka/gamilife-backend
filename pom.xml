@@ -8,20 +8,12 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>auth</module>
-        <module>application</module>
-        <module>gamification</module>
-        <module>group-shop</module>
-        <module>group-tasks</module>
-        <module>groups</module>
-        <module>pomodoro</module>
-        <module>tasks</module>
-        <module>user</module>
-        <module>communication</module>
-        <module>infrastructure</module>
         <module>api</module>
+        <module>application</module>
+        <module>infrastructure</module>
+        <module>modules</module>
     </modules>
-    <name>gami-life</name>
+    <name>GamiLife</name>
     <description>Backend application GamiLife</description>
 
     <dependencyManagement>
@@ -33,13 +25,113 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-bom</artifactId>
                 <version>2.8.14</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- Business Modules -->
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>auth</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>gamification</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>group-shop</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>group-tasks</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>groups</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>pomodoro</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>tasks</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>user</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>communication</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- API Modules -->
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>auth-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>gamification-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>group-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>group-shop-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>pomodoro-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>task-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>user-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Infrastructure Modules -->
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>infrastructure-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>infrastructure-data</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>edu.pjwstk</groupId>
+                <artifactId>infrastructure-web</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
