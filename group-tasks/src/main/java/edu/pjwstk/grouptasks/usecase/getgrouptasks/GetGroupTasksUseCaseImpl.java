@@ -16,6 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,8 +33,6 @@ public class GetGroupTasksUseCaseImpl implements GetGroupTasksUseCase {
         this.specificationBuilder = specificationBuilder;
         this.tasksApi = tasksApi;
     }
-
-
 
     @Override
     public Page<GetGroupTaskDto> execute(UUID groupId,GetGroupTasksRequestFilter request) {
@@ -67,24 +66,14 @@ public class GetGroupTasksUseCaseImpl implements GetGroupTasksUseCase {
                     );
 
                 });
-
-
-
-
-
-
-
-
-
-        return null;
+        return tasks;
     }
 
     private Pageable createPageable(GetGroupTasksRequestFilter request) {
 
         return PageRequest.of(
                 request.pageNumber(),
-                request.pageSize(),
-                Sort.by(Sort.Direction.ASC,"endTime")
+                request.pageSize()
         );
     }
 
