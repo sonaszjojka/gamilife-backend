@@ -4,7 +4,6 @@ package edu.pjwstk.api.groups;
 import edu.pjwstk.api.groups.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
 import edu.pjwstk.api.groups.dto.GroupDto;
 import edu.pjwstk.api.groups.dto.GroupMemberDto;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.event.handler;
 
-import edu.pjwstk.core.event.JoinedGroupEvent;
+import pl.gamilife.infrastructure.core.event.JoinedGroupEvent;
 import edu.pjwstk.gamification.usecase.processgroupjoin.ProcessGroupJoinCommand;
 import edu.pjwstk.gamification.usecase.processgroupjoin.ProcessGroupJoinUseCase;
 import lombok.AllArgsConstructor;

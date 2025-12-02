@@ -2,17 +2,12 @@ package edu.pjwstk.tasks.application.createtask;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
-import edu.pjwstk.core.exception.common.domain.TaskNotFoundException;
-import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
 import edu.pjwstk.tasks.entity.TaskDifficulty;
-import edu.pjwstk.tasks.exception.domain.HabitNotFoundException;
 import edu.pjwstk.tasks.exception.domain.InvalidTaskDataException;
 import edu.pjwstk.tasks.exception.domain.TaskCategoryNotFoundException;
 import edu.pjwstk.tasks.exception.domain.TaskDifficultyNotFoundException;
-import edu.pjwstk.tasks.repository.HabitRepository;
 import edu.pjwstk.tasks.repository.TaskCategoryRepository;
 import edu.pjwstk.tasks.repository.TaskDifficultyRepository;
 import edu.pjwstk.tasks.repository.TaskRepository;
@@ -20,7 +15,6 @@ import edu.pjwstk.tasks.repository.impl.TaskRepositoryImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component

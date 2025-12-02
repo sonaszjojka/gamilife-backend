@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.creategroup;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 public record CreateGroupCommand(
         String groupName,

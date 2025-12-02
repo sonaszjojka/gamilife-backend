@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.getauthuser;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 public record GetAuthenticatedUserCommand() implements Command {
     @Override

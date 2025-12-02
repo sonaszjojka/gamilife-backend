@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.application.createhabit;
 
-import edu.pjwstk.core.exception.common.domain.TaskNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.TaskNotFoundException;
 import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.exception.domain.InvalidHabitDataException;

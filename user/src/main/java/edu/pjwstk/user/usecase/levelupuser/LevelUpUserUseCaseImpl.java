@@ -1,6 +1,6 @@
 package edu.pjwstk.user.usecase.levelupuser;
 
-import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.persistence.UserRepository;
 import lombok.AllArgsConstructor;

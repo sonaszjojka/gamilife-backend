@@ -1,7 +1,7 @@
 package edu.pjwstk.gamification.event.handler;
 
-import edu.pjwstk.core.event.ItemAcquiredEvent;
-import edu.pjwstk.core.event.ItemBoughtEvent;
+import pl.gamilife.infrastructure.core.event.ItemAcquiredEvent;
+import pl.gamilife.infrastructure.core.event.ItemBoughtEvent;
 import edu.pjwstk.gamification.usecase.processitemacquisition.ProcessItemAcquisitionCommand;
 import edu.pjwstk.gamification.usecase.processitemacquisition.ProcessItemAcquisitionUseCase;
 import edu.pjwstk.gamification.usecase.processitempurchase.ProcessItemPurchaseCommand;

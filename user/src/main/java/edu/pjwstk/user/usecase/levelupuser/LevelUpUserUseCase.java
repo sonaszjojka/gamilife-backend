@@ -1,6 +1,6 @@
 package edu.pjwstk.user.usecase.levelupuser;
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface LevelUpUserUseCase extends UseCase<LevelUpUserCommand, Void> {
 }

@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.editgroupmember;
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface EditGroupMemberUseCase extends UseCase<EditGroupMemberCommand, EditGroupMemberResult> {
 }

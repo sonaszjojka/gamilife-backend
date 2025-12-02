@@ -23,7 +23,6 @@ import edu.pjwstk.auth.usecase.sendforgotpasswordcode.SendForgotPasswordCodeComm
 import edu.pjwstk.auth.usecase.sendforgotpasswordcode.SendForgotPasswordTokenUseCase;
 import edu.pjwstk.auth.usecase.verifyemail.VerifyEmailCommand;
 import edu.pjwstk.auth.usecase.verifyemail.VerifyEmailUseCase;
-import edu.pjwstk.commonweb.CookieUtil;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,6 +34,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pl.gamilife.infrastructure.web.util.CookieUtil;
 
 @SecurityRequirements
 @RestController

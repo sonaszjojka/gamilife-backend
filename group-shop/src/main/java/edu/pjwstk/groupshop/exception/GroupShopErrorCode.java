@@ -1,6 +1,6 @@
 package edu.pjwstk.groupshop.exception;
 
-import edu.pjwstk.core.exception.ErrorCode;
+import pl.gamilife.infrastructure.core.exception.ErrorCode;
 
 public enum GroupShopErrorCode implements ErrorCode {
     GROUP_SHOP_ITEM_NOT_FOUND,

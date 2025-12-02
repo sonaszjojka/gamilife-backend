@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.usecase.processgrouptaskcompletion;
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface ProcessGroupTaskCompletionUseCase extends UseCase<ProcessGroupTaskCompletionCommand, Void> {
 }

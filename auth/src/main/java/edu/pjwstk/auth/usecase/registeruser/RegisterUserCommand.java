@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.registeruser;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 import java.io.Serializable;
 import java.time.LocalDate;

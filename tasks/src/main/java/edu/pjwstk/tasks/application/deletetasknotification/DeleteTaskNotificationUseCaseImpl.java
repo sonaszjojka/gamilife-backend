@@ -2,8 +2,8 @@ package edu.pjwstk.tasks.application.deletetasknotification;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
-import edu.pjwstk.core.exception.common.domain.TaskNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
+import pl.gamilife.infrastructure.core.exception.common.domain.TaskNotFoundException;
 import edu.pjwstk.tasks.entity.TaskNotification;
 import edu.pjwstk.tasks.repository.TaskNotificationRepository;
 import org.springframework.stereotype.Component;

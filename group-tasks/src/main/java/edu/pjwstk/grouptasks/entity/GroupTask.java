@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.Instant;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -47,6 +46,7 @@ public class GroupTask  {
     @Column(name = "decline_message", length = 300)
     private String declineMessage;
 
+    @Builder.Default
     @OneToMany(mappedBy = "groupTaskId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<GroupTaskMember> groupTaskMembers = new LinkedHashSet<>();
 

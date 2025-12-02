@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.usecase.changepassword;
 
 import edu.pjwstk.api.auth.dto.ChangePasswordDto;
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 import jakarta.validation.ValidationException;
 
 public record ChangePasswordCommand(

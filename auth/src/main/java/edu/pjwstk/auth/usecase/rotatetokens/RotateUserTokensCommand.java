@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.usecase.rotatetokens;
 
 import edu.pjwstk.api.auth.dto.RotateUserTokensDto;
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 import java.util.UUID;
 

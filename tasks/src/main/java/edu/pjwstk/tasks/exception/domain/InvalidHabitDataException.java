@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.exception.domain;
 
-import edu.pjwstk.core.exception.DomainException;
+import pl.gamilife.infrastructure.core.exception.DomainException;
 import edu.pjwstk.tasks.exception.TaskErrorCode;
 
 public class InvalidHabitDataException extends DomainException {

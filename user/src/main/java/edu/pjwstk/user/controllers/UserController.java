@@ -3,7 +3,6 @@ package edu.pjwstk.user.controllers;
 import edu.pjwstk.api.auth.dto.AuthTokens;
 import edu.pjwstk.api.groups.GroupApi;
 import edu.pjwstk.api.groups.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
-import edu.pjwstk.commonweb.CookieUtil;
 import edu.pjwstk.user.dto.request.ChangeUserPasswordRequest;
 import edu.pjwstk.user.dto.response.CurrentUserInfoResponse;
 import edu.pjwstk.user.dto.response.GetUsersResult;
@@ -25,6 +24,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pl.gamilife.infrastructure.web.util.CookieUtil;
 
 import java.util.UUID;
 

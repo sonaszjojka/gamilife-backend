@@ -4,7 +4,7 @@ import edu.pjwstk.communication.dto.NotificationDto;
 import edu.pjwstk.communication.enums.NotificationType;
 import edu.pjwstk.communication.usecase.sendusernotification.SendUserNotificationCommand;
 import edu.pjwstk.communication.usecase.sendusernotification.SendUserNotificationUseCase;
-import edu.pjwstk.core.event.GroupInvitationCreatedEvent;
+import pl.gamilife.infrastructure.core.event.GroupInvitationCreatedEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Recover;

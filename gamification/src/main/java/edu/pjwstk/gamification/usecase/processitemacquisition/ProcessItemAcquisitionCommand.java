@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.usecase.processitemacquisition;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 import jakarta.validation.ValidationException;
 
 import java.util.UUID;

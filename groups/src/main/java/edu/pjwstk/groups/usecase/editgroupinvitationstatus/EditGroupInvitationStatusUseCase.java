@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface EditGroupInvitationStatusUseCase extends UseCase<EditGroupInvitationStatusCommand, EditGroupInvitationStatusResult> {
 }

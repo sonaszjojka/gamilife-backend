@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.login;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 public record LoginUserCommand(
         String email,

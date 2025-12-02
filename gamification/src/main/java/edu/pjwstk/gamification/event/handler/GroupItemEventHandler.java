@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.event.handler;
 
-import edu.pjwstk.core.event.GroupItemPurchasedEvent;
+import pl.gamilife.infrastructure.core.event.GroupItemPurchasedEvent;
 import edu.pjwstk.gamification.usecase.processgroupitempurchase.ProcessGroupItemPurchaseCommand;
 import edu.pjwstk.gamification.usecase.processgroupitempurchase.ProcessGroupItemPurchaseUseCase;
 import lombok.AllArgsConstructor;

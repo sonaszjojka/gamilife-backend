@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.resetpassword;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 public record ResetPasswordCommand(String code, String newPassword) implements Command {
     @Override

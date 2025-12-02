@@ -4,7 +4,7 @@ import edu.pjwstk.api.gamification.GamificationApi;
 import edu.pjwstk.api.gamification.dto.StartingGamificationValuesDto;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.api.user.dto.RegisterUserApiDto;
-import edu.pjwstk.core.exception.common.domain.UserAlreadyExistsException;
+import pl.gamilife.infrastructure.core.exception.common.domain.UserAlreadyExistsException;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.persistence.UserRepository;
 import edu.pjwstk.user.usecase.GetUserByEmailUseCase;

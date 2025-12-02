@@ -4,7 +4,7 @@ import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.api.tasks.TasksApi;
 import edu.pjwstk.api.tasks.dto.TaskDto;
-import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
+import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.pomodoro.entity.PomodoroTask;
 import edu.pjwstk.pomodoro.exception.domain.InvalidPomodoroTaskData;
 import edu.pjwstk.pomodoro.repository.PomodoroTaskRepository;

@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.usecase.getalluserachievements;
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface GetAllUserAchievementsUseCase extends UseCase<GetAllUserAchievementsCommand, GetAllUserAchievementsResult> {
 }

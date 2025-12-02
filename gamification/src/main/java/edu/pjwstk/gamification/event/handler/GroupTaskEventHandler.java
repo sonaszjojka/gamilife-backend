@@ -1,7 +1,7 @@
 package edu.pjwstk.gamification.event.handler;
 
-import edu.pjwstk.core.event.GroupTaskCompletedEvent;
-import edu.pjwstk.core.event.GroupTaskUndoneEvent;
+import pl.gamilife.infrastructure.core.event.GroupTaskCompletedEvent;
+import pl.gamilife.infrastructure.core.event.GroupTaskUndoneEvent;
 import edu.pjwstk.gamification.usecase.processgrouptaskcompletion.ProcessGroupTaskCompletionCommand;
 import edu.pjwstk.gamification.usecase.processgrouptaskcompletion.ProcessGroupTaskCompletionUseCase;
 import edu.pjwstk.gamification.usecase.rollbackgrouptaskcompletion.RollbackGroupTaskCompletionCommand;

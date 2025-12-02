@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.getgrouptypes;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 public record GetGroupTypesCommand() implements Command {
     @Override

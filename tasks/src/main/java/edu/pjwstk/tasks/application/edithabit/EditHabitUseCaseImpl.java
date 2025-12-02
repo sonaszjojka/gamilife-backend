@@ -1,17 +1,14 @@
 package edu.pjwstk.tasks.application.edithabit;
 
-import edu.pjwstk.core.exception.common.domain.TaskNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.TaskNotFoundException;
 import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.exception.domain.HabitNotFoundException;
-import edu.pjwstk.tasks.exception.domain.InvalidHabitDataException;
 import edu.pjwstk.tasks.repository.HabitRepository;
 import edu.pjwstk.tasks.repository.TaskRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.UUID;
 
 @Component

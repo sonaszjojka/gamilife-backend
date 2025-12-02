@@ -11,13 +11,13 @@ import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.communication.dto.EmailContent;
 import edu.pjwstk.communication.dto.EmailParameters;
+import edu.pjwstk.communication.exception.EmailSendingException;
 import edu.pjwstk.communication.util.EmailContentCreator;
-import edu.pjwstk.core.exception.common.application.EmailSendingException;
-import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 
 import java.io.IOException;
 import java.util.UUID;

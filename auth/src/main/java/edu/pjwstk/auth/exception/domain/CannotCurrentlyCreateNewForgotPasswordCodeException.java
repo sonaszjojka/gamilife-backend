@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.exception.domain;
 
 import edu.pjwstk.auth.exception.AuthErrorCode;
-import edu.pjwstk.core.exception.DomainException;
+import pl.gamilife.infrastructure.core.exception.DomainException;
 
 public class CannotCurrentlyCreateNewForgotPasswordCodeException extends DomainException {
     public CannotCurrentlyCreateNewForgotPasswordCodeException(String message) {

@@ -1,0 +1,35 @@
+package pl.gamilife.infrastructure.core.exception;
+
+public enum CommonErrorCode implements ErrorCode {
+    VALIDATION_ERROR,
+    USER_NOT_FOUND,
+    USER_ALREADY_EXISTS,
+    PASSWORD_RESET_FAILED,
+    GROUP_NOT_FOUND,
+    GROUP_MEMBER_NOT_FOUND,
+    TASK_NOT_FOUND,
+    GROUP_ADMIN_PRIVILEGES_REQUIRED,
+    RESOURCE_OWNER_PRIVILEGES_REQUIRED,
+    INTERNAL_SERVER_ERROR,
+    MALFORMED_REQUEST,
+    MISSING_PARAMETER,
+    METHOD_NOT_ALLOWED,
+    UNSUPPORTED_MEDIA_TYPE,
+    ACCESS_DENIED,
+    TYPE_MISMATCH,
+    MISSING_REQUEST_COOKIE,
+    MISSING_ACCESS_TOKEN_COOKIE,
+    MISSING_REFRESH_TOKEN_COOKIE,
+    MISSING_REQUEST_BODY,
+    USER_HAS_NOT_ENOUGH_MONEY;
+
+    @Override
+    public String getKey() {
+        return this.name();
+    }
+
+    @Override
+    public String getModule() {
+        return "CORE";
+    }
+}

@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.usecase.getalllevelwithrewards;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 public record GetAllLevelsWithRewardsCommand() implements Command {
     @Override

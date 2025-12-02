@@ -3,7 +3,7 @@ package edu.pjwstk.auth.service.impl;
 import edu.pjwstk.auth.models.EmailVerificationCode;
 import edu.pjwstk.auth.repository.JpaEmailVerificationRepository;
 import edu.pjwstk.auth.service.EmailVerificationService;
-import edu.pjwstk.core.event.EmailVerificationRequestedEvent;
+import pl.gamilife.infrastructure.core.event.EmailVerificationRequestedEvent;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;

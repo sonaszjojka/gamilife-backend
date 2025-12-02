@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.event.handler;
 
-import edu.pjwstk.core.event.HabitStreakChangedEvent;
+import pl.gamilife.infrastructure.core.event.HabitStreakChangedEvent;
 import edu.pjwstk.gamification.usecase.processhabitstreakchange.ProcessHabitStreakChangeCommand;
 import edu.pjwstk.gamification.usecase.processhabitstreakchange.ProcessHabitStreakChangeUseCase;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.service.impl;
 
-import edu.pjwstk.core.enums.StatisticTypeEnum;
+import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 import edu.pjwstk.gamification.model.UserStatistic;
 import edu.pjwstk.gamification.repository.UserStatisticRepository;
 import edu.pjwstk.gamification.service.AchievementService;

@@ -8,7 +8,7 @@ import edu.pjwstk.auth.exception.domain.RefreshTokenExpiredException;
 import edu.pjwstk.auth.models.RefreshToken;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.service.TokenService;
-import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

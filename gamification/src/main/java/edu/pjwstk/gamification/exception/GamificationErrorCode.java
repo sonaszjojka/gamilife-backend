@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.exception;
 
-import edu.pjwstk.core.exception.ErrorCode;
+import pl.gamilife.infrastructure.core.exception.ErrorCode;
 
 public enum GamificationErrorCode implements ErrorCode {
     ITEM_NOT_FOUND,

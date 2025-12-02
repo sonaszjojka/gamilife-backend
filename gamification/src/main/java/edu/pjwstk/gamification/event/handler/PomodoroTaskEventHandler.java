@@ -1,7 +1,7 @@
 package edu.pjwstk.gamification.event.handler;
 
-import edu.pjwstk.core.event.PomodoroTaskCompletedEvent;
-import edu.pjwstk.core.event.PomodoroTaskUndoneEvent;
+import pl.gamilife.infrastructure.core.event.PomodoroTaskCompletedEvent;
+import pl.gamilife.infrastructure.core.event.PomodoroTaskUndoneEvent;
 import edu.pjwstk.gamification.usecase.processpomodorotaskcompletion.ProcessPomodoroTaskCompletionCommand;
 import edu.pjwstk.gamification.usecase.processpomodorotaskcompletion.ProcessPomodoroTaskCompletionUseCase;
 import edu.pjwstk.gamification.usecase.rollbackpomodorotaskcompletion.RollbackPomodoroTaskCompletionCommand;

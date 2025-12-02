@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.exception;
 
-import edu.pjwstk.core.exception.ErrorCode;
+import pl.gamilife.infrastructure.core.exception.ErrorCode;
 
 public enum GroupErrorCode implements ErrorCode {
     ADMIN_CANNOT_LEAVE_GROUP,

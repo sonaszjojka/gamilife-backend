@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.logout;
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface LogoutUserUseCase extends UseCase<LogoutUserCommand, Void> {
 }

@@ -1,6 +1,6 @@
 package edu.pjwstk.user.dto.service;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 public record GetUsersCommand(
         String username,

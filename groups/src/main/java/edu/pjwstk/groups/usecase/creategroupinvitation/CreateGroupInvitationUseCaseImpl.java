@@ -2,13 +2,12 @@ package edu.pjwstk.groups.usecase.creategroupinvitation;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.api.emailSender.EmailSenderApi;
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.core.event.GroupInvitationCreatedEvent;
-import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
-import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.infrastructure.core.event.GroupInvitationCreatedEvent;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.groups.enums.InvitationStatusEnum;
 import edu.pjwstk.groups.exception.domain.GroupFullException;
 import edu.pjwstk.groups.exception.domain.InvitationStatusNotFoundException;

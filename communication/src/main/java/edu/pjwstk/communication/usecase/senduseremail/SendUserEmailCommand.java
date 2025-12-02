@@ -1,7 +1,7 @@
 package edu.pjwstk.communication.usecase.senduseremail;
 
 import edu.pjwstk.communication.dto.EmailParameters;
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 import jakarta.validation.ValidationException;
 
 import java.util.UUID;

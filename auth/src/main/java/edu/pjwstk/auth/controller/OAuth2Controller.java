@@ -11,7 +11,6 @@ import edu.pjwstk.auth.usecase.googlelinkaccount.LinkGoogleAccountUseCase;
 import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInCommand;
 import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInResult;
 import edu.pjwstk.auth.usecase.googlesignin.GoogleSignInUseCase;
-import edu.pjwstk.commonweb.CookieUtil;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.gamilife.infrastructure.web.util.CookieUtil;
 
 import java.security.InvalidParameterException;
 import java.util.Optional;

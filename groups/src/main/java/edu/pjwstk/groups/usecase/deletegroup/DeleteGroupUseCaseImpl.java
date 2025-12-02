@@ -2,8 +2,8 @@ package edu.pjwstk.groups.usecase.deletegroup;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.repository.GroupJpaRepository;
 import lombok.AllArgsConstructor;

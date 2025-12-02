@@ -2,9 +2,9 @@ package edu.pjwstk.groups.usecase.createchatmessage;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
-import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
-import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groups.exception.domain.UserLeftGroupException;
 import edu.pjwstk.groups.model.ChatMessage;
 import edu.pjwstk.groups.model.Group;

@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.getgroups.getbyid;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 import java.io.Serializable;
 import java.util.UUID;

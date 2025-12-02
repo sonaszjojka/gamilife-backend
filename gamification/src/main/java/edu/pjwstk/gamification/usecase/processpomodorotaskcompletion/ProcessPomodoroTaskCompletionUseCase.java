@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.usecase.processpomodorotaskcompletion;
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface ProcessPomodoroTaskCompletionUseCase extends UseCase<ProcessPomodoroTaskCompletionCommand, Void> {
 }

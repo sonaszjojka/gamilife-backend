@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.leavegroup;
 
-import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
 import edu.pjwstk.groups.exception.domain.AdminCannotLeaveGroupException;
 import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.model.GroupMember;

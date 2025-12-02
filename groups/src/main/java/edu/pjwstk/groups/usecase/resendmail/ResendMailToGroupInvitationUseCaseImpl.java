@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.resendmail;
 
-import edu.pjwstk.core.event.GroupInvitationCreatedEvent;
+import pl.gamilife.infrastructure.core.event.GroupInvitationCreatedEvent;
 import edu.pjwstk.groups.exception.domain.GroupInvitationNotFoundException;
 import edu.pjwstk.groups.model.GroupInvitation;
 import edu.pjwstk.groups.repository.GroupInvitationJpaRepository;

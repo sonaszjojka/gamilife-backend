@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.usecase.getalluserachievements;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 public record GetAllUserAchievementsCommand(java.util.UUID userId) implements Command {
     @Override

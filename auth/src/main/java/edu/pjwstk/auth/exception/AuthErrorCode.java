@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.exception;
 
-import edu.pjwstk.core.exception.ErrorCode;
+import pl.gamilife.infrastructure.core.exception.ErrorCode;
 
 public enum AuthErrorCode implements ErrorCode {
     INVALID_CREDENTIALS,

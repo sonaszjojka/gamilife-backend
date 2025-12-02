@@ -5,11 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@EnableJpaRepositories(basePackages = "edu.pjwstk")
-@EntityScan(basePackages = "edu.pjwstk")
-@SpringBootApplication(
-        scanBasePackages = "edu.pjwstk"
-)
+@EnableJpaRepositories(basePackages = {"edu.pjwstk", "pl.gamilife"})
+@EntityScan(basePackages = {"edu.pjwstk", "pl.gamilife"})
+@SpringBootApplication(scanBasePackages = {"edu.pjwstk", "pl.gamilife"})
 public class StartUp {
 
     public static void main(String[] args) {

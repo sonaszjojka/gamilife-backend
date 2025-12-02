@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.model;
 
-import edu.pjwstk.core.enums.StatisticTypeEnum;
+import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.createchatmessage;
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface CreateChatMessageUseCase extends UseCase<CreateChatMessageCommand, CreateChatMessageResult> {
 }

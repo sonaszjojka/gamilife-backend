@@ -30,6 +30,7 @@ public class OwnedGroupItem {
     private GroupItemInShop groupItemInShop;
 
     @NotNull
+    @Builder.Default
     @Column(name = "is_used_up", nullable = false)
     private Boolean isUsedUp = false;
 

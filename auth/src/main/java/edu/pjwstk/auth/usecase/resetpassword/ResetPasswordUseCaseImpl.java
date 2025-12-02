@@ -8,7 +8,7 @@ import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.service.ForgotPasswordCodeService;
 import edu.pjwstk.auth.service.SecureCodesAndTokensService;
 import edu.pjwstk.auth.validators.PasswordValidator;
-import edu.pjwstk.core.exception.common.domain.ResetPasswordGenericException;
+import pl.gamilife.infrastructure.core.exception.common.domain.ResetPasswordGenericException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

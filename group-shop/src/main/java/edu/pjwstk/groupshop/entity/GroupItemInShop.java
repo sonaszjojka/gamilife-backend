@@ -36,6 +36,7 @@ public class GroupItemInShop {
     private Instant createdAt;
 
     @NotNull
+    @Builder.Default
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = false;
 
@@ -44,6 +45,7 @@ public class GroupItemInShop {
     @JoinColumn(name = "group_shop_id", nullable = false)
     private GroupShop groupShop;
 
+    @Builder.Default
     @OneToMany(mappedBy = "groupItemInShop")
     private Set<OwnedGroupItem> ownedGroupItems = new LinkedHashSet<>();
 

@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.editgroupmember;
 
-import edu.pjwstk.core.exception.common.domain.GroupMemberNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
 import edu.pjwstk.groups.exception.domain.UserLeftGroupException;
 import edu.pjwstk.groups.model.GroupMember;
 import edu.pjwstk.groups.repository.GroupMemberJpaRepository;

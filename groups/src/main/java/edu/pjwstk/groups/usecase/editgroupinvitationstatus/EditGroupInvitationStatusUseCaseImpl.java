@@ -2,8 +2,8 @@ package edu.pjwstk.groups.usecase.editgroupinvitationstatus;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
-import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groups.enums.InvitationStatusEnum;
 import edu.pjwstk.groups.exception.domain.*;
 import edu.pjwstk.groups.model.Group;

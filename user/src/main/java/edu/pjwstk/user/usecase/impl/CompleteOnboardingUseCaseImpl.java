@@ -1,10 +1,8 @@
 package edu.pjwstk.user.usecase.impl;
 
-import edu.pjwstk.core.exception.common.domain.ResetPasswordGenericException;
-import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.dto.service.UserDetailsDto;
-import edu.pjwstk.user.persistence.UserMapper;
 import edu.pjwstk.user.persistence.UserRepository;
 import edu.pjwstk.user.usecase.CompleteOnboardingUseCase;
 import lombok.AllArgsConstructor;

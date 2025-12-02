@@ -1,6 +1,6 @@
 package edu.pjwstk.grouptasks.exception.domain;
 
-import edu.pjwstk.core.exception.DomainException;
+import pl.gamilife.infrastructure.core.exception.DomainException;
 import edu.pjwstk.grouptasks.exception.GroupTaskErrorCode;
 
 public class GroupTaskNotFoundException extends DomainException {

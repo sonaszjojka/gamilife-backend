@@ -1,6 +1,6 @@
 package edu.pjwstk.communication.usecase.sendusernotification;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 import edu.pjwstk.communication.dto.NotificationDto;
 import jakarta.validation.ValidationException;
 

@@ -1,6 +1,6 @@
 package edu.pjwstk.user.usecase.editusermoney;
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface EditUserMoneyUseCase extends UseCase<EditUserMoneyCommand, Integer> {
 }

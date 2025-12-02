@@ -30,7 +30,7 @@
         </dependency>
         <dependency>
             <groupId>edu.pjwstk</groupId>
-            <artifactId>common-core</artifactId>
+            <artifactId>infrastructure-core</artifactId>
             <version>0.0.1-alpha-v01</version>
             <scope>compile</scope>
         </dependency>

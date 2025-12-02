@@ -40,6 +40,7 @@ public class GroupShop {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
+    @Builder.Default
     @OneToMany(mappedBy = "groupShop")
     private Set<GroupItemInShop> groupItemInShops = new LinkedHashSet<>();
 

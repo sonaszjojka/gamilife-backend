@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.usecase.getallitemslots;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 public record GetAllItemSlotsCommand() implements Command {
     @Override

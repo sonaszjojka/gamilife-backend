@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.exception.domain;
 
-import edu.pjwstk.core.exception.DomainException;
+import pl.gamilife.infrastructure.core.exception.DomainException;
 import edu.pjwstk.gamification.exception.GamificationErrorCode;
 
 public class InventoryItemNotFound extends DomainException {

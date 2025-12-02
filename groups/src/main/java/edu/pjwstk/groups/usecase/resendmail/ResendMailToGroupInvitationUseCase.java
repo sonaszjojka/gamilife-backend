@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.resendmail;
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface ResendMailToGroupInvitationUseCase extends UseCase<ResendMailToGroupInvitationCommand, Void> {
 }

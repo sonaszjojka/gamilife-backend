@@ -2,8 +2,8 @@ package edu.pjwstk.gamification.usecase.purchasestoreitem;
 
 import edu.pjwstk.api.user.UserApi;
 import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.core.exception.common.domain.UserHasNotEnoughMoneyException;
-import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.UserHasNotEnoughMoneyException;
+import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.gamification.exception.domain.ItemIsNotForSaleException;
 import edu.pjwstk.gamification.exception.domain.ItemNotFoundException;
 import edu.pjwstk.gamification.model.Item;

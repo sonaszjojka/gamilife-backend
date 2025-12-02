@@ -2,7 +2,7 @@ package edu.pjwstk.groups.usecase.creategrouprequest;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.core.exception.common.domain.GroupNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.enums.GroupRequestStatusEnum;
 import edu.pjwstk.groups.enums.GroupTypeEnum;
 import edu.pjwstk.groups.exception.domain.GroupFullException;

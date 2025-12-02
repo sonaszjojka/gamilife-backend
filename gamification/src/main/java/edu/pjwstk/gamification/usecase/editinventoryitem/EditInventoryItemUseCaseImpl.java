@@ -1,7 +1,7 @@
 package edu.pjwstk.gamification.usecase.editinventoryitem;
 
 import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.gamification.exception.domain.ForbiddenItemAccessException;
 import edu.pjwstk.gamification.exception.domain.InventoryItemNotFound;
 import edu.pjwstk.gamification.exception.domain.UserDoesNotHaveEnoughItemsException;

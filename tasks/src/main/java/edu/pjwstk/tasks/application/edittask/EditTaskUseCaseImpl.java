@@ -2,13 +2,11 @@ package edu.pjwstk.tasks.application.edittask;
 
 import edu.pjwstk.api.auth.AuthApi;
 import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
-import edu.pjwstk.core.exception.common.domain.TaskNotFoundException;
-import edu.pjwstk.tasks.entity.Habit;
+import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
+import pl.gamilife.infrastructure.core.exception.common.domain.TaskNotFoundException;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
 import edu.pjwstk.tasks.entity.TaskDifficulty;
-import edu.pjwstk.tasks.exception.domain.HabitNotFoundException;
 import edu.pjwstk.tasks.exception.domain.InvalidTaskDataException;
 import edu.pjwstk.tasks.exception.domain.TaskCategoryNotFoundException;
 import edu.pjwstk.tasks.exception.domain.TaskDifficultyNotFoundException;

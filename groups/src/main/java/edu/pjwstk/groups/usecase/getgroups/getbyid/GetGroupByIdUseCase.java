@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.getgroups.getbyid;
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface GetGroupByIdUseCase extends UseCase<GetGroupByIdCommand, GetGroupByIdResult> {
 }

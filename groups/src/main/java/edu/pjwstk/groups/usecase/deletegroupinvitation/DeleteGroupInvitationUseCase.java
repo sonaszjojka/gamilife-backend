@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.deletegroupinvitation;
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface DeleteGroupInvitationUseCase extends UseCase<DeleteGroupInvitationCommand, Void> {
 }

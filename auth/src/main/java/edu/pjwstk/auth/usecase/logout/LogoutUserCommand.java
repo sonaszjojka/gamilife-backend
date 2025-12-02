@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.logout;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 import jakarta.validation.ValidationException;
 
 public record LogoutUserCommand(String refreshToken) implements Command {

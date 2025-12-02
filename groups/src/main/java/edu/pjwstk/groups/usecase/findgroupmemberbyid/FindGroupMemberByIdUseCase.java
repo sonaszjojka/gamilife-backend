@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.findgroupmemberbyid;
 
 import edu.pjwstk.api.groups.dto.GroupMemberDto;
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface FindGroupMemberByIdUseCase extends UseCase<FindGroupMemberByIdCommand, GroupMemberDto> {
 }

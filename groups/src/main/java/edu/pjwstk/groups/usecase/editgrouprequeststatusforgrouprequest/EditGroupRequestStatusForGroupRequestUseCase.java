@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest;
 
 
-import edu.pjwstk.core.UseCase;
+import pl.gamilife.infrastructure.core.architecture.UseCase;
 
 public interface EditGroupRequestStatusForGroupRequestUseCase
         extends UseCase<EditGroupRequestStatusForGroupRequestCommand, EditGroupRequestStatusForGroupRequestResult> {

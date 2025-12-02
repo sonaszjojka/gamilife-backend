@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.usecase.processgroupjoin;
 
-import edu.pjwstk.core.enums.StatisticTypeEnum;
+import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 import edu.pjwstk.gamification.service.UserStatisticsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

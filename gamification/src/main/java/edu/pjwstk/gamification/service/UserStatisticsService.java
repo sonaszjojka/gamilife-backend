@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.service;
 
-import edu.pjwstk.core.enums.StatisticTypeEnum;
+import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 
 import java.util.Set;
 import java.util.UUID;

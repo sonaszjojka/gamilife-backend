@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.exception;
 
-import edu.pjwstk.core.exception.ErrorCode;
+import pl.gamilife.infrastructure.core.exception.ErrorCode;
 
 public enum TaskErrorCode implements ErrorCode {
     HABIT_NOT_FOUND,

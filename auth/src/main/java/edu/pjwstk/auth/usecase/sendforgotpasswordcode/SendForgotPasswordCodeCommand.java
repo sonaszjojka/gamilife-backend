@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.sendforgotpasswordcode;
 
-import edu.pjwstk.core.Command;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 public record SendForgotPasswordCodeCommand(String email) implements Command {
     @Override

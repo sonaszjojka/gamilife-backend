@@ -6,7 +6,7 @@ import edu.pjwstk.auth.exception.domain.CannotCurrentlyCreateNewForgotPasswordCo
 import edu.pjwstk.auth.models.ForgotPasswordCode;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;
 import edu.pjwstk.auth.service.ForgotPasswordCodeService;
-import edu.pjwstk.core.event.PasswordResetRequestedEvent;
+import pl.gamilife.infrastructure.core.event.PasswordResetRequestedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
