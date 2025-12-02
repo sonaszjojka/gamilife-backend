@@ -10,7 +10,6 @@
     <modules>
         <module>auth</module>
         <module>application</module>
-        <module>budget</module>
         <module>gamification</module>
         <module>group-shop</module>
         <module>group-tasks</module>
