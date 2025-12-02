@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>edu.pjwstk</groupId>
+        <groupId>pl.gamilife</groupId>
         <artifactId>infrastructure</artifactId>
         <version>0.0.1-alpha-v01</version>
     </parent>
@@ -15,7 +15,7 @@
     <dependencies>
         <!-- Infrastructure Modules -->
         <dependency>
-            <groupId>edu.pjwstk</groupId>
+            <groupId>pl.gamilife</groupId>
             <artifactId>infrastructure-core</artifactId>
         </dependency>
 
