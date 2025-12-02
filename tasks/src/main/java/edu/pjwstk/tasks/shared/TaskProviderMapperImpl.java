@@ -1,7 +1,7 @@
 package edu.pjwstk.tasks.shared;
 
-import edu.pjwstk.api.tasks.dto.TaskCategoryDto;
-import edu.pjwstk.api.tasks.dto.TaskDto;
+import pl.gamilife.api.task.dto.TaskCategoryDto;
+import pl.gamilife.api.task.dto.TaskDto;
 import edu.pjwstk.tasks.entity.Task;
 import org.springframework.stereotype.Component;
 

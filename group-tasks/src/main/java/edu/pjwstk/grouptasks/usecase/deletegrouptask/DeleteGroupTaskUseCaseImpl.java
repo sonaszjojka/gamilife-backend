@@ -1,6 +1,6 @@
 package edu.pjwstk.grouptasks.usecase.deletegrouptask;
 
-import edu.pjwstk.api.tasks.TasksApi;
+import pl.gamilife.api.task.TasksApi;
 import edu.pjwstk.grouptasks.entity.GroupTask;
 import edu.pjwstk.grouptasks.exception.domain.GroupTaskNotFoundException;
 import edu.pjwstk.grouptasks.repository.GroupTaskRepository;

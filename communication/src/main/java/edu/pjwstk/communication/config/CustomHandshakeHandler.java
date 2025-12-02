@@ -1,7 +1,7 @@
 package edu.pjwstk.communication.config;
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.stereotype.Component;

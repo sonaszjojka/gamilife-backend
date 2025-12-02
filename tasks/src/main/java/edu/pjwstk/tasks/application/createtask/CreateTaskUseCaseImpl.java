@@ -1,7 +1,7 @@
 package edu.pjwstk.tasks.application.createtask;
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.entity.TaskCategory;
 import edu.pjwstk.tasks.entity.TaskDifficulty;

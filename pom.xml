@@ -17,9 +17,9 @@
         <module>pomodoro</module>
         <module>tasks</module>
         <module>user</module>
-        <module>common-api</module>
         <module>communication</module>
         <module>infrastructure</module>
+        <module>api</module>
     </modules>
     <name>gami-life</name>
     <description>Backend application GamiLife</description>

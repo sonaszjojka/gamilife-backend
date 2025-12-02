@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.usecase.sendforgotpasswordcode;
 
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.auth.exception.domain.CannotCurrentlyCreateNewForgotPasswordCodeException;
 import edu.pjwstk.auth.models.ForgotPasswordCode;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;

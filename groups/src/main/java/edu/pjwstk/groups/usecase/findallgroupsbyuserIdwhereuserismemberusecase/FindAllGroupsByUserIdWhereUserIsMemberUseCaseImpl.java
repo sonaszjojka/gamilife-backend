@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.findallgroupsbyuserIdwhereuserismemberusecase;
 
-import edu.pjwstk.api.groups.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
+import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
 import edu.pjwstk.groups.enums.GroupTypeEnum;
 import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.repository.GroupJpaRepository;

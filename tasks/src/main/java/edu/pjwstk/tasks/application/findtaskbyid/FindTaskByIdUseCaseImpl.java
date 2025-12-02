@@ -1,6 +1,6 @@
 package edu.pjwstk.tasks.application.findtaskbyid;
 
-import edu.pjwstk.api.tasks.dto.TaskDto;
+import pl.gamilife.api.task.dto.TaskDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.TaskNotFoundException;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.repository.TaskRepository;

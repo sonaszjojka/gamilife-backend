@@ -1,9 +1,9 @@
 package edu.pjwstk.tasks.application.getusertasks;
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.api.pomodoro.PomodoroApi;
-import edu.pjwstk.api.pomodoro.PomodoroTaskDto.PomodoroTaskDto;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
+import pl.gamilife.api.pomodoro.PomodoroApi;
+import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 import edu.pjwstk.tasks.entity.Habit;
 import edu.pjwstk.tasks.entity.Task;
 import edu.pjwstk.tasks.repository.jpa.HabitRepositoryJpa;

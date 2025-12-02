@@ -1,6 +1,6 @@
 package edu.pjwstk.grouptasks.usecase.getgrouptasks;
 
-import edu.pjwstk.api.tasks.dto.TaskDto;
+import pl.gamilife.api.task.dto.TaskDto;
 import lombok.Builder;
 
 import java.time.Instant;

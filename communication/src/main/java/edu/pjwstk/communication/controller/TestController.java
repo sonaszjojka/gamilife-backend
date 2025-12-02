@@ -1,7 +1,7 @@
 package edu.pjwstk.communication.controller;
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.communication.dto.NotificationDto;
 import edu.pjwstk.communication.enums.NotificationType;
 import edu.pjwstk.communication.usecase.sendusernotification.SendUserNotificationCommand;

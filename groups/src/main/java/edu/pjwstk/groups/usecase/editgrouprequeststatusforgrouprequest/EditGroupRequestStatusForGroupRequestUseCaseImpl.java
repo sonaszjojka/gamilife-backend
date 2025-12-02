@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.editgrouprequeststatusforgrouprequest;
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.enums.GroupRequestStatusEnum;

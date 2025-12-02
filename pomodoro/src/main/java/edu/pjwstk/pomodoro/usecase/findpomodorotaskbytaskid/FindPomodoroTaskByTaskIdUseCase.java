@@ -2,7 +2,7 @@ package edu.pjwstk.pomodoro.usecase.findpomodorotaskbytaskid;
 
 
 
-import edu.pjwstk.api.pomodoro.PomodoroTaskDto.PomodoroTaskDto;
+import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 
 import java.util.UUID;
 

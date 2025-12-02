@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.service;
 
-import edu.pjwstk.api.auth.dto.AuthTokens;
+import pl.gamilife.api.auth.dto.AuthTokens;
 import io.jsonwebtoken.Claims;
 
 import java.util.UUID;

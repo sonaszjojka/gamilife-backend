@@ -1,9 +1,9 @@
 package edu.pjwstk.tasks;
 
-import edu.pjwstk.api.tasks.TasksApi;
-import edu.pjwstk.api.tasks.dto.TaskDto;
-import edu.pjwstk.api.tasks.dto.TaskForGroupTaskRequestDto;
-import edu.pjwstk.api.tasks.dto.TaskForGroupTaskResponseDto;
+import pl.gamilife.api.task.TasksApi;
+import pl.gamilife.api.task.dto.TaskDto;
+import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
+import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
 import edu.pjwstk.tasks.application.createtaskforgrouptask.CreateTaskForGroupTaskUseCase;
 import edu.pjwstk.tasks.application.deletetask.DeleteTaskUseCase;
 import edu.pjwstk.tasks.application.findtaskbyid.FindTaskByIdUseCase;

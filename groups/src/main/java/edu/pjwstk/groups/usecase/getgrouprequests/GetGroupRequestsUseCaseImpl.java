@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.getgrouprequests;
 
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.groups.enums.GroupRequestStatusEnum;
 import edu.pjwstk.groups.model.GroupRequest;
 import edu.pjwstk.groups.repository.GroupRequestJpaRepository;

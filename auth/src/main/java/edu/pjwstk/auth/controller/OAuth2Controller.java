@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.controller;
 
-import edu.pjwstk.api.auth.dto.AuthTokens;
+import pl.gamilife.api.auth.dto.AuthTokens;
 import edu.pjwstk.auth.controller.request.LinkOAuthAccountRequest;
 import edu.pjwstk.auth.controller.request.OAuthCodeRequest;
 import edu.pjwstk.auth.controller.response.AfterLoginResponse;

@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.usecase.resetpassword;
 
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.auth.exception.domain.OldAndNewPasswordAreTheSameException;
 import edu.pjwstk.auth.models.ForgotPasswordCode;
 import edu.pjwstk.auth.repository.JpaForgotPasswordCodeRepository;

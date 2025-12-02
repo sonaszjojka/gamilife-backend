@@ -1,7 +1,7 @@
 package edu.pjwstk.groupshop.usecase.creategroupshopforgroup;
 
-import edu.pjwstk.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
-import edu.pjwstk.api.groupshop.dto.CreateGroupShopForGroupResponseDto;
+import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
+import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupResponseDto;
 import edu.pjwstk.groupshop.entity.GroupShop;
 
 import java.util.UUID;

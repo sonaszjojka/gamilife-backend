@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.getauthuser;
 
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.auth.security.UserDetailsImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

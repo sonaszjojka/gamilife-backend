@@ -1,7 +1,7 @@
 package edu.pjwstk.gamification.api;
 
-import edu.pjwstk.api.gamification.GamificationApi;
-import edu.pjwstk.api.gamification.dto.StartingGamificationValuesDto;
+import pl.gamilife.api.gamification.GamificationApi;
+import pl.gamilife.api.gamification.dto.StartingGamificationValuesDto;
 import edu.pjwstk.gamification.usecase.getstartinggamificationvalues.GetStartingGamificationValuesCommand;
 import edu.pjwstk.gamification.usecase.getstartinggamificationvalues.GetStartingGamificationValuesUseCase;
 import edu.pjwstk.gamification.usecase.inituserstatistics.InitUserStatisticsCommand;

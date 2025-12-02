@@ -1,7 +1,7 @@
 package edu.pjwstk.grouptasks.usecase.creategrouptask;
 
-import edu.pjwstk.api.tasks.TasksApi;
-import edu.pjwstk.api.tasks.dto.TaskForGroupTaskRequestDto;
+import pl.gamilife.api.task.TasksApi;
+import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import edu.pjwstk.grouptasks.entity.GroupTask;
 import edu.pjwstk.grouptasks.repository.GroupTaskRepository;
 import jakarta.transaction.Transactional;

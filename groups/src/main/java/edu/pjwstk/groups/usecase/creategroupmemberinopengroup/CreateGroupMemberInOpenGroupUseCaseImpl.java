@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.creategroupmemberinopengroup;
 
-import edu.pjwstk.api.user.UserApi;
+import pl.gamification.api.user.UserApi;
 import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
 import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.groups.enums.GroupTypeEnum;

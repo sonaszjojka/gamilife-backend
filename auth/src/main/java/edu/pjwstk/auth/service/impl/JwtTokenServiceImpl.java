@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.service.impl;
 
-import edu.pjwstk.api.auth.dto.AuthTokens;
+import pl.gamilife.api.auth.dto.AuthTokens;
 import edu.pjwstk.auth.models.RefreshToken;
 import edu.pjwstk.auth.repository.JpaRefreshTokenRepository;
 import edu.pjwstk.auth.service.TokenService;

@@ -1,22 +1,17 @@
 package edu.pjwstk.grouptasks.usecase.getgrouptasks;
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.tasks.TasksApi;
-import edu.pjwstk.api.tasks.dto.TaskDto;
+import pl.gamilife.api.task.TasksApi;
+import pl.gamilife.api.task.dto.TaskDto;
 import edu.pjwstk.grouptasks.entity.GroupTask;
-import edu.pjwstk.grouptasks.entity.GroupTaskMember;
 import edu.pjwstk.grouptasks.repository.jpa.GroupTaskMemberRepositoryJpa;
 import edu.pjwstk.grouptasks.repository.jpa.GroupTaskRepositoryJpa;
 import edu.pjwstk.grouptasks.util.GroupTasksSpecificationBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 

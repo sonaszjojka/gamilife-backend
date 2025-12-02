@@ -1,9 +1,9 @@
 package edu.pjwstk.groups.usecase.editgroup;
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.BasicUserInfoApiDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
 import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;

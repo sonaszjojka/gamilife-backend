@@ -1,7 +1,7 @@
 package edu.pjwstk.tasks.application.getusertasks;
 
 
-import edu.pjwstk.api.pomodoro.PomodoroTaskDto.PomodoroTaskDto;
+import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

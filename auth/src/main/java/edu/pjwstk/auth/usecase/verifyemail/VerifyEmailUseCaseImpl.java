@@ -1,8 +1,8 @@
 package edu.pjwstk.auth.usecase.verifyemail;
 
-import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.auth.exception.domain.EmailVerificationCodeExpiredException;
 import edu.pjwstk.auth.exception.domain.InvalidEmailVerificationCodeException;
 import edu.pjwstk.auth.models.EmailVerificationCode;

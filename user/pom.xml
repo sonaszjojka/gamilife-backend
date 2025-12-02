@@ -21,11 +21,6 @@
     <dependencies>
         <dependency>
             <groupId>edu.pjwstk</groupId>
-            <artifactId>common-api</artifactId>
-            <version>0.0.1-alpha-v01</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.pjwstk</groupId>
             <artifactId>infrastructure-data</artifactId>
             <version>0.0.1-alpha-v01</version>
         </dependency>
@@ -35,9 +30,32 @@
             <version>0.0.1-alpha-v01</version>
         </dependency>
         <dependency>
+            <groupId>edu.pjwstk</groupId>
+            <artifactId>user-api</artifactId>
+            <version>0.0.1-alpha-v01</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>edu.pjwstk</groupId>
+            <artifactId>auth-api</artifactId>
+            <version>0.0.1-alpha-v01</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>edu.pjwstk</groupId>
+            <artifactId>gamification-api</artifactId>
+            <version>0.0.1-alpha-v01</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>edu.pjwstk</groupId>
+            <artifactId>group-api</artifactId>
+            <version>0.0.1-alpha-v01</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

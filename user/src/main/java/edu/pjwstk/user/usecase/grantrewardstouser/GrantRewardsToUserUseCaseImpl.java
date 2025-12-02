@@ -1,6 +1,6 @@
 package edu.pjwstk.user.usecase.grantrewardstouser;
 
-import edu.pjwstk.api.user.dto.RewardedUserApiDto;
+import pl.gamification.api.user.dto.RewardedUserApiDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.persistence.UserRepository;

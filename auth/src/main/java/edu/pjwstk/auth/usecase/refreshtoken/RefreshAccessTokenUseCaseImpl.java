@@ -1,8 +1,8 @@
 package edu.pjwstk.auth.usecase.refreshtoken;
 
-import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.auth.exception.domain.InvalidRefreshTokenException;
 import edu.pjwstk.auth.exception.domain.RefreshTokenExpiredException;
 import edu.pjwstk.auth.models.RefreshToken;

@@ -1,6 +1,6 @@
 package edu.pjwstk.gamification.usecase.getstartinggamificationvalues;
 
-import edu.pjwstk.api.gamification.dto.StartingGamificationValuesDto;
+import pl.gamilife.api.gamification.dto.StartingGamificationValuesDto;
 import edu.pjwstk.gamification.model.Level;
 import edu.pjwstk.gamification.repository.LevelRepository;
 import lombok.AllArgsConstructor;

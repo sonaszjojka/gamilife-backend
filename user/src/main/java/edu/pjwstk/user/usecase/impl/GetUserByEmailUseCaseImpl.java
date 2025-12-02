@@ -1,6 +1,6 @@
 package edu.pjwstk.user.usecase.impl;
 
-import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import pl.gamification.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.persistence.UserRepository;
 import edu.pjwstk.user.usecase.GetUserByEmailUseCase;

@@ -1,10 +1,10 @@
 package edu.pjwstk.auth.api;
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.api.auth.dto.ChangePasswordDto;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.api.auth.dto.RotateUserTokensDto;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamilife.api.auth.dto.ChangePasswordDto;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
+import pl.gamilife.api.auth.dto.RotateUserTokensDto;
 import edu.pjwstk.auth.usecase.changepassword.ChangePasswordCommand;
 import edu.pjwstk.auth.usecase.changepassword.ChangePasswordUseCase;
 import edu.pjwstk.auth.usecase.getauthuser.GetAuthenticatedUserCommand;

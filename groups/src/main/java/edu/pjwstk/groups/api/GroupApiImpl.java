@@ -1,9 +1,9 @@
 package edu.pjwstk.groups.api;
 
-import edu.pjwstk.api.groups.GroupApi;
-import edu.pjwstk.api.groups.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
-import edu.pjwstk.api.groups.dto.GroupDto;
-import edu.pjwstk.api.groups.dto.GroupMemberDto;
+import pl.gamilife.api.group.GroupApi;
+import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
+import pl.gamilife.api.group.dto.GroupDto;
+import pl.gamilife.api.group.dto.GroupMemberDto;
 import edu.pjwstk.groups.usecase.findallgroupsbyuserIdwhereuserismemberusecase.FindAllGroupsByUserIdWhereUserIsMemberCommand;
 import edu.pjwstk.groups.usecase.findallgroupsbyuserIdwhereuserismemberusecase.FindAllGroupsByUserIdWhereUserIsMemberUseCase;
 import edu.pjwstk.groups.usecase.findgroupbyid.FindGroupByIdCommand;

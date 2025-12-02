@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.findgroupmemberbyid;
 
-import edu.pjwstk.api.groups.dto.GroupMemberDto;
+import pl.gamilife.api.group.dto.GroupMemberDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
 import edu.pjwstk.groups.model.GroupMember;
 import edu.pjwstk.groups.repository.GroupMemberJpaRepository;

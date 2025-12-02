@@ -1,9 +1,9 @@
 package edu.pjwstk.groupshop.usecase.createownedgroupitem;
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.api.groups.GroupApi;
-import edu.pjwstk.api.groups.dto.GroupDto;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
+import pl.gamilife.api.group.GroupApi;
+import pl.gamilife.api.group.dto.GroupDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
 import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import edu.pjwstk.groupshop.entity.GroupItemInShop;

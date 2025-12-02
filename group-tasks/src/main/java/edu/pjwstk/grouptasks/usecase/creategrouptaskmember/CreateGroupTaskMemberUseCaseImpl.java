@@ -1,6 +1,6 @@
 package edu.pjwstk.grouptasks.usecase.creategrouptaskmember;
 
-import edu.pjwstk.api.groups.GroupApi;
+import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
 import edu.pjwstk.grouptasks.entity.GroupTask;
 import edu.pjwstk.grouptasks.entity.GroupTaskMember;

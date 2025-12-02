@@ -1,7 +1,7 @@
 package edu.pjwstk.user.api;
 
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.*;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.*;
 import edu.pjwstk.user.usecase.*;
 import edu.pjwstk.user.usecase.editusermoney.EditUserMoneyCommand;
 import edu.pjwstk.user.usecase.editusermoney.EditUserMoneyUseCase;

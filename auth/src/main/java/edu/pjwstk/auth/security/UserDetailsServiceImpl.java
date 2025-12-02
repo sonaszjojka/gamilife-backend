@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.security;
 
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.SecureUserInfoApiDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

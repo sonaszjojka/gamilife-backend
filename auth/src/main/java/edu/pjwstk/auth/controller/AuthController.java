@@ -1,7 +1,7 @@
 package edu.pjwstk.auth.controller;
 
-import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
+import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
 import edu.pjwstk.auth.controller.request.*;
 import edu.pjwstk.auth.controller.response.AfterLoginResponse;
 import edu.pjwstk.auth.usecase.common.LoginUserResult;

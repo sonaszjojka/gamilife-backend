@@ -1,8 +1,8 @@
 package edu.pjwstk.auth.usecase.googlelinkaccount;
 
-import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.SecureUserInfoApiDto;
 import edu.pjwstk.auth.exception.domain.InvalidCredentialsException;
 import edu.pjwstk.auth.exception.domain.LinkedUserNotFoundException;
 import edu.pjwstk.auth.exception.domain.UserAlreadyLinkedToProviderException;

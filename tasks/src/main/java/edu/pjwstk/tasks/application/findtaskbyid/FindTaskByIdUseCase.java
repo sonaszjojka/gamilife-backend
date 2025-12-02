@@ -1,7 +1,7 @@
 package edu.pjwstk.tasks.application.findtaskbyid;
 
 
-import edu.pjwstk.api.tasks.dto.TaskDto;
+import pl.gamilife.api.task.dto.TaskDto;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

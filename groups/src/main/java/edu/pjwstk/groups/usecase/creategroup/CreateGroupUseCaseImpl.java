@@ -1,9 +1,9 @@
 package edu.pjwstk.groups.usecase.creategroup;
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.api.groupshop.GroupShopApi;
-import edu.pjwstk.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
+import pl.gamilife.api.groupshop.GroupShopApi;
+import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
 import edu.pjwstk.groups.exception.domain.GroupTypeNotFoundException;
 import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.model.GroupMember;

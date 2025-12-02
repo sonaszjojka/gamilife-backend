@@ -1,8 +1,8 @@
 package edu.pjwstk.auth.usecase.registeruser;
 
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.api.user.dto.RegisterUserApiDto;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.BasicUserInfoApiDto;
+import pl.gamification.api.user.dto.RegisterUserApiDto;
 import edu.pjwstk.auth.validators.PasswordValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

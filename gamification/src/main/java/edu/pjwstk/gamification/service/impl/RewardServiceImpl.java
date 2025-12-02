@@ -1,7 +1,7 @@
 package edu.pjwstk.gamification.service.impl;
 
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.RewardedUserApiDto;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.RewardedUserApiDto;
 import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 import edu.pjwstk.gamification.model.Item;
 import edu.pjwstk.gamification.model.Level;

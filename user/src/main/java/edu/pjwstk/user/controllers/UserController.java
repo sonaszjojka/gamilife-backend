@@ -1,8 +1,8 @@
 package edu.pjwstk.user.controllers;
 
-import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.api.groups.GroupApi;
-import edu.pjwstk.api.groups.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
+import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamilife.api.group.GroupApi;
+import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
 import edu.pjwstk.user.dto.request.ChangeUserPasswordRequest;
 import edu.pjwstk.user.dto.response.CurrentUserInfoResponse;
 import edu.pjwstk.user.dto.response.GetUsersResult;

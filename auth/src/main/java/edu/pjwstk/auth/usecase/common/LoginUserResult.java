@@ -1,6 +1,6 @@
 package edu.pjwstk.auth.usecase.common;
 
-import edu.pjwstk.api.auth.dto.AuthTokens;
+import pl.gamilife.api.auth.dto.AuthTokens;
 
 import java.util.UUID;
 

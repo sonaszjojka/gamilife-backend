@@ -1,10 +1,10 @@
 package edu.pjwstk.pomodoro.usecase.findpomodorotaskbytaskid;
 
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.api.pomodoro.PomodoroTaskDto.PomodoroTaskDto;
-import edu.pjwstk.api.tasks.TasksApi;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
+import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
+import pl.gamilife.api.task.TasksApi;
 import edu.pjwstk.pomodoro.repository.jpa.PomodoroTaskRepositoryJpa;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package edu.pjwstk.pomodoro;
 
-import edu.pjwstk.api.pomodoro.PomodoroApi;
-import edu.pjwstk.api.pomodoro.PomodoroTaskDto.PomodoroTaskDto;
+import pl.gamilife.api.pomodoro.PomodoroApi;
+import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 import edu.pjwstk.pomodoro.usecase.findpomodorotaskbytaskid.FindPomodoroTaskByTaskIdUseCase;
 import org.springframework.stereotype.Service;
 

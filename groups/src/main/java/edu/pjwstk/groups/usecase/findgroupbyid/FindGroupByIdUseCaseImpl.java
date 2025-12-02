@@ -1,6 +1,6 @@
 package edu.pjwstk.groups.usecase.findgroupbyid;
 
-import edu.pjwstk.api.groups.dto.GroupDto;
+import pl.gamilife.api.group.dto.GroupDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
 import edu.pjwstk.groups.model.Group;
 import edu.pjwstk.groups.repository.GroupJpaRepository;

@@ -1,9 +1,9 @@
 package edu.pjwstk.user.usecase.impl;
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.api.auth.dto.ChangePasswordDto;
-import edu.pjwstk.api.auth.dto.RotateUserTokensDto;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamilife.api.auth.dto.ChangePasswordDto;
+import pl.gamilife.api.auth.dto.RotateUserTokensDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.user.domain.User;
 import edu.pjwstk.user.dto.service.ChangeUserPasswordCommand;

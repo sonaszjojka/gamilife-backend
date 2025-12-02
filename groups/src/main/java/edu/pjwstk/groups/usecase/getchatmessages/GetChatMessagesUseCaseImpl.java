@@ -1,7 +1,7 @@
 package edu.pjwstk.groups.usecase.getchatmessages;
 
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.BasicUserInfoApiDto;
 import edu.pjwstk.groups.model.ChatMessage;
 import edu.pjwstk.groups.repository.ChatMessageJpaRepository;
 import edu.pjwstk.groups.util.ChatMessageSpecificationBuilder;

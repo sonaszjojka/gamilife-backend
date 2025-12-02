@@ -2,10 +2,10 @@ package edu.pjwstk.auth.service.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import edu.pjwstk.api.user.UserApi;
-import edu.pjwstk.api.user.dto.BasicUserInfoApiDto;
-import edu.pjwstk.api.user.dto.RegisterUserApiDto;
-import edu.pjwstk.api.user.dto.SecureUserInfoApiDto;
+import pl.gamification.api.user.UserApi;
+import pl.gamification.api.user.dto.BasicUserInfoApiDto;
+import pl.gamification.api.user.dto.RegisterUserApiDto;
+import pl.gamification.api.user.dto.SecureUserInfoApiDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.auth.dto.GoogleUserDto;
 import edu.pjwstk.auth.models.UserOAuthProvider;

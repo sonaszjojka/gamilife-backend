@@ -1,9 +1,9 @@
 package edu.pjwstk.groupshop.usecase.deletegroupiteminshop;
 
-import edu.pjwstk.api.auth.AuthApi;
-import edu.pjwstk.api.auth.dto.CurrentUserDto;
-import edu.pjwstk.api.groups.GroupApi;
-import edu.pjwstk.api.groups.dto.GroupDto;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
+import pl.gamilife.api.group.GroupApi;
+import pl.gamilife.api.group.dto.GroupDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import edu.pjwstk.groupshop.entity.GroupShop;
 import edu.pjwstk.groupshop.exception.domain.GroupShopItemNotFoundException;
