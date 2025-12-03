@@ -12,10 +12,6 @@ public interface GroupInvitationUtil {
 
     String hashToken(String token);
 
-    String generateInvitationMailContentMessage(String link, String joinCode);
-
-    String generateInvitationMailSubjectMessage();
-
     boolean verifyToken(String token, String hashedTokenFromDb);
 
 }

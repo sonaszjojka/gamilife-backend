@@ -6,7 +6,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import pl.gamilife.user.domain.User;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,20 +23,6 @@ public class UserRepositoryImpl implements UserRepository {
         UserEntity userEntity = UserMapper.toEntity(user);
         UserEntity createdUserEntity = jpaUserRepository.save(userEntity);
         return UserMapper.toDomain(createdUserEntity);
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return jpaUserRepository
-                .findAll()
-                .stream()
-                .map(UserMapper::toDomain)
-                .toList();
-    }
-
-    @Override
-    public Optional<User> getUserByEmailWithPassword(String email) {
-        return jpaUserRepository.findByEmailWithPassword(email).map(UserMapper::toDomain);
     }
 
     @Override

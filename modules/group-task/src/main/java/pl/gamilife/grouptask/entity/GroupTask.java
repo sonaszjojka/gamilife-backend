@@ -19,8 +19,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "group_task")
 public class GroupTask {
-
-
     @Column(name = "last_edit")
     protected Instant lastEdit;
     @Id
@@ -43,6 +41,7 @@ public class GroupTask {
     private String declineMessage;
     @Builder.Default
     @OneToMany(mappedBy = "groupTaskId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private Set<GroupTaskMember> groupTaskMembers = new LinkedHashSet<>();
 
     @PrePersist

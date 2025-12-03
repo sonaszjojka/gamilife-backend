@@ -30,11 +30,4 @@ public class GroupShopRepositoryImpl implements GroupShopRepository {
     public GroupShop save(GroupShop groupShop) {
         return groupShopRepositoryJpa.save(groupShop);
     }
-
-    @Override
-    public void deleteById(UUID groupShopId) {
-
-        groupShopRepositoryJpa.deleteById(groupShopId);
-
-    }
 }

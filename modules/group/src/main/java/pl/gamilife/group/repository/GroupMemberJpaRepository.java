@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface GroupMemberJpaRepository extends JpaRepository<GroupMember, UUID> {
-    boolean existsByUserIdAndGroup(UUID userId, Group memberGroup);
 
     @EntityGraph(attributePaths = {"group"})
     Optional<GroupMember> findByUserIdAndGroup(UUID userId, Group memberGroup);

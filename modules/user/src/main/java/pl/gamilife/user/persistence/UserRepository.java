@@ -5,17 +5,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import pl.gamilife.user.domain.User;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepository {
 
     User save(User user);
-
-    List<User> getAllUsers();
-
-    Optional<User> getUserByEmailWithPassword(String email);
 
     Optional<User> getUserByEmail(String email);
 

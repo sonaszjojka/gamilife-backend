@@ -19,8 +19,6 @@ public interface TasksSpecificationBuilder {
 
     Specification<Task> isCompleted(Boolean isCompleted);
 
-    Specification<Task> hasHabit();
-
     Specification<Task> selectedDifficulty(Integer difficultyId);
 
     Specification<Task> selectedCategory(Integer categoryId);

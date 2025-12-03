@@ -42,7 +42,7 @@ public class GroupShop {
 
     @Builder.Default
     @OneToMany(mappedBy = "groupShop")
+    @ToString.Exclude
     private Set<GroupItemInShop> groupItemInShops = new LinkedHashSet<>();
-
 
 }

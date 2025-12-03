@@ -7,7 +7,6 @@ import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
 import java.util.UUID;
 
 public interface TasksApi {
-    Boolean taskExistsByTaskId(UUID taskId);
 
     TaskDto findTaskByTaskId(UUID taskId);
 

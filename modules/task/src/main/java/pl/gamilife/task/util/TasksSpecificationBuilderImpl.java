@@ -99,10 +99,4 @@ public class TasksSpecificationBuilderImpl implements TasksSpecificationBuilder 
                 criteriaBuilder.equal(root.get("userId"), userId)
         );
     }
-
-    @Override
-    public Specification<Task> hasHabit() {
-
-        return null;
-    }
 }

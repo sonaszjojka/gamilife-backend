@@ -39,7 +39,7 @@ public class GetGroupTasksUseCaseImpl implements GetGroupTasksUseCase {
 
         Pageable pageable = createPageable(request);
 
-        Page<GetGroupTaskDto> tasks = groupTaskRepository.findAll(groupTaskSpecification, pageable).map(
+        return groupTaskRepository.findAll(groupTaskSpecification, pageable).map(
                 groupTask -> {
                     TaskDto taskDto = tasksApi.findTaskByTaskId(groupTask.getTaskId());
                     List<GetGroupTaskMemberDto> groupTaskMembers =
@@ -61,7 +61,6 @@ public class GetGroupTasksUseCaseImpl implements GetGroupTasksUseCase {
                     );
 
                 });
-        return tasks;
     }
 
     private Pageable createPageable(GetGroupTasksRequestFilter request) {

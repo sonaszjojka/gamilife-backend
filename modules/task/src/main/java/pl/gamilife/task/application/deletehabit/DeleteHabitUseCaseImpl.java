@@ -2,7 +2,6 @@ package pl.gamilife.task.application.deletehabit;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.task.entity.Habit;
 import pl.gamilife.task.exception.domain.HabitNotFoundException;
 import pl.gamilife.task.repository.HabitRepository;
 
@@ -19,7 +18,7 @@ public class DeleteHabitUseCaseImpl implements DeleteHabitUseCase {
     @Override
     @Transactional
     public void execute(UUID habitId) {
-        Habit habit = habitRepository
+        habitRepository
                 .findById(habitId)
                 .orElseThrow(() -> new HabitNotFoundException(
                         "Habit with id " + habitId + " not found!"

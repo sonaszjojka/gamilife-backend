@@ -34,7 +34,7 @@ public class Habit extends AbstractEntitySuperclass {
     @Column(name = "longest_streak", nullable = false)
     private Integer longestStreak;
 
-    @Column(name = "accepted_date", nullable = true)
+    @Column(name = "accepted_date")
     private LocalDateTime acceptedDate;
 
 }

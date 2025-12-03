@@ -50,26 +50,6 @@ public class GroupInvitationUtilImpl implements GroupInvitationUtil {
     }
 
     @Override
-    public String generateInvitationMailContentMessage(String link, String joinCode) {
-        return String.format(
-                "<html>" +
-                        "<body>" +
-                        "<p>You have been invited to join the group with code: <b>%s</b>.</p>" +
-                        "<p>Click the link below to open the invitation page and decide whether to join:</p>" +
-                        "<p><a href=\"%s\">Join the group</a></p>" +
-                        "</body>" +
-                        "</html>",
-                joinCode, link
-        );
-    }
-
-
-    @Override
-    public String generateInvitationMailSubjectMessage() {
-        return "Group Invitation";
-    }
-
-    @Override
     public boolean verifyToken(String token, String hashedTokenFromDb) {
         String hashedToken = hashToken(token);
         return hashedToken.equals(hashedTokenFromDb);

@@ -5,7 +5,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import pl.gamilife.grouptask.entity.GroupTask;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -26,7 +25,6 @@ public class GroupTasksSpecificationBuilderImpl implements GroupTasksSpecificati
             if (isAccepted == null) {
                 return criteriaBuilder.conjunction();
             }
-            LocalDateTime now = LocalDateTime.now();
 
             Predicate hasAcceptedDate = criteriaBuilder.isNotNull(root.get("acceptedDate"));
             Predicate noAcceptedDate = criteriaBuilder.isNull(root.get("acceptedDate"));

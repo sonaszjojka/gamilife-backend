@@ -1,7 +1,6 @@
 package pl.gamilife.task.application.edittask;
 
 import lombok.AllArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
@@ -14,7 +13,6 @@ import pl.gamilife.task.entity.TaskDifficulty;
 import pl.gamilife.task.exception.domain.InvalidTaskDataException;
 import pl.gamilife.task.exception.domain.TaskCategoryNotFoundException;
 import pl.gamilife.task.exception.domain.TaskDifficultyNotFoundException;
-import pl.gamilife.task.repository.HabitRepository;
 import pl.gamilife.task.repository.TaskCategoryRepository;
 import pl.gamilife.task.repository.TaskDifficultyRepository;
 import pl.gamilife.task.repository.TaskRepository;
@@ -31,9 +29,7 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
     private final EditTaskMapper editTaskMapper;
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final TaskCategoryRepository taskCategoryRepository;
-    private final HabitRepository habitRepository;
     private final AuthApi currentUserProvider;
-    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional

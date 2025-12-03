@@ -10,7 +10,6 @@ import pl.gamilife.task.entity.TaskDifficulty;
 import pl.gamilife.task.exception.domain.InvalidTaskDataException;
 import pl.gamilife.task.exception.domain.TaskCategoryNotFoundException;
 import pl.gamilife.task.exception.domain.TaskDifficultyNotFoundException;
-import pl.gamilife.task.repository.HabitRepository;
 import pl.gamilife.task.repository.TaskCategoryRepository;
 import pl.gamilife.task.repository.TaskDifficultyRepository;
 import pl.gamilife.task.repository.TaskRepository;
@@ -26,7 +25,7 @@ public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTask
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final CreateTaskForGroupTaskMapper createTaskForGroupTaskMapper;
 
-    public CreateTaskForGroupTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, HabitRepository habitRepository, CreateTaskForGroupTaskMapper createTaskForGroupTaskMapper) {
+    public CreateTaskForGroupTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, CreateTaskForGroupTaskMapper createTaskForGroupTaskMapper) {
         this.taskRepository = taskRepository;
         this.taskCategoryRepository = taskCategoryRepository;
         this.taskDifficultyRepository = taskDifficultyRepository;

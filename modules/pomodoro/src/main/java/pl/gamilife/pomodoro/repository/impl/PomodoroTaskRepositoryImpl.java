@@ -23,11 +23,6 @@ public class PomodoroTaskRepositoryImpl implements PomodoroTaskRepository {
     }
 
     @Override
-    public boolean existsByPomodoroTaskId(UUID pomodoroTaskId) {
-        return pomodoroTaskRepositoryJpa.existsById(pomodoroTaskId);
-    }
-
-    @Override
     public PomodoroTask save(PomodoroTask pomodoroTask) {
         return pomodoroTaskRepositoryJpa.save(pomodoroTask);
     }

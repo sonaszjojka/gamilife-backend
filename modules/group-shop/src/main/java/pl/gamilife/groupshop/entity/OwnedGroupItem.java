@@ -27,6 +27,7 @@ public class OwnedGroupItem {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "group_item_in_shop_id", nullable = false)
+    @ToString.Exclude
     private GroupItemInShop groupItemInShop;
 
     @NotNull

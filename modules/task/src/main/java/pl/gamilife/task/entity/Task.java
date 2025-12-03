@@ -27,7 +27,7 @@ public class Task {
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
 
-    @Column(name = "end_time", nullable = true)
+    @Column(name = "end_time")
     private LocalDateTime endTime;
 
     @ManyToOne
@@ -39,10 +39,10 @@ public class Task {
     private TaskDifficulty difficulty;
 
 
-    @Column(name = "user_id", nullable = true)
+    @Column(name = "user_id")
     private UUID userId;
 
-    @Column(name = "completed_at", nullable = true)
+    @Column(name = "completed_at")
     private LocalDateTime completedAt;
 
 

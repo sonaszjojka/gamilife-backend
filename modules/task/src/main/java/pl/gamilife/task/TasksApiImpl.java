@@ -28,11 +28,6 @@ public class TasksApiImpl implements TasksApi {
     }
 
     @Override
-    public Boolean taskExistsByTaskId(UUID taskId) {
-        return existsByTaskIdUseCase.execute(taskId);
-    }
-
-    @Override
     public TaskDto findTaskByTaskId(UUID taskId) {
         return findTaskByIdUseCase.execute(taskId);
     }

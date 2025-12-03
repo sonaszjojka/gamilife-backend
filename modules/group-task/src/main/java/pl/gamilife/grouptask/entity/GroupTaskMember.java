@@ -21,6 +21,7 @@ public class GroupTaskMember {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "group_task_id", nullable = false)
+    @ToString.Exclude
     private GroupTask groupTaskId;
 
     @Column(name = "group_member_id", nullable = false)

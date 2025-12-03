@@ -54,7 +54,7 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
         Pageable pageable = createPageable(request);
 
 
-        Page<GetUserTasksDto> tasks = taskRepository.findAll(taskSpecification, pageable)
+        return taskRepository.findAll(taskSpecification, pageable)
                 .map(task -> {
                     PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
                     TaskHabitDto taskHabit = null;
@@ -86,7 +86,6 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                             taskHabit
                     );
                 });
-        return tasks;
     }
 
     private Pageable createPageable(GetUserTasksFilterDto request) {
