@@ -24,6 +24,7 @@ import pl.gamilife.auth.repository.JpaRefreshTokenRepository;
 import pl.gamilife.auth.security.JwtAuthenticationFilter;
 import pl.gamilife.auth.service.TokenService;
 import pl.gamilife.auth.service.impl.JwtTokenServiceImpl;
+import pl.gamilife.infrastructure.web.ratelimit.RateLimitFilter;
 
 import java.util.List;
 
@@ -33,7 +34,12 @@ import java.util.List;
 public class SecurityConfiguration {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter, AuthenticationEntryPoint authenticationEntryPoint) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            AuthenticationEntryPoint authenticationEntryPoint,
+            RateLimitFilter rateLimitFilter
+    ) throws Exception {
         return http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -55,6 +61,7 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(Customizer.withDefaults())
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
