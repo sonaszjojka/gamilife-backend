@@ -1,11 +1,5 @@
 package pl.gamilife.gamification.event.handler;
 
-import pl.gamilife.infrastructure.core.event.ItemAcquiredEvent;
-import pl.gamilife.infrastructure.core.event.ItemBoughtEvent;
-import pl.gamilife.gamification.usecase.processitemacquisition.ProcessItemAcquisitionCommand;
-import pl.gamilife.gamification.usecase.processitemacquisition.ProcessItemAcquisitionUseCase;
-import pl.gamilife.gamification.usecase.processitempurchase.ProcessItemPurchaseCommand;
-import pl.gamilife.gamification.usecase.processitempurchase.ProcessItemPurchaseUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Recover;
@@ -14,6 +8,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+import pl.gamilife.gamification.usecase.processitemacquisition.ProcessItemAcquisitionCommand;
+import pl.gamilife.gamification.usecase.processitemacquisition.ProcessItemAcquisitionUseCase;
+import pl.gamilife.gamification.usecase.processitempurchase.ProcessItemPurchaseCommand;
+import pl.gamilife.gamification.usecase.processitempurchase.ProcessItemPurchaseUseCase;
+import pl.gamilife.infrastructure.core.event.ItemAcquiredEvent;
+import pl.gamilife.infrastructure.core.event.ItemBoughtEvent;
 
 @Component
 @AllArgsConstructor

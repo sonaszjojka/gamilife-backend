@@ -1,14 +1,14 @@
 package pl.gamilife.group.usecase.deletegroup;
 
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
-import pl.gamilife.group.model.Group;
-import pl.gamilife.group.repository.GroupJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
+import pl.gamilife.group.model.Group;
+import pl.gamilife.group.repository.GroupJpaRepository;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
 
 @Service
 @Transactional

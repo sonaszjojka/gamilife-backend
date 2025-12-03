@@ -1,8 +1,8 @@
 package pl.gamilife.gamification.usecase.getallitemslots;
 
-import pl.gamilife.gamification.repository.ItemSlotRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.gamilife.gamification.repository.ItemSlotRepository;
 
 @Service
 @AllArgsConstructor

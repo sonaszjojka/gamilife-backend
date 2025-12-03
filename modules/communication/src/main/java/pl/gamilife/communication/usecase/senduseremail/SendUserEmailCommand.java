@@ -1,8 +1,8 @@
 package pl.gamilife.communication.usecase.senduseremail;
 
+import jakarta.validation.ValidationException;
 import pl.gamilife.communication.dto.EmailParameters;
 import pl.gamilife.infrastructure.core.architecture.Command;
-import jakarta.validation.ValidationException;
 
 import java.util.UUID;
 

@@ -1,7 +1,7 @@
 package pl.gamilife.grouptask.usecase.getgrouptasks;
 
-import pl.gamilife.api.task.dto.TaskDto;
 import lombok.Builder;
+import pl.gamilife.api.task.dto.TaskDto;
 
 import java.time.Instant;
 import java.util.List;

@@ -1,5 +1,12 @@
 package pl.gamilife.group.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pl.gamilife.group.controller.request.CreateGroupRequest;
 import pl.gamilife.group.controller.request.EditGroupRequest;
 import pl.gamilife.group.controller.request.GroupFilterRequest;
@@ -18,13 +25,6 @@ import pl.gamilife.group.usecase.getgroups.getall.GetGroupsUseCase;
 import pl.gamilife.group.usecase.getgroups.getbyid.GetGroupByIdCommand;
 import pl.gamilife.group.usecase.getgroups.getbyid.GetGroupByIdResult;
 import pl.gamilife.group.usecase.getgroups.getbyid.GetGroupByIdUseCase;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 

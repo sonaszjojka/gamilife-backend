@@ -1,9 +1,9 @@
 package pl.gamilife.task.repository.impl;
 
+import org.springframework.stereotype.Repository;
 import pl.gamilife.task.entity.Habit;
 import pl.gamilife.task.repository.HabitRepository;
 import pl.gamilife.task.repository.jpa.HabitRepositoryJpa;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -26,6 +26,7 @@ public class HabitRepositoryImpl implements HabitRepository {
     public Optional<Habit> findById(UUID habitId) {
         return repositoryJpa.findById(habitId);
     }
+
     @Override
     public Optional<Habit> findHabitByTaskId(UUID taskId) {
         return repositoryJpa.findHabitByTaskId(taskId);

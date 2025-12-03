@@ -1,14 +1,14 @@
 package pl.gamilife.group.service.impl;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.group.exception.domain.GroupFullException;
 import pl.gamilife.group.exception.domain.UserAlreadyMemberOfGroupException;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
 import pl.gamilife.group.service.GroupMemberService;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Optional;

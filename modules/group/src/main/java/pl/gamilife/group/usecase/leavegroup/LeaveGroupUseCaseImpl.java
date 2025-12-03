@@ -1,12 +1,12 @@
 package pl.gamilife.group.usecase.leavegroup;
 
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.group.exception.domain.AdminCannotLeaveGroupException;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
 
 import java.time.Instant;
 import java.util.UUID;

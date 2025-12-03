@@ -1,11 +1,11 @@
 package pl.gamilife.user.usecase.impl;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.user.dto.SecureUserInfoApiDto;
 import pl.gamilife.user.domain.User;
 import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.usecase.GetSecureUserDataByIdUseCase;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;

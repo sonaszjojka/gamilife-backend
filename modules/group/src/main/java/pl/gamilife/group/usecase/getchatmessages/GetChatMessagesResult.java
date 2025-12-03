@@ -13,7 +13,7 @@ public record GetChatMessagesResult(
         int pageSize,
         Collection<ChatMessageDto> content
 ) implements Serializable {
-    
+
     public record ChatMessageDto(
             UUID messageId,
             String content,

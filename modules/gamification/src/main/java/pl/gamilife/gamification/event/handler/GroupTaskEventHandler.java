@@ -1,11 +1,5 @@
 package pl.gamilife.gamification.event.handler;
 
-import pl.gamilife.infrastructure.core.event.GroupTaskCompletedEvent;
-import pl.gamilife.infrastructure.core.event.GroupTaskUndoneEvent;
-import pl.gamilife.gamification.usecase.processgrouptaskcompletion.ProcessGroupTaskCompletionCommand;
-import pl.gamilife.gamification.usecase.processgrouptaskcompletion.ProcessGroupTaskCompletionUseCase;
-import pl.gamilife.gamification.usecase.rollbackgrouptaskcompletion.RollbackGroupTaskCompletionCommand;
-import pl.gamilife.gamification.usecase.rollbackgrouptaskcompletion.RollbackGroupTaskCompletionUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Recover;
@@ -14,6 +8,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+import pl.gamilife.gamification.usecase.processgrouptaskcompletion.ProcessGroupTaskCompletionCommand;
+import pl.gamilife.gamification.usecase.processgrouptaskcompletion.ProcessGroupTaskCompletionUseCase;
+import pl.gamilife.gamification.usecase.rollbackgrouptaskcompletion.RollbackGroupTaskCompletionCommand;
+import pl.gamilife.gamification.usecase.rollbackgrouptaskcompletion.RollbackGroupTaskCompletionUseCase;
+import pl.gamilife.infrastructure.core.event.GroupTaskCompletedEvent;
+import pl.gamilife.infrastructure.core.event.GroupTaskUndoneEvent;
 
 @Component
 @AllArgsConstructor

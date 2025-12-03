@@ -1,8 +1,8 @@
 package pl.gamilife.task.application.createtasknotification;
 
+import org.springframework.stereotype.Component;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.entity.TaskNotification;
-import org.springframework.stereotype.Component;
 
 @Component
 public class CreateTaskNotificationMapperImpl implements CreateTaskNotificationMapper {

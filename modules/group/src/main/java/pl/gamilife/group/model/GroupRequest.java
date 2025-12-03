@@ -1,8 +1,8 @@
 package pl.gamilife.group.model;
 
-import pl.gamilife.group.enums.GroupRequestStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import pl.gamilife.group.enums.GroupRequestStatusEnum;
 
 import java.time.Instant;
 import java.util.Objects;

@@ -1,7 +1,7 @@
 package pl.gamilife.gamification.service;
 
-import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 import jakarta.transaction.Transactional;
+import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 
 import java.util.UUID;
 

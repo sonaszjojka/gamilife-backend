@@ -1,8 +1,8 @@
 package pl.gamilife.groupshop.usecase.creategroupiteminshop;
 
+import org.springframework.stereotype.Component;
 import pl.gamilife.groupshop.entity.GroupItemInShop;
 import pl.gamilife.groupshop.entity.GroupShop;
-import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.UUID;

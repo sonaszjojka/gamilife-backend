@@ -48,30 +48,30 @@ DROP TABLE IF EXISTS notification_type CASCADE;
 
 CREATE TABLE task
 (
-    task_id          UUID                        NOT NULL,
-    title            VARCHAR(200)                NOT NULL,
-    start_time       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    end_time         TIMESTAMP WITHOUT TIME ZONE,
-    category_id      INTEGER                     NOT NULL,
-    difficulty_id    INTEGER                     NOT NULL,
-    user_id          UUID,
-    completed_at     TIMESTAMP WITHOUT TIME ZONE,
-    description      VARCHAR(200),
-    is_group_task BOOLEAN                        NOT NULL,
-    reward_issued BOOLEAN                        NOT NULL,
+    task_id       UUID                        NOT NULL,
+    title         VARCHAR(200)                NOT NULL,
+    start_time    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    end_time      TIMESTAMP WITHOUT TIME ZONE,
+    category_id   INTEGER                     NOT NULL,
+    difficulty_id INTEGER                     NOT NULL,
+    user_id       UUID,
+    completed_at  TIMESTAMP WITHOUT TIME ZONE,
+    description   VARCHAR(200),
+    is_group_task BOOLEAN                     NOT NULL,
+    reward_issued BOOLEAN                     NOT NULL,
     CONSTRAINT pk_task PRIMARY KEY (task_id)
 );
 
 CREATE TABLE habit
 (
-    habit_id        UUID                        NOT NULL,
-    task_id    UUID,
-    updated_at      TIMESTAMP WITHOUT TIME ZONE,
-    created_at      TIMESTAMP WITHOUT TIME ZONE,
-    cycle_length    BIGINT                      NOT NULL,
-    current_streak  INTEGER                     NOT NULL,
-    longest_streak  INTEGER                     NOT NULL,
-    accepted_date   TIMESTAMP WITHOUT TIME ZONE,
+    habit_id       UUID    NOT NULL,
+    task_id        UUID,
+    updated_at     TIMESTAMP WITHOUT TIME ZONE,
+    created_at     TIMESTAMP WITHOUT TIME ZONE,
+    cycle_length   BIGINT  NOT NULL,
+    current_streak INTEGER NOT NULL,
+    longest_streak INTEGER NOT NULL,
+    accepted_date  TIMESTAMP WITHOUT TIME ZONE,
     CONSTRAINT pk_habit PRIMARY KEY (habit_id)
 );
 
@@ -676,7 +676,7 @@ CREATE TABLE notification_retry
     title                varchar(100) NOT NULL,
     message              varchar(255) NOT NULL,
     original_timestamp   timestamp    NOT NULL,
-    data jsonb NULL,
+    data                 jsonb        NULL,
     notification_type_id int          NOT NULL,
     CONSTRAINT notification_retry_pk PRIMARY KEY (id)
 );

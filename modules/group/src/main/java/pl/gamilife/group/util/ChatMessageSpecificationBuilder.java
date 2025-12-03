@@ -1,7 +1,7 @@
 package pl.gamilife.group.util;
 
-import pl.gamilife.group.model.ChatMessage;
 import org.springframework.data.jpa.domain.Specification;
+import pl.gamilife.group.model.ChatMessage;
 
 import java.util.UUID;
 

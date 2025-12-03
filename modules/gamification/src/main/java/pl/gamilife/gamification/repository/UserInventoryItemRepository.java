@@ -1,9 +1,9 @@
 package pl.gamilife.gamification.repository;
 
-import pl.gamilife.gamification.model.Item;
-import pl.gamilife.gamification.model.UserInventoryItem;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import pl.gamilife.gamification.model.Item;
+import pl.gamilife.gamification.model.UserInventoryItem;
 
 import java.util.List;
 import java.util.Optional;

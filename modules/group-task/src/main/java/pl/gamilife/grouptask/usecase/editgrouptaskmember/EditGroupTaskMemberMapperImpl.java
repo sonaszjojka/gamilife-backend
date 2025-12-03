@@ -1,7 +1,7 @@
 package pl.gamilife.grouptask.usecase.editgrouptaskmember;
 
-import pl.gamilife.grouptask.entity.GroupTaskMember;
 import org.springframework.stereotype.Component;
+import pl.gamilife.grouptask.entity.GroupTaskMember;
 
 @Component
 public class EditGroupTaskMemberMapperImpl implements EditGroupTaskMemberMapper {

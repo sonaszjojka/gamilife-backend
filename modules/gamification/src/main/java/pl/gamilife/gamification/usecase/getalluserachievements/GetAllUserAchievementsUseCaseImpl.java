@@ -1,11 +1,11 @@
 package pl.gamilife.gamification.usecase.getalluserachievements;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.gamification.repository.AchievementRepository;
 import pl.gamilife.gamification.repository.query.AchievementDetailsDto;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;

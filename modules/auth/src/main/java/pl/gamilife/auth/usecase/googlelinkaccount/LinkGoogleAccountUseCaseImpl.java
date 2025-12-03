@@ -1,5 +1,9 @@
 package pl.gamilife.auth.usecase.googlelinkaccount;
 
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.dto.AuthTokens;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.SecureUserInfoApiDto;
@@ -10,10 +14,6 @@ import pl.gamilife.auth.models.UserOAuthProvider;
 import pl.gamilife.auth.repository.JpaUserProviderRepository;
 import pl.gamilife.auth.service.TokenService;
 import pl.gamilife.auth.usecase.common.LoginUserResult;
-import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;

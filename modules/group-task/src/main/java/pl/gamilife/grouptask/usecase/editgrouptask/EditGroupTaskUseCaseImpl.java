@@ -1,13 +1,14 @@
 package pl.gamilife.grouptask.usecase.editgrouptask;
 
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 import pl.gamilife.grouptask.entity.GroupTask;
 import pl.gamilife.grouptask.exception.domain.GroupTaskNotFoundException;
 import pl.gamilife.grouptask.repository.GroupTaskRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.UUID;
+
 @Service
 public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
     private final GroupTaskRepository groupTaskRepository;
@@ -20,20 +21,18 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
 
     @Override
     @Transactional
-    public EditGroupTaskResponse execute(UUID groupTaskId, EditGroupTaskRequest req)
-    {
+    public EditGroupTaskResponse execute(UUID groupTaskId, EditGroupTaskRequest req) {
 
-        GroupTask groupTask=groupTaskRepository.findByGroupTaskId(groupTaskId).orElseThrow(
-                ()->new GroupTaskNotFoundException("Group Task with id:" + groupTaskId + " does not exist"));
+        GroupTask groupTask = groupTaskRepository.findByGroupTaskId(groupTaskId).orElseThrow(
+                () -> new GroupTaskNotFoundException("Group Task with id:" + groupTaskId + " does not exist"));
 
-        Boolean isAccepted=req.isAccepted();
-        Instant acceptedDate= null;
+        Boolean isAccepted = req.isAccepted();
+        Instant acceptedDate = null;
         boolean changedToAccepted = Boolean.TRUE.equals(isAccepted)
                 && !Boolean.TRUE.equals(groupTask.getIsAccepted());
 
-        if (changedToAccepted)
-        {
-            acceptedDate= Instant.now();
+        if (changedToAccepted) {
+            acceptedDate = Instant.now();
         }
 
         groupTask.setReward(req.reward());

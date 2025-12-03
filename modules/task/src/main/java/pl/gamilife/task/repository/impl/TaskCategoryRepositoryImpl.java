@@ -1,9 +1,9 @@
 package pl.gamilife.task.repository.impl;
 
+import org.springframework.stereotype.Repository;
 import pl.gamilife.task.entity.TaskCategory;
 import pl.gamilife.task.repository.TaskCategoryRepository;
 import pl.gamilife.task.repository.jpa.TaskCategoryRepositoryJpa;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 

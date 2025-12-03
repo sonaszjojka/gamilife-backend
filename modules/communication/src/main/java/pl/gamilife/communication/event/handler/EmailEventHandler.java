@@ -1,13 +1,5 @@
 package pl.gamilife.communication.event.handler;
 
-import pl.gamilife.communication.dto.EmailVerificationEmailParameters;
-import pl.gamilife.communication.dto.ForgotPasswordEmailParameters;
-import pl.gamilife.communication.dto.GroupInvitationEmailParameters;
-import pl.gamilife.communication.usecase.senduseremail.SendUserEmailCommand;
-import pl.gamilife.communication.usecase.senduseremail.SendUserEmailUseCase;
-import pl.gamilife.infrastructure.core.event.EmailVerificationRequestedEvent;
-import pl.gamilife.infrastructure.core.event.GroupInvitationCreatedEvent;
-import pl.gamilife.infrastructure.core.event.PasswordResetRequestedEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Recover;
@@ -16,6 +8,14 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+import pl.gamilife.communication.dto.EmailVerificationEmailParameters;
+import pl.gamilife.communication.dto.ForgotPasswordEmailParameters;
+import pl.gamilife.communication.dto.GroupInvitationEmailParameters;
+import pl.gamilife.communication.usecase.senduseremail.SendUserEmailCommand;
+import pl.gamilife.communication.usecase.senduseremail.SendUserEmailUseCase;
+import pl.gamilife.infrastructure.core.event.EmailVerificationRequestedEvent;
+import pl.gamilife.infrastructure.core.event.GroupInvitationCreatedEvent;
+import pl.gamilife.infrastructure.core.event.PasswordResetRequestedEvent;
 
 @Slf4j
 @Component

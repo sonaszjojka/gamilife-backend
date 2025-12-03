@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface GetGroupTasksUseCase {
 
-    Page<GetGroupTaskDto> execute(UUID groupId,GetGroupTasksRequestFilter request);
+    Page<GetGroupTaskDto> execute(UUID groupId, GetGroupTasksRequestFilter request);
 }

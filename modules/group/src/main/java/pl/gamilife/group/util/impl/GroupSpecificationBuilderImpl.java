@@ -1,11 +1,11 @@
 package pl.gamilife.group.util.impl;
 
-import pl.gamilife.group.enums.GroupTypeEnum;
-import pl.gamilife.group.model.Group;
-import pl.gamilife.group.util.GroupSpecificationBuilder;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import pl.gamilife.group.enums.GroupTypeEnum;
+import pl.gamilife.group.model.Group;
+import pl.gamilife.group.util.GroupSpecificationBuilder;
 
 
 @Component

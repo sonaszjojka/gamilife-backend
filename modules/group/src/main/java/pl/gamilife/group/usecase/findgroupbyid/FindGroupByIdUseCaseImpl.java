@@ -1,12 +1,12 @@
 package pl.gamilife.group.usecase.findgroupbyid;
 
-import pl.gamilife.api.group.dto.GroupDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
-import pl.gamilife.group.model.Group;
-import pl.gamilife.group.repository.GroupJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.api.group.dto.GroupDto;
+import pl.gamilife.group.model.Group;
+import pl.gamilife.group.repository.GroupJpaRepository;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
 
 @Service
 @Transactional(readOnly = true)

@@ -1,5 +1,7 @@
 package pl.gamilife.task.application.createtask;
 
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.task.entity.Task;
@@ -12,8 +14,6 @@ import pl.gamilife.task.repository.TaskCategoryRepository;
 import pl.gamilife.task.repository.TaskDifficultyRepository;
 import pl.gamilife.task.repository.TaskRepository;
 import pl.gamilife.task.repository.impl.TaskRepositoryImpl;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -44,7 +44,7 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
             throw new InvalidTaskDataException("End time date cannot be after start time date!");
         }
 
-        if (request.completedAt()!=null&&request.startTime().isAfter(request.completedAt())) {
+        if (request.completedAt() != null && request.startTime().isAfter(request.completedAt())) {
             throw new InvalidTaskDataException("Completed at date cannot be after start time date!");
         }
 
@@ -59,7 +59,6 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                 .orElseThrow(() -> new TaskDifficultyNotFoundException(
                         "Task difficulty with id " + request.difficultyId() + " not found!"
                 ));
-
 
 
         Task savedTask = taskRepository.save(

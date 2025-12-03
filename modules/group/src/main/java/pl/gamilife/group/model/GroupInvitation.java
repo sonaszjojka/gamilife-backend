@@ -1,8 +1,8 @@
 package pl.gamilife.group.model;
 
-import pl.gamilife.group.enums.InvitationStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import pl.gamilife.group.enums.InvitationStatusEnum;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

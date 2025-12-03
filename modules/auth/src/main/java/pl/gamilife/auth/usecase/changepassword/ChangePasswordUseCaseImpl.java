@@ -1,11 +1,11 @@
 package pl.gamilife.auth.usecase.changepassword;
 
-import pl.gamilife.auth.exception.domain.InvalidCredentialsException;
-import pl.gamilife.auth.exception.domain.OldAndNewPasswordAreTheSameException;
-import pl.gamilife.auth.validators.PasswordValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.gamilife.auth.exception.domain.InvalidCredentialsException;
+import pl.gamilife.auth.exception.domain.OldAndNewPasswordAreTheSameException;
+import pl.gamilife.auth.validators.PasswordValidator;
 
 @Service
 @AllArgsConstructor

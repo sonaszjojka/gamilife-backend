@@ -1,13 +1,13 @@
 package pl.gamilife.gamification.api;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.gamification.GamificationApi;
 import pl.gamilife.api.gamification.dto.StartingGamificationValuesDto;
 import pl.gamilife.gamification.usecase.getstartinggamificationvalues.GetStartingGamificationValuesCommand;
 import pl.gamilife.gamification.usecase.getstartinggamificationvalues.GetStartingGamificationValuesUseCase;
 import pl.gamilife.gamification.usecase.inituserstatistics.InitUserStatisticsCommand;
 import pl.gamilife.gamification.usecase.inituserstatistics.InitUserStatisticsUseCase;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 

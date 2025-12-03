@@ -1,9 +1,9 @@
 package pl.gamilife.gamification.usecase.processgroupjoin;
 
-import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
-import pl.gamilife.gamification.service.UserStatisticsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.gamilife.gamification.service.UserStatisticsService;
+import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 
 @Service
 @AllArgsConstructor

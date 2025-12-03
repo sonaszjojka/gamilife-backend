@@ -1,8 +1,8 @@
 package pl.gamilife.auth.usecase.changepassword;
 
+import jakarta.validation.ValidationException;
 import pl.gamilife.api.auth.dto.ChangePasswordDto;
 import pl.gamilife.infrastructure.core.architecture.Command;
-import jakarta.validation.ValidationException;
 
 public record ChangePasswordCommand(
         String providedPassword,

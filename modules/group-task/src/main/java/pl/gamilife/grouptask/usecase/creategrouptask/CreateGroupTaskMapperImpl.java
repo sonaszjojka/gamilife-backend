@@ -1,9 +1,10 @@
 package pl.gamilife.grouptask.usecase.creategrouptask;
 
-import pl.gamilife.grouptask.entity.GroupTask;
 import org.springframework.stereotype.Component;
+import pl.gamilife.grouptask.entity.GroupTask;
 
 import java.util.UUID;
+
 @Component
 public class CreateGroupTaskMapperImpl implements CreateGroupTaskMapper {
     @Override

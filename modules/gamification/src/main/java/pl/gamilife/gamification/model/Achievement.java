@@ -1,12 +1,12 @@
 package pl.gamilife.gamification.model;
 
-import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.annotations.Immutable;
+import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 
 import java.util.HashSet;
 import java.util.Objects;

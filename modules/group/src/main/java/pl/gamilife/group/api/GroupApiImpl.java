@@ -1,5 +1,6 @@
 package pl.gamilife.group.api;
 
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
 import pl.gamilife.api.group.dto.GroupDto;
@@ -10,7 +11,6 @@ import pl.gamilife.group.usecase.findgroupbyid.FindGroupByIdCommand;
 import pl.gamilife.group.usecase.findgroupbyid.FindGroupByIdUseCase;
 import pl.gamilife.group.usecase.findgroupmemberbyid.FindGroupMemberByIdCommand;
 import pl.gamilife.group.usecase.findgroupmemberbyid.FindGroupMemberByIdUseCase;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
@@ -49,7 +49,6 @@ public class GroupApiImpl implements GroupApi {
                         userId, page, size, joinCode, groupType, groupName
                 ));
     }
-
 
 
 }

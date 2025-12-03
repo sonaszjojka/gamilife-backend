@@ -1,8 +1,8 @@
 package pl.gamilife.gamification.usecase.getallitemrarities;
 
-import pl.gamilife.gamification.repository.RarityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.gamilife.gamification.repository.RarityRepository;
 
 @Service
 @AllArgsConstructor

@@ -1,9 +1,9 @@
 package pl.gamilife.pomodoro;
 
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.pomodoro.PomodoroApi;
 import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 import pl.gamilife.pomodoro.usecase.findpomodorotaskbytaskid.FindPomodoroTaskByTaskIdUseCase;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 

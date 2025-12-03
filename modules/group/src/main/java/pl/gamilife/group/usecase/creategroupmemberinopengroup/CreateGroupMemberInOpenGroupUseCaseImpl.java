@@ -1,17 +1,17 @@
 package pl.gamilife.group.usecase.creategroupmemberinopengroup;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.user.UserApi;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import pl.gamilife.group.enums.GroupTypeEnum;
 import pl.gamilife.group.exception.domain.UserJoinGroupAccessDeniedException;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.service.GroupMemberService;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 
 import java.util.UUID;
 

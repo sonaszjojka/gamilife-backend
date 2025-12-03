@@ -1,12 +1,12 @@
 package pl.gamilife.communication.config;
 
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
+import pl.gamilife.api.auth.AuthApi;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
 
 import java.security.Principal;
 import java.util.Map;

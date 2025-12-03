@@ -1,7 +1,7 @@
 package pl.gamilife.group.util.impl;
 
-import pl.gamilife.group.util.JoinCodeGenerator;
 import org.springframework.stereotype.Component;
+import pl.gamilife.group.util.JoinCodeGenerator;
 
 import java.security.SecureRandom;
 

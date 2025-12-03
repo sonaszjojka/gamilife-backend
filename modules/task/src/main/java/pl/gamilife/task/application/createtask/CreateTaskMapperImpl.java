@@ -1,9 +1,9 @@
 package pl.gamilife.task.application.createtask;
 
+import org.springframework.stereotype.Component;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.entity.TaskCategory;
 import pl.gamilife.task.entity.TaskDifficulty;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 

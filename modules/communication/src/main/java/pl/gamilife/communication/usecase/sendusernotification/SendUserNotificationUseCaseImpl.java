@@ -1,8 +1,8 @@
 package pl.gamilife.communication.usecase.sendusernotification;
 
-import pl.gamilife.communication.service.NotificationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.gamilife.communication.service.NotificationService;
 
 @Service
 @AllArgsConstructor

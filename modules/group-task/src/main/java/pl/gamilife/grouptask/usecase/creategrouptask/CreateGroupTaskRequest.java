@@ -3,7 +3,6 @@ package pl.gamilife.grouptask.usecase.creategrouptask;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 
 public record CreateGroupTaskRequest(
@@ -15,7 +14,7 @@ public record CreateGroupTaskRequest(
 
         @NotBlank(message = "Title cannot be blank")
         @Size(max = 200, message = "Title cannot exceed 200 characters")
-                String title,
+        String title,
 
         @NotNull(message = "Start Time cannot be null")
         LocalDateTime startTime,

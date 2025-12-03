@@ -1,16 +1,16 @@
 package pl.gamilife.grouptask.usecase.getgrouptasks;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 import pl.gamilife.api.task.TasksApi;
 import pl.gamilife.api.task.dto.TaskDto;
 import pl.gamilife.grouptask.entity.GroupTask;
 import pl.gamilife.grouptask.repository.jpa.GroupTaskMemberRepositoryJpa;
 import pl.gamilife.grouptask.repository.jpa.GroupTaskRepositoryJpa;
 import pl.gamilife.grouptask.util.GroupTasksSpecificationBuilder;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +30,7 @@ public class GetGroupTasksUseCaseImpl implements GetGroupTasksUseCase {
     }
 
     @Override
-    public Page<GetGroupTaskDto> execute(UUID groupId,GetGroupTasksRequestFilter request) {
+    public Page<GetGroupTaskDto> execute(UUID groupId, GetGroupTasksRequestFilter request) {
 
         Specification<GroupTask> groupTaskSpecification = specificationBuilder.build(
                 groupId,
@@ -39,8 +39,8 @@ public class GetGroupTasksUseCaseImpl implements GetGroupTasksUseCase {
 
         Pageable pageable = createPageable(request);
 
-        Page<GetGroupTaskDto> tasks = groupTaskRepository.findAll(groupTaskSpecification,pageable).map(
-                groupTask ->{
+        Page<GetGroupTaskDto> tasks = groupTaskRepository.findAll(groupTaskSpecification, pageable).map(
+                groupTask -> {
                     TaskDto taskDto = tasksApi.findTaskByTaskId(groupTask.getTaskId());
                     List<GetGroupTaskMemberDto> groupTaskMembers =
                             groupTaskMemberRepository.findByGroupTaskId(groupTask)

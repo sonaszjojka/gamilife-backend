@@ -1,11 +1,11 @@
 package pl.gamilife.auth.usecase.rotatetokens;
 
-import pl.gamilife.api.auth.dto.AuthTokens;
-import pl.gamilife.auth.service.SecureCodesAndTokensService;
-import pl.gamilife.auth.service.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamilife.auth.service.SecureCodesAndTokensService;
+import pl.gamilife.auth.service.TokenService;
 
 @Service
 @Transactional

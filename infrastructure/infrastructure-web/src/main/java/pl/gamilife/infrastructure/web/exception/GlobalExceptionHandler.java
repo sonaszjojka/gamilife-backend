@@ -124,7 +124,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingRequestCookieException.class)
     public ErrorResponse handleMissingRequestCookieException(MissingRequestCookieException ex) {
 
-        ErrorCode errorCode = switch(ex.getCookieName()){
+        ErrorCode errorCode = switch (ex.getCookieName()) {
             case "REFRESH-TOKEN" -> CommonErrorCode.MISSING_REFRESH_TOKEN_COOKIE;
             case "ACCESS-TOKEN" -> CommonErrorCode.MISSING_ACCESS_TOKEN_COOKIE;
             default -> CommonErrorCode.MISSING_REQUEST_COOKIE;

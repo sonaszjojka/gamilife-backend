@@ -1,7 +1,7 @@
 package pl.gamilife.groupshop.exception.domain;
 
-import pl.gamilife.infrastructure.core.exception.DomainException;
 import pl.gamilife.groupshop.exception.GroupShopErrorCode;
+import pl.gamilife.infrastructure.core.exception.DomainException;
 
 public class InvalidOwnedGroupItemDataException extends DomainException {
     public InvalidOwnedGroupItemDataException(String message) {

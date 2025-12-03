@@ -1,5 +1,8 @@
 package pl.gamilife.auth.usecase.resendemailverification;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.CheckIfUsersEmailIsVerifiedApiDto;
 import pl.gamilife.auth.exception.domain.CannotCurrentlyCreateNewEmailVerificationCodeException;
@@ -7,9 +10,6 @@ import pl.gamilife.auth.exception.domain.EmailAlreadyVerifiedException;
 import pl.gamilife.auth.models.EmailVerificationCode;
 import pl.gamilife.auth.repository.JpaEmailVerificationRepository;
 import pl.gamilife.auth.service.EmailVerificationService;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

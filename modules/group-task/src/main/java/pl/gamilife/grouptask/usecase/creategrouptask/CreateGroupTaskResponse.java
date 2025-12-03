@@ -4,6 +4,7 @@ import lombok.Builder;
 
 import java.time.Instant;
 import java.util.UUID;
+
 @Builder
 public record CreateGroupTaskResponse(
         UUID groupTaskId,
@@ -14,6 +15,6 @@ public record CreateGroupTaskResponse(
         Instant acceptedDate,
         String declineMessage,
         Instant lastEdit
-        ) {
+) {
 
 }

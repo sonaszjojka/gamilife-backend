@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
-public record   TaskForGroupTaskResponseDto(
+public record TaskForGroupTaskResponseDto(
 
         UUID taskId,
         String title,

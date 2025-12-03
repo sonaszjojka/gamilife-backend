@@ -2,10 +2,11 @@ package pl.gamilife.user.dto.response;
 
 import java.util.Collection;
 
-public record GetUsersResult (
+public record GetUsersResult(
         long totalElements,
         int totalPages,
         int currentPage,
         int pageSize,
         Collection<UserDetailsResponse> content
-) {}
+) {
+}

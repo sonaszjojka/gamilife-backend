@@ -1,5 +1,9 @@
 package pl.gamilife.task.application.edittask;
 
+import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
@@ -14,10 +18,6 @@ import pl.gamilife.task.repository.HabitRepository;
 import pl.gamilife.task.repository.TaskCategoryRepository;
 import pl.gamilife.task.repository.TaskDifficultyRepository;
 import pl.gamilife.task.repository.TaskRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -49,10 +49,9 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
         if (request.endTime() != null && request.startTime().isAfter(request.endTime())) {
             throw new InvalidTaskDataException("Start time cannot be after end time!");
         }
-        if (request.endTime()!=null&& request.endTime().isBefore(LocalDateTime.now())) {
+        if (request.endTime() != null && request.endTime().isBefore(LocalDateTime.now())) {
             throw new InvalidTaskDataException("End time cannot be before creation date");
         }
-
 
 
         task.setTitle(request.title());
@@ -74,8 +73,6 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
                     .orElseThrow(() -> new TaskDifficultyNotFoundException("Task difficulty with id " + request.difficultyId() + " not found!"));
             task.setDifficulty(taskDifficulty);
         }
-
-
 
 
         return editTaskMapper.toResponse(taskRepository.save(task));

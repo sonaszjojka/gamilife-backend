@@ -1,10 +1,10 @@
 package pl.gamilife.groupshop.usecase.creategroupshopforgroup;
 
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
 import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupResponseDto;
 import pl.gamilife.groupshop.entity.GroupShop;
 import pl.gamilife.groupshop.repository.GroupShopRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 

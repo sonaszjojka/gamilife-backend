@@ -1,7 +1,7 @@
 package pl.gamilife.task.application.edittask;
 
-import pl.gamilife.task.entity.Task;
 import org.springframework.stereotype.Component;
+import pl.gamilife.task.entity.Task;
 
 @Component
 public class EditTaskMapperImpl implements EditTaskMapper {

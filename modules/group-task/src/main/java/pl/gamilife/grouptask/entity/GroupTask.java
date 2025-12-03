@@ -18,40 +18,32 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "group_task")
-public class GroupTask  {
+public class GroupTask {
 
-
-    @Id
-    @Column(name = "group_task_id", nullable = false)
-    private UUID groupTaskId;
-
-    @NotNull
-    @Column(name = "task_id", nullable = false)
-    private UUID taskId;
-
-    @NotNull
-    @Column(name = "group_id", nullable = false)
-    private UUID groupId;
-
-    @Column(name = "reward")
-    private Integer reward;
-
-    @Column(name = "is_accepted")
-    private Boolean isAccepted;
-
-    @Column(name = "accepted_date")
-    private Instant acceptedDate;
-
-    @Size(max = 300)
-    @Column(name = "decline_message", length = 300)
-    private String declineMessage;
-
-    @Builder.Default
-    @OneToMany(mappedBy = "groupTaskId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<GroupTaskMember> groupTaskMembers = new LinkedHashSet<>();
 
     @Column(name = "last_edit")
     protected Instant lastEdit;
+    @Id
+    @Column(name = "group_task_id", nullable = false)
+    private UUID groupTaskId;
+    @NotNull
+    @Column(name = "task_id", nullable = false)
+    private UUID taskId;
+    @NotNull
+    @Column(name = "group_id", nullable = false)
+    private UUID groupId;
+    @Column(name = "reward")
+    private Integer reward;
+    @Column(name = "is_accepted")
+    private Boolean isAccepted;
+    @Column(name = "accepted_date")
+    private Instant acceptedDate;
+    @Size(max = 300)
+    @Column(name = "decline_message", length = 300)
+    private String declineMessage;
+    @Builder.Default
+    @OneToMany(mappedBy = "groupTaskId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<GroupTaskMember> groupTaskMembers = new LinkedHashSet<>();
 
     @PrePersist
     public void prePersist() {

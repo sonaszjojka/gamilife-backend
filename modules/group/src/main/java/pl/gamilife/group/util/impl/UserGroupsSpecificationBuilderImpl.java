@@ -1,14 +1,14 @@
 package pl.gamilife.group.util.impl;
 
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 import pl.gamilife.group.enums.GroupTypeEnum;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.model.GroupType;
 import pl.gamilife.group.util.UserGroupsSpecificationBuilder;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 

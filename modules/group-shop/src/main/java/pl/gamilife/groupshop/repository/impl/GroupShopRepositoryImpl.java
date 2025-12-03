@@ -1,9 +1,9 @@
 package pl.gamilife.groupshop.repository.impl;
 
+import org.springframework.stereotype.Repository;
 import pl.gamilife.groupshop.entity.GroupShop;
 import pl.gamilife.groupshop.repository.GroupShopRepository;
 import pl.gamilife.groupshop.repository.jpa.GroupShopRepositoryJpa;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;

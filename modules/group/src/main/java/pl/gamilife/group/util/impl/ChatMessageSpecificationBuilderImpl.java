@@ -1,9 +1,9 @@
 package pl.gamilife.group.util.impl;
 
-import pl.gamilife.group.model.ChatMessage;
-import pl.gamilife.group.util.ChatMessageSpecificationBuilder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import pl.gamilife.group.model.ChatMessage;
+import pl.gamilife.group.util.ChatMessageSpecificationBuilder;
 
 import java.util.UUID;
 

@@ -1,5 +1,9 @@
 package pl.gamilife.auth.usecase.resetpassword;
 
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.SecureUserInfoApiDto;
 import pl.gamilife.auth.exception.domain.OldAndNewPasswordAreTheSameException;
@@ -9,10 +13,6 @@ import pl.gamilife.auth.service.ForgotPasswordCodeService;
 import pl.gamilife.auth.service.SecureCodesAndTokensService;
 import pl.gamilife.auth.validators.PasswordValidator;
 import pl.gamilife.infrastructure.core.exception.common.domain.ResetPasswordGenericException;
-import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 

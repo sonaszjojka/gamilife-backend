@@ -1,11 +1,11 @@
 package pl.gamilife.group.usecase.editgroupmember;
 
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.group.exception.domain.UserLeftGroupException;
 import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
 
 import java.util.UUID;
 

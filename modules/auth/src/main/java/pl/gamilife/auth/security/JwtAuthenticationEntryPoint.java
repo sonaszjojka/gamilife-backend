@@ -1,8 +1,6 @@
 package pl.gamilife.auth.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pl.gamilife.auth.exception.AuthErrorCode;
-import pl.gamilife.infrastructure.core.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -10,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import pl.gamilife.auth.exception.AuthErrorCode;
+import pl.gamilife.infrastructure.core.exception.ErrorCode;
 import pl.gamilife.infrastructure.web.exception.ErrorCodesRepository;
 import pl.gamilife.infrastructure.web.exception.ErrorResponse;
 

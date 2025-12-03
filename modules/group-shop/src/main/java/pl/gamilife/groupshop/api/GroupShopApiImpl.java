@@ -1,10 +1,10 @@
 package pl.gamilife.groupshop.api;
 
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.groupshop.GroupShopApi;
 import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
 import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupResponseDto;
 import pl.gamilife.groupshop.usecase.creategroupshopforgroup.CreateGroupShopForGroupUseCase;
-import org.springframework.stereotype.Service;
 
 @Service
 public class GroupShopApiImpl implements GroupShopApi {

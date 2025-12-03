@@ -32,15 +32,11 @@ VALUES ('11111111-1111-1111-1111-111111111111', 'Finish report', NOW(), NOW() + 
 -- =========================
 -- Tabela: habit
 -- =========================
-INSERT INTO habit (habit_id,task_id, cycle_length, current_streak, longest_streak, created_at, accepted_date, updated_at)
+INSERT INTO habit (habit_id, task_id, cycle_length, current_streak, longest_streak, created_at, accepted_date,
+                   updated_at)
 
-VALUES ('aaaa0000-aaaa-aaaa-aaaa-aaaaaaaaaaaa','11111111-1111-1111-1111-111111111111', 7, 3, 5, NOW(),  NOW(), NOW()),
-       ('bbbb0000-bbbb-bbbb-bbbb-bbbbbbbbbbbb','22222222-2222-2222-2222-222222222222',30, 10, 12, NOW(),  NULL,  NOW());
-
-
-
-
-
+VALUES ('aaaa0000-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-111111111111', 7, 3, 5, NOW(), NOW(), NOW()),
+       ('bbbb0000-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '22222222-2222-2222-2222-222222222222', 30, 10, 12, NOW(), NULL, NOW());
 
 
 

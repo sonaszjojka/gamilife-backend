@@ -1,10 +1,10 @@
 package pl.gamilife.groupshop.usecase.editgroupiteminshop;
 
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.GroupDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 import pl.gamilife.groupshop.entity.GroupItemInShop;
 import pl.gamilife.groupshop.entity.GroupShop;
 import pl.gamilife.groupshop.exception.domain.GroupShopItemNotFoundException;
@@ -12,7 +12,7 @@ import pl.gamilife.groupshop.exception.domain.GroupShopNotFoundException;
 import pl.gamilife.groupshop.exception.domain.InactiveGroupShopException;
 import pl.gamilife.groupshop.repository.GroupItemInShopRepository;
 import pl.gamilife.groupshop.repository.GroupShopRepository;
-import org.springframework.stereotype.Service;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
 
 import java.util.UUID;
 

@@ -1,11 +1,11 @@
 package pl.gamilife.gamification.usecase.inituserstatistics;
 
-import pl.gamilife.gamification.model.UserStatistic;
-import pl.gamilife.gamification.repository.StatisticTypeRepository;
-import pl.gamilife.gamification.repository.UserStatisticRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.gamification.model.UserStatistic;
+import pl.gamilife.gamification.repository.StatisticTypeRepository;
+import pl.gamilife.gamification.repository.UserStatisticRepository;
 
 import java.util.ArrayList;
 import java.util.List;

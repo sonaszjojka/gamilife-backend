@@ -31,6 +31,7 @@ public record GetGroupByIdResult(
      * DTO for {@link GroupMember}
      */
     public record GroupMemberDto(UUID groupMemberId, UUID groupId, UUID userId, Integer groupMoney,
-                                 Integer totalEarnedMoney, Instant joinedAt, Instant leftAt, String username) implements Serializable {
+                                 Integer totalEarnedMoney, Instant joinedAt, Instant leftAt,
+                                 String username) implements Serializable {
     }
 }

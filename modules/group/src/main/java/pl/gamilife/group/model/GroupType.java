@@ -1,8 +1,8 @@
 package pl.gamilife.group.model;
 
-import pl.gamilife.group.enums.GroupTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import pl.gamilife.group.enums.GroupTypeEnum;
 
 import java.util.List;
 import java.util.Objects;

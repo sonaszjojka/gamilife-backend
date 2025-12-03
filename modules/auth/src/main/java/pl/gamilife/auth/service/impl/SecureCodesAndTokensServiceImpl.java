@@ -1,11 +1,11 @@
 package pl.gamilife.auth.service.impl;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.auth.service.EmailVerificationService;
 import pl.gamilife.auth.service.ForgotPasswordCodeService;
 import pl.gamilife.auth.service.SecureCodesAndTokensService;
 import pl.gamilife.auth.service.TokenService;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 

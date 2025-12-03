@@ -1,5 +1,7 @@
 package pl.gamilife.pomodoro.usecase.editpomodorotask;
 
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Component;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.task.TasksApi;
@@ -9,8 +11,6 @@ import pl.gamilife.pomodoro.entity.PomodoroTask;
 import pl.gamilife.pomodoro.exception.domain.InvalidPomodoroTaskData;
 import pl.gamilife.pomodoro.exception.domain.PomodoroTaskNotFound;
 import pl.gamilife.pomodoro.repository.PomodoroTaskRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
@@ -31,7 +31,7 @@ public class EditPomodoroTaskUseCaseImpl implements EditPomodoroTaskUseCase {
     @Override
     @Transactional
     public EditPomodoroTaskResponse execute(UUID pomodoroTaskId, EditPomodoroTaskRequest request) {
-        if (request.workCyclesCompleted()>request.workCyclesNeeded()){
+        if (request.workCyclesCompleted() > request.workCyclesNeeded()) {
             throw new InvalidPomodoroTaskData("Work cycles completed cannot be larger than work cycles needed!");
         }
 

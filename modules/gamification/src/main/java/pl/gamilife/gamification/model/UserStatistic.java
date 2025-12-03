@@ -1,9 +1,9 @@
 package pl.gamilife.gamification.model;
 
-import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 
 import java.util.Objects;
 import java.util.UUID;

@@ -13,7 +13,6 @@ public record EditPomodoroTaskRequest(
         @NotNull(message = "Work cycles completed cannot be null")
         @PositiveOrZero(message = "Work cycles completed streak must be positive")
         Integer workCyclesCompleted
-)
-{
+) {
 
 }

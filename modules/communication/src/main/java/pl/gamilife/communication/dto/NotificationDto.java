@@ -1,9 +1,9 @@
 package pl.gamilife.communication.dto;
 
-import pl.gamilife.communication.enums.NotificationType;
-import pl.gamilife.communication.model.NotificationRetry;
 import lombok.Builder;
 import lombok.Value;
+import pl.gamilife.communication.enums.NotificationType;
+import pl.gamilife.communication.model.NotificationRetry;
 
 import java.time.Instant;
 import java.util.Map;

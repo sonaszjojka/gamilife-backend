@@ -1,5 +1,9 @@
 package pl.gamilife.grouptask.controllers;
 
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pl.gamilife.grouptask.shared.ApiResponse;
 import pl.gamilife.grouptask.usecase.creategrouptaskmember.CreateGroupTaskMemberRequest;
 import pl.gamilife.grouptask.usecase.creategrouptaskmember.CreateGroupTaskMemberResponse;
@@ -8,10 +12,6 @@ import pl.gamilife.grouptask.usecase.deletegrouptaskmember.DeleteGroupTaskMember
 import pl.gamilife.grouptask.usecase.editgrouptaskmember.EditGroupTaskMemberRequest;
 import pl.gamilife.grouptask.usecase.editgrouptaskmember.EditGroupTaskMemberResponse;
 import pl.gamilife.grouptask.usecase.editgrouptaskmember.EditGroupTaskMemberUseCase;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -29,18 +29,16 @@ public class GroupTaskMemberController {
     }
 
     @PostMapping()
-    public ResponseEntity<CreateGroupTaskMemberResponse> save (@PathVariable ("groupTaskId") UUID groupTaskId,
-                                                               @RequestBody @Valid CreateGroupTaskMemberRequest request)
-    {
+    public ResponseEntity<CreateGroupTaskMemberResponse> save(@PathVariable("groupTaskId") UUID groupTaskId,
+                                                              @RequestBody @Valid CreateGroupTaskMemberRequest request) {
 
-       CreateGroupTaskMemberResponse response= createGroupTaskMemberUseCase.execute( groupTaskId, request);
+        CreateGroupTaskMemberResponse response = createGroupTaskMemberUseCase.execute(groupTaskId, request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @DeleteMapping({"/{participantId}"} )
-    public ResponseEntity<ApiResponse> delete (@PathVariable ("participantId") UUID groupTaskMemberId)
-    {
+    @DeleteMapping({"/{participantId}"})
+    public ResponseEntity<ApiResponse> delete(@PathVariable("participantId") UUID groupTaskMemberId) {
 
         deleteGroupTaskMemberUseCase.execute(groupTaskMemberId);
 
@@ -48,9 +46,8 @@ public class GroupTaskMemberController {
     }
 
     @PutMapping({"/{participantId}"})
-    public ResponseEntity<EditGroupTaskMemberResponse> update (@PathVariable("participantId") UUID groupTaskMemberId,
-                                                               @RequestBody @Valid EditGroupTaskMemberRequest req)
-    {
+    public ResponseEntity<EditGroupTaskMemberResponse> update(@PathVariable("participantId") UUID groupTaskMemberId,
+                                                              @RequestBody @Valid EditGroupTaskMemberRequest req) {
         EditGroupTaskMemberResponse response = editGroupTaskMemberUseCase.execute(groupTaskMemberId, req);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);

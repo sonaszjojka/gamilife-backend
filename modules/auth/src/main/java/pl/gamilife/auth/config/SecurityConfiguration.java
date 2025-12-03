@@ -1,9 +1,5 @@
 package pl.gamilife.auth.config;
 
-import pl.gamilife.auth.repository.JpaRefreshTokenRepository;
-import pl.gamilife.auth.security.JwtAuthenticationFilter;
-import pl.gamilife.auth.service.TokenService;
-import pl.gamilife.auth.service.impl.JwtTokenServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +20,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.reactive.function.client.WebClient;
+import pl.gamilife.auth.repository.JpaRefreshTokenRepository;
+import pl.gamilife.auth.security.JwtAuthenticationFilter;
+import pl.gamilife.auth.service.TokenService;
+import pl.gamilife.auth.service.impl.JwtTokenServiceImpl;
 
 import java.util.List;
 

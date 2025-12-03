@@ -1,8 +1,8 @@
 package pl.gamilife.groupshop.repository.jpa;
 
 
-import pl.gamilife.groupshop.entity.GroupItemInShop;
 import org.springframework.data.jpa.repository.JpaRepository;
+import pl.gamilife.groupshop.entity.GroupItemInShop;
 
 import java.util.UUID;
 

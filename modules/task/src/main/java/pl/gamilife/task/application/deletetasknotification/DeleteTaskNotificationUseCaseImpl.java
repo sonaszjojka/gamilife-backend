@@ -1,13 +1,13 @@
 package pl.gamilife.task.application.deletetasknotification;
 
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.infrastructure.core.exception.common.domain.TaskNotFoundException;
 import pl.gamilife.task.entity.TaskNotification;
 import pl.gamilife.task.repository.TaskNotificationRepository;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -34,7 +34,7 @@ public class DeleteTaskNotificationUseCaseImpl implements DeleteTaskNotification
                 ));
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
-        if (!currentUserDto.userId().equals(taskNotification.getTask().getUserId()) ) {
+        if (!currentUserDto.userId().equals(taskNotification.getTask().getUserId())) {
             throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to delete notification for another user!");
         }
 

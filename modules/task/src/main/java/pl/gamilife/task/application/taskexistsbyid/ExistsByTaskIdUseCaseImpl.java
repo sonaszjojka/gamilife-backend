@@ -1,7 +1,7 @@
 package pl.gamilife.task.application.taskexistsbyid;
 
-import pl.gamilife.task.repository.TaskRepository;
 import org.springframework.stereotype.Component;
+import pl.gamilife.task.repository.TaskRepository;
 
 import java.util.UUID;
 

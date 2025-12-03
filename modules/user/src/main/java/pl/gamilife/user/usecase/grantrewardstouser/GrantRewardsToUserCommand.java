@@ -1,7 +1,7 @@
 package pl.gamilife.user.usecase.grantrewardstouser;
 
-import pl.gamilife.infrastructure.core.architecture.Command;
 import jakarta.validation.ValidationException;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 import java.util.UUID;
 

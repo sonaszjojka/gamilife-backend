@@ -1,8 +1,19 @@
 package pl.gamilife.user.controllers;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import pl.gamilife.api.auth.dto.AuthTokens;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
+import pl.gamilife.infrastructure.web.util.CookieUtil;
 import pl.gamilife.user.dto.request.ChangeUserPasswordRequest;
 import pl.gamilife.user.dto.response.CurrentUserInfoResponse;
 import pl.gamilife.user.dto.response.GetUsersResult;
@@ -14,17 +25,6 @@ import pl.gamilife.user.usecase.ChangeUserPasswordUseCase;
 import pl.gamilife.user.usecase.CompleteOnboardingUseCase;
 import pl.gamilife.user.usecase.GetUserDetailsUseCase;
 import pl.gamilife.user.usecase.GetUsersUseCase;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-import pl.gamilife.infrastructure.web.util.CookieUtil;
 
 import java.util.UUID;
 

@@ -1,7 +1,7 @@
 package pl.gamilife.gamification.repository;
 
-import pl.gamilife.gamification.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
+import pl.gamilife.gamification.model.Item;
 
 import java.util.UUID;
 

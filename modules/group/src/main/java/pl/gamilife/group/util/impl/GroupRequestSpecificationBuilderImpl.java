@@ -1,11 +1,11 @@
 package pl.gamilife.group.util.impl;
 
-import pl.gamilife.group.enums.GroupRequestStatusEnum;
-import pl.gamilife.group.model.GroupRequest;
-import pl.gamilife.group.util.GroupRequestSpecificationBuilder;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import pl.gamilife.group.enums.GroupRequestStatusEnum;
+import pl.gamilife.group.model.GroupRequest;
+import pl.gamilife.group.util.GroupRequestSpecificationBuilder;
 
 import java.util.UUID;
 

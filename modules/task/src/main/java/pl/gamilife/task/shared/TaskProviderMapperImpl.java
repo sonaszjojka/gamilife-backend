@@ -1,9 +1,9 @@
 package pl.gamilife.task.shared;
 
+import org.springframework.stereotype.Component;
 import pl.gamilife.api.task.dto.TaskCategoryDto;
 import pl.gamilife.api.task.dto.TaskDto;
 import pl.gamilife.task.entity.Task;
-import org.springframework.stereotype.Component;
 
 @Component
 public class TaskProviderMapperImpl implements TaskProviderMapper {

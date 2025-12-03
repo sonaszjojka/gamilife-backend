@@ -1,8 +1,11 @@
 package pl.gamilife.gamification.service.impl;
 
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.RewardedUserApiDto;
-import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 import pl.gamilife.gamification.model.Item;
 import pl.gamilife.gamification.model.Level;
 import pl.gamilife.gamification.model.Reward;
@@ -10,10 +13,7 @@ import pl.gamilife.gamification.repository.LevelRepository;
 import pl.gamilife.gamification.repository.RewardRepository;
 import pl.gamilife.gamification.service.RewardService;
 import pl.gamilife.gamification.service.UserInventoryService;
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 
 import java.util.*;
 

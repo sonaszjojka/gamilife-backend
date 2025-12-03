@@ -1,8 +1,8 @@
 package pl.gamilife.task.application.getusertasks;
 
 
-import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 import lombok.Builder;
+import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -23,10 +23,6 @@ public record GetUserTasksDto(
         UUID userId,
         PomodoroTaskDto pomodoro,
         TaskHabitDto taskHabit
-
-
-
-
 
 
 ) {

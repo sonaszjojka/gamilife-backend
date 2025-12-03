@@ -1,7 +1,7 @@
 package pl.gamilife.group.exception.domain;
 
-import pl.gamilife.infrastructure.core.exception.DomainException;
 import pl.gamilife.group.exception.GroupErrorCode;
+import pl.gamilife.infrastructure.core.exception.DomainException;
 
 public class UserAlreadyMemberOfGroupException extends DomainException {
     public UserAlreadyMemberOfGroupException(String message) {

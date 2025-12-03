@@ -49,7 +49,7 @@ public class Task {
     @Column(name = "description", length = 200)
     private String description;
 
-    @Column(name = "is_group_task", nullable = false,updatable = false)
+    @Column(name = "is_group_task", nullable = false, updatable = false)
     private Boolean isGroupTask;
 
     @Column(name = "reward_issued", nullable = false)

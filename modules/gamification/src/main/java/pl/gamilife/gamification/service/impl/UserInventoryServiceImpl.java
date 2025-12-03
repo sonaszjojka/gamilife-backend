@@ -1,12 +1,12 @@
 package pl.gamilife.gamification.service.impl;
 
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.gamification.model.Item;
 import pl.gamilife.gamification.model.UserInventoryItem;
 import pl.gamilife.gamification.repository.UserInventoryItemRepository;
 import pl.gamilife.gamification.service.UserInventoryService;
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;

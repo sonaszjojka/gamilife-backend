@@ -1,11 +1,11 @@
 package pl.gamilife.auth.usecase.logout;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.auth.exception.domain.InvalidRefreshTokenException;
 import pl.gamilife.auth.models.RefreshToken;
 import pl.gamilife.auth.repository.JpaRefreshTokenRepository;
 import pl.gamilife.auth.service.TokenService;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 

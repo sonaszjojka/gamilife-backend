@@ -1,10 +1,10 @@
 package pl.gamilife.group.repository;
 
-import pl.gamilife.group.model.Group;
-import pl.gamilife.group.model.GroupMember;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import pl.gamilife.group.model.Group;
+import pl.gamilife.group.model.GroupMember;
 
 import java.time.Instant;
 import java.util.Optional;

@@ -1,5 +1,7 @@
 package pl.gamilife.task.application.createtasknotification;
 
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
@@ -8,8 +10,6 @@ import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.entity.TaskNotification;
 import pl.gamilife.task.repository.TaskNotificationRepository;
 import pl.gamilife.task.repository.TaskRepository;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 

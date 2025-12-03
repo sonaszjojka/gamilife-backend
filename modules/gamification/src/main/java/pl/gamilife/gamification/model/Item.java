@@ -1,13 +1,13 @@
 package pl.gamilife.gamification.model;
 
-import pl.gamilife.gamification.enums.ItemSlotEnum;
-import pl.gamilife.gamification.enums.RarityEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.annotations.Immutable;
+import pl.gamilife.gamification.enums.ItemSlotEnum;
+import pl.gamilife.gamification.enums.RarityEnum;
 
 import java.util.Objects;
 import java.util.UUID;

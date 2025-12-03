@@ -1,11 +1,11 @@
 package pl.gamilife.group.usecase.findgroupmemberbyid;
 
-import pl.gamilife.api.group.dto.GroupMemberDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
-import pl.gamilife.group.model.GroupMember;
-import pl.gamilife.group.repository.GroupMemberJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.gamilife.api.group.dto.GroupMemberDto;
+import pl.gamilife.group.model.GroupMember;
+import pl.gamilife.group.repository.GroupMemberJpaRepository;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
 
 @Service
 @AllArgsConstructor

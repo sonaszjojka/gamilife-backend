@@ -1,14 +1,14 @@
 package pl.gamilife.gamification.service.impl;
 
-import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
-import pl.gamilife.gamification.model.UserStatistic;
-import pl.gamilife.gamification.repository.UserStatisticRepository;
-import pl.gamilife.gamification.service.AchievementService;
-import pl.gamilife.gamification.service.UserStatisticsService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.gamilife.gamification.model.UserStatistic;
+import pl.gamilife.gamification.repository.UserStatisticRepository;
+import pl.gamilife.gamification.service.AchievementService;
+import pl.gamilife.gamification.service.UserStatisticsService;
+import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 
 import java.util.Set;
 import java.util.UUID;

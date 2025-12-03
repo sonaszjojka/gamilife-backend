@@ -1,9 +1,9 @@
 package pl.gamilife.task.repository.impl;
 
+import org.springframework.stereotype.Repository;
 import pl.gamilife.task.entity.TaskNotification;
 import pl.gamilife.task.repository.TaskNotificationRepository;
 import pl.gamilife.task.repository.jpa.TaskNotificationRepositoryJpa;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;

@@ -1,8 +1,10 @@
 package pl.gamilife.group.usecase.creategrouprequest;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
 import pl.gamilife.group.enums.GroupRequestStatusEnum;
 import pl.gamilife.group.enums.GroupTypeEnum;
 import pl.gamilife.group.exception.domain.GroupFullException;
@@ -15,9 +17,7 @@ import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
 import pl.gamilife.group.repository.GroupRequestJpaRepository;
 import pl.gamilife.group.repository.GroupRequestStatusJpaRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
 
 import java.util.UUID;
 

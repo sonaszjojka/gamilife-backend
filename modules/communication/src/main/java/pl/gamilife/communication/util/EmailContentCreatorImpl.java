@@ -1,6 +1,5 @@
 package pl.gamilife.communication.util;
 
-import pl.gamilife.communication.dto.*;
 import org.springframework.stereotype.Service;
 import pl.gamilife.communication.dto.*;
 

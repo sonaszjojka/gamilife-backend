@@ -1,14 +1,14 @@
 package pl.gamilife.auth.usecase.googlesignin;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
 import pl.gamilife.auth.dto.GoogleUserDto;
 import pl.gamilife.auth.models.UserOAuthProvider;
 import pl.gamilife.auth.repository.JpaUserProviderRepository;
 import pl.gamilife.auth.service.OAuthService;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Optional;

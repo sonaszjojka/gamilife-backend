@@ -1,9 +1,9 @@
 package pl.gamilife.grouptask.repository.impl;
 
+import org.springframework.stereotype.Repository;
 import pl.gamilife.grouptask.entity.GroupTask;
 import pl.gamilife.grouptask.repository.GroupTaskRepository;
 import pl.gamilife.grouptask.repository.jpa.GroupTaskRepositoryJpa;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;

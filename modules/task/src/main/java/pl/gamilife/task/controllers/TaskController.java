@@ -1,5 +1,11 @@
 package pl.gamilife.task.controllers;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pl.gamilife.task.application.createtask.CreateTaskRequest;
 import pl.gamilife.task.application.createtask.CreateTaskResponse;
 import pl.gamilife.task.application.createtask.CreateTaskUseCase;
@@ -11,12 +17,6 @@ import pl.gamilife.task.application.getusertasks.GetUserTasksDto;
 import pl.gamilife.task.application.getusertasks.GetUserTasksFilterDto;
 import pl.gamilife.task.application.getusertasks.GetUserTasksUseCase;
 import pl.gamilife.task.shared.ApiResponse;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -61,15 +61,15 @@ public class TaskController {
     public ResponseEntity<Page<GetUserTasksDto>> getUserTasks(
             @RequestParam(required = false) Integer categoryId,
             @RequestParam(required = false) Integer difficultyId,
-            @RequestParam (required = false) Boolean completed,
+            @RequestParam(required = false) Boolean completed,
             @RequestParam(required = false) Boolean isGroupTask,
-            @RequestParam(defaultValue ="0") @Min(0) Integer page,
-            @RequestParam(defaultValue ="10") @Min(1) Integer size
-            ) {
+            @RequestParam(defaultValue = "0") @Min(0) Integer page,
+            @RequestParam(defaultValue = "10") @Min(1) Integer size
+    ) {
 
-        GetUserTasksFilterDto filterDto = new  GetUserTasksFilterDto( categoryId, difficultyId, completed,isGroupTask, page, size);
+        GetUserTasksFilterDto filterDto = new GetUserTasksFilterDto(categoryId, difficultyId, completed, isGroupTask, page, size);
 
-        Page<GetUserTasksDto> response = getUserTasksUseCase.execute( filterDto );
+        Page<GetUserTasksDto> response = getUserTasksUseCase.execute(filterDto);
         return ResponseEntity.ok(response);
     }
 

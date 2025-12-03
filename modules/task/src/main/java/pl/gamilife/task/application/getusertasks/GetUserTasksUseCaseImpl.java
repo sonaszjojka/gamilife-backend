@@ -1,5 +1,12 @@
 package pl.gamilife.task.application.getusertasks;
 
+import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.pomodoro.PomodoroApi;
@@ -9,13 +16,7 @@ import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.repository.jpa.HabitRepositoryJpa;
 import pl.gamilife.task.repository.jpa.TaskRepositoryJpa;
 import pl.gamilife.task.util.TasksSpecificationBuilder;
-import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Pageable;
+
 import java.util.UUID;
 
 @Service
@@ -38,8 +39,8 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
     @Transactional()
     public Page<GetUserTasksDto> execute(GetUserTasksFilterDto request) {
 
-       CurrentUserDto userDto = authApi.getCurrentUser();
-       UUID userId = userDto.userId();
+        CurrentUserDto userDto = authApi.getCurrentUser();
+        UUID userId = userDto.userId();
 
         Specification<Task> taskSpecification = tasksSpecificationBuilder.build(
                 request.categoryId(),
@@ -56,17 +57,17 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
         Page<GetUserTasksDto> tasks = taskRepository.findAll(taskSpecification, pageable)
                 .map(task -> {
                     PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
-                    TaskHabitDto taskHabit= null;
-                    Habit habit=habitRepository.findHabitByTaskId(task.getId()).orElse(null);
-                    if(habit != null) {
+                    TaskHabitDto taskHabit = null;
+                    Habit habit = habitRepository.findHabitByTaskId(task.getId()).orElse(null);
+                    if (habit != null) {
 
                         taskHabit = TaskHabitDto.builder()
-                                    .habitId(habit.getId())
-                                    .cycleLength(habit.getCycleLength())
-                                    .currentStreak(habit.getCurrentStreak())
-                                    .longestStreak(habit.getLongestStreak())
-                                    .acceptedDate(habit.getAcceptedDate())
-                                    .build();
+                                .habitId(habit.getId())
+                                .cycleLength(habit.getCycleLength())
+                                .currentStreak(habit.getCurrentStreak())
+                                .longestStreak(habit.getLongestStreak())
+                                .acceptedDate(habit.getAcceptedDate())
+                                .build();
                     }
                     return new GetUserTasksDto(
                             task.getId(),
@@ -90,11 +91,11 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
 
     private Pageable createPageable(GetUserTasksFilterDto request) {
 
-      return  PageRequest.of(
-              request.pageNumber(),
-              request.pageSize(),
-              Sort.by(Sort.Direction.ASC,"endTime")
-      );
+        return PageRequest.of(
+                request.pageNumber(),
+                request.pageSize(),
+                Sort.by(Sort.Direction.ASC, "endTime")
+        );
     }
 }
 //ToDo : add more filters if needed + change dto for more data if needed

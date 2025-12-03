@@ -1,7 +1,7 @@
 package pl.gamilife.group.enums;
 
-import pl.gamilife.group.exception.domain.GroupTypeNotFoundException;
 import lombok.Getter;
+import pl.gamilife.group.exception.domain.GroupTypeNotFoundException;
 
 import java.util.Arrays;
 

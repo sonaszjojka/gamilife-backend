@@ -1,5 +1,8 @@
 package pl.gamilife.user.usecase.impl;
 
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.gamification.GamificationApi;
 import pl.gamilife.api.gamification.dto.StartingGamificationValuesDto;
 import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
@@ -9,9 +12,6 @@ import pl.gamilife.user.domain.User;
 import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.usecase.GetUserByEmailUseCase;
 import pl.gamilife.user.usecase.RegisterNewUserUseCase;
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.UUID;

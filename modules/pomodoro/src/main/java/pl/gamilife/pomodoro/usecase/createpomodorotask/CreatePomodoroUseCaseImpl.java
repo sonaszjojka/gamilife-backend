@@ -1,5 +1,7 @@
 package pl.gamilife.pomodoro.usecase.createpomodorotask;
 
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.task.TasksApi;
@@ -8,8 +10,6 @@ import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPriv
 import pl.gamilife.pomodoro.entity.PomodoroTask;
 import pl.gamilife.pomodoro.exception.domain.InvalidPomodoroTaskData;
 import pl.gamilife.pomodoro.repository.PomodoroTaskRepository;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 

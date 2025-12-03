@@ -1,9 +1,9 @@
 package pl.gamilife.task.repository.impl;
 
+import org.springframework.stereotype.Repository;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.repository.TaskRepository;
 import pl.gamilife.task.repository.jpa.TaskRepositoryJpa;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -36,7 +36,6 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Boolean existsById(UUID taskId) {
         return repositoryJpa.existsById(taskId);
     }
-
 
 
 }

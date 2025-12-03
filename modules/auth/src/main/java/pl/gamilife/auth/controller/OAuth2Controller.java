@@ -1,16 +1,5 @@
 package pl.gamilife.auth.controller;
 
-import pl.gamilife.api.auth.dto.AuthTokens;
-import pl.gamilife.auth.controller.request.LinkOAuthAccountRequest;
-import pl.gamilife.auth.controller.request.OAuthCodeRequest;
-import pl.gamilife.auth.controller.response.AfterLoginResponse;
-import pl.gamilife.auth.controller.response.OAuth2LinkResponse;
-import pl.gamilife.auth.usecase.common.LoginUserResult;
-import pl.gamilife.auth.usecase.googlelinkaccount.LinkGoogleAccountCommand;
-import pl.gamilife.auth.usecase.googlelinkaccount.LinkGoogleAccountUseCase;
-import pl.gamilife.auth.usecase.googlesignin.GoogleSignInCommand;
-import pl.gamilife.auth.usecase.googlesignin.GoogleSignInResult;
-import pl.gamilife.auth.usecase.googlesignin.GoogleSignInUseCase;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -23,6 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamilife.auth.controller.request.LinkOAuthAccountRequest;
+import pl.gamilife.auth.controller.request.OAuthCodeRequest;
+import pl.gamilife.auth.controller.response.AfterLoginResponse;
+import pl.gamilife.auth.controller.response.OAuth2LinkResponse;
+import pl.gamilife.auth.usecase.common.LoginUserResult;
+import pl.gamilife.auth.usecase.googlelinkaccount.LinkGoogleAccountCommand;
+import pl.gamilife.auth.usecase.googlelinkaccount.LinkGoogleAccountUseCase;
+import pl.gamilife.auth.usecase.googlesignin.GoogleSignInCommand;
+import pl.gamilife.auth.usecase.googlesignin.GoogleSignInResult;
+import pl.gamilife.auth.usecase.googlesignin.GoogleSignInUseCase;
 import pl.gamilife.infrastructure.web.util.CookieUtil;
 
 import java.security.InvalidParameterException;

@@ -1,12 +1,12 @@
 package pl.gamilife.auth.service.impl;
 
-import pl.gamilife.auth.models.ForgotPasswordCode;
-import pl.gamilife.auth.repository.JpaForgotPasswordCodeRepository;
-import pl.gamilife.auth.service.ForgotPasswordCodeService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import pl.gamilife.auth.models.ForgotPasswordCode;
+import pl.gamilife.auth.repository.JpaForgotPasswordCodeRepository;
+import pl.gamilife.auth.service.ForgotPasswordCodeService;
 
 import java.time.LocalDateTime;
 import java.util.List;

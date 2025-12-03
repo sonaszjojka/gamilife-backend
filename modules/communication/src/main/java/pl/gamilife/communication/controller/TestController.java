@@ -1,15 +1,15 @@
 package pl.gamilife.communication.controller;
 
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.communication.dto.NotificationDto;
 import pl.gamilife.communication.enums.NotificationType;
 import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationCommand;
 import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationUseCase;
-import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor

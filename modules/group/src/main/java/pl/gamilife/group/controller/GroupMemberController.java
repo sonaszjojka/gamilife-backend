@@ -1,5 +1,10 @@
 package pl.gamilife.group.controller;
 
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pl.gamilife.group.controller.request.CreateGroupMemberRequest;
 import pl.gamilife.group.controller.request.EditGroupMemberRequest;
 import pl.gamilife.group.usecase.creategroupmemberinopengroup.CreateGroupMemberInOpenGroupCommand;
@@ -11,11 +16,6 @@ import pl.gamilife.group.usecase.editgroupmember.EditGroupMemberUseCase;
 import pl.gamilife.group.usecase.leavegroup.LeaveGroupCommand;
 import pl.gamilife.group.usecase.leavegroup.LeaveGroupResult;
 import pl.gamilife.group.usecase.leavegroup.LeaveGroupUseCase;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 

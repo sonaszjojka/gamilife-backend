@@ -1,11 +1,11 @@
 package pl.gamilife.gamification.usecase.processtaskcompletion;
 
-import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
-import pl.gamilife.gamification.service.RewardService;
-import pl.gamilife.gamification.service.UserStatisticsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.gamification.service.RewardService;
+import pl.gamilife.gamification.service.UserStatisticsService;
+import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
 
 @Service
 @Transactional

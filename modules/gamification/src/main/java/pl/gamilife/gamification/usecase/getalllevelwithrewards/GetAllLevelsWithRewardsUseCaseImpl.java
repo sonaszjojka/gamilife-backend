@@ -1,8 +1,8 @@
 package pl.gamilife.gamification.usecase.getalllevelwithrewards;
 
-import pl.gamilife.gamification.repository.LevelRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.gamilife.gamification.repository.LevelRepository;
 
 @Service
 @AllArgsConstructor

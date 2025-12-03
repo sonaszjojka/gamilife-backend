@@ -1,9 +1,9 @@
 package pl.gamilife.task.repository.impl;
 
+import org.springframework.stereotype.Repository;
 import pl.gamilife.task.entity.TaskDifficulty;
 import pl.gamilife.task.repository.TaskDifficultyRepository;
 import pl.gamilife.task.repository.jpa.TaskDifficultyRepositoryJpa;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 

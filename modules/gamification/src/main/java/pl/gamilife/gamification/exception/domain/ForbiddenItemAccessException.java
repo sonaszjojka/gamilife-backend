@@ -1,7 +1,7 @@
 package pl.gamilife.gamification.exception.domain;
 
-import pl.gamilife.infrastructure.core.exception.DomainException;
 import pl.gamilife.gamification.exception.GamificationErrorCode;
+import pl.gamilife.infrastructure.core.exception.DomainException;
 
 public class ForbiddenItemAccessException extends DomainException {
     public ForbiddenItemAccessException(String message) {

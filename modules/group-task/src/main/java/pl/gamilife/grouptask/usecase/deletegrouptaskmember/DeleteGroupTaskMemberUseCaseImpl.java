@@ -1,9 +1,9 @@
 package pl.gamilife.grouptask.usecase.deletegrouptaskmember;
 
-import pl.gamilife.grouptask.exception.domain.GroupTaskMemberNotFoundException;
-import pl.gamilife.grouptask.repository.GroupTaskMemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import pl.gamilife.grouptask.exception.domain.GroupTaskMemberNotFoundException;
+import pl.gamilife.grouptask.repository.GroupTaskMemberRepository;
 
 import java.util.UUID;
 

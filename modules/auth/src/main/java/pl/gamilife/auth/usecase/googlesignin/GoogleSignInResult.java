@@ -1,7 +1,7 @@
 package pl.gamilife.auth.usecase.googlesignin;
 
-import pl.gamilife.auth.usecase.common.LoginUserResult;
 import lombok.Getter;
+import pl.gamilife.auth.usecase.common.LoginUserResult;
 
 import java.util.UUID;
 

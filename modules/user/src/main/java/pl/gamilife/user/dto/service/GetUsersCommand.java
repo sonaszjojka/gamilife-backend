@@ -9,6 +9,6 @@ public record GetUsersCommand(
 ) implements Command {
     @Override
     public void validate() {
-        
+
     }
 }

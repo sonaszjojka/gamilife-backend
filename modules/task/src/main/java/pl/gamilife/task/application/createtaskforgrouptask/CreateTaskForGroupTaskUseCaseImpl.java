@@ -1,5 +1,7 @@
 package pl.gamilife.task.application.createtaskforgrouptask;
 
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
 import pl.gamilife.task.entity.Task;
@@ -13,8 +15,6 @@ import pl.gamilife.task.repository.TaskCategoryRepository;
 import pl.gamilife.task.repository.TaskDifficultyRepository;
 import pl.gamilife.task.repository.TaskRepository;
 import pl.gamilife.task.repository.impl.TaskRepositoryImpl;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -40,7 +40,7 @@ public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTask
             throw new InvalidTaskDataException("End time date cannot be after start time date!");
         }
 
-        if (request.completedAt()!=null&&request.startTime().isAfter(request.completedAt())) {
+        if (request.completedAt() != null && request.startTime().isAfter(request.completedAt())) {
             throw new InvalidTaskDataException("Completed at date cannot be after start time date!");
         }
 

@@ -10,7 +10,7 @@ import java.util.UUID;
 @Builder
 public record TaskDto(UUID id, String title, LocalDateTime startTime, LocalDateTime endTime, TaskCategoryDto category,
                       TaskDifficultyDto difficulty, UUID userId, LocalDateTime completedAt, HabitDto habitTask,
-                       String description) implements Serializable {
+                      String description) implements Serializable {
 
     public record TaskDifficultyDto(Integer id) implements Serializable {
     }

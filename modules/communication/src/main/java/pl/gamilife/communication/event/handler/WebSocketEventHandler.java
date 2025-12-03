@@ -1,8 +1,5 @@
 package pl.gamilife.communication.event.handler;
 
-import pl.gamilife.communication.dto.NotificationDto;
-import pl.gamilife.communication.model.NotificationRetry;
-import pl.gamilife.communication.repository.NotificationRetryRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -10,6 +7,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
+import pl.gamilife.communication.dto.NotificationDto;
+import pl.gamilife.communication.model.NotificationRetry;
+import pl.gamilife.communication.repository.NotificationRetryRepository;
 
 import java.security.Principal;
 import java.util.ArrayList;

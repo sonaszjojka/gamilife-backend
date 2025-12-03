@@ -1,17 +1,19 @@
 package pl.gamilife.grouptask.usecase.editgrouptaskmember;
 
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 import pl.gamilife.grouptask.entity.GroupTaskMember;
 import pl.gamilife.grouptask.exception.domain.GroupTaskMemberNotFoundException;
 import pl.gamilife.grouptask.repository.GroupTaskMemberRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+
 @Service
 public class EditGroupTaskMemberUseCaseImpl implements EditGroupTaskMemberUseCase {
 
     private final GroupTaskMemberRepository groupTaskMemberRepository;
     private final EditGroupTaskMemberMapper editGroupTaskMemberMapper;
+
     public EditGroupTaskMemberUseCaseImpl(GroupTaskMemberRepository groupTaskMemberRepository, EditGroupTaskMemberMapper editGroupTaskMemberMapper) {
         this.groupTaskMemberRepository = groupTaskMemberRepository;
         this.editGroupTaskMemberMapper = editGroupTaskMemberMapper;

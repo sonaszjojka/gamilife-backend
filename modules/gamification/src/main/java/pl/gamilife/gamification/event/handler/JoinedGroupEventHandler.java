@@ -1,8 +1,5 @@
 package pl.gamilife.gamification.event.handler;
 
-import pl.gamilife.infrastructure.core.event.JoinedGroupEvent;
-import pl.gamilife.gamification.usecase.processgroupjoin.ProcessGroupJoinCommand;
-import pl.gamilife.gamification.usecase.processgroupjoin.ProcessGroupJoinUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Recover;
@@ -11,6 +8,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+import pl.gamilife.gamification.usecase.processgroupjoin.ProcessGroupJoinCommand;
+import pl.gamilife.gamification.usecase.processgroupjoin.ProcessGroupJoinUseCase;
+import pl.gamilife.infrastructure.core.event.JoinedGroupEvent;
 
 @Component
 @AllArgsConstructor

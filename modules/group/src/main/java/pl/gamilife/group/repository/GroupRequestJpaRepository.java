@@ -1,10 +1,10 @@
 package pl.gamilife.group.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupRequest;
 import pl.gamilife.group.model.GroupRequestStatus;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.Collection;
 import java.util.List;

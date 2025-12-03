@@ -1,14 +1,14 @@
 package pl.gamilife.groupshop.api.controller;
 
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pl.gamilife.groupshop.usecase.changeGroupShopStatus.ChangeGroupShopStatusRequest;
 import pl.gamilife.groupshop.usecase.changeGroupShopStatus.ChangeGroupShopStatusResponse;
 import pl.gamilife.groupshop.usecase.changeGroupShopStatus.ChangeGroupShopStatusUseCase;
 import pl.gamilife.groupshop.usecase.editgroupshop.EditGroupShopRequest;
 import pl.gamilife.groupshop.usecase.editgroupshop.EditGroupShopResponse;
 import pl.gamilife.groupshop.usecase.editgroupshop.EditGroupShopUseCase;
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 

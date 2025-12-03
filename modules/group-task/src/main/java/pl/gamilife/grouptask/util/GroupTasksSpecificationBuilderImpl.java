@@ -1,9 +1,9 @@
 package pl.gamilife.grouptask.util;
 
-import pl.gamilife.grouptask.entity.GroupTask;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import pl.gamilife.grouptask.entity.GroupTask;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -28,7 +28,7 @@ public class GroupTasksSpecificationBuilderImpl implements GroupTasksSpecificati
             }
             LocalDateTime now = LocalDateTime.now();
 
-            Predicate  hasAcceptedDate = criteriaBuilder.isNotNull(root.get("acceptedDate"));
+            Predicate hasAcceptedDate = criteriaBuilder.isNotNull(root.get("acceptedDate"));
             Predicate noAcceptedDate = criteriaBuilder.isNull(root.get("acceptedDate"));
 
             if (isAccepted) {

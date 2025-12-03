@@ -1,8 +1,8 @@
 package pl.gamilife.groupshop.usecase.editgroupiteminshop;
 
 
-import pl.gamilife.groupshop.entity.GroupItemInShop;
 import org.springframework.stereotype.Component;
+import pl.gamilife.groupshop.entity.GroupItemInShop;
 
 
 @Component

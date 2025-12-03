@@ -1,9 +1,5 @@
 package pl.gamilife.group.usecase.getgroups.getall;
 
-import pl.gamilife.group.enums.GroupTypeEnum;
-import pl.gamilife.group.model.Group;
-import pl.gamilife.group.repository.GroupJpaRepository;
-import pl.gamilife.group.util.GroupSpecificationBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -13,6 +9,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.group.enums.GroupTypeEnum;
+import pl.gamilife.group.model.Group;
+import pl.gamilife.group.repository.GroupJpaRepository;
+import pl.gamilife.group.util.GroupSpecificationBuilder;
 
 import java.util.Comparator;
 import java.util.List;

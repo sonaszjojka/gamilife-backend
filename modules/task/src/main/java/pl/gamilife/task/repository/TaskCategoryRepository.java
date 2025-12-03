@@ -1,7 +1,7 @@
 package pl.gamilife.task.repository;
 
-import pl.gamilife.task.entity.TaskCategory;
 import jakarta.validation.constraints.NotNull;
+import pl.gamilife.task.entity.TaskCategory;
 
 import java.util.Optional;
 

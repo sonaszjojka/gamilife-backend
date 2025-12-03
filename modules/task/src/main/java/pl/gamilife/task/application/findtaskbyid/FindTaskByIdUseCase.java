@@ -1,8 +1,8 @@
 package pl.gamilife.task.application.findtaskbyid;
 
 
-import pl.gamilife.api.task.dto.TaskDto;
 import org.springframework.stereotype.Component;
+import pl.gamilife.api.task.dto.TaskDto;
 
 import java.util.UUID;
 

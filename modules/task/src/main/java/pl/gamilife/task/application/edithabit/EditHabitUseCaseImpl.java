@@ -1,13 +1,13 @@
 package pl.gamilife.task.application.edithabit;
 
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.infrastructure.core.exception.common.domain.TaskNotFoundException;
 import pl.gamilife.task.entity.Habit;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.exception.domain.HabitNotFoundException;
 import pl.gamilife.task.repository.HabitRepository;
 import pl.gamilife.task.repository.TaskRepository;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -32,7 +32,7 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
                 .orElseThrow(() -> new HabitNotFoundException(
                         "Habit with id " + habitId + " not found!"
                 ));
-        Task task = taskRepository.findById(taskId).orElseThrow(()-> new TaskNotFoundException(
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new TaskNotFoundException(
                 "Task with id " + taskId + " not found!"
         ));
         if (!habit.getTask().getId().equals(task.getId())) {
@@ -44,7 +44,6 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
         habit.setCycleLength(request.cycleLength());
         habit.setCurrentStreak(request.currentStreak());
         habit.setLongestStreak(request.longestStreak()); //todo: business logic
-
 
 
         habit.setAcceptedDate(request.acceptedDate());

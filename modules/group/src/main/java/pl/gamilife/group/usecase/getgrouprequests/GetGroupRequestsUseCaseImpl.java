@@ -1,11 +1,5 @@
 package pl.gamilife.group.usecase.getgrouprequests;
 
-import pl.gamilife.api.user.UserApi;
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
-import pl.gamilife.group.enums.GroupRequestStatusEnum;
-import pl.gamilife.group.model.GroupRequest;
-import pl.gamilife.group.repository.GroupRequestJpaRepository;
-import pl.gamilife.group.util.GroupRequestSpecificationBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -15,6 +9,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.api.user.UserApi;
+import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
+import pl.gamilife.group.enums.GroupRequestStatusEnum;
+import pl.gamilife.group.model.GroupRequest;
+import pl.gamilife.group.repository.GroupRequestJpaRepository;
+import pl.gamilife.group.util.GroupRequestSpecificationBuilder;
 
 import java.util.Comparator;
 import java.util.List;

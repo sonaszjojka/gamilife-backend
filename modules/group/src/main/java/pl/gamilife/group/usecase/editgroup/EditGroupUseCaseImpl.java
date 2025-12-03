@@ -1,20 +1,20 @@
 package pl.gamilife.group.usecase.editgroup;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import pl.gamilife.group.exception.domain.GroupTypeNotFoundException;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupType;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupTypeJpaRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
+import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 
 import java.util.Optional;
 import java.util.UUID;

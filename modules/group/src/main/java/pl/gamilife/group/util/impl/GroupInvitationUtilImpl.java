@@ -1,8 +1,8 @@
 package pl.gamilife.group.util.impl;
 
-import pl.gamilife.group.util.GroupInvitationUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import pl.gamilife.group.util.GroupInvitationUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

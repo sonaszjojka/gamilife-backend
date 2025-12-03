@@ -1,5 +1,10 @@
 package pl.gamilife.gamification.service.impl;
 
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 import pl.gamilife.gamification.model.Achievement;
 import pl.gamilife.gamification.model.UserAchievement;
 import pl.gamilife.gamification.model.UserStatistic;
@@ -8,11 +13,6 @@ import pl.gamilife.gamification.repository.UserAchievementRepository;
 import pl.gamilife.gamification.service.AchievementService;
 import pl.gamilife.gamification.service.RewardService;
 import pl.gamilife.gamification.service.UserInventoryService;
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;

@@ -1,9 +1,9 @@
 package pl.gamilife.groupshop.usecase.creategroupshopforgroup;
 
+import org.springframework.stereotype.Component;
 import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
 import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupResponseDto;
 import pl.gamilife.groupshop.entity.GroupShop;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 

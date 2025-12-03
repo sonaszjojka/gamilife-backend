@@ -1,11 +1,11 @@
 package pl.gamilife.gamification.usecase.getstartinggamificationvalues;
 
-import pl.gamilife.api.gamification.dto.StartingGamificationValuesDto;
-import pl.gamilife.gamification.model.Level;
-import pl.gamilife.gamification.repository.LevelRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import pl.gamilife.api.gamification.dto.StartingGamificationValuesDto;
+import pl.gamilife.gamification.model.Level;
+import pl.gamilife.gamification.repository.LevelRepository;
 
 import java.util.List;
 

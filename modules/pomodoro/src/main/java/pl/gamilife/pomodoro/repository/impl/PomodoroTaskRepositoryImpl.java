@@ -1,9 +1,9 @@
 package pl.gamilife.pomodoro.repository.impl;
 
+import org.springframework.stereotype.Repository;
 import pl.gamilife.pomodoro.entity.PomodoroTask;
 import pl.gamilife.pomodoro.repository.PomodoroTaskRepository;
 import pl.gamilife.pomodoro.repository.jpa.PomodoroTaskRepositoryJpa;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -36,8 +36,9 @@ public class PomodoroTaskRepositoryImpl implements PomodoroTaskRepository {
     public void deleteByPomodoroTaskId(UUID pomodoroTaskId) {
         pomodoroTaskRepositoryJpa.deleteById(pomodoroTaskId);
     }
+
     @Override
     public Optional<PomodoroTask> findByPomodoroTaskId(UUID pomodoroTaskId) {
-       return pomodoroTaskRepositoryJpa.findById(pomodoroTaskId);
+        return pomodoroTaskRepositoryJpa.findById(pomodoroTaskId);
     }
 }

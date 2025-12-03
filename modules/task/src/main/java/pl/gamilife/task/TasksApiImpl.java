@@ -1,5 +1,6 @@
 package pl.gamilife.task;
 
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.task.TasksApi;
 import pl.gamilife.api.task.dto.TaskDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
@@ -8,7 +9,6 @@ import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTas
 import pl.gamilife.task.application.deletetask.DeleteTaskUseCase;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdUseCase;
 import pl.gamilife.task.application.taskexistsbyid.ExistsByTaskIdUseCase;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 

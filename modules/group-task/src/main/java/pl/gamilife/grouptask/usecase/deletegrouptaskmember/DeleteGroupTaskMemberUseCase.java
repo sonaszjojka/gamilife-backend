@@ -4,5 +4,5 @@ import java.util.UUID;
 
 public interface DeleteGroupTaskMemberUseCase {
 
-    void execute (UUID groupTaskMemberId);
+    void execute(UUID groupTaskMemberId);
 }

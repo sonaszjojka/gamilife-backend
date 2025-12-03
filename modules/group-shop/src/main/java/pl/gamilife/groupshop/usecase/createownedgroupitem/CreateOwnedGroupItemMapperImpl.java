@@ -1,8 +1,8 @@
 package pl.gamilife.groupshop.usecase.createownedgroupitem;
 
+import org.springframework.stereotype.Component;
 import pl.gamilife.groupshop.entity.GroupItemInShop;
 import pl.gamilife.groupshop.entity.OwnedGroupItem;
-import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.UUID;

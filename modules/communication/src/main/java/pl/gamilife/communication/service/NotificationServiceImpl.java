@@ -1,8 +1,5 @@
 package pl.gamilife.communication.service;
 
-import pl.gamilife.communication.dto.NotificationDto;
-import pl.gamilife.communication.model.NotificationRetry;
-import pl.gamilife.communication.repository.NotificationRetryRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -10,6 +7,9 @@ import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.communication.dto.NotificationDto;
+import pl.gamilife.communication.model.NotificationRetry;
+import pl.gamilife.communication.repository.NotificationRetryRepository;
 
 import java.util.UUID;
 

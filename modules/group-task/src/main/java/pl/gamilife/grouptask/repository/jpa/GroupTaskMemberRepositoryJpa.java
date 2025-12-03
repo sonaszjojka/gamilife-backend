@@ -1,8 +1,8 @@
 package pl.gamilife.grouptask.repository.jpa;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import pl.gamilife.grouptask.entity.GroupTask;
 import pl.gamilife.grouptask.entity.GroupTaskMember;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.UUID;

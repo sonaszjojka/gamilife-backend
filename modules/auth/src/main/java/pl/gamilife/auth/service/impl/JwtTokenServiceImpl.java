@@ -1,12 +1,12 @@
 package pl.gamilife.auth.service.impl;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import org.apache.commons.codec.digest.DigestUtils;
 import pl.gamilife.api.auth.dto.AuthTokens;
 import pl.gamilife.auth.models.RefreshToken;
 import pl.gamilife.auth.repository.JpaRefreshTokenRepository;
 import pl.gamilife.auth.service.TokenService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;

@@ -1,8 +1,8 @@
 package pl.gamilife.group.usecase.getgrouptypes;
 
-import pl.gamilife.group.repository.GroupTypeJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.gamilife.group.repository.GroupTypeJpaRepository;
 
 import java.util.List;
 

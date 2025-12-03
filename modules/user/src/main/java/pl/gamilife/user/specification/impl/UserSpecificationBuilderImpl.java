@@ -1,9 +1,9 @@
 package pl.gamilife.user.specification.impl;
 
-import pl.gamilife.user.persistence.UserEntity;
-import pl.gamilife.user.specification.UserSpecificationBuilder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import pl.gamilife.user.persistence.UserEntity;
+import pl.gamilife.user.specification.UserSpecificationBuilder;
 
 @Component
 public class UserSpecificationBuilderImpl implements UserSpecificationBuilder {

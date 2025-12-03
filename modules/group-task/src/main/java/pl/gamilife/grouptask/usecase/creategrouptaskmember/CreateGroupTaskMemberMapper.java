@@ -7,7 +7,8 @@ import java.util.UUID;
 
 public interface CreateGroupTaskMemberMapper {
 
-    GroupTaskMember toEntity ( GroupTask groupTask, UUID groupMemberId, UUID groupTaskMemberId);
-    CreateGroupTaskMemberResponse toResponse (GroupTaskMember groupTaskMember);
+    GroupTaskMember toEntity(GroupTask groupTask, UUID groupMemberId, UUID groupTaskMemberId);
+
+    CreateGroupTaskMemberResponse toResponse(GroupTaskMember groupTaskMember);
 
 }

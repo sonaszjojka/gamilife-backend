@@ -1,7 +1,6 @@
 package pl.gamilife.api.pomodoro;
 
 
-
 import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 
 import java.util.UUID;

@@ -1,9 +1,9 @@
 package pl.gamilife.group.util;
 
 
+import org.springframework.data.jpa.domain.Specification;
 import pl.gamilife.group.enums.GroupRequestStatusEnum;
 import pl.gamilife.group.model.GroupRequest;
-import org.springframework.data.jpa.domain.Specification;
 
 import java.util.UUID;
 

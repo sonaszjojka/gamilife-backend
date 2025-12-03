@@ -1,10 +1,5 @@
 package pl.gamilife.communication.event.handler;
 
-import pl.gamilife.communication.dto.NotificationDto;
-import pl.gamilife.communication.enums.NotificationType;
-import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationCommand;
-import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationUseCase;
-import pl.gamilife.infrastructure.core.event.GroupInvitationCreatedEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Recover;
@@ -13,6 +8,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+import pl.gamilife.communication.dto.NotificationDto;
+import pl.gamilife.communication.enums.NotificationType;
+import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationCommand;
+import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationUseCase;
+import pl.gamilife.infrastructure.core.event.GroupInvitationCreatedEvent;
 
 import java.util.Map;
 

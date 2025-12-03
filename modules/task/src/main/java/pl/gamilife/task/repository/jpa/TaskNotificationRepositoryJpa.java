@@ -1,8 +1,8 @@
 package pl.gamilife.task.repository.jpa;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.entity.TaskNotification;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 import java.util.UUID;

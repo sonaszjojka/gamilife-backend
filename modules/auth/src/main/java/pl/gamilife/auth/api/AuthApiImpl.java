@@ -1,5 +1,7 @@
 package pl.gamilife.auth.api;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.AuthTokens;
 import pl.gamilife.api.auth.dto.ChangePasswordDto;
@@ -11,8 +13,6 @@ import pl.gamilife.auth.usecase.getauthuser.GetAuthenticatedUserCommand;
 import pl.gamilife.auth.usecase.getauthuser.GetAuthenticatedUserDataUseCase;
 import pl.gamilife.auth.usecase.rotatetokens.RotateUserTokensCommand;
 import pl.gamilife.auth.usecase.rotatetokens.RotateUserTokensUseCase;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor

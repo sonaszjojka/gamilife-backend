@@ -1,5 +1,8 @@
 package pl.gamilife.user.usecase.impl;
 
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.AuthTokens;
 import pl.gamilife.api.auth.dto.ChangePasswordDto;
@@ -9,9 +12,6 @@ import pl.gamilife.user.domain.User;
 import pl.gamilife.user.dto.service.ChangeUserPasswordCommand;
 import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.usecase.ChangeUserPasswordUseCase;
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor

@@ -1,7 +1,7 @@
 package pl.gamilife.task.application.edithabit;
 
-import pl.gamilife.task.entity.Habit;
 import org.springframework.stereotype.Component;
+import pl.gamilife.task.entity.Habit;
 
 @Component
 public class EditHabitMapperImpl implements EditHabitMapper {

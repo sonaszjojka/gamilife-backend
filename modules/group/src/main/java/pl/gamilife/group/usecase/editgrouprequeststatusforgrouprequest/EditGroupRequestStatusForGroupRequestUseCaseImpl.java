@@ -1,9 +1,10 @@
 package pl.gamilife.group.usecase.editgrouprequeststatusforgrouprequest;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
 import pl.gamilife.group.enums.GroupRequestStatusEnum;
 import pl.gamilife.group.exception.domain.GroupRequestNotFoundException;
 import pl.gamilife.group.exception.domain.GroupRequestStatusNotFoundException;
@@ -16,9 +17,8 @@ import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupRequestJpaRepository;
 import pl.gamilife.group.repository.GroupRequestStatusJpaRepository;
 import pl.gamilife.group.service.GroupMemberService;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
 
 import java.util.UUID;
 

@@ -1,12 +1,5 @@
 package pl.gamilife.group.controller;
 
-import pl.gamilife.group.controller.request.CreateChatMessageRequest;
-import pl.gamilife.group.usecase.createchatmessage.CreateChatMessageCommand;
-import pl.gamilife.group.usecase.createchatmessage.CreateChatMessageResult;
-import pl.gamilife.group.usecase.createchatmessage.CreateChatMessageUseCase;
-import pl.gamilife.group.usecase.getchatmessages.GetChatMessagesCommand;
-import pl.gamilife.group.usecase.getchatmessages.GetChatMessagesResult;
-import pl.gamilife.group.usecase.getchatmessages.GetChatMessagesUseCase;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -14,6 +7,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.gamilife.group.controller.request.CreateChatMessageRequest;
+import pl.gamilife.group.usecase.createchatmessage.CreateChatMessageCommand;
+import pl.gamilife.group.usecase.createchatmessage.CreateChatMessageResult;
+import pl.gamilife.group.usecase.createchatmessage.CreateChatMessageUseCase;
+import pl.gamilife.group.usecase.getchatmessages.GetChatMessagesCommand;
+import pl.gamilife.group.usecase.getchatmessages.GetChatMessagesResult;
+import pl.gamilife.group.usecase.getchatmessages.GetChatMessagesUseCase;
 
 import java.util.UUID;
 

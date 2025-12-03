@@ -1,10 +1,10 @@
 package pl.gamilife.auth.usecase.getauthuser;
 
-import pl.gamilife.api.auth.dto.CurrentUserDto;
-import pl.gamilife.auth.security.UserDetailsImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import pl.gamilife.api.auth.dto.CurrentUserDto;
+import pl.gamilife.auth.security.UserDetailsImpl;
 
 @Service
 public class GetAuthenticatedUserDataUseCaseImpl implements GetAuthenticatedUserDataUseCase {

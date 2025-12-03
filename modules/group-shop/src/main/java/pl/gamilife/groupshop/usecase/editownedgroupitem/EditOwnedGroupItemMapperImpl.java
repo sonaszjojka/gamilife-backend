@@ -1,7 +1,7 @@
 package pl.gamilife.groupshop.usecase.editownedgroupitem;
 
-import pl.gamilife.groupshop.entity.OwnedGroupItem;
 import org.springframework.stereotype.Component;
+import pl.gamilife.groupshop.entity.OwnedGroupItem;
 
 @Component
 public class EditOwnedGroupItemMapperImpl implements EditOwnedGroupItemMapper {

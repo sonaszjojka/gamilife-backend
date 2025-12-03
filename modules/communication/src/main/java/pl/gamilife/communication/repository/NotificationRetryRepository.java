@@ -1,7 +1,7 @@
 package pl.gamilife.communication.repository;
 
-import pl.gamilife.communication.model.NotificationRetry;
 import org.springframework.data.jpa.repository.JpaRepository;
+import pl.gamilife.communication.model.NotificationRetry;
 
 import java.util.List;
 import java.util.UUID;

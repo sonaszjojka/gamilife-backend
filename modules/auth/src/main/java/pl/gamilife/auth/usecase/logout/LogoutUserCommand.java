@@ -1,7 +1,7 @@
 package pl.gamilife.auth.usecase.logout;
 
-import pl.gamilife.infrastructure.core.architecture.Command;
 import jakarta.validation.ValidationException;
+import pl.gamilife.infrastructure.core.architecture.Command;
 
 public record LogoutUserCommand(String refreshToken) implements Command {
     @Override

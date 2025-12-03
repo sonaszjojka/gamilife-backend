@@ -1,12 +1,12 @@
 package pl.gamilife.pomodoro.usecase.findpomodorotaskbytaskid;
 
 
+import org.springframework.stereotype.Component;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 import pl.gamilife.api.task.TasksApi;
 import pl.gamilife.pomodoro.repository.jpa.PomodoroTaskRepositoryJpa;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 

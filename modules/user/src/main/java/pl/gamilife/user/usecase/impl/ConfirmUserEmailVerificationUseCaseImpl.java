@@ -1,12 +1,12 @@
 package pl.gamilife.user.usecase.impl;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
 import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
 import pl.gamilife.user.domain.User;
 import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.usecase.ConfirmUserEmailVerificationUseCase;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
