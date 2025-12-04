@@ -19,4 +19,6 @@ public interface GroupApi {
                                                                                         String joinCode,
                                                                                         Integer groupType,
                                                                                         String groupName);
+
+    void editMemberWallet(UUID memberId, UUID groupId, Integer amount);
 }
