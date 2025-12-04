@@ -64,9 +64,10 @@ public class GroupTaskController {
     @GetMapping("")
     public ResponseEntity<Page<GetGroupTaskDto>> get(@PathVariable("groupId") UUID groupId,
                                                      @RequestParam(required = false) Boolean isAccepted,
+                                                     @RequestParam(required = false) Boolean isDeclined,
                                                      @RequestParam(defaultValue = "0") @Min(0) Integer page,
                                                      @RequestParam(defaultValue = "10") @Min(1) Integer size) {
-        GetGroupTasksRequestFilter filter = new GetGroupTasksRequestFilter(isAccepted, page, size);
+        GetGroupTasksRequestFilter filter = new GetGroupTasksRequestFilter(isAccepted, isDeclined,page, size);
 
         Page<GetGroupTaskDto> response = getGroupTasksUseCase.execute(groupId, filter);
         return ResponseEntity.status(HttpStatus.OK).body(response);

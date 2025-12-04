@@ -9,10 +9,13 @@ public interface GroupTasksSpecificationBuilder {
 
     Specification<GroupTask> build(
             UUID groupId,
-            Boolean isAccepted
+            Boolean isAccepted,
+            Boolean isDeclined
     );
 
     Specification<GroupTask> isCompleted(Boolean isCompleted);
 
     Specification<GroupTask> currentGroup(UUID groupId);
+
+    Specification<GroupTask> isDeclined(Boolean isDeclined);
 }
