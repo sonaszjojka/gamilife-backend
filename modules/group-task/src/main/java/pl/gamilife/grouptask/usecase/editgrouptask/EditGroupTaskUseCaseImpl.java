@@ -2,9 +2,11 @@ package pl.gamilife.grouptask.usecase.editgrouptask;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.task.TasksApi;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import pl.gamilife.grouptask.entity.GroupTask;
+import pl.gamilife.grouptask.entity.GroupTaskMember;
 import pl.gamilife.grouptask.exception.domain.GroupTaskNotFoundException;
 import pl.gamilife.grouptask.repository.GroupTaskRepository;
 
@@ -17,11 +19,13 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
     private final GroupTaskRepository groupTaskRepository;
     private final EditGroupTaskMapper editGroupTaskMapper;
     private final TasksApi tasksProvider;
+    private final GroupApi groupsProvider;
 
-    public EditGroupTaskUseCaseImpl(GroupTaskRepository groupTaskRepository, EditGroupTaskMapper editGroupTaskMapper, TasksApi tasksProvider) {
+    public EditGroupTaskUseCaseImpl(GroupTaskRepository groupTaskRepository, EditGroupTaskMapper editGroupTaskMapper, TasksApi tasksProvider, GroupApi groupApi) {
         this.groupTaskRepository = groupTaskRepository;
         this.editGroupTaskMapper = editGroupTaskMapper;
         this.tasksProvider = tasksProvider;
+        this.groupsProvider = groupApi;
     }
 
     @Override
@@ -37,12 +41,19 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
         Boolean isAccepted = req.isAccepted();
         Instant acceptedDate = null;
         LocalDateTime completedAt = null;
-        boolean changedToAccepted = Boolean.TRUE.equals(isAccepted)
-                && !Boolean.TRUE.equals(groupTask.getIsAccepted());
+        boolean changedToAccepted = Boolean.TRUE.equals(isAccepted)&&groupTask.getIsAccepted()==null;
 
         if (changedToAccepted) {
+
             acceptedDate = Instant.now();
             completedAt=LocalDateTime.now();
+            for(GroupTaskMember taskMember:groupTask.getGroupTaskMembers())
+            {
+                if (Boolean.TRUE.equals(taskMember.getIsMarkedDone())) {
+                    groupsProvider.editMemberWallet(taskMember.getGroupMemberId(), groupTask.getGroupId(), req.reward());
+                }
+            }
+
         }
 
         groupTask.setReward(req.reward());
