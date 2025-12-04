@@ -13,6 +13,7 @@ public record GetGroupTaskDto(
         UUID groupTaskId,
         Integer reward,
         Instant acceptedDate,
+        String declineMessage,
         TaskDto taskDto,
         List<GetGroupTaskMemberDto> groupTaskMembers
 

@@ -34,7 +34,9 @@ public class GetGroupTasksUseCaseImpl implements GetGroupTasksUseCase {
 
         Specification<GroupTask> groupTaskSpecification = specificationBuilder.build(
                 groupId,
-                request.isAccepted()
+                request.isAccepted(),
+                request.isDeclined()
+
         );
 
         Pageable pageable = createPageable(request);
@@ -56,6 +58,7 @@ public class GetGroupTasksUseCaseImpl implements GetGroupTasksUseCase {
                             groupTask.getGroupTaskId(),
                             groupTask.getReward(),
                             groupTask.getAcceptedDate(),
+                            groupTask.getDeclineMessage(),
                             taskDto,
                             groupTaskMembers
                     );
