@@ -1,0 +1,34 @@
+package pl.gamilife.grouptask.usecase.creategrouptaskmember;
+
+import org.springframework.stereotype.Component;
+import pl.gamilife.grouptask.entity.GroupTask;
+import pl.gamilife.grouptask.entity.GroupTaskMember;
+
+import java.util.UUID;
+
+@Component
+public class CreateGroupTaskMemberMapperImpl implements CreateGroupTaskMemberMapper {
+
+
+    @Override
+    public GroupTaskMember toEntity(GroupTask groupTask, UUID groupMemberId, UUID groupTaskMemberId) {
+        return GroupTaskMember.builder()
+                .groupTaskMemberId(groupTaskMemberId)
+                .groupTaskId(groupTask)
+                .groupMemberId(groupMemberId)
+                .isMarkedDone(false)
+                .build();
+    }
+
+    @Override
+    public CreateGroupTaskMemberResponse toResponse(GroupTaskMember groupTaskMember) {
+        return CreateGroupTaskMemberResponse.builder()
+                .groupTaskMemberId(groupTaskMember.getGroupTaskMemberId())
+                .groupTaskId(groupTaskMember.getGroupTaskId().getGroupTaskId())
+                .groupMemberId(groupTaskMember.getGroupMemberId())
+                .isMarkedDone(groupTaskMember.getIsMarkedDone())
+                .build();
+    }
+
+
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>pl.gamilife</groupId>
+        <artifactId>gamilife</artifactId>
+        <version>0.0.1-alpha-v01</version>
+    </parent>
+
+    <artifactId>api</artifactId>
+    <packaging>pom</packaging>
+    <name>API Modules Aggregator</name>
+
+    <modules>
+        <module>user-api</module>
+        <module>gamification-api</module>
+        <module>auth-api</module>
+        <module>group-api</module>
+        <module>group-shop-api</module>
+        <module>task-api</module>
+        <module>pomodoro-api</module>
+    </modules>
+
+</project>

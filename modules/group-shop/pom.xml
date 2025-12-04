@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>pl.gamilife</groupId>
+        <artifactId>modules</artifactId>
+        <version>0.0.1-alpha-v01</version>
+    </parent>
+
+    <artifactId>group-shop</artifactId>
+    <name>Group Shop Module</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>pl.gamilife</groupId>
+            <artifactId>infrastructure-data</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pl.gamilife</groupId>
+            <artifactId>infrastructure-web</artifactId>
+        </dependency>
+
+        <!-- API Modules -->
+        <dependency>
+            <groupId>pl.gamilife</groupId>
+            <artifactId>auth-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pl.gamilife</groupId>
+            <artifactId>group-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pl.gamilife</groupId>
+            <artifactId>group-shop-api</artifactId>
+        </dependency>
+
+        <!-- External Modules -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>

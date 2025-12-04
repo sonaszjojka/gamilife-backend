@@ -1,9 +1,0 @@
-package edu.pjwstk.user.usecase;
-
-import edu.pjwstk.user.dto.service.UserDetailsDto;
-
-import java.util.UUID;
-
-public interface GetUserDetailsUseCase {
-    UserDetailsDto execute(UUID userId);
-}

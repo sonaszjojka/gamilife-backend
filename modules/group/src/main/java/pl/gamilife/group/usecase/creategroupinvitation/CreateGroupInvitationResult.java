@@ -1,0 +1,35 @@
+package pl.gamilife.group.usecase.creategroupinvitation;
+
+import lombok.Builder;
+import pl.gamilife.group.model.Group;
+import pl.gamilife.group.model.GroupInvitation;
+import pl.gamilife.group.model.InvitationStatus;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+/**
+ * DTO for {@link GroupInvitation}
+ */
+@Builder
+public record CreateGroupInvitationResult(UUID groupInvitationId,
+                                          CreateGroupInvitationResult.GroupDto groupInvited,
+                                          UUID userId,
+                                          LocalDateTime expiresAt, LocalDateTime mailSentAt, String link,
+                                          CreateGroupInvitationResult.InvitationStatusDto invitationStatus)
+        implements Serializable {
+    /**
+     * DTO for {@link Group}
+     */
+    @Builder
+    public record GroupDto(UUID groupId) implements Serializable {
+    }
+
+    /**
+     * DTO for {@link InvitationStatus}
+     */
+    @Builder
+    public record InvitationStatusDto(Integer invitationStatusId, String title) implements Serializable {
+    }
+}

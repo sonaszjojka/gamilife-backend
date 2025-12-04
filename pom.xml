@@ -1,29 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>edu.pjwstk</groupId>
-    <artifactId>gami-life</artifactId>
+    <groupId>pl.gamilife</groupId>
+    <artifactId>gamilife</artifactId>
     <version>0.0.1-alpha-v01</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>auth</module>
-        <module>application</module>
-        <module>budget</module>
-        <module>gamification</module>
-        <module>group-shop</module>
-        <module>group-tasks</module>
-        <module>groups</module>
-        <module>pomodoro</module>
-        <module>tasks</module>
-        <module>user</module>
-        <module>common-api</module>
-        <module>common-web</module>
-        <module>common-core</module>
-        <module>communication</module>
+        <module>api</module>
+        <module>app</module>
+        <module>infrastructure</module>
+        <module>modules</module>
     </modules>
-    <name>gami-life</name>
+    <name>GamiLife</name>
     <description>Backend application GamiLife</description>
 
     <dependencyManagement>
@@ -35,13 +25,113 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-bom</artifactId>
                 <version>2.8.14</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- Business Modules -->
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>auth</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>gamification</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>group-shop</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>group-task</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>group</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>pomodoro</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>task</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>user</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>communication</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- API Modules -->
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>auth-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>gamification-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>group-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>group-shop-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>pomodoro-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>task-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>user-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Infrastructure Modules -->
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>infrastructure-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>infrastructure-data</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.gamilife</groupId>
+                <artifactId>infrastructure-web</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

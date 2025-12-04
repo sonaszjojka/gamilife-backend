@@ -1,0 +1,22 @@
+package pl.gamilife.gamification.usecase.processgroupjoin;
+
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import pl.gamilife.gamification.service.UserStatisticsService;
+import pl.gamilife.infrastructure.core.enums.StatisticTypeEnum;
+
+@Service
+@AllArgsConstructor
+public class ProcessGroupJoinUseCaseImpl implements ProcessGroupJoinUseCase {
+
+    private final UserStatisticsService userStatisticsService;
+
+    @Override
+    public Void execute(ProcessGroupJoinCommand cmd) {
+        if (cmd.isFirstTimeJoin()) {
+            userStatisticsService.registerProgress(cmd.userId(), StatisticTypeEnum.JOINED_GROUPS);
+        }
+
+        return null;
+    }
+}
