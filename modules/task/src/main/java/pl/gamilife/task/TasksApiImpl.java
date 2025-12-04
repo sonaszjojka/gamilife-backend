@@ -8,6 +8,7 @@ import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
 import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTaskUseCase;
 import pl.gamilife.task.application.deletetask.DeleteTaskUseCase;
+import pl.gamilife.task.application.editTaskforGroupTask.EditTaskForGroupTaskUseCase;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdUseCase;
 
 import java.util.UUID;
@@ -19,6 +20,7 @@ public class TasksApiImpl implements TasksApi {
     private final FindTaskByIdUseCase findTaskByIdUseCase;
     private final DeleteTaskUseCase deleteTaskUseCase;
     private final CreateTaskForGroupTaskUseCase createTaskForGroupTaskUseCase;
+    private final EditTaskForGroupTaskUseCase editTaskForGroupTaskUseCase;
 
     @Override
     public TaskDto findTaskByTaskId(UUID taskId) {
@@ -33,6 +35,12 @@ public class TasksApiImpl implements TasksApi {
     @Override
     public TaskForGroupTaskResponseDto createTaskForGroupTask(TaskForGroupTaskRequestDto request) {
         return createTaskForGroupTaskUseCase.execute(request);
+    }
+
+    @Override
+    public TaskForGroupTaskResponseDto updateTaskForGroupTask(TaskForGroupTaskRequestDto request,UUID taskId) {
+
+        return editTaskForGroupTaskUseCase.execute(request,taskId);
     }
 
 }
