@@ -12,6 +12,7 @@ public record UserDetailsDto(
         LocalDate dateOfBirth,
         int experience,
         int level,
+        Integer requiredExperience,
         int money,
         boolean sendBudgetReports,
         boolean isProfilePublic,

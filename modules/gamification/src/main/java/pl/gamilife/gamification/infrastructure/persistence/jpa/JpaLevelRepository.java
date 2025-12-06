@@ -35,4 +35,6 @@ public interface JpaLevelRepository extends JpaRepository<Level, Integer> {
             ORDER BY l.id ASC
             """)
     List<Level> findLevelsGained(@Param("currentLevel") int currentLevel, @Param("experience") int experience);
+
+    Level findByLevel(Integer level);
 }
