@@ -22,11 +22,16 @@ public class LevelRepositoryAdapter implements LevelRepository {
 
     @Override
     public List<Level> findStartingLevel() {
-        return jpaLevelRepository.findStartingLevel(PageRequest.of(0, 1));
+        return jpaLevelRepository.findOneLevelBasedOnPageable(PageRequest.of(0, 1));
     }
 
     @Override
     public List<Level> findLevelsGained(int level, int experience) {
         return jpaLevelRepository.findLevelsGained(level, experience);
+    }
+
+    @Override
+    public List<Level> findLevelAfterTutorial() {
+        return jpaLevelRepository.findOneLevelBasedOnPageable(PageRequest.of(1, 1));
     }
 }

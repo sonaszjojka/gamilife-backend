@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UseCaseCommandValidationAspect {
 
-    @Before("execution(* edu.pjwstk..UseCase+.execute(..)) && args(command)")
+    @Before("execution(* pl.gamilife..UseCase+.execute(..)) && args(command)")
     public void validateCommand(Command command) {
         command.validate();
     }

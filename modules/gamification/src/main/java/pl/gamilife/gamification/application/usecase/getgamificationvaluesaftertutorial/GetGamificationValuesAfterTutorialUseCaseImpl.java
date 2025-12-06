@@ -1,4 +1,4 @@
-package pl.gamilife.gamification.application.usecase.getstartinggamificationvalues;
+package pl.gamilife.gamification.application.usecase.getgamificationvaluesaftertutorial;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,15 +10,15 @@ import pl.gamilife.gamification.domain.port.repository.LevelRepository;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @AllArgsConstructor
-public class GetStartingGamificationValuesUseCaseImpl implements GetStartingGamificationValuesUseCase {
+@Transactional(readOnly = true)
+public class GetGamificationValuesAfterTutorialUseCaseImpl implements GetGamificationValuesAfterTutorialUseCase {
 
-    private final LevelRepository LevelRepository;
+    private LevelRepository levelRepository;
 
     @Override
-    public GamificationValuesDto execute(GetStartingGamificationValuesCommand cmd) {
-        List<Level> level = LevelRepository.findStartingLevel();
+    public GamificationValuesDto execute(GetGamificationValuesAfterTutorialCommand cmd) {
+        List<Level> level = levelRepository.findLevelAfterTutorial();
 
         if (level.isEmpty()) {
             throw new IllegalStateException("No starting level found in db");
@@ -26,7 +26,7 @@ public class GetStartingGamificationValuesUseCaseImpl implements GetStartingGami
 
         return new GamificationValuesDto(
                 level.getFirst().getLevel(),
-                0,
+                level.getFirst().getRequiredExperience(),
                 0
         );
     }

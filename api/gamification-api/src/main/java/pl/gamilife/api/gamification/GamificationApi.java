@@ -1,11 +1,13 @@
 package pl.gamilife.api.gamification;
 
-import pl.gamilife.api.gamification.dto.StartingGamificationValuesDto;
+import pl.gamilife.api.gamification.dto.GamificationValuesDto;
 
 import java.util.UUID;
 
 public interface GamificationApi {
     void initUserStatisticsFor(UUID userId);
 
-    StartingGamificationValuesDto getStartingGamificationValues();
+    GamificationValuesDto getStartingGamificationValues();
+
+    GamificationValuesDto getGamificationValuesForCompletedOnboarding();
 }

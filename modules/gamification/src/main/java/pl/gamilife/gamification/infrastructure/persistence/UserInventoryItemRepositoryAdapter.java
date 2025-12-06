@@ -30,7 +30,7 @@ public class UserInventoryItemRepositoryAdapter implements UserInventoryItemRepo
 
     @Override
     public Optional<UserInventoryItem> findWithItemById(UUID userInventoryItemId) {
-        return jpaUserInventoryItemRepository.findById(userInventoryItemId);
+        return jpaUserInventoryItemRepository.findWithItemById(userInventoryItemId);
     }
 
     @Override

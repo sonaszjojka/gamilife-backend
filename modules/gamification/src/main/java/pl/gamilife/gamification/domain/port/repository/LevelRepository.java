@@ -10,4 +10,6 @@ public interface LevelRepository {
     List<Level> findStartingLevel();
 
     List<Level> findLevelsGained(int level, int experience);
+
+    List<Level> findLevelAfterTutorial();
 }

@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.gamification.GamificationApi;
-import pl.gamilife.api.gamification.dto.StartingGamificationValuesDto;
+import pl.gamilife.api.gamification.dto.GamificationValuesDto;
 import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
 import pl.gamilife.api.user.dto.RegisterUserApiDto;
 import pl.gamilife.infrastructure.core.exception.domain.UserAlreadyExistsException;
@@ -31,7 +31,7 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
             throw new UserAlreadyExistsException("This email address is already taken");
         }
 
-        StartingGamificationValuesDto startingGamificationValues = gamificationApi.getStartingGamificationValues();
+        GamificationValuesDto startingGamificationValues = gamificationApi.getStartingGamificationValues();
         User newUser = new User(
                 UUID.randomUUID(),
                 dto.firstName(),

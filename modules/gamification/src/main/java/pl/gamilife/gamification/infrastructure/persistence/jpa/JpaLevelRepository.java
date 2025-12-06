@@ -24,7 +24,7 @@ public interface JpaLevelRepository extends JpaRepository<Level, Integer> {
                     FROM Level l
                     ORDER BY l.level ASC
             """)
-    List<Level> findStartingLevel(Pageable pageable);
+    List<Level> findOneLevelBasedOnPageable(Pageable pageable);
 
     @Query("""
             SELECT DISTINCT l

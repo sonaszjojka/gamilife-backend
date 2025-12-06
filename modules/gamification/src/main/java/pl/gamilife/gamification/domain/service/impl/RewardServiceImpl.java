@@ -50,6 +50,7 @@ public class RewardServiceImpl implements RewardService {
         );
 
         if (!gainedLevels.isEmpty()) {
+            userContext.levelUpUser(rewardedUser.userId(), gainedLevels.getLast().getLevel());
             processLevelUp(rewardedUser, gainedLevels);
         }
     }
@@ -61,8 +62,5 @@ public class RewardServiceImpl implements RewardService {
         }
 
         userInventoryService.addItemsToUsersInventory(user.userId(), rewardsForLevels);
-
-        Level targetLevel = gainedLevels.getLast();
-        userContext.levelUpUser(user.userId(), targetLevel.getLevel());
     }
 }
