@@ -7,8 +7,8 @@ import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.repository.GroupJpaRepository;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
+import pl.gamilife.infrastructure.core.exception.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.infrastructure.core.exception.domain.GroupNotFoundException;
 
 @Service
 @Transactional

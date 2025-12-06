@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
-import pl.gamilife.infrastructure.core.exception.CommonErrorCode;
+import pl.gamilife.infrastructure.core.exception.CoreErrorCode;
 import pl.gamilife.infrastructure.core.exception.DomainException;
 import pl.gamilife.infrastructure.core.exception.ErrorCode;
 
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ErrorResponse handleException(Exception ex) {
-        ErrorResponse response = buildErrorResponseFor(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        ErrorResponse response = buildErrorResponseFor(CoreErrorCode.INTERNAL_SERVER_ERROR);
 
         log.error("Unexpected exception occurred.", ex);
 
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorResponse handleValidationException(MethodArgumentNotValidException ex) {
-        ErrorCode errorCode = CommonErrorCode.VALIDATION_ERROR;
+        ErrorCode errorCode = CoreErrorCode.VALIDATION_ERROR;
         ErrorResponse response = buildErrorResponseFor(errorCode);
 
         ex.getBindingResult().getFieldErrors().forEach(error ->
@@ -60,7 +60,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ErrorResponse handleHttpMessageNotReadable() {
-        ErrorCode errorCode = CommonErrorCode.MALFORMED_REQUEST;
+        ErrorCode errorCode = CoreErrorCode.MALFORMED_REQUEST;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ErrorResponse handleMissingParameter() {
-        ErrorCode errorCode = CommonErrorCode.MISSING_PARAMETER;
+        ErrorCode errorCode = CoreErrorCode.MISSING_PARAMETER;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -78,7 +78,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ErrorResponse handleMethodNotSupported() {
-        ErrorCode errorCode = CommonErrorCode.METHOD_NOT_ALLOWED;
+        ErrorCode errorCode = CoreErrorCode.METHOD_NOT_ALLOWED;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -87,7 +87,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ErrorResponse handleMediaTypeNotSupported() {
-        ErrorCode errorCode = CommonErrorCode.UNSUPPORTED_MEDIA_TYPE;
+        ErrorCode errorCode = CoreErrorCode.UNSUPPORTED_MEDIA_TYPE;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -96,7 +96,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ErrorResponse handleAccessDenied() {
-        ErrorCode errorCode = CommonErrorCode.ACCESS_DENIED;
+        ErrorCode errorCode = CoreErrorCode.ACCESS_DENIED;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -105,7 +105,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ErrorResponse handleTypeMismatch() {
-        ErrorCode errorCode = CommonErrorCode.TYPE_MISMATCH;
+        ErrorCode errorCode = CoreErrorCode.TYPE_MISMATCH;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -114,7 +114,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestPartException.class)
     public ErrorResponse handleMissingRequestPart() {
-        ErrorCode errorCode = CommonErrorCode.MISSING_REQUEST_BODY;
+        ErrorCode errorCode = CoreErrorCode.MISSING_REQUEST_BODY;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -125,9 +125,9 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleMissingRequestCookieException(MissingRequestCookieException ex) {
 
         ErrorCode errorCode = switch (ex.getCookieName()) {
-            case "REFRESH-TOKEN" -> CommonErrorCode.MISSING_REFRESH_TOKEN_COOKIE;
-            case "ACCESS-TOKEN" -> CommonErrorCode.MISSING_ACCESS_TOKEN_COOKIE;
-            default -> CommonErrorCode.MISSING_REQUEST_COOKIE;
+            case "REFRESH-TOKEN" -> CoreErrorCode.MISSING_REFRESH_TOKEN_COOKIE;
+            case "ACCESS-TOKEN" -> CoreErrorCode.MISSING_ACCESS_TOKEN_COOKIE;
+            default -> CoreErrorCode.MISSING_REQUEST_COOKIE;
         };
 
         ErrorResponse response = buildErrorResponseFor(errorCode);

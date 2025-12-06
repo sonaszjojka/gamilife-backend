@@ -7,7 +7,7 @@ import pl.gamilife.api.gamification.GamificationApi;
 import pl.gamilife.api.gamification.dto.StartingGamificationValuesDto;
 import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
 import pl.gamilife.api.user.dto.RegisterUserApiDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserAlreadyExistsException;
+import pl.gamilife.infrastructure.core.exception.domain.UserAlreadyExistsException;
 import pl.gamilife.user.domain.User;
 import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.usecase.GetUserByEmailUseCase;

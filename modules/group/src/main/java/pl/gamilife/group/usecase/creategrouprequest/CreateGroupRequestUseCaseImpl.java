@@ -17,7 +17,7 @@ import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
 import pl.gamilife.group.repository.GroupRequestJpaRepository;
 import pl.gamilife.group.repository.GroupRequestStatusJpaRepository;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
+import pl.gamilife.infrastructure.core.exception.domain.GroupNotFoundException;
 
 import java.util.UUID;
 

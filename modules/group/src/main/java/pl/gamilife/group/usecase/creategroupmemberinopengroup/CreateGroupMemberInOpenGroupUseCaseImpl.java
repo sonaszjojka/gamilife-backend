@@ -10,8 +10,8 @@ import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.service.GroupMemberService;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.infrastructure.core.exception.domain.GroupNotFoundException;
+import pl.gamilife.infrastructure.core.exception.domain.UserNotFoundException;
 
 import java.util.UUID;
 

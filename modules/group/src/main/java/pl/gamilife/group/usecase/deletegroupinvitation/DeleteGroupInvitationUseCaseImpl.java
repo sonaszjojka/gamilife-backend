@@ -8,7 +8,7 @@ import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.group.exception.domain.GroupInvitationNotFoundException;
 import pl.gamilife.group.model.GroupInvitation;
 import pl.gamilife.group.repository.GroupInvitationJpaRepository;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.infrastructure.core.exception.domain.GroupAdminPrivilegesRequiredException;
 
 import java.util.UUID;
 

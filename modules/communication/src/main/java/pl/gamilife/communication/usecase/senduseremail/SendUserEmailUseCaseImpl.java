@@ -17,7 +17,7 @@ import pl.gamilife.communication.dto.EmailContent;
 import pl.gamilife.communication.dto.EmailParameters;
 import pl.gamilife.communication.exception.EmailSendingException;
 import pl.gamilife.communication.util.EmailContentCreator;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.infrastructure.core.exception.domain.UserNotFoundException;
 
 import java.io.IOException;
 import java.util.UUID;

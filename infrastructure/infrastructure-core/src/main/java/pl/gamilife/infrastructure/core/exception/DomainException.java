@@ -1,5 +1,8 @@
 package pl.gamilife.infrastructure.core.exception;
 
+import lombok.Getter;
+
+@Getter
 public abstract class DomainException extends RuntimeException {
 
     private final ErrorCode errorCode;
@@ -9,7 +12,4 @@ public abstract class DomainException extends RuntimeException {
         this.errorCode = errorCode;
     }
 
-    public ErrorCode getErrorCode() {
-        return errorCode;
-    }
 }

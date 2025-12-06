@@ -23,7 +23,7 @@ import pl.gamilife.auth.service.OAuthService;
 import pl.gamilife.auth.service.TokenService;
 import pl.gamilife.auth.usecase.common.LoginUserResult;
 import pl.gamilife.auth.usecase.googlesignin.GoogleSignInResult;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.infrastructure.core.exception.domain.UserNotFoundException;
 
 import java.util.Map;
 import java.util.UUID;

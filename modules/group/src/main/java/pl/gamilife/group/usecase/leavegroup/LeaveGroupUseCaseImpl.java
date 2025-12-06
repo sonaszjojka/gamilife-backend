@@ -6,7 +6,7 @@ import pl.gamilife.group.exception.domain.AdminCannotLeaveGroupException;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
+import pl.gamilife.infrastructure.core.exception.domain.GroupMemberNotFoundException;
 
 import java.time.Instant;
 import java.util.UUID;

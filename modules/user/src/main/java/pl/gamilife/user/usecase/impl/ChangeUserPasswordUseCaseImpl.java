@@ -7,7 +7,7 @@ import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.AuthTokens;
 import pl.gamilife.api.auth.dto.ChangePasswordDto;
 import pl.gamilife.api.auth.dto.RotateUserTokensDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.infrastructure.core.exception.domain.UserNotFoundException;
 import pl.gamilife.user.domain.User;
 import pl.gamilife.user.dto.service.ChangeUserPasswordCommand;
 import pl.gamilife.user.persistence.UserRepository;
