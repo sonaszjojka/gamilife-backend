@@ -1,5 +1,7 @@
 package edu.pjwstk.user.usecase.impl;
 
+import edu.pjwstk.api.gamification.GamificationApi;
+import edu.pjwstk.api.gamification.dto.GetRequiredExperienceByLevelIdResult;
 import edu.pjwstk.core.exception.common.domain.ResetPasswordGenericException;
 import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.user.domain.User;
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class CompleteOnboardingUseCaseImpl implements CompleteOnboardingUseCase {
 
     private final UserRepository userRepository;
+    private final GamificationApi gamificationApi;
 
     @Override
     @Transactional
@@ -28,6 +31,8 @@ public class CompleteOnboardingUseCaseImpl implements CompleteOnboardingUseCase 
         user.setTutorialCompleted(true);
         userRepository.save(user);
 
+        GetRequiredExperienceByLevelIdResult result  = gamificationApi.getRequiredExperienceByLevelId(user.getLevel()+1);
+
         return new UserDetailsDto(
                 user.getId(),
                 user.getFirstName(),
@@ -36,6 +41,8 @@ public class CompleteOnboardingUseCaseImpl implements CompleteOnboardingUseCase 
                 user.getUsername(),
                 user.getDateOfBirth(),
                 user.getExperience(),
+                user.getLevel(),
+                result.requiredExperience(),
                 user.getMoney(),
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),
