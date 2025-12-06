@@ -12,7 +12,11 @@ public record TaskDto(UUID id, String title, LocalDateTime startTime, LocalDateT
                       TaskDifficultyDto difficulty, UUID userId, LocalDateTime completedAt, HabitDto habitTask,
                       String description) implements Serializable {
 
-    public record TaskDifficultyDto(Integer id) implements Serializable {
+    public record TaskDifficultyDto(Integer id, String difficultyName) implements Serializable {
+    }
+
+    public record TaskCategoryDto(Integer id, String categoryName) implements Serializable {
+
     }
 
 
