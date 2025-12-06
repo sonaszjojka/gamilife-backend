@@ -41,7 +41,7 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
         Boolean isAccepted = req.isAccepted();
         Instant acceptedDate = null;
         LocalDateTime completedAt = null;
-        boolean changedToAccepted = Boolean.TRUE.equals(isAccepted)&&groupTask.getIsAccepted()==null;
+        boolean changedToAccepted = isAccepted!=null&&isAccepted&&groupTask.getIsAccepted()==null;
 
         if (changedToAccepted) {
 
@@ -49,7 +49,7 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
             completedAt=LocalDateTime.now();
             for(GroupTaskMember taskMember:groupTask.getGroupTaskMembers())
             {
-                if (Boolean.TRUE.equals(taskMember.getIsMarkedDone())) {
+                if (taskMember.getIsMarkedDone()!=null&& taskMember.getIsMarkedDone()) {
                     groupsProvider.editMemberWallet(taskMember.getGroupMemberId(), groupTask.getGroupId(), req.reward());
                 }
             }

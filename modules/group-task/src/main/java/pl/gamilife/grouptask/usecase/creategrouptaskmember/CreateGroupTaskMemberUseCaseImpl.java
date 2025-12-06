@@ -30,12 +30,12 @@ public class CreateGroupTaskMemberUseCaseImpl implements CreateGroupTaskMemberUs
     @Override
     public CreateGroupTaskMemberResponse execute(UUID groupTaskId, CreateGroupTaskMemberRequest request) {
 
-        UUID groupIdfromRequest = groupsProvider.findGroupMemberById(request.groupMemberId()).memberGroup().groupId();
+        UUID groupIdFromRequest = groupsProvider.findGroupMemberById(request.groupMemberId()).memberGroup().groupId();
 
         GroupTask groupTask = groupTaskRepository.findByGroupTaskId(groupTaskId).orElseThrow(
                 () -> new GroupTaskNotFoundException("Group task with id:" + groupTaskId + " does not exist"));
 
-        if (!groupIdfromRequest.equals(groupTask.getGroupId())) {
+        if (!groupIdFromRequest.equals(groupTask.getGroupId())) {
             throw new GroupMemberNotFoundException("Group member with id:" + request.groupMemberId() + " does not belong to group with id:" + groupTask.getGroupId());
         }
 
