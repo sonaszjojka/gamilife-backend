@@ -25,10 +25,6 @@
         <!-- API Modules -->
         <dependency>
             <groupId>pl.gamilife</groupId>
-            <artifactId>gamification-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>pl.gamilife</groupId>
             <artifactId>user-api</artifactId>
         </dependency>
 

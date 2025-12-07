@@ -5,28 +5,27 @@ WORKDIR /app
 COPY pom.xml .
 
 COPY api/pom.xml api/
-COPY infrastructure/pom.xml infrastructure/
+COPY shared/pom.xml shared/
 COPY modules/pom.xml modules/
 COPY app/pom.xml app/
 
 COPY api/auth-api/pom.xml api/auth-api/
-COPY api/gamification-api/pom.xml api/gamification-api/
 COPY api/group-api/pom.xml api/group-api/
 COPY api/group-shop-api/pom.xml api/group-shop-api/
 COPY api/pomodoro-api/pom.xml api/pomodoro-api/
 COPY api/task-api/pom.xml api/task-api/
 COPY api/user-api/pom.xml api/user-api/
 
-COPY infrastructure/infrastructure-core/pom.xml infrastructure/infrastructure-core/
-COPY infrastructure/infrastructure-data/pom.xml infrastructure/infrastructure-data/
-COPY infrastructure/infrastructure-web/pom.xml infrastructure/infrastructure-web/
+COPY shared/shared-kernel/pom.xml shared/shared-kernel/
+COPY shared/shared-persistence/pom.xml shared/shared-persistence/
+COPY shared/shared-web/pom.xml shared/shared-web/
 
 COPY modules/auth/pom.xml modules/auth/
 COPY modules/communication/pom.xml modules/communication/
 COPY modules/gamification/pom.xml modules/gamification/
+COPY modules/group/pom.xml modules/group/
 COPY modules/group-shop/pom.xml modules/group-shop/
 COPY modules/group-task/pom.xml modules/group-task/
-COPY modules/group/pom.xml modules/group/
 COPY modules/pomodoro/pom.xml modules/pomodoro/
 COPY modules/task/pom.xml modules/task/
 COPY modules/user/pom.xml modules/user/
