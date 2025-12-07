@@ -21,12 +21,12 @@ public class TaskProviderMapperImpl implements TaskProviderMapper {
                 .endTime(task.getEndTime())
                 .category(
                         task.getCategory() != null
-                                ? new TaskCategoryDto(task.getCategory().getId())
+                                ? new TaskDto.TaskCategoryDto(task.getCategory().getId(),task.getCategory().getTitle())
                                 : null
                 )
                 .difficulty(
                         task.getDifficulty() != null
-                                ? new TaskDto.TaskDifficultyDto(task.getDifficulty().getId())
+                                ? new TaskDto.TaskDifficultyDto(task.getDifficulty().getId(),task.getDifficulty().getTitle())
                                 : null
                 )
                 .userId(task.getUserId())

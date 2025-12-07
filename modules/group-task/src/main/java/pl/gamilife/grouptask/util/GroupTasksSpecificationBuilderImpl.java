@@ -12,9 +12,10 @@ public class GroupTasksSpecificationBuilderImpl implements GroupTasksSpecificati
 
 
     @Override
-    public Specification<GroupTask> build(UUID groupId, Boolean isAccepted) {
+    public Specification<GroupTask> build(UUID groupId, Boolean isAccepted,Boolean IsDeclined) {
         return Specification.allOf(
                 isCompleted(isAccepted),
+                isDeclined(IsDeclined),
                 currentGroup(groupId)
         );
     }
@@ -35,6 +36,27 @@ public class GroupTasksSpecificationBuilderImpl implements GroupTasksSpecificati
                 return noAcceptedDate;
             }
 
+        });
+    }
+
+    @Override
+    public Specification<GroupTask> isDeclined(Boolean isDeclined)
+    {
+
+        return ((root, query, criteriaBuilder) -> {
+           if (isDeclined == null) {
+               return criteriaBuilder.conjunction();
+           }
+           Predicate hasDeclineMessage = criteriaBuilder.isNotNull(root.get("declineMessage"));
+           Predicate noDeclineMessage = criteriaBuilder.isNull(root.get("declineMessage"));
+
+           if (isDeclined) {
+               return hasDeclineMessage;
+           }
+           else
+           {
+               return noDeclineMessage;
+           }
         });
     }
 

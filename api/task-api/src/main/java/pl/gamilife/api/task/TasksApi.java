@@ -14,4 +14,6 @@ public interface TasksApi {
 
     TaskForGroupTaskResponseDto createTaskForGroupTask(TaskForGroupTaskRequestDto request);
 
+    TaskForGroupTaskResponseDto updateTaskForGroupTask(TaskForGroupTaskRequestDto request,UUID taskId);
+
 }
