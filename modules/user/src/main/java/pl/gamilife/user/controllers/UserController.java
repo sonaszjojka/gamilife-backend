@@ -1,15 +1,5 @@
 package pl.gamilife.user.controllers;
 
-import edu.pjwstk.api.auth.dto.AuthTokens;
-import edu.pjwstk.api.groups.GroupApi;
-import edu.pjwstk.api.groups.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
-import edu.pjwstk.commonweb.CookieUtil;
-import edu.pjwstk.user.dto.request.ChangeUserPasswordRequest;
-import edu.pjwstk.user.dto.request.EditUserRequest;
-import edu.pjwstk.user.dto.response.*;
-import edu.pjwstk.user.dto.response.UserDetailsResponse;
-import edu.pjwstk.user.dto.service.*;
-import edu.pjwstk.user.usecase.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -27,16 +17,21 @@ import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
 import pl.gamilife.shared.web.util.CookieUtil;
 import pl.gamilife.user.dto.request.ChangeUserPasswordRequest;
+import pl.gamilife.user.dto.request.EditUserRequest;
 import pl.gamilife.user.dto.response.CurrentUserInfoResponse;
-import pl.gamilife.user.dto.response.GetUsersResult;
 import pl.gamilife.user.dto.response.UserDetailsResponse;
+import pl.gamilife.user.dto.response.UserFullDetailsResponse;
 import pl.gamilife.user.dto.service.ChangeUserPasswordCommand;
-import pl.gamilife.user.dto.service.GetUsersCommand;
 import pl.gamilife.user.dto.service.UserDetailsDto;
 import pl.gamilife.user.usecase.ChangeUserPasswordUseCase;
 import pl.gamilife.user.usecase.CompleteOnboardingUseCase;
 import pl.gamilife.user.usecase.GetUserDetailsUseCase;
-import pl.gamilife.user.usecase.GetUsersUseCase;
+import pl.gamilife.user.usecase.edituser.EditUserCommand;
+import pl.gamilife.user.usecase.edituser.EditUserResult;
+import pl.gamilife.user.usecase.edituser.EditUserUseCase;
+import pl.gamilife.user.usecase.getusers.GetUsersCommand;
+import pl.gamilife.user.usecase.getusers.GetUsersResult;
+import pl.gamilife.user.usecase.getusers.GetUsersUseCase;
 
 import java.util.UUID;
 

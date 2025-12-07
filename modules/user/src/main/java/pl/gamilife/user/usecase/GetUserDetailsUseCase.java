@@ -1,8 +1,6 @@
 package pl.gamilife.user.usecase;
 
-import edu.pjwstk.user.dto.response.UserDetailsResponse;
-import edu.pjwstk.user.dto.service.UserDetailsDto;
-import pl.gamilife.user.dto.service.UserDetailsDto;
+import pl.gamilife.user.dto.response.UserDetailsResponse;
 
 import java.util.UUID;
 

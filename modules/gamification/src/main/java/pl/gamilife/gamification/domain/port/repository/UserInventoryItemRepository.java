@@ -2,6 +2,8 @@ package pl.gamilife.gamification.domain.port.repository;
 
 import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.domain.model.UserInventoryItem;
+import pl.gamilife.gamification.domain.model.filter.UserInventoryItemFilter;
+import pl.gamilife.shared.kernel.architecture.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,4 +24,8 @@ public interface UserInventoryItemRepository {
     Optional<UserInventoryItem> findByUserIdAndItem(UUID userId, Item item);
 
     Optional<UserInventoryItem> findItemEquippedOnSlot(UUID userId, int itemSlotId, UUID newInventoryItemId);
+
+    List<UserInventoryItem> findWithItemDetailsByIdIn(List<UUID> itemIds);
+
+    Page<UserInventoryItem> findAll(UserInventoryItemFilter userInventoryItemFilter, Integer page, Integer size);
 }

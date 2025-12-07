@@ -1,4 +1,4 @@
-package edu.pjwstk.gamification.controller.request;
+package pl.gamilife.gamification.infrastructure.web.request;
 
 import java.io.Serializable;
 

@@ -1,6 +1,6 @@
-package edu.pjwstk.user.dto.response;
+package pl.gamilife.user.dto.response;
 
-import edu.pjwstk.user.domain.User;
+import pl.gamilife.user.domain.User;
 
 import java.util.UUID;
 

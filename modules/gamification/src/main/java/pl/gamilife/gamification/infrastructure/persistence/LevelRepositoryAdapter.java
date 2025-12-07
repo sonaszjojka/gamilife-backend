@@ -8,6 +8,7 @@ import pl.gamilife.gamification.domain.port.repository.LevelRepository;
 import pl.gamilife.gamification.infrastructure.persistence.jpa.JpaLevelRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
@@ -28,5 +29,10 @@ public class LevelRepositoryAdapter implements LevelRepository {
     @Override
     public List<Level> findLevelAfterTutorial() {
         return jpaLevelRepository.findOneLevelBasedOnPageable(PageRequest.of(1, 1));
+    }
+
+    @Override
+    public Optional<Level> findByLevel(Integer level) {
+        return jpaLevelRepository.findById(level);
     }
 }

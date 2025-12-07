@@ -1,7 +1,7 @@
-package edu.pjwstk.user.dto.response;
+package pl.gamilife.user.dto.response;
 
-import edu.pjwstk.user.domain.User;
-import edu.pjwstk.user.dto.service.UserDetailsDto;
+import pl.gamilife.user.domain.User;
+import pl.gamilife.user.dto.service.UserDetailsDto;
 
 import java.time.LocalDate;
 import java.util.UUID;

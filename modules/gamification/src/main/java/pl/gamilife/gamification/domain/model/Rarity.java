@@ -6,6 +6,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -30,6 +31,7 @@ public class Rarity extends BaseIntReadOnlyEntity {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
+    @Builder.Default
     @OneToMany(mappedBy = "rarity")
     private Set<Item> items = new HashSet<>();
 

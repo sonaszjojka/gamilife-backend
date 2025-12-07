@@ -1,12 +1,5 @@
 package pl.gamilife.user.usecase.impl;
 
-import edu.pjwstk.api.gamification.GamificationApi;
-import edu.pjwstk.api.gamification.dto.GetRequiredExperienceByLevelIdResult;
-import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
-import edu.pjwstk.user.domain.User;
-import edu.pjwstk.user.dto.service.UserDetailsDto;
-import edu.pjwstk.user.persistence.UserRepository;
-import edu.pjwstk.user.usecase.CompleteOnboardingUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -27,7 +20,6 @@ public class CompleteOnboardingUseCaseImpl implements CompleteOnboardingUseCase 
 
     private final UserRepository userRepository;
     private ApplicationEventPublisher eventPublisher;
-    private final GamificationApi gamificationApi;
 
     @Override
     public UserDetailsDto execute(UUID userId) {
@@ -39,8 +31,6 @@ public class CompleteOnboardingUseCaseImpl implements CompleteOnboardingUseCase 
 
         eventPublisher.publishEvent(new OnboardingCompletedEvent(user.getId()));
 
-        GetRequiredExperienceByLevelIdResult result  = gamificationApi.getRequiredExperienceByLevelId(user.getLevel()+1);
-
         return new UserDetailsDto(
                 user.getId(),
                 user.getFirstName(),
@@ -50,7 +40,7 @@ public class CompleteOnboardingUseCaseImpl implements CompleteOnboardingUseCase 
                 user.getDateOfBirth(),
                 user.getExperience(),
                 user.getLevel(),
-                result.requiredExperience(),
+                null, // TODO: Fix in future by adding layer above user and gamification
                 user.getMoney(),
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),

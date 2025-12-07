@@ -1,17 +1,5 @@
 package pl.gamilife.gamification.infrastructure.web;
 
-import edu.pjwstk.gamification.controller.request.PurchaseStoreItemRequest;
-import edu.pjwstk.gamification.controller.request.UpdateInventoryItemRequest;
-import edu.pjwstk.gamification.controller.request.UserInventoryItemFilterRequest;
-import edu.pjwstk.gamification.usecase.editinventoryitem.EditInventoryItemCommand;
-import edu.pjwstk.gamification.usecase.editinventoryitem.EditInventoryItemResult;
-import edu.pjwstk.gamification.usecase.editinventoryitem.EditInventoryItemUseCase;
-import edu.pjwstk.gamification.usecase.getuserinventoryitems.GetUserInventoryItemsCommand;
-import edu.pjwstk.gamification.usecase.getuserinventoryitems.GetUserInventoryItemsResult;
-import edu.pjwstk.gamification.usecase.getuserinventoryitems.GetUserInventoryItemsUseCase;
-import edu.pjwstk.gamification.usecase.purchasestoreitem.PurchaseStoreItemCommand;
-import edu.pjwstk.gamification.usecase.purchasestoreitem.PurchaseStoreItemResult;
-import edu.pjwstk.gamification.usecase.purchasestoreitem.PurchaseStoreItemUseCase;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -21,11 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import pl.gamilife.gamification.application.usecase.editinventoryitem.EditInventoryItemCommand;
 import pl.gamilife.gamification.application.usecase.editinventoryitem.EditInventoryItemResult;
 import pl.gamilife.gamification.application.usecase.editinventoryitem.EditInventoryItemUseCase;
+import pl.gamilife.gamification.application.usecase.getuserinventoryitems.GetUserInventoryItemsCommand;
+import pl.gamilife.gamification.application.usecase.getuserinventoryitems.GetUserInventoryItemsResult;
+import pl.gamilife.gamification.application.usecase.getuserinventoryitems.GetUserInventoryItemsUseCase;
 import pl.gamilife.gamification.application.usecase.purchasestoreitem.PurchaseStoreItemCommand;
 import pl.gamilife.gamification.application.usecase.purchasestoreitem.PurchaseStoreItemResult;
 import pl.gamilife.gamification.application.usecase.purchasestoreitem.PurchaseStoreItemUseCase;
 import pl.gamilife.gamification.infrastructure.web.request.PurchaseStoreItemRequest;
 import pl.gamilife.gamification.infrastructure.web.request.UpdateInventoryItemRequest;
+import pl.gamilife.gamification.infrastructure.web.request.UserInventoryItemFilterRequest;
 
 import java.util.UUID;
 

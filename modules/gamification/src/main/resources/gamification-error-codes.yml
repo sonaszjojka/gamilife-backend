@@ -30,4 +30,9 @@ error-codes:
       title: "Invalid gamification operation"
       detail: "Invalid gamification operation"
       status: 400
+    LEVEL_NOT_FOUND:
+      code: 8007
+      title: "Level not found"
+      detail: "That Level does not exist"
+      status: 404
 

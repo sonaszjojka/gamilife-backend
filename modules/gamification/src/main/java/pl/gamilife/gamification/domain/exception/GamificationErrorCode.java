@@ -7,7 +7,8 @@ public enum GamificationErrorCode implements ErrorCode {
     ITEM_NOT_FOR_SALE,
     INVENTORY_ITEM_NOT_FOUND,
     FORBIDDEN_ITEM_ACCESS, USER_DOES_NOT_HAVE_ENOUGH_ITEMS,
-    INVALID_GAMIFICATION_OPERATION;
+    INVALID_GAMIFICATION_OPERATION,
+    LEVEL_NOT_FOUND;
 
     @Override
     public String getKey() {

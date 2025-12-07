@@ -6,6 +6,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -30,9 +31,11 @@ public class StatisticType extends BaseIntReadOnlyEntity {
     @Column(name = "type", nullable = false, length = 100)
     private String type;
 
+    @Builder.Default
     @OneToMany(mappedBy = "statisticType")
     private Set<UserStatistic> userStatistics = new HashSet<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "statisticType")
     private Set<Achievement> achievements = new HashSet<>();
 
