@@ -1,15 +1,9 @@
-package pl.gamilife.shared.kernel.exception;
+package pl.gamilife.app.exception;
 
-public enum CoreErrorCode implements ErrorCode {
+import pl.gamilife.shared.kernel.exception.ErrorCode;
+
+public enum OtherErrorCode implements ErrorCode {
     VALIDATION_ERROR,
-    USER_NOT_FOUND,
-    USER_ALREADY_EXISTS,
-    PASSWORD_RESET_FAILED,
-    GROUP_NOT_FOUND,
-    GROUP_MEMBER_NOT_FOUND,
-    TASK_NOT_FOUND,
-    GROUP_ADMIN_PRIVILEGES_REQUIRED,
-    RESOURCE_OWNER_PRIVILEGES_REQUIRED,
     INTERNAL_SERVER_ERROR,
     MALFORMED_REQUEST,
     MISSING_PARAMETER,
@@ -17,11 +11,11 @@ public enum CoreErrorCode implements ErrorCode {
     UNSUPPORTED_MEDIA_TYPE,
     ACCESS_DENIED,
     TYPE_MISMATCH,
+    MISSING_REQUEST_BODY,
     MISSING_REQUEST_COOKIE,
     MISSING_ACCESS_TOKEN_COOKIE,
     MISSING_REFRESH_TOKEN_COOKIE,
-    MISSING_REQUEST_BODY,
-    USER_HAS_NOT_ENOUGH_MONEY;
+    OPTIMISTIC_LOCKING_FAILURE;
 
     @Override
     public String getKey() {
@@ -30,6 +24,6 @@ public enum CoreErrorCode implements ErrorCode {
 
     @Override
     public String getModule() {
-        return "CORE";
+        return "OTHER";
     }
 }

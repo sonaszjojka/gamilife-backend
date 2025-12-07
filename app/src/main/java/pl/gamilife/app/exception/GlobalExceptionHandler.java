@@ -1,8 +1,11 @@
-package pl.gamilife.shared.web.exception;
+package pl.gamilife.app.exception;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.OptimisticLockException;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.StaleStateException;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -13,40 +16,24 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
-import pl.gamilife.shared.kernel.exception.CoreErrorCode;
-import pl.gamilife.shared.kernel.exception.DomainException;
 import pl.gamilife.shared.kernel.exception.ErrorCode;
+import pl.gamilife.shared.web.exception.AbstractExceptionHandler;
+import pl.gamilife.shared.web.exception.ErrorResponse;
 
 @Slf4j
-@AllArgsConstructor
+@Order(2)
 @RestControllerAdvice
-public class GlobalExceptionHandler {
-
-    private ErrorCodesRepository errorCodesRepository;
-
-    @ExceptionHandler(DomainException.class)
-    public ErrorResponse handleDomainException(DomainException ex) {
-        ErrorCode errorCode = ex.getErrorCode();
-        ErrorResponse response = buildErrorResponseFor(errorCode);
-
-        log.warn("Domain exception occurred: code={}, key={}, message={}",
-                response.getCode(), ex.getErrorCode().getKey(), response.getDetail());
-
-        return response;
-    }
+public class GlobalExceptionHandler extends AbstractExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ErrorResponse handleException(Exception ex) {
-        ErrorResponse response = buildErrorResponseFor(CoreErrorCode.INTERNAL_SERVER_ERROR);
-
-        log.error("Unexpected exception occurred.", ex);
-
-        return response;
+        logError(ex);
+        return buildErrorResponseFor(OtherErrorCode.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorResponse handleValidationException(MethodArgumentNotValidException ex) {
-        ErrorCode errorCode = CoreErrorCode.VALIDATION_ERROR;
+        ErrorCode errorCode = OtherErrorCode.VALIDATION_ERROR;
         ErrorResponse response = buildErrorResponseFor(errorCode);
 
         ex.getBindingResult().getFieldErrors().forEach(error ->
@@ -60,7 +47,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ErrorResponse handleHttpMessageNotReadable() {
-        ErrorCode errorCode = CoreErrorCode.MALFORMED_REQUEST;
+        ErrorCode errorCode = OtherErrorCode.MALFORMED_REQUEST;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -69,7 +56,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ErrorResponse handleMissingParameter() {
-        ErrorCode errorCode = CoreErrorCode.MISSING_PARAMETER;
+        ErrorCode errorCode = OtherErrorCode.MISSING_PARAMETER;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -78,7 +65,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ErrorResponse handleMethodNotSupported() {
-        ErrorCode errorCode = CoreErrorCode.METHOD_NOT_ALLOWED;
+        ErrorCode errorCode = OtherErrorCode.METHOD_NOT_ALLOWED;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -87,7 +74,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ErrorResponse handleMediaTypeNotSupported() {
-        ErrorCode errorCode = CoreErrorCode.UNSUPPORTED_MEDIA_TYPE;
+        ErrorCode errorCode = OtherErrorCode.UNSUPPORTED_MEDIA_TYPE;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -96,7 +83,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ErrorResponse handleAccessDenied() {
-        ErrorCode errorCode = CoreErrorCode.ACCESS_DENIED;
+        ErrorCode errorCode = OtherErrorCode.ACCESS_DENIED;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -105,7 +92,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ErrorResponse handleTypeMismatch() {
-        ErrorCode errorCode = CoreErrorCode.TYPE_MISMATCH;
+        ErrorCode errorCode = OtherErrorCode.TYPE_MISMATCH;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -114,7 +101,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestPartException.class)
     public ErrorResponse handleMissingRequestPart() {
-        ErrorCode errorCode = CoreErrorCode.MISSING_REQUEST_BODY;
+        ErrorCode errorCode = OtherErrorCode.MISSING_REQUEST_BODY;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
@@ -125,9 +112,9 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleMissingRequestCookieException(MissingRequestCookieException ex) {
 
         ErrorCode errorCode = switch (ex.getCookieName()) {
-            case "REFRESH-TOKEN" -> CoreErrorCode.MISSING_REFRESH_TOKEN_COOKIE;
-            case "ACCESS-TOKEN" -> CoreErrorCode.MISSING_ACCESS_TOKEN_COOKIE;
-            default -> CoreErrorCode.MISSING_REQUEST_COOKIE;
+            case "REFRESH-TOKEN" -> OtherErrorCode.MISSING_REFRESH_TOKEN_COOKIE;
+            case "ACCESS-TOKEN" -> OtherErrorCode.MISSING_ACCESS_TOKEN_COOKIE;
+            default -> OtherErrorCode.MISSING_REQUEST_COOKIE;
         };
 
         ErrorResponse response = buildErrorResponseFor(errorCode);
@@ -136,26 +123,15 @@ public class GlobalExceptionHandler {
         return response;
     }
 
-
-    private void logWarning(String code, String key, String message) {
-        log.warn("Exception occurred: code={}, key={}, message={}",
-                code, key, message);
-    }
-
-    private ErrorResponse buildErrorResponseFor(ErrorCode errorCode) {
-        ErrorCodesRepository.ErrorDefinition errorDefinition = errorCodesRepository.get(errorCode.getKey());
-
-        ErrorResponse response = ErrorResponse.of(
-                errorDefinition.getStatus(),
-                "https://gamilife.pl/errors/"
-                        + errorCode.getModule().toLowerCase().replace("_", "-") + "/"
-                        + errorCode.getKey().toLowerCase().replace("_", "-"),
-                errorDefinition.getTitle(),
-                errorDefinition.getDetail(),
-                "/api/error"
-        );
-
-        response.setCode(String.valueOf(errorDefinition.getCode()));
+    @ExceptionHandler({
+            OptimisticLockException.class,
+            StaleStateException.class,
+            ObjectOptimisticLockingFailureException.class
+    })
+    public ErrorResponse handleOptimisticLockException() {
+        ErrorCode errorCode = OtherErrorCode.OPTIMISTIC_LOCKING_FAILURE;
+        ErrorResponse response = buildErrorResponseFor(errorCode);
+        logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
         return response;
     }
