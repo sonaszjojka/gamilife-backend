@@ -1,4 +1,4 @@
-package pl.gamilife.user.dto.service;
+package pl.gamilife.user.usecase.getusers;
 
 import pl.gamilife.shared.kernel.architecture.Command;
 

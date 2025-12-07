@@ -1,4 +1,4 @@
-package pl.gamilife.user.usecase.impl;
+package pl.gamilife.user.usecase.getusers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,12 +8,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.user.domain.User;
-import pl.gamilife.user.dto.response.GetUsersResult;
-import pl.gamilife.user.dto.response.UserDetailsResponse;
-import pl.gamilife.user.dto.service.GetUsersCommand;
+import pl.gamilife.user.dto.response.UserFullDetailsResponse;
 import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.specification.UserSpecificationBuilder;
-import pl.gamilife.user.usecase.GetUsersUseCase;
 
 @Service
 @Transactional(readOnly = true)
@@ -38,7 +35,7 @@ public class GetUsersUseCaseImpl implements GetUsersUseCase {
                 userPage.getSize(),
                 userPage.getContent()
                         .stream()
-                        .map(UserDetailsResponse::from)
+                        .map(UserFullDetailsResponse::from)
                         .toList()
         );
     }

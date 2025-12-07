@@ -1,4 +1,6 @@
-package pl.gamilife.user.dto.response;
+package pl.gamilife.user.usecase.getusers;
+
+import pl.gamilife.user.dto.response.UserFullDetailsResponse;
 
 import java.util.Collection;
 
@@ -7,6 +9,6 @@ public record GetUsersResult(
         int totalPages,
         int currentPage,
         int pageSize,
-        Collection<UserDetailsResponse> content
+        Collection<UserFullDetailsResponse> content
 ) {
 }

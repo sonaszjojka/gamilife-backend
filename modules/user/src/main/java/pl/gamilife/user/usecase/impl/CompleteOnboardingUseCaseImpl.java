@@ -39,6 +39,8 @@ public class CompleteOnboardingUseCaseImpl implements CompleteOnboardingUseCase 
                 user.getUsername(),
                 user.getDateOfBirth(),
                 user.getExperience(),
+                user.getLevel(),
+                null, // TODO: Fix in future by adding layer above user and gamification
                 user.getMoney(),
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),

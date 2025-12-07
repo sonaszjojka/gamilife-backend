@@ -1,5 +1,7 @@
 package pl.gamilife.gamification.infrastructure.web;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -7,11 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import pl.gamilife.gamification.application.usecase.editinventoryitem.EditInventoryItemCommand;
 import pl.gamilife.gamification.application.usecase.editinventoryitem.EditInventoryItemResult;
 import pl.gamilife.gamification.application.usecase.editinventoryitem.EditInventoryItemUseCase;
+import pl.gamilife.gamification.application.usecase.getuserinventoryitems.GetUserInventoryItemsCommand;
+import pl.gamilife.gamification.application.usecase.getuserinventoryitems.GetUserInventoryItemsResult;
+import pl.gamilife.gamification.application.usecase.getuserinventoryitems.GetUserInventoryItemsUseCase;
 import pl.gamilife.gamification.application.usecase.purchasestoreitem.PurchaseStoreItemCommand;
 import pl.gamilife.gamification.application.usecase.purchasestoreitem.PurchaseStoreItemResult;
 import pl.gamilife.gamification.application.usecase.purchasestoreitem.PurchaseStoreItemUseCase;
 import pl.gamilife.gamification.infrastructure.web.request.PurchaseStoreItemRequest;
 import pl.gamilife.gamification.infrastructure.web.request.UpdateInventoryItemRequest;
+import pl.gamilife.gamification.infrastructure.web.request.UserInventoryItemFilterRequest;
 
 import java.util.UUID;
 
@@ -22,16 +28,32 @@ public class UserInventoryItemController {
 
     private final PurchaseStoreItemUseCase purchaseStoreItemUseCase;
     private final EditInventoryItemUseCase editInventoryItemUseCase;
+    private final GetUserInventoryItemsUseCase getUserInventoryItemsUseCase;
 
     @GetMapping
-    @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
-    public ResponseEntity<String> getUserInventoryItems(
+    //TODO: isProfilePrivate
+    public ResponseEntity<GetUserInventoryItemsResult> getUserInventoryItems(
             @PathVariable UUID userId,
             @RequestParam(required = false) String itemName,
             @RequestParam(required = false) Integer itemSlot,
-            @RequestParam(required = false) Integer rarity
+            @RequestParam(required = false) Integer rarity,
+            @RequestParam(defaultValue = "0") @Min(0) Integer page,
+            @RequestParam(defaultValue = "6") @Min(1) @Max(100) Integer size
     ) {
-        return ResponseEntity.ok(String.format("Inventory of user with ID %s", userId));
+        UserInventoryItemFilterRequest request = new UserInventoryItemFilterRequest(
+                itemName, itemSlot, rarity, page, size
+        );
+        GetUserInventoryItemsResult response = getUserInventoryItemsUseCase.execute(
+                new GetUserInventoryItemsCommand(
+                        userId,
+                        request.itemName(),
+                        request.itemSlot(),
+                        request.rarity(),
+                        request.page(),
+                        request.size()
+                )
+        );
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping

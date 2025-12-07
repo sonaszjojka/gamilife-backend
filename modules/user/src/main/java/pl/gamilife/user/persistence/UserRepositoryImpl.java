@@ -54,4 +54,9 @@ public class UserRepositoryImpl implements UserRepository {
         return jpaUserRepository.findAll(specification, pageRequest).map(UserMapper::toDomain);
     }
 
+    @Override
+    public boolean existsByUsername(String username) {
+        return jpaUserRepository.existsByUsername(username);
+    }
+
 }

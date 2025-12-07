@@ -23,4 +23,7 @@ public interface UserRepository {
     void updateUserMoney(UUID userId, int newMoney);
 
     Page<User> findAll(Specification<UserEntity> userSpecification, PageRequest pageRequest);
+
+    boolean existsByUsername(String username);
+
 }

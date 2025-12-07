@@ -21,7 +21,7 @@ public class UserAchievementController {
     private final GetAllUserAchievementsUseCase getAllUserAchievementsUseCase;
 
     @GetMapping
-    @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
+    //TODO: isProfilePrivate
     public ResponseEntity<GetAllUserAchievementsResult> getUserAchievements(@PathVariable UUID userId) {
         return ResponseEntity.ok(getAllUserAchievementsUseCase.execute(
                 new GetAllUserAchievementsCommand(userId)

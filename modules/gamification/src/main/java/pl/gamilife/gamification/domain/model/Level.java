@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -28,6 +29,7 @@ public class Level extends BaseIntReadOnlyEntity {
     @Column(name = "required_experience", nullable = false)
     private Integer requiredExperience;
 
+    @Builder.Default
     @OneToMany(mappedBy = "unlockLevel")
     private Set<Item> items = new HashSet<>();
 

@@ -2,6 +2,7 @@ package pl.gamilife.user.controllers;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -9,22 +10,28 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.api.auth.dto.AuthTokens;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
 import pl.gamilife.shared.web.util.CookieUtil;
 import pl.gamilife.user.dto.request.ChangeUserPasswordRequest;
+import pl.gamilife.user.dto.request.EditUserRequest;
 import pl.gamilife.user.dto.response.CurrentUserInfoResponse;
-import pl.gamilife.user.dto.response.GetUsersResult;
 import pl.gamilife.user.dto.response.UserDetailsResponse;
+import pl.gamilife.user.dto.response.UserFullDetailsResponse;
 import pl.gamilife.user.dto.service.ChangeUserPasswordCommand;
-import pl.gamilife.user.dto.service.GetUsersCommand;
 import pl.gamilife.user.dto.service.UserDetailsDto;
 import pl.gamilife.user.usecase.ChangeUserPasswordUseCase;
 import pl.gamilife.user.usecase.CompleteOnboardingUseCase;
 import pl.gamilife.user.usecase.GetUserDetailsUseCase;
-import pl.gamilife.user.usecase.GetUsersUseCase;
+import pl.gamilife.user.usecase.edituser.EditUserCommand;
+import pl.gamilife.user.usecase.edituser.EditUserResult;
+import pl.gamilife.user.usecase.edituser.EditUserUseCase;
+import pl.gamilife.user.usecase.getusers.GetUsersCommand;
+import pl.gamilife.user.usecase.getusers.GetUsersResult;
+import pl.gamilife.user.usecase.getusers.GetUsersUseCase;
 
 import java.util.UUID;
 
@@ -38,15 +45,38 @@ public class UserController {
     private ChangeUserPasswordUseCase changeUserPasswordUseCase;
     private GetUsersUseCase getUsersUseCase;
     private CompleteOnboardingUseCase completeOnboardingUseCase;
+    private EditUserUseCase editUserUseCase;
     private CookieUtil cookieUtil;
     private GroupApi groupsApi;
 
     @GetMapping("/{userId}")
-    @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
-    public ResponseEntity<UserDetailsResponse> getCurrentUserDetails(@PathVariable UUID userId) {
-        UserDetailsDto dto = getUserDetailsUseCase.execute(userId);
+    //TODO: isProfilePrivate
+    public ResponseEntity<UserDetailsResponse> getCurrentUserDetails(
+            @PathVariable UUID userId,
+            Authentication authentication
+    ) {
+        String requesterEmail = authentication.getName();
+        UserDetailsResponse result = getUserDetailsUseCase.execute(requesterEmail, userId);
 
-        return ResponseEntity.ok(UserDetailsResponse.from(dto));
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<EditUserResult> editUser(
+            @RequestBody @Valid EditUserRequest request,
+            @PathVariable("userId") UUID userId) {
+
+        EditUserResult response = editUserUseCase.execute(new EditUserCommand(
+                userId,
+                request.firstName(),
+                request.lastName(),
+                request.username(),
+                request.dateOfBirth(),
+                request.sendBudgetReports(),
+                request.isProfilePublic()
+        ));
+
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{userId}/password")
@@ -73,7 +103,7 @@ public class UserController {
             @PathVariable UUID userId
     ) {
         UserDetailsDto dto = completeOnboardingUseCase.execute(userId);
-        return ResponseEntity.ok(UserDetailsResponse.from(dto));
+        return ResponseEntity.ok(UserFullDetailsResponse.from(dto));
     }
 
     @GetMapping("/{userId}/groups")

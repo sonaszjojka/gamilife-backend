@@ -1,22 +1,21 @@
-package pl.gamilife.user.dto.service;
+package pl.gamilife.user.usecase.edituser;
 
+import lombok.Builder;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record UserDetailsDto(
+@Builder
+public record EditUserResult(
         UUID id,
         String firstName,
         String lastName,
         String email,
         String username,
         LocalDate dateOfBirth,
-        int experience,
-        int level,
-        Integer requiredExperience,
-        int money,
         boolean sendBudgetReports,
         boolean isProfilePublic,
-        boolean isEmailVerified,
-        boolean isTutorialCompleted
-) {
+        boolean isEmailVerified
+) implements Serializable {
 }
