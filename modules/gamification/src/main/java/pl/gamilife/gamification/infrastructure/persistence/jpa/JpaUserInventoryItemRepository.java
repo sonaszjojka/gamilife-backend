@@ -22,14 +22,14 @@ public interface JpaUserInventoryItemRepository extends JpaRepository<UserInvent
 
     @Query(
             """
-                SELECT uii
-                FROM UserInventoryItem uii
-                LEFT JOIN FETCH uii.item i
-                WHERE uii.userId = :userId
-                  AND i.itemSlotId = :itemSlotId
-                  AND uii.isEquipped = true
-                  AND uii.id != :newInventoryItemId
-            """
+                        SELECT uii
+                        FROM UserInventoryItem uii
+                        LEFT JOIN FETCH uii.item i
+                        WHERE uii.userId = :userId
+                          AND i.itemSlotId = :itemSlotId
+                          AND uii.isEquipped = true
+                          AND uii.id != :newInventoryItemId
+                    """
     )
     Optional<UserInventoryItem> findItemEquippedOnSlot(
             @Param("userId") UUID userId,

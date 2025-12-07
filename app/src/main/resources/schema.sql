@@ -474,13 +474,13 @@ CREATE TABLE statistic_type
 -- Table: user_statistic
 CREATE TABLE user_statistic
 (
-    id                uuid NOT NULL,
-    user_id           uuid NOT NULL,
-    statistic_type_id int  NOT NULL,
-    count             int  NOT NULL,
-    version    bigint                                             NOT NULL DEFAULT 0,
-    created_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    id                uuid                                               NOT NULL,
+    user_id           uuid                                               NOT NULL,
+    statistic_type_id int                                                NOT NULL,
+    count             int                                                NOT NULL,
+    version           bigint                                             NOT NULL DEFAULT 0,
+    created_at        timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at        timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT user_statistic_ak_1 UNIQUE (user_id, statistic_type_id) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT user_statistic_pk PRIMARY KEY (id)
 );
@@ -522,12 +522,12 @@ CREATE TABLE "level"
 -- Table: user_achievement
 CREATE TABLE user_achievement
 (
-    id             uuid      NOT NULL,
-    user_id        uuid      NOT NULL,
-    achievement_id uuid      NOT NULL,
-    version    bigint                                             NOT NULL DEFAULT 0,
-    created_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    id             uuid                                               NOT NULL,
+    user_id        uuid                                               NOT NULL,
+    achievement_id uuid                                               NOT NULL,
+    version        bigint                                             NOT NULL DEFAULT 0,
+    created_at     timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at     timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT user_achievement_ak_1 UNIQUE (user_id, achievement_id) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT user_achievement_pk PRIMARY KEY (id)
 );
@@ -535,14 +535,14 @@ CREATE TABLE user_achievement
 -- Table: user_inventory_item
 CREATE TABLE user_inventory_item
 (
-    id          uuid    NOT NULL,
-    item_id     uuid    NOT NULL,
-    user_id     uuid    NOT NULL,
-    quantity    int     NOT NULL,
-    is_equipped boolean NOT NULL,
-    version    bigint                                             NOT NULL DEFAULT 0,
-    created_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    id          uuid                                               NOT NULL,
+    item_id     uuid                                               NOT NULL,
+    user_id     uuid                                               NOT NULL,
+    quantity    int                                                NOT NULL,
+    is_equipped boolean                                            NOT NULL,
+    version     bigint                                             NOT NULL DEFAULT 0,
+    created_at  timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at  timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT item_id_user_id_unique UNIQUE (item_id, user_id),
     CONSTRAINT quantity_must_be_positive CHECK (quantity > 0) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT user_inventory_item_pk PRIMARY KEY (id)

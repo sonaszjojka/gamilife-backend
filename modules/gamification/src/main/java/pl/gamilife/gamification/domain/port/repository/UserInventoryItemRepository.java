@@ -1,6 +1,5 @@
 package pl.gamilife.gamification.domain.port.repository;
 
-import jakarta.validation.constraints.NotNull;
 import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.domain.model.UserInventoryItem;
 
