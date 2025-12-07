@@ -3,7 +3,7 @@ package pl.gamilife.task.application.editTaskforGroupTask;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.TaskNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.entity.TaskCategory;
 import pl.gamilife.task.entity.TaskDifficulty;
