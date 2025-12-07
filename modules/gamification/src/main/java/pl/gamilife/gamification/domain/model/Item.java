@@ -4,23 +4,24 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Immutable;
 import pl.gamilife.gamification.domain.model.enums.ItemSlotEnum;
 import pl.gamilife.gamification.domain.model.enums.RarityEnum;
+import pl.gamilife.shared.persistence.entity.BaseUuidReadOnlyEntity;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 @Entity
-@ToString(exclude = {"itemSlot", "rarity", "achievement", "unlockLevel"})
-@Table(name = "item")
 @Immutable
-public class Item {
-    @Id
-    @Column(name = "id", nullable = false)
-    private UUID id;
+@SuperBuilder
+@NoArgsConstructor
+@Table(name = "item")
+@ToString(exclude = {"itemSlot", "rarity", "achievement", "unlockLevel"})
+public class Item extends BaseUuidReadOnlyEntity {
 
     @Size(max = 150)
     @NotNull
@@ -84,18 +85,6 @@ public class Item {
 
     public boolean isForSale() {
         return price != null;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Item that = (Item) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 
 }

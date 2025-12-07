@@ -4,24 +4,24 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Immutable;
 import pl.gamilife.gamification.domain.model.enums.StatisticTypeEnum;
+import pl.gamilife.shared.persistence.entity.BaseUuidReadOnlyEntity;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Entity
-@ToString(exclude = {"statisticType", "items", "userAchievements"})
-@Table(name = "achievement")
 @Immutable
-public class Achievement {
-    @Id
-    @Column(name = "id", nullable = false)
-    private UUID id;
+@SuperBuilder
+@NoArgsConstructor
+@Table(name = "achievement")
+@ToString(exclude = {"statisticType", "items", "userAchievements"})
+public class Achievement extends BaseUuidReadOnlyEntity {
 
     @Size(max = 100)
     @NotNull
@@ -68,15 +68,4 @@ public class Achievement {
         return StatisticTypeEnum.fromId(this.statisticTypeId);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Achievement that = (Achievement) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
 }

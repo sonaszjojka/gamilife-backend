@@ -1,25 +1,29 @@
 package pl.gamilife.gamification.domain.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Immutable;
+import pl.gamilife.shared.persistence.entity.BaseIntReadOnlyEntity;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Getter
 @Entity
+@Immutable
+@SuperBuilder
+@NoArgsConstructor
 @Table(name = "statistic_type")
 @ToString(exclude = {"userStatistics", "achievements"})
-@Immutable
-public class StatisticType {
-    @Id
-    @Column(name = "id", nullable = false)
-    private Integer id;
+public class StatisticType extends BaseIntReadOnlyEntity {
 
     @Size(max = 100)
     @NotNull
@@ -32,15 +36,4 @@ public class StatisticType {
     @OneToMany(mappedBy = "statisticType")
     private Set<Achievement> achievements = new HashSet<>();
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        StatisticType that = (StatisticType) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
 }

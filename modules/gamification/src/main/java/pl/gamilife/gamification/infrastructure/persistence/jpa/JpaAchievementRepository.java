@@ -30,7 +30,7 @@ public interface JpaAchievementRepository extends JpaRepository<Achievement, UUI
             LEFT JOIN a.userAchievements ua ON ua.userId = :userId
             LEFT JOIN a.statisticType st
             LEFT JOIN st.userStatistics us ON us.userId = :userId
-            ORDER BY ua.earnedAt DESC NULLS LAST, st.id, a.goal
+            ORDER BY ua.createdAt DESC NULLS LAST, st.id, a.goal
             """)
     List<UserAchievementDetails> findAllAchievementDetailsByUserId(@Param("userId") UUID userId);
 

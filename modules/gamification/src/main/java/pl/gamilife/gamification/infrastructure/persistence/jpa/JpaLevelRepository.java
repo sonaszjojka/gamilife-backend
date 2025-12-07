@@ -15,14 +15,14 @@ public interface JpaLevelRepository extends JpaRepository<Level, Integer> {
                     LEFT JOIN FETCH l.items i
                     LEFT JOIN FETCH i.itemSlot
                     LEFT JOIN FETCH i.rarity
-                    ORDER BY l.level ASC
+                    ORDER BY l.id ASC
             """)
     List<Level> findAllWithItemsByOrderByLevelAsc();
 
     @Query("""
                     SELECT l
                     FROM Level l
-                    ORDER BY l.level ASC
+                    ORDER BY l.id ASC
             """)
     List<Level> findOneLevelBasedOnPageable(Pageable pageable);
 
@@ -30,9 +30,9 @@ public interface JpaLevelRepository extends JpaRepository<Level, Integer> {
             SELECT DISTINCT l
             FROM Level l
             LEFT JOIN FETCH l.items i
-            WHERE l.level > :currentLevel
+            WHERE l.id > :currentLevel
               AND l.requiredExperience <= :experience
-            ORDER BY l.level ASC
+            ORDER BY l.id ASC
             """)
     List<Level> findLevelsGained(@Param("currentLevel") int currentLevel, @Param("experience") int experience);
 }

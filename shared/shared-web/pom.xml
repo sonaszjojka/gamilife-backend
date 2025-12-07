@@ -13,7 +13,7 @@
     <name>Shared Web</name>
 
     <dependencies>
-        <!-- Infrastructure Modules -->
+        <!-- Shared Modules -->
         <dependency>
             <groupId>pl.gamilife</groupId>
             <artifactId>shared-kernel</artifactId>

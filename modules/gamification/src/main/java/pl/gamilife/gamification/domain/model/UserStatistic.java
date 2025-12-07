@@ -3,24 +3,21 @@ package pl.gamilife.gamification.domain.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import pl.gamilife.gamification.domain.exception.InvalidGamificationOperationException;
 import pl.gamilife.gamification.domain.model.enums.StatisticTypeEnum;
+import pl.gamilife.shared.persistence.entity.BaseEntity;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
 @Entity
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"statisticType"})
 @Table(name = "user_statistic")
-public class UserStatistic {
-    @Id
-    @Builder.Default
-    @Column(name = "id", nullable = false)
-    private UUID id = UUID.randomUUID();
+public class UserStatistic extends BaseEntity {
 
     @NotNull
     @Column(name = "user_id", nullable = false)
@@ -42,18 +39,6 @@ public class UserStatistic {
 
     public StatisticTypeEnum getStatisticTypeEnum() {
         return StatisticTypeEnum.fromId(this.statisticTypeId);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        UserStatistic that = (UserStatistic) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 
     public void incrementCounterBy(int amount) {
@@ -87,6 +72,5 @@ public class UserStatistic {
 
         this.count = newCount;
         return true;
-
     }
 }

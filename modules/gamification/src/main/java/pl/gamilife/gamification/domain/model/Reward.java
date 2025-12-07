@@ -3,18 +3,18 @@ package pl.gamilife.gamification.domain.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Immutable;
-
-import java.util.UUID;
+import pl.gamilife.shared.persistence.entity.BaseUuidReadOnlyEntity;
 
 @Getter
 @Entity
-@Table(name = "reward")
 @Immutable
-public class Reward {
-    @Id
-    @Column(name = "id", nullable = false)
-    private UUID id;
+@SuperBuilder
+@NoArgsConstructor
+@Table(name = "reward")
+public class Reward extends BaseUuidReadOnlyEntity {
 
     @NotNull
     @Column(name = "statistic_type_id", nullable = false, insertable = false, updatable = false)
