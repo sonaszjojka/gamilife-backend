@@ -49,4 +49,12 @@ public class User {
 
         this.money += amount;
     }
+
+    public void levelUp(int newLevel) {
+        if (newLevel <= level) {
+            throw new IllegalArgumentException("New level must be greater than current level");
+        }
+
+        this.level = newLevel;
+    }
 }

@@ -1,4 +1,4 @@
-package pl.gamilife.gamification.application.usecase.inituserstatistics;
+package pl.gamilife.gamification.application.usecase.processuserregistered;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @AllArgsConstructor
-public class InitUserStatisticsUseCaseImpl implements InitUserStatisticsUseCase {
+public class ProcessUserRegisteredUseCaseImpl implements ProcessUserRegisteredUseCase {
 
     private final StatisticTypeRepository statisticTypeRepository;
     private final UserStatisticRepository userStatisticRepository;
 
     @Override
-    public Void execute(InitUserStatisticsCommand cmd) {
+    public Void execute(ProcessUserRegisteredCommand cmd) {
         List<UserStatistic> userStatistics = statisticTypeRepository.findAll()
                 .stream()
                 .map(statisticType -> UserStatistic.builder()

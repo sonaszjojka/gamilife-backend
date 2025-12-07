@@ -33,10 +33,6 @@
         </dependency>
         <dependency>
             <groupId>pl.gamilife</groupId>
-            <artifactId>gamification-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>pl.gamilife</groupId>
             <artifactId>group-api</artifactId>
         </dependency>
 

@@ -7,8 +7,6 @@ import java.util.List;
 public interface LevelRepository {
     List<Level> findAllWithItemsByOrderByLevelAsc();
 
-    List<Level> findStartingLevel();
-
     List<Level> findLevelsGained(int level, int experience);
 
     List<Level> findLevelAfterTutorial();

@@ -3,18 +3,18 @@ package pl.gamilife.gamification.domain.service.impl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.domain.model.Level;
 import pl.gamilife.gamification.domain.model.Reward;
 import pl.gamilife.gamification.domain.model.enums.StatisticTypeEnum;
 import pl.gamilife.gamification.domain.model.projection.GamificationUser;
 import pl.gamilife.gamification.domain.port.context.UserContext;
-import pl.gamilife.gamification.domain.port.repository.LevelRepository;
 import pl.gamilife.gamification.domain.port.repository.RewardRepository;
+import pl.gamilife.gamification.domain.service.LevelService;
 import pl.gamilife.gamification.domain.service.RewardService;
-import pl.gamilife.gamification.domain.service.UserInventoryService;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -22,8 +22,7 @@ import java.util.*;
 public class RewardServiceImpl implements RewardService {
 
     private final UserContext userContext;
-    private final LevelRepository levelRepository;
-    private final UserInventoryService userInventoryService;
+    private final LevelService levelService;
     private final RewardRepository rewardRepository;
 
     @Override
@@ -43,24 +42,14 @@ public class RewardServiceImpl implements RewardService {
     @Override
     public void rewardUser(UUID userId, int experience, int money) {
         GamificationUser rewardedUser = userContext.grantRewardsToUser(userId, experience, money);
-
-        List<Level> gainedLevels = levelRepository.findLevelsGained(
+        List<Level> gainedLevels = levelService.checkIfUserEligibleForLevelUp(
                 rewardedUser.level(),
                 rewardedUser.experience()
         );
 
         if (!gainedLevels.isEmpty()) {
-            userContext.levelUpUser(rewardedUser.userId(), gainedLevels.getLast().getLevel());
-            processLevelUp(rewardedUser, gainedLevels);
+            levelService.levelUpUser(rewardedUser.userId(), gainedLevels);
         }
     }
 
-    private void processLevelUp(GamificationUser user, List<Level> gainedLevels) {
-        Set<Item> rewardsForLevels = new HashSet<>();
-        for (Level level : gainedLevels) {
-            rewardsForLevels.addAll(level.getItems());
-        }
-
-        userInventoryService.addItemsToUsersInventory(user.userId(), rewardsForLevels);
-    }
 }

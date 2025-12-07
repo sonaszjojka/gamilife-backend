@@ -20,7 +20,7 @@ public class LevelUpUserUseCaseImpl implements LevelUpUserUseCase {
     public Void execute(LevelUpUserCommand cmd) {
         User user = getUser(cmd.userId());
 
-        user.setLevel(cmd.level());
+        user.levelUp(cmd.level());
         userRepository.save(user);
 
         return null;
