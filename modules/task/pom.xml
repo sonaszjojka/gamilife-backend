@@ -12,19 +12,17 @@
     <name>Task Module</name>
 
     <dependencies>
+        <!-- Shared Modules -->
         <dependency>
             <groupId>pl.gamilife</groupId>
-            <artifactId>infrastructure-data</artifactId>
+            <artifactId>shared-persistence</artifactId>
         </dependency>
         <dependency>
             <groupId>pl.gamilife</groupId>
-            <artifactId>infrastructure-web</artifactId>
+            <artifactId>shared-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
+
+        <!-- API Modules -->
         <dependency>
             <groupId>pl.gamilife</groupId>
             <artifactId>task-api</artifactId>
@@ -36,6 +34,13 @@
         <dependency>
             <groupId>pl.gamilife</groupId>
             <artifactId>auth-api</artifactId>
+        </dependency>
+
+        <!-- External Modules -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

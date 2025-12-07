@@ -5,18 +5,18 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>pl.gamilife</groupId>
-        <artifactId>infrastructure</artifactId>
+        <artifactId>shared</artifactId>
         <version>0.0.1-alpha-v01</version>
     </parent>
 
-    <artifactId>infrastructure-data</artifactId>
-    <name>Infrastructure Data</name>
+    <artifactId>shared-persistence</artifactId>
+    <name>Shared Persistence</name>
 
     <dependencies>
         <!-- Infrastructure Modules -->
         <dependency>
             <groupId>pl.gamilife</groupId>
-            <artifactId>infrastructure-core</artifactId>
+            <artifactId>shared-kernel</artifactId>
         </dependency>
 
         <!-- Spring Modules -->

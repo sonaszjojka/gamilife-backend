@@ -15,11 +15,11 @@
         <!-- Infrastructure Modules -->
         <dependency>
             <groupId>pl.gamilife</groupId>
-            <artifactId>infrastructure-data</artifactId>
+            <artifactId>shared-persistence</artifactId>
         </dependency>
         <dependency>
             <groupId>pl.gamilife</groupId>
-            <artifactId>infrastructure-web</artifactId>
+            <artifactId>shared-web</artifactId>
         </dependency>
 
         <!-- API Modules -->

@@ -12,21 +12,19 @@
     <name>Pomodoro Module</name>
 
     <dependencies>
+        <!-- Shared Modules -->
         <dependency>
             <groupId>pl.gamilife</groupId>
-            <artifactId>infrastructure-data</artifactId>
+            <artifactId>shared-persistence</artifactId>
             <version>0.0.1-alpha-v01</version>
         </dependency>
         <dependency>
             <groupId>pl.gamilife</groupId>
-            <artifactId>infrastructure-web</artifactId>
+            <artifactId>shared-web</artifactId>
             <version>0.0.1-alpha-v01</version>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
+
+        <!-- API Modules -->
         <dependency>
             <groupId>pl.gamilife</groupId>
             <artifactId>task-api</artifactId>
@@ -44,6 +42,13 @@
             <artifactId>pomodoro-api</artifactId>
             <version>0.0.1-alpha-v01</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- External Modules -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

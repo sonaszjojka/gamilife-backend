@@ -9,13 +9,13 @@
         <version>0.0.1-alpha-v01</version>
     </parent>
 
-    <artifactId>infrastructure</artifactId>
+    <artifactId>shared</artifactId>
     <packaging>pom</packaging>
-    <name>Infrastructure Modules Aggregator</name>
+    <name>Shared Modules Aggregator</name>
 
     <modules>
-        <module>infrastructure-core</module>
-        <module>infrastructure-data</module>
-        <module>infrastructure-web</module>
+        <module>shared-kernel</module>
+        <module>shared-persistence</module>
+        <module>shared-web</module>
     </modules>
 </project>
