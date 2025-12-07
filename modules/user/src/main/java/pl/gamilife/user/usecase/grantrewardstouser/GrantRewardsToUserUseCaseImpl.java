@@ -21,8 +21,8 @@ public class GrantRewardsToUserUseCaseImpl implements GrantRewardsToUserUseCase 
     public RewardedUserApiDto execute(GrantRewardsToUserCommand cmd) {
         User user = getUser(cmd.userId());
 
-        user.setExperience(user.getExperience() + cmd.experience());
-        user.setMoney(user.getMoney() + cmd.money());
+        user.grantExperience(cmd.experience());
+        user.grantMoney(cmd.money());
 
         userRepository.save(user);
 
