@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.group.dto.GroupDto;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.repository.GroupJpaRepository;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 
 @Service
 @Transactional(readOnly = true)

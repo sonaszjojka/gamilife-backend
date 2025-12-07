@@ -7,7 +7,7 @@ import pl.gamilife.grouptask.entity.GroupTaskMember;
 import pl.gamilife.grouptask.exception.domain.GroupTaskNotFoundException;
 import pl.gamilife.grouptask.repository.GroupTaskMemberRepository;
 import pl.gamilife.grouptask.repository.GroupTaskRepository;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
 
 import java.util.UUID;
 

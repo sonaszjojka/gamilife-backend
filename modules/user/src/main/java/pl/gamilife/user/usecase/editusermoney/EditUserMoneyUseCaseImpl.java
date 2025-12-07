@@ -3,8 +3,8 @@ package pl.gamilife.user.usecase.editusermoney;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserHasNotEnoughMoneyException;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.UserHasNotEnoughMoneyException;
+import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 import pl.gamilife.user.domain.User;
 import pl.gamilife.user.persistence.UserRepository;
 

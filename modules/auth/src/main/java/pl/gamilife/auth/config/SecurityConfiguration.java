@@ -24,7 +24,7 @@ import pl.gamilife.auth.repository.JpaRefreshTokenRepository;
 import pl.gamilife.auth.security.JwtAuthenticationFilter;
 import pl.gamilife.auth.service.TokenService;
 import pl.gamilife.auth.service.impl.JwtTokenServiceImpl;
-import pl.gamilife.infrastructure.web.ratelimit.RateLimitFilter;
+import pl.gamilife.shared.web.ratelimit.RateLimitFilter;
 
 import java.util.List;
 

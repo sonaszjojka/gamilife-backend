@@ -1,6 +1,6 @@
 package pl.gamilife.auth.usecase.login;
 
-import pl.gamilife.infrastructure.core.architecture.Command;
+import pl.gamilife.shared.kernel.architecture.Command;
 
 public record LoginUserCommand(
         String email,

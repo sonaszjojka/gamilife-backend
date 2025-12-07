@@ -1,6 +1,6 @@
 package pl.gamilife.group.usecase.creategroup;
 
-import pl.gamilife.infrastructure.core.architecture.Command;
+import pl.gamilife.shared.kernel.architecture.Command;
 
 public record CreateGroupCommand(
         String groupName,

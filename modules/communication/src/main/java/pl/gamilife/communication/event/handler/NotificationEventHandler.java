@@ -12,7 +12,7 @@ import pl.gamilife.communication.dto.NotificationDto;
 import pl.gamilife.communication.enums.NotificationType;
 import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationCommand;
 import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationUseCase;
-import pl.gamilife.infrastructure.core.event.GroupInvitationCreatedEvent;
+import pl.gamilife.shared.kernel.event.GroupInvitationCreatedEvent;
 
 import java.util.Map;
 

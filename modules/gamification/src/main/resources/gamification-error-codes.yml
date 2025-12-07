@@ -25,4 +25,9 @@ error-codes:
       title: "User does not have enough items"
       detail: "User does not have enough items"
       status: 400
+    INVALID_GAMIFICATION_OPERATION:
+      code: 8006
+      title: "Invalid gamification operation"
+      detail: "Invalid gamification operation"
+      status: 400
 

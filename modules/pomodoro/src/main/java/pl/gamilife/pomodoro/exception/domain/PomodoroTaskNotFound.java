@@ -1,7 +1,7 @@
 package pl.gamilife.pomodoro.exception.domain;
 
-import pl.gamilife.infrastructure.core.exception.DomainException;
 import pl.gamilife.pomodoro.exception.PomodoroErrorCode;
+import pl.gamilife.shared.kernel.exception.DomainException;
 
 public class PomodoroTaskNotFound extends DomainException {
     public PomodoroTaskNotFound(String message) {

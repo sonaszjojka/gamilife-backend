@@ -12,9 +12,9 @@ import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.ChatMessageJpaRepository;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
-import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
+import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
 import java.util.UUID;
 

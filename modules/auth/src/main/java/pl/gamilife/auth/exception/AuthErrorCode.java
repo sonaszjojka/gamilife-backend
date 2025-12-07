@@ -1,6 +1,6 @@
 package pl.gamilife.auth.exception;
 
-import pl.gamilife.infrastructure.core.exception.ErrorCode;
+import pl.gamilife.shared.kernel.exception.ErrorCode;
 
 public enum AuthErrorCode implements ErrorCode {
     INVALID_CREDENTIALS,

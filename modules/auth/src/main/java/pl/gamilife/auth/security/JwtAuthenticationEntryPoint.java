@@ -9,9 +9,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import pl.gamilife.auth.exception.AuthErrorCode;
-import pl.gamilife.infrastructure.core.exception.ErrorCode;
-import pl.gamilife.infrastructure.web.exception.ErrorCodesRepository;
-import pl.gamilife.infrastructure.web.exception.ErrorResponse;
+import pl.gamilife.shared.kernel.exception.ErrorCode;
+import pl.gamilife.shared.web.exception.ErrorCodesRepository;
+import pl.gamilife.shared.web.exception.ErrorResponse;
 
 import java.io.IOException;
 

@@ -1,6 +1,6 @@
 package pl.gamilife.grouptask.exception;
 
-import pl.gamilife.infrastructure.core.exception.ErrorCode;
+import pl.gamilife.shared.kernel.exception.ErrorCode;
 
 public enum GroupTaskErrorCode implements ErrorCode {
     GROUP_TASK_MEMBER_NOT_FOUND,

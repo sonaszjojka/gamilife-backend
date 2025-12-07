@@ -14,7 +14,7 @@ import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
 import pl.gamilife.group.repository.GroupRequestJpaRepository;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 
 import java.util.*;
 

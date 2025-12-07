@@ -1,6 +1,6 @@
 package pl.gamilife.auth.usecase.sendforgotpasswordcode;
 
-import pl.gamilife.infrastructure.core.architecture.Command;
+import pl.gamilife.shared.kernel.architecture.Command;
 
 public record SendForgotPasswordCodeCommand(String email) implements Command {
     @Override

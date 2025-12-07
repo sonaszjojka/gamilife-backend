@@ -12,7 +12,7 @@ import pl.gamilife.auth.repository.JpaForgotPasswordCodeRepository;
 import pl.gamilife.auth.service.ForgotPasswordCodeService;
 import pl.gamilife.auth.service.SecureCodesAndTokensService;
 import pl.gamilife.auth.validators.PasswordValidator;
-import pl.gamilife.infrastructure.core.exception.common.domain.ResetPasswordGenericException;
+import pl.gamilife.shared.kernel.exception.domain.ResetPasswordGenericException;
 
 import java.time.LocalDateTime;
 

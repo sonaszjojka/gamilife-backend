@@ -1,6 +1,6 @@
 package pl.gamilife.group.usecase.resendmail;
 
-import pl.gamilife.infrastructure.core.architecture.UseCase;
+import pl.gamilife.shared.kernel.architecture.UseCase;
 
 public interface ResendMailToGroupInvitationUseCase extends UseCase<ResendMailToGroupInvitationCommand, Void> {
 }

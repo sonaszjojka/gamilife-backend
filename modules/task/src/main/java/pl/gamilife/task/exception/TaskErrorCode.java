@@ -1,6 +1,6 @@
 package pl.gamilife.task.exception;
 
-import pl.gamilife.infrastructure.core.exception.ErrorCode;
+import pl.gamilife.shared.kernel.exception.ErrorCode;
 
 public enum TaskErrorCode implements ErrorCode {
     HABIT_NOT_FOUND,

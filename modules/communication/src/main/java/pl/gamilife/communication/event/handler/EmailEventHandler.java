@@ -13,9 +13,9 @@ import pl.gamilife.communication.dto.ForgotPasswordEmailParameters;
 import pl.gamilife.communication.dto.GroupInvitationEmailParameters;
 import pl.gamilife.communication.usecase.senduseremail.SendUserEmailCommand;
 import pl.gamilife.communication.usecase.senduseremail.SendUserEmailUseCase;
-import pl.gamilife.infrastructure.core.event.EmailVerificationRequestedEvent;
-import pl.gamilife.infrastructure.core.event.GroupInvitationCreatedEvent;
-import pl.gamilife.infrastructure.core.event.PasswordResetRequestedEvent;
+import pl.gamilife.shared.kernel.event.EmailVerificationRequestedEvent;
+import pl.gamilife.shared.kernel.event.GroupInvitationCreatedEvent;
+import pl.gamilife.shared.kernel.event.PasswordResetRequestedEvent;
 
 @Slf4j
 @Component

@@ -3,7 +3,7 @@ package pl.gamilife.user.usecase.levelupuser;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 import pl.gamilife.user.domain.User;
 import pl.gamilife.user.persistence.UserRepository;
 
@@ -20,7 +20,7 @@ public class LevelUpUserUseCaseImpl implements LevelUpUserUseCase {
     public Void execute(LevelUpUserCommand cmd) {
         User user = getUser(cmd.userId());
 
-        user.setLevel(cmd.level());
+        user.levelUp(cmd.level());
         userRepository.save(user);
 
         return null;

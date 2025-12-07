@@ -1,6 +1,6 @@
 package pl.gamilife.groupshop.exception;
 
-import pl.gamilife.infrastructure.core.exception.ErrorCode;
+import pl.gamilife.shared.kernel.exception.ErrorCode;
 
 public enum GroupShopErrorCode implements ErrorCode {
     GROUP_SHOP_ITEM_NOT_FOUND,

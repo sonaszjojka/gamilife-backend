@@ -1,7 +1,7 @@
 package pl.gamilife.auth.exception.domain;
 
 import pl.gamilife.auth.exception.AuthErrorCode;
-import pl.gamilife.infrastructure.core.exception.DomainException;
+import pl.gamilife.shared.kernel.exception.DomainException;
 
 public class OldAndNewPasswordAreTheSameException extends DomainException {
     public OldAndNewPasswordAreTheSameException() {

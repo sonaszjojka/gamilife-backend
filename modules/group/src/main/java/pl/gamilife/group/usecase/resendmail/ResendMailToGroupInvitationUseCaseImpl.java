@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.group.exception.domain.GroupInvitationNotFoundException;
 import pl.gamilife.group.model.GroupInvitation;
 import pl.gamilife.group.repository.GroupInvitationJpaRepository;
-import pl.gamilife.infrastructure.core.event.GroupInvitationCreatedEvent;
+import pl.gamilife.shared.kernel.event.GroupInvitationCreatedEvent;
 
 import java.util.UUID;
 

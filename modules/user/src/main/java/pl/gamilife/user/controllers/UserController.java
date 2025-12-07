@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.gamilife.api.auth.dto.AuthTokens;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
-import pl.gamilife.infrastructure.web.util.CookieUtil;
+import pl.gamilife.shared.web.util.CookieUtil;
 import pl.gamilife.user.dto.request.ChangeUserPasswordRequest;
 import pl.gamilife.user.dto.response.CurrentUserInfoResponse;
 import pl.gamilife.user.dto.response.GetUsersResult;

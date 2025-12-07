@@ -1,7 +1,7 @@
 package pl.gamilife.auth.usecase.rotatetokens;
 
 import pl.gamilife.api.auth.dto.RotateUserTokensDto;
-import pl.gamilife.infrastructure.core.architecture.Command;
+import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.gamilife.group.exception.domain.UserLeftGroupException;
 import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupMemberNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
 
 import java.util.UUID;
 

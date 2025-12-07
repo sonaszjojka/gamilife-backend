@@ -33,4 +33,28 @@ public class User {
         this.password = password;
         this.passwordChangeDate = Instant.now();
     }
+
+    public void grantExperience(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Experience granted must be greater than zero");
+        }
+
+        this.experience += amount;
+    }
+
+    public void grantMoney(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Money granted must be greater than zero");
+        }
+
+        this.money += amount;
+    }
+
+    public void levelUp(int newLevel) {
+        if (newLevel <= level) {
+            throw new IllegalArgumentException("New level must be greater than current level");
+        }
+
+        this.level = newLevel;
+    }
 }

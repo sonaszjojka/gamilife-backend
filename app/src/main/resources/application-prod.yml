@@ -5,7 +5,7 @@ spring:
 
   config:
     import:
-      - classpath:common-error-codes.yml
+      - classpath:other-error-codes.yml
       - classpath:auth-error-codes.yml
       - classpath:user-error-codes.yml
       - classpath:task-error-codes.yml

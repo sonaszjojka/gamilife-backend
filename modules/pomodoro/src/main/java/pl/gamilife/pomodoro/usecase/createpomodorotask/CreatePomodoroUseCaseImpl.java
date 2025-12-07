@@ -6,10 +6,10 @@ import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.task.TasksApi;
 import pl.gamilife.api.task.dto.TaskDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.pomodoro.entity.PomodoroTask;
 import pl.gamilife.pomodoro.exception.domain.InvalidPomodoroTaskData;
 import pl.gamilife.pomodoro.repository.PomodoroTaskRepository;
+import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
 import java.util.UUID;
 

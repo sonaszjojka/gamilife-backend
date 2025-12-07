@@ -12,9 +12,9 @@ import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupType;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupTypeJpaRepository;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 
 import java.util.Optional;
 import java.util.UUID;

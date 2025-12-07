@@ -2,12 +2,12 @@ package pl.gamilife.user.usecase.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import pl.gamilife.api.gamification.GamificationApi;
-import pl.gamilife.api.gamification.dto.StartingGamificationValuesDto;
 import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
 import pl.gamilife.api.user.dto.RegisterUserApiDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserAlreadyExistsException;
+import pl.gamilife.shared.kernel.event.UserRegisteredEvent;
+import pl.gamilife.shared.kernel.exception.domain.UserAlreadyExistsException;
 import pl.gamilife.user.domain.User;
 import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.usecase.GetUserByEmailUseCase;
@@ -20,9 +20,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
 
-    private final GamificationApi gamificationApi;
     private final UserRepository userRepository;
     private final GetUserByEmailUseCase getUserByEmailUseCase;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional
@@ -31,7 +31,6 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
             throw new UserAlreadyExistsException("This email address is already taken");
         }
 
-        StartingGamificationValuesDto startingGamificationValues = gamificationApi.getStartingGamificationValues();
         User newUser = new User(
                 UUID.randomUUID(),
                 dto.firstName(),
@@ -40,9 +39,9 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
                 dto.password(),
                 dto.username(),
                 dto.dateOfBirth(),
-                startingGamificationValues.level(),
-                startingGamificationValues.experience(),
-                startingGamificationValues.money(),
+                0,
+                0,
+                0,
                 dto.sendBudgetReports(),
                 dto.isProfilePublic(),
                 dto.isEmailVerified(),
@@ -51,7 +50,7 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
         );
         userRepository.save(newUser);
 
-        gamificationApi.initUserStatisticsFor(newUser.getId());
+        eventPublisher.publishEvent(new UserRegisteredEvent(newUser.getId()));
 
         return new BasicUserInfoApiDto(
                 newUser.getId(),

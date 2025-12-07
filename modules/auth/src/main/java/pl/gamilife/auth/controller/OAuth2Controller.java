@@ -23,7 +23,7 @@ import pl.gamilife.auth.usecase.googlelinkaccount.LinkGoogleAccountUseCase;
 import pl.gamilife.auth.usecase.googlesignin.GoogleSignInCommand;
 import pl.gamilife.auth.usecase.googlesignin.GoogleSignInResult;
 import pl.gamilife.auth.usecase.googlesignin.GoogleSignInUseCase;
-import pl.gamilife.infrastructure.web.util.CookieUtil;
+import pl.gamilife.shared.web.util.CookieUtil;
 
 import java.security.InvalidParameterException;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package pl.gamilife.group.exception;
 
-import pl.gamilife.infrastructure.core.exception.ErrorCode;
+import pl.gamilife.shared.kernel.exception.ErrorCode;
 
 public enum GroupErrorCode implements ErrorCode {
     ADMIN_CANNOT_LEAVE_GROUP,

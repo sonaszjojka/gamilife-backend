@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.user.dto.RewardedUserApiDto;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 import pl.gamilife.user.domain.User;
 import pl.gamilife.user.persistence.UserRepository;
 
@@ -21,8 +21,8 @@ public class GrantRewardsToUserUseCaseImpl implements GrantRewardsToUserUseCase 
     public RewardedUserApiDto execute(GrantRewardsToUserCommand cmd) {
         User user = getUser(cmd.userId());
 
-        user.setExperience(user.getExperience() + cmd.experience());
-        user.setMoney(user.getMoney() + cmd.money());
+        user.grantExperience(cmd.experience());
+        user.grantMoney(cmd.money());
 
         userRepository.save(user);
 

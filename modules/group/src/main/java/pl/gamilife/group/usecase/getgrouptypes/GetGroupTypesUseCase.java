@@ -1,6 +1,6 @@
 package pl.gamilife.group.usecase.getgrouptypes;
 
-import pl.gamilife.infrastructure.core.architecture.UseCase;
+import pl.gamilife.shared.kernel.architecture.UseCase;
 
 import java.util.List;
 

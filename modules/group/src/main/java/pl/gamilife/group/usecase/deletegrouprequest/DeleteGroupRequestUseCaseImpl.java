@@ -8,7 +8,7 @@ import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.group.exception.domain.GroupRequestNotFoundException;
 import pl.gamilife.group.model.GroupRequest;
 import pl.gamilife.group.repository.GroupRequestJpaRepository;
-import pl.gamilife.infrastructure.core.exception.common.domain.ResourceOwnerPrivilegesRequiredException;
+import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
 import java.util.UUID;
 

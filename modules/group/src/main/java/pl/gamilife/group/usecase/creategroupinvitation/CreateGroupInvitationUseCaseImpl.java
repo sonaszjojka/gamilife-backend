@@ -18,10 +18,10 @@ import pl.gamilife.group.repository.GroupInvitationJpaRepository;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.InvitationStatusJpaRepository;
 import pl.gamilife.group.util.GroupInvitationUtil;
-import pl.gamilife.infrastructure.core.event.GroupInvitationCreatedEvent;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupAdminPrivilegesRequiredException;
-import pl.gamilife.infrastructure.core.exception.common.domain.GroupNotFoundException;
-import pl.gamilife.infrastructure.core.exception.common.domain.UserNotFoundException;
+import pl.gamilife.shared.kernel.event.GroupInvitationCreatedEvent;
+import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
