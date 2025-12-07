@@ -11,8 +11,8 @@ import pl.gamilife.gamification.domain.model.projection.GamificationUser;
 import pl.gamilife.gamification.domain.port.context.UserContext;
 import pl.gamilife.gamification.domain.port.repository.ItemRepository;
 import pl.gamilife.gamification.domain.service.UserInventoryService;
-import pl.gamilife.infrastructure.core.exception.domain.UserHasNotEnoughMoneyException;
-import pl.gamilife.infrastructure.core.exception.domain.UserNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.UserHasNotEnoughMoneyException;
+import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 
 import java.util.UUID;
 

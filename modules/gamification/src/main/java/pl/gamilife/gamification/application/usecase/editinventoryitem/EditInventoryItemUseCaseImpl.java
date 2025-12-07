@@ -8,7 +8,7 @@ import pl.gamilife.gamification.domain.exception.InventoryItemNotFound;
 import pl.gamilife.gamification.domain.model.UserInventoryItem;
 import pl.gamilife.gamification.domain.port.context.UserContext;
 import pl.gamilife.gamification.domain.port.repository.UserInventoryItemRepository;
-import pl.gamilife.infrastructure.core.exception.domain.UserNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 
 import java.util.UUID;
 

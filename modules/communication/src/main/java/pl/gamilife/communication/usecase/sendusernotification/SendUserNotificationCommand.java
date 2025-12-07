@@ -2,7 +2,7 @@ package pl.gamilife.communication.usecase.sendusernotification;
 
 import jakarta.validation.ValidationException;
 import pl.gamilife.communication.dto.NotificationDto;
-import pl.gamilife.infrastructure.core.architecture.Command;
+import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
 package pl.gamilife.auth.usecase.registeruser;
 
-import pl.gamilife.infrastructure.core.architecture.Command;
+import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.io.Serializable;
 import java.time.LocalDate;

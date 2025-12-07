@@ -1,6 +1,6 @@
 package pl.gamilife.user.dto.service;
 
-import pl.gamilife.infrastructure.core.architecture.Command;
+import pl.gamilife.shared.kernel.architecture.Command;
 
 public record GetUsersCommand(
         String username,

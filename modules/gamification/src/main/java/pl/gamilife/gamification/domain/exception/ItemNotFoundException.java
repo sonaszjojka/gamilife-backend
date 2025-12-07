@@ -1,6 +1,6 @@
 package pl.gamilife.gamification.domain.exception;
 
-import pl.gamilife.infrastructure.core.exception.DomainException;
+import pl.gamilife.shared.kernel.exception.DomainException;
 
 public class ItemNotFoundException extends DomainException {
     public ItemNotFoundException(String message) {

@@ -1,7 +1,7 @@
 package pl.gamilife.task.application.createhabit;
 
 import org.springframework.stereotype.Component;
-import pl.gamilife.infrastructure.core.exception.domain.TaskNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
 import pl.gamilife.task.entity.Habit;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.exception.domain.InvalidHabitDataException;

@@ -3,7 +3,7 @@ package pl.gamilife.auth.util;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
-import pl.gamilife.infrastructure.web.util.CookieUtil;
+import pl.gamilife.shared.web.util.CookieUtil;
 
 import java.time.Duration;
 

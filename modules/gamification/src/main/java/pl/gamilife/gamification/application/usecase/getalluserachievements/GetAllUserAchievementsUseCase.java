@@ -1,6 +1,6 @@
 package pl.gamilife.gamification.application.usecase.getalluserachievements;
 
-import pl.gamilife.infrastructure.core.architecture.UseCase;
+import pl.gamilife.shared.kernel.architecture.UseCase;
 
 public interface GetAllUserAchievementsUseCase extends UseCase<GetAllUserAchievementsCommand, GetAllUserAchievementsResult> {
 }

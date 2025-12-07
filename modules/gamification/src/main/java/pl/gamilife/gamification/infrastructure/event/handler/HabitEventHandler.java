@@ -10,7 +10,7 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 import pl.gamilife.gamification.application.usecase.processhabitstreakchange.ProcessHabitStreakChangeCommand;
 import pl.gamilife.gamification.application.usecase.processhabitstreakchange.ProcessHabitStreakChangeUseCase;
-import pl.gamilife.infrastructure.core.event.HabitStreakChangedEvent;
+import pl.gamilife.shared.kernel.event.HabitStreakChangedEvent;
 
 @Component
 @AllArgsConstructor

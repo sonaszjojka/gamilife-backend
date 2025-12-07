@@ -10,7 +10,7 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 import pl.gamilife.gamification.application.usecase.processgroupitempurchase.ProcessGroupItemPurchaseCommand;
 import pl.gamilife.gamification.application.usecase.processgroupitempurchase.ProcessGroupItemPurchaseUseCase;
-import pl.gamilife.infrastructure.core.event.GroupItemPurchasedEvent;
+import pl.gamilife.shared.kernel.event.GroupItemPurchasedEvent;
 
 @Component
 @AllArgsConstructor

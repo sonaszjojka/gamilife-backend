@@ -11,9 +11,9 @@ import pl.gamilife.groupshop.exception.domain.GroupShopNotFoundException;
 import pl.gamilife.groupshop.exception.domain.InactiveGroupShopException;
 import pl.gamilife.groupshop.repository.GroupShopRepository;
 import pl.gamilife.groupshop.repository.OwnedGroupItemRpository;
-import pl.gamilife.infrastructure.core.exception.domain.GroupAdminPrivilegesRequiredException;
-import pl.gamilife.infrastructure.core.exception.domain.GroupMemberNotFoundException;
-import pl.gamilife.infrastructure.core.exception.domain.ResourceOwnerPrivilegesRequiredException;
+import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
 import java.time.Instant;
 import java.util.UUID;

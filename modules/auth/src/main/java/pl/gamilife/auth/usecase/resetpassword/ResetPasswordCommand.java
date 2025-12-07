@@ -1,6 +1,6 @@
 package pl.gamilife.auth.usecase.resetpassword;
 
-import pl.gamilife.infrastructure.core.architecture.Command;
+import pl.gamilife.shared.kernel.architecture.Command;
 
 public record ResetPasswordCommand(String code, String newPassword) implements Command {
     @Override

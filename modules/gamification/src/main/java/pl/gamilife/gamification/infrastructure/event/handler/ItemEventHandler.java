@@ -12,8 +12,8 @@ import pl.gamilife.gamification.application.usecase.processitemacquisition.Proce
 import pl.gamilife.gamification.application.usecase.processitemacquisition.ProcessItemAcquisitionUseCase;
 import pl.gamilife.gamification.application.usecase.processitempurchase.ProcessItemPurchaseCommand;
 import pl.gamilife.gamification.application.usecase.processitempurchase.ProcessItemPurchaseUseCase;
-import pl.gamilife.infrastructure.core.event.ItemAcquiredEvent;
-import pl.gamilife.infrastructure.core.event.ItemBoughtEvent;
+import pl.gamilife.shared.kernel.event.ItemAcquiredEvent;
+import pl.gamilife.shared.kernel.event.ItemBoughtEvent;
 
 @Component
 @AllArgsConstructor

@@ -12,8 +12,8 @@ import pl.gamilife.gamification.application.usecase.processtaskcompletion.Proces
 import pl.gamilife.gamification.application.usecase.processtaskcompletion.ProcessTaskCompletionUseCase;
 import pl.gamilife.gamification.application.usecase.rollbacktaskcompletion.RollbackTaskCompletionCommand;
 import pl.gamilife.gamification.application.usecase.rollbacktaskcompletion.RollbackTaskCompletionUseCase;
-import pl.gamilife.infrastructure.core.event.TaskCompletedEvent;
-import pl.gamilife.infrastructure.core.event.TaskUndoneEvent;
+import pl.gamilife.shared.kernel.event.TaskCompletedEvent;
+import pl.gamilife.shared.kernel.event.TaskUndoneEvent;
 
 @Component
 @AllArgsConstructor

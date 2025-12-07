@@ -11,7 +11,7 @@ import pl.gamilife.auth.exception.domain.RefreshTokenExpiredException;
 import pl.gamilife.auth.models.RefreshToken;
 import pl.gamilife.auth.repository.JpaRefreshTokenRepository;
 import pl.gamilife.auth.service.TokenService;
-import pl.gamilife.infrastructure.core.exception.domain.UserNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 
 import java.time.LocalDateTime;
 

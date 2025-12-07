@@ -1,6 +1,6 @@
 package pl.gamilife.pomodoro.exception;
 
-import pl.gamilife.infrastructure.core.exception.ErrorCode;
+import pl.gamilife.shared.kernel.exception.ErrorCode;
 
 public enum PomodoroErrorCode implements ErrorCode {
     POMODORO_TASK_NOT_FOUND,

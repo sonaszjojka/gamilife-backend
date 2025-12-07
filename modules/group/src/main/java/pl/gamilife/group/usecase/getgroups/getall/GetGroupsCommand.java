@@ -1,6 +1,6 @@
 package pl.gamilife.group.usecase.getgroups.getall;
 
-import pl.gamilife.infrastructure.core.architecture.Command;
+import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.io.Serializable;
 

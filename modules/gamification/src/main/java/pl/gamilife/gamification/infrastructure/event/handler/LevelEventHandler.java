@@ -12,8 +12,8 @@ import pl.gamilife.gamification.application.usecase.processonboardingcompletion.
 import pl.gamilife.gamification.application.usecase.processonboardingcompletion.ProcessOnboardingCompletionUseCase;
 import pl.gamilife.gamification.application.usecase.processuserregistered.ProcessUserRegisteredCommand;
 import pl.gamilife.gamification.application.usecase.processuserregistered.ProcessUserRegisteredUseCase;
-import pl.gamilife.infrastructure.core.event.OnboardingCompletedEvent;
-import pl.gamilife.infrastructure.core.event.UserRegisteredEvent;
+import pl.gamilife.shared.kernel.event.OnboardingCompletedEvent;
+import pl.gamilife.shared.kernel.event.UserRegisteredEvent;
 
 @Component
 @Slf4j

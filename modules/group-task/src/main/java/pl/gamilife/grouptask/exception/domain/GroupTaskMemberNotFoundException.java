@@ -1,7 +1,7 @@
 package pl.gamilife.grouptask.exception.domain;
 
 import pl.gamilife.grouptask.exception.GroupTaskErrorCode;
-import pl.gamilife.infrastructure.core.exception.DomainException;
+import pl.gamilife.shared.kernel.exception.DomainException;
 
 public class GroupTaskMemberNotFoundException extends DomainException {
     public GroupTaskMemberNotFoundException(String message) {

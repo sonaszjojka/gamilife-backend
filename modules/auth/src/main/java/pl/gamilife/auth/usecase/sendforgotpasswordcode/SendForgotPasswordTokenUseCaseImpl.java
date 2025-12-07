@@ -12,7 +12,7 @@ import pl.gamilife.auth.exception.domain.CannotCurrentlyCreateNewForgotPasswordC
 import pl.gamilife.auth.models.ForgotPasswordCode;
 import pl.gamilife.auth.repository.JpaForgotPasswordCodeRepository;
 import pl.gamilife.auth.service.ForgotPasswordCodeService;
-import pl.gamilife.infrastructure.core.event.PasswordResetRequestedEvent;
+import pl.gamilife.shared.kernel.event.PasswordResetRequestedEvent;
 
 import java.util.List;
 import java.util.Optional;

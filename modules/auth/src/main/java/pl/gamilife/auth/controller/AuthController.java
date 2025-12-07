@@ -34,7 +34,7 @@ import pl.gamilife.auth.usecase.sendforgotpasswordcode.SendForgotPasswordCodeCom
 import pl.gamilife.auth.usecase.sendforgotpasswordcode.SendForgotPasswordTokenUseCase;
 import pl.gamilife.auth.usecase.verifyemail.VerifyEmailCommand;
 import pl.gamilife.auth.usecase.verifyemail.VerifyEmailUseCase;
-import pl.gamilife.infrastructure.web.util.CookieUtil;
+import pl.gamilife.shared.web.util.CookieUtil;
 
 @SecurityRequirements
 @RestController

@@ -1,6 +1,6 @@
 package pl.gamilife.task.exception.domain;
 
-import pl.gamilife.infrastructure.core.exception.DomainException;
+import pl.gamilife.shared.kernel.exception.DomainException;
 import pl.gamilife.task.exception.TaskErrorCode;
 
 public class HabitNotFoundException extends DomainException {

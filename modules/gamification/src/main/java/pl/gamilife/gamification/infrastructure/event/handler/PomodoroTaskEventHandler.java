@@ -12,8 +12,8 @@ import pl.gamilife.gamification.application.usecase.processpomodorotaskcompletio
 import pl.gamilife.gamification.application.usecase.processpomodorotaskcompletion.ProcessPomodoroTaskCompletionUseCase;
 import pl.gamilife.gamification.application.usecase.rollbackpomodorotaskcompletion.RollbackPomodoroTaskCompletionCommand;
 import pl.gamilife.gamification.application.usecase.rollbackpomodorotaskcompletion.RollbackPomodoroTaskCompletionUseCase;
-import pl.gamilife.infrastructure.core.event.PomodoroTaskCompletedEvent;
-import pl.gamilife.infrastructure.core.event.PomodoroTaskUndoneEvent;
+import pl.gamilife.shared.kernel.event.PomodoroTaskCompletedEvent;
+import pl.gamilife.shared.kernel.event.PomodoroTaskUndoneEvent;
 
 @Component
 @AllArgsConstructor

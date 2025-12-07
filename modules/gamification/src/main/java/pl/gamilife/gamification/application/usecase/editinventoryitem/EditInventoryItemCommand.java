@@ -1,7 +1,7 @@
 package pl.gamilife.gamification.application.usecase.editinventoryitem;
 
 import jakarta.validation.ValidationException;
-import pl.gamilife.infrastructure.core.architecture.Command;
+import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 

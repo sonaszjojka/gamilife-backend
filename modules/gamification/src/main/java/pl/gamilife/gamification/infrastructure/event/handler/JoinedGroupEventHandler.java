@@ -10,7 +10,7 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 import pl.gamilife.gamification.application.usecase.processgroupjoin.ProcessGroupJoinCommand;
 import pl.gamilife.gamification.application.usecase.processgroupjoin.ProcessGroupJoinUseCase;
-import pl.gamilife.infrastructure.core.event.JoinedGroupEvent;
+import pl.gamilife.shared.kernel.event.JoinedGroupEvent;
 
 @Component
 @AllArgsConstructor

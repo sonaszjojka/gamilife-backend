@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import pl.gamilife.auth.models.EmailVerificationCode;
 import pl.gamilife.auth.repository.JpaEmailVerificationRepository;
 import pl.gamilife.auth.service.EmailVerificationService;
-import pl.gamilife.infrastructure.core.event.EmailVerificationRequestedEvent;
+import pl.gamilife.shared.kernel.event.EmailVerificationRequestedEvent;
 
 import java.time.LocalDateTime;
 import java.util.List;

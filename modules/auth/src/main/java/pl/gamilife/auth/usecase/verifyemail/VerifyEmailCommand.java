@@ -1,6 +1,6 @@
 package pl.gamilife.auth.usecase.verifyemail;
 
-import pl.gamilife.infrastructure.core.architecture.Command;
+import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 

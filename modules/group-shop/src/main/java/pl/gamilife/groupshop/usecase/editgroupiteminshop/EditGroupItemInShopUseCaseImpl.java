@@ -12,7 +12,7 @@ import pl.gamilife.groupshop.exception.domain.GroupShopNotFoundException;
 import pl.gamilife.groupshop.exception.domain.InactiveGroupShopException;
 import pl.gamilife.groupshop.repository.GroupItemInShopRepository;
 import pl.gamilife.groupshop.repository.GroupShopRepository;
-import pl.gamilife.infrastructure.core.exception.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 
 import java.util.UUID;
 

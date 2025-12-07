@@ -8,7 +8,7 @@ import pl.gamilife.api.group.dto.GroupDto;
 import pl.gamilife.groupshop.entity.GroupShop;
 import pl.gamilife.groupshop.exception.domain.GroupShopNotFoundException;
 import pl.gamilife.groupshop.repository.GroupShopRepository;
-import pl.gamilife.infrastructure.core.exception.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 
 import java.util.UUID;
 
