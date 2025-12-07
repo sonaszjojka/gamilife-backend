@@ -3,7 +3,6 @@ package pl.gamilife.gamification.application.usecase.processonboardingcompletion
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.gamification.dto.GamificationValuesDto;
 import pl.gamilife.gamification.domain.model.Level;
 import pl.gamilife.gamification.domain.port.repository.LevelRepository;
 import pl.gamilife.gamification.domain.service.LevelService;
@@ -19,7 +18,7 @@ public class ProcessOnboardingCompletionUseCaseImpl implements ProcessOnboarding
     private final LevelService levelService;
 
     @Override
-    public GamificationValuesDto execute(ProcessOnboardingCompletionCommand cmd) {
+    public Void execute(ProcessOnboardingCompletionCommand cmd) {
         List<Level> levelAfterTutorial = levelRepository.findLevelAfterTutorial();
         levelService.levelUpUser(cmd.userId(), levelAfterTutorial);
 
