@@ -1,5 +1,12 @@
 package pl.gamilife.user.usecase.impl;
 
+import edu.pjwstk.user.domain.User;
+import edu.pjwstk.user.dto.response.GetUsersResult;
+import edu.pjwstk.user.dto.response.UserFullDetailsResponse;
+import edu.pjwstk.user.dto.service.GetUsersCommand;
+import edu.pjwstk.user.persistence.UserRepository;
+import edu.pjwstk.user.specification.UserSpecificationBuilder;
+import edu.pjwstk.user.usecase.GetUsersUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -38,7 +45,7 @@ public class GetUsersUseCaseImpl implements GetUsersUseCase {
                 userPage.getSize(),
                 userPage.getContent()
                         .stream()
-                        .map(UserDetailsResponse::from)
+                        .map(UserFullDetailsResponse::from)
                         .toList()
         );
     }

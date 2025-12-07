@@ -39,7 +39,7 @@ public class UserInventoryItemController {
     private final GetUserInventoryItemsUseCase getUserInventoryItemsUseCase;
 
     @GetMapping
-    @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
+    //TODO: isProfilePrivate
     public ResponseEntity<GetUserInventoryItemsResult> getUserInventoryItems(
             @PathVariable UUID userId,
             @RequestParam(required = false) String itemName,

@@ -7,6 +7,8 @@ public record GetUsersResult(
         int totalPages,
         int currentPage,
         int pageSize,
+        Collection<UserFullDetailsResponse> content
+) {}
         Collection<UserDetailsResponse> content
 ) {
 }

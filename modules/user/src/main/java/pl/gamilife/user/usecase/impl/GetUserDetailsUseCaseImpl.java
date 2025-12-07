@@ -2,9 +2,12 @@ package pl.gamilife.user.usecase.impl;
 
 import edu.pjwstk.api.gamification.GamificationApi;
 import edu.pjwstk.api.gamification.dto.GetRequiredExperienceByLevelIdResult;
-import edu.pjwstk.api.gamification.dto.StartingGamificationValuesDto;
 import edu.pjwstk.core.exception.common.domain.UserNotFoundException;
 import edu.pjwstk.user.domain.User;
+import edu.pjwstk.user.dto.response.UserDetailsResponse;
+import edu.pjwstk.user.dto.response.UserFullDetailsResponse;
+import edu.pjwstk.user.dto.response.UserPrivateDetailsResponse;
+import edu.pjwstk.user.dto.response.UserPublicDetailsResponse;
 import edu.pjwstk.user.dto.service.UserDetailsDto;
 import edu.pjwstk.user.persistence.UserRepository;
 import edu.pjwstk.user.usecase.GetUserDetailsUseCase;
@@ -27,14 +30,20 @@ public class GetUserDetailsUseCaseImpl implements GetUserDetailsUseCase {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetailsDto execute(UUID userId) {
-        User user = userRepository
-                .getUserById(userId)
+    public UserDetailsResponse execute(String requesterEmail, UUID targetUserId) {
+
+        User user = userRepository.getUserById(targetUserId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        GetRequiredExperienceByLevelIdResult result  = gamificationApi.getRequiredExperienceByLevelId(user.getLevel()+1);
+        boolean isOwner = requesterEmail.equals(user.getEmail());
+        if (!isOwner && user.isProfilePublic()) {
+            return UserPublicDetailsResponse.from(user);
+        }else if(!isOwner){
+            return UserPrivateDetailsResponse.from(user);
+        }
 
-        return new UserDetailsDto(
+        var result = gamificationApi.getRequiredExperienceByLevelId(user.getLevel() + 1);
+        return new UserFullDetailsResponse(
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),

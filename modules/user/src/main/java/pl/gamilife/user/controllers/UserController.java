@@ -1,5 +1,19 @@
 package pl.gamilife.user.controllers;
 
+import edu.pjwstk.api.auth.dto.AuthTokens;
+import edu.pjwstk.api.groups.GroupApi;
+import edu.pjwstk.api.groups.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
+import edu.pjwstk.commonweb.CookieUtil;
+import edu.pjwstk.user.dto.request.ChangeUserPasswordRequest;
+import edu.pjwstk.user.dto.response.*;
+import edu.pjwstk.user.dto.response.UserDetailsResponse;
+import edu.pjwstk.user.dto.service.ChangeUserPasswordCommand;
+import edu.pjwstk.user.dto.service.GetUsersCommand;
+import edu.pjwstk.user.dto.service.UserDetailsDto;
+import edu.pjwstk.user.usecase.ChangeUserPasswordUseCase;
+import edu.pjwstk.user.usecase.CompleteOnboardingUseCase;
+import edu.pjwstk.user.usecase.GetUserDetailsUseCase;
+import edu.pjwstk.user.usecase.GetUsersUseCase;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.Max;
@@ -9,6 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.api.auth.dto.AuthTokens;
 import pl.gamilife.api.group.GroupApi;
@@ -42,11 +57,15 @@ public class UserController {
     private GroupApi groupsApi;
 
     @GetMapping("/{userId}")
-    @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
-    public ResponseEntity<UserDetailsResponse> getCurrentUserDetails(@PathVariable UUID userId) {
-        UserDetailsDto dto = getUserDetailsUseCase.execute(userId);
+    //TODO: isProfilePrivate
+    public ResponseEntity<UserDetailsResponse> getCurrentUserDetails(
+            @PathVariable UUID userId,
+            Authentication authentication
+    ) {
+        String requesterEmail = authentication.getName();
+        UserDetailsResponse result = getUserDetailsUseCase.execute(requesterEmail, userId);
 
-        return ResponseEntity.ok(UserDetailsResponse.from(dto));
+        return ResponseEntity.ok(result);
     }
 
     @PatchMapping("/{userId}/password")
@@ -73,7 +92,7 @@ public class UserController {
             @PathVariable UUID userId
     ) {
         UserDetailsDto dto = completeOnboardingUseCase.execute(userId);
-        return ResponseEntity.ok(UserDetailsResponse.from(dto));
+        return ResponseEntity.ok(UserFullDetailsResponse.from(dto));
     }
 
     @GetMapping("/{userId}/groups")
