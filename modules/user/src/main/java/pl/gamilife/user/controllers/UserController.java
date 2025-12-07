@@ -5,17 +5,14 @@ import edu.pjwstk.api.groups.GroupApi;
 import edu.pjwstk.api.groups.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
 import edu.pjwstk.commonweb.CookieUtil;
 import edu.pjwstk.user.dto.request.ChangeUserPasswordRequest;
+import edu.pjwstk.user.dto.request.EditUserRequest;
 import edu.pjwstk.user.dto.response.*;
 import edu.pjwstk.user.dto.response.UserDetailsResponse;
-import edu.pjwstk.user.dto.service.ChangeUserPasswordCommand;
-import edu.pjwstk.user.dto.service.GetUsersCommand;
-import edu.pjwstk.user.dto.service.UserDetailsDto;
-import edu.pjwstk.user.usecase.ChangeUserPasswordUseCase;
-import edu.pjwstk.user.usecase.CompleteOnboardingUseCase;
-import edu.pjwstk.user.usecase.GetUserDetailsUseCase;
-import edu.pjwstk.user.usecase.GetUsersUseCase;
+import edu.pjwstk.user.dto.service.*;
+import edu.pjwstk.user.usecase.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -53,6 +50,7 @@ public class UserController {
     private ChangeUserPasswordUseCase changeUserPasswordUseCase;
     private GetUsersUseCase getUsersUseCase;
     private CompleteOnboardingUseCase completeOnboardingUseCase;
+    private EditUserUseCase editUserUseCase;
     private CookieUtil cookieUtil;
     private GroupApi groupsApi;
 
@@ -66,6 +64,24 @@ public class UserController {
         UserDetailsResponse result = getUserDetailsUseCase.execute(requesterEmail, userId);
 
         return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<EditUserResult> editUser(
+            @RequestBody @Valid EditUserRequest request,
+            @PathVariable("userId") UUID userId) {
+
+        EditUserResult response = editUserUseCase.execute(new EditUserCommand(
+                userId,
+                request.firstName(),
+                request.lastName(),
+                request.username(),
+                request.dateOfBirth(),
+                request.sendBudgetReports(),
+                request.isProfilePublic()
+        ));
+
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{userId}/password")
