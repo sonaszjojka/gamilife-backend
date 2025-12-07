@@ -1,5 +1,6 @@
 package pl.gamilife.gamification.domain.port.repository;
 
+import jakarta.validation.constraints.NotNull;
 import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.domain.model.UserInventoryItem;
 
@@ -20,4 +21,6 @@ public interface UserInventoryItemRepository {
     void saveAll(List<UserInventoryItem> toSave);
 
     Optional<UserInventoryItem> findByUserIdAndItem(UUID userId, Item item);
+
+    Optional<UserInventoryItem> findItemEquippedOnSlot(UUID userId, int itemSlotId, UUID newInventoryItemId);
 }

@@ -47,4 +47,9 @@ public class UserInventoryItemRepositoryAdapter implements UserInventoryItemRepo
     public Optional<UserInventoryItem> findByUserIdAndItem(UUID userId, Item item) {
         return jpaUserInventoryItemRepository.findByUserIdAndItem(userId, item);
     }
+
+    @Override
+    public Optional<UserInventoryItem> findItemEquippedOnSlot(UUID userId, int itemSlotId, UUID newInventoryItemId) {
+        return jpaUserInventoryItemRepository.findItemEquippedOnSlot(userId, itemSlotId, newInventoryItemId);
+    }
 }

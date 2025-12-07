@@ -2,6 +2,8 @@ package pl.gamilife.gamification.infrastructure.persistence.jpa;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.domain.model.UserInventoryItem;
 
@@ -17,4 +19,20 @@ public interface JpaUserInventoryItemRepository extends JpaRepository<UserInvent
 
     @EntityGraph(attributePaths = {"item"})
     Optional<UserInventoryItem> findWithItemById(UUID userInventoryId);
+
+    @Query(
+            """
+                SELECT uii
+                FROM UserInventoryItem uii
+                LEFT JOIN FETCH uii.item i
+                WHERE uii.userId = :userId
+                  AND i.itemSlotId = :itemSlotId
+                  AND uii.isEquipped = true
+                  AND uii.id != :newInventoryItemId
+            """
+    )
+    Optional<UserInventoryItem> findItemEquippedOnSlot(
+            @Param("userId") UUID userId,
+            @Param("itemSlotId") int itemSlotId,
+            @Param("newInventoryItemId") UUID newInventoryItemId);
 }

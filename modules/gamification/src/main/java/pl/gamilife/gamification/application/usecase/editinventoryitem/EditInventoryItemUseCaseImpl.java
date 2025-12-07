@@ -48,9 +48,14 @@ public class EditInventoryItemUseCaseImpl implements EditInventoryItemUseCase {
 
         if (userInventoryItem.changeEquippedStatus(cmd.isEquipped())) {
             resultBuilder.newIsEquipped(cmd.isEquipped());
-        }
+            inventoryItemRepository.save(userInventoryItem);
 
-        inventoryItemRepository.save(userInventoryItem);
+            if (userInventoryItem.getIsEquipped()) {
+                unequipPreviouslyEquippedItem(userInventoryItem);
+            }
+        } else {
+            inventoryItemRepository.save(userInventoryItem);
+        }
 
         return resultBuilder.build();
     }
@@ -63,5 +68,18 @@ public class EditInventoryItemUseCaseImpl implements EditInventoryItemUseCase {
     private UserInventoryItem getUserInventoryItemWithItem(UUID userInventoryItemId) {
         return inventoryItemRepository.findWithItemById(userInventoryItemId)
                 .orElseThrow(() -> new InventoryItemNotFound("Item in inventory not found"));
+    }
+
+    private void unequipPreviouslyEquippedItem(UserInventoryItem newlyEquippedInventoryItem) {
+        UserInventoryItem previouslyEquippedItem = inventoryItemRepository.findItemEquippedOnSlot(
+                newlyEquippedInventoryItem.getUserId(),
+                newlyEquippedInventoryItem.getItem().getItemSlotId(),
+                newlyEquippedInventoryItem.getId()
+        ).orElse(null);
+
+        if (previouslyEquippedItem != null) {
+            previouslyEquippedItem.changeEquippedStatus(false);
+            inventoryItemRepository.save(previouslyEquippedItem);
+        }
     }
 }
