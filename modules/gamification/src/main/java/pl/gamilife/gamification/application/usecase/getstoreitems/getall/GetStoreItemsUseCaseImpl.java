@@ -1,9 +1,9 @@
 package pl.gamilife.gamification.application.usecase.getstoreitems.getall;
 
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.domain.model.enums.ItemSlotEnum;
@@ -21,7 +21,7 @@ public class GetStoreItemsUseCaseImpl implements GetStoreItemsUseCase {
     private final ItemRepositoryAdapter itemRepositoryAdapter;
 
     @Override
-    public GetStoreItemsResult execute(GetStoreItemsCommand cmd) {
+    public Page<StoreItemDto> execute(GetStoreItemsCommand cmd) {
 
 
         ItemSlotEnum itemSlotEnum = cmd.itemSlot() != null
@@ -42,16 +42,16 @@ public class GetStoreItemsUseCaseImpl implements GetStoreItemsUseCase {
         return null;
     }
 
-    private GetStoreItemsResult.StoreItemDto toDto(Item item) {
-        return new GetStoreItemsResult.StoreItemDto(
+    private StoreItemDto toDto(Item item) {
+        return new StoreItemDto(
                 item.getId(),
                 item.getName(),
                 item.getImagePath(),
-                new GetStoreItemsResult.ItemSlotDto(
+                new StoreItemDto.ItemSlotDto(
                         item.getItemSlot().getId(),
                         item.getItemSlot().getName()
                 ),
-                new GetStoreItemsResult.RarityDto(
+                new StoreItemDto.RarityDto(
                         item.getRarity().getId(),
                         item.getRarity().getName()
                 ),
