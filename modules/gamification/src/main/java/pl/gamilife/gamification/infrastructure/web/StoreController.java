@@ -2,26 +2,25 @@ package pl.gamilife.gamification.infrastructure.web;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getall.GetStoreItemsCommand;
-import pl.gamilife.gamification.application.usecase.getstoreitems.getall.GetStoreItemsResult;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getall.GetStoreItemsUseCase;
+import pl.gamilife.gamification.application.usecase.getstoreitems.getall.StoreItemDto;
+import pl.gamilife.shared.kernel.architecture.Page;
 
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/store")
 public class StoreController {
 
     private final GetStoreItemsUseCase getStoreItemsUseCase;
 
-    public StoreController(GetStoreItemsUseCase getStoreItemsUseCase) {
-        this.getStoreItemsUseCase = getStoreItemsUseCase;
-    }
-
-    @GetMapping("/items")
-    public ResponseEntity<GetStoreItemsResult> getFilteredItems(
+    @GetMapping("/item")
+    public ResponseEntity<Page<StoreItemDto>> getFilteredItems(
             @RequestParam(required = false) String itemName,
             @RequestParam(required = false) Integer itemSlot,
             @RequestParam(required = false) Integer rarity,
@@ -38,7 +37,7 @@ public class StoreController {
         return ResponseEntity.ok(getStoreItemsUseCase.execute(cmd));
     }
 
-    @GetMapping("/items/{itemId}")
+    @GetMapping("/item/{itemId}")
     public ResponseEntity<String> getItemDetails(@PathVariable UUID itemId) {
         return ResponseEntity.ok(String.format("Hello World, Store Controller! Item ID: %s", itemId));
     }
