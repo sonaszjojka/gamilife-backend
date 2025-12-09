@@ -55,7 +55,6 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                 .difficultyId(request.difficultyId())
                 .userId(currentUserDto.userId())
                 .description(request.description())
-                .completedAt(request.completedAt())
                 .build();
 
         task = taskRepository.save(task);
