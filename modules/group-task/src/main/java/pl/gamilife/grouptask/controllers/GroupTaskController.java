@@ -17,6 +17,7 @@ import pl.gamilife.grouptask.usecase.editgrouptask.EditGroupTaskUseCase;
 import pl.gamilife.grouptask.usecase.getgrouptasks.GetGroupTaskDto;
 import pl.gamilife.grouptask.usecase.getgrouptasks.GetGroupTasksRequestFilter;
 import pl.gamilife.grouptask.usecase.getgrouptasks.GetGroupTasksUseCase;
+import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
 
@@ -45,9 +46,11 @@ public class GroupTaskController {
     }
 
     @DeleteMapping("/{groupTaskId}")
-    public ResponseEntity<ApiResponse> delete(@PathVariable("groupTaskId") UUID groupTaskId) {
+    public ResponseEntity<ApiResponse> delete(
+            @CurrentUserId UUID userId,
+            @PathVariable("groupTaskId") UUID groupTaskId) {
 
-        deleteGroupTaskUseCase.execute(groupTaskId);
+        deleteGroupTaskUseCase.execute(userId, groupTaskId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ApiResponse("Group Task with id: " + groupTaskId + " deleted successfully"));
     }

@@ -1,50 +1,38 @@
 package pl.gamilife.task.application.createtasknotification;
 
-import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
 import pl.gamilife.task.domain.model.Task;
 import pl.gamilife.task.domain.model.TaskNotification;
 import pl.gamilife.task.domain.port.repository.TaskNotificationRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
-import pl.gamilife.task.infrastructure.web.request.CreateTaskNotificationRequest;
-import pl.gamilife.task.infrastructure.web.response.CreateTaskNotificationResponse;
 
-import java.util.UUID;
-
-@Component
+@Service
+@AllArgsConstructor
 public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotificationUseCase {
 
     private final TaskNotificationRepository taskNotificationRepository;
     private final TaskRepository taskRepository;
-    private final AuthApi currentUserProvider;
-
-    public CreateTaskNotificationUseCaseImpl(TaskNotificationRepository taskNotificationRepository, TaskRepository taskRepository, AuthApi currentUserProvider) {
-        this.taskNotificationRepository = taskNotificationRepository;
-        this.taskRepository = taskRepository;
-        this.currentUserProvider = currentUserProvider;
-    }
 
     @Override
     @Transactional
-    public CreateTaskNotificationResponse execute(CreateTaskNotificationRequest request, UUID taskId) {
+    public CreateTaskNotificationResult execute(CreateTaskNotificationCommand cmd) {
         Task task = taskRepository
-                .findById(taskId)
+                .findById(cmd.taskId())
                 .orElseThrow(() -> new TaskNotFoundException(
-                        "Task with id " + taskId + " not found!"
+                        "Task with id " + cmd.taskId() + " not found!"
                 ));
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
-        if (!currentUserDto.userId().equals(task.getUserId())) {
+        if (!cmd.userId().equals(task.getUserId())) {
             throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to create notification for another user!");
         }
 
         TaskNotification taskNotification = TaskNotification.builder()
-                .taskId(taskId)
-                .sendDate(request.sendDate())
+                .taskId(cmd.taskId())
+                .sendDate(cmd.sendDate())
                 .build();
 
         taskNotification = taskNotificationRepository.save(taskNotification);
@@ -52,8 +40,8 @@ public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotification
         return buildResponse(taskNotification);
     }
 
-    private CreateTaskNotificationResponse buildResponse(TaskNotification taskNotification) {
-        return new CreateTaskNotificationResponse(
+    private CreateTaskNotificationResult buildResponse(TaskNotification taskNotification) {
+        return new CreateTaskNotificationResult(
                 taskNotification.getId(),
                 taskNotification.getSendDate(),
                 taskNotification.getTaskId() // todo: might want to return whole different data

@@ -1,10 +1,8 @@
 package pl.gamilife.task.application.getusertasks;
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.pomodoro.PomodoroApi;
 import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 import pl.gamilife.shared.kernel.architecture.Page;
@@ -14,32 +12,26 @@ import pl.gamilife.task.domain.port.repository.HabitRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
 import pl.gamilife.task.infrastructure.web.response.GetUserTasksDto;
 
-import java.util.UUID;
-
 @Service
+@Transactional(readOnly = true)
 @AllArgsConstructor
 public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
 
     private final TaskRepository taskRepository;
-    private final AuthApi authApi;
     private final PomodoroApi pomodoroTaskApi;
     private final HabitRepository habitRepository;
 
     @Override
-    @Transactional
-    public Page<GetUserTasksDto> execute(GetUserTasksFilterDto request) {
-
-        CurrentUserDto userDto = authApi.getCurrentUser();
-        UUID userId = userDto.userId();
+    public Page<GetUserTasksDto> execute(GetUserTasksCommand cmd) {
         TaskFilter filter = new TaskFilter(
-                userId,
-                request.categoryId(),
-                request.difficultyId(),
-                request.isGroupTask(),
-                request.isCompleted()
+                cmd.userId(),
+                cmd.categoryId(),
+                cmd.difficultyId(),
+                cmd.isGroupTask(),
+                cmd.isCompleted()
         );
 
-        return taskRepository.findAll(filter, request.pageNumber(), request.pageSize())
+        return taskRepository.findAll(filter, cmd.pageNumber(), cmd.pageSize())
                 .map(task -> {
                     PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
                     GetUserTasksDto.TaskHabitDto taskHabit = null;

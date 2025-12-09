@@ -20,13 +20,13 @@ public class DeleteGroupTaskUseCaseImpl implements DeleteGroupTaskUseCase {
     }
 
 
-    @Override
     @Transactional
-    public void execute(UUID groupTaskId) {
+    @Override
+    public void execute(UUID userId, UUID groupTaskId) {
         GroupTask groupTask = groupTaskRepository.findByGroupTaskId(groupTaskId).orElseThrow(
                 () -> new GroupTaskNotFoundException("Group Task with id:" + groupTaskId + " does not exist"));
 
         groupTaskRepository.deleteByGroupTaskId(groupTaskId);
-        tasksProvider.deleteTaskByTaskId(groupTask.getTaskId());
+        tasksProvider.deleteTaskByTaskId(userId, groupTask.getTaskId());
     }
 }
