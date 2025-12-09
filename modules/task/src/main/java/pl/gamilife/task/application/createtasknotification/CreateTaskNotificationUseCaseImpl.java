@@ -9,6 +9,8 @@ import pl.gamilife.task.domain.model.Task;
 import pl.gamilife.task.domain.model.TaskNotification;
 import pl.gamilife.task.domain.port.repository.TaskNotificationRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
+import pl.gamilife.task.infrastructure.web.request.CreateTaskNotificationRequest;
+import pl.gamilife.task.infrastructure.web.response.CreateTaskNotificationResponse;
 
 @Service
 @AllArgsConstructor

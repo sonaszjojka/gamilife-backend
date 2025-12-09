@@ -7,6 +7,8 @@ import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequire
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
 import pl.gamilife.task.domain.model.TaskNotification;
 import pl.gamilife.task.domain.port.repository.TaskNotificationRepository;
+import pl.gamilife.task.infrastructure.web.request.EditTaskNotificationRequest;
+import pl.gamilife.task.infrastructure.web.response.EditTaskNotificationResponse;
 
 @Service
 @AllArgsConstructor
