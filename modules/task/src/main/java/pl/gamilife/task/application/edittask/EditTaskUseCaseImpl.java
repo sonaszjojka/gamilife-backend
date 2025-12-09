@@ -13,10 +13,8 @@ import pl.gamilife.task.domain.model.TaskDifficulty;
 import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
 import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
-import pl.gamilife.task.infrastructure.web.request.EditTaskRequest;
 
 import java.util.Objects;
-import java.util.UUID;
 
 @Component
 @AllArgsConstructor
