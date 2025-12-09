@@ -13,7 +13,7 @@ import pl.gamilife.gamification.infrastructure.persistence.ItemRepositoryAdapter
 import pl.gamilife.shared.kernel.architecture.Page;
 
 @Service
-@Transactional()
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 public class GetStoreItemsUseCaseImpl implements GetStoreItemsUseCase {
