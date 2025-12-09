@@ -1,11 +1,8 @@
 package pl.gamilife.task.application.taskexistsbyid;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
-
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
