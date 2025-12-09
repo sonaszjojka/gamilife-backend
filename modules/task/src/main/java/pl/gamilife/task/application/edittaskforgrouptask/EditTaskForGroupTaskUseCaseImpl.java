@@ -1,37 +1,33 @@
 package pl.gamilife.task.application.edittaskforgrouptask;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
-import pl.gamilife.task.entity.Task;
-import pl.gamilife.task.entity.TaskCategory;
-import pl.gamilife.task.entity.TaskDifficulty;
-import pl.gamilife.task.exception.domain.TaskCategoryNotFoundException;
-import pl.gamilife.task.exception.domain.TaskDifficultyNotFoundException;
-import pl.gamilife.task.repository.TaskCategoryRepository;
-import pl.gamilife.task.repository.TaskDifficultyRepository;
-import pl.gamilife.task.repository.jpa.TaskRepositoryJpa;
+import pl.gamilife.task.domain.model.Task;
+import pl.gamilife.task.domain.model.TaskCategory;
+import pl.gamilife.task.domain.model.TaskDifficulty;
+import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
+import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
+import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
+import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
+import pl.gamilife.task.domain.port.repository.TaskRepository;
 
 import java.util.Objects;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class EditTaskForGroupTaskUseCaseImpl implements EditTaskForGroupTaskUseCase {
 
-    private final TaskRepositoryJpa taskRepositoryJpa;
+    private final TaskRepository taskRepository;
     private final TaskCategoryRepository taskCategoryRepository;
     private final TaskDifficultyRepository taskDifficultyRepository;
 
-    public EditTaskForGroupTaskUseCaseImpl(TaskRepositoryJpa taskRepositoryJpa, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository) {
-        this.taskRepositoryJpa = taskRepositoryJpa;
-        this.taskCategoryRepository = taskCategoryRepository;
-        this.taskDifficultyRepository = taskDifficultyRepository;
-    }
-
     @Override
     public TaskForGroupTaskResponseDto execute(TaskForGroupTaskRequestDto request, UUID taskId) {
-        Task task = taskRepositoryJpa.findById(taskId).orElseThrow(
+        Task task = taskRepository.findById(taskId).orElseThrow(
                 () -> new TaskNotFoundException("Task with id " + taskId + " not found."));
 
         if (request.title() != null) {

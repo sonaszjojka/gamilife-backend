@@ -4,17 +4,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
-import pl.gamilife.task.controllers.request.CreateTaskRequest;
-import pl.gamilife.task.controllers.response.CreateTaskResponse;
-import pl.gamilife.task.entity.Task;
-import pl.gamilife.task.entity.TaskCategory;
-import pl.gamilife.task.entity.TaskDifficulty;
-import pl.gamilife.task.exception.domain.TaskCategoryNotFoundException;
-import pl.gamilife.task.exception.domain.TaskDifficultyNotFoundException;
-import pl.gamilife.task.repository.TaskCategoryRepository;
-import pl.gamilife.task.repository.TaskDifficultyRepository;
-import pl.gamilife.task.repository.TaskRepository;
-import pl.gamilife.task.repository.impl.TaskRepositoryImpl;
+import pl.gamilife.task.infrastructure.web.request.CreateTaskRequest;
+import pl.gamilife.task.infrastructure.web.response.CreateTaskResponse;
+import pl.gamilife.task.domain.model.Task;
+import pl.gamilife.task.domain.model.TaskCategory;
+import pl.gamilife.task.domain.model.TaskDifficulty;
+import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
+import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
+import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
+import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
+import pl.gamilife.task.domain.port.repository.TaskRepository;
+import pl.gamilife.task.infrastructure.persistence.TaskRepositoryAdapter;
 
 @Component
 public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
@@ -24,7 +24,7 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final AuthApi currentUserProvider;
 
-    public CreateTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, AuthApi currentUserProvider) {
+    public CreateTaskUseCaseImpl(TaskRepositoryAdapter taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, AuthApi currentUserProvider) {
         this.taskRepository = taskRepository;
         this.taskCategoryRepository = taskCategoryRepository;
         this.taskDifficultyRepository = taskDifficultyRepository;

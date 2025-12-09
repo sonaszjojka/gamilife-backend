@@ -4,15 +4,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
-import pl.gamilife.task.entity.Task;
-import pl.gamilife.task.entity.TaskCategory;
-import pl.gamilife.task.entity.TaskDifficulty;
-import pl.gamilife.task.exception.domain.TaskCategoryNotFoundException;
-import pl.gamilife.task.exception.domain.TaskDifficultyNotFoundException;
-import pl.gamilife.task.repository.TaskCategoryRepository;
-import pl.gamilife.task.repository.TaskDifficultyRepository;
-import pl.gamilife.task.repository.TaskRepository;
-import pl.gamilife.task.repository.impl.TaskRepositoryImpl;
+import pl.gamilife.task.domain.model.Task;
+import pl.gamilife.task.domain.model.TaskCategory;
+import pl.gamilife.task.domain.model.TaskDifficulty;
+import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
+import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
+import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
+import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
+import pl.gamilife.task.domain.port.repository.TaskRepository;
+import pl.gamilife.task.infrastructure.persistence.TaskRepositoryAdapter;
 
 @Component
 public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTaskUseCase {
@@ -21,7 +21,7 @@ public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTask
     private final TaskCategoryRepository taskCategoryRepository;
     private final TaskDifficultyRepository taskDifficultyRepository;
 
-    public CreateTaskForGroupTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository) {
+    public CreateTaskForGroupTaskUseCaseImpl(TaskRepositoryAdapter taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository) {
         this.taskRepository = taskRepository;
         this.taskCategoryRepository = taskCategoryRepository;
         this.taskDifficultyRepository = taskDifficultyRepository;

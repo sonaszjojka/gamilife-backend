@@ -1,8 +1,8 @@
 package pl.gamilife.task.application.edittask;
 
 import org.springframework.stereotype.Component;
-import pl.gamilife.task.controllers.request.EditTaskRequest;
-import pl.gamilife.task.controllers.response.EditTaskResponse;
+import pl.gamilife.task.infrastructure.web.request.EditTaskRequest;
+import pl.gamilife.task.infrastructure.web.response.EditTaskResponse;
 
 import java.util.UUID;
 

@@ -1,8 +1,8 @@
 package pl.gamilife.task.application.edittasknotification;
 
 import org.springframework.stereotype.Component;
-import pl.gamilife.task.controllers.request.EditTaskNotificationRequest;
-import pl.gamilife.task.controllers.response.EditTaskNotificationResponse;
+import pl.gamilife.task.infrastructure.web.request.EditTaskNotificationRequest;
+import pl.gamilife.task.infrastructure.web.response.EditTaskNotificationResponse;
 
 import java.util.UUID;
 

@@ -8,21 +8,21 @@ import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
 import pl.gamilife.task.application.deletehabit.DeleteHabitUseCase;
-import pl.gamilife.task.entity.Habit;
-import pl.gamilife.task.entity.Task;
-import pl.gamilife.task.repository.TaskRepository;
-import pl.gamilife.task.repository.jpa.HabitRepositoryJpa;
+import pl.gamilife.task.domain.model.Habit;
+import pl.gamilife.task.domain.model.Task;
+import pl.gamilife.task.domain.port.repository.TaskRepository;
+import pl.gamilife.task.infrastructure.persistence.jpa.JpaHabitRepository;
 
 import java.util.UUID;
 
 @Component
 public class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
     private final TaskRepository taskRepository;
-    private final HabitRepositoryJpa habitRepository;
+    private final JpaHabitRepository habitRepository;
     private final DeleteHabitUseCase deleteHabitUseCase;
     private final AuthApi currentUserProvider;
 
-    public DeleteTaskUseCaseImpl(TaskRepository taskRepository, HabitRepositoryJpa habitRepository, DeleteHabitUseCase deleteHabitUseCase, AuthApi currentUserProvider) {
+    public DeleteTaskUseCaseImpl(TaskRepository taskRepository, JpaHabitRepository habitRepository, DeleteHabitUseCase deleteHabitUseCase, AuthApi currentUserProvider) {
         this.taskRepository = taskRepository;
         this.habitRepository = habitRepository;
         this.deleteHabitUseCase = deleteHabitUseCase;

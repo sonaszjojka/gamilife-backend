@@ -1,7 +1,7 @@
 package pl.gamilife.task.application.createtasknotification;
 
-import pl.gamilife.task.controllers.request.CreateTaskNotificationRequest;
-import pl.gamilife.task.controllers.response.CreateTaskNotificationResponse;
+import pl.gamilife.task.infrastructure.web.request.CreateTaskNotificationRequest;
+import pl.gamilife.task.infrastructure.web.response.CreateTaskNotificationResponse;
 
 import java.util.UUID;
 
