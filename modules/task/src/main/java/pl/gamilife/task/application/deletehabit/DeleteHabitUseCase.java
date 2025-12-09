@@ -1,7 +1,6 @@
 package pl.gamilife.task.application.deletehabit;
 
-import java.util.UUID;
+import pl.gamilife.shared.kernel.architecture.UseCase;
 
-public interface DeleteHabitUseCase {
-    void execute(UUID taskId);
+public interface DeleteHabitUseCase extends UseCase<DeleteHabitCommand, Void> {
 }

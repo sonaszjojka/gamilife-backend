@@ -1,12 +1,6 @@
 package pl.gamilife.task.application.edittaskforgrouptask;
 
-import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
-import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
+import pl.gamilife.shared.kernel.architecture.UseCase;
 
-import java.util.UUID;
-
-public interface EditTaskForGroupTaskUseCase {
-
-
-    public TaskForGroupTaskResponseDto execute(TaskForGroupTaskRequestDto request, UUID taskId);
+public interface EditTaskForGroupTaskUseCase extends UseCase<EditTaskForGroupTaskCommand, EditTaskForGroupTaskResult> {
 }

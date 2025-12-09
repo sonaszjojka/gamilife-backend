@@ -11,7 +11,11 @@ import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTas
 import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTaskUseCase;
 import pl.gamilife.task.application.deletetask.DeleteTaskCommand;
 import pl.gamilife.task.application.deletetask.DeleteTaskUseCase;
+import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskCommand;
+import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskResult;
 import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskUseCase;
+import pl.gamilife.task.application.findtaskbyid.FindTaskByIdCommand;
+import pl.gamilife.task.application.findtaskbyid.FindTaskByIdResult;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdUseCase;
 
 import java.util.UUID;
@@ -27,7 +31,25 @@ public class TasksApiImpl implements TasksApi {
 
     @Override
     public TaskDto findTaskByTaskId(UUID taskId) {
-        return findTaskByIdUseCase.execute(taskId);
+        FindTaskByIdResult result = findTaskByIdUseCase.execute(new FindTaskByIdCommand(taskId));
+
+        return new TaskDto(
+                result.id(),
+                result.title(),
+                result.description(),
+                result.userId(),
+                new TaskDto.TaskCategoryDto(
+                        result.category().id(),
+                        result.category().categoryName()
+                ),
+                new TaskDto.TaskDifficultyDto(
+                        result.difficulty().id(),
+                        result.difficulty().difficultyName()
+                ),
+                result.deadline(),
+                result.completedAt(),
+                result.habitTask() != null ? new TaskDto.HabitDto(result.habitTask().id()) : null
+        );
     }
 
     @Override
@@ -60,7 +82,24 @@ public class TasksApiImpl implements TasksApi {
     @Override
     public TaskForGroupTaskResponseDto updateTaskForGroupTask(TaskForGroupTaskRequestDto request, UUID taskId) {
 
-        return editTaskForGroupTaskUseCase.execute(request, taskId);
+        EditTaskForGroupTaskResult result = editTaskForGroupTaskUseCase.execute(new EditTaskForGroupTaskCommand(
+                taskId,
+                request.title(),
+                request.deadline(),
+                request.categoryId(),
+                request.difficultyId(),
+                request.completed(),
+                request.description()
+        ));
+
+        return new TaskForGroupTaskResponseDto(
+                result.taskId(),
+                result.title(),
+                result.deadline(),
+                result.categoryId(),
+                result.difficultyId(),
+                result.description()
+        );
     }
 
 }

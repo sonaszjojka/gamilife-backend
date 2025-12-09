@@ -19,15 +19,15 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
 
     @Override
     @Transactional
-    public EditHabitResponse execute(EditHabitRequest request, UUID taskId) {
-        Habit habit = habitRepository.findHabitByTaskId(taskId)
+    public EditHabitResponse execute(EditHabitCommand cmd) {
+        Habit habit = habitRepository.findHabitByTaskId(cmd.taskId())
                 .orElseThrow(() -> new HabitNotFoundException(
-                        "Habit for taskId " + taskId + " not found!"
+                        "Habit for taskId " + cmd.taskId() + " not found!"
                 ));
 
-        habit.setCycleLength(request.cycleLength());
+        habit.setCycleLength(cmd.cycleLength());
 
-        if (request.finished()) {
+        if (cmd.finished() != null && cmd.finished()) {
             habit.finish();
         }
 
