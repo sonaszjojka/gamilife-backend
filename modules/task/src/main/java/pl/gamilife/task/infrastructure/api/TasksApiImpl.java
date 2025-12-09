@@ -6,7 +6,10 @@ import pl.gamilife.api.task.TasksApi;
 import pl.gamilife.api.task.dto.TaskDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
+import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTaskCommand;
+import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTaskResult;
 import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTaskUseCase;
+import pl.gamilife.task.application.deletetask.DeleteTaskCommand;
 import pl.gamilife.task.application.deletetask.DeleteTaskUseCase;
 import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskUseCase;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdUseCase;
@@ -28,13 +31,30 @@ public class TasksApiImpl implements TasksApi {
     }
 
     @Override
-    public void deleteTaskByTaskId(UUID taskId) {
-        deleteTaskUseCase.execute(taskId);
+    public void deleteTaskByTaskId(UUID userId, UUID taskId) {
+        deleteTaskUseCase.execute(new DeleteTaskCommand(
+                userId, taskId
+        ));
     }
 
     @Override
     public TaskForGroupTaskResponseDto createTaskForGroupTask(TaskForGroupTaskRequestDto request) {
-        return createTaskForGroupTaskUseCase.execute(request);
+        CreateTaskForGroupTaskResult result = createTaskForGroupTaskUseCase.execute(new CreateTaskForGroupTaskCommand(
+                request.title(),
+                request.deadline(),
+                request.categoryId(),
+                request.difficultyId(),
+                request.description()
+        ));
+
+        return new TaskForGroupTaskResponseDto(
+                result.taskId(),
+                result.title(),
+                result.deadline(),
+                result.categoryId(),
+                result.difficultyId(),
+                result.description()
+        );
     }
 
     @Override

@@ -1,4 +1,4 @@
-package pl.gamilife.task.infrastructure.web.response;
+package pl.gamilife.task.application.createtask;
 
 import lombok.Builder;
 
@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Builder
-public record CreateTaskResponse(
+public record CreateTaskResult(
         UUID taskId,
         String title,
         String description,

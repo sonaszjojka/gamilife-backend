@@ -3,8 +3,6 @@ package pl.gamilife.task.application.edittask;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
 import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
@@ -16,7 +14,6 @@ import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
 import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
 import pl.gamilife.task.infrastructure.web.request.EditTaskRequest;
-import pl.gamilife.task.infrastructure.web.response.EditTaskResponse;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -28,54 +25,52 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
     private final TaskRepository taskRepository;
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final TaskCategoryRepository taskCategoryRepository;
-    private final AuthApi currentUserProvider;
 
     @Override
     @Transactional
-    public EditTaskResponse execute(EditTaskRequest request, UUID taskId) {
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " not found."));
+    public EditTaskResult execute(EditTaskCommand cmd) {
+        Task task = taskRepository.findById(cmd.taskId())
+                .orElseThrow(() -> new TaskNotFoundException("Task with id " + cmd.taskId() + " not found."));
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
-        if (!task.isGroupTask() && !currentUserDto.userId().equals(task.getUserId())) {
+        if (!task.isGroupTask() && !cmd.userId().equals(task.getUserId())) {
             throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to edit task for another user!");
         }
 
-        if (request.title() != null) {
-            task.setTitle(request.title());
+        if (cmd.title() != null) {
+            task.setTitle(cmd.title());
         }
 
-        if (request.deadline() != null) {
-            task.setDeadline(request.deadline());
+        if (cmd.deadline() != null) {
+            task.setDeadline(cmd.deadline());
         }
 
-        if (request.description() != null) {
-            task.setDescription(request.description());
+        if (cmd.description() != null) {
+            task.setDescription(cmd.description());
         }
 
-        if (request.completed()) {
+        if (cmd.completed()) {
             task.complete();
         }
 
-        if (request.categoryId() != null && !Objects.equals(task.getCategoryId(), request.categoryId())) {
+        if (cmd.categoryId() != null && !Objects.equals(task.getCategoryId(), cmd.categoryId())) {
             TaskCategory taskCategory = taskCategoryRepository
-                    .findById(request.categoryId())
-                    .orElseThrow(() -> new TaskCategoryNotFoundException("Category with id " + request.categoryId() + " not found!"));
+                    .findById(cmd.categoryId())
+                    .orElseThrow(() -> new TaskCategoryNotFoundException("Category with id " + cmd.categoryId() + " not found!"));
             task.setCategory(taskCategory);
         }
 
-        if (request.difficultyId() != null && !Objects.equals(task.getDifficultyId(), request.difficultyId())) {
+        if (cmd.difficultyId() != null && !Objects.equals(task.getDifficultyId(), cmd.difficultyId())) {
             TaskDifficulty taskDifficulty = taskDifficultyRepository
-                    .findById(request.difficultyId())
-                    .orElseThrow(() -> new TaskDifficultyNotFoundException("Task difficulty with id " + request.difficultyId() + " not found!"));
+                    .findById(cmd.difficultyId())
+                    .orElseThrow(() -> new TaskDifficultyNotFoundException("Task difficulty with id " + cmd.difficultyId() + " not found!"));
             task.setDifficulty(taskDifficulty);
         }
 
         return buildResponse(taskRepository.save(task));
     }
 
-    public EditTaskResponse buildResponse(Task task) {
-        return EditTaskResponse.builder()
+    public EditTaskResult buildResponse(Task task) {
+        return EditTaskResult.builder()
                 .taskId(task.getId())
                 .title(task.getTitle())
                 .deadline(task.getDeadline())

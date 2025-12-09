@@ -10,7 +10,7 @@ public interface TasksApi {
 
     TaskDto findTaskByTaskId(UUID taskId);
 
-    void deleteTaskByTaskId(UUID taskId);
+    void deleteTaskByTaskId(UUID userId, UUID taskId);
 
     TaskForGroupTaskResponseDto createTaskForGroupTask(TaskForGroupTaskRequestDto request);
 

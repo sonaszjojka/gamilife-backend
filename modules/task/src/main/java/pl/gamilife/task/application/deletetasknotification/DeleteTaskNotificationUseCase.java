@@ -1,7 +1,6 @@
 package pl.gamilife.task.application.deletetasknotification;
 
-import java.util.UUID;
+import pl.gamilife.shared.kernel.architecture.UseCase;
 
-public interface DeleteTaskNotificationUseCase {
-    void execute(UUID taskId, UUID taskNotificationId);
+public interface DeleteTaskNotificationUseCase extends UseCase<DeleteTaskNotificationCommand, Void> {
 }

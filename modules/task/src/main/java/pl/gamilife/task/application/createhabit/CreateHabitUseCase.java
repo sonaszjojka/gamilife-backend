@@ -1,10 +1,6 @@
 package pl.gamilife.task.application.createhabit;
 
-import pl.gamilife.task.infrastructure.web.request.CreateHabitRequest;
-import pl.gamilife.task.infrastructure.web.response.CreateHabitResponse;
+import pl.gamilife.shared.kernel.architecture.UseCase;
 
-import java.util.UUID;
-
-public interface CreateHabitUseCase {
-    CreateHabitResponse execute(CreateHabitRequest request, UUID taskId);
+public interface CreateHabitUseCase extends UseCase<CreateHabitCommand, CreateHabitResult> {
 }

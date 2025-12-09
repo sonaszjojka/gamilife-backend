@@ -5,13 +5,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.gamilife.task.application.createhabit.CreateHabitCommand;
 import pl.gamilife.task.application.createhabit.CreateHabitUseCase;
 import pl.gamilife.task.application.deletehabit.DeleteHabitUseCase;
 import pl.gamilife.task.application.edithabit.EditHabitUseCase;
-import pl.gamilife.task.infrastructure.shared.ApiResponse;
+import pl.gamilife.task.infrastructure.web.response.ApiResponse;
 import pl.gamilife.task.infrastructure.web.request.CreateHabitRequest;
 import pl.gamilife.task.infrastructure.web.request.EditHabitRequest;
-import pl.gamilife.task.infrastructure.web.response.CreateHabitResponse;
+import pl.gamilife.task.application.createhabit.CreateHabitResult;
 import pl.gamilife.task.infrastructure.web.response.EditHabitResponse;
 
 import java.util.UUID;
@@ -26,9 +27,12 @@ public class HabitController {
     private final DeleteHabitUseCase deleteHabitUseCase;
 
     @PostMapping
-    public ResponseEntity<CreateHabitResponse> create(@PathVariable UUID taskId,
-                                                      @RequestBody @Valid CreateHabitRequest request) {
-        CreateHabitResponse response = createHabitUseCase.execute(request, taskId);
+    public ResponseEntity<CreateHabitResult> create(@PathVariable UUID taskId,
+                                                    @RequestBody @Valid CreateHabitRequest request) {
+        CreateHabitResult response = createHabitUseCase.execute(new CreateHabitCommand(
+                taskId,
+                request.cycleLength()
+        ));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
