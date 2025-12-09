@@ -1,4 +1,4 @@
-package pl.gamilife.task.application.edittasknotification;
+package pl.gamilife.task.controllers.response;
 
 import java.time.Instant;
 import java.util.UUID;
