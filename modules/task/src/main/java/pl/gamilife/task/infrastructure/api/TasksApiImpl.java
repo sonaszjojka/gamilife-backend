@@ -38,9 +38,9 @@ public class TasksApiImpl implements TasksApi {
     }
 
     @Override
-    public TaskForGroupTaskResponseDto updateTaskForGroupTask(TaskForGroupTaskRequestDto request,UUID taskId) {
+    public TaskForGroupTaskResponseDto updateTaskForGroupTask(TaskForGroupTaskRequestDto request, UUID taskId) {
 
-        return editTaskForGroupTaskUseCase.execute(request,taskId);
+        return editTaskForGroupTaskUseCase.execute(request, taskId);
     }
 
 }

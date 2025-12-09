@@ -4,17 +4,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
-import pl.gamilife.task.infrastructure.web.request.CreateTaskRequest;
-import pl.gamilife.task.infrastructure.web.response.CreateTaskResponse;
+import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
+import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
 import pl.gamilife.task.domain.model.Task;
 import pl.gamilife.task.domain.model.TaskCategory;
 import pl.gamilife.task.domain.model.TaskDifficulty;
-import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
-import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
 import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
 import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
 import pl.gamilife.task.infrastructure.persistence.TaskRepositoryAdapter;
+import pl.gamilife.task.infrastructure.web.request.CreateTaskRequest;
+import pl.gamilife.task.infrastructure.web.response.CreateTaskResponse;
 
 @Component
 public class CreateTaskUseCaseImpl implements CreateTaskUseCase {

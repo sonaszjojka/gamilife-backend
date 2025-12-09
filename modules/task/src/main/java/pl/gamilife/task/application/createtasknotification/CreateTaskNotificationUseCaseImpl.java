@@ -6,12 +6,12 @@ import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
-import pl.gamilife.task.infrastructure.web.request.CreateTaskNotificationRequest;
-import pl.gamilife.task.infrastructure.web.response.CreateTaskNotificationResponse;
 import pl.gamilife.task.domain.model.Task;
 import pl.gamilife.task.domain.model.TaskNotification;
 import pl.gamilife.task.domain.port.repository.TaskNotificationRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
+import pl.gamilife.task.infrastructure.web.request.CreateTaskNotificationRequest;
+import pl.gamilife.task.infrastructure.web.response.CreateTaskNotificationResponse;
 
 import java.util.UUID;
 

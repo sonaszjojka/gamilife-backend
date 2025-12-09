@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import pl.gamilife.task.application.createhabit.CreateHabitUseCase;
 import pl.gamilife.task.application.deletehabit.DeleteHabitUseCase;
 import pl.gamilife.task.application.edithabit.EditHabitUseCase;
+import pl.gamilife.task.infrastructure.shared.ApiResponse;
 import pl.gamilife.task.infrastructure.web.request.CreateHabitRequest;
 import pl.gamilife.task.infrastructure.web.request.EditHabitRequest;
 import pl.gamilife.task.infrastructure.web.response.CreateHabitResponse;
 import pl.gamilife.task.infrastructure.web.response.EditHabitResponse;
-import pl.gamilife.task.infrastructure.shared.ApiResponse;
 
 import java.util.UUID;
 
