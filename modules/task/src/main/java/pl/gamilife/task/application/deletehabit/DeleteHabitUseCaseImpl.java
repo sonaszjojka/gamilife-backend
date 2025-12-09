@@ -7,8 +7,6 @@ import pl.gamilife.task.domain.exception.domain.HabitNotFoundException;
 import pl.gamilife.task.domain.model.Habit;
 import pl.gamilife.task.domain.port.repository.HabitRepository;
 
-import java.util.UUID;
-
 @Component
 @AllArgsConstructor
 public class DeleteHabitUseCaseImpl implements DeleteHabitUseCase {
@@ -17,13 +15,15 @@ public class DeleteHabitUseCaseImpl implements DeleteHabitUseCase {
 
     @Override
     @Transactional
-    public void execute(UUID taskId) {
+    public Void execute(DeleteHabitCommand cmd) {
         Habit habit = habitRepository
-                .findHabitByTaskId(taskId)
+                .findHabitByTaskId(cmd.taskId())
                 .orElseThrow(() -> new HabitNotFoundException(
-                        "Habit for taskId " + taskId + " not found!"
+                        "Habit for taskId " + cmd.taskId() + " not found!"
                 ));
 
         habitRepository.delete(habit);
+
+        return null;
     }
 }

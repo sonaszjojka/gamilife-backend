@@ -2,8 +2,6 @@ package pl.gamilife.task.application.edittaskforgrouptask;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
-import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
 import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
 import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
@@ -15,7 +13,6 @@ import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
 
 import java.util.Objects;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -26,45 +23,45 @@ public class EditTaskForGroupTaskUseCaseImpl implements EditTaskForGroupTaskUseC
     private final TaskDifficultyRepository taskDifficultyRepository;
 
     @Override
-    public TaskForGroupTaskResponseDto execute(TaskForGroupTaskRequestDto request, UUID taskId) {
-        Task task = taskRepository.findById(taskId).orElseThrow(
-                () -> new TaskNotFoundException("Task with id " + taskId + " not found."));
+    public EditTaskForGroupTaskResult execute(EditTaskForGroupTaskCommand cmd) {
+        Task task = taskRepository.findById(cmd.taskId()).orElseThrow(
+                () -> new TaskNotFoundException("Task with id " + cmd.taskId() + " not found."));
 
-        if (request.title() != null) {
-            task.setTitle(request.title());
+        if (cmd.title() != null) {
+            task.setTitle(cmd.title());
         }
 
-        if (request.deadline() != null) {
-            task.setDeadline(request.deadline());
+        if (cmd.deadline() != null) {
+            task.setDeadline(cmd.deadline());
         }
 
-        if (request.description() != null) {
-            task.setDescription(request.description());
+        if (cmd.description() != null) {
+            task.setDescription(cmd.description());
         }
 
-        if (request.completed()) {
+        if (cmd.completed()) {
             task.complete();
         }
 
-        if (!Objects.equals(task.getCategory().getId(), request.categoryId())) {
+        if (!Objects.equals(task.getCategory().getId(), cmd.categoryId())) {
             TaskCategory taskCategory = taskCategoryRepository
-                    .findById(request.categoryId())
-                    .orElseThrow(() -> new TaskCategoryNotFoundException("Category with id " + request.categoryId() + " not found!"));
+                    .findById(cmd.categoryId())
+                    .orElseThrow(() -> new TaskCategoryNotFoundException("Category with id " + cmd.categoryId() + " not found!"));
             task.setCategory(taskCategory);
         }
 
-        if (!Objects.equals(task.getDifficulty().getId(), request.difficultyId())) {
+        if (!Objects.equals(task.getDifficulty().getId(), cmd.difficultyId())) {
             TaskDifficulty taskDifficulty = taskDifficultyRepository
-                    .findById(request.difficultyId())
-                    .orElseThrow(() -> new TaskDifficultyNotFoundException("Task difficulty with id " + request.difficultyId() + " not found!"));
+                    .findById(cmd.difficultyId())
+                    .orElseThrow(() -> new TaskDifficultyNotFoundException("Task difficulty with id " + cmd.difficultyId() + " not found!"));
             task.setDifficulty(taskDifficulty);
         }
 
         return buildResponse(task);
     }
 
-    private TaskForGroupTaskResponseDto buildResponse(Task task) {
-        return TaskForGroupTaskResponseDto.builder()
+    private EditTaskForGroupTaskResult buildResponse(Task task) {
+        return EditTaskForGroupTaskResult.builder()
                 .taskId(task.getId())
                 .title(task.getTitle())
                 .deadline(task.getDeadline())

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
+import pl.gamilife.task.application.deletehabit.DeleteHabitCommand;
 import pl.gamilife.task.application.deletehabit.DeleteHabitUseCase;
 import pl.gamilife.task.domain.model.Habit;
 import pl.gamilife.task.domain.model.Task;
@@ -26,7 +27,7 @@ public class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
 
         Habit habit = habitRepository.findHabitByTaskId(cmd.taskId()).orElse(null);
         if (habit != null) {
-            deleteHabitUseCase.execute(habit.getId());
+            deleteHabitUseCase.execute(new DeleteHabitCommand(cmd.taskId()));
             return null;
         }
 
