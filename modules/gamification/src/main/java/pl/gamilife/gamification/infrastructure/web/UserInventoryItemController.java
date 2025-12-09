@@ -4,7 +4,6 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.gamification.application.usecase.editinventoryitem.EditInventoryItemCommand;
 import pl.gamilife.gamification.application.usecase.editinventoryitem.EditInventoryItemResult;
@@ -18,11 +17,13 @@ import pl.gamilife.gamification.application.usecase.purchasestoreitem.PurchaseSt
 import pl.gamilife.gamification.infrastructure.web.request.PurchaseStoreItemRequest;
 import pl.gamilife.gamification.infrastructure.web.request.UpdateInventoryItemRequest;
 import pl.gamilife.gamification.infrastructure.web.request.UserInventoryItemFilterRequest;
+import pl.gamilife.shared.web.security.annotation.AuthenticatedUserIsOwner;
 
 import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
+@AuthenticatedUserIsOwner
 @RequestMapping("/api/v1/users/{userId}/inventory/items")
 public class UserInventoryItemController {
 
@@ -57,7 +58,7 @@ public class UserInventoryItemController {
     }
 
     @PostMapping
-    @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
+    @AuthenticatedUserIsOwner
     public ResponseEntity<PurchaseStoreItemResult> purchaseStoreItem(
             @PathVariable UUID userId,
             @RequestBody PurchaseStoreItemRequest request
@@ -69,7 +70,7 @@ public class UserInventoryItemController {
     }
 
     @PatchMapping("/{userInventoryItemId}")
-    @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
+    @AuthenticatedUserIsOwner
     public ResponseEntity<EditInventoryItemResult> updateInventoryItem(
             @PathVariable UUID userId,
             @PathVariable UUID userInventoryItemId,

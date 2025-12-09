@@ -9,7 +9,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.api.auth.dto.AuthTokens;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
@@ -34,6 +33,7 @@ import pl.gamilife.auth.usecase.sendforgotpasswordcode.SendForgotPasswordCodeCom
 import pl.gamilife.auth.usecase.sendforgotpasswordcode.SendForgotPasswordTokenUseCase;
 import pl.gamilife.auth.usecase.verifyemail.VerifyEmailCommand;
 import pl.gamilife.auth.usecase.verifyemail.VerifyEmailUseCase;
+import pl.gamilife.shared.web.security.annotation.AllowUnverified;
 import pl.gamilife.shared.web.util.CookieUtil;
 
 @SecurityRequirements
@@ -107,7 +107,7 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasRole('UNVERIFIED')")
+    @AllowUnverified
     @SecurityRequirement(name = "accessToken")
     @PostMapping("/email-verifications/confirm")
     public ResponseEntity<AfterLoginResponse> verifyEmail(@RequestBody @Valid EmailVerificationCodeRequest emailVerificationCodeRequest,
@@ -123,7 +123,7 @@ public class AuthController {
         return ResponseEntity.ok(AfterLoginResponse.from(result));
     }
 
-    @PreAuthorize("hasRole('UNVERIFIED')")
+    @AllowUnverified
     @SecurityRequirement(name = "accessToken")
     @PostMapping("/email-verifications/resend")
     public ResponseEntity<Void> resendVerificationCode() {

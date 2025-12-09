@@ -9,12 +9,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.api.auth.dto.AuthTokens;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
+import pl.gamilife.shared.web.security.annotation.AuthenticatedUserIsOwner;
 import pl.gamilife.shared.web.util.CookieUtil;
 import pl.gamilife.user.dto.request.ChangeUserPasswordRequest;
 import pl.gamilife.user.dto.request.EditUserRequest;
@@ -62,6 +62,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
+    @AuthenticatedUserIsOwner
     public ResponseEntity<EditUserResult> editUser(
             @RequestBody @Valid EditUserRequest request,
             @PathVariable("userId") UUID userId) {
@@ -80,7 +81,7 @@ public class UserController {
     }
 
     @PatchMapping("/{userId}/password")
-    @PreAuthorize("@userSecurity.matchesTokenUserId(authentication, #userId)")
+    @AuthenticatedUserIsOwner
     public ResponseEntity<CurrentUserInfoResponse> changePassword(
             @PathVariable UUID userId,
             @RequestBody ChangeUserPasswordRequest request,
@@ -99,6 +100,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/complete-onboarding")
+    @AuthenticatedUserIsOwner
     public ResponseEntity<UserDetailsResponse> completeOnboarding(
             @PathVariable UUID userId
     ) {
@@ -107,6 +109,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/groups")
+    @AuthenticatedUserIsOwner
     public ResponseEntity<FindAllGroupsByUserIdWhereUserIsMemberResult> getAllGroupsByUserId(
             @PathVariable("userId") UUID userId,
 

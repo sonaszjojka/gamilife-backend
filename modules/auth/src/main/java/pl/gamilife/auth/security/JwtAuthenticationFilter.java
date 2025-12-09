@@ -14,14 +14,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.filter.OncePerRequestFilter;
 import pl.gamilife.auth.service.TokenService;
+import pl.gamilife.shared.web.security.TokenAuthenticationFilter;
 
 import java.io.IOException;
 import java.time.Instant;
 
 @AllArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends TokenAuthenticationFilter {
 
     private final TokenService tokenService;
     private final UserDetailsService userDetailsService;

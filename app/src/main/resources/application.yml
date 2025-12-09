@@ -45,11 +45,11 @@ spring:
           google:
             client-id: ${OAUTH2_GOOGLE_CLIENT_ID}
             client-secret: ${OAUTH2_GOOGLE_CLIENT_SECRET}
+            redirect-uri: ${OAUTH2_GOOGLE_REDIRECT_URI}
             scope:
               - openid
               - profile
               - email
-            redirect-uri: ${OAUTH2_GOOGLE_REDIRECT_URI}
 app:
   invitation:
     invitation-url-prefix: ${INVITATION-URL-PREFIX}
@@ -61,6 +61,13 @@ app:
   rate-limit:
     requests-limit: 60
     duration-seconds: 60
+  security:
+    public-paths:
+      - /api/v1/auth/**
+      - /api/v1/oauth2/**
+      - /v3/api-docs/**
+      - /swagger-ui.html
+      - /swagger-ui/**
 sendgrid:
   api-key: ${SENDGRID_API_KEY}
   send-emails: true
