@@ -1,7 +1,12 @@
 package pl.gamilife.task.domain.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Immutable;
 import pl.gamilife.shared.persistence.entity.BaseIntReadOnlyEntity;

@@ -3,11 +3,11 @@ package pl.gamilife.task.application.edithabit;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.task.domain.exception.domain.HabitNotFoundException;
+import pl.gamilife.task.domain.model.Habit;
+import pl.gamilife.task.domain.port.repository.HabitRepository;
 import pl.gamilife.task.infrastructure.web.request.EditHabitRequest;
 import pl.gamilife.task.infrastructure.web.response.EditHabitResponse;
-import pl.gamilife.task.domain.model.Habit;
-import pl.gamilife.task.domain.exception.domain.HabitNotFoundException;
-import pl.gamilife.task.domain.port.repository.HabitRepository;
 
 import java.util.UUID;
 

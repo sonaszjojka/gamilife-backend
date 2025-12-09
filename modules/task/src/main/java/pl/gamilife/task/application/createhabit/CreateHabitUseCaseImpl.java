@@ -2,13 +2,13 @@ package pl.gamilife.task.application.createhabit;
 
 import org.springframework.stereotype.Component;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
-import pl.gamilife.task.infrastructure.web.request.CreateHabitRequest;
-import pl.gamilife.task.infrastructure.web.response.CreateHabitResponse;
+import pl.gamilife.task.domain.exception.domain.InvalidHabitDataException;
 import pl.gamilife.task.domain.model.Habit;
 import pl.gamilife.task.domain.model.Task;
-import pl.gamilife.task.domain.exception.domain.InvalidHabitDataException;
 import pl.gamilife.task.domain.port.repository.HabitRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
+import pl.gamilife.task.infrastructure.web.request.CreateHabitRequest;
+import pl.gamilife.task.infrastructure.web.response.CreateHabitResponse;
 
 import java.util.UUID;
 
@@ -36,7 +36,7 @@ public class CreateHabitUseCaseImpl implements CreateHabitUseCase {
                 .taskId(taskId)
                 .cycleLength(request.cycleLength())
                 .build();
-        habit = habitRepository.save(habit );
+        habit = habitRepository.save(habit);
         return buildResponse(habit);
     }
 

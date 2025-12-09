@@ -58,7 +58,7 @@ public class TaskRepositoryAdapter implements TaskRepository {
                 result.getTotalPages(),
                 result.getNumber(),
                 result.getSize()
-        ) ;
+        );
     }
 
 

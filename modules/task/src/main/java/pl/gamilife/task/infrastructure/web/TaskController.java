@@ -6,17 +6,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.shared.kernel.architecture.Page;
-import pl.gamilife.task.infrastructure.web.request.CreateTaskRequest;
-import pl.gamilife.task.infrastructure.web.response.CreateTaskResponse;
 import pl.gamilife.task.application.createtask.CreateTaskUseCase;
 import pl.gamilife.task.application.deletetask.DeleteTaskUseCase;
-import pl.gamilife.task.infrastructure.web.request.EditTaskRequest;
-import pl.gamilife.task.infrastructure.web.response.EditTaskResponse;
 import pl.gamilife.task.application.edittask.EditTaskUseCase;
-import pl.gamilife.task.infrastructure.web.response.GetUserTasksDto;
 import pl.gamilife.task.application.getusertasks.GetUserTasksFilterDto;
 import pl.gamilife.task.application.getusertasks.GetUserTasksUseCase;
 import pl.gamilife.task.infrastructure.shared.ApiResponse;
+import pl.gamilife.task.infrastructure.web.request.CreateTaskRequest;
+import pl.gamilife.task.infrastructure.web.request.EditTaskRequest;
+import pl.gamilife.task.infrastructure.web.response.CreateTaskResponse;
+import pl.gamilife.task.infrastructure.web.response.EditTaskResponse;
+import pl.gamilife.task.infrastructure.web.response.GetUserTasksDto;
 
 import java.util.UUID;
 
