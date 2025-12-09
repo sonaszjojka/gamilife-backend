@@ -1,4 +1,4 @@
-package pl.gamilife.task.controllers.response;
+package pl.gamilife.task.infrastructure.web.response;
 
 import java.time.Instant;
 import java.time.LocalDate;
