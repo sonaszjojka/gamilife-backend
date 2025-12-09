@@ -1,4 +1,4 @@
-package pl.gamilife.task.application.editTaskforGroupTask;
+package pl.gamilife.task.application.edittaskforgrouptask;
 
 import org.springframework.stereotype.Component;
 import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;

@@ -8,7 +8,7 @@ import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
 import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTaskUseCase;
 import pl.gamilife.task.application.deletetask.DeleteTaskUseCase;
-import pl.gamilife.task.application.editTaskforGroupTask.EditTaskForGroupTaskUseCase;
+import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskUseCase;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdUseCase;
 
 import java.util.UUID;
