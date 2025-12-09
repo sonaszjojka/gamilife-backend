@@ -40,7 +40,7 @@ public class TaskNotificationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{taskNotificationId}")
+    @PatchMapping("/{taskNotificationId}") // TODO: CHANGE TO PATCH
     public ResponseEntity<EditTaskNotificationResponse> edit(
             @PathVariable UUID taskId,
             @PathVariable UUID taskNotificationId,

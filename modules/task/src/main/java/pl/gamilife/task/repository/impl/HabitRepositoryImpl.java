@@ -34,8 +34,8 @@ public class HabitRepositoryImpl implements HabitRepository {
 
 
     @Override
-    public void deleteById(UUID habitId) {
-        repositoryJpa.deleteById(habitId);
+    public void delete(Habit habit) {
+        repositoryJpa.delete(habit);
     }
 
 }
