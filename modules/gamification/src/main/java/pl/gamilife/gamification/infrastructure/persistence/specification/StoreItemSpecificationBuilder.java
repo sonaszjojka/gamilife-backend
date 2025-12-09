@@ -16,7 +16,8 @@ public class StoreItemSpecificationBuilder {
         return Specification.allOf(
                 hasItemName(filter.itemName()),
                 hasItemSlot(filter.itemSlot()),
-                hasRarity(filter.rarity())
+                hasRarity(filter.rarity()),
+                isStoreItem()
         );
     }
 
@@ -51,6 +52,12 @@ public class StoreItemSpecificationBuilder {
             }
             return cb.equal(root.get("rarity"), rarity);
         };
+   }
+
+   public Specification<Item> isStoreItem()
+   {
+       return (root, query, cb) ->
+               cb.isNotNull(root.get("price"));
    }
 
 }
