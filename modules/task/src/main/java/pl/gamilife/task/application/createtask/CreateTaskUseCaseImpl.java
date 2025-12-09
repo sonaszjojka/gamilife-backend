@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
+import pl.gamilife.task.controllers.request.CreateTaskRequest;
+import pl.gamilife.task.controllers.response.CreateTaskResponse;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.entity.TaskCategory;
 import pl.gamilife.task.entity.TaskDifficulty;

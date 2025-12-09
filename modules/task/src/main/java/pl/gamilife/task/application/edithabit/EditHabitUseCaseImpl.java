@@ -3,6 +3,8 @@ package pl.gamilife.task.application.edithabit;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
+import pl.gamilife.task.controllers.request.EditHabitRequest;
+import pl.gamilife.task.controllers.response.EditHabitResponse;
 import pl.gamilife.task.entity.Habit;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.exception.domain.HabitNotFoundException;

@@ -1,9 +1,8 @@
-package pl.gamilife.task.application.edithabit;
+package pl.gamilife.task.controllers.request;
 
 import jakarta.validation.constraints.NotNull;
 
 import java.time.Duration;
-import java.time.Instant;
 
 public record EditHabitRequest(
         @NotNull(message = "Cycle length cannot be null")

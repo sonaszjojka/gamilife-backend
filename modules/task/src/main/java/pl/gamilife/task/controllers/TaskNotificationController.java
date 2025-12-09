@@ -4,12 +4,12 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.gamilife.task.application.createtasknotification.CreateTaskNotificationRequest;
-import pl.gamilife.task.application.createtasknotification.CreateTaskNotificationResponse;
+import pl.gamilife.task.controllers.request.CreateTaskNotificationRequest;
+import pl.gamilife.task.controllers.response.CreateTaskNotificationResponse;
 import pl.gamilife.task.application.createtasknotification.CreateTaskNotificationUseCase;
 import pl.gamilife.task.application.deletetasknotification.DeleteTaskNotificationUseCase;
-import pl.gamilife.task.application.edittasknotification.EditTaskNotificationRequest;
-import pl.gamilife.task.application.edittasknotification.EditTaskNotificationResponse;
+import pl.gamilife.task.controllers.request.EditTaskNotificationRequest;
+import pl.gamilife.task.controllers.response.EditTaskNotificationResponse;
 import pl.gamilife.task.application.edittasknotification.EditTaskNotificationUseCase;
 import pl.gamilife.task.shared.ApiResponse;
 

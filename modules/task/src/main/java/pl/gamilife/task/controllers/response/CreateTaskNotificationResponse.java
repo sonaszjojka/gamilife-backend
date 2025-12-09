@@ -1,9 +1,9 @@
-package pl.gamilife.task.application.edittasknotification;
+package pl.gamilife.task.controllers.response;
 
 import java.time.Instant;
 import java.util.UUID;
 
-public record EditTaskNotificationResponse(
+public record CreateTaskNotificationResponse(
         UUID id,
         Instant sendDate,
         UUID taskId
