@@ -23,12 +23,12 @@ public class TaskNotificationRepositoryImpl implements TaskNotificationRepositor
     }
 
     @Override
-    public void deleteByIdAndTaskId(UUID taskId, Integer taskNotificationId) {
+    public void deleteByIdAndTaskId(UUID taskId, UUID taskNotificationId) {
         repositoryJpa.deleteByTaskIdAndId(taskId, taskNotificationId);
     }
 
     @Override
-    public Optional<TaskNotification> findByIdAndTaskId(UUID taskId, Integer taskNotificationId) {
+    public Optional<TaskNotification> findByIdAndTaskId(UUID taskId, UUID taskNotificationId) {
         return repositoryJpa.findByTaskIdAndId(taskId, taskNotificationId);
     }
 }

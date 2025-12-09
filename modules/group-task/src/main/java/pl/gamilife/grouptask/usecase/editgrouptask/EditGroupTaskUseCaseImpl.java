@@ -11,7 +11,6 @@ import pl.gamilife.grouptask.exception.domain.GroupTaskNotFoundException;
 import pl.gamilife.grouptask.repository.GroupTaskRepository;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -31,29 +30,22 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
     @Override
     @Transactional
     public EditGroupTaskResponse execute(UUID groupTaskId, EditGroupTaskRequest req) {
-
         GroupTask groupTask = groupTaskRepository.findByGroupTaskId(groupTaskId).orElseThrow(
                 () -> new GroupTaskNotFoundException("Group Task with id:" + groupTaskId + " does not exist"));
 
-
-
-
         Boolean isAccepted = req.isAccepted();
         Instant acceptedDate = null;
-        LocalDateTime completedAt = null;
+        Instant completedAt = null;
         boolean changedToAccepted = isAccepted!=null&&isAccepted&&groupTask.getIsAccepted()==null;
 
         if (changedToAccepted) {
-
             acceptedDate = Instant.now();
-            completedAt=LocalDateTime.now();
-            for(GroupTaskMember taskMember:groupTask.getGroupTaskMembers())
-            {
+            completedAt = Instant.now();
+            for (GroupTaskMember taskMember : groupTask.getGroupTaskMembers()) {
                 if (taskMember.getIsMarkedDone()!=null&& taskMember.getIsMarkedDone()) {
                     groupsProvider.editMemberWallet(taskMember.getGroupMemberId(), groupTask.getGroupId(), req.reward());
                 }
             }
-
         }
 
         groupTask.setReward(req.reward());
@@ -61,21 +53,19 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
         groupTask.setAcceptedDate(acceptedDate);
         groupTask.setDeclineMessage(req.declineMessage());
 
-
         TaskForGroupTaskRequestDto taskRequestDto = new TaskForGroupTaskRequestDto(
                 req.title(),
-                req.startTime(),
-                req.endTime(),
+                req.deadline(),
                 req.categoryId(),
                 req.difficultyId(),
-                completedAt,
+                completedAt != null,
                 req.description()
         );
 
         UUID taskId=groupTask.getTaskId();
         tasksProvider.updateTaskForGroupTask(taskRequestDto, taskId);
+
         return editGroupTaskMapper.toResponse(groupTaskRepository.save(groupTask));
     }
-
 
 }

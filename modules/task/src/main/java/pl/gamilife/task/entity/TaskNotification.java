@@ -2,28 +2,30 @@ package pl.gamilife.task.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import pl.gamilife.shared.persistence.entity.BaseEntity;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.UUID;
 
 @Getter
-@Setter
-@ToString
-@Builder
 @Entity
-@AllArgsConstructor
+@SuperBuilder
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"task"})
 @Table(name = "task_notification")
-public class TaskNotification {
+public class TaskNotification extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false)
-    private Integer id;
-
+    @Setter
     @Column(name = "send_date", nullable = false)
-    private LocalDateTime sendDate;
+    private Instant sendDate;
 
-    @ManyToOne
-    @JoinColumn(name = "task_id")
+    @Column(name = "task_id", nullable = false, updatable = false)
+    private UUID taskId;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "task_id", nullable = false, insertable = false, updatable = false)
     private Task task;
+
 }

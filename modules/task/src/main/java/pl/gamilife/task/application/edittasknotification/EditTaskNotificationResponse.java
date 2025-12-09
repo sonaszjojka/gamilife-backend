@@ -1,11 +1,11 @@
 package pl.gamilife.task.application.edittasknotification;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 public record EditTaskNotificationResponse(
-        Integer id,
-        LocalDateTime sendDate,
+        UUID id,
+        Instant sendDate,
         UUID taskId
 ) {
 }

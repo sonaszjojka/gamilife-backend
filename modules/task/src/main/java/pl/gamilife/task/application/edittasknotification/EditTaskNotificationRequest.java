@@ -1,8 +1,8 @@
 package pl.gamilife.task.application.edittasknotification;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public record EditTaskNotificationRequest(
-        LocalDateTime sendDate
+        Instant sendDate
 ) {
 }

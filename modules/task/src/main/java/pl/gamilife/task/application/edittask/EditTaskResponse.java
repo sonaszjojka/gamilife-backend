@@ -2,19 +2,18 @@ package pl.gamilife.task.application.edittask;
 
 import lombok.Builder;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @Builder
 public record EditTaskResponse(
         UUID taskId,
         String title,
-        LocalDateTime startTime,
-        LocalDateTime endTime,
+        Instant deadline,
         Integer categoryId,
         Integer difficultyId,
         UUID userId,
-        LocalDateTime completedAt,
+        Instant completedAt,
         String description
 ) {
 }

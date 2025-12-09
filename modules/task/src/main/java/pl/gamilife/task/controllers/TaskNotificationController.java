@@ -43,7 +43,7 @@ public class TaskNotificationController {
     @PutMapping("/{taskNotificationId}")
     public ResponseEntity<EditTaskNotificationResponse> edit(
             @PathVariable UUID taskId,
-            @PathVariable Integer taskNotificationId,
+            @PathVariable UUID taskNotificationId,
             @RequestBody @Valid EditTaskNotificationRequest request
     ) {
         EditTaskNotificationResponse response =
@@ -54,7 +54,7 @@ public class TaskNotificationController {
     @DeleteMapping("/{taskNotificationId}")
     public ResponseEntity<ApiResponse> delete(
             @PathVariable UUID taskId,
-            @PathVariable Integer taskNotificationId
+            @PathVariable UUID taskNotificationId
     ) {
         deleteTaskNotificationUseCase.execute(taskId, taskNotificationId);
         return ResponseEntity.ok(

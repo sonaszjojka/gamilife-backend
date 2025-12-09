@@ -1,8 +1,8 @@
 package pl.gamilife.task.application.createtasknotification;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public record CreateTaskNotificationRequest(
-        LocalDateTime sendDate
+        Instant sendDate
 ) {
 }

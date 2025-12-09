@@ -2,29 +2,30 @@ package pl.gamilife.task.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import pl.gamilife.shared.persistence.entity.BaseEntity;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @Getter
-@Setter
-@ToString
-@Builder
 @Entity
-@AllArgsConstructor
+@SuperBuilder
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"task"})
 @Table(name = "habit")
-public class Habit extends AbstractEntitySuperclass {
+public class Habit extends BaseEntity {
 
-    @Id
-    @Column(name = "habit_id", nullable = false, updatable = false)
-    private UUID id;
+    @Column(name = "task_id", nullable = false, unique = true, updatable = false)
+    private UUID taskId;
 
-    @OneToOne
-    @JoinColumn(name = "task_id", nullable = false, updatable = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "task_id", nullable = false, insertable = false, updatable = false)
     private Task task;
 
+    @Setter
     @Column(name = "cycle_length", nullable = false)
     private Duration cycleLength;
 
@@ -34,7 +35,10 @@ public class Habit extends AbstractEntitySuperclass {
     @Column(name = "longest_streak", nullable = false)
     private Integer longestStreak;
 
-    @Column(name = "accepted_date")
-    private LocalDateTime acceptedDate;
+    @Column(name = "finished_at")
+    private Instant finishedAt;
 
+    public void finish() {
+        finishedAt = Instant.now();
+    }
 }

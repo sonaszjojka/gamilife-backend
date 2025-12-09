@@ -5,7 +5,6 @@ import pl.gamilife.api.task.dto.TaskDto;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.repository.TaskRepository;
-import pl.gamilife.task.shared.TaskProviderMapper;
 
 import java.util.UUID;
 
@@ -13,17 +12,36 @@ import java.util.UUID;
 public class FindTaskByIdUseCaseImpl implements FindTaskByIdUseCase {
 
     private final TaskRepository taskRepository;
-    private final TaskProviderMapper taskProviderMapper;
 
-    public FindTaskByIdUseCaseImpl(TaskRepository taskRepository, TaskProviderMapper taskProviderMapper) {
+    public FindTaskByIdUseCaseImpl(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
-        this.taskProviderMapper = taskProviderMapper;
     }
 
     @Override
     public TaskDto execute(UUID taskId) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id: " + taskId + " not found!"));
-        return taskProviderMapper.toResponse(task);
+        return buildResponse(task);
+    }
+
+    private TaskDto buildResponse(Task task) {
+        return TaskDto.builder()
+                .id(task.getId())
+                .title(task.getTitle())
+                .deadline(task.getDeadline())
+                .category(
+                        task.getCategory() != null
+                                ? new TaskDto.TaskCategoryDto(task.getCategory().getId(), task.getCategory().getName())
+                                : null
+                )
+                .difficulty(
+                        task.getDifficulty() != null
+                                ? new TaskDto.TaskDifficultyDto(task.getDifficulty().getId(), task.getDifficulty().getName())
+                                : null
+                )
+                .userId(task.getUserId())
+                .completedAt(task.getCompletedAt())
+                .description(task.getDescription())
+                .build();
     }
 }

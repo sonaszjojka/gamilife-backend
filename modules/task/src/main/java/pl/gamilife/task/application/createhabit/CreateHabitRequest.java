@@ -16,10 +16,6 @@ public record CreateHabitRequest(
 
         @NotNull(message = "Longest streak cannot be null")
         @PositiveOrZero(message = "Longest streak must be positive")
-        Integer longestStreak,
-
-        LocalDateTime acceptedDate
-
-
+        Integer longestStreak
 ) {
 }

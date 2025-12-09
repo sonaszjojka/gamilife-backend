@@ -1,30 +1,27 @@
 package pl.gamilife.task.application.edittask;
 
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 public record EditTaskRequest(
-        @NotBlank(message = "Title cannot be blank")
-        @Size(max = 200, message = "Title cannot exceed 200 characters")
+        @Size(min = 1, max = 200, message = "Title cannot exceed 200 characters")
         String title,
 
-        @NotNull(message = "Start Time cannot be null")
-        LocalDateTime startTime,
+        @FutureOrPresent
+        Instant deadline,
 
-        LocalDateTime endTime,
-
-        @NotNull(message = "Category Id cannot be null")
         Integer categoryId,
 
-        @NotNull(message = "Difficulty Id cannot be null")
         Integer difficultyId,
 
-        LocalDateTime completedAt,
+        Boolean completed,
 
-        @Size(max = 200, message = "Description cannot exceed 200 characters")
+        @Size(min = 1, max = 500, message = "Description cannot exceed 200 characters")
         String description
 ) {
 

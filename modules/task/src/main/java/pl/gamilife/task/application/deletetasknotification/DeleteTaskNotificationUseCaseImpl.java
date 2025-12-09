@@ -24,7 +24,7 @@ public class DeleteTaskNotificationUseCaseImpl implements DeleteTaskNotification
 
     @Override
     @Transactional
-    public void execute(UUID taskId, Integer taskNotificationId) {
+    public void execute(UUID taskId, UUID taskNotificationId) {
 
 
         TaskNotification taskNotification = taskNotificationRepository
