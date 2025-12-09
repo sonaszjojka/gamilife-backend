@@ -1,61 +1,45 @@
 package pl.gamilife.task.application.getusertasks;
 
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.pomodoro.PomodoroApi;
 import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
-import pl.gamilife.task.controllers.response.GetUserTasksDto;
-import pl.gamilife.task.entity.Habit;
-import pl.gamilife.task.entity.Task;
-import pl.gamilife.task.repository.jpa.HabitRepositoryJpa;
-import pl.gamilife.task.repository.jpa.TaskRepositoryJpa;
-import pl.gamilife.task.util.TasksSpecificationBuilder;
+import pl.gamilife.shared.kernel.architecture.Page;
+import pl.gamilife.task.domain.model.Habit;
+import pl.gamilife.task.domain.model.filter.TaskFilter;
+import pl.gamilife.task.domain.port.repository.HabitRepository;
+import pl.gamilife.task.domain.port.repository.TaskRepository;
+import pl.gamilife.task.infrastructure.web.response.GetUserTasksDto;
 
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
-    private final TaskRepositoryJpa taskRepository;
-    private final TasksSpecificationBuilder tasksSpecificationBuilder;
+
+    private final TaskRepository taskRepository;
     private final AuthApi authApi;
     private final PomodoroApi pomodoroTaskApi;
-    private final HabitRepositoryJpa habitRepository;
-
-    public GetUserTasksUseCaseImpl(TaskRepositoryJpa taskRepository, TasksSpecificationBuilder tasksSpecificationBuilder, AuthApi authApi, PomodoroApi pomodoroTaskApi, HabitRepositoryJpa habitRepository) {
-        this.taskRepository = taskRepository;
-        this.tasksSpecificationBuilder = tasksSpecificationBuilder;
-        this.authApi = authApi;
-        this.pomodoroTaskApi = pomodoroTaskApi;
-        this.habitRepository = habitRepository;
-    }
+    private final HabitRepository habitRepository;
 
     @Override
-    @Transactional()
+    @Transactional
     public Page<GetUserTasksDto> execute(GetUserTasksFilterDto request) {
 
         CurrentUserDto userDto = authApi.getCurrentUser();
         UUID userId = userDto.userId();
-
-        Specification<Task> taskSpecification = tasksSpecificationBuilder.build(
+        TaskFilter filter = new TaskFilter(
+                userId,
                 request.categoryId(),
                 request.difficultyId(),
                 request.isGroupTask(),
-                request.isCompleted(),
-                userId
+                request.isCompleted()
         );
 
-
-        Pageable pageable = createPageable(request);
-
-
-        return taskRepository.findAll(taskSpecification, pageable)
+        return taskRepository.findAll(filter, request.pageNumber(), request.pageSize())
                 .map(task -> {
                     PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
                     GetUserTasksDto.TaskHabitDto taskHabit = null;
@@ -87,14 +71,4 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                     );
                 });
     }
-
-    private Pageable createPageable(GetUserTasksFilterDto request) {
-
-        return PageRequest.of(
-                request.pageNumber(),
-                request.pageSize(),
-                Sort.by(Sort.Direction.ASC, "deadline")
-        );
-    }
 }
-//ToDo : add more filters if needed + change dto for more data if needed

@@ -1,7 +1,7 @@
 package pl.gamilife.task.application.createhabit;
 
-import pl.gamilife.task.controllers.request.CreateHabitRequest;
-import pl.gamilife.task.controllers.response.CreateHabitResponse;
+import pl.gamilife.task.infrastructure.web.request.CreateHabitRequest;
+import pl.gamilife.task.infrastructure.web.response.CreateHabitResponse;
 
 import java.util.UUID;
 

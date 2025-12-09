@@ -1,9 +1,8 @@
 package pl.gamilife.task.application.getusertasks;
 
-import org.springframework.data.domain.Page;
-import pl.gamilife.task.controllers.response.GetUserTasksDto;
+import pl.gamilife.shared.kernel.architecture.Page;
+import pl.gamilife.task.infrastructure.web.response.GetUserTasksDto;
 
 public interface GetUserTasksUseCase {
-
     Page<GetUserTasksDto> execute(GetUserTasksFilterDto dto);
 }
