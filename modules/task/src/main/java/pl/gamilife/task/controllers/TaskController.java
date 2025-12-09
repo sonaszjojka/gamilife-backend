@@ -44,7 +44,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{taskId}")
+    @PatchMapping("/{taskId}") // TODO: CHANGE TO PATCH
     public ResponseEntity<EditTaskResponse> edit(@PathVariable UUID taskId,
                                                  @RequestBody @Valid EditTaskRequest request) {
         EditTaskResponse response = editTaskUseCase.execute(request, taskId);

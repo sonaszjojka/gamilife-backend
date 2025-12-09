@@ -54,6 +54,9 @@ public class Task extends BaseEntity {
     @Column(name = "reward_issued", nullable = false)
     private boolean rewardIssued = false;
 
+    @OneToOne(mappedBy = "task")
+    private Habit habit;
+
     @Builder.Default
     @OneToMany(mappedBy = "task")
     private Set<TaskNotification> taskNotifications = new HashSet<>();
