@@ -1,9 +1,8 @@
-package pl.gamilife.task.application.createtask;
+package pl.gamilife.task.controllers.response;
 
 import lombok.Builder;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder

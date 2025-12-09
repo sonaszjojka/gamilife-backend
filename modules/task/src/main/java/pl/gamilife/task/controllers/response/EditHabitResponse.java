@@ -1,8 +1,7 @@
-package pl.gamilife.task.application.edithabit;
+package pl.gamilife.task.controllers.response;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record EditHabitResponse(

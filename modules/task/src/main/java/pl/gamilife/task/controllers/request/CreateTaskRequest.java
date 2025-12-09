@@ -1,4 +1,4 @@
-package pl.gamilife.task.application.createtask;
+package pl.gamilife.task.controllers.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

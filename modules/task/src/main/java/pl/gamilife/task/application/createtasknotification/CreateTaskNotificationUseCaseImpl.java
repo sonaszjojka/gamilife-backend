@@ -6,6 +6,8 @@ import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
+import pl.gamilife.task.controllers.request.CreateTaskNotificationRequest;
+import pl.gamilife.task.controllers.response.CreateTaskNotificationResponse;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.entity.TaskNotification;
 import pl.gamilife.task.repository.TaskNotificationRepository;
@@ -44,7 +46,7 @@ public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotification
                 .taskId(taskId)
                 .sendDate(request.sendDate())
                 .build();
-        
+
         taskNotification = taskNotificationRepository.save(taskNotification);
 
         return buildResponse(taskNotification);

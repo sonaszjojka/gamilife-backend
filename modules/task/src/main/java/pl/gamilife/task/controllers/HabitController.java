@@ -4,12 +4,12 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.gamilife.task.application.createhabit.CreateHabitRequest;
-import pl.gamilife.task.application.createhabit.CreateHabitResponse;
+import pl.gamilife.task.controllers.request.CreateHabitRequest;
+import pl.gamilife.task.controllers.response.CreateHabitResponse;
 import pl.gamilife.task.application.createhabit.CreateHabitUseCase;
 import pl.gamilife.task.application.deletehabit.DeleteHabitUseCase;
-import pl.gamilife.task.application.edithabit.EditHabitRequest;
-import pl.gamilife.task.application.edithabit.EditHabitResponse;
+import pl.gamilife.task.controllers.request.EditHabitRequest;
+import pl.gamilife.task.controllers.response.EditHabitResponse;
 import pl.gamilife.task.application.edithabit.EditHabitUseCase;
 import pl.gamilife.task.shared.ApiResponse;
 

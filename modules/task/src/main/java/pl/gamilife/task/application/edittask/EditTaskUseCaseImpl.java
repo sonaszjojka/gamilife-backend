@@ -7,6 +7,8 @@ import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
+import pl.gamilife.task.controllers.request.EditTaskRequest;
+import pl.gamilife.task.controllers.response.EditTaskResponse;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.entity.TaskCategory;
 import pl.gamilife.task.entity.TaskDifficulty;
