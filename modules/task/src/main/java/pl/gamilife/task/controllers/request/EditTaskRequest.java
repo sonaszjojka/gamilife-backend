@@ -21,5 +21,4 @@ public record EditTaskRequest(
         @Size(min = 1, max = 500, message = "Description cannot exceed 200 characters")
         String description
 ) {
-
 }

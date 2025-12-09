@@ -20,11 +20,7 @@ public record CreateTaskRequest(
         @NotNull(message = "Difficulty Id cannot be null")
         Integer difficultyId,
 
-        Instant completedAt,
-
-        @Size(max = 200, message = "Description cannot exceed 200 characters")
+        @Size(min = 1, max = 200, message = "Description cannot exceed 200 characters")
         String description
-
 ) {
-
 }
