@@ -5,5 +5,5 @@ import java.util.UUID;
 
 public interface GetStoreItemDetailsUseCase {
 
-    public StoreItemDetailsDto execute(UUID itemId);
+     StoreItemDetailsDto execute(UUID itemId,UUID userId);
 }

@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getall.GetStoreItemsCommand;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getall.GetStoreItemsUseCase;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getall.StoreItemDto;
+import pl.gamilife.gamification.application.usecase.getstoreitems.getbyid.GetStoreItemDetailsUseCase;
+import pl.gamilife.gamification.application.usecase.getstoreitems.getbyid.StoreItemDetailsDto;
 import pl.gamilife.shared.kernel.architecture.Page;
+import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
 
@@ -18,6 +21,7 @@ import java.util.UUID;
 public class StoreController {
 
     private final GetStoreItemsUseCase getStoreItemsUseCase;
+    private final GetStoreItemDetailsUseCase getStoreItemDetailsUseCase;
 
     @GetMapping("/item")
     public ResponseEntity<Page<StoreItemDto>> getFilteredItems(
@@ -38,8 +42,8 @@ public class StoreController {
     }
 
     @GetMapping("/item/{itemId}")
-    public ResponseEntity<String> getItemDetails(@PathVariable UUID itemId) {
-        return ResponseEntity.ok(String.format("Hello World, Store Controller! Item ID: %s", itemId));
+    public ResponseEntity<StoreItemDetailsDto> getItemDetails(@PathVariable UUID itemId, @CurrentUserId UUID userId) {
+        return ResponseEntity.ok(getStoreItemDetailsUseCase.execute(itemId, userId));
     }
 
 }

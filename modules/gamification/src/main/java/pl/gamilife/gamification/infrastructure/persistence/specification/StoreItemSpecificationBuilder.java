@@ -1,5 +1,6 @@
 package pl.gamilife.gamification.infrastructure.persistence.specification;
 
+import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import pl.gamilife.gamification.domain.model.Item;
@@ -40,7 +41,7 @@ public class StoreItemSpecificationBuilder {
             if (itemSlot == null) {
                 return null;
             }
-            return cb.equal(root.get("itemSlot"), itemSlot);
+            return cb.equal(root.get("itemSlotId"), itemSlot.getItemSlotId());
         };
    }
 
@@ -50,7 +51,7 @@ public class StoreItemSpecificationBuilder {
             if (rarity == null) {
                 return null;
             }
-            return cb.equal(root.get("rarity"), rarity);
+            return cb.equal(root.get("rarityId"), rarity.getRarityId());
         };
    }
 
