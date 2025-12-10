@@ -46,10 +46,7 @@ public class AchievementServiceImpl implements AchievementService {
     }
 
     private void assignAchievementAndRewardsToUser(Achievement achievement, UUID userId) {
-        UserAchievement userAchievement = UserAchievement.builder()
-                .achievement(achievement)
-                .userId(userId)
-                .build();
+        UserAchievement userAchievement = UserAchievement.create(userId, achievement);
 
         userAchievementRepository.save(userAchievement);
         log.info("User earned achievement: {}", userAchievement);

@@ -3,11 +3,10 @@ package pl.gamilife.gamification.domain.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Immutable;
 import pl.gamilife.gamification.domain.model.enums.StatisticTypeEnum;
 import pl.gamilife.shared.persistence.entity.BaseUuidReadOnlyEntity;
@@ -18,8 +17,7 @@ import java.util.Set;
 @Getter
 @Entity
 @Immutable
-@SuperBuilder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "achievement")
 @ToString(exclude = {"statisticType", "items", "userAchievements"})
 public class Achievement extends BaseUuidReadOnlyEntity {
@@ -59,11 +57,9 @@ public class Achievement extends BaseUuidReadOnlyEntity {
     @Column(name = "experience_reward", nullable = false)
     private Integer experienceReward;
 
-    @Builder.Default
     @OneToMany(mappedBy = "achievement")
     private Set<Item> items = new HashSet<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "achievement")
     private Set<UserAchievement> userAchievements = new HashSet<>();
 

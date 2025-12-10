@@ -6,11 +6,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Immutable;
 import pl.gamilife.shared.persistence.entity.BaseIntReadOnlyEntity;
 
@@ -20,8 +19,7 @@ import java.util.Set;
 @Getter
 @Entity
 @Immutable
-@SuperBuilder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "item_slot")
 @ToString(exclude = {"items"})
 public class ItemSlot extends BaseIntReadOnlyEntity {
@@ -31,7 +29,6 @@ public class ItemSlot extends BaseIntReadOnlyEntity {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @Builder.Default
     @OneToMany(mappedBy = "itemSlot")
     private Set<Item> items = new HashSet<>();
 

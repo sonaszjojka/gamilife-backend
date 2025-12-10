@@ -129,7 +129,7 @@ VALUES ('11112222-3333-4444-5555-666677771111', '11112222-3333-4444-5555-6666777
 
 -- Tabela: level
 -- =========================
-INSERT INTO "level" (level, required_experience)
+INSERT INTO "level" (id, required_experience)
 VALUES (0, 0),
        (1, 100),
        (2, 200),

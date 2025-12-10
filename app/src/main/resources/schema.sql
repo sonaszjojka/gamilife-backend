@@ -514,9 +514,9 @@ CREATE TABLE item_slot
 -- Table: level
 CREATE TABLE "level"
 (
-    "level"             int NOT NULL,
+    id             int NOT NULL,
     required_experience int NOT NULL,
-    CONSTRAINT level_pk PRIMARY KEY ("level")
+    CONSTRAINT level_pk PRIMARY KEY (id)
 );
 
 -- Table: user_achievement
@@ -598,7 +598,7 @@ ALTER TABLE item
 ALTER TABLE item
     ADD CONSTRAINT item_level
         FOREIGN KEY (unlock_level)
-            REFERENCES "level" ("level")
+            REFERENCES "level" (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
@@ -643,7 +643,7 @@ ALTER TABLE user_achievement
 ALTER TABLE "user"
     ADD CONSTRAINT user_level
         FOREIGN KEY ("level")
-            REFERENCES "level" ("level")
+            REFERENCES "level" (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;

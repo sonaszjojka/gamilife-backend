@@ -2,8 +2,10 @@ package pl.gamilife.gamification.domain.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.gamilife.gamification.domain.exception.InvalidGamificationOperationException;
 import pl.gamilife.gamification.domain.model.enums.StatisticTypeEnum;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
@@ -12,9 +14,7 @@ import java.util.UUID;
 
 @Getter
 @Entity
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"statisticType"})
 @Table(name = "user_statistic")
 public class UserStatistic extends BaseEntity {
@@ -29,13 +29,36 @@ public class UserStatistic extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "statistic_type_id", nullable = false, insertable = false, updatable = false)
-    @Builder.Default
     private StatisticType statisticType = null;
 
     @NotNull
     @Column(name = "count", nullable = false)
-    @Builder.Default
     private Integer count = 0;
+
+    private UserStatistic(UUID userId, StatisticTypeEnum statisticTypeEnum) {
+        setUserId(userId);
+        setStatisticTypeId(statisticTypeEnum);
+    }
+
+    public static UserStatistic create(UUID userId, StatisticTypeEnum statisticTypeEnum) {
+        return new UserStatistic(userId, statisticTypeEnum);
+    }
+
+    private void setUserId(UUID userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
+
+        this.userId = userId;
+    }
+
+    private void setStatisticTypeId(StatisticTypeEnum statisticTypeEnum) {
+        if (statisticTypeId == null) {
+            throw new IllegalArgumentException("Statistic type ID cannot be null");
+        }
+
+        this.statisticTypeId = statisticTypeEnum.getStatisticTypeId();
+    }
 
     public StatisticTypeEnum getStatisticTypeEnum() {
         return StatisticTypeEnum.fromId(this.statisticTypeId);

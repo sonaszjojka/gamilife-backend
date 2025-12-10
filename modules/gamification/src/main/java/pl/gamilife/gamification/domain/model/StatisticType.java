@@ -6,12 +6,12 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Immutable;
+import pl.gamilife.gamification.domain.model.enums.StatisticTypeEnum;
 import pl.gamilife.shared.persistence.entity.BaseIntReadOnlyEntity;
 
 import java.util.HashSet;
@@ -20,8 +20,7 @@ import java.util.Set;
 @Getter
 @Entity
 @Immutable
-@SuperBuilder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "statistic_type")
 @ToString(exclude = {"userStatistics", "achievements"})
 public class StatisticType extends BaseIntReadOnlyEntity {
@@ -31,12 +30,14 @@ public class StatisticType extends BaseIntReadOnlyEntity {
     @Column(name = "type", nullable = false, length = 100)
     private String type;
 
-    @Builder.Default
     @OneToMany(mappedBy = "statisticType")
     private Set<UserStatistic> userStatistics = new HashSet<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "statisticType")
     private Set<Achievement> achievements = new HashSet<>();
+
+    public StatisticTypeEnum getStatisticTypeEnum() {
+        return StatisticTypeEnum.fromId(this.getId());
+    }
 
 }

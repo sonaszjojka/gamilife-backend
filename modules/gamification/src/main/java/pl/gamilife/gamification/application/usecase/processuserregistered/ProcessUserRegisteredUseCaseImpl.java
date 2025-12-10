@@ -8,7 +8,6 @@ import pl.gamilife.gamification.domain.port.repository.StatisticTypeRepository;
 import pl.gamilife.gamification.domain.port.repository.UserStatisticRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -22,12 +21,11 @@ public class ProcessUserRegisteredUseCaseImpl implements ProcessUserRegisteredUs
     public Void execute(ProcessUserRegisteredCommand cmd) {
         List<UserStatistic> userStatistics = statisticTypeRepository.findAll()
                 .stream()
-                .map(statisticType -> UserStatistic.builder()
-                        .statisticTypeId(statisticType.getId())
-                        .userId(cmd.userId())
-                        .build()
-                )
-                .collect(Collectors.toList());
+                .map(statisticType -> UserStatistic.create(
+                        cmd.userId(),
+                        statisticType.getStatisticTypeEnum()
+                ))
+                .toList();
 
         userStatisticRepository.saveAll(userStatistics);
 

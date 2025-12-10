@@ -3,10 +3,10 @@ package pl.gamilife.gamification.domain.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Immutable;
 import pl.gamilife.gamification.domain.model.enums.ItemSlotEnum;
 import pl.gamilife.gamification.domain.model.enums.RarityEnum;
@@ -17,8 +17,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @Immutable
-@SuperBuilder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "item")
 @ToString(exclude = {"itemSlot", "rarity", "achievement", "unlockLevel"})
 public class Item extends BaseUuidReadOnlyEntity {

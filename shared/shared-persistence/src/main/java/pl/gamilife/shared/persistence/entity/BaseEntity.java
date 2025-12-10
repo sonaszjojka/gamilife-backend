@@ -2,10 +2,8 @@ package pl.gamilife.shared.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.Persistable;
@@ -16,7 +14,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Getter
-@SuperBuilder
 @MappedSuperclass
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
@@ -24,7 +21,6 @@ public abstract class BaseEntity implements Persistable<UUID> {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    @Builder.Default
     private UUID id = UUID.randomUUID();
 
     @Version
