@@ -37,9 +37,7 @@ public class GetStoreItemsUseCaseImpl implements GetStoreItemsUseCase {
                 cmd.page(),
                 cmd.size()
         );
-
-            itemPage.map(this::toDto);
-        return null;
+        return  itemPage.map(this::toDto);
     }
 
     private StoreItemDto toDto(Item item) {
