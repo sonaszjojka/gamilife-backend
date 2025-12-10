@@ -2,8 +2,10 @@ package pl.gamilife.gamification.domain.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.gamilife.gamification.domain.exception.UserDoesNotHaveEnoughItemsException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
@@ -11,9 +13,7 @@ import java.util.UUID;
 
 @Getter
 @Entity
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"item"})
 @Table(name = "user_inventory_item")
 public class UserInventoryItem extends BaseEntity {
@@ -36,8 +36,42 @@ public class UserInventoryItem extends BaseEntity {
 
     @NotNull
     @Column(name = "is_equipped", nullable = false)
-    @Builder.Default
     private Boolean isEquipped = false;
+
+    private UserInventoryItem(UUID userId, Item item, Integer quantity) {
+        setUserId(userId);
+        setItem(item);
+        setQuantity(quantity);
+    }
+
+    public static UserInventoryItem create(UUID userId, Item item, Integer quantity) {
+        return new UserInventoryItem(userId, item, quantity);
+    }
+
+    private void setUserId(UUID userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
+
+        this.userId = userId;
+    }
+
+    private void setItem(Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item cannot be null");
+        }
+
+        this.item = item;
+        this.itemId = item.getId();
+    }
+
+    private void setQuantity(Integer quantity) {
+        if (quantity == null) {
+            throw new IllegalArgumentException("Quantity cannot be null");
+        }
+
+        this.quantity = quantity;
+    }
 
     public boolean doesBelongTo(UUID userId) {
         return this.userId.equals(userId);

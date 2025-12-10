@@ -20,6 +20,7 @@ public class UserInventoryServiceImpl implements UserInventoryService {
     public UserInventoryItem addItemToUsersInventory(UUID userId, Item item) {
         Optional<UserInventoryItem> usersInventoryOptional = getUserInventoryItem(userId, item);
         UserInventoryItem userInventoryItem;
+
         if (usersInventoryOptional.isEmpty() || usersInventoryOptional.get().getQuantity() == null) {
             userInventoryItem = addNewItemToInventory(userId, item);
         } else {
@@ -49,11 +50,7 @@ public class UserInventoryServiceImpl implements UserInventoryService {
                 existing.incrementQuantityBy(1);
                 toSave.add(existing);
             } else {
-                UserInventoryItem newItem = UserInventoryItem.builder()
-                        .userId(userId)
-                        .item(item)
-                        .quantity(1)
-                        .build();
+                UserInventoryItem newItem = UserInventoryItem.create(userId, item, 1);
                 toSave.add(newItem);
             }
         }
@@ -66,11 +63,7 @@ public class UserInventoryServiceImpl implements UserInventoryService {
     }
 
     private UserInventoryItem addNewItemToInventory(UUID userId, Item item) {
-        UserInventoryItem userInventoryItem = UserInventoryItem.builder()
-                .userId(userId)
-                .item(item)
-                .quantity(1)
-                .build();
+        UserInventoryItem userInventoryItem = UserInventoryItem.create(userId, item, 1);
 
         return userInventoryItemRepository.save(userInventoryItem);
     }

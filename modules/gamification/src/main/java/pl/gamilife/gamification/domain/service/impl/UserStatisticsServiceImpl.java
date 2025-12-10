@@ -87,11 +87,7 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
         return userStatisticRepository.findByUserIdAndStatisticTypeId(userId, statisticTypeEnum.getStatisticTypeId())
                 .orElseGet(() -> {
                     log.warn("User has no statistic type: {}. Creating a new one.", statisticTypeEnum);
-                    return UserStatistic.builder()
-                            .userId(userId)
-                            .statisticTypeId(statisticTypeEnum.getStatisticTypeId())
-                            .count(0)
-                            .build();
+                    return UserStatistic.create(userId, statisticTypeEnum);
                 });
     }
 }

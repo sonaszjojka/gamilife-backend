@@ -2,17 +2,16 @@ package pl.gamilife.gamification.domain.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Immutable;
 import pl.gamilife.shared.persistence.entity.BaseUuidReadOnlyEntity;
 
 @Getter
 @Entity
 @Immutable
-@SuperBuilder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "reward")
 public class Reward extends BaseUuidReadOnlyEntity {
 

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Immutable;
 
 import java.io.Serializable;
@@ -12,7 +11,6 @@ import java.util.Objects;
 
 @Getter
 @Immutable
-@SuperBuilder
 @MappedSuperclass
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 abstract class AbstractReadOnlyEntity<K extends Serializable> {
