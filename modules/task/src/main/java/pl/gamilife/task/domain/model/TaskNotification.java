@@ -2,7 +2,6 @@ package pl.gamilife.task.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
 import java.time.Instant;
@@ -10,9 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Entity
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"task"})
 @Table(name = "task_notification")
 public class TaskNotification extends BaseEntity {
@@ -27,5 +24,14 @@ public class TaskNotification extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "task_id", nullable = false, insertable = false, updatable = false)
     private Task task;
+
+    private TaskNotification(UUID taskId, Instant sendDate) {
+        this.taskId = taskId;
+        this.sendDate = sendDate;
+    }
+
+    public static TaskNotification create(UUID taskId, Instant sendDate) {
+        return new TaskNotification(taskId, sendDate);
+    }
 
 }

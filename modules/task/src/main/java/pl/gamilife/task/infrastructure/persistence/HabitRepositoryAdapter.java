@@ -28,12 +28,6 @@ public class HabitRepositoryAdapter implements HabitRepository {
     }
 
     @Override
-    public Optional<Habit> findHabitByTaskId(UUID taskId) {
-        return repositoryJpa.findHabitByTaskId(taskId);
-    }
-
-
-    @Override
     public void delete(Habit habit) {
         repositoryJpa.delete(habit);
     }

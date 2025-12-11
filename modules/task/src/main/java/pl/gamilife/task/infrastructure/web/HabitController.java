@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 import pl.gamilife.task.application.createhabit.CreateHabitCommand;
 import pl.gamilife.task.application.createhabit.CreateHabitResult;
 import pl.gamilife.task.application.createhabit.CreateHabitUseCase;
@@ -21,7 +22,7 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/tasks/{taskId}/habit") // TODO: REMOVED 's'
+@RequestMapping("/api/v1/habits") // TODO: Changed
 public class HabitController {
 
     private final CreateHabitUseCase createHabitUseCase;
@@ -29,26 +30,43 @@ public class HabitController {
     private final DeleteHabitUseCase deleteHabitUseCase;
 
     @PostMapping
-    public ResponseEntity<CreateHabitResult> create(@PathVariable UUID taskId,
-                                                    @RequestBody @Valid CreateHabitRequest request) {
+    public ResponseEntity<CreateHabitResult> create(
+            @CurrentUserId UUID userId,
+            @RequestBody @Valid CreateHabitRequest request
+    ) {
         CreateHabitResult response = createHabitUseCase.execute(new CreateHabitCommand(
-                taskId,
+                userId,
+                request.title(),
+                request.description(),
+                request.categoryId(),
+                request.difficultyId(),
                 request.cycleLength()
         ));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PatchMapping // TODO: CHANGED TO PATCH AND REMOVED ID
+    @PatchMapping("/{habitId}") // TODO: CHANGED TO PATCH AND REMOVED ID
     public ResponseEntity<EditHabitResponse> edit(
-            @PathVariable UUID taskId,
+            @CurrentUserId UUID userId,
+            @PathVariable UUID habitId,
             @RequestBody @Valid EditHabitRequest request) {
-        EditHabitResponse response = editHabitUseCase.execute(new EditHabitCommand(taskId, request.cycleLength(), request.finished()));
+        EditHabitResponse response = editHabitUseCase.execute(new EditHabitCommand(
+                userId,
+                habitId,
+                request.title(),
+                request.description(),
+                request.categoryId(),
+                request.difficultyId(),
+                request.cycleLength(),
+                request.iterationCompleted(),
+                request.finished()
+        ));
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping // TODO: REMOVED ID
-    public ResponseEntity<ApiResponse> delete(@PathVariable UUID taskId) {
-        deleteHabitUseCase.execute(new DeleteHabitCommand(taskId));
-        return ResponseEntity.ok(new ApiResponse("Habit for taskId: " + taskId + " deleted successfully."));
+    @DeleteMapping("/{habitId}") // TODO: REMOVED ID
+    public ResponseEntity<ApiResponse> delete(@PathVariable UUID habitId) {
+        deleteHabitUseCase.execute(new DeleteHabitCommand(habitId));
+        return ResponseEntity.ok(new ApiResponse("Habit with id: " + habitId + " deleted successfully."));
     }
 }

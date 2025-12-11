@@ -45,3 +45,8 @@ error-codes:
       title: "User Has Not Enough Money"
       detail: "User has not enough money"
       status: 400
+    DOMAIN_VALIDATION_FAILED:
+      code: 1010
+      title: "Domain Validation Failed"
+      detail: "Domain validation failed"
+      status: 400

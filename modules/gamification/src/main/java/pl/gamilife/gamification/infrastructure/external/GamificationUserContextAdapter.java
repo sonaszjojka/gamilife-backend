@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Component
 @AllArgsConstructor
-public class UserContextAdapter implements UserContext {
+public class GamificationUserContextAdapter implements UserContext {
 
     private final UserApi userApi;
 

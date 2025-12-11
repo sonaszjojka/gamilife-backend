@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.pomodoro.PomodoroApi;
 import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 import pl.gamilife.shared.kernel.architecture.Page;
-import pl.gamilife.task.domain.model.Habit;
 import pl.gamilife.task.domain.model.filter.TaskFilter;
 import pl.gamilife.task.domain.port.repository.HabitRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
@@ -35,17 +34,18 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                 .map(task -> {
                     PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
                     GetUserTasksDto.TaskHabitDto taskHabit = null;
-                    Habit habit = habitRepository.findHabitByTaskId(task.getId()).orElse(null);
-                    if (habit != null) {
-
-                        taskHabit = GetUserTasksDto.TaskHabitDto.builder()
-                                .habitId(habit.getId())
-                                .cycleLength(habit.getCycleLength())
-                                .currentStreak(habit.getCurrentStreak())
-                                .longestStreak(habit.getLongestStreak())
-                                .finishedAt(habit.getFinishedAt())
-                                .build();
-                    }
+                    // TODO: change get logic
+//                    Habit habit = habitRepository.findHabitByTaskId(task.getId()).orElse(null);
+//                    if (habit != null) {
+//
+//                        taskHabit = GetUserTasksDto.TaskHabitDto.builder()
+//                                .habitId(habit.getId())
+//                                .cycleLength(habit.getCycleLength())
+//                                .currentStreak(habit.getCurrentStreak())
+//                                .longestStreak(habit.getLongestStreak())
+//                                .finishedAt(habit.getFinishedAt())
+//                                .build();
+//                    }
                     return new GetUserTasksDto(
                             task.getId(),
                             task.getTitle(),

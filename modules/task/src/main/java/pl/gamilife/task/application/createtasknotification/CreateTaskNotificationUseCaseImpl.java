@@ -30,10 +30,7 @@ public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotification
             throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to create notification for another user!");
         }
 
-        TaskNotification taskNotification = TaskNotification.builder()
-                .taskId(cmd.taskId())
-                .sendDate(cmd.sendDate())
-                .build();
+        TaskNotification taskNotification = TaskNotification.create(cmd.taskId(), cmd.sendDate());
 
         taskNotification = taskNotificationRepository.save(taskNotification);
 

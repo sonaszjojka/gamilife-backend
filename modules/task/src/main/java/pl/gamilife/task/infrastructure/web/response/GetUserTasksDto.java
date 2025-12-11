@@ -4,7 +4,6 @@ package pl.gamilife.task.infrastructure.web.response;
 import lombok.Builder;
 import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -27,7 +26,7 @@ public record GetUserTasksDto(
     @Builder
     public record TaskHabitDto(
             UUID habitId,
-            Duration cycleLength,
+            Integer cycleLength,
             Integer currentStreak,
             Integer longestStreak,
             Instant finishedAt

@@ -35,16 +35,16 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                         "Task difficulty with id " + cmd.difficultyId() + " not found!"
                 ));
 
-        Task task = Task.builder()
-                .title(cmd.title())
-                .deadline(cmd.deadline())
-                .categoryId(cmd.categoryId())
-                .difficultyId(cmd.difficultyId())
-                .userId(cmd.userId())
-                .description(cmd.description())
-                .build();
+        Task task = Task.create(
+                cmd.title(),
+                cmd.description(),
+                cmd.userId(),
+                taskCategory,
+                taskDifficulty,
+                cmd.deadline()
+        );
 
-        task = taskRepository.save(task);
+        taskRepository.save(task);
 
         return buildResponse(task);
     }

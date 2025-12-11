@@ -4,21 +4,21 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Immutable;
 import pl.gamilife.shared.persistence.entity.BaseIntReadOnlyEntity;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Entity
 @Immutable
-@SuperBuilder
-@NoArgsConstructor
-@ToString(exclude = {"tasks"})
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(exclude = {"tasks", "habits"})
 @Table(name = "task_difficulty")
 public class TaskDifficulty extends BaseIntReadOnlyEntity {
 
@@ -29,6 +29,9 @@ public class TaskDifficulty extends BaseIntReadOnlyEntity {
     private Integer value;
 
     @OneToMany(mappedBy = "difficulty")
-    private List<Task> tasks;
+    private Set<Task> tasks = new HashSet<>();
+
+    @OneToMany(mappedBy = "difficulty")
+    private Set<Habit> habits = new HashSet<>();
 
 }

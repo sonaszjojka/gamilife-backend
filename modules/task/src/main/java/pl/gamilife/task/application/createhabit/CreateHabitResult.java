@@ -1,12 +1,13 @@
 package pl.gamilife.task.application.createhabit;
 
-import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public record CreateHabitResult(
         UUID habitId,
-        Duration cycleLength,
+        Integer cycleLength,
+        LocalDate currentDeadline,
         Integer currentStreak,
         Integer longestStreak,
         Instant created_at,

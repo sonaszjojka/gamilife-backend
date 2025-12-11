@@ -10,7 +10,5 @@ public interface HabitRepository {
 
     Optional<Habit> findById(UUID habitId);
 
-    Optional<Habit> findHabitByTaskId(UUID taskId);
-
     void delete(Habit habit);
 }
