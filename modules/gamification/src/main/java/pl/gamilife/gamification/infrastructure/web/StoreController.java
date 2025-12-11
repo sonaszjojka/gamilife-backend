@@ -13,6 +13,7 @@ import pl.gamilife.gamification.application.usecase.getstoreitems.getbyid.StoreI
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -26,8 +27,8 @@ public class StoreController {
     @GetMapping("/item")
     public ResponseEntity<Page<StoreItemDto>> getFilteredItems(
             @RequestParam(required = false) String itemName,
-            @RequestParam(required = false) Integer itemSlot,
-            @RequestParam(required = false) Integer rarity,
+            @RequestParam(required = false) List<Integer> itemSlot,
+            @RequestParam(required = false) List<Integer> rarity,
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @RequestParam(defaultValue = "10") @Min(1) @Max(100) Integer size
     ) {
