@@ -16,6 +16,9 @@ public record CreateTaskCommand(
         @Size(max = 200, message = "Title cannot exceed 200 characters")
         String title,
 
+        @Size(min = 1, max = 200, message = "Description cannot exceed 500 characters")
+        String description,
+
         @NotNull(message = "Deadline cannot be null")
         Instant deadline,
 
@@ -23,13 +26,6 @@ public record CreateTaskCommand(
         Integer categoryId,
 
         @NotNull(message = "Difficulty Id cannot be null")
-        Integer difficultyId,
-
-        @Size(min = 1, max = 200, message = "Description cannot exceed 200 characters")
-        String description
+        Integer difficultyId
 ) implements Command {
-    @Override
-    public void validate() {
-
-    }
 }

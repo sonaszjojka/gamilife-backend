@@ -50,8 +50,8 @@ CREATE TABLE task
 (
     id            UUID    NOT NULL,
     title         VARCHAR(200)                NOT NULL,
-    description   VARCHAR(500),
-    user_id       UUID,
+    description VARCHAR(500) NULL,
+    user_id     UUID         NULL,
     category_id   INTEGER NOT NULL,
     difficulty_id INTEGER NOT NULL,
     deadline      TIMESTAMP WITH TIME ZONE,
@@ -63,18 +63,25 @@ CREATE TABLE task
     CONSTRAINT pk_task PRIMARY KEY (id)
 );
 
+-- Table: habit
 CREATE TABLE habit
 (
-    id          UUID                                               NOT NULL,
-    task_id     UUID                                               NOT NULL,
-    cycle_length   BIGINT  NOT NULL,
-    current_streak INTEGER NOT NULL,
-    longest_streak INTEGER NOT NULL,
-    finished_at TIMESTAMP WITH TIME ZONE,
-    version     BIGINT                                             NOT NULL DEFAULT 0,
-    created_at  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    CONSTRAINT pk_habit PRIMARY KEY (id)
+    id                  uuid                                               NOT NULL,
+    title               varchar(200)                                       NOT NULL,
+    description         varchar(500)                                       NULL,
+    user_id             uuid                                               NOT NULL,
+    category_id         int                                                NOT NULL,
+    difficulty_id       int                                                NOT NULL,
+    cycle_length        int                                                NOT NULL,
+    current_deadline    date                                               NOT NULL,
+    last_completed_date date                                               NULL,
+    current_streak      int                                                NOT NULL,
+    longest_streak      int                                                NOT NULL,
+    finished_at         TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NULL,
+    version             BIGINT                                             NOT NULL DEFAULT 0,
+    created_at          TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at          TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT habit_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE task_category
@@ -103,18 +110,6 @@ CREATE TABLE task_notification
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_task_notification PRIMARY KEY (id)
 );
-
-ALTER TABLE task_notification
-    ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK FOREIGN KEY (task_id) REFERENCES task (id);
-
-ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES task_category (id);
-
-ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_DIFFICULTY FOREIGN KEY (difficulty_id) REFERENCES task_difficulty (id);
-
-ALTER TABLE habit
-    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_id) REFERENCES task (id);
 
 --- Pomodoro todo users + schemas per module
 
@@ -734,6 +729,33 @@ ALTER TABLE notification_retry
     ADD CONSTRAINT notification_retry_user
         FOREIGN KEY (user_id)
             REFERENCES "user" (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+ALTER TABLE task_notification
+    ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK FOREIGN KEY (task_id) REFERENCES task (id);
+
+ALTER TABLE task
+    ADD CONSTRAINT FK_TASK_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES task_category (id);
+
+ALTER TABLE task
+    ADD CONSTRAINT FK_TASK_ON_DIFFICULTY FOREIGN KEY (difficulty_id) REFERENCES task_difficulty (id);
+
+-- Reference: habit_category (table: habit)
+ALTER TABLE habit
+    ADD CONSTRAINT habit_category
+        FOREIGN KEY (category_id)
+            REFERENCES task_category (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Reference: habit_difficulty (table: habit)
+ALTER TABLE habit
+    ADD CONSTRAINT habit_difficulty
+        FOREIGN KEY (difficulty_id)
+            REFERENCES task_difficulty (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;

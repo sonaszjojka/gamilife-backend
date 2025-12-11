@@ -17,11 +17,11 @@ public class DeleteHabitUseCaseImpl implements DeleteHabitUseCase {
     @Transactional
     public Void execute(DeleteHabitCommand cmd) {
         Habit habit = habitRepository
-                .findHabitByTaskId(cmd.taskId())
-                .orElseThrow(() -> new HabitNotFoundException(
-                        "Habit for taskId " + cmd.taskId() + " not found!"
-                ));
-
+                .findById(cmd.habitId())
+                .orElseThrow(() -> new HabitNotFoundException(String.format(
+                        "Habit with id %s not found!",
+                        cmd.habitId()
+                )));
         habitRepository.delete(habit);
 
         return null;

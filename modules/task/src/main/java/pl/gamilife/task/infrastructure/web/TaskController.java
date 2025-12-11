@@ -42,10 +42,10 @@ public class TaskController {
         CreateTaskResult response = createTaskUseCase.execute(new CreateTaskCommand(
                 userId,
                 request.title(),
+                request.description(),
                 request.deadline(),
                 request.categoryId(),
-                request.difficultyId(),
-                request.description()
+                request.difficultyId()
         ));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

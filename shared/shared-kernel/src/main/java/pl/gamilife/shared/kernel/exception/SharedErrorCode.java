@@ -9,7 +9,8 @@ public enum SharedErrorCode implements ErrorCode {
     TASK_NOT_FOUND,
     GROUP_ADMIN_PRIVILEGES_REQUIRED,
     RESOURCE_OWNER_PRIVILEGES_REQUIRED,
-    USER_HAS_NOT_ENOUGH_MONEY;
+    USER_HAS_NOT_ENOUGH_MONEY,
+    DOMAIN_VALIDATION_FAILED;
 
     @Override
     public String getKey() {

@@ -28,11 +28,11 @@ VALUES ('11111111-1111-1111-1111-111111111111', 'Finish report', 'Finish the mon
 -- =========================
 -- Tabela: habit
 -- =========================
-INSERT INTO habit (id, task_id, cycle_length, current_streak, longest_streak)
-VALUES ('aaaa0000-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-111111111111', 7, 3, 5),
-       ('bbbb0000-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '22222222-2222-2222-2222-222222222222', 30, 10, 43);
-
-
+INSERT INTO habit (id, title, description, user_id, category_id, difficulty_id, cycle_length, last_completed_date,
+                   current_deadline, current_streak, longest_streak)
+VALUES ('11111111-1111-1111-1111-111111111111', 'Read a book', 'Read a book for 5 minutes',
+        '11111111-1111-1111-1111-111111111111',
+        1, 1, 3, '10-12-2025', '12-12-2025', 15, 30);
 
 -- INSERT INTO task_notification (id, send_date, task_id)
 -- VALUES (1, NOW() + INTERVAL '1 hour', (SELECT task_id FROM task LIMIT 1)),

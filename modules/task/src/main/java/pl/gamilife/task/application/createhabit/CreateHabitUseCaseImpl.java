@@ -1,38 +1,57 @@
 package pl.gamilife.task.application.createhabit;
 
-import org.springframework.stereotype.Component;
-import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
-import pl.gamilife.task.domain.exception.domain.InvalidHabitDataException;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
+import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
 import pl.gamilife.task.domain.model.Habit;
-import pl.gamilife.task.domain.model.Task;
+import pl.gamilife.task.domain.model.TaskCategory;
+import pl.gamilife.task.domain.model.TaskDifficulty;
+import pl.gamilife.task.domain.port.context.UserContext;
 import pl.gamilife.task.domain.port.repository.HabitRepository;
-import pl.gamilife.task.domain.port.repository.TaskRepository;
+import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
+import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 
-@Component
+import java.time.ZoneId;
+
+@Service
+@AllArgsConstructor
 public class CreateHabitUseCaseImpl implements CreateHabitUseCase {
 
     private final HabitRepository habitRepository;
-    private final TaskRepository taskRepository;
-
-    public CreateHabitUseCaseImpl(HabitRepository habitRepository, TaskRepository taskRepository) {
-        this.habitRepository = habitRepository;
-        this.taskRepository = taskRepository;
-    }
+    private final UserContext userContext;
+    private final TaskCategoryRepository taskCategoryRepository;
+    private final TaskDifficultyRepository taskDifficultyRepository;
 
     @Override
     public CreateHabitResult execute(CreateHabitCommand cmd) {
-        Task habitTask = taskRepository.findById(cmd.taskId())
-                .orElseThrow(() -> new TaskNotFoundException("Task with id " + cmd.taskId() + " does not exist."));
+        TaskCategory taskCategory = taskCategoryRepository
+                .findById(cmd.categoryId())
+                .orElseThrow(() -> new TaskCategoryNotFoundException(String.format(
+                        "Category with id %s not found!",
+                        cmd.categoryId()
+                )));
 
-        if (habitRepository.findHabitByTaskId(cmd.taskId()).isPresent()) {
-            throw new InvalidHabitDataException("Habit for task with id " + cmd.taskId() + " already exists.");
-        }
+        TaskDifficulty taskDifficulty = taskDifficultyRepository
+                .findById(cmd.difficultyId())
+                .orElseThrow(() -> new TaskDifficultyNotFoundException(String.format(
+                        "Task difficulty with id %s not found!",
+                        cmd.difficultyId()
+                )));
 
-        Habit habit = Habit.builder()
-                .taskId(cmd.taskId())
-                .cycleLength(cmd.cycleLength())
-                .build();
-        habit = habitRepository.save(habit);
+        ZoneId userTimeZone = userContext.getUserTimeZone(cmd.userId());
+
+        Habit habit = Habit.create(
+                cmd.title(),
+                cmd.description(),
+                cmd.userId(),
+                taskCategory,
+                taskDifficulty,
+                cmd.cycleLength(),
+                userTimeZone
+        );
+        habitRepository.save(habit);
+
         return buildResponse(habit);
     }
 
@@ -40,6 +59,7 @@ public class CreateHabitUseCaseImpl implements CreateHabitUseCase {
         return new CreateHabitResult(
                 habit.getId(),
                 habit.getCycleLength(),
+                habit.getCurrentDeadline(),
                 habit.getCurrentStreak(),
                 habit.getLongestStreak(),
                 habit.getCreatedAt(),
