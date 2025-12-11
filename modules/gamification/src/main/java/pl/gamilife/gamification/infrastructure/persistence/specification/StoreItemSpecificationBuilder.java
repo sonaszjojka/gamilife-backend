@@ -1,12 +1,15 @@
 package pl.gamilife.gamification.infrastructure.persistence.specification;
 
-import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.domain.model.enums.ItemSlotEnum;
 import pl.gamilife.gamification.domain.model.enums.RarityEnum;
 import pl.gamilife.gamification.domain.model.filter.StoreItemsFilter;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class StoreItemSpecificationBuilder {
@@ -35,23 +38,32 @@ public class StoreItemSpecificationBuilder {
         };
     }
 
-   public Specification<Item> hasItemSlot(ItemSlotEnum itemSlot) {
-        return (root, query, cb) ->
-        {
-            if (itemSlot == null) {
-                return null;
-            }
-            return cb.equal(root.get("itemSlotId"), itemSlot.getItemSlotId());
-        };
+   public Specification<Item> hasItemSlot(ItemSlotEnum[] itemSlot) {
+       return (root, query, cb) -> {
+           if (itemSlot == null || itemSlot.length == 0) {
+               return null;
+           }
+               List<Integer> slotIds = Arrays.stream(itemSlot)
+                       .map(ItemSlotEnum::getItemSlotId)
+                       .collect(Collectors.toList());
+
+
+           return root.get("itemSlotId").in(slotIds);
+       };
    }
 
-   public Specification<Item> hasRarity(RarityEnum rarity) {
+   public Specification<Item> hasRarity(RarityEnum[] rarity) {
         return (root, query, cb) ->
         {
-            if (rarity == null) {
+            if (rarity == null || rarity.length==0) {
                 return null;
             }
-            return cb.equal(root.get("rarityId"), rarity.getRarityId());
+
+            List<Integer> rarityIds =  Arrays.stream(rarity)
+                    .map(RarityEnum::getRarityId)
+                    .collect(Collectors.toList());
+
+            return  root.get("rarityId").in(rarityIds);
         };
    }
 

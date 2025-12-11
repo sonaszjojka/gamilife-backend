@@ -24,12 +24,12 @@ public class GetStoreItemsUseCaseImpl implements GetStoreItemsUseCase {
     public Page<StoreItemDto> execute(GetStoreItemsCommand cmd) {
 
 
-        ItemSlotEnum itemSlotEnum = cmd.itemSlot() != null
-                ? ItemSlotEnum.fromId(cmd.itemSlot())
+        ItemSlotEnum[] itemSlotEnum = cmd.itemSlot() != null
+                ? ItemSlotEnum.fromIds(cmd.itemSlot())
                 : null;
 
-        RarityEnum rarityEnum = cmd.rarity() != null
-                ? RarityEnum.fromId(cmd.rarity())
+        RarityEnum[] rarityEnum = cmd.rarity() != null
+                ? RarityEnum.fromIds(cmd.rarity())
                 : null;
 
         Page<Item> itemPage = itemRepositoryAdapter.findAll(

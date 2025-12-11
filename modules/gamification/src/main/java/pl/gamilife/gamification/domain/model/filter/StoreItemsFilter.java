@@ -5,7 +5,7 @@ import pl.gamilife.gamification.domain.model.enums.RarityEnum;
 
 public record StoreItemsFilter(
         String itemName,
-        ItemSlotEnum itemSlot,
-        RarityEnum rarity
+        ItemSlotEnum [] itemSlot,
+        RarityEnum [] rarity
 ) {
 }
