@@ -2,7 +2,6 @@ package pl.gamilife.task.infrastructure.web.response;
 
 
 import lombok.Builder;
-import pl.gamilife.api.pomodoro.dto.PomodoroItemDto;
 import pl.gamilife.task.domain.model.enums.TaskStatus;
 
 import java.time.Instant;
@@ -23,9 +22,7 @@ public record GetUserTasksDto(
         String categoryName,
         String difficultyName,
         Boolean isGroupTask,
-        UUID userId,
-        PomodoroItemDto pomodoro,
-        TaskHabitDto taskHabit
+        UUID userId
 ) {
     @Builder
     public record TaskHabitDto(

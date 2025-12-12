@@ -29,10 +29,6 @@
         </dependency>
         <dependency>
             <groupId>pl.gamilife</groupId>
-            <artifactId>pomodoro-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>pl.gamilife</groupId>
             <artifactId>user-api</artifactId>
         </dependency>
 

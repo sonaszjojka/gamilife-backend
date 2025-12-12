@@ -60,9 +60,7 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                             task.getCategory().getName(),
                             task.getDifficulty().getName(),
                             task.isGroupTask(),
-                            task.getUserId(),
-                            null,
-                            null
+                            task.getUserId()
                     );
                 });
     }
