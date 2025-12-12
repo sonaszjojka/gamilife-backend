@@ -1,26 +1,28 @@
 package pl.gamilife.pomodoro.infrastructure.persistence;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import pl.gamilife.pomodoro.domain.PomodoroItem;
-import pl.gamilife.pomodoro.domain.repository.PomodoroItemRepository;
+import pl.gamilife.pomodoro.domain.model.PomodoroItem;
+import pl.gamilife.pomodoro.domain.port.repository.PomodoroItemRepository;
 import pl.gamilife.pomodoro.infrastructure.persistence.jpa.PomodoroTaskRepositoryJpa;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@AllArgsConstructor
 public class PomodoroItemRepositoryImpl implements PomodoroItemRepository {
 
     private final PomodoroTaskRepositoryJpa pomodoroTaskRepositoryJpa;
 
-    public PomodoroItemRepositoryImpl(PomodoroTaskRepositoryJpa pomodoroTaskRepositoryJpa) {
-        this.pomodoroTaskRepositoryJpa = pomodoroTaskRepositoryJpa;
+    @Override
+    public boolean existsByTaskId(UUID taskId) {
+        return pomodoroTaskRepositoryJpa.existsByTaskId(taskId);
     }
 
     @Override
-    public boolean existsByTaskId(UUID taskId) {
-//        return pomodoroTaskRepositoryJpa.existsByTaskId(taskId);
-        return false;
+    public boolean existsByHabitId(UUID habitId) {
+        return pomodoroTaskRepositoryJpa.existsByHabitId(habitId);
     }
 
     @Override

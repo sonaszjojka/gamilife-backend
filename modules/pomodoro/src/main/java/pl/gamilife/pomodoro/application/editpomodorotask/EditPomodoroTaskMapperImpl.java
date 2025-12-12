@@ -1,7 +1,7 @@
 package pl.gamilife.pomodoro.application.editpomodorotask;
 
 import org.springframework.stereotype.Component;
-import pl.gamilife.pomodoro.domain.PomodoroItem;
+import pl.gamilife.pomodoro.domain.model.PomodoroItem;
 
 @Component
 public class EditPomodoroTaskMapperImpl implements EditPomodoroTaskMapper {

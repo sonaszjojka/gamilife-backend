@@ -2,7 +2,8 @@ package pl.gamilife.task.infrastructure.api;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.gamilife.api.task.TasksApi;
+import pl.gamilife.api.task.TaskApi;
+import pl.gamilife.api.task.dto.HabitDto;
 import pl.gamilife.api.task.dto.TaskDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
@@ -22,7 +23,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class TasksApiImpl implements TasksApi {
+public class TaskApiImpl implements TaskApi {
 
     private final FindTaskByIdUseCase findTaskByIdUseCase;
     private final DeleteTaskUseCase deleteTaskUseCase;
@@ -30,7 +31,7 @@ public class TasksApiImpl implements TasksApi {
     private final EditTaskForGroupTaskUseCase editTaskForGroupTaskUseCase;
 
     @Override
-    public TaskDto findTaskByTaskId(UUID taskId) {
+    public TaskDto findTaskById(UUID taskId) {
         FindTaskByIdResult result = findTaskByIdUseCase.execute(new FindTaskByIdCommand(taskId));
 
         return new TaskDto(
@@ -48,9 +49,14 @@ public class TasksApiImpl implements TasksApi {
                 ),
                 result.deadlineDate(),
                 result.deadlineTime(),
-                result.completedAt(),
-                result.habitTask() != null ? new TaskDto.HabitDto(result.habitTask().id()) : null
+                result.completedAt()
         );
+    }
+
+    @Override
+    public HabitDto findHabitById(UUID taskId) {
+        // TODO: implement
+        return null;
     }
 
     @Override

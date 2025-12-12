@@ -10,3 +10,8 @@ error-codes:
       title: "Invalid Pomodoro Item Data"
       detail: "The provided data for the Pomodoro item is invalid."
       status: 400
+    POMODORO_ITEM_ALREADY_EXISTS:
+      code: 7003
+      title: "Pomodoro Item Already Exists"
+      detail: "A Pomodoro item with the same data already exists."
+      status: 409

@@ -1,11 +1,11 @@
-package pl.gamilife.pomodoro.application.createpomodorotask;
+package pl.gamilife.pomodoro.infrastructure.web.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.util.UUID;
 
-public record CreatePomodoroTaskRequest(
+public record CreatePomodoroItemRequest(
 
         UUID taskId,
 
@@ -13,6 +13,6 @@ public record CreatePomodoroTaskRequest(
 
         @NotNull
         @Positive
-        Integer workCyclesNeeded
+        Integer cyclesRequired
 ) {
 }

@@ -5,7 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import pl.gamilife.api.task.TasksApi;
+import pl.gamilife.api.task.TaskApi;
 import pl.gamilife.api.task.dto.TaskDto;
 import pl.gamilife.grouptask.entity.GroupTask;
 import pl.gamilife.grouptask.repository.jpa.GroupTaskMemberRepositoryJpa;
@@ -20,13 +20,13 @@ public class GetGroupTasksUseCaseImpl implements GetGroupTasksUseCase {
     private final GroupTaskRepositoryJpa groupTaskRepository;
     private final GroupTaskMemberRepositoryJpa groupTaskMemberRepository;
     private final GroupTasksSpecificationBuilder specificationBuilder;
-    private final TasksApi tasksApi;
+    private final TaskApi taskApi;
 
-    public GetGroupTasksUseCaseImpl(GroupTaskRepositoryJpa groupTaskRepository, GroupTaskMemberRepositoryJpa groupTaskMemberRepository, GroupTasksSpecificationBuilder specificationBuilder, TasksApi tasksApi) {
+    public GetGroupTasksUseCaseImpl(GroupTaskRepositoryJpa groupTaskRepository, GroupTaskMemberRepositoryJpa groupTaskMemberRepository, GroupTasksSpecificationBuilder specificationBuilder, TaskApi taskApi) {
         this.groupTaskRepository = groupTaskRepository;
         this.groupTaskMemberRepository = groupTaskMemberRepository;
         this.specificationBuilder = specificationBuilder;
-        this.tasksApi = tasksApi;
+        this.taskApi = taskApi;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class GetGroupTasksUseCaseImpl implements GetGroupTasksUseCase {
 
         return groupTaskRepository.findAll(groupTaskSpecification, pageable).map(
                 groupTask -> {
-                    TaskDto taskDto = tasksApi.findTaskByTaskId(groupTask.getTaskId());
+                    TaskDto taskDto = taskApi.findTaskById(groupTask.getTaskId());
                     List<GetGroupTaskMemberDto> groupTaskMembers =
                             groupTaskMemberRepository.findByGroupTaskId(groupTask)
                                     .stream()

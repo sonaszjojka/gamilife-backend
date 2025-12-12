@@ -1,21 +1,18 @@
 package pl.gamilife.api.task.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.UUID;
 
-public record TaskDto(
+public record HabitDto(
         UUID id,
         String title,
         String description,
         UUID userId,
         TaskCategoryDto category,
         TaskDifficultyDto difficulty,
-        LocalDate deadlineDate,
-        LocalTime deadlineTime,
-        Instant completedAt
+        LocalDate currentDeadline,
+        boolean canBeWorkedOn
 ) implements Serializable {
 
     public record TaskDifficultyDto(Integer id, String difficultyName) implements Serializable {
