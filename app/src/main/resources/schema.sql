@@ -1,7 +1,7 @@
 -- ===================== DROP EXISTING TABLES ====================
 DROP TABLE IF EXISTS "user" CASCADE;
 
-DROP TABLE IF EXISTS pomodoro_task CASCADE;
+DROP TABLE IF EXISTS pomodoro_item CASCADE;
 
 DROP TABLE IF EXISTS habit CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
@@ -114,14 +114,21 @@ CREATE TABLE task_notification
 
 --- Pomodoro todo users + schemas per module
 
-CREATE TABLE pomodoro_task
+CREATE TABLE pomodoro_item
 (
-    pomodoro_id           UUID NOT NULL,
-    created_at timestamp WITH TIME ZONE,
-    work_cycles_needed    INTEGER,
-    work_cycles_completed INTEGER,
-    task_id               UUID,
-    CONSTRAINT pk_pomodoro_task PRIMARY KEY (pomodoro_id)
+    id               UUID                                               NOT NULL,
+    cycles_required  INTEGER                                            NOT NULL,
+    cycles_completed INTEGER                                            NOT NULL,
+    task_id          UUID                                               NULL,
+    habit_id         UUID                                               NULL,
+    version          BIGINT                                             NOT NULL DEFAULT 0,
+    created_at       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT pomodoro_item_ak_1 UNIQUE (task_id) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT pomodoro_item_ak_2 UNIQUE (habit_id) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT pomodoro_task_or_habit CHECK ((task_id IS NULL AND habit_id IS NOT NULL) OR
+                                             (task_id IS NOT NULL AND habit_id IS NULL)) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT pomodoro_item_pk PRIMARY KEY (id)
 );
 -- ==================== USER ====================
 
@@ -759,6 +766,24 @@ ALTER TABLE habit
     ADD CONSTRAINT habit_difficulty
         FOREIGN KEY (difficulty_id)
             REFERENCES task_difficulty (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Reference: pomodoro_item_task (table: pomodoro_item)
+ALTER TABLE pomodoro_item
+    ADD CONSTRAINT pomodoro_item_task
+        FOREIGN KEY (task_id)
+            REFERENCES task (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Reference: pomodoro_item_habit (table: pomodoro_item)
+ALTER TABLE pomodoro_item
+    ADD CONSTRAINT pomodoro_item_habit
+        FOREIGN KEY (habit_id)
+            REFERENCES habit (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
