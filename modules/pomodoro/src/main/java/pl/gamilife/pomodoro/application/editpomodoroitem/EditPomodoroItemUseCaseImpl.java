@@ -18,7 +18,8 @@ public class EditPomodoroItemUseCaseImpl implements EditPomodoroItemUseCase {
 
     @Override
     public EditPomodoroItemResult execute(EditPomodoroItemCommand cmd) {
-        PomodoroItem pomodoroItem = pomodoroItemService.ensureExistsAndBelongsToUser(cmd.pomodoroId(), cmd.userId());
+        PomodoroItem pomodoroItem = pomodoroItemService
+                .ensureExistsAndBelongsToUser(cmd.pomodoroId(), cmd.userId(), cmd.zoneId());
 
         if (cmd.completeCycles() != null) {
             pomodoroItem.increaseCyclesCompleted(cmd.completeCycles());

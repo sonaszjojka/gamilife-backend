@@ -9,6 +9,7 @@ import pl.gamilife.pomodoro.domain.port.repository.PomodoroItemRepository;
 import pl.gamilife.pomodoro.domain.service.PomodoroItemService;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 @Service
@@ -19,13 +20,13 @@ public class PomodoroItemServiceImpl implements PomodoroItemService {
     private final TaskContext taskContext;
 
     @Override
-    public PomodoroItem ensureExistsAndBelongsToUser(UUID pomodoroId, UUID currentUserId) {
+    public PomodoroItem ensureExistsAndBelongsToUser(UUID pomodoroId, UUID currentUserId, ZoneId zoneId) {
         PomodoroItem pomodoroItem = pomodoroItemRepository.findById(pomodoroId).orElseThrow(() ->
                 new PomodoroItemNotFound("Pomodoro item with id: " + pomodoroId + " does not exist"));
 
         UUID userId = pomodoroItem.getTaskId() != null
                 ? taskContext.findTaskById(pomodoroItem.getTaskId()).userId()
-                : taskContext.findHabitById(pomodoroItem.getHabitId()).userId();
+                : taskContext.findHabitById(pomodoroItem.getHabitId(), currentUserId, zoneId).userId();
 
         if (!currentUserId.equals(userId)) {
             throw new ResourceOwnerPrivilegesRequiredException("User is not owner of the task with id: " + pomodoroItem.getTaskId());

@@ -9,6 +9,7 @@ import pl.gamilife.pomodoro.domain.model.projection.PomodoroHabit;
 import pl.gamilife.pomodoro.domain.model.projection.PomodoroTask;
 import pl.gamilife.pomodoro.domain.port.context.TaskContext;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 @Component
@@ -25,8 +26,8 @@ public class PomodoroTaskContextAdapter implements TaskContext {
     }
 
     @Override
-    public PomodoroHabit findHabitById(UUID habitId) {
-        HabitDto habitDto = taskApi.findHabitById(habitId);
+    public PomodoroHabit findHabitById(UUID habitId, UUID userId, ZoneId zoneId) {
+        HabitDto habitDto = taskApi.findHabitById(habitId, userId, zoneId);
         return new PomodoroHabit(habitDto.userId(), habitDto.canBeWorkedOn());
     }
 }

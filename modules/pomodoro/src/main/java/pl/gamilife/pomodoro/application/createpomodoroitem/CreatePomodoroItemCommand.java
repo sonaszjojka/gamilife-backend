@@ -5,12 +5,15 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import pl.gamilife.shared.kernel.architecture.Command;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 public record CreatePomodoroItemCommand(
 
         @NotNull
         UUID userId,
+
+        ZoneId zoneId,
 
         UUID taskId,
 

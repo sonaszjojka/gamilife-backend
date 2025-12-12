@@ -15,10 +15,14 @@ import pl.gamilife.task.application.deletetask.DeleteTaskUseCase;
 import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskCommand;
 import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskResult;
 import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskUseCase;
+import pl.gamilife.task.application.findhabitbyid.FindHabitByIdCommand;
+import pl.gamilife.task.application.findhabitbyid.FindHabitByIdResult;
+import pl.gamilife.task.application.findhabitbyid.FindHabitByIdUseCase;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdCommand;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdResult;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdUseCase;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 @Service
@@ -26,6 +30,7 @@ import java.util.UUID;
 public class TaskApiImpl implements TaskApi {
 
     private final FindTaskByIdUseCase findTaskByIdUseCase;
+    private final FindHabitByIdUseCase findHabitByIdUseCase;
     private final DeleteTaskUseCase deleteTaskUseCase;
     private final CreateTaskForGroupTaskUseCase createTaskForGroupTaskUseCase;
     private final EditTaskForGroupTaskUseCase editTaskForGroupTaskUseCase;
@@ -54,9 +59,17 @@ public class TaskApiImpl implements TaskApi {
     }
 
     @Override
-    public HabitDto findHabitById(UUID taskId) {
-        // TODO: implement
-        return null;
+    public HabitDto findHabitById(UUID taskId, UUID userId, ZoneId zoneId) {
+        FindHabitByIdResult result = findHabitByIdUseCase.execute(new FindHabitByIdCommand(
+                taskId,
+                userId,
+                zoneId
+        ));
+
+        return new HabitDto(
+                result.userId(),
+                result.canBeWorkedOn()
+        );
     }
 
     @Override
