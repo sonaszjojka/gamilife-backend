@@ -6,8 +6,4 @@ import pl.gamilife.shared.kernel.architecture.Command;
 import java.util.UUID;
 
 public record TaskExistsByIdCommand(@NotNull UUID taskId) implements Command {
-    @Override
-    public void validate() {
-
-    }
 }

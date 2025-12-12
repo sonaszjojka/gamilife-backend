@@ -9,23 +9,23 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public record CreateTaskRequest(
-        @NotBlank(message = "Title cannot be blank")
-        @Size(max = 200, message = "Title cannot exceed 200 characters")
+        @NotBlank
+        @Size(max = 200)
         String title,
 
         @FutureOrPresent
-        @NotNull(message = "Deadline date cannot be null")
+        @NotNull
         LocalDate deadlineDate,
 
         LocalTime deadlineTime,
 
-        @NotNull(message = "Category Id cannot be null")
+        @NotNull
         Integer categoryId,
 
-        @NotNull(message = "Difficulty Id cannot be null")
+        @NotNull
         Integer difficultyId,
 
-        @Size(min = 1, max = 200, message = "Description cannot exceed 200 characters")
+        @Size(min = 1, max = 200)
         String description
 ) {
 }

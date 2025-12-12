@@ -13,6 +13,9 @@ import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
 import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 @Service
 @AllArgsConstructor
 public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
@@ -25,6 +28,8 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     @Override
     @Transactional
     public CreateTaskResult execute(CreateTaskCommand cmd) {
+        ZoneId zoneId = cmd.zoneId() == null ? userContext.getCurrentUserTimezone(cmd.userId()) : cmd.zoneId();
+
         TaskCategory taskCategory = taskCategoryRepository
                 .findById(cmd.categoryId())
                 .orElseThrow(() -> new TaskCategoryNotFoundException(
@@ -45,7 +50,7 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                 taskDifficulty,
                 cmd.deadlineDate(),
                 cmd.deadlineTime(),
-                userContext.getCurrentUserDateTime(cmd.userId())
+                LocalDateTime.now(zoneId)
         );
 
         taskRepository.save(task);

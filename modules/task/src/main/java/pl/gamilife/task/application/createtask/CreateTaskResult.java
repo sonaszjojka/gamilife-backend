@@ -15,7 +15,5 @@ public record CreateTaskResult(
         Integer difficultyId,
         UUID userId,
         Instant completedAt
-
 ) {
-
 }

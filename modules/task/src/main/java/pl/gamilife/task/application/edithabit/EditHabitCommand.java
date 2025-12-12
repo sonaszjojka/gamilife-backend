@@ -5,11 +5,14 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import pl.gamilife.shared.kernel.architecture.Command;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 public record EditHabitCommand(
         @NotNull
         UUID userId,
+
+        ZoneId zoneId,
 
         @NotNull
         UUID habitId,

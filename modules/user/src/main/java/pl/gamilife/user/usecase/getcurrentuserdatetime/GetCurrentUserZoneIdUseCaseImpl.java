@@ -7,24 +7,21 @@ import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 import pl.gamilife.user.domain.User;
 import pl.gamilife.user.persistence.UserRepository;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @Service
 @Transactional(readOnly = true)
 @AllArgsConstructor
-public class GetCurrentUserDateTimeUseCaseImpl implements GetCurrentUserDateTimeUseCase {
+public class GetCurrentUserZoneIdUseCaseImpl implements GetCurrentUserZoneIdUseCase {
 
     private final UserRepository userRepository;
 
     @Override
-    public LocalDateTime execute(GetCurrentUserDateTimeCommand cmd) {
+    public ZoneId execute(GetCurrentUserZoneIdCommand cmd) {
         User user = userRepository.getUserById(cmd.userId()).orElseThrow(
                 () -> new UserNotFoundException("User not found")
         );
 
-        ZoneId zoneId = ZoneId.of(user.getTimezone());
-
-        return LocalDateTime.now(zoneId);
+        return ZoneId.of(user.getTimezone());
     }
 }
