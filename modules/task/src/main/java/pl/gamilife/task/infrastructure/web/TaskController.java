@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
+import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 import pl.gamilife.task.application.createtask.CreateTaskCommand;
 import pl.gamilife.task.application.createtask.CreateTaskResult;
 import pl.gamilife.task.application.createtask.CreateTaskUseCase;
@@ -23,6 +24,7 @@ import pl.gamilife.task.infrastructure.web.request.EditTaskRequest;
 import pl.gamilife.task.infrastructure.web.response.ApiResponse;
 import pl.gamilife.task.infrastructure.web.response.GetUserTasksDto;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 @RestController
@@ -38,9 +40,11 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<CreateTaskResult> create(
             @CurrentUserId UUID userId,
+            @CurrentUserTimezone ZoneId zoneId,
             @RequestBody @Valid CreateTaskRequest request) {
         CreateTaskResult response = createTaskUseCase.execute(new CreateTaskCommand(
                 userId,
+                zoneId,
                 request.title(),
                 request.description(),
                 request.deadlineDate(),
@@ -54,11 +58,13 @@ public class TaskController {
     @PatchMapping("/{taskId}") // TODO: CHANGE TO PATCH
     public ResponseEntity<EditTaskResult> edit(
             @CurrentUserId UUID userId,
+            @CurrentUserTimezone ZoneId zoneId,
             @PathVariable UUID taskId,
             @RequestBody @Valid EditTaskRequest request
     ) {
         EditTaskResult response = editTaskUseCase.execute(new EditTaskCommand(
                 userId,
+                zoneId,
                 taskId,
                 request.title(),
                 request.deadlineDate(),
@@ -82,6 +88,7 @@ public class TaskController {
     @GetMapping
     public ResponseEntity<Page<GetUserTasksDto>> getUserTasks(
             @CurrentUserId UUID userId,
+            @CurrentUserTimezone ZoneId zoneId,
             @RequestParam(required = false) Integer categoryId,
             @RequestParam(required = false) Integer difficultyId,
             @RequestParam(required = false) Boolean completed,
@@ -91,6 +98,7 @@ public class TaskController {
     ) {
         Page<GetUserTasksDto> response = getUserTasksUseCase.execute(new GetUserTasksCommand(
                 userId,
+                zoneId,
                 categoryId,
                 difficultyId,
                 completed,

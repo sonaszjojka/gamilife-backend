@@ -16,7 +16,6 @@ import java.time.ZoneId;
 public class CurrentUserTimezoneArgumentResolver implements HandlerMethodArgumentResolver {
 
     private static final String TIMEZONE_HEADER = "X-Timezone";
-    private static final String DEFAULT_TIMEZONE = "Europe/Warsaw";
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -34,13 +33,13 @@ public class CurrentUserTimezoneArgumentResolver implements HandlerMethodArgumen
         String timezoneHeader = webRequest.getHeader(TIMEZONE_HEADER);
 
         if (timezoneHeader == null || timezoneHeader.isBlank()) {
-            return ZoneId.of(DEFAULT_TIMEZONE);
+            return null;
         }
 
         try {
             return ZoneId.of(timezoneHeader);
         } catch (DateTimeException e) {
-            return ZoneId.of(DEFAULT_TIMEZONE);
+            return null;
         }
     }
 }

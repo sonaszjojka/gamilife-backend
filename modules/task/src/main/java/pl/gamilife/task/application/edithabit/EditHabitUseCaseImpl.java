@@ -16,6 +16,7 @@ import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 import pl.gamilife.task.infrastructure.web.response.EditHabitResponse;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Component
 @AllArgsConstructor
@@ -33,7 +34,8 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
                 .orElseThrow(() -> new HabitNotFoundException(
                         "Habit for habitId " + cmd.habitId() + " not found!"
                 ));
-        LocalDate currentUserDate = userContext.getCurrentUserDate(cmd.userId());
+        ZoneId zoneId = cmd.zoneId() == null ? userContext.getCurrentUserTimezone(cmd.userId()) : cmd.zoneId();
+        LocalDate currentUserDate = LocalDate.now(zoneId);
 
         if (cmd.title() != null) {
             habit.setTitle(cmd.title());

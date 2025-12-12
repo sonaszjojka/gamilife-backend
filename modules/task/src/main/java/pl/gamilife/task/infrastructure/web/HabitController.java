@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
+import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 import pl.gamilife.task.application.createhabit.CreateHabitCommand;
 import pl.gamilife.task.application.createhabit.CreateHabitResult;
 import pl.gamilife.task.application.createhabit.CreateHabitUseCase;
@@ -18,6 +19,7 @@ import pl.gamilife.task.infrastructure.web.request.EditHabitRequest;
 import pl.gamilife.task.infrastructure.web.response.ApiResponse;
 import pl.gamilife.task.infrastructure.web.response.EditHabitResponse;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 @RestController
@@ -32,10 +34,12 @@ public class HabitController {
     @PostMapping
     public ResponseEntity<CreateHabitResult> create(
             @CurrentUserId UUID userId,
+            @CurrentUserTimezone ZoneId zoneId,
             @RequestBody @Valid CreateHabitRequest request
     ) {
         CreateHabitResult response = createHabitUseCase.execute(new CreateHabitCommand(
                 userId,
+                zoneId,
                 request.title(),
                 request.description(),
                 request.categoryId(),
@@ -48,10 +52,12 @@ public class HabitController {
     @PatchMapping("/{habitId}") // TODO: CHANGED TO PATCH AND REMOVED ID
     public ResponseEntity<EditHabitResponse> edit(
             @CurrentUserId UUID userId,
+            @CurrentUserTimezone ZoneId zoneId,
             @PathVariable UUID habitId,
             @RequestBody @Valid EditHabitRequest request) {
         EditHabitResponse response = editHabitUseCase.execute(new EditHabitCommand(
                 userId,
+                zoneId,
                 habitId,
                 request.title(),
                 request.description(),

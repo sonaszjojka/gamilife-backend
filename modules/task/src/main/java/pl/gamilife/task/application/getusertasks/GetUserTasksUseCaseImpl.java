@@ -3,13 +3,14 @@ package pl.gamilife.task.application.getusertasks;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.pomodoro.PomodoroApi;
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.task.domain.model.filter.TaskFilter;
 import pl.gamilife.task.domain.port.context.UserContext;
-import pl.gamilife.task.domain.port.repository.HabitRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
 import pl.gamilife.task.infrastructure.web.response.GetUserTasksDto;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Service
 @Transactional(readOnly = true)
@@ -17,8 +18,6 @@ import pl.gamilife.task.infrastructure.web.response.GetUserTasksDto;
 public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
 
     private final TaskRepository taskRepository;
-    private final PomodoroApi pomodoroTaskApi;
-    private final HabitRepository habitRepository;
     private final UserContext userContext;
 
     // TODO: It will only handler private tasks
@@ -31,6 +30,7 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                 cmd.isGroupTask(),
                 cmd.isCompleted()
         );
+        ZoneId zoneId = cmd.zoneId() == null ? userContext.getCurrentUserTimezone(cmd.userId()) : cmd.zoneId();
 
         return taskRepository.findAll(filter, cmd.pageNumber(), cmd.pageSize())
                 .map(task -> {
@@ -56,7 +56,7 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                             task.getDeadlineTime(),
                             task.getCategory().getId(),
                             task.getDifficulty().getId(),
-                            task.calculateCurrentStatus(userContext.getCurrentUserDateTime(task.getUserId())),
+                            task.calculateCurrentStatus(LocalDateTime.now(zoneId)),
                             task.getCategory().getName(),
                             task.getDifficulty().getName(),
                             task.isGroupTask(),

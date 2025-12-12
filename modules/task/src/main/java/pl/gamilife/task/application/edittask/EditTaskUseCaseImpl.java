@@ -15,6 +15,8 @@ import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
 import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 
 @Component
@@ -40,17 +42,18 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
             task.setTitle(cmd.title());
         }
 
+        ZoneId zoneId = cmd.zoneId() == null ? userContext.getCurrentUserTimezone(cmd.userId()) : cmd.zoneId();
         if (cmd.deadlineDate() != null) {
             task.rescheduleDeadline(
                     cmd.deadlineDate(),
                     cmd.deadlineTime(),
-                    userContext.getCurrentUserDateTime(cmd.userId())
+                    LocalDateTime.now(zoneId)
             );
         } else if (cmd.deadlineTime() != null) {
             task.rescheduleDeadline(
                     task.getDeadlineDate(),
                     cmd.deadlineTime(),
-                    userContext.getCurrentUserDateTime(cmd.userId())
+                    LocalDateTime.now(zoneId)
             );
         }
 

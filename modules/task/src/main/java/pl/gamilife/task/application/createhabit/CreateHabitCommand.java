@@ -5,11 +5,14 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import pl.gamilife.shared.kernel.architecture.Command;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 public record CreateHabitCommand(
         @NotNull
         UUID userId,
+
+        ZoneId zoneId,
 
         @Size(min = 1, max = 200, message = "Title cannot exceed 200 characters")
         String title,

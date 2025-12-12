@@ -41,4 +41,22 @@ public abstract class AbstractExceptionHandler {
         return response;
     }
 
+    protected ErrorResponse buildErrorResponseFor(ErrorCode errorCode, Exception exception) {
+        ErrorCodesRepository.ErrorDefinition errorDefinition = errorCodesRepository.get(errorCode.getKey());
+
+        ErrorResponse response = ErrorResponse.of(
+                errorDefinition.getStatus(),
+                "https://gamilife.pl/errors/"
+                        + errorCode.getModule().toLowerCase().replace("_", "-") + "/"
+                        + errorCode.getKey().toLowerCase().replace("_", "-"),
+                errorDefinition.getTitle(),
+                exception.getMessage(),
+                "/api/error"
+        );
+
+        response.setCode(String.valueOf(errorDefinition.getCode()));
+
+        return response;
+    }
+
 }

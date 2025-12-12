@@ -7,11 +7,14 @@ import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.UUID;
 
 public record EditTaskCommand(
         @NotNull
         UUID userId,
+
+        ZoneId zoneId,
 
         @NotNull
         UUID taskId,

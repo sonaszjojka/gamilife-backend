@@ -15,8 +15,4 @@ public record DeleteTaskNotificationCommand(
         @NotNull
         UUID taskNotificationId
 ) implements Command {
-    @Override
-    public void validate() {
-
-    }
 }

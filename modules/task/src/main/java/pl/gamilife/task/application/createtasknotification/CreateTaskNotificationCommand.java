@@ -18,8 +18,4 @@ public record CreateTaskNotificationCommand(
         @NotNull
         Instant sendDate
 ) implements Command {
-    @Override
-    public void validate() {
-
-    }
 }

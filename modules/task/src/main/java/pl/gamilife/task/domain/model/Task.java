@@ -116,7 +116,7 @@ public class Task extends BaseEntity {
             throw new DomainValidationException("Deadline cannot be null");
         }
 
-        if (!deadlineDate.isAfter(currentUserDateTime.toLocalDate())) {
+        if (deadlineDate.isBefore(currentUserDateTime.toLocalDate())) {
             throw new DomainValidationException("Deadline cannot be in the past");
         }
 

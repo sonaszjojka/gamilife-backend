@@ -13,15 +13,16 @@ import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
 import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Service
 @AllArgsConstructor
 public class CreateHabitUseCaseImpl implements CreateHabitUseCase {
 
     private final HabitRepository habitRepository;
-    private final UserContext userContext;
     private final TaskCategoryRepository taskCategoryRepository;
     private final TaskDifficultyRepository taskDifficultyRepository;
+    private final UserContext userContext;
 
     @Override
     public CreateHabitResult execute(CreateHabitCommand cmd) {
@@ -39,7 +40,8 @@ public class CreateHabitUseCaseImpl implements CreateHabitUseCase {
                         cmd.difficultyId()
                 )));
 
-        LocalDate currentUserDate = userContext.getCurrentUserDate(cmd.userId());
+        ZoneId zoneId = cmd.zoneId() == null ? userContext.getCurrentUserTimezone(cmd.userId()) : cmd.zoneId();
+        LocalDate currentUserDate = LocalDate.now(zoneId);
 
         Habit habit = Habit.create(
                 cmd.title(),
