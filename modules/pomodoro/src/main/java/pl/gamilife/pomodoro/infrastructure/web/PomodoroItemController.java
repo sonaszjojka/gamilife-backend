@@ -5,13 +5,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.gamilife.pomodoro.application.createpomodorotask.CreatePomodoroTaskRequest;
-import pl.gamilife.pomodoro.application.createpomodorotask.CreatePomodoroTaskResponse;
-import pl.gamilife.pomodoro.application.createpomodorotask.CreatePomodoroUseCase;
+import pl.gamilife.pomodoro.application.createpomodoroitem.CreatePomodoroItemCommand;
+import pl.gamilife.pomodoro.application.createpomodoroitem.CreatePomodoroItemResult;
+import pl.gamilife.pomodoro.application.createpomodoroitem.CreatePomodoroItemUseCase;
 import pl.gamilife.pomodoro.application.deletepomodorotask.DeletePomodoroTaskUseCase;
 import pl.gamilife.pomodoro.application.editpomodorotask.EditPomodoroTaskRequest;
 import pl.gamilife.pomodoro.application.editpomodorotask.EditPomodoroTaskResponse;
 import pl.gamilife.pomodoro.application.editpomodorotask.EditPomodoroTaskUseCase;
+import pl.gamilife.pomodoro.infrastructure.web.request.CreatePomodoroItemRequest;
+import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
 
@@ -20,20 +22,27 @@ import java.util.UUID;
 @RequestMapping("/api/v1/pomodoro-items") // TODO: address changed
 public class PomodoroItemController {
 
-    private final CreatePomodoroUseCase createPomodoroUseCase;
+    private final CreatePomodoroItemUseCase createPomodoroItemUseCase;
     private final EditPomodoroTaskUseCase editPomodoroTaskUseCase;
     private final DeletePomodoroTaskUseCase deletePomodoroTaskUseCase;
 
     @PostMapping
-    public ResponseEntity<CreatePomodoroTaskResponse> createPomodoroTask(
-            @RequestBody @Valid CreatePomodoroTaskRequest request
+    public ResponseEntity<CreatePomodoroItemResult> createPomodoroTask(
+            @CurrentUserId UUID userId,
+            @RequestBody @Valid CreatePomodoroItemRequest request
     ) {
-        CreatePomodoroTaskResponse response = createPomodoroUseCase.execute(null, request);
+        CreatePomodoroItemResult response = createPomodoroItemUseCase.execute(new CreatePomodoroItemCommand(
+                userId,
+                request.taskId(),
+                request.habitId(),
+                request.cyclesRequired()
+        ));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{pomodoroId}")
     public ResponseEntity<EditPomodoroTaskResponse> editPomodoroTask(
+            @CurrentUserId UUID userId,
             @PathVariable("pomodoroId") UUID pomodoroId,
             @RequestBody @Valid EditPomodoroTaskRequest request) {
 
@@ -42,7 +51,10 @@ public class PomodoroItemController {
     }
 
     @DeleteMapping("/{pomodoroTaskId}")
-    public ResponseEntity<ApiResponse> deletePomodoroTask(@PathVariable("pomodoroTaskId") UUID pomodoroTaskId) {
+    public ResponseEntity<ApiResponse> deletePomodoroTask(
+            @CurrentUserId UUID userId,
+            @PathVariable("pomodoroTaskId") UUID pomodoroTaskId
+    ) {
 
         deletePomodoroTaskUseCase.execute(pomodoroTaskId);
         return ResponseEntity.ok(
