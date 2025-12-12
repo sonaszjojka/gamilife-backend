@@ -48,7 +48,7 @@ public class CreatePomodoroItemUseCaseImpl implements CreatePomodoroItemUseCase 
             throw new PomodoroItemAlreadyExists("Habit with id:" + cmd.habitId() + " already has an attached pomodoro item");
         }
 
-        PomodoroHabit pomodoroHabit = taskContext.findHabitById(cmd.habitId());
+        PomodoroHabit pomodoroHabit = taskContext.findHabitById(cmd.habitId(), cmd.userId(), cmd.zoneId());
         if (!pomodoroHabit.userId().equals(cmd.userId())) {
             throw new ResourceOwnerPrivilegesRequiredException("User is not the owner of the habit with id: " + cmd.habitId());
         }

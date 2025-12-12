@@ -5,13 +5,14 @@ import pl.gamilife.api.task.dto.TaskDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 public interface TaskApi {
 
     TaskDto findTaskById(UUID taskId);
 
-    HabitDto findHabitById(UUID taskId);
+    HabitDto findHabitById(UUID taskId, UUID userId, ZoneId zoneId);
 
     void deleteTaskByTaskId(UUID userId, UUID taskId);
 

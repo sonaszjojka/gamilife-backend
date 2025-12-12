@@ -132,9 +132,13 @@ public class Habit extends BaseEntity {
         this.difficultyId = taskDifficulty.getId();
     }
 
+    public boolean checkIfCanBeWorkedOn(LocalDate currentUserDate) {
+        return !currentUserDate.isAfter(getPreviousDeadline());
+    }
+
     public boolean completeIteration(LocalDate currentUserDate) {
         LocalDate previousDeadline = getPreviousDeadline();
-        if (!currentUserDate.isAfter(previousDeadline)) {
+        if (checkIfCanBeWorkedOn(currentUserDate)) {
             throw new DomainValidationException(
                     String.format("Current habit iteration already completed. Try again after %s", previousDeadline)
             );
