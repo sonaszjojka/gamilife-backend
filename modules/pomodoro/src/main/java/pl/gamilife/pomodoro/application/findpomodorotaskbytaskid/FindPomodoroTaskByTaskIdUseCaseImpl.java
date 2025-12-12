@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.pomodoro.dto.PomodoroItemDto;
-import pl.gamilife.api.task.TasksApi;
-import pl.gamilife.pomodoro.domain.repository.PomodoroItemRepository;
+import pl.gamilife.api.task.TaskApi;
+import pl.gamilife.pomodoro.domain.port.repository.PomodoroItemRepository;
 
 import java.util.UUID;
 
@@ -17,14 +17,14 @@ public class FindPomodoroTaskByTaskIdUseCaseImpl implements FindPomodoroTaskByTa
 
     private final PomodoroItemRepository pomodoroItemRepository;
     private final AuthApi currentUserProvider;
-    private final TasksApi tasksProvider;
+    private final TaskApi tasksProvider;
 
     @Override
     public PomodoroItemDto execute(UUID taskId) {
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
 
-        if (!currentUserDto.userId().equals(tasksProvider.findTaskByTaskId(taskId).userId())) {
+        if (!currentUserDto.userId().equals(tasksProvider.findTaskById(taskId).userId())) {
 
             throw new UnsupportedOperationException("This task does not belong to current user");
         }
