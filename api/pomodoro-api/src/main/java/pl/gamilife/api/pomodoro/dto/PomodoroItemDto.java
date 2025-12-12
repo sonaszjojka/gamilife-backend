@@ -5,9 +5,9 @@ import lombok.Builder;
 import java.util.UUID;
 
 @Builder
-public record PomodoroTaskDto(
+public record PomodoroItemDto(
         UUID pomodoroId,
-        Integer workCyclesNeeded,
-        Integer workCyclesCompleted
+        Integer cyclesRequired,
+        Integer cyclesCompleted
 ) {
 }

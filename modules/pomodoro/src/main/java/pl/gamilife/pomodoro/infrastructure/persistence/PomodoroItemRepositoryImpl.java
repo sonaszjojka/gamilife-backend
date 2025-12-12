@@ -2,18 +2,18 @@ package pl.gamilife.pomodoro.infrastructure.persistence;
 
 import org.springframework.stereotype.Repository;
 import pl.gamilife.pomodoro.domain.PomodoroItem;
-import pl.gamilife.pomodoro.domain.repository.PomodoroTaskRepository;
+import pl.gamilife.pomodoro.domain.repository.PomodoroItemRepository;
 import pl.gamilife.pomodoro.infrastructure.persistence.jpa.PomodoroTaskRepositoryJpa;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class PomodoroTaskRepositoryImpl implements PomodoroTaskRepository {
+public class PomodoroItemRepositoryImpl implements PomodoroItemRepository {
 
     private final PomodoroTaskRepositoryJpa pomodoroTaskRepositoryJpa;
 
-    public PomodoroTaskRepositoryImpl(PomodoroTaskRepositoryJpa pomodoroTaskRepositoryJpa) {
+    public PomodoroItemRepositoryImpl(PomodoroTaskRepositoryJpa pomodoroTaskRepositoryJpa) {
         this.pomodoroTaskRepositoryJpa = pomodoroTaskRepositoryJpa;
     }
 
@@ -29,12 +29,12 @@ public class PomodoroTaskRepositoryImpl implements PomodoroTaskRepository {
     }
 
     @Override
-    public void deleteByPomodoroTaskId(UUID pomodoroTaskId) {
-        pomodoroTaskRepositoryJpa.deleteById(pomodoroTaskId);
+    public void deleteByPomodoroTaskId(UUID pomodoroItemId) {
+        pomodoroTaskRepositoryJpa.deleteById(pomodoroItemId);
     }
 
     @Override
-    public Optional<PomodoroItem> findById(UUID pomodoroTaskId) {
-        return pomodoroTaskRepositoryJpa.findById(pomodoroTaskId);
+    public Optional<PomodoroItem> findById(UUID pomodoroItemId) {
+        return pomodoroTaskRepositoryJpa.findById(pomodoroItemId);
     }
 }
