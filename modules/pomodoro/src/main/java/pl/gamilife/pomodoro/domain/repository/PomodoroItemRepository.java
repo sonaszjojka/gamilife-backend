@@ -5,12 +5,12 @@ import pl.gamilife.pomodoro.domain.PomodoroItem;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface PomodoroTaskRepository {
+public interface PomodoroItemRepository {
     boolean existsByTaskId(UUID taskId);
 
     PomodoroItem save(PomodoroItem pomodoroItem);
 
-    Optional<PomodoroItem> findById(UUID pomodoroTaskId);
+    Optional<PomodoroItem> findById(UUID pomodoroItemId);
 
-    void deleteByPomodoroTaskId(UUID pomodoroTaskId);
+    void deleteByPomodoroTaskId(UUID pomodoroItemId);
 }

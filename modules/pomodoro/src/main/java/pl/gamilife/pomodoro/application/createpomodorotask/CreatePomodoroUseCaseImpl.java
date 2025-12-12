@@ -7,8 +7,8 @@ import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.task.TasksApi;
 import pl.gamilife.api.task.dto.TaskDto;
 import pl.gamilife.pomodoro.domain.PomodoroItem;
-import pl.gamilife.pomodoro.domain.exception.InvalidPomodoroTaskData;
-import pl.gamilife.pomodoro.domain.repository.PomodoroTaskRepository;
+import pl.gamilife.pomodoro.domain.exception.InvalidPomodoroItemData;
+import pl.gamilife.pomodoro.domain.repository.PomodoroItemRepository;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
 import java.util.UUID;
@@ -16,12 +16,12 @@ import java.util.UUID;
 @Component
 public class CreatePomodoroUseCaseImpl implements CreatePomodoroUseCase {
 
-    private final PomodoroTaskRepository pomodoroRepository;
+    private final PomodoroItemRepository pomodoroRepository;
     private final CreatePomodoroTaskMapper createPomodoroTaskMapper;
     private final TasksApi tasksProvider;
     private final AuthApi currentUserProvider;
 
-    public CreatePomodoroUseCaseImpl(PomodoroTaskRepository pomodoroRepository, CreatePomodoroTaskMapper createPomodoroTaskMapper, TasksApi tasksProvider, AuthApi currentUserProvider) {
+    public CreatePomodoroUseCaseImpl(PomodoroItemRepository pomodoroRepository, CreatePomodoroTaskMapper createPomodoroTaskMapper, TasksApi tasksProvider, AuthApi currentUserProvider) {
         this.pomodoroRepository = pomodoroRepository;
         this.createPomodoroTaskMapper = createPomodoroTaskMapper;
         this.tasksProvider = tasksProvider;
@@ -31,12 +31,8 @@ public class CreatePomodoroUseCaseImpl implements CreatePomodoroUseCase {
     @Override
     @Transactional
     public CreatePomodoroTaskResponse execute(UUID taskId, CreatePomodoroTaskRequest request) {
-        if (request.workCyclesCompleted() > request.workCyclesNeeded()) {
-            throw new InvalidPomodoroTaskData("Work cycles completed cannot be larger than work cycles needed!");
-        }
-
         if (pomodoroRepository.existsByTaskId(taskId)) { // todo: to decide if throw 409 conflict or 400 bad request
-            throw new InvalidPomodoroTaskData("Task with id:" + taskId + " has already pomodoro task!");
+            throw new InvalidPomodoroItemData("Task with id:" + taskId + " has already pomodoro task!");
         }
 
         TaskDto taskDto = tasksProvider.findTaskByTaskId(taskId);

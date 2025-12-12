@@ -1,6 +1,7 @@
 package pl.gamilife.pomodoro.infrastructure.web;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,32 +16,23 @@ import pl.gamilife.pomodoro.application.editpomodorotask.EditPomodoroTaskUseCase
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/tasks")
-public class PomodoroTaskController {
+@AllArgsConstructor
+@RequestMapping("/api/v1/pomodoro-items") // TODO: address changed
+public class PomodoroItemController {
 
     private final CreatePomodoroUseCase createPomodoroUseCase;
     private final EditPomodoroTaskUseCase editPomodoroTaskUseCase;
     private final DeletePomodoroTaskUseCase deletePomodoroTaskUseCase;
 
-    public PomodoroTaskController(CreatePomodoroUseCase createPomodoroUseCase,
-                                  EditPomodoroTaskUseCase editPomodoroTaskUseCase,
-                                  DeletePomodoroTaskUseCase deletePomodoroTaskUseCase) {
-        this.createPomodoroUseCase = createPomodoroUseCase;
-        this.editPomodoroTaskUseCase = editPomodoroTaskUseCase;
-        this.deletePomodoroTaskUseCase = deletePomodoroTaskUseCase;
-    }
-
-    @PostMapping("/{taskId}/pomodoro-tasks")
+    @PostMapping
     public ResponseEntity<CreatePomodoroTaskResponse> createPomodoroTask(
-            @PathVariable("taskId") UUID taskId,
-            @RequestBody @Valid CreatePomodoroTaskRequest request) {
-
-        CreatePomodoroTaskResponse response = createPomodoroUseCase.execute(taskId, request);
+            @RequestBody @Valid CreatePomodoroTaskRequest request
+    ) {
+        CreatePomodoroTaskResponse response = createPomodoroUseCase.execute(null, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-
-    @PutMapping("/pomodoro-tasks/{pomodoroId}")
+    @PutMapping("/{pomodoroId}")
     public ResponseEntity<EditPomodoroTaskResponse> editPomodoroTask(
             @PathVariable("pomodoroId") UUID pomodoroId,
             @RequestBody @Valid EditPomodoroTaskRequest request) {
@@ -49,10 +41,8 @@ public class PomodoroTaskController {
         return ResponseEntity.ok(response);
     }
 
-
-    @DeleteMapping("/pomodoro-tasks/{pomodoroTaskId}")
-    public ResponseEntity<ApiResponse> deletePomodoroTask(
-            @PathVariable("pomodoroTaskId") UUID pomodoroTaskId) {
+    @DeleteMapping("/{pomodoroTaskId}")
+    public ResponseEntity<ApiResponse> deletePomodoroTask(@PathVariable("pomodoroTaskId") UUID pomodoroTaskId) {
 
         deletePomodoroTaskUseCase.execute(pomodoroTaskId);
         return ResponseEntity.ok(

@@ -7,22 +7,22 @@ import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.task.TasksApi;
 import pl.gamilife.api.task.dto.TaskDto;
 import pl.gamilife.pomodoro.domain.PomodoroItem;
-import pl.gamilife.pomodoro.domain.exception.InvalidPomodoroTaskData;
-import pl.gamilife.pomodoro.domain.exception.PomodoroTaskNotFound;
-import pl.gamilife.pomodoro.domain.repository.PomodoroTaskRepository;
+import pl.gamilife.pomodoro.domain.exception.InvalidPomodoroItemData;
+import pl.gamilife.pomodoro.domain.exception.PomodoroItemNotFound;
+import pl.gamilife.pomodoro.domain.repository.PomodoroItemRepository;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
 import java.util.UUID;
 
 @Component
 public class EditPomodoroTaskUseCaseImpl implements EditPomodoroTaskUseCase {
-    private final PomodoroTaskRepository pomodoroTaskRepository;
+    private final PomodoroItemRepository pomodoroItemRepository;
     private final EditPomodoroTaskMapper editPomodoroTaskMapper;
     private final AuthApi currentUserProvider;
     private final TasksApi tasksProvider;
 
-    public EditPomodoroTaskUseCaseImpl(PomodoroTaskRepository pomodoroTaskRepository, EditPomodoroTaskMapper editPomodoroTaskMapper, AuthApi currentUserProvider, TasksApi tasksProvider) {
-        this.pomodoroTaskRepository = pomodoroTaskRepository;
+    public EditPomodoroTaskUseCaseImpl(PomodoroItemRepository pomodoroItemRepository, EditPomodoroTaskMapper editPomodoroTaskMapper, AuthApi currentUserProvider, TasksApi tasksProvider) {
+        this.pomodoroItemRepository = pomodoroItemRepository;
         this.editPomodoroTaskMapper = editPomodoroTaskMapper;
         this.currentUserProvider = currentUserProvider;
         this.tasksProvider = tasksProvider;
@@ -32,11 +32,11 @@ public class EditPomodoroTaskUseCaseImpl implements EditPomodoroTaskUseCase {
     @Transactional
     public EditPomodoroTaskResponse execute(UUID pomodoroTaskId, EditPomodoroTaskRequest request) {
         if (request.workCyclesCompleted() > request.workCyclesNeeded()) {
-            throw new InvalidPomodoroTaskData("Work cycles completed cannot be larger than work cycles needed!");
+            throw new InvalidPomodoroItemData("Work cycles completed cannot be larger than work cycles needed!");
         }
 
-        PomodoroItem pomodoroItem = pomodoroTaskRepository.findById(pomodoroTaskId).orElseThrow(() ->
-                new PomodoroTaskNotFound("Pomodoro task with id: " + pomodoroTaskId + " does not exist"));
+        PomodoroItem pomodoroItem = pomodoroItemRepository.findById(pomodoroTaskId).orElseThrow(() ->
+                new PomodoroItemNotFound("Pomodoro task with id: " + pomodoroTaskId + " does not exist"));
 
         TaskDto taskDto = tasksProvider.findTaskByTaskId(pomodoroItem.getTaskId());
         CurrentUserDto currentUser = currentUserProvider.getCurrentUser();
@@ -47,6 +47,6 @@ public class EditPomodoroTaskUseCaseImpl implements EditPomodoroTaskUseCase {
 //        pomodoroTask.setWorkCyclesNeeded(request.workCyclesNeeded());
 //        pomodoroTask.setWorkCyclesCompleted(request.workCyclesCompleted());
 
-        return editPomodoroTaskMapper.toResponse(pomodoroTaskRepository.save(pomodoroItem));
+        return editPomodoroTaskMapper.toResponse(pomodoroItemRepository.save(pomodoroItem));
     }
 }

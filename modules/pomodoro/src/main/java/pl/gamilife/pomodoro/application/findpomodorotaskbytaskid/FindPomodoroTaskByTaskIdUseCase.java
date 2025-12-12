@@ -1,10 +1,10 @@
 package pl.gamilife.pomodoro.application.findpomodorotaskbytaskid;
 
 
-import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
+import pl.gamilife.api.pomodoro.dto.PomodoroItemDto;
 
 import java.util.UUID;
 
 public interface FindPomodoroTaskByTaskIdUseCase {
-    PomodoroTaskDto execute(UUID taskId);
+    PomodoroItemDto execute(UUID taskId);
 }

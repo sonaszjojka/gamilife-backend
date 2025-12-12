@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
-import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
+import pl.gamilife.api.pomodoro.dto.PomodoroItemDto;
 import pl.gamilife.api.task.TasksApi;
-import pl.gamilife.pomodoro.domain.repository.PomodoroTaskRepository;
+import pl.gamilife.pomodoro.domain.repository.PomodoroItemRepository;
 
 import java.util.UUID;
 
@@ -15,12 +15,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class FindPomodoroTaskByTaskIdUseCaseImpl implements FindPomodoroTaskByTaskIdUseCase {
 
-    private final PomodoroTaskRepository pomodoroTaskRepository;
+    private final PomodoroItemRepository pomodoroItemRepository;
     private final AuthApi currentUserProvider;
     private final TasksApi tasksProvider;
 
     @Override
-    public PomodoroTaskDto execute(UUID taskId) {
+    public PomodoroItemDto execute(UUID taskId) {
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
 
