@@ -7,8 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
+import pl.gamilife.task.domain.model.enums.TaskStatus;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -43,8 +47,11 @@ public class Task extends BaseEntity {
     @JoinColumn(name = "difficulty_id", nullable = false, insertable = false, updatable = false)
     private TaskDifficulty difficulty;
 
-    @Column(name = "deadline")
-    private Instant deadline;
+    @Column(name = "deadline_date", nullable = false)
+    private LocalDate deadlineDate;
+
+    @Column(name = "deadline_time")
+    private LocalTime deadlineTime;
 
     @Column(name = "completed_at")
     private Instant completedAt;
@@ -55,25 +62,25 @@ public class Task extends BaseEntity {
     @OneToMany(mappedBy = "task")
     private Set<TaskNotification> taskNotifications = new HashSet<>();
 
-    private Task(String title, String description, UUID userId, TaskCategory category, TaskDifficulty difficulty, Instant deadline) {
+    private Task(String title, String description, UUID userId, TaskCategory category, TaskDifficulty difficulty, LocalDate deadlineDate, LocalTime deadlineTime, LocalDateTime currentUserDateTime) {
         setTitle(title);
         setDescription(description);
         setUserId(userId);
         setCategory(category);
         setDifficulty(difficulty);
-        setDeadline(deadline);
+        rescheduleDeadline(deadlineDate, deadlineTime, currentUserDateTime);
     }
 
-    public static Task create(String title, String description, UUID userId, TaskCategory category, TaskDifficulty difficulty, Instant deadline) {
+    public static Task createPrivate(String title, String description, UUID userId, TaskCategory category, TaskDifficulty difficulty, LocalDate deadlineDate, LocalTime deadlineTime, LocalDateTime currentUserDateTime) {
         if (userId == null) {
             throw new DomainValidationException("User id cannot be null");
         }
 
-        return new Task(title, description, userId, category, difficulty, deadline);
+        return new Task(title, description, userId, category, difficulty, deadlineDate, deadlineTime, currentUserDateTime);
     }
 
-    public static Task createForGroupTask(String title, String description, TaskCategory category, TaskDifficulty difficulty, Instant deadline) {
-        return new Task(title, description, null, category, difficulty, deadline);
+    public static Task createForGroupTask(String title, String description, TaskCategory category, TaskDifficulty difficulty, LocalDate deadlineDate, LocalTime deadlineTime, LocalDateTime currentGroupDateTime) {
+        return new Task(title, description, null, category, difficulty, deadlineDate, deadlineTime, currentGroupDateTime);
     }
 
     public void setTitle(String title) {
@@ -104,16 +111,24 @@ public class Task extends BaseEntity {
         this.userId = userId;
     }
 
-    public void setDeadline(Instant deadline) {
-        if (deadline == null) {
+    public void rescheduleDeadline(LocalDate deadlineDate, LocalTime deadlineTime, LocalDateTime currentUserDateTime) {
+        if (deadlineDate == null) {
             throw new DomainValidationException("Deadline cannot be null");
         }
 
-        if (!deadline.isAfter(Instant.now())) {
+        if (!deadlineDate.isAfter(currentUserDateTime.toLocalDate())) {
             throw new DomainValidationException("Deadline cannot be in the past");
         }
 
-        this.deadline = deadline;
+        if (deadlineTime != null) {
+            LocalDateTime deadlineDateTime = getDeadlineDateTime();
+            if (deadlineDateTime.isBefore(currentUserDateTime)) {
+                throw new DomainValidationException("Deadline cannot be in the past");
+            }
+        }
+
+        this.deadlineDate = deadlineDate;
+        this.deadlineTime = deadlineTime;
     }
 
     public void setCategory(TaskCategory taskCategory) {
@@ -138,12 +153,66 @@ public class Task extends BaseEntity {
         return userId == null;
     }
 
-    public boolean complete() {
+    public void markDone() {
         if (this.completedAt != null) {
             throw new DomainValidationException("Task has already been completed");
         }
 
         this.completedAt = Instant.now();
-        return !this.completedAt.isAfter(this.deadline);
+    }
+
+    public void markUndone() {
+        if (this.completedAt == null) {
+            throw new DomainValidationException("Task is not marked as completed");
+        }
+
+        this.completedAt = null;
+    }
+
+    public void markRewardAsIssued() {
+        if (rewardIssued) {
+            throw new DomainValidationException("Reward has already been issued");
+        }
+
+        rewardIssued = true;
+    }
+
+    public TaskStatus calculateCurrentStatus(LocalDateTime currentDateTime) {
+        if (completedAt != null) {
+            return TaskStatus.COMPLETED;
+        }
+
+        LocalDate currentDate = currentDateTime.toLocalDate();
+        if (isWholeDayTask()) {
+            if (currentDate.isAfter(deadlineDate)) {
+                return TaskStatus.DEADLINE_MISSED;
+            }
+
+            if (currentDate.equals(deadlineDate)) {
+                return TaskStatus.DEADLINE_TODAY;
+            }
+
+            return TaskStatus.INCOMPLETE;
+        }
+
+        LocalDateTime deadlineDateTime = getDeadlineDateTime();
+
+        if (!currentDateTime.isBefore(deadlineDateTime)) {
+            return TaskStatus.DEADLINE_MISSED;
+        }
+
+        if (currentDate.equals(deadlineDate)) {
+            return TaskStatus.DEADLINE_TODAY;
+        }
+
+        return TaskStatus.INCOMPLETE;
+    }
+
+    private LocalDateTime getDeadlineDateTime() {
+        return LocalDateTime.of(deadlineDate, deadlineTime);
+    }
+
+    public boolean isWholeDayTask() {
+        return deadlineTime == null;
     }
 }

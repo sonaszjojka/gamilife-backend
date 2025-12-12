@@ -20,23 +20,17 @@ public class FindTaskByIdUseCaseImpl implements FindTaskByIdUseCase {
     }
 
     private FindTaskByIdResult buildResponse(Task task) {
-        return FindTaskByIdResult.builder()
-                .id(task.getId())
-                .title(task.getTitle())
-                .deadline(task.getDeadline())
-                .category(
-                        task.getCategory() != null
-                                ? new FindTaskByIdResult.TaskCategoryDto(task.getCategory().getId(), task.getCategory().getName())
-                                : null
-                )
-                .difficulty(
-                        task.getDifficulty() != null
-                                ? new FindTaskByIdResult.TaskDifficultyDto(task.getDifficulty().getId(), task.getDifficulty().getName())
-                                : null
-                )
-                .userId(task.getUserId())
-                .completedAt(task.getCompletedAt())
-                .description(task.getDescription())
-                .build();
+        return new FindTaskByIdResult(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getUserId(),
+                new FindTaskByIdResult.TaskCategoryDto(task.getCategoryId(), task.getCategory().getName()),
+                new FindTaskByIdResult.TaskDifficultyDto(task.getDifficultyId(), task.getDifficulty().getName()),
+                task.getDeadlineDate(),
+                task.getDeadlineTime(),
+                task.getCompletedAt(),
+                null // TODO: habit removal
+        );
     }
 }

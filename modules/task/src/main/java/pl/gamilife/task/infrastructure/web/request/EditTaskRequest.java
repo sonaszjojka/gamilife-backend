@@ -3,14 +3,17 @@ package pl.gamilife.task.infrastructure.web.request;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Size;
 
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public record EditTaskRequest(
         @Size(min = 1, max = 200, message = "Title cannot exceed 200 characters")
         String title,
 
         @FutureOrPresent
-        Instant deadline,
+        LocalDate deadlineDate,
+
+        LocalTime deadlineTime,
 
         Integer categoryId,
 

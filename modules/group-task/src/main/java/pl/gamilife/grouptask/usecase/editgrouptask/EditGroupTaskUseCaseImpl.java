@@ -1,10 +1,12 @@
 package pl.gamilife.grouptask.usecase.editgrouptask;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.task.TasksApi;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
+import pl.gamilife.grouptask.domain.context.GroupContext;
 import pl.gamilife.grouptask.entity.GroupTask;
 import pl.gamilife.grouptask.entity.GroupTaskMember;
 import pl.gamilife.grouptask.exception.domain.GroupTaskNotFoundException;
@@ -14,18 +16,13 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
     private final GroupTaskRepository groupTaskRepository;
     private final EditGroupTaskMapper editGroupTaskMapper;
     private final TasksApi tasksProvider;
     private final GroupApi groupsProvider;
-
-    public EditGroupTaskUseCaseImpl(GroupTaskRepository groupTaskRepository, EditGroupTaskMapper editGroupTaskMapper, TasksApi tasksProvider, GroupApi groupApi) {
-        this.groupTaskRepository = groupTaskRepository;
-        this.editGroupTaskMapper = editGroupTaskMapper;
-        this.tasksProvider = tasksProvider;
-        this.groupsProvider = groupApi;
-    }
+    private final GroupContext groupContext;
 
     @Override
     @Transactional
@@ -55,7 +52,9 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
 
         TaskForGroupTaskRequestDto taskRequestDto = new TaskForGroupTaskRequestDto(
                 req.title(),
-                req.deadline(),
+                req.deadlineDate(),
+                req.deadlineTime(),
+                groupContext.getCurrentGroupDateTime(groupTask.getGroupId()),
                 req.categoryId(),
                 req.difficultyId(),
                 completedAt != null,

@@ -15,7 +15,7 @@ import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
 import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 import pl.gamilife.task.infrastructure.web.response.EditHabitResponse;
 
-import java.time.ZoneId;
+import java.time.LocalDate;
 
 @Component
 @AllArgsConstructor
@@ -33,7 +33,7 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
                 .orElseThrow(() -> new HabitNotFoundException(
                         "Habit for habitId " + cmd.habitId() + " not found!"
                 ));
-        ZoneId userTimeZone = userContext.getUserTimeZone(cmd.userId());
+        LocalDate currentUserDate = userContext.getCurrentUserDate(cmd.userId());
 
         if (cmd.title() != null) {
             habit.setTitle(cmd.title());
@@ -65,11 +65,11 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
         }
 
         if (cmd.cycleLength() != null) {
-            habit.editCycleLength(cmd.cycleLength(), userTimeZone);
+            habit.editCycleLength(cmd.cycleLength(), currentUserDate);
         }
 
         if (cmd.iterationCompleted() != null && cmd.iterationCompleted()) {
-            habit.completeIteration(userTimeZone);
+            habit.completeIteration(currentUserDate);
         }
 
         if (cmd.finished() != null && cmd.finished()) {
