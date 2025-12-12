@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import pl.gamilife.pomodoro.application.createpomodoroitem.CreatePomodoroItemCommand;
 import pl.gamilife.pomodoro.application.createpomodoroitem.CreatePomodoroItemResult;
 import pl.gamilife.pomodoro.application.createpomodoroitem.CreatePomodoroItemUseCase;
-import pl.gamilife.pomodoro.application.deletepomodorotask.DeletePomodoroTaskUseCase;
-import pl.gamilife.pomodoro.application.editpomodorotask.EditPomodoroTaskRequest;
-import pl.gamilife.pomodoro.application.editpomodorotask.EditPomodoroTaskResponse;
-import pl.gamilife.pomodoro.application.editpomodorotask.EditPomodoroTaskUseCase;
+import pl.gamilife.pomodoro.application.deletepomodoroitem.DeletePomodoroItemCommand;
+import pl.gamilife.pomodoro.application.deletepomodoroitem.DeletePomodoroItemUseCase;
+import pl.gamilife.pomodoro.application.editpomodoroitem.EditPomodoroItemCommand;
+import pl.gamilife.pomodoro.application.editpomodoroitem.EditPomodoroItemResult;
+import pl.gamilife.pomodoro.application.editpomodoroitem.EditPomodoroItemUseCase;
 import pl.gamilife.pomodoro.infrastructure.web.request.CreatePomodoroItemRequest;
+import pl.gamilife.pomodoro.infrastructure.web.request.EditPomodoroItemRequest;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
@@ -23,8 +25,8 @@ import java.util.UUID;
 public class PomodoroItemController {
 
     private final CreatePomodoroItemUseCase createPomodoroItemUseCase;
-    private final EditPomodoroTaskUseCase editPomodoroTaskUseCase;
-    private final DeletePomodoroTaskUseCase deletePomodoroTaskUseCase;
+    private final EditPomodoroItemUseCase editPomodoroItemUseCase;
+    private final DeletePomodoroItemUseCase deletePomodoroItemUseCase;
 
     @PostMapping
     public ResponseEntity<CreatePomodoroItemResult> createPomodoroTask(
@@ -41,12 +43,17 @@ public class PomodoroItemController {
     }
 
     @PutMapping("/{pomodoroId}")
-    public ResponseEntity<EditPomodoroTaskResponse> editPomodoroTask(
+    public ResponseEntity<EditPomodoroItemResult> editPomodoroTask(
             @CurrentUserId UUID userId,
             @PathVariable("pomodoroId") UUID pomodoroId,
-            @RequestBody @Valid EditPomodoroTaskRequest request) {
+            @RequestBody @Valid EditPomodoroItemRequest request) {
 
-        EditPomodoroTaskResponse response = editPomodoroTaskUseCase.execute(pomodoroId, request);
+        EditPomodoroItemResult response = editPomodoroItemUseCase.execute(new EditPomodoroItemCommand(
+                userId,
+                pomodoroId,
+                request.cyclesRequired(),
+                request.completeCycles()
+        ));
         return ResponseEntity.ok(response);
     }
 
@@ -56,8 +63,7 @@ public class PomodoroItemController {
             @PathVariable("pomodoroTaskId") UUID pomodoroTaskId
     ) {
 
-        deletePomodoroTaskUseCase.execute(pomodoroTaskId);
-        return ResponseEntity.ok(
-                new ApiResponse("Pomodoro Task with id: " + pomodoroTaskId + " deleted successfully"));
+        deletePomodoroItemUseCase.execute(new DeletePomodoroItemCommand(userId, pomodoroTaskId));
+        return ResponseEntity.ok(new ApiResponse("Pomodoro Task with id: " + pomodoroTaskId + " deleted successfully"));
     }
 }
