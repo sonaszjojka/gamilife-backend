@@ -46,6 +46,8 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
                 dto.isProfilePublic(),
                 dto.isEmailVerified(),
                 dto.isTutorialCompleted(),
+                Instant.now(),
+                "Europe/Warsaw", // TODO: get it from request
                 Instant.now()
         );
         userRepository.save(newUser);

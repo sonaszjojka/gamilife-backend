@@ -2,6 +2,8 @@ package pl.gamilife.api.user;
 
 import pl.gamilife.api.user.dto.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,4 +31,8 @@ public interface UserApi {
     RewardedUserApiDto grantRewardsToUser(UUID userId, int experience, int money);
 
     void levelUpUser(UUID userId, int level);
+
+    LocalDate getCurrentUserDate(UUID userId);
+
+    LocalDateTime getCurrentUserDateTime(UUID userId);
 }
