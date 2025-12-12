@@ -19,11 +19,11 @@ VALUES (1, 'Easy', 1),
 -- =========================
 -- Tabela: task
 -- =========================
-INSERT INTO task (id, title, description, user_id, category_id, difficulty_id, deadline)
+INSERT INTO task (id, title, description, user_id, category_id, difficulty_id, deadline_date, deadline_time)
 VALUES ('11111111-1111-1111-1111-111111111111', 'Finish report', 'Finish the monthly report',
-        '11111111-1111-1111-1111-111111111111', 1, 1,NOW() + INTERVAL '2 days'),
+        '11111111-1111-1111-1111-111111111111', 1, 1, '2025-12-10', '12:00:00'),
        ('22222222-2222-2222-2222-222222222222', 'Morning workout', '30 minutes jogging',
-        '22222222-2222-2222-2222-222222222222', 1, 1,NOW() + INTERVAL '2 days');
+        '22222222-2222-2222-2222-222222222222', 1, 1, '2025-12-09', null);
 
 -- =========================
 -- Tabela: habit

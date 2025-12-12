@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.pomodoro.PomodoroApi;
-import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.task.domain.model.filter.TaskFilter;
+import pl.gamilife.task.domain.port.context.UserContext;
 import pl.gamilife.task.domain.port.repository.HabitRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
 import pl.gamilife.task.infrastructure.web.response.GetUserTasksDto;
@@ -19,7 +19,9 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
     private final TaskRepository taskRepository;
     private final PomodoroApi pomodoroTaskApi;
     private final HabitRepository habitRepository;
+    private final UserContext userContext;
 
+    // TODO: It will only handler private tasks
     @Override
     public Page<GetUserTasksDto> execute(GetUserTasksCommand cmd) {
         TaskFilter filter = new TaskFilter(
@@ -32,9 +34,9 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
 
         return taskRepository.findAll(filter, cmd.pageNumber(), cmd.pageSize())
                 .map(task -> {
-                    PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
-                    GetUserTasksDto.TaskHabitDto taskHabit = null;
                     // TODO: change get logic
+//                    PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
+//                    GetUserTasksDto.TaskHabitDto taskHabit = null;
 //                    Habit habit = habitRepository.findHabitByTaskId(task.getId()).orElse(null);
 //                    if (habit != null) {
 //
@@ -50,16 +52,17 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                             task.getId(),
                             task.getTitle(),
                             task.getDescription(),
-                            task.getDeadline(),
+                            task.getDeadlineDate(),
+                            task.getDeadlineTime(),
                             task.getCategory().getId(),
                             task.getDifficulty().getId(),
-                            task.getCompletedAt(),
+                            task.calculateCurrentStatus(userContext.getCurrentUserDateTime(task.getUserId())),
                             task.getCategory().getName(),
                             task.getDifficulty().getName(),
                             task.isGroupTask(),
                             task.getUserId(),
-                            pomodoro,
-                            taskHabit
+                            null,
+                            null
                     );
                 });
     }

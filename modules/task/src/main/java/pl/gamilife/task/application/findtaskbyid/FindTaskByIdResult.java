@@ -1,12 +1,11 @@
 package pl.gamilife.task.application.findtaskbyid;
 
-import lombok.Builder;
-
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
-@Builder
 public record FindTaskByIdResult(
         UUID id,
         String title,
@@ -14,7 +13,8 @@ public record FindTaskByIdResult(
         UUID userId,
         TaskCategoryDto category,
         TaskDifficultyDto difficulty,
-        Instant deadline,
+        LocalDate deadlineDate,
+        LocalTime deadlineTime,
         Instant completedAt,
         HabitDto habitTask
 ) {

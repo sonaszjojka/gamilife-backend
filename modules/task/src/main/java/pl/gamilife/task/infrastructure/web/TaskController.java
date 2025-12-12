@@ -43,7 +43,8 @@ public class TaskController {
                 userId,
                 request.title(),
                 request.description(),
-                request.deadline(),
+                request.deadlineDate(),
+                request.deadlineTime(),
                 request.categoryId(),
                 request.difficultyId()
         ));
@@ -60,7 +61,8 @@ public class TaskController {
                 userId,
                 taskId,
                 request.title(),
-                request.deadline(),
+                request.deadlineDate(),
+                request.deadlineTime(),
                 request.categoryId(),
                 request.difficultyId(),
                 request.completed(),

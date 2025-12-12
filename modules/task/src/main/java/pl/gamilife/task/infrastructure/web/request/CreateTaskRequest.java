@@ -1,18 +1,23 @@
 package pl.gamilife.task.infrastructure.web.request;
 
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public record CreateTaskRequest(
         @NotBlank(message = "Title cannot be blank")
         @Size(max = 200, message = "Title cannot exceed 200 characters")
         String title,
 
-        @NotNull(message = "Deadline cannot be null")
-        Instant deadline,
+        @FutureOrPresent
+        @NotNull(message = "Deadline date cannot be null")
+        LocalDate deadlineDate,
+
+        LocalTime deadlineTime,
 
         @NotNull(message = "Category Id cannot be null")
         Integer categoryId,

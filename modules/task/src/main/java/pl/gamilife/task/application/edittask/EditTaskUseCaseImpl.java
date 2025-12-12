@@ -10,6 +10,7 @@ import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
 import pl.gamilife.task.domain.model.Task;
 import pl.gamilife.task.domain.model.TaskCategory;
 import pl.gamilife.task.domain.model.TaskDifficulty;
+import pl.gamilife.task.domain.port.context.UserContext;
 import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
 import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
@@ -23,6 +24,7 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
     private final TaskRepository taskRepository;
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final TaskCategoryRepository taskCategoryRepository;
+    private final UserContext userContext;
 
     @Override
     @Transactional
@@ -38,16 +40,28 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
             task.setTitle(cmd.title());
         }
 
-        if (cmd.deadline() != null) {
-            task.setDeadline(cmd.deadline());
+        if (cmd.deadlineDate() != null) {
+            task.rescheduleDeadline(
+                    cmd.deadlineDate(),
+                    cmd.deadlineTime(),
+                    userContext.getCurrentUserDateTime(cmd.userId())
+            );
+        } else if (cmd.deadlineTime() != null) {
+            task.rescheduleDeadline(
+                    task.getDeadlineDate(),
+                    cmd.deadlineTime(),
+                    userContext.getCurrentUserDateTime(cmd.userId())
+            );
         }
 
         if (cmd.description() != null) {
             task.setDescription(cmd.description());
         }
 
-        if (cmd.completed()) {
-            task.complete();
+        if (Boolean.TRUE.equals(cmd.completed())) {
+            task.markDone();
+        } else if (Boolean.FALSE.equals(cmd.completed())) {
+            task.markUndone();
         }
 
         if (cmd.categoryId() != null && !Objects.equals(task.getCategoryId(), cmd.categoryId())) {
@@ -68,16 +82,17 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
     }
 
     public EditTaskResult buildResponse(Task task) {
-        return EditTaskResult.builder()
-                .taskId(task.getId())
-                .title(task.getTitle())
-                .deadline(task.getDeadline())
-                .categoryId(task.getCategory() != null ? task.getCategory().getId() : null)
-                .difficultyId(task.getDifficulty() != null ? task.getDifficulty().getId() : null)
-                .userId(task.getUserId())
-                .description(task.getDescription())
-                .completedAt(task.getCompletedAt())
-                .build();
+        return new EditTaskResult(
+                task.getId(),
+                task.getTitle(),
+                task.getDeadlineDate(),
+                task.getDeadlineTime(),
+                task.getCategoryId(),
+                task.getDifficultyId(),
+                task.getUserId(),
+                task.getCompletedAt(),
+                task.getDescription()
+        );
     }
 
 }

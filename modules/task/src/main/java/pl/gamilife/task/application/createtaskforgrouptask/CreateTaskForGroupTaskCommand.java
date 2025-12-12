@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import pl.gamilife.shared.kernel.architecture.Command;
 
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public record CreateTaskForGroupTaskCommand(
         @NotBlank
@@ -15,7 +17,12 @@ public record CreateTaskForGroupTaskCommand(
 
         @NotNull
         @FutureOrPresent
-        Instant deadline,
+        LocalDate deadlineDate,
+
+        LocalTime deadlineTime,
+
+        @NotNull
+        LocalDateTime currentGroupDateTime,
 
         @NotNull
         Integer categoryId,
@@ -26,8 +33,4 @@ public record CreateTaskForGroupTaskCommand(
         @Size(min = 1, max = 200)
         String description
 ) implements Command {
-    @Override
-    public void validate() {
-
-    }
 }

@@ -8,6 +8,7 @@ import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
 import pl.gamilife.task.domain.model.Task;
 import pl.gamilife.task.domain.model.TaskCategory;
 import pl.gamilife.task.domain.model.TaskDifficulty;
+import pl.gamilife.task.domain.port.context.UserContext;
 import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
 import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
@@ -16,6 +17,7 @@ import pl.gamilife.task.domain.port.repository.TaskRepository;
 @AllArgsConstructor
 public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
 
+    private final UserContext userContext;
     private final TaskRepository taskRepository;
     private final TaskCategoryRepository taskCategoryRepository;
     private final TaskDifficultyRepository taskDifficultyRepository;
@@ -35,13 +37,15 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                         "Task difficulty with id " + cmd.difficultyId() + " not found!"
                 ));
 
-        Task task = Task.create(
+        Task task = Task.createPrivate(
                 cmd.title(),
                 cmd.description(),
                 cmd.userId(),
                 taskCategory,
                 taskDifficulty,
-                cmd.deadline()
+                cmd.deadlineDate(),
+                cmd.deadlineTime(),
+                userContext.getCurrentUserDateTime(cmd.userId())
         );
 
         taskRepository.save(task);
@@ -50,15 +54,16 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     }
 
     private CreateTaskResult buildResponse(Task task) {
-        return CreateTaskResult.builder()
-                .taskId(task.getId())
-                .title(task.getTitle())
-                .deadline(task.getDeadline())
-                .categoryId(task.getCategory() != null ? task.getCategory().getId() : null)
-                .difficultyId(task.getDifficulty() != null ? task.getDifficulty().getId() : null)
-                .userId(task.getUserId())
-                .description(task.getDescription())
-                .completedAt(task.getCompletedAt())
-                .build();
+        return new CreateTaskResult(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getDeadlineDate(),
+                task.getDeadlineTime(),
+                task.getCategory().getId(),
+                task.getDifficulty().getId(),
+                task.getUserId(),
+                task.getCompletedAt()
+        );
     }
 }

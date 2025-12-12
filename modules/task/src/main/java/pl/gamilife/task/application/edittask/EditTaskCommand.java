@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import pl.gamilife.shared.kernel.architecture.Command;
 
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 public record EditTaskCommand(
@@ -19,7 +20,9 @@ public record EditTaskCommand(
         String title,
 
         @FutureOrPresent
-        Instant deadline,
+        LocalDate deadlineDate,
+
+        LocalTime deadlineTime,
 
         Integer categoryId,
 
@@ -30,8 +33,4 @@ public record EditTaskCommand(
         @Size(min = 1, max = 500, message = "Description cannot exceed 500 characters")
         String description
 ) implements Command {
-    @Override
-    public void validate() {
-
-    }
 }

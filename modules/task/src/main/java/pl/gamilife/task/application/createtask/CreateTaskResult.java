@@ -1,16 +1,16 @@
 package pl.gamilife.task.application.createtask;
 
-import lombok.Builder;
-
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
-@Builder
 public record CreateTaskResult(
         UUID taskId,
         String title,
         String description,
-        Instant deadline,
+        LocalDate deadlineDate,
+        LocalTime deadlineTime,
         Integer categoryId,
         Integer difficultyId,
         UUID userId,

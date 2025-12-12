@@ -3,8 +3,11 @@ package pl.gamilife.task.infrastructure.web.response;
 
 import lombok.Builder;
 import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
+import pl.gamilife.task.domain.model.enums.TaskStatus;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Builder
@@ -12,10 +15,11 @@ public record GetUserTasksDto(
         UUID taskId,
         String title,
         String description,
-        Instant deadline,
+        LocalDate deadlineDate,
+        LocalTime deadlineTime,
         Integer categoryId,
         Integer difficultyId,
-        Instant completedAt,
+        TaskStatus status,
         String categoryName,
         String difficultyName,
         Boolean isGroupTask,

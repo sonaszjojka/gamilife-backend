@@ -9,7 +9,6 @@ import pl.gamilife.shared.persistence.entity.BaseEntity;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
@@ -60,27 +59,27 @@ public class Habit extends BaseEntity {
     @Column(name = "finished_at")
     private Instant finishedAt;
 
-    private Habit(String title, String description, UUID userId, TaskCategory category, TaskDifficulty difficulty, int cycleLength, ZoneId userTimeZone) {
+    private Habit(String title, String description, UUID userId, TaskCategory category, TaskDifficulty difficulty, int cycleLength, LocalDate currentUserDate) {
         setTitle(title);
         setDescription(description);
         setUserId(userId);
         setCategory(category);
         setDifficulty(difficulty);
-        initHabitDates(cycleLength, userTimeZone);
+        initHabitDates(cycleLength, currentUserDate);
     }
 
-    public static Habit create(String title, String description, UUID userId, TaskCategory category, TaskDifficulty difficulty, int cycleLength, ZoneId userTimeZone) {
-        return new Habit(title, description, userId, category, difficulty, cycleLength, userTimeZone);
+    public static Habit create(String title, String description, UUID userId, TaskCategory category, TaskDifficulty difficulty, int cycleLength, LocalDate currentUserDate) {
+        return new Habit(title, description, userId, category, difficulty, cycleLength, currentUserDate);
     }
 
-    private void initHabitDates(int cycleLength, ZoneId userTimeZone) {
+    private void initHabitDates(int cycleLength, LocalDate currentUserDate) {
         if (cycleLength <= 0) {
             throw new DomainValidationException("Cycle length must be a positive integer");
         }
 
         this.cycleLength = cycleLength;
         // Subtract 1 to start a habit right now
-        this.currentDeadline = LocalDate.now(userTimeZone).plusDays(cycleLength - 1L);
+        this.currentDeadline = currentUserDate.plusDays(cycleLength - 1L);
     }
 
     private void setUserId(UUID userId) {
@@ -133,9 +132,7 @@ public class Habit extends BaseEntity {
         this.difficultyId = taskDifficulty.getId();
     }
 
-    public boolean completeIteration(ZoneId userTimeZone) {
-        LocalDate currentUserDate = LocalDate.now(userTimeZone);
-
+    public boolean completeIteration(LocalDate currentUserDate) {
         LocalDate previousDeadline = getPreviousDeadline();
         if (!currentUserDate.isAfter(previousDeadline)) {
             throw new DomainValidationException(
@@ -144,7 +141,7 @@ public class Habit extends BaseEntity {
         }
 
         if (currentUserDate.isAfter(currentDeadline)) {
-            markIterationAsMissed();
+            markIterationAsMissed(currentUserDate);
             return false;
         }
 
@@ -155,12 +152,11 @@ public class Habit extends BaseEntity {
         return true;
     }
 
-    public void editCycleLength(int newCycleLength, ZoneId zoneId) {
+    public void editCycleLength(int newCycleLength, LocalDate currentUserDate) {
         if (newCycleLength <= 0) {
             throw new DomainValidationException("Cycle length must be a positive integer");
         }
 
-        LocalDate currentUserDate = LocalDate.now(zoneId);
         LocalDate previousDeadline = getPreviousDeadline();
         LocalDate newDeadline = previousDeadline.plusDays(newCycleLength);
         if (currentUserDate.isAfter(newDeadline)) {
@@ -170,17 +166,34 @@ public class Habit extends BaseEntity {
             ));
         }
 
+        // TODO: notification reschedule?
+
         this.cycleLength = newCycleLength;
         this.currentDeadline = newDeadline;
+    }
+
+    public boolean syncCurrentStreak(LocalDate currentUserDate) {
+        if (currentDeadline.isBefore(currentUserDate)) {
+            markIterationAsMissed(currentUserDate);
+            return true;
+        }
+
+        return false;
     }
 
     private LocalDate getPreviousDeadline() {
         return currentDeadline.minusDays(cycleLength);
     }
 
-    public void markIterationAsMissed() {
+    private void markIterationAsMissed(LocalDate currentUserDate) {
+        long daysPastDeadline = ChronoUnit.DAYS.between(currentDeadline, currentUserDate);
+        if (daysPastDeadline <= 0) {
+            throw new DomainValidationException("Current habit iteration has not yet ended.");
+        }
+
+        long cyclesToAdd = (daysPastDeadline + cycleLength - 1) / cycleLength;
+        currentDeadline = currentDeadline.plusDays(cyclesToAdd * cycleLength);
         this.currentStreak = 0;
-        this.currentDeadline = currentDeadline.plusDays(cycleLength);
     }
 
     private void incrementCurrentStreak() {

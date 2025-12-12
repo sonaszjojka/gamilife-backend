@@ -31,16 +31,28 @@ public class EditTaskForGroupTaskUseCaseImpl implements EditTaskForGroupTaskUseC
             task.setTitle(cmd.title());
         }
 
-        if (cmd.deadline() != null) {
-            task.setDeadline(cmd.deadline());
+        if (cmd.deadlineDate() != null) {
+            task.rescheduleDeadline(
+                    cmd.deadlineDate(),
+                    cmd.deadlineTime(),
+                    cmd.currentGroupDateTime()
+            );
+        } else if (cmd.deadlineTime() != null) {
+            task.rescheduleDeadline(
+                    task.getDeadlineDate(),
+                    cmd.deadlineTime(),
+                    cmd.currentGroupDateTime()
+            );
         }
 
         if (cmd.description() != null) {
             task.setDescription(cmd.description());
         }
 
-        if (cmd.completed()) {
-            task.complete();
+        if (Boolean.TRUE.equals(cmd.completed())) {
+            task.markDone();
+        } else if (Boolean.FALSE.equals(cmd.completed())) {
+            task.markUndone();
         }
 
         if (!Objects.equals(task.getCategory().getId(), cmd.categoryId())) {
@@ -61,13 +73,14 @@ public class EditTaskForGroupTaskUseCaseImpl implements EditTaskForGroupTaskUseC
     }
 
     private EditTaskForGroupTaskResult buildResponse(Task task) {
-        return EditTaskForGroupTaskResult.builder()
-                .taskId(task.getId())
-                .title(task.getTitle())
-                .deadline(task.getDeadline())
-                .categoryId(task.getCategory() != null ? task.getCategory().getId() : null)
-                .difficultyId(task.getDifficulty() != null ? task.getDifficulty().getId() : null)
-                .description(task.getDescription())
-                .build();
+        return new EditTaskForGroupTaskResult(
+                task.getId(),
+                task.getTitle(),
+                task.getDeadlineDate(),
+                task.getDeadlineTime(),
+                task.getCategoryId(),
+                task.getDifficultyId(),
+                task.getDescription()
+        );
     }
 }

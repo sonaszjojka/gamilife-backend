@@ -1,25 +1,23 @@
 package pl.gamilife.grouptask.usecase.creategrouptask;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.task.TasksApi;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
+import pl.gamilife.grouptask.domain.context.GroupContext;
 import pl.gamilife.grouptask.entity.GroupTask;
 import pl.gamilife.grouptask.repository.GroupTaskRepository;
 
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class CreateGroupTaskUseCaseImpl implements CreateGroupTaskUseCase {
+    private final GroupContext groupContext;
     private final GroupTaskRepository groupTaskRepository;
     private final CreateGroupTaskMapper createGroupTaskMapper;
     private final TasksApi tasksProvider;
-
-    public CreateGroupTaskUseCaseImpl(GroupTaskRepository groupTaskRepository, CreateGroupTaskMapper createGroupTaskMapper, TasksApi tasksProvider) {
-        this.groupTaskRepository = groupTaskRepository;
-        this.createGroupTaskMapper = createGroupTaskMapper;
-        this.tasksProvider = tasksProvider;
-    }
 
     @Override
     @Transactional
@@ -27,7 +25,9 @@ public class CreateGroupTaskUseCaseImpl implements CreateGroupTaskUseCase {
 
         TaskForGroupTaskRequestDto taskForGroupTaskRequestDto = new TaskForGroupTaskRequestDto(
                 request.title(),
-                request.deadline(),
+                request.deadlineDate(),
+                request.deadlineTime(),
+                groupContext.getCurrentGroupDateTime(groupId),
                 request.categoryId(),
                 request.difficultyId(),
                 null,

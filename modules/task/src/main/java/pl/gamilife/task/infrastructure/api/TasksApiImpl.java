@@ -46,7 +46,8 @@ public class TasksApiImpl implements TasksApi {
                         result.difficulty().id(),
                         result.difficulty().difficultyName()
                 ),
-                result.deadline(),
+                result.deadlineDate(),
+                result.deadlineTime(),
                 result.completedAt(),
                 result.habitTask() != null ? new TaskDto.HabitDto(result.habitTask().id()) : null
         );
@@ -63,7 +64,9 @@ public class TasksApiImpl implements TasksApi {
     public TaskForGroupTaskResponseDto createTaskForGroupTask(TaskForGroupTaskRequestDto request) {
         CreateTaskForGroupTaskResult result = createTaskForGroupTaskUseCase.execute(new CreateTaskForGroupTaskCommand(
                 request.title(),
-                request.deadline(),
+                request.deadlineDate(),
+                request.deadlineTime(),
+                request.currentGroupDateTime(),
                 request.categoryId(),
                 request.difficultyId(),
                 request.description()
@@ -72,7 +75,8 @@ public class TasksApiImpl implements TasksApi {
         return new TaskForGroupTaskResponseDto(
                 result.taskId(),
                 result.title(),
-                result.deadline(),
+                result.deadlineDate(),
+                result.deadlineTime(),
                 result.categoryId(),
                 result.difficultyId(),
                 result.description()
@@ -81,11 +85,12 @@ public class TasksApiImpl implements TasksApi {
 
     @Override
     public TaskForGroupTaskResponseDto updateTaskForGroupTask(TaskForGroupTaskRequestDto request, UUID taskId) {
-
         EditTaskForGroupTaskResult result = editTaskForGroupTaskUseCase.execute(new EditTaskForGroupTaskCommand(
                 taskId,
                 request.title(),
-                request.deadline(),
+                request.deadlineDate(),
+                request.deadlineTime(),
+                request.currentGroupDateTime(),
                 request.categoryId(),
                 request.difficultyId(),
                 request.completed(),
@@ -95,7 +100,8 @@ public class TasksApiImpl implements TasksApi {
         return new TaskForGroupTaskResponseDto(
                 result.taskId(),
                 result.title(),
-                result.deadline(),
+                result.deadlineDate(),
+                result.deadlineTime(),
                 result.categoryId(),
                 result.difficultyId(),
                 result.description()

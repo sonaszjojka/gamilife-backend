@@ -2,7 +2,8 @@ package pl.gamilife.grouptask.usecase.creategrouptask;
 
 import jakarta.validation.constraints.*;
 
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 public record CreateGroupTaskRequest(
@@ -15,8 +16,10 @@ public record CreateGroupTaskRequest(
         @Size(max = 200, message = "Title cannot exceed 200 characters")
         String title,
 
-        @NotNull(message = "Deadline cannot be null")
-        Instant deadline,
+        @NotNull(message = "Deadline date cannot be null")
+        LocalDate deadlineDate,
+
+        LocalTime deadlineTime,
 
         @NotNull(message = "Category Id cannot be null")
         Integer categoryId,

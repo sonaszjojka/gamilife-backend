@@ -40,7 +40,9 @@ public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTask
                 cmd.description(),
                 taskCategory,
                 taskDifficulty,
-                cmd.deadline()
+                cmd.deadlineDate(),
+                cmd.deadlineTime(),
+                cmd.currentGroupDateTime()
         );
         taskRepository.save(task);
 
@@ -48,13 +50,14 @@ public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTask
     }
 
     public CreateTaskForGroupTaskResult buildResponse(Task task) {
-        return CreateTaskForGroupTaskResult.builder()
-                .taskId(task.getId())
-                .title(task.getTitle())
-                .deadline(task.getDeadline())
-                .categoryId(task.getCategory().getId())
-                .difficultyId(task.getDifficulty().getId())
-                .description(task.getDescription())
-                .build();
+        return new CreateTaskForGroupTaskResult(
+                task.getId(),
+                task.getTitle(),
+                task.getDeadlineDate(),
+                task.getDeadlineTime(),
+                task.getCategory().getId(),
+                task.getDifficulty().getId(),
+                task.getDescription()
+        );
     }
 }

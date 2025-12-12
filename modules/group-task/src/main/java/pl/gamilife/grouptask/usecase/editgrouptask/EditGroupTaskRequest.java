@@ -6,7 +6,8 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public record EditGroupTaskRequest(
 
@@ -18,7 +19,9 @@ public record EditGroupTaskRequest(
         String title,
 
         @FutureOrPresent
-        Instant deadline,
+        LocalDate deadlineDate,
+
+        LocalTime deadlineTime,
 
         Integer categoryId,
 
