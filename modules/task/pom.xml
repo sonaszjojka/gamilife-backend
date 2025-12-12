@@ -31,6 +31,10 @@
             <groupId>pl.gamilife</groupId>
             <artifactId>user-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>pl.gamilife</groupId>
+            <artifactId>user-api</artifactId>
+        </dependency>
 
         <!-- External Modules -->
         <dependency>
