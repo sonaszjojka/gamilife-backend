@@ -10,8 +10,15 @@ public record EditTaskRequest(
         @Size(min = 1, max = 200, message = "Title cannot exceed 200 characters")
         String title,
 
+        Boolean removeDescription,
+
+        @Size(min = 1, max = 500, message = "Description cannot exceed 500 characters")
+        String description,
+
         @FutureOrPresent
         LocalDate deadlineDate,
+
+        Boolean removeDeadlineTime,
 
         LocalTime deadlineTime,
 
@@ -19,9 +26,6 @@ public record EditTaskRequest(
 
         Integer difficultyId,
 
-        Boolean completed,
-
-        @Size(min = 1, max = 500, message = "Description cannot exceed 500 characters")
-        String description
+        Boolean completed
 ) {
 }

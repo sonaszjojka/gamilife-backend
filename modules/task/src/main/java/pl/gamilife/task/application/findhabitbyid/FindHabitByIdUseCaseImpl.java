@@ -34,7 +34,9 @@ public class FindHabitByIdUseCaseImpl implements FindHabitByIdUseCase {
                 ? userContext.getCurrentUserTimezone(cmd.userId())
                 : cmd.zoneId();
         LocalDate currentUserDate = LocalDate.now(zoneId);
-        habit.syncCurrentStreak(currentUserDate);
+        if (habit.isHabitDead(currentUserDate)) {
+            throw new HabitNotFoundException("Habit is dead and cannot be continued. Resurrect it first.");
+        }
 
         return new FindHabitByIdResult(
                 habit.getUserId(),

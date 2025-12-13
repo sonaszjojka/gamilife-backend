@@ -51,8 +51,6 @@ public class EditTaskForGroupTaskUseCaseImpl implements EditTaskForGroupTaskUseC
 
         if (Boolean.TRUE.equals(cmd.completed())) {
             task.markDone();
-        } else if (Boolean.FALSE.equals(cmd.completed())) {
-            task.markUndone();
         }
 
         if (!Objects.equals(task.getCategory().getId(), cmd.categoryId())) {

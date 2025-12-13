@@ -7,6 +7,8 @@ public record EditHabitRequest(
         @Size(max = 200, message = "Title cannot exceed 200 characters")
         String title,
 
+        Boolean removeDescription,
+
         @Size(min = 1, max = 200, message = "Description cannot exceed 500 characters")
         String description,
 

@@ -15,7 +15,9 @@ import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
 import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Objects;
 
@@ -42,22 +44,14 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
             task.setTitle(cmd.title());
         }
 
-        ZoneId zoneId = cmd.zoneId() == null ? userContext.getCurrentUserTimezone(cmd.userId()) : cmd.zoneId();
-        if (cmd.deadlineDate() != null) {
-            task.rescheduleDeadline(
-                    cmd.deadlineDate(),
-                    cmd.deadlineTime(),
-                    LocalDateTime.now(zoneId)
-            );
-        } else if (cmd.deadlineTime() != null) {
-            task.rescheduleDeadline(
-                    task.getDeadlineDate(),
-                    cmd.deadlineTime(),
-                    LocalDateTime.now(zoneId)
-            );
+        boolean rescheduled = rescheduleDeadline(task, cmd);
+        if (rescheduled) {
+            // TODO: remove notifications
         }
 
-        if (cmd.description() != null) {
+        if (Boolean.TRUE.equals(cmd.removeDescription()) && cmd.description() == null) {
+            task.setDescription(null);
+        } else {
             task.setDescription(cmd.description());
         }
 
@@ -84,7 +78,34 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
         return buildResponse(taskRepository.save(task));
     }
 
-    public EditTaskResult buildResponse(Task task) {
+    private boolean rescheduleDeadline(Task task, EditTaskCommand cmd) {
+        boolean dateChanged = cmd.deadlineDate() != null;
+        boolean timeChanged = cmd.deadlineTime() != null;
+        boolean timeRemoved = Boolean.TRUE.equals(cmd.removeDeadlineTime()) && task.getDeadlineTime() != null;
+
+        if (!dateChanged && !timeChanged && !timeRemoved) {
+            return false;
+        }
+
+        LocalDate newDate = dateChanged
+                ? cmd.deadlineDate()
+                : task.getDeadlineDate();
+        LocalTime newTime = task.getDeadlineTime();
+        if (timeChanged) {
+            newTime = cmd.deadlineTime();
+        } else if (timeRemoved) {
+            newTime = null;
+        }
+
+        ZoneId zoneId = cmd.zoneId() == null ? userContext.getCurrentUserTimezone(cmd.userId()) : cmd.zoneId();
+        LocalDateTime currentUserDateTime = LocalDateTime.now(zoneId);
+
+        task.rescheduleDeadline(newDate, newTime, currentUserDateTime);
+
+        return true;
+    }
+
+    private EditTaskResult buildResponse(Task task) {
         return new EditTaskResult(
                 task.getId(),
                 task.getTitle(),

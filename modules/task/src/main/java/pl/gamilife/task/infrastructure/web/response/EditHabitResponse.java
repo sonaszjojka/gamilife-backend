@@ -8,7 +8,6 @@ public record EditHabitResponse(
         Integer cycleLength,
         Integer currentStreak,
         Integer longestStreak,
-        Instant finishedAt,
         Instant updated_at,
         Instant created_at
 ) {

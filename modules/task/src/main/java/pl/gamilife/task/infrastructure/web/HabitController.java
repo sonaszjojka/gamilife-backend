@@ -60,12 +60,12 @@ public class HabitController {
                 zoneId,
                 habitId,
                 request.title(),
+                request.removeDescription(),
                 request.description(),
                 request.categoryId(),
                 request.difficultyId(),
                 request.cycleLength(),
-                request.iterationCompleted(),
-                request.finished()
+                request.iterationCompleted()
         ));
         return ResponseEntity.ok(response);
     }

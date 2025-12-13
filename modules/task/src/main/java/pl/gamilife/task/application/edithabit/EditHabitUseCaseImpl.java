@@ -41,8 +41,9 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
             habit.setTitle(cmd.title());
         }
 
-        // TODO: think how to delete
-        if (cmd.description() != null) {
+        if (Boolean.TRUE.equals(cmd.removeDescription()) && cmd.description() == null) {
+            habit.setDescription(null);
+        } else {
             habit.setDescription(cmd.description());
         }
 
@@ -68,14 +69,11 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
 
         if (cmd.cycleLength() != null) {
             habit.editCycleLength(cmd.cycleLength(), currentUserDate);
+            // TODO: notification reschedule?
         }
 
         if (cmd.iterationCompleted() != null && cmd.iterationCompleted()) {
             habit.completeIteration(currentUserDate);
-        }
-
-        if (cmd.finished() != null && cmd.finished()) {
-            habit.finish();
         }
 
         return buildResponse(habitRepository.save(habit));
@@ -87,7 +85,6 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
                 habit.getCycleLength(),
                 habit.getCurrentStreak(),
                 habit.getLongestStreak(),
-                habit.getFinishedAt(),
                 habit.getUpdatedAt(),
                 habit.getCreatedAt()
         );
