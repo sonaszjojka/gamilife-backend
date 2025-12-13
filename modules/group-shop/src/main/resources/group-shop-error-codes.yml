@@ -25,3 +25,8 @@ error-codes:
       title: "Owned Group Item Not Found"
       detail: "The specified owned group item does not exist."
       status: 404
+    INVALID_GROUP_SHOP_ITEM_DATA:
+      code: 5006
+      title: "Invalid Group Shop Item Data"
+      detail: "The data provided for the group shop item is invalid"
+      status: 400
