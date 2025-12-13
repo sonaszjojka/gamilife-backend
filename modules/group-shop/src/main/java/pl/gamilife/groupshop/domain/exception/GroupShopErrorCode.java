@@ -7,7 +7,8 @@ public enum GroupShopErrorCode implements ErrorCode {
     GROUP_SHOP_NOT_FOUND,
     INACTIVE_GROUP_SHOP,
     INVALID_OWNED_GROUP_ITEM_DATA,
-    OWNED_GROUP_ITEM_NOT_FOUND;
+    OWNED_GROUP_ITEM_NOT_FOUND,
+    INVALID_GROUP_SHOP_ITEM_DATA;
 
     @Override
     public String getKey() {
