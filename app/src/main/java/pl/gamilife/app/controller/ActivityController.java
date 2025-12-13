@@ -15,6 +15,7 @@ import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -33,9 +34,15 @@ public class ActivityController {
             @RequestParam(required = false) Integer difficultyId,
             @RequestParam(required = false) LocalDate startDate,
             @RequestParam(required = false) LocalDate endDate,
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size
     ) {
+        int pageNumber = page != null ? page : 0;
+        int pageSize = Objects.requireNonNullElseGet(
+                size,
+                () -> startDate != null && endDate != null ? Integer.MAX_VALUE : 10
+        );
+
         return ResponseEntity.ok(
                 activityService.getAllActivities(new ActivityItemQueryDto(
                         userId,
@@ -45,8 +52,8 @@ public class ActivityController {
                         difficultyId,
                         startDate,
                         endDate,
-                        page,
-                        size
+                        pageNumber,
+                        pageSize
                 ))
         );
     }
