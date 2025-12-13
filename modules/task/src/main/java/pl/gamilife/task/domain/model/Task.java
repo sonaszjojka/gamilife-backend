@@ -121,7 +121,7 @@ public class Task extends BaseEntity {
         }
 
         if (deadlineTime != null) {
-            LocalDateTime deadlineDateTime = getDeadlineDateTime();
+            LocalDateTime deadlineDateTime = LocalDateTime.of(deadlineDate, deadlineTime);
             if (deadlineDateTime.isBefore(currentUserDateTime)) {
                 throw new DomainValidationException("Deadline cannot be in the past");
             }

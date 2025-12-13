@@ -78,7 +78,6 @@ CREATE TABLE habit
     last_completed_date date                                               NULL,
     current_streak      int                                                NOT NULL,
     longest_streak      int                                                NOT NULL,
-    finished_at         TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NULL,
     version             BIGINT                                             NOT NULL DEFAULT 0,
     created_at          TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at          TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,

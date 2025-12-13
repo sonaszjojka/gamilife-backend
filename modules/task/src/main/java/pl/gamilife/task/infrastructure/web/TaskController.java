@@ -67,12 +67,14 @@ public class TaskController {
                 zoneId,
                 taskId,
                 request.title(),
+                request.removeDescription(),
+                request.description(),
                 request.deadlineDate(),
+                request.removeDeadlineTime(),
                 request.deadlineTime(),
                 request.categoryId(),
                 request.difficultyId(),
-                request.completed(),
-                request.description()
+                request.completed()
         ));
         return ResponseEntity.ok(response);
     }

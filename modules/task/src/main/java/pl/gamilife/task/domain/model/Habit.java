@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -55,9 +54,6 @@ public class Habit extends BaseEntity {
 
     @Column(name = "longest_streak", nullable = false)
     private Integer longestStreak = 0;
-
-    @Column(name = "finished_at")
-    private Instant finishedAt;
 
     private Habit(String title, String description, UUID userId, TaskCategory category, TaskDifficulty difficulty, int cycleLength, LocalDate currentUserDate) {
         setTitle(title);
@@ -136,7 +132,7 @@ public class Habit extends BaseEntity {
         return !currentUserDate.isAfter(getPreviousDeadline());
     }
 
-    public boolean completeIteration(LocalDate currentUserDate) {
+    public void completeIteration(LocalDate currentUserDate) {
         LocalDate previousDeadline = getPreviousDeadline();
         if (checkIfCanBeWorkedOn(currentUserDate)) {
             throw new DomainValidationException(
@@ -144,16 +140,13 @@ public class Habit extends BaseEntity {
             );
         }
 
-        if (currentUserDate.isAfter(currentDeadline)) {
-            markIterationAsMissed(currentUserDate);
-            return false;
+        if (isHabitDead(currentUserDate)) {
+            throw new DomainValidationException("Cannot continue a dead habit. Resurrect it first.");
         }
 
         incrementCurrentStreak();
         lastCompletedDate = currentUserDate;
         currentDeadline = currentDeadline.plusDays(cycleLength);
-
-        return true;
     }
 
     public void editCycleLength(int newCycleLength, LocalDate currentUserDate) {
@@ -170,31 +163,24 @@ public class Habit extends BaseEntity {
             ));
         }
 
-        // TODO: notification reschedule?
-
         this.cycleLength = newCycleLength;
         this.currentDeadline = newDeadline;
     }
 
-    public boolean syncCurrentStreak(LocalDate currentUserDate) {
-        if (currentDeadline.isBefore(currentUserDate)) {
-            markIterationAsMissed(currentUserDate);
-            return true;
-        }
-
-        return false;
+    public boolean isHabitDead(LocalDate currentUserDate) {
+        return currentDeadline.isBefore(currentUserDate);
     }
 
     private LocalDate getPreviousDeadline() {
         return currentDeadline.minusDays(cycleLength);
     }
 
-    private void markIterationAsMissed(LocalDate currentUserDate) {
-        long daysPastDeadline = ChronoUnit.DAYS.between(currentDeadline, currentUserDate);
-        if (daysPastDeadline <= 0) {
+    public void resurrectHabit(LocalDate currentUserDate) {
+        if (!isHabitDead(currentUserDate)) {
             throw new DomainValidationException("Current habit iteration has not yet ended.");
         }
 
+        long daysPastDeadline = ChronoUnit.DAYS.between(currentDeadline, currentUserDate);
         long cyclesToAdd = (daysPastDeadline + cycleLength - 1) / cycleLength;
         currentDeadline = currentDeadline.plusDays(cyclesToAdd * cycleLength);
         this.currentStreak = 0;
@@ -205,9 +191,5 @@ public class Habit extends BaseEntity {
         if (currentStreak > longestStreak) {
             longestStreak = currentStreak;
         }
-    }
-
-    public void finish() {
-        finishedAt = Instant.now();
     }
 }
