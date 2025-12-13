@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 import pl.gamilife.task.application.createhabit.CreateHabitCommand;
@@ -14,6 +15,9 @@ import pl.gamilife.task.application.deletehabit.DeleteHabitCommand;
 import pl.gamilife.task.application.deletehabit.DeleteHabitUseCase;
 import pl.gamilife.task.application.edithabit.EditHabitCommand;
 import pl.gamilife.task.application.edithabit.EditHabitUseCase;
+import pl.gamilife.task.application.getusershabits.GetUsersHabitsCommand;
+import pl.gamilife.task.application.getusershabits.GetUsersHabitsResult;
+import pl.gamilife.task.application.getusershabits.GetUsersHabitsUseCase;
 import pl.gamilife.task.infrastructure.web.request.CreateHabitRequest;
 import pl.gamilife.task.infrastructure.web.request.EditHabitRequest;
 import pl.gamilife.task.infrastructure.web.response.ApiResponse;
@@ -30,6 +34,30 @@ public class HabitController {
     private final CreateHabitUseCase createHabitUseCase;
     private final EditHabitUseCase editHabitUseCase;
     private final DeleteHabitUseCase deleteHabitUseCase;
+    private final GetUsersHabitsUseCase getUsersHabitsUseCase;
+
+    @GetMapping
+    public ResponseEntity<Page<GetUsersHabitsResult>> getAll(
+            @CurrentUserId UUID userId,
+            @CurrentUserTimezone ZoneId zoneId,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) Integer categoryId,
+            @RequestParam(required = false) Integer difficultyId,
+            @RequestParam(defaultValue = "true") Boolean isAlive,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
+    ) {
+        return ResponseEntity.ok(getUsersHabitsUseCase.execute(new GetUsersHabitsCommand(
+                userId,
+                zoneId,
+                title,
+                categoryId,
+                difficultyId,
+                isAlive,
+                page,
+                size
+        )));
+    }
 
     @PostMapping
     public ResponseEntity<CreateHabitResult> create(
