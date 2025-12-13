@@ -1,19 +1,19 @@
-package pl.gamilife.groupshop.application.editgroupshop;
-<<<<<<<< HEAD:modules/group-shop/src/main/java/pl/gamilife/groupshop/application/editgroupshop/EditGroupShopResult.java
+<<<<<<<< HEAD:modules/group-shop/src/main/java/pl/gamilife/groupshop/application/creategroupshopforgroup/CreateGroupShopForGroupResult.java
+package pl.gamilife.groupshop.application.creategroupshopforgroup;
 ========
+package pl.gamilife.groupshop.application.editgroupshop;
 
 import lombok.Builder;
->>>>>>>> 4e5f1486 (refactor: init):modules/group-shop/src/main/java/pl/gamilife/groupshop/application/editgroupshop/EditGroupShopResponse.java
 
+>>>>>>>> f8aa7798 (refactor: init):modules/group-shop/src/main/java/pl/gamilife/groupshop/application/editgroupshop/EditGroupShopResponse.java
 import java.util.UUID;
 
+public record CreateGroupShopForGroupResult(
 
-public record EditGroupShopResult(
         UUID groupShopId,
         UUID groupId,
         String name,
         String description
 
 ) {
-
 }
