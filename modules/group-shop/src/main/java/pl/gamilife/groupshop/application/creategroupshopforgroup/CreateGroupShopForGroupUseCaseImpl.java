@@ -1,8 +1,6 @@
 package pl.gamilife.groupshop.application.creategroupshopforgroup;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
 import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupResponseDto;
 import pl.gamilife.groupshop.domain.model.GroupShop;
@@ -11,27 +9,21 @@ import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import java.util.UUID;
 
 @Service
-@Transactional
-@AllArgsConstructor
 public class CreateGroupShopForGroupUseCaseImpl implements CreateGroupShopForGroupUseCase {
+    private final CreateGroupShopForGroupMapper createGroupShopForGroupMapper;
     private final GroupShopRepository groupShopRepository;
 
-    @Override
-    public CreateGroupShopForGroupResult execute(CreateGroupShopForGroupCommand cmd) {
-
-        GroupShop groupShop = GroupShop.createForGroup(cmd.name(), cmd.description(), cmd.groupId());
-        groupShopRepository.save(groupShop);
-
-        return toResult(groupShop);
+    public CreateGroupShopForGroupUseCaseImpl(CreateGroupShopForGroupMapper createGroupShopForGroupMapper, GroupShopRepository groupShopRepository) {
+        this.createGroupShopForGroupMapper = createGroupShopForGroupMapper;
+        this.groupShopRepository = groupShopRepository;
     }
 
-    private CreateGroupShopForGroupResult toResult(GroupShop groupShop)
-    {
-        return new CreateGroupShopForGroupResult(
-                groupShop.getId(),
-                groupShop.getGroupId(),
-                groupShop.getName(),
-                groupShop.getDescription()
-        );
+    @Override
+    public CreateGroupShopForGroupResponseDto execute(CreateGroupShopForGroupRequestDto request) {
+
+        GroupShop groupShop = createGroupShopForGroupMapper.toEntity(request, UUID.randomUUID());
+        groupShopRepository.save(groupShop);
+
+        return createGroupShopForGroupMapper.toResponse(groupShop);
     }
 }
