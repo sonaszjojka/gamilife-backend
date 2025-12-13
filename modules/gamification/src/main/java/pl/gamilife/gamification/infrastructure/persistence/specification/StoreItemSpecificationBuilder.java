@@ -25,7 +25,7 @@ public class StoreItemSpecificationBuilder {
         );
     }
 
-    public Specification<Item> hasItemName(String itemName) {
+    private Specification<Item> hasItemName(String itemName) {
         return (root, query, cb) ->
         {
             if (itemName == null || itemName.isBlank())
@@ -38,7 +38,7 @@ public class StoreItemSpecificationBuilder {
         };
     }
 
-   public Specification<Item> hasItemSlot(ItemSlotEnum[] itemSlot) {
+   private Specification<Item> hasItemSlot(ItemSlotEnum[] itemSlot) {
        return (root, query, cb) -> {
            if (itemSlot == null || itemSlot.length == 0) {
                return null;
@@ -52,7 +52,7 @@ public class StoreItemSpecificationBuilder {
        };
    }
 
-   public Specification<Item> hasRarity(RarityEnum[] rarity) {
+   private Specification<Item> hasRarity(RarityEnum[] rarity) {
         return (root, query, cb) ->
         {
             if (rarity == null || rarity.length==0) {
@@ -67,7 +67,7 @@ public class StoreItemSpecificationBuilder {
         };
    }
 
-   public Specification<Item> isStoreItem()
+   private Specification<Item> isStoreItem()
    {
        return (root, query, cb) ->
                cb.isNotNull(root.get("price"));

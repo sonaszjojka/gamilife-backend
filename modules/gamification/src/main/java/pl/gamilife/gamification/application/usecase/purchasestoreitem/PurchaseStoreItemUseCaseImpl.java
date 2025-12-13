@@ -56,7 +56,7 @@ public class PurchaseStoreItemUseCaseImpl implements PurchaseStoreItemUseCase {
 
 
     private Item getItem(UUID itemId) {
-        return itemRepository.findById(itemId)
+        return itemRepository.findWithSlotAndRarityById(itemId)
                 .orElseThrow(() -> new ItemNotFoundException("Item not found"));
     }
 }

@@ -21,12 +21,17 @@ public class ItemRepositoryAdapter implements ItemRepository {
     private final StoreItemSpecificationBuilder specificationBuilder;
 
     @Override
+    public Optional<Item> findWithSlotAndRarityById(UUID itemId) {
+        return jpaItemRepository.findWithSlotAndRarityById(itemId);
+    }
+
+    @Override
     public Optional<Item> findById(UUID itemId) {
         return jpaItemRepository.findById(itemId);
     }
 
     @Override
-    public Page<Item> findAll(  StoreItemsFilter filter,Integer page,Integer size ){
+    public Page<Item> findAll(StoreItemsFilter filter, Integer page, Integer size ){
         org.springframework.data.domain.Page<Item> result =jpaItemRepository.findAll(
                 specificationBuilder.build(filter),
                 PageRequest.of(page,size)

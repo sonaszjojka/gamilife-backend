@@ -9,7 +9,7 @@ import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.domain.model.enums.ItemSlotEnum;
 import pl.gamilife.gamification.domain.model.enums.RarityEnum;
 import pl.gamilife.gamification.domain.model.filter.StoreItemsFilter;
-import pl.gamilife.gamification.infrastructure.persistence.ItemRepositoryAdapter;
+import pl.gamilife.gamification.domain.port.repository.ItemRepository;
 import pl.gamilife.shared.kernel.architecture.Page;
 
 @Service
@@ -18,7 +18,7 @@ import pl.gamilife.shared.kernel.architecture.Page;
 @Slf4j
 public class GetStoreItemsUseCaseImpl implements GetStoreItemsUseCase {
 
-    private final ItemRepositoryAdapter itemRepositoryAdapter;
+    private final ItemRepository itemRepository;
 
     @Override
     public Page<StoreItemDto> execute(GetStoreItemsCommand cmd) {
@@ -32,7 +32,7 @@ public class GetStoreItemsUseCaseImpl implements GetStoreItemsUseCase {
                 ? RarityEnum.fromIds(cmd.rarity())
                 : null;
 
-        Page<Item> itemPage = itemRepositoryAdapter.findAll(
+        Page<Item> itemPage = itemRepository.findAll(
                 new StoreItemsFilter(cmd.itemName(), itemSlotEnum, rarityEnum),
                 cmd.page(),
                 cmd.size()

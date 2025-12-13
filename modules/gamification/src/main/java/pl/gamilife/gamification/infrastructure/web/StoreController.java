@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getall.GetStoreItemsCommand;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getall.GetStoreItemsUseCase;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getall.StoreItemDto;
+import pl.gamilife.gamification.application.usecase.getstoreitems.getbyid.GetStoreItemDetailsCommand;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getbyid.GetStoreItemDetailsUseCase;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getbyid.StoreItemDetailsDto;
 import pl.gamilife.shared.kernel.architecture.Page;
@@ -44,7 +45,8 @@ public class StoreController {
 
     @GetMapping("/item/{itemId}")
     public ResponseEntity<StoreItemDetailsDto> getItemDetails(@PathVariable UUID itemId, @CurrentUserId UUID userId) {
-        return ResponseEntity.ok(getStoreItemDetailsUseCase.execute(itemId, userId));
+
+        return ResponseEntity.ok(getStoreItemDetailsUseCase.execute(new GetStoreItemDetailsCommand(itemId,userId)));
     }
 
 }

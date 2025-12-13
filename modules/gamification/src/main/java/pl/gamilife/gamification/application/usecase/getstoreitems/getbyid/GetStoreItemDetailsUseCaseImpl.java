@@ -7,27 +7,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.gamification.domain.exception.ItemNotFoundException;
 import pl.gamilife.gamification.domain.model.Item;
-import pl.gamilife.gamification.infrastructure.persistence.ItemRepositoryAdapter;
-import pl.gamilife.gamification.infrastructure.persistence.UserInventoryItemRepositoryAdapter;
+import pl.gamilife.gamification.domain.port.repository.ItemRepository;
+import pl.gamilife.gamification.domain.port.repository.UserInventoryItemRepository;
 
-import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 public class GetStoreItemDetailsUseCaseImpl implements GetStoreItemDetailsUseCase {
-    private final ItemRepositoryAdapter itemRepository;
-    private final UserInventoryItemRepositoryAdapter itemInventoryItemRepository;
+    private final ItemRepository itemRepository;
+    private final UserInventoryItemRepository itemInventoryItemRepository;
 
 
     @Override
-    public StoreItemDetailsDto execute(UUID itemId,UUID userId) {
+    public StoreItemDetailsDto execute(GetStoreItemDetailsCommand cmd) {
 
-        Item item = itemRepository.findById(itemId).orElseThrow(() ->
-                new ItemNotFoundException("Item with id: " +itemId + " not found")
+        Item item = itemRepository.findWithSlotAndRarityById(cmd.itemId()).orElseThrow(() ->
+                new ItemNotFoundException("Item with id: " + cmd.itemId() + " not found")
         );
-        boolean isOwned= itemInventoryItemRepository.findByUserIdAndItem(userId, item).isPresent();
+        boolean isOwned = itemInventoryItemRepository.findByUserIdAndItem(cmd.userId(), item).isPresent();
 
 
         return toDto(item, isOwned);

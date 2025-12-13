@@ -13,12 +13,15 @@ import java.util.UUID;
 
 public interface JpaItemRepository extends JpaRepository<Item, UUID>,JpaSpecificationExecutor<Item> {
 
+    @Override
+    Optional<Item> findById(UUID id);
 
     @Override
     @EntityGraph(attributePaths = { "itemSlot", "rarity"})
     Page<Item> findAll(Specification<Item> build, Pageable pageable);
 
-    @Override
     @EntityGraph(attributePaths = { "itemSlot", "rarity"})
-    Optional<Item> findById(UUID id);
+    Optional<Item> findWithSlotAndRarityById(UUID id);
+
+
 }
