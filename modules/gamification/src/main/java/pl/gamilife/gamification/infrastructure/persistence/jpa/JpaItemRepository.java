@@ -11,16 +11,16 @@ import pl.gamilife.gamification.domain.model.Item;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface JpaItemRepository extends JpaRepository<Item, UUID>,JpaSpecificationExecutor<Item> {
+public interface JpaItemRepository extends JpaRepository<Item, UUID>, JpaSpecificationExecutor<Item> {
 
     @Override
     Optional<Item> findById(UUID id);
 
     @Override
-    @EntityGraph(attributePaths = { "itemSlot", "rarity"})
+    @EntityGraph(attributePaths = {"itemSlot", "rarity"})
     Page<Item> findAll(Specification<Item> build, Pageable pageable);
 
-    @EntityGraph(attributePaths = { "itemSlot", "rarity"})
+    @EntityGraph(attributePaths = {"itemSlot", "rarity"})
     Optional<Item> findWithSlotAndRarityById(UUID id);
 
 

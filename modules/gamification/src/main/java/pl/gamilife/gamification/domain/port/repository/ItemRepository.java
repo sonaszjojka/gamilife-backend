@@ -9,6 +9,8 @@ import java.util.UUID;
 
 public interface ItemRepository {
     Optional<Item> findWithSlotAndRarityById(UUID itemId);
+
     Page<Item> findAll(StoreItemsFilter filter, Integer page, Integer size);
-    Optional<Item>findById(UUID id);
+
+    Optional<Item> findById(UUID id);
 }

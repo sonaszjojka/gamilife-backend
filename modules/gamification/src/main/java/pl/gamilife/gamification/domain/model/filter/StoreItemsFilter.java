@@ -1,11 +1,10 @@
 package pl.gamilife.gamification.domain.model.filter;
 
-import pl.gamilife.gamification.domain.model.enums.ItemSlotEnum;
-import pl.gamilife.gamification.domain.model.enums.RarityEnum;
+import java.util.List;
 
 public record StoreItemsFilter(
         String itemName,
-        ItemSlotEnum [] itemSlot,
-        RarityEnum [] rarity
+        List<Integer> itemSlotIds,
+        List<Integer> rarityIds
 ) {
 }

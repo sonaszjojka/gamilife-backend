@@ -46,7 +46,7 @@ public class StoreController {
     @GetMapping("/item/{itemId}")
     public ResponseEntity<StoreItemDetailsDto> getItemDetails(@PathVariable UUID itemId, @CurrentUserId UUID userId) {
 
-        return ResponseEntity.ok(getStoreItemDetailsUseCase.execute(new GetStoreItemDetailsCommand(itemId,userId)));
+        return ResponseEntity.ok(getStoreItemDetailsUseCase.execute(new GetStoreItemDetailsCommand(itemId, userId)));
     }
 
 }

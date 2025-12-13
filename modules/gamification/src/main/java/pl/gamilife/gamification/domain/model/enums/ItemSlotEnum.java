@@ -3,7 +3,6 @@ package pl.gamilife.gamification.domain.model.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,14 +29,5 @@ public enum ItemSlotEnum {
             throw new IllegalArgumentException("Invalid itemSlotId: " + itemSlotId);
         }
         return itemSlotEnum;
-    }
-    public static ItemSlotEnum[] fromIds(List<Integer> ids) {
-        if (ids == null || ids.isEmpty()) {
-            return null;
-        }
-
-        return ids.stream()
-                .map(ItemSlotEnum::fromId)
-                .toArray(ItemSlotEnum[]::new);
     }
 }

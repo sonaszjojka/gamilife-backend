@@ -3,8 +3,8 @@ package pl.gamilife.gamification.application.usecase.getstoreitems.getall;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.domain.model.enums.ItemSlotEnum;
 import pl.gamilife.gamification.domain.model.enums.RarityEnum;
@@ -24,20 +24,20 @@ public class GetStoreItemsUseCaseImpl implements GetStoreItemsUseCase {
     public Page<StoreItemDto> execute(GetStoreItemsCommand cmd) {
 
 
-        ItemSlotEnum[] itemSlotEnum = cmd.itemSlot() != null
-                ? ItemSlotEnum.fromIds(cmd.itemSlot())
-                : null;
+        if (cmd.itemSlot() != null) {
+            cmd.itemSlot().forEach(ItemSlotEnum::fromId);
+        }
 
-        RarityEnum[] rarityEnum = cmd.rarity() != null
-                ? RarityEnum.fromIds(cmd.rarity())
-                : null;
+        if (cmd.rarity() != null) {
+            cmd.rarity().forEach(RarityEnum::fromId);
+        }
 
         Page<Item> itemPage = itemRepository.findAll(
-                new StoreItemsFilter(cmd.itemName(), itemSlotEnum, rarityEnum),
+                new StoreItemsFilter(cmd.itemName(), cmd.itemSlot(), cmd.rarity()),
                 cmd.page(),
                 cmd.size()
         );
-        return  itemPage.map(this::toDto);
+        return itemPage.map(this::toDto);
     }
 
     private StoreItemDto toDto(Item item) {

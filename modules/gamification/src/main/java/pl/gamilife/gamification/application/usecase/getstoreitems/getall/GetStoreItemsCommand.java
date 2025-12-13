@@ -8,11 +8,11 @@ import java.io.Serializable;
 import java.util.List;
 
 
-public record GetStoreItemsCommand (
+public record GetStoreItemsCommand(
         String itemName,
         List<Integer> itemSlot,
         List<Integer> rarity,
         @NotNull Integer page,
         @NotNull Integer size
-)implements Command, Serializable {
+) implements Command, Serializable {
 }

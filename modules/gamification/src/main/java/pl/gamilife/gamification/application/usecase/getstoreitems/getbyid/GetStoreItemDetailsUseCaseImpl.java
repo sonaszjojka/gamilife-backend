@@ -32,7 +32,7 @@ public class GetStoreItemDetailsUseCaseImpl implements GetStoreItemDetailsUseCas
         return toDto(item, isOwned);
     }
 
-    private StoreItemDetailsDto toDto(Item item, Boolean isOwned ) {
+    private StoreItemDetailsDto toDto(Item item, Boolean isOwned) {
         return new StoreItemDetailsDto(
                 item.getId(),
                 item.getName(),

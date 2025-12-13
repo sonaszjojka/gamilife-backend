@@ -31,10 +31,10 @@ public class ItemRepositoryAdapter implements ItemRepository {
     }
 
     @Override
-    public Page<Item> findAll(StoreItemsFilter filter, Integer page, Integer size ){
-        org.springframework.data.domain.Page<Item> result =jpaItemRepository.findAll(
+    public Page<Item> findAll(StoreItemsFilter filter, Integer page, Integer size) {
+        org.springframework.data.domain.Page<Item> result = jpaItemRepository.findAll(
                 specificationBuilder.build(filter),
-                PageRequest.of(page,size)
+                PageRequest.of(page, size)
         );
 
         return new Page<>(

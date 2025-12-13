@@ -1,13 +1,7 @@
 package pl.gamilife.gamification.application.usecase.getrequiredexperiencebylevelid;
 
-import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.NotNull;
 import pl.gamilife.shared.kernel.architecture.Command;
 
-public record GetRequiredExperienceByLevelIdCommand(Integer levelId) implements Command {
-    @Override
-    public void validate() {
-        if(levelId == null){
-            throw new ValidationException("levelId cannot be null");
-        }
-    }
+public record GetRequiredExperienceByLevelIdCommand(@NotNull Integer levelId) implements Command {
 }

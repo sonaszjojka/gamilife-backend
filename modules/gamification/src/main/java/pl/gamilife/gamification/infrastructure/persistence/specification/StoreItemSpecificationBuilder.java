@@ -3,24 +3,20 @@ package pl.gamilife.gamification.infrastructure.persistence.specification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import pl.gamilife.gamification.domain.model.Item;
-import pl.gamilife.gamification.domain.model.enums.ItemSlotEnum;
-import pl.gamilife.gamification.domain.model.enums.RarityEnum;
 import pl.gamilife.gamification.domain.model.filter.StoreItemsFilter;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class StoreItemSpecificationBuilder {
 
     public Specification<Item> build(
             StoreItemsFilter filter
-    ){
+    ) {
         return Specification.allOf(
                 hasItemName(filter.itemName()),
-                hasItemSlot(filter.itemSlot()),
-                hasRarity(filter.rarity()),
+                hasItemSlot(filter.itemSlotIds()),
+                hasRarity(filter.rarityIds()),
                 isStoreItem()
         );
     }
@@ -28,8 +24,7 @@ public class StoreItemSpecificationBuilder {
     private Specification<Item> hasItemName(String itemName) {
         return (root, query, cb) ->
         {
-            if (itemName == null || itemName.isBlank())
-            {
+            if (itemName == null || itemName.isBlank()) {
                 return null;
             }
             String searchPattern = "%" + itemName.trim().toLowerCase() + "%";
@@ -38,39 +33,30 @@ public class StoreItemSpecificationBuilder {
         };
     }
 
-   private Specification<Item> hasItemSlot(ItemSlotEnum[] itemSlot) {
-       return (root, query, cb) -> {
-           if (itemSlot == null || itemSlot.length == 0) {
-               return null;
-           }
-               List<Integer> slotIds = Arrays.stream(itemSlot)
-                       .map(ItemSlotEnum::getItemSlotId)
-                       .collect(Collectors.toList());
-
-
-           return root.get("itemSlotId").in(slotIds);
-       };
-   }
-
-   private Specification<Item> hasRarity(RarityEnum[] rarity) {
-        return (root, query, cb) ->
-        {
-            if (rarity == null || rarity.length==0) {
+    private Specification<Item> hasItemSlot(List<Integer> itemSlotIds) {
+        return (root, query, cb) -> {
+            if (itemSlotIds == null || itemSlotIds.isEmpty()) {
                 return null;
             }
 
-            List<Integer> rarityIds =  Arrays.stream(rarity)
-                    .map(RarityEnum::getRarityId)
-                    .collect(Collectors.toList());
-
-            return  root.get("rarityId").in(rarityIds);
+            return root.get("itemSlotId").in(itemSlotIds);
         };
-   }
+    }
 
-   private Specification<Item> isStoreItem()
-   {
-       return (root, query, cb) ->
-               cb.isNotNull(root.get("price"));
-   }
+    private Specification<Item> hasRarity(List<Integer> rarityIds) {
+        return (root, query, cb) ->
+        {
+            if (rarityIds == null || rarityIds.isEmpty()) {
+                return null;
+            }
+
+            return root.get("rarityId").in(rarityIds);
+        };
+    }
+
+    private Specification<Item> isStoreItem() {
+        return (root, query, cb) ->
+                cb.isNotNull(root.get("price"));
+    }
 
 }
