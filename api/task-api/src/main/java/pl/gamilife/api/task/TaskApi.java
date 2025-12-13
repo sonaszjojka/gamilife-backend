@@ -1,9 +1,7 @@
 package pl.gamilife.api.task;
 
-import pl.gamilife.api.task.dto.HabitDto;
-import pl.gamilife.api.task.dto.TaskDto;
-import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
-import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
+import pl.gamilife.api.task.dto.*;
+import pl.gamilife.shared.kernel.architecture.Page;
 
 import java.time.ZoneId;
 import java.util.UUID;
@@ -19,5 +17,7 @@ public interface TaskApi {
     TaskForGroupTaskResponseDto createTaskForGroupTask(TaskForGroupTaskRequestDto request);
 
     TaskForGroupTaskResponseDto updateTaskForGroupTask(TaskForGroupTaskRequestDto request,UUID taskId);
+
+    Page<ActivityItemDto> getAllActivityItemsFiltered(ActivityItemQuery dto);
 
 }

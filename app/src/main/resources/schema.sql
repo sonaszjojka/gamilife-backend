@@ -786,3 +786,38 @@ ALTER TABLE pomodoro_item
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
+
+-- Views
+CREATE OR REPLACE VIEW v_activity_item AS
+SELECT t.id            AS id,
+       'TASK'          AS type,
+       t.title         AS title,
+       t.description   AS description,
+       t.user_id       AS user_id,
+       t.category_id   AS category_id,
+       tc.name         AS category_name,
+       t.difficulty_id AS difficulty_id,
+       td.name         AS difficulty_name,
+       t.deadline_date AS deadline_date,
+       t.deadline_time AS deadline_time
+FROM task t
+         JOIN task_category tc ON t.category_id = tc.id
+         JOIN task_difficulty td ON t.difficulty_id = td.id
+WHERE completed_at IS NULL -- Fetch only active tasks
+  AND user_id IS NOT NULL  -- Fetch only private tasks
+UNION ALL
+SELECT h.id               AS id,
+       'HABIT'            AS type,
+       h.title            AS title,
+       h.description      AS description,
+       h.user_id          AS user_id,
+       h.category_id      AS category_id,
+       tc.name            AS category_name,
+       h.difficulty_id    AS difficulty_id,
+       td.name            AS difficulty_name,
+       h.current_deadline AS deadline_date,
+       NULL               AS deadline_time
+FROM habit h
+         JOIN task_category tc ON h.category_id = tc.id
+         JOIN task_difficulty td ON h.difficulty_id = td.id;
+

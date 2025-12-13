@@ -42,6 +42,9 @@ public class PomodoroItem extends BaseEntity {
         }
 
         changeCyclesRequired(cyclesRequired);
+
+        this.taskId = taskId;
+        this.habitId = habitId;
     }
 
     public static PomodoroItem createForTask(Integer cyclesRequired, UUID taskId) {

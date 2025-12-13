@@ -6,6 +6,7 @@ import java.util.UUID;
 
 @Builder
 public record PomodoroItemDto(
+        UUID activityId,
         UUID pomodoroId,
         Integer cyclesRequired,
         Integer cyclesCompleted
