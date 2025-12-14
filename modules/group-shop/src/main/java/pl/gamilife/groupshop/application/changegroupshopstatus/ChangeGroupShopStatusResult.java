@@ -1,11 +1,9 @@
-package pl.gamilife.groupshop.application.changeGroupShopStatus;
-
-import lombok.Builder;
+package pl.gamilife.groupshop.application.changegroupshopstatus;
 
 import java.util.UUID;
 
-@Builder
-public record ChangeGroupShopStatusResponse(
+
+public record ChangeGroupShopStatusResult(
         UUID groupShopId,
         UUID groupId,
         String name,

@@ -1,4 +1,4 @@
-package pl.gamilife.groupshop.application.editgroupshop;
+package pl.gamilife.groupshop.infrastructure.web.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
