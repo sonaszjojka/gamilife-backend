@@ -1,47 +1,52 @@
 package pl.gamilife.groupshop.application.editgroupshop;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.gamilife.api.auth.AuthApi;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
-import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.GroupDto;
-import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
+import pl.gamilife.groupshop.domain.model.GroupShop;
+import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
+import pl.gamilife.groupshop.domain.port.context.GroupContext;
+import pl.gamilife.groupshop.domain.port.context.GroupMemberContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 
-import java.util.UUID;
-
 @Service
+@Transactional
+@AllArgsConstructor
 public class EditGroupShopUseCaseImpl implements EditGroupShopUseCase {
-    GroupShopRepository groupShopRepository;
-    EditGroupShopMapper editGroupShopMapper;
-    GroupApi groupApi;
-    AuthApi authApi;
+    private final GroupShopRepository groupShopRepository;
+    private final GroupContext groupContext;
+    private final GroupMemberContext groupMemberContext;
 
-    public EditGroupShopUseCaseImpl(GroupShopRepository groupShopRepository, EditGroupShopMapper groupShopMapper, GroupApi groupApi, AuthApi authApi) {
-        this.groupShopRepository = groupShopRepository;
-        this.editGroupShopMapper = groupShopMapper;
-        this.groupApi = groupApi;
-        this.authApi = authApi;
-    }
 
     @Override
-    public EditGroupShopResponse execute(EditGroupShopRequest request, UUID shopId, UUID groupId) {
+    public EditGroupShopResult execute(EditGroupShopCommand cmd) {
 
-        CurrentUserDto currentUser = authApi.getCurrentUser();
-        GroupDto groupDto = groupApi.findGroupById(groupId);
-        if (!currentUser.userId().equals(groupDto.adminId())) {
+        GroupForShop groupForShop = groupContext.findGroupById(cmd.groupId());
+        if (!cmd.userId().equals(groupForShop.adminId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can edit group shop!");
         }
 
-        GroupShop groupShop = groupShopRepository.findByGroupShopId(shopId).orElseThrow(
-                () -> new GroupShopNotFoundException("Group shop with id: " + shopId + " not found!"));
+        GroupShop groupShop = groupShopRepository.findByGroupShopId(cmd.groupShopId()).orElseThrow(
+                () -> new GroupShopNotFoundException("Group shop with id: " + cmd.groupShopId() + " not found!"));
 
-        groupShop.setName(request.name());
-        groupShop.setDescription(request.description());
+        groupShop.setName(cmd.name());
+        groupShop.setDescription(cmd.description());
         groupShopRepository.save(groupShop);
 
-        return editGroupShopMapper.toResponse(groupShop);
+        return toResult(groupShop);
+    }
+
+    private EditGroupShopResult toResult(GroupShop groupShop)
+    {
+        return new EditGroupShopResult(
+                groupShop.getId(),
+                groupShop.getGroupId(),
+                groupShop.getName(),
+                groupShop.getDescription()
+        );
     }
 }

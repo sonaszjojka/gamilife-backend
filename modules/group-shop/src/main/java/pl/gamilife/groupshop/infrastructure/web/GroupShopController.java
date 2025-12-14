@@ -3,12 +3,16 @@ package pl.gamilife.groupshop.infrastructure.web;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.gamilife.groupshop.application.changeGroupShopStatus.ChangeGroupShopStatusRequest;
-import pl.gamilife.groupshop.application.changeGroupShopStatus.ChangeGroupShopStatusResponse;
-import pl.gamilife.groupshop.application.changeGroupShopStatus.ChangeGroupShopStatusUseCase;
-import pl.gamilife.groupshop.application.editgroupshop.EditGroupShopRequest;
-import pl.gamilife.groupshop.application.editgroupshop.EditGroupShopResponse;
+import pl.gamilife.groupshop.application.changegroupshopstatus.ChangeGroupStatusCommand;
+import pl.gamilife.groupshop.application.changegroupshopstatus.ChangeGroupShopStatusResult;
+import pl.gamilife.groupshop.application.changegroupshopstatus.ChangeGroupShopStatusUseCase;
+import pl.gamilife.groupshop.application.creategroupshopforgroup.CreateGroupShopForGroupCommand;
+import pl.gamilife.groupshop.application.editgroupshop.EditGroupShopCommand;
+import pl.gamilife.groupshop.infrastructure.web.request.ChangeGroupShopStatusRequest;
+import pl.gamilife.groupshop.infrastructure.web.request.EditGroupShopRequest;
+import pl.gamilife.groupshop.application.editgroupshop.EditGroupShopResult;
 import pl.gamilife.groupshop.application.editgroupshop.EditGroupShopUseCase;
+import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
 
@@ -26,19 +30,24 @@ public class GroupShopController {
 
 
     @PutMapping("/{shopId}")
-    public ResponseEntity<EditGroupShopResponse> editGroupShop(@PathVariable(name = "groupId") UUID groupId,
-                                                               @PathVariable(name = "shopId") UUID shopId,
-                                                               @RequestBody EditGroupShopRequest request) {
+    public ResponseEntity<EditGroupShopResult> editGroupShop(@PathVariable(name = "groupId") UUID groupId,
+                                                             @PathVariable(name = "shopId") UUID shopId,
+                                                             @CurrentUserId UUID currentUserId,
+                                                             @RequestBody EditGroupShopRequest request) {
 
-        EditGroupShopResponse response = editGroupShopUseCase.execute(request, shopId, groupId);
+        EditGroupShopCommand cmd = new EditGroupShopCommand(request.name(),request.description(),groupId,shopId,currentUserId);
+
+        EditGroupShopResult response = editGroupShopUseCase.execute(cmd);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{shopId}/status")
-    public ResponseEntity<ChangeGroupShopStatusResponse> changeGroupShopStatus(@PathVariable(name = "groupId") UUID groupId,
-                                                                               @PathVariable(name = "shopId") UUID shopId,
-                                                                               @RequestBody @Valid ChangeGroupShopStatusRequest request) {
-        ChangeGroupShopStatusResponse response = changeGroupShopStatusUseCase.execute(request, shopId, groupId);
+    public ResponseEntity<ChangeGroupShopStatusResult> changeGroupShopStatus(@PathVariable(name = "groupId") UUID groupId,
+                                                                             @PathVariable(name = "shopId") UUID shopId,
+                                                                             @CurrentUserId UUID currentUserId,
+                                                                             @RequestBody @Valid ChangeGroupShopStatusRequest request) {
+        ChangeGroupStatusCommand cmd= new ChangeGroupStatusCommand(request.isActive(),shopId,groupId,currentUserId);
+        ChangeGroupShopStatusResult response = changeGroupShopStatusUseCase.execute(cmd);
         return ResponseEntity.ok(response);
     }
 }
