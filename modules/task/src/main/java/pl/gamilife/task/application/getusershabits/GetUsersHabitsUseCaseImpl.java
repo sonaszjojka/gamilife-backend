@@ -25,6 +25,7 @@ public class GetUsersHabitsUseCaseImpl implements GetUsersHabitsUseCase {
         ZoneId zoneId = cmd.zoneId() == null
                 ? userContext.getCurrentUserTimezone(cmd.userId())
                 : cmd.zoneId();
+        LocalDate currentUserDate = LocalDate.now(zoneId);
         Page<Habit> page = habitRepository.findAllHabitsFiltered(
                 new HabitFilter(
                         cmd.userId(),
@@ -32,7 +33,7 @@ public class GetUsersHabitsUseCaseImpl implements GetUsersHabitsUseCase {
                         cmd.categoryId(),
                         cmd.difficultyId(),
                         cmd.isAlive(),
-                        LocalDate.now(zoneId)
+                        currentUserDate
                 ),
                 cmd.pageNumber(),
                 cmd.pageSize()
@@ -40,6 +41,7 @@ public class GetUsersHabitsUseCaseImpl implements GetUsersHabitsUseCase {
 
         return page.map(habit -> new GetUsersHabitsResult(
                 habit.getId(),
+                GetUsersHabitsResult.HabitType.HABIT,
                 habit.getTitle(),
                 habit.getDescription(),
                 habit.getCurrentDeadline(),
@@ -50,7 +52,9 @@ public class GetUsersHabitsUseCaseImpl implements GetUsersHabitsUseCase {
                 habit.getCycleLength(),
                 habit.getCurrentStreak(),
                 habit.getLongestStreak(),
-                cmd.isAlive()
+                habit.isHabitDead(currentUserDate)
+                        ? GetUsersHabitsResult.HabitStatus.DEAD
+                        : GetUsersHabitsResult.HabitStatus.ALIVE
         ));
     }
 }

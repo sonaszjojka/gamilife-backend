@@ -799,7 +799,10 @@ SELECT t.id            AS id,
        t.difficulty_id AS difficulty_id,
        td.name         AS difficulty_name,
        t.deadline_date AS deadline_date,
-       t.deadline_time AS deadline_time
+       t.deadline_time AS deadline_time,
+       NULL            AS cycle_length,
+       NULL            AS current_streak,
+       NULL            AS longest_streak
 FROM task t
          JOIN task_category tc ON t.category_id = tc.id
          JOIN task_difficulty td ON t.difficulty_id = td.id
@@ -816,7 +819,10 @@ SELECT h.id               AS id,
        h.difficulty_id    AS difficulty_id,
        td.name            AS difficulty_name,
        h.current_deadline AS deadline_date,
-       NULL               AS deadline_time
+       NULL               AS deadline_time,
+       h.cycle_length     AS cycle_length,
+       h.current_streak   AS current_streak,
+       h.longest_streak   AS longest_streak
 FROM habit h
          JOIN task_category tc ON h.category_id = tc.id
          JOIN task_difficulty td ON h.difficulty_id = td.id;

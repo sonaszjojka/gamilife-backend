@@ -7,7 +7,6 @@ import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.task.domain.model.filter.TaskFilter;
 import pl.gamilife.task.domain.port.context.UserContext;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
-import pl.gamilife.task.infrastructure.web.response.GetUserTasksDto;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -20,9 +19,8 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
     private final TaskRepository taskRepository;
     private final UserContext userContext;
 
-    // TODO: It will only handler private tasks
     @Override
-    public Page<GetUserTasksDto> execute(GetUserTasksCommand cmd) {
+    public Page<GetUserTasksResult> execute(GetUserTasksCommand cmd) {
         TaskFilter filter = new TaskFilter(
                 cmd.userId(),
                 cmd.categoryId(),
@@ -30,38 +28,28 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                 cmd.isGroupTask(),
                 cmd.isCompleted()
         );
+
         ZoneId zoneId = cmd.zoneId() == null ? userContext.getCurrentUserTimezone(cmd.userId()) : cmd.zoneId();
 
         return taskRepository.findAll(filter, cmd.pageNumber(), cmd.pageSize())
-                .map(task -> {
-                    // TODO: change get logic
-//                    PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
-//                    GetUserTasksDto.TaskHabitDto taskHabit = null;
-//                    Habit habit = habitRepository.findHabitByTaskId(task.getId()).orElse(null);
-//                    if (habit != null) {
-//
-//                        taskHabit = GetUserTasksDto.TaskHabitDto.builder()
-//                                .habitId(habit.getId())
-//                                .cycleLength(habit.getCycleLength())
-//                                .currentStreak(habit.getCurrentStreak())
-//                                .longestStreak(habit.getLongestStreak())
-//                                .finishedAt(habit.getFinishedAt())
-//                                .build();
-//                    }
-                    return new GetUserTasksDto(
-                            task.getId(),
-                            task.getTitle(),
-                            task.getDescription(),
-                            task.getDeadlineDate(),
-                            task.getDeadlineTime(),
-                            task.getCategory().getId(),
-                            task.getDifficulty().getId(),
-                            task.calculateCurrentStatus(LocalDateTime.now(zoneId)),
-                            task.getCategory().getName(),
-                            task.getDifficulty().getName(),
-                            task.isGroupTask(),
-                            task.getUserId()
-                    );
-                });
+                .map(task -> new GetUserTasksResult(
+                        task.getId(),
+                        GetUserTasksResult.TaskType.TASK,
+                        task.getTitle(),
+                        task.getDescription(),
+                        task.getDeadlineDate(),
+                        task.getDeadlineTime(),
+                        task.getCategory().getId(),
+                        task.getDifficulty().getId(),
+                        switch (task.calculateCurrentStatus(LocalDateTime.now(zoneId))) {
+                            case INCOMPLETE -> GetUserTasksResult.TaskStatus.INCOMPLETE;
+                            case COMPLETED -> GetUserTasksResult.TaskStatus.COMPLETED;
+                            case DEADLINE_MISSED -> GetUserTasksResult.TaskStatus.DEADLINE_MISSED;
+                            case DEADLINE_TODAY -> GetUserTasksResult.TaskStatus.DEADLINE_TODAY;
+                        },
+                        task.getCategory().getName(),
+                        task.getDifficulty().getName(),
+                        task.isGroupTask()
+                ));
     }
 }

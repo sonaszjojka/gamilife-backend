@@ -49,6 +49,9 @@ public class GetUsersActivityItemsUseCaseImpl implements GetUsersActivityItemsUs
                 ai.getDifficultyName(),
                 ai.getDeadlineDate(),
                 ai.getDeadlineTime(),
+                ai.getCycleLength(),
+                ai.getCurrentStreak(),
+                ai.getLongestStreak(),
                 switch (ai.calculateCurrentStatus(LocalDateTime.now(zoneId))) {
                     case ALIVE -> GetUsersActivityItemsResult.ActivityStatus.ALIVE;
                     case INCOMPLETE -> GetUsersActivityItemsResult.ActivityStatus.INCOMPLETE;

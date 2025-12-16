@@ -9,13 +9,15 @@ public record ActivityItemDetails(
         ActivityType type,
         String title,
         String description,
-        UUID userId,
         Integer categoryId,
         String categoryName,
         Integer difficultyId,
         String difficultyName,
         LocalDate deadlineDate,
         LocalTime deadlineTime,
+        Integer cycleLength,
+        Integer currentStreak,
+        Integer longestStreak,
         ActivityStatus status,
         Pomodoro pomodoro
 ) {

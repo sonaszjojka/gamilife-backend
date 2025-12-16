@@ -22,7 +22,7 @@ import pl.gamilife.task.application.getusertasks.GetUserTasksUseCase;
 import pl.gamilife.task.infrastructure.web.request.CreateTaskRequest;
 import pl.gamilife.task.infrastructure.web.request.EditTaskRequest;
 import pl.gamilife.task.infrastructure.web.response.ApiResponse;
-import pl.gamilife.task.infrastructure.web.response.GetUserTasksDto;
+import pl.gamilife.task.application.getusertasks.GetUserTasksResult;
 
 import java.time.ZoneId;
 import java.util.UUID;
@@ -88,7 +88,7 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<GetUserTasksDto>> getUserTasks(
+    public ResponseEntity<Page<GetUserTasksResult>> getUserTasks(
             @CurrentUserId UUID userId,
             @CurrentUserTimezone ZoneId zoneId,
             @RequestParam(required = false) Integer categoryId,
@@ -98,7 +98,7 @@ public class TaskController {
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @RequestParam(defaultValue = "10") @Min(1) Integer size
     ) {
-        Page<GetUserTasksDto> response = getUserTasksUseCase.execute(new GetUserTasksCommand(
+        Page<GetUserTasksResult> response = getUserTasksUseCase.execute(new GetUserTasksCommand(
                 userId,
                 zoneId,
                 categoryId,

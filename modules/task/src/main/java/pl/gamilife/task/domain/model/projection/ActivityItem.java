@@ -57,6 +57,15 @@ public class ActivityItem extends BaseUuidReadOnlyEntity {
     @Column(name = "deadline_time")
     private LocalTime deadlineTime;
 
+    @Column(name = "cycle_length")
+    private Integer cycleLength;
+
+    @Column(name = "current_streak")
+    private Integer currentStreak;
+
+    @Column(name = "longest_streak")
+    private Integer longestStreak;
+
     public ActivityStatus calculateCurrentStatus(LocalDateTime currentUserDateTime) {
         if (type == ActivityType.HABIT) {
             return ActivityStatus.ALIVE;

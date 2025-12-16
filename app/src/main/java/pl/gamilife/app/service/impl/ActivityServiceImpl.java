@@ -60,13 +60,15 @@ public class ActivityServiceImpl implements ActivityService {
                 ActivityItemDetails.ActivityType.from(ai.type()),
                 ai.title(),
                 ai.description(),
-                ai.userId(),
                 ai.categoryId(),
                 ai.categoryName(),
                 ai.difficultyId(),
                 ai.difficultyName(),
                 ai.deadlineDate(),
                 ai.deadlineTime(),
+                ai.cycleLength(),
+                ai.currentStreak(),
+                ai.longestStreak(),
                 switch (ai.status()) {
                     case ALIVE -> ActivityItemDetails.ActivityStatus.ALIVE;
                     case INCOMPLETE -> ActivityItemDetails.ActivityStatus.INCOMPLETE;

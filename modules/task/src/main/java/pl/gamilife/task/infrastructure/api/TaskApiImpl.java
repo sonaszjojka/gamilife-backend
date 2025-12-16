@@ -155,6 +155,9 @@ public class TaskApiImpl implements TaskApi {
                 ai.difficultyName(),
                 ai.deadlineDate(),
                 ai.deadlineTime(),
+                ai.cycleLength(),
+                ai.currentStreak(),
+                ai.longestStreak(),
                 switch (ai.status()) {
                     case ALIVE -> ActivityItemDto.ActivityStatus.ALIVE;
                     case INCOMPLETE -> ActivityItemDto.ActivityStatus.INCOMPLETE;

@@ -18,6 +18,9 @@ public record GetUsersActivityItemsResult(
         String difficultyName,
         LocalDate deadlineDate,
         LocalTime deadlineTime,
+        Integer cycleLength,
+        Integer currentStreak,
+        Integer longestStreak,
         ActivityStatus status
 ) {
     public enum ActivityStatus {

@@ -4,10 +4,11 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record GetUsersHabitsResult(
-        UUID habitId,
+        UUID id,
+        HabitType type,
         String title,
         String description,
-        LocalDate currentDeadline,
+        LocalDate deadlineDate,
         Integer categoryId,
         String categoryName,
         Integer difficultyId,
@@ -15,6 +16,13 @@ public record GetUsersHabitsResult(
         Integer cycleLength,
         Integer currentStreak,
         Integer longestStreak,
-        Boolean isAlive
+        HabitStatus status
 ) {
+    public enum HabitStatus {
+        ALIVE, DEAD
+    }
+
+    public enum HabitType {
+        HABIT
+    }
 }
