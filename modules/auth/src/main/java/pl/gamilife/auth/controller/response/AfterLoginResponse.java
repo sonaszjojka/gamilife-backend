@@ -9,7 +9,9 @@ public record AfterLoginResponse(
         String email,
         String username,
         boolean isEmailVerified,
-        boolean isTutorialCompleted) {
+        boolean isTutorialCompleted,
+        int money
+) {
 
     public static AfterLoginResponse from(LoginUserResult result) {
         return new AfterLoginResponse(
@@ -17,7 +19,8 @@ public record AfterLoginResponse(
                 result.email(),
                 result.username(),
                 result.isEmailVerified(),
-                result.isTutorialCompleted()
+                result.isTutorialCompleted(),
+                result.money()
         );
     }
 }

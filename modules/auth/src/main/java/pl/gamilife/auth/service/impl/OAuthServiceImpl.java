@@ -104,6 +104,7 @@ public class OAuthServiceImpl implements OAuthService {
                         user.username(),
                         true,
                         user.isTutorialCompleted(),
+                        user.money(),
                         tokenService.generateTokenPair(user.userId(), user.email(), true)
                 )
         );
@@ -146,6 +147,7 @@ public class OAuthServiceImpl implements OAuthService {
                         createdGoogleUser.username(),
                         true,
                         false,
+                        createdGoogleUser.money(),
                         tokenService.generateTokenPair(
                                 createdGoogleUser.userId(),
                                 createdGoogleUser.email(),

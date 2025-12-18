@@ -5,6 +5,6 @@ import java.util.UUID;
 
 public record SecureUserInfoApiDto(
         UUID userId, String email, String username, String password, Instant passwordChangeDate,
-        boolean isEmailVerified, boolean isTutorialCompleted
+        boolean isEmailVerified, boolean isTutorialCompleted, int money
 ) {
 }

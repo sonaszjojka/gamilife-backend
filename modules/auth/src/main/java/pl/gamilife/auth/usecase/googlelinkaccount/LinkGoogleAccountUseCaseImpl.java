@@ -66,6 +66,7 @@ public class LinkGoogleAccountUseCaseImpl implements LinkGoogleAccountUseCase {
                 user.username(),
                 true,
                 user.isTutorialCompleted(),
+                user.money(),
                 tokens
         ));
     }

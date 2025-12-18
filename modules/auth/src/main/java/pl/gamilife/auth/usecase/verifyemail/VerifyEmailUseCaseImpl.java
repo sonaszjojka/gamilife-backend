@@ -47,6 +47,7 @@ public class VerifyEmailUseCaseImpl implements VerifyEmailUseCase {
                 user.username(),
                 true,
                 false,
+                user.money(),
                 tokens
         );
     }
