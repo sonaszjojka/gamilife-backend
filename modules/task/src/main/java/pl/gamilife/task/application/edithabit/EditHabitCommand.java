@@ -33,12 +33,18 @@ public record EditHabitCommand(
         @Positive
         Integer cycleLength,
 
-        Boolean iterationCompleted
+        Boolean iterationCompleted,
+
+        Boolean resurrect
 ) implements Command {
     @Override
     public void validate() {
         if (Boolean.TRUE.equals(removeDescription) && description != null) {
             throw new ValidationException("Detected inconsistency in removeDescription and description fields");
+        }
+
+        if (Boolean.TRUE.equals(resurrect) && Boolean.TRUE.equals(iterationCompleted)) {
+            throw new ValidationException("Habit can be completed or resurrected");
         }
     }
 }

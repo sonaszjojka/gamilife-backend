@@ -129,7 +129,7 @@ public class Habit extends BaseEntity {
     }
 
     public boolean checkIfCanBeWorkedOn(LocalDate currentUserDate) {
-        return !currentUserDate.isAfter(getPreviousDeadline());
+        return !currentUserDate.isAfter(getPreviousDeadline()) && !isHabitDead(currentUserDate);
     }
 
     public void completeIteration(LocalDate currentUserDate) {

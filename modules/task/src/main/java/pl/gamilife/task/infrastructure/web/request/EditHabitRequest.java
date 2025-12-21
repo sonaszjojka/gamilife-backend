@@ -21,6 +21,6 @@ public record EditHabitRequest(
 
         Boolean iterationCompleted,
 
-        Boolean finished
+        Boolean resurrect
 ) {
 }

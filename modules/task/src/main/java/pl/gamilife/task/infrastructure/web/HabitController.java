@@ -14,6 +14,7 @@ import pl.gamilife.task.application.createhabit.CreateHabitUseCase;
 import pl.gamilife.task.application.deletehabit.DeleteHabitCommand;
 import pl.gamilife.task.application.deletehabit.DeleteHabitUseCase;
 import pl.gamilife.task.application.edithabit.EditHabitCommand;
+import pl.gamilife.task.application.edithabit.EditHabitResult;
 import pl.gamilife.task.application.edithabit.EditHabitUseCase;
 import pl.gamilife.task.application.getusershabits.GetUsersHabitsCommand;
 import pl.gamilife.task.application.getusershabits.GetUsersHabitsResult;
@@ -21,7 +22,6 @@ import pl.gamilife.task.application.getusershabits.GetUsersHabitsUseCase;
 import pl.gamilife.task.infrastructure.web.request.CreateHabitRequest;
 import pl.gamilife.task.infrastructure.web.request.EditHabitRequest;
 import pl.gamilife.task.infrastructure.web.response.ApiResponse;
-import pl.gamilife.task.infrastructure.web.response.EditHabitResponse;
 
 import java.time.ZoneId;
 import java.util.UUID;
@@ -78,12 +78,12 @@ public class HabitController {
     }
 
     @PatchMapping("/{habitId}") // TODO: CHANGED TO PATCH AND REMOVED ID
-    public ResponseEntity<EditHabitResponse> edit(
+    public ResponseEntity<EditHabitResult> edit(
             @CurrentUserId UUID userId,
             @CurrentUserTimezone ZoneId zoneId,
             @PathVariable UUID habitId,
             @RequestBody @Valid EditHabitRequest request) {
-        EditHabitResponse response = editHabitUseCase.execute(new EditHabitCommand(
+        EditHabitResult response = editHabitUseCase.execute(new EditHabitCommand(
                 userId,
                 zoneId,
                 habitId,
@@ -93,7 +93,8 @@ public class HabitController {
                 request.categoryId(),
                 request.difficultyId(),
                 request.cycleLength(),
-                request.iterationCompleted()
+                request.iterationCompleted(),
+                request.resurrect()
         ));
         return ResponseEntity.ok(response);
     }

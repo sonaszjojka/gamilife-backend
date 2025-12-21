@@ -13,7 +13,6 @@ import pl.gamilife.task.domain.port.context.UserContext;
 import pl.gamilife.task.domain.port.repository.HabitRepository;
 import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
 import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
-import pl.gamilife.task.infrastructure.web.response.EditHabitResponse;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -29,7 +28,7 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
 
     @Override
     @Transactional
-    public EditHabitResponse execute(EditHabitCommand cmd) {
+    public EditHabitResult execute(EditHabitCommand cmd) {
         Habit habit = habitRepository.findById(cmd.habitId())
                 .orElseThrow(() -> new HabitNotFoundException(
                         "Habit for habitId " + cmd.habitId() + " not found!"
@@ -72,21 +71,26 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
             // TODO: notification reschedule?
         }
 
-        if (cmd.iterationCompleted() != null && cmd.iterationCompleted()) {
+        if (Boolean.TRUE.equals(cmd.iterationCompleted())) {
             habit.completeIteration(currentUserDate);
+        } else if (Boolean.TRUE.equals(cmd.resurrect())) {
+            habit.resurrectHabit(currentUserDate);
         }
 
-        return buildResponse(habitRepository.save(habit));
+        return buildResponse(habitRepository.save(habit), currentUserDate);
     }
 
-    public EditHabitResponse buildResponse(Habit habit) {
-        return new EditHabitResponse(
+    public EditHabitResult buildResponse(Habit habit, LocalDate currentUserDate) {
+        return new EditHabitResult(
                 habit.getId(),
+                habit.getCurrentDeadline(),
                 habit.getCycleLength(),
                 habit.getCurrentStreak(),
                 habit.getLongestStreak(),
-                habit.getUpdatedAt(),
-                habit.getCreatedAt()
+                habit.checkIfCanBeWorkedOn(currentUserDate),
+                habit.isHabitDead(currentUserDate)
+                        ? EditHabitResult.HabitStatus.DEAD
+                        : EditHabitResult.HabitStatus.ALIVE
         );
     }
 }
