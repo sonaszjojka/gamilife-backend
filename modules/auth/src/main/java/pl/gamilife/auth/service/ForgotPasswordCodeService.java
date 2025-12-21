@@ -1,6 +1,6 @@
 package pl.gamilife.auth.service;
 
-import pl.gamilife.auth.models.ForgotPasswordCode;
+import pl.gamilife.auth.domain.model.ForgotPasswordCode;
 
 import java.util.List;
 import java.util.UUID;

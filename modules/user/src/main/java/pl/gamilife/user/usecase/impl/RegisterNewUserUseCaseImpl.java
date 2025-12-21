@@ -4,8 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
-import pl.gamilife.api.user.dto.RegisterUserApiDto;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
+import pl.gamilife.api.user.dto.RegisterUserDto;
 import pl.gamilife.shared.kernel.event.UserRegisteredEvent;
 import pl.gamilife.shared.kernel.exception.domain.UserAlreadyExistsException;
 import pl.gamilife.user.domain.User;
@@ -26,7 +26,7 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
 
     @Override
     @Transactional
-    public BasicUserInfoApiDto execute(RegisterUserApiDto dto) {
+    public BasicUserInfoDto execute(RegisterUserDto dto) {
         if (getUserByEmailUseCase.execute(dto.email()).isPresent()) {
             throw new UserAlreadyExistsException("This email address is already taken");
         }
@@ -52,7 +52,7 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
 
         eventPublisher.publishEvent(new UserRegisteredEvent(newUser.getId()));
 
-        return new BasicUserInfoApiDto(
+        return new BasicUserInfoDto(
                 newUser.getId(),
                 newUser.getEmail(),
                 newUser.getUsername(),

@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.user.UserApi;
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.group.model.ChatMessage;
 import pl.gamilife.group.repository.ChatMessageJpaRepository;
 import pl.gamilife.group.util.ChatMessageSpecificationBuilder;
@@ -88,7 +88,7 @@ public class GetChatMessagesUseCaseImpl implements GetChatMessagesUseCase {
 
     private String getSenderUsername(UUID userId) {
         return userApi.getUserById(userId)
-                .map(BasicUserInfoApiDto::username)
+                .map(BasicUserInfoDto::username)
                 .orElse(null);
     }
 }

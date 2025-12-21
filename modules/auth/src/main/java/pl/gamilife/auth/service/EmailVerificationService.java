@@ -1,6 +1,6 @@
 package pl.gamilife.auth.service;
 
-import pl.gamilife.auth.models.EmailVerificationCode;
+import pl.gamilife.auth.domain.model.EmailVerificationCode;
 
 import java.util.List;
 import java.util.UUID;

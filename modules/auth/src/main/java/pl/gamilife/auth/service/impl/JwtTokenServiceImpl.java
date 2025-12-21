@@ -4,8 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.codec.digest.DigestUtils;
 import pl.gamilife.api.auth.dto.AuthTokens;
-import pl.gamilife.auth.models.RefreshToken;
-import pl.gamilife.auth.repository.JpaRefreshTokenRepository;
+import pl.gamilife.auth.domain.model.RefreshToken;
+import pl.gamilife.auth.domain.port.repository.RefreshTokenRepository;
 import pl.gamilife.auth.service.TokenService;
 
 import javax.crypto.SecretKey;
@@ -18,13 +18,13 @@ import java.util.UUID;
 
 public class JwtTokenServiceImpl implements TokenService {
 
-    private final JpaRefreshTokenRepository refreshTokenRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final SecretKey secretKey;
     private final long accessTokenExpirationTime;
     private final long refreshTokenExpirationTime;
 
     public JwtTokenServiceImpl(
-            JpaRefreshTokenRepository refreshTokenRepository,
+            RefreshTokenRepository refreshTokenRepository,
             String secretKey,
             long accessTokenExpirationTime,
             long refreshTokenExpirationTime

@@ -2,7 +2,7 @@ package pl.gamilife.user.usecase.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.gamilife.api.user.dto.SecureUserInfoApiDto;
+import pl.gamilife.api.user.dto.SecureUserInfoDto;
 import pl.gamilife.user.domain.User;
 import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.usecase.GetSecureUserDataByIdUseCase;
@@ -17,7 +17,7 @@ public class GetSecureUserDataByIdUseCaseImpl implements GetSecureUserDataByIdUs
     private UserRepository userRepository;
 
     @Override
-    public Optional<SecureUserInfoApiDto> execute(UUID userId) {
+    public Optional<SecureUserInfoDto> execute(UUID userId) {
         Optional<User> optionalUser = userRepository.getUserById(userId);
 
         if (optionalUser.isEmpty()) {
@@ -26,7 +26,7 @@ public class GetSecureUserDataByIdUseCaseImpl implements GetSecureUserDataByIdUs
 
         User user = optionalUser.get();
 
-        return Optional.of(new SecureUserInfoApiDto(
+        return Optional.of(new SecureUserInfoDto(
                 user.getId(),
                 user.getEmail(),
                 user.getUsername(),

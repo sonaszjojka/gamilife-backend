@@ -5,8 +5,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import pl.gamilife.auth.models.EmailVerificationCode;
-import pl.gamilife.auth.repository.JpaEmailVerificationRepository;
+import pl.gamilife.auth.domain.model.EmailVerificationCode;
+import pl.gamilife.auth.domain.port.repository.EmailVerificationRepository;
 import pl.gamilife.auth.service.EmailVerificationService;
 import pl.gamilife.shared.kernel.event.EmailVerificationRequestedEvent;
 
@@ -18,7 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class EmailVerificationServiceImpl implements EmailVerificationService {
 
-    private final JpaEmailVerificationRepository emailVerificationRepository;
+    private final EmailVerificationRepository emailVerificationRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     @Value("${spring.codes.verification-code.expires-in}")

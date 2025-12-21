@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.user.UserApi;
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.communication.dto.EmailContent;
 import pl.gamilife.communication.dto.EmailParameters;
 import pl.gamilife.communication.exception.EmailSendingException;
@@ -49,7 +49,7 @@ public class SendUserEmailUseCaseImpl implements SendUserEmailUseCase {
             return null;
         }
 
-        BasicUserInfoApiDto user = getUser(cmd.userId());
+        BasicUserInfoDto user = getUser(cmd.userId());
         Mail mail = getMail(cmd.emailParameters(), user.email());
 
         sendEmail(mail);
@@ -75,7 +75,7 @@ public class SendUserEmailUseCaseImpl implements SendUserEmailUseCase {
         );
     }
 
-    private BasicUserInfoApiDto getUser(UUID userId) {
+    private BasicUserInfoDto getUser(UUID userId) {
         return userApi.getUserById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }

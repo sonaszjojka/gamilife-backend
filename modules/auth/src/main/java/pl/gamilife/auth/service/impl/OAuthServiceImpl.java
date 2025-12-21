@@ -12,17 +12,17 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import pl.gamilife.api.user.UserApi;
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
-import pl.gamilife.api.user.dto.RegisterUserApiDto;
-import pl.gamilife.api.user.dto.SecureUserInfoApiDto;
+import pl.gamilife.auth.application.common.LoginUserResult;
+import pl.gamilife.auth.application.googlesignin.GoogleSignInResult;
+import pl.gamilife.auth.domain.model.UserOAuthProvider;
+import pl.gamilife.auth.domain.model.projection.BasicUserDetails;
+import pl.gamilife.auth.domain.model.projection.RegisterUserDetails;
+import pl.gamilife.auth.domain.model.projection.SecureUserDetails;
+import pl.gamilife.auth.domain.port.context.UserContext;
+import pl.gamilife.auth.domain.port.repository.UserProviderRepository;
 import pl.gamilife.auth.dto.GoogleUserDto;
-import pl.gamilife.auth.models.UserOAuthProvider;
-import pl.gamilife.auth.repository.JpaUserProviderRepository;
 import pl.gamilife.auth.service.OAuthService;
 import pl.gamilife.auth.service.TokenService;
-import pl.gamilife.auth.usecase.common.LoginUserResult;
-import pl.gamilife.auth.usecase.googlesignin.GoogleSignInResult;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 
 import java.util.Map;
@@ -34,8 +34,8 @@ public class OAuthServiceImpl implements OAuthService {
 
     private final WebClient webClient;
     private final TokenService tokenService;
-    private final UserApi userApi;
-    private final JpaUserProviderRepository userProviderRepository;
+    private final UserContext userContext;
+    private final UserProviderRepository userProviderRepository;
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String googleClientId;
@@ -46,10 +46,10 @@ public class OAuthServiceImpl implements OAuthService {
     @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
     private String googleRedirectUri;
 
-    public OAuthServiceImpl(WebClient webClient, TokenService tokenService, UserApi userApi, JpaUserProviderRepository userProviderRepository) {
+    public OAuthServiceImpl(WebClient webClient, TokenService tokenService, UserContext userContext, UserProviderRepository userProviderRepository) {
         this.webClient = webClient;
         this.tokenService = tokenService;
-        this.userApi = userApi;
+        this.userContext = userContext;
         this.userProviderRepository = userProviderRepository;
     }
 
@@ -88,12 +88,12 @@ public class OAuthServiceImpl implements OAuthService {
     @Override
     public GoogleSignInResult loginViaGoogle(UUID userId, String googleEmail) {
         // User already exists with this Google provider ID
-        SecureUserInfoApiDto user = userApi.getSecureUserDataById(userId)
+        SecureUserDetails user = userContext.getSecureUserDataById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         // Update email only if the user has no local account set up and the email is different
         if (user.password() == null && !user.email().equals(googleEmail)) {
-            userApi.updateUserEmail(user.userId(), googleEmail);
+            userContext.updateUserEmail(user.userId(), googleEmail);
         }
 
         return new GoogleSignInResult(
@@ -117,7 +117,7 @@ public class OAuthServiceImpl implements OAuthService {
                 googleUserDto.lastName().substring(0, 3).toLowerCase() + "_" +
                 ThreadLocalRandom.current().nextInt(1000, 9999);
 
-        RegisterUserApiDto newGoogleUser = new RegisterUserApiDto(
+        RegisterUserDetails newGoogleUser = new RegisterUserDetails(
                 googleUserDto.firstName(),
                 googleUserDto.lastName(),
                 googleUserDto.email(),
@@ -129,7 +129,7 @@ public class OAuthServiceImpl implements OAuthService {
                 true,
                 false // Default to no onboarding completed
         );
-        BasicUserInfoApiDto createdGoogleUser = userApi.registerNewUser(newGoogleUser);
+        BasicUserDetails createdGoogleUser = userContext.registerNewUser(newGoogleUser);
 
         userProviderRepository.save(new UserOAuthProvider(
                 UUID.randomUUID(),

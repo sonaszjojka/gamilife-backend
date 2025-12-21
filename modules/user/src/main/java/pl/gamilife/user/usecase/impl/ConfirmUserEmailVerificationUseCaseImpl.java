@@ -2,7 +2,7 @@ package pl.gamilife.user.usecase.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 import pl.gamilife.user.domain.User;
 import pl.gamilife.user.persistence.UserRepository;
@@ -17,12 +17,12 @@ public class ConfirmUserEmailVerificationUseCaseImpl implements ConfirmUserEmail
     private final UserRepository userRepository;
 
     @Override
-    public BasicUserInfoApiDto execute(UUID userId) {
+    public BasicUserInfoDto execute(UUID userId) {
         userRepository.updateUserEmailVerificationStatus(userId, true);
         User user = userRepository.getUserById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        return new BasicUserInfoApiDto(
+        return new BasicUserInfoDto(
                 user.getId(),
                 user.getEmail(),
                 user.getUsername(),

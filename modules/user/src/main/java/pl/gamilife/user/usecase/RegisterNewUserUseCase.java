@@ -1,8 +1,8 @@
 package pl.gamilife.user.usecase;
 
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
-import pl.gamilife.api.user.dto.RegisterUserApiDto;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
+import pl.gamilife.api.user.dto.RegisterUserDto;
 
 public interface RegisterNewUserUseCase {
-    BasicUserInfoApiDto execute(RegisterUserApiDto dto);
+    BasicUserInfoDto execute(RegisterUserDto dto);
 }
