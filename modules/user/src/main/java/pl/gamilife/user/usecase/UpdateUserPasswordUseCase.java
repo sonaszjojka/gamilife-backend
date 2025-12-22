@@ -2,6 +2,6 @@ package pl.gamilife.user.usecase;
 
 import java.util.UUID;
 
-public interface ResetUserPasswordUseCase {
+public interface UpdateUserPasswordUseCase {
     void execute(UUID userId, String hashedNewPassword);
 }

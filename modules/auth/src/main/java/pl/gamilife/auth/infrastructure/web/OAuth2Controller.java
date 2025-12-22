@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamilife.auth.application.AuthTokens;
 import pl.gamilife.auth.application.common.LoginUserResult;
 import pl.gamilife.auth.application.googlelinkaccount.LinkGoogleAccountCommand;
 import pl.gamilife.auth.application.googlelinkaccount.LinkGoogleAccountUseCase;

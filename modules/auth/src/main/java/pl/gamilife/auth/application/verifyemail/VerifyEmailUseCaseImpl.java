@@ -3,7 +3,7 @@ package pl.gamilife.auth.application.verifyemail;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamilife.auth.application.AuthTokens;
 import pl.gamilife.auth.application.common.LoginUserResult;
 import pl.gamilife.auth.domain.exception.domain.EmailVerificationCodeExpiredException;
 import pl.gamilife.auth.domain.exception.domain.InvalidEmailVerificationCodeException;

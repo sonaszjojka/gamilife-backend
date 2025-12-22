@@ -1,7 +1,7 @@
 package pl.gamilife.auth.service;
 
 import io.jsonwebtoken.Claims;
-import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamilife.auth.application.AuthTokens;
 
 import java.util.UUID;
 

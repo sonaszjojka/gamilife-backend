@@ -1,24 +1,19 @@
 package pl.gamilife.auth.application.changepassword;
 
 import jakarta.validation.constraints.NotBlank;
-import pl.gamilife.api.auth.dto.ChangePasswordDto;
+import jakarta.validation.constraints.NotNull;
 import pl.gamilife.shared.kernel.architecture.Command;
 
+import java.util.UUID;
+
 public record ChangePasswordCommand(
+        @NotNull
+        UUID userId,
+
         @NotBlank
         String providedPassword,
 
         @NotBlank
-        String hashedUserPassword,
-
-        @NotBlank
         String newPassword
 ) implements Command {
-    public static ChangePasswordCommand from(ChangePasswordDto dto) {
-        return new ChangePasswordCommand(
-                dto.providedPassword(),
-                dto.hashedUserPassword(),
-                dto.newPassword()
-        );
-    }
 }

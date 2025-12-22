@@ -1,6 +1,6 @@
 package pl.gamilife.auth.application.common;
 
-import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamilife.auth.application.AuthTokens;
 
 import java.util.UUID;
 

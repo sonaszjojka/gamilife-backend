@@ -112,7 +112,7 @@ public class AuthUserContext implements UserContext {
     }
 
     @Override
-    public void resetUserPassword(UUID userId, String encodedPassword) {
-        userApi.resetUserPassword(userId, encodedPassword);
+    public void updateUserPassword(UUID userId, String encodedPassword) {
+        userApi.updateUserPassword(userId, encodedPassword);
     }
 }

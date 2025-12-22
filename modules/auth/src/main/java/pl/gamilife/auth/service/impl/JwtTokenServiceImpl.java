@@ -3,7 +3,7 @@ package pl.gamilife.auth.service.impl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.codec.digest.DigestUtils;
-import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamilife.auth.application.AuthTokens;
 import pl.gamilife.auth.domain.model.RefreshToken;
 import pl.gamilife.auth.domain.port.repository.RefreshTokenRepository;
 import pl.gamilife.auth.service.TokenService;

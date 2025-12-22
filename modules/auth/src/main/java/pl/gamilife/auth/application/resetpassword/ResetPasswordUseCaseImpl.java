@@ -47,7 +47,7 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
             throw new OldAndNewPasswordAreTheSameException();
         }
 
-        userContext.resetUserPassword(
+        userContext.updateUserPassword(
                 forgotPasswordCode.getUserId(),
                 passwordEncoder.encode(cmd.newPassword())
         );

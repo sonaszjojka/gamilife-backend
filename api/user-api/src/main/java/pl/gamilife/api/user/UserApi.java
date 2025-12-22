@@ -22,7 +22,7 @@ public interface UserApi {
 
     BasicUserInfoDto confirmUserEmailVerification(UUID userId);
 
-    void resetUserPassword(UUID userId, String hashedNewPassword);
+    void updateUserPassword(UUID userId, String hashedNewPassword);
 
     int editUserMoneyBy(UUID userId, Integer money);
 

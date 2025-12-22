@@ -10,11 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.gamilife.api.auth.dto.AuthTokens;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
+import pl.gamilife.auth.application.AuthTokens;
+import pl.gamilife.auth.application.changepassword.ChangePasswordCommand;
+import pl.gamilife.auth.application.changepassword.ChangePasswordUseCase;
 import pl.gamilife.auth.application.common.LoginUserResult;
-import pl.gamilife.auth.application.getauthuser.GetAuthenticatedUserCommand;
-import pl.gamilife.auth.application.getauthuser.GetAuthenticatedUserDataUseCase;
 import pl.gamilife.auth.application.login.LoginUserCommand;
 import pl.gamilife.auth.application.login.LoginUserUseCase;
 import pl.gamilife.auth.application.logout.LogoutUserCommand;
@@ -34,7 +33,11 @@ import pl.gamilife.auth.application.verifyemail.VerifyEmailUseCase;
 import pl.gamilife.auth.infrastructure.web.request.*;
 import pl.gamilife.auth.infrastructure.web.response.AfterLoginResponse;
 import pl.gamilife.shared.web.security.annotation.AllowUnverified;
+import pl.gamilife.shared.web.security.annotation.AuthenticatedUserIsOwner;
+import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 import pl.gamilife.shared.web.util.CookieUtil;
+
+import java.util.UUID;
 
 @SecurityRequirements
 @RestController
@@ -47,10 +50,10 @@ public class AuthController {
     private final LogoutUserUseCase logoutUserUseCase;
     private final RefreshAccessTokenUseCase refreshAccessTokenUseCase;
     private final ResendEmailVerificationCodeUseCase resendEmailVerificationCodeUseCase;
-    private final GetAuthenticatedUserDataUseCase getAuthenticatedUserDataUseCase;
     private final VerifyEmailUseCase verifyEmailUseCase;
     private final SendForgotPasswordTokenUseCase sendForgotPasswordTokenUseCase;
     private final ResetPasswordUseCase resetPasswordUseCase;
+    private final ChangePasswordUseCase changePasswordUseCase;
     private final CookieUtil cookieUtil;
 
     @PostMapping("/register")
@@ -110,12 +113,14 @@ public class AuthController {
     @AllowUnverified
     @SecurityRequirement(name = "accessToken")
     @PostMapping("/email-verifications/confirm")
-    public ResponseEntity<AfterLoginResponse> verifyEmail(@RequestBody @Valid EmailVerificationCodeRequest emailVerificationCodeRequest,
-                                                          HttpServletResponse response) {
-        CurrentUserDto user = getAuthenticatedUserDataUseCase.execute(new GetAuthenticatedUserCommand());
+    public ResponseEntity<AfterLoginResponse> verifyEmail(
+            @RequestBody @Valid EmailVerificationCodeRequest emailVerificationCodeRequest,
+            @CurrentUserId UUID userId,
+            HttpServletResponse response
+    ) {
 
         LoginUserResult result = verifyEmailUseCase.execute(new VerifyEmailCommand(
-                user.userId(), emailVerificationCodeRequest.code()
+                userId, emailVerificationCodeRequest.code()
         ));
 
         setTokenCookies(result.authTokens(), response);
@@ -126,11 +131,10 @@ public class AuthController {
     @AllowUnverified
     @SecurityRequirement(name = "accessToken")
     @PostMapping("/email-verifications/resend")
-    public ResponseEntity<Void> resendVerificationCode() {
-        CurrentUserDto user = getAuthenticatedUserDataUseCase.execute(new GetAuthenticatedUserCommand());
-
-        resendEmailVerificationCodeUseCase.execute(new ResendEmailVerificationCodeCommand(user.userId()));
-
+    public ResponseEntity<Void> resendVerificationCode(
+            @CurrentUserId UUID userId
+    ) {
+        resendEmailVerificationCodeUseCase.execute(new ResendEmailVerificationCodeCommand(userId));
         return ResponseEntity.accepted().build();
     }
 
@@ -149,6 +153,26 @@ public class AuthController {
         ));
 
         invalidateTokenCookies(response);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/change-password")
+    @AuthenticatedUserIsOwner
+    public ResponseEntity<Void> changePassword(
+            @CurrentUserId UUID userId,
+            @RequestBody @Valid ChangeUserPasswordRequest request,
+            HttpServletResponse response
+    ) {
+        AuthTokens tokens = changePasswordUseCase.execute(new ChangePasswordCommand(
+                userId, request.oldPassword(), request.newPassword()
+        ));
+
+        ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(tokens.accessToken());
+        ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(tokens.refreshToken());
+
+        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 
         return ResponseEntity.noContent().build();
     }

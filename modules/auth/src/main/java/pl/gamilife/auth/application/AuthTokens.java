@@ -1,4 +1,4 @@
-package pl.gamilife.api.auth.dto;
+package pl.gamilife.auth.application;
 
 public record AuthTokens(
         String accessToken,

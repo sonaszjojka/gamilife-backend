@@ -23,5 +23,5 @@ public interface UserContext {
 
     void updateUserEmail(UUID userId, String newEmail);
 
-    void resetUserPassword(UUID userId, String encodedPassword);
+    void updateUserPassword(UUID userId, String encodedPassword);
 }

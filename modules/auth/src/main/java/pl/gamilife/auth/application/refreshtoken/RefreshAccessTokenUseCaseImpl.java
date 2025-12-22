@@ -3,7 +3,7 @@ package pl.gamilife.auth.application.refreshtoken;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.dto.AuthTokens;
+import pl.gamilife.auth.application.AuthTokens;
 import pl.gamilife.auth.domain.exception.domain.InvalidRefreshTokenException;
 import pl.gamilife.auth.domain.exception.domain.RefreshTokenExpiredException;
 import pl.gamilife.auth.domain.model.RefreshToken;

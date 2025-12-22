@@ -28,7 +28,7 @@ public class UserApiImpl implements UserApi {
     private final GetUserByIdUseCase getUserByIdUseCase;
     private final RegisterNewUserUseCase registerNewUserUseCase;
     private final UpdateUserEmailUseCase updateUserEmailUseCase;
-    private final ResetUserPasswordUseCase resetUserPasswordUseCase;
+    private final UpdateUserPasswordUseCase updateUserPasswordUseCase;
     private final EditUserMoneyUseCase editUserMoneyUseCase;
     private final GrantRewardsToUserUseCase grantRewardsToUserUseCase;
     private final LevelUpUserUseCase levelUpUserUseCase;
@@ -74,8 +74,8 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public void resetUserPassword(UUID userId, String hashedNewPassword) {
-        resetUserPasswordUseCase.execute(userId, hashedNewPassword);
+    public void updateUserPassword(UUID userId, String hashedNewPassword) {
+        updateUserPasswordUseCase.execute(userId, hashedNewPassword);
     }
 
     @Override
