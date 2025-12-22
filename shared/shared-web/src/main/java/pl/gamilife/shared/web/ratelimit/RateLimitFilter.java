@@ -30,21 +30,20 @@ public class RateLimitFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         String key = getClientIP(request);
-        Bucket bucket = rateLimitService.getBucket(key);
+        String uri = request.getRequestURI();
+        Bucket bucket = rateLimitService.getBucket(key, uri);
         ConsumptionProbe probe = bucket.tryConsumeAndReturnRemaining(1);
 
         if (probe.isConsumed()) {
-            response.setHeader("X-Rate-Limit-Remaining", String.valueOf(probe.getRemainingTokens()));
             filterChain.doFilter(request, response);
         } else {
-            long waitForRefill = probe.getNanosToWaitForRefill() / 1_000_000_000;
-            response.setHeader("X-Rate-Limit-Retry-After-Seconds", String.valueOf(waitForRefill));
+            long waitForRefill = (long) Math.ceil(probe.getNanosToWaitForRefill() / 1_000_000_000.);
             ErrorResponse errorResponse = ErrorResponse.of(
                     HttpStatus.TOO_MANY_REQUESTS.value(),
                     "https://gamilife.pl/errors/",
                     "Too Many Requests",
                     "API exhausted. Try again after " + waitForRefill + " seconds",
-                    request.getRequestURI()
+                    uri
             );
 
             response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
@@ -56,7 +55,7 @@ public class RateLimitFilter extends OncePerRequestFilter {
     }
 
     private String getClientIP(HttpServletRequest request) {
-        String xfHeader = request.getHeader("X-Forwarded-For");
+        String xfHeader = request.getHeader("X-Forwarded-For"); // Currently not used, as there is no infra in front of the server
         if (xfHeader == null) {
             return request.getRemoteAddr();
         }
