@@ -1,8 +1,10 @@
 package pl.gamilife.user.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -25,14 +27,6 @@ public class User {
     private boolean isProfilePublic;
     private boolean isEmailVerified;
     private boolean isTutorialCompleted;
-
-    @Setter(AccessLevel.NONE)
-    private Instant passwordChangeDate;
-
-    public void setPassword(String password) {
-        this.password = password;
-        this.passwordChangeDate = Instant.now();
-    }
 
     public void grantExperience(int amount) {
         if (amount <= 0) {

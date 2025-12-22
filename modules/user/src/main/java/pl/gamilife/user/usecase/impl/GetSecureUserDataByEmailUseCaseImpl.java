@@ -30,7 +30,6 @@ public class GetSecureUserDataByEmailUseCaseImpl implements GetSecureUserDataByE
                 user.getEmail(),
                 user.getUsername(),
                 user.getPassword(),
-                user.getPasswordChangeDate(),
                 user.isEmailVerified(),
                 user.isTutorialCompleted(),
                 user.getMoney()

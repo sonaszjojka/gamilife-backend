@@ -31,7 +31,6 @@ public class GetSecureUserDataByIdUseCaseImpl implements GetSecureUserDataByIdUs
                 user.getEmail(),
                 user.getUsername(),
                 user.getPassword(),
-                user.getPasswordChangeDate(),
                 user.isEmailVerified(),
                 user.isTutorialCompleted(),
                 user.getMoney()

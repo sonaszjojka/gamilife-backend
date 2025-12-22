@@ -28,7 +28,6 @@ public class AuthUserContext implements UserContext {
                 u.email(),
                 u.username(),
                 u.password(),
-                u.passwordChangeDate(),
                 u.isEmailVerified(),
                 u.isTutorialCompleted(),
                 u.money()
@@ -42,7 +41,6 @@ public class AuthUserContext implements UserContext {
                 u.email(),
                 u.username(),
                 u.password(),
-                u.passwordChangeDate(),
                 u.isEmailVerified(),
                 u.isTutorialCompleted(),
                 u.money()

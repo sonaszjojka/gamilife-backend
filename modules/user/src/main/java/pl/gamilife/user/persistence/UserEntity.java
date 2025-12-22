@@ -66,7 +66,4 @@ public class UserEntity {
     @Column(name = "is_tutorial_completed", nullable = false)
     private boolean isTutorialCompleted;
 
-    @Column(name = "password_change_date", nullable = false)
-    private Long passwordChangeDate;
-
 }
