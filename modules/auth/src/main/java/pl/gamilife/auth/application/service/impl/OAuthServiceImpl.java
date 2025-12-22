@@ -92,8 +92,7 @@ public class OAuthServiceImpl implements OAuthService {
         );
         BasicUserDetails createdGoogleUser = userContext.registerNewUser(newGoogleUser);
 
-        userProviderRepository.save(new UserOAuthProvider(
-                UUID.randomUUID(),
+        userProviderRepository.save(UserOAuthProvider.create(
                 createdGoogleUser.userId(),
                 "google",
                 googleUserDto.sub()

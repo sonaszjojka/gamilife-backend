@@ -7,7 +7,7 @@ import pl.gamilife.auth.domain.exception.domain.InvalidRefreshTokenException;
 import pl.gamilife.auth.domain.model.RefreshToken;
 import pl.gamilife.auth.domain.port.repository.RefreshTokenRepository;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Service
 @AllArgsConstructor
@@ -24,7 +24,7 @@ public class LogoutUserUseCaseImpl implements LogoutUserUseCase {
                 .findByToken(hashedToken)
                 .orElseThrow(() -> new InvalidRefreshTokenException("Refresh token not found"));
 
-        if (!refreshTokenFromDb.getExpiresAt().isBefore(LocalDateTime.now()) && !refreshTokenFromDb.isRevoked()) {
+        if (!refreshTokenFromDb.getExpiresAt().isBefore(Instant.now()) && !refreshTokenFromDb.isRevoked()) {
             refreshTokenRepository.updateRevokedById(refreshTokenFromDb.getId(), true);
         }
 

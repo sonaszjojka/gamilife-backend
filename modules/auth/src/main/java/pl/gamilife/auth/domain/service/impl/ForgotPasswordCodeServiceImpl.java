@@ -8,7 +8,7 @@ import pl.gamilife.auth.domain.model.ForgotPasswordCode;
 import pl.gamilife.auth.domain.port.repository.ForgotPasswordCodeRepository;
 import pl.gamilife.auth.domain.service.ForgotPasswordCodeService;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,13 +28,10 @@ public class ForgotPasswordCodeServiceImpl implements ForgotPasswordCodeService 
     public String generateAndSaveForgotPasswordCode(UUID userId) {
         String code = UUID.randomUUID().toString();
 
-        ForgotPasswordCode forgotPasswordCode = new ForgotPasswordCode(
-                UUID.randomUUID(),
+        ForgotPasswordCode forgotPasswordCode = ForgotPasswordCode.create(
                 userId,
                 hashCode(code),
-                LocalDateTime.now(),
-                LocalDateTime.now().plusSeconds(forgotPasswordCodeTimeout),
-                false
+                forgotPasswordCodeTimeout
         );
 
         forgotPasswordCodeRepository.save(forgotPasswordCode);
@@ -60,7 +57,7 @@ public class ForgotPasswordCodeServiceImpl implements ForgotPasswordCodeService 
                 codes.getFirst()
                         .getExpiresAt()
                         .minusSeconds(forgotPasswordCodeResendInterval)
-                        .isBefore(LocalDateTime.now());
+                        .isBefore(Instant.now());
     }
 
 

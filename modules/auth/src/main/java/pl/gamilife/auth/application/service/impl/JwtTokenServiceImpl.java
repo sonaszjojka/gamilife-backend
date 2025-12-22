@@ -13,7 +13,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -72,13 +71,10 @@ public class JwtTokenServiceImpl implements TokenService {
                 generateRefreshToken()
         );
 
-        refreshTokenRepository.save(new RefreshToken(
-                UUID.randomUUID(),
+        refreshTokenRepository.save(RefreshToken.create(
                 userId,
                 hashToken(authTokens.refreshToken()),
-                LocalDateTime.now(),
-                LocalDateTime.now().plusSeconds(refreshTokenExpirationTime),
-                false
+                refreshTokenExpirationTime
         ));
 
         return authTokens;

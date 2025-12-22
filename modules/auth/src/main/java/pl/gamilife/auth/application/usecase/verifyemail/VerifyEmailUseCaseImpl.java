@@ -14,7 +14,7 @@ import pl.gamilife.auth.domain.port.context.UserContext;
 import pl.gamilife.auth.domain.port.repository.EmailVerificationRepository;
 import pl.gamilife.auth.domain.service.EmailVerificationService;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Service
 @Transactional
@@ -33,7 +33,7 @@ public class VerifyEmailUseCaseImpl implements VerifyEmailUseCase {
         EmailVerificationCode emailVerificationCode = emailVerificationRepository.findByUserIdAndCode(cmd.userId(), hashedCode)
                 .orElseThrow(() -> new InvalidEmailVerificationCodeException("Invalid verification code."));
 
-        if (emailVerificationCode.isRevoked() || emailVerificationCode.getExpiresAt().isBefore(LocalDateTime.now())) {
+        if (emailVerificationCode.isRevoked() || emailVerificationCode.getExpiresAt().isBefore(Instant.now())) {
             throw new EmailVerificationCodeExpiredException("Email verification code has expired.");
         }
 

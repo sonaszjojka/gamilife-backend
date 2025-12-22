@@ -13,7 +13,7 @@ import pl.gamilife.auth.domain.port.context.UserContext;
 import pl.gamilife.auth.domain.port.repository.RefreshTokenRepository;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Service
 @Transactional
@@ -31,7 +31,7 @@ public class RefreshAccessTokenUseCaseImpl implements RefreshAccessTokenUseCase 
                 .findByToken(hashedRefreshToken)
                 .orElseThrow(() -> new InvalidRefreshTokenException("Refresh token not found"));
 
-        if (existingRefreshToken.isRevoked() || existingRefreshToken.getExpiresAt().isBefore(LocalDateTime.now())) {
+        if (existingRefreshToken.isRevoked() || existingRefreshToken.getExpiresAt().isBefore(Instant.now())) {
             throw new RefreshTokenExpiredException("Refresh token has expired");
         }
 

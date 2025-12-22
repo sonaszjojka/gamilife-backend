@@ -10,7 +10,7 @@ import pl.gamilife.auth.domain.port.repository.EmailVerificationRepository;
 import pl.gamilife.auth.domain.service.EmailVerificationService;
 import pl.gamilife.shared.kernel.event.EmailVerificationRequestedEvent;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,13 +37,10 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
     public String generateAndSaveEmailVerificationCode(UUID userId) {
         String code = UUID.randomUUID().toString();
 
-        EmailVerificationCode emailVerification = new EmailVerificationCode(
-                UUID.randomUUID(),
+        EmailVerificationCode emailVerification = EmailVerificationCode.create(
                 userId,
                 hashCode(code),
-                LocalDateTime.now(),
-                LocalDateTime.now().plusSeconds(emailVerificationTimeout),
-                false
+                emailVerificationTimeout
         );
 
         emailVerificationRepository.save(emailVerification);
@@ -74,6 +71,6 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
         return codes.isEmpty() || codes.getFirst()
                 .getExpiresAt()
                 .minusSeconds(emailVerificationResendInterval)
-                .isBefore(LocalDateTime.now());
+                .isBefore(Instant.now());
     }
 }

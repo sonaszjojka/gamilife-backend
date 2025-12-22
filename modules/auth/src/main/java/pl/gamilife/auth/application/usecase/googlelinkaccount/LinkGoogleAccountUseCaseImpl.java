@@ -16,7 +16,6 @@ import pl.gamilife.auth.domain.port.context.UserContext;
 import pl.gamilife.auth.domain.port.repository.UserProviderRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -45,8 +44,7 @@ public class LinkGoogleAccountUseCaseImpl implements LinkGoogleAccountUseCase {
             throw new UserAlreadyLinkedToProviderException("User is already linked to this provider");
         }
 
-        userProviderRepository.save(new UserOAuthProvider(
-                UUID.randomUUID(),
+        userProviderRepository.save(UserOAuthProvider.create(
                 user.userId(),
                 cmd.provider(),
                 cmd.providerId()
