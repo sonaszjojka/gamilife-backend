@@ -46,9 +46,9 @@ spring:
     jwt:
       secret: ${JWT_SECRET}
     refresh-token:
-      expires-in: 604800   # 7 days
+      expires-in: 604800  # 7 days
     access-token:
-      expires-in: 900      # 15 min
+      expires-in: 300     # 5 min
 
   codes:
     verification-code:
