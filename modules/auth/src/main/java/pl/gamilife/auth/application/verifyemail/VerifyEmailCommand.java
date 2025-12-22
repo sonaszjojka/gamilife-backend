@@ -1,22 +1,16 @@
 package pl.gamilife.auth.application.verifyemail;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
 public record VerifyEmailCommand(
+        @NotNull
         UUID userId,
+
+        @NotBlank
         String code
 ) implements Command {
-
-    @Override
-    public void validate() {
-        if (userId == null) {
-            throw new IllegalArgumentException("User id cannot be null");
-        }
-
-        if (code == null || code.isBlank()) {
-            throw new IllegalArgumentException("Code cannot be null or blank");
-        }
-    }
 }

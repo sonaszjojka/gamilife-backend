@@ -11,9 +11,4 @@ public record LinkGoogleAccountCommand(
         UUID userId,
         String password
 ) implements Command {
-
-    @Override
-    public void validate() {
-
-    }
 }

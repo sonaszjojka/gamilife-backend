@@ -1,12 +1,8 @@
 package pl.gamilife.auth.application.sendforgotpasswordcode;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import pl.gamilife.shared.kernel.architecture.Command;
 
-public record SendForgotPasswordCodeCommand(String email) implements Command {
-    @Override
-    public void validate() {
-        if (email == null || email.isBlank()) {
-            throw new IllegalArgumentException("Email cannot be null or blank");
-        }
-    }
+public record SendForgotPasswordCodeCommand(@NotBlank @Email String email) implements Command {
 }

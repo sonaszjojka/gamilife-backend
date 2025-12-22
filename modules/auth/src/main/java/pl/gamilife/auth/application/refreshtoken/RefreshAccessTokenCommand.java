@@ -1,12 +1,7 @@
 package pl.gamilife.auth.application.refreshtoken;
 
+import jakarta.validation.constraints.NotBlank;
 import pl.gamilife.shared.kernel.architecture.Command;
 
-public record RefreshAccessTokenCommand(String refreshToken) implements Command {
-    @Override
-    public void validate() {
-        if (refreshToken == null || refreshToken.isBlank()) {
-            throw new IllegalArgumentException("Refresh token cannot be blank");
-        }
-    }
+public record RefreshAccessTokenCommand(@NotBlank String refreshToken) implements Command {
 }

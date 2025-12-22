@@ -1,12 +1,17 @@
 package pl.gamilife.auth.application.changepassword;
 
-import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.NotBlank;
 import pl.gamilife.api.auth.dto.ChangePasswordDto;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 public record ChangePasswordCommand(
+        @NotBlank
         String providedPassword,
+
+        @NotBlank
         String hashedUserPassword,
+
+        @NotBlank
         String newPassword
 ) implements Command {
     public static ChangePasswordCommand from(ChangePasswordDto dto) {
@@ -15,20 +20,5 @@ public record ChangePasswordCommand(
                 dto.hashedUserPassword(),
                 dto.newPassword()
         );
-    }
-
-    @Override
-    public void validate() {
-        if (newPassword == null || newPassword.isBlank()) {
-            throw new ValidationException("New password cannot be blank");
-        }
-
-        if (providedPassword == null || providedPassword.isBlank()) {
-            throw new ValidationException("Provided password cannot be blank");
-        }
-
-        if (hashedUserPassword == null || hashedUserPassword.isBlank()) {
-            throw new ValidationException("Hashed user password cannot be blank");
-        }
     }
 }
