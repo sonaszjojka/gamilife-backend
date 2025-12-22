@@ -33,13 +33,10 @@ public class OAuthServiceImpl implements OAuthService {
     private final GoogleAuthClient googleAuthClient;
 
     @Override
-    public Map<String, String> exchangeCodeForTokens(String code, String codeVerifier) {
-        return googleAuthClient.call(code, codeVerifier);
-    }
-
-    @Override
-    public GoogleUserDto extractUserInfoFromIdToken(String idToken) {
-        DecodedJWT jwt = JWT.decode(idToken);
+    public GoogleUserDto exchangeCodeForTokens(String code, String codeVerifier) {
+        Map<String, String> response = googleAuthClient.call(code, codeVerifier);
+        String token = response.get("id_token");
+        DecodedJWT jwt = JWT.decode(token);
 
         return new GoogleUserDto(
                 jwt.getClaim("sub").asString(),

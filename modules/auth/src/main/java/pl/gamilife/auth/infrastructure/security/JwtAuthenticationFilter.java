@@ -7,12 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.lang.NonNull;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import pl.gamilife.auth.application.dto.TokenClaims;
 import pl.gamilife.auth.application.service.TokenService;
 import pl.gamilife.shared.web.security.TokenAuthenticationFilter;
@@ -34,7 +32,7 @@ public class JwtAuthenticationFilter extends TokenAuthenticationFilter {
                 TokenClaims claims = tokenService.validateTokenAndExtractClaims(token);
                 Authentication authentication = retrieveAuthentication(claims);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (UsernameNotFoundException | BadCredentialsException e) {
+            } catch (Exception e) {
                 SecurityContextHolder.getContext().setAuthentication(null);
             }
         }
