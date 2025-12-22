@@ -1,6 +1,5 @@
 package pl.gamilife.auth.infrastructure.security;
 
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -14,12 +13,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import pl.gamilife.auth.service.TokenService;
+import pl.gamilife.auth.application.dto.TokenClaims;
+import pl.gamilife.auth.application.service.TokenService;
 import pl.gamilife.shared.web.security.TokenAuthenticationFilter;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @AllArgsConstructor
 public class JwtAuthenticationFilter extends TokenAuthenticationFilter {
@@ -32,7 +31,7 @@ public class JwtAuthenticationFilter extends TokenAuthenticationFilter {
         String token = extractToken(request);
         if (token != null) {
             try {
-                Claims claims = tokenService.validateTokenAndExtractClaims(token);
+                TokenClaims claims = tokenService.validateTokenAndExtractClaims(token);
                 Authentication authentication = retrieveAuthentication(claims);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (UsernameNotFoundException | BadCredentialsException e) {
@@ -42,15 +41,11 @@ public class JwtAuthenticationFilter extends TokenAuthenticationFilter {
         filterChain.doFilter(request, response);
     }
 
-    private Authentication retrieveAuthentication(Claims claims) {
-        String email = claims.getSubject();
-        UUID userId = UUID.fromString(claims.get("userId", String.class));
-        boolean isEmailVerified = claims.get("isEmailVerified", Boolean.class);
-
+    private Authentication retrieveAuthentication(TokenClaims claims) {
         UserDetailsImpl userDetails = new UserDetailsImpl(
-                userId,
-                email,
-                List.of(new SimpleGrantedAuthority(isEmailVerified
+                claims.userId(),
+                claims.email(),
+                List.of(new SimpleGrantedAuthority(claims.isEmailVerified()
                         ? "ROLE_VERIFIED"
                         : "ROLE_UNVERIFIED"
                 ))

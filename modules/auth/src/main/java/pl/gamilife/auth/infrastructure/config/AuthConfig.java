@@ -7,10 +7,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.reactive.function.client.WebClient;
+import pl.gamilife.auth.application.service.TokenService;
+import pl.gamilife.auth.application.service.impl.JwtTokenServiceImpl;
 import pl.gamilife.auth.domain.port.repository.RefreshTokenRepository;
 import pl.gamilife.auth.infrastructure.security.JwtAuthenticationFilter;
-import pl.gamilife.auth.service.TokenService;
-import pl.gamilife.auth.service.impl.JwtTokenServiceImpl;
 
 @Configuration
 public class AuthConfig {

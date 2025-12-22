@@ -1,6 +1,6 @@
 package pl.gamilife.auth.infrastructure.web.response;
 
-import pl.gamilife.auth.application.common.LoginUserResult;
+import pl.gamilife.auth.application.dto.LoginUserResult;
 
 import java.util.UUID;
 
