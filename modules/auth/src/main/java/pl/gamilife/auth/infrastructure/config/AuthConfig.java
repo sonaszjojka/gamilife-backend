@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.reactive.function.client.WebClient;
 import pl.gamilife.auth.domain.port.repository.RefreshTokenRepository;
@@ -17,8 +16,8 @@ import pl.gamilife.auth.service.impl.JwtTokenServiceImpl;
 public class AuthConfig {
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(TokenService tokenService, UserDetailsService userDetailsService) {
-        return new JwtAuthenticationFilter(tokenService, userDetailsService);
+    public JwtAuthenticationFilter jwtAuthenticationFilter(TokenService tokenService) {
+        return new JwtAuthenticationFilter(tokenService);
     }
 
     @Bean

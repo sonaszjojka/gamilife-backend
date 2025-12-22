@@ -65,3 +65,8 @@ error-codes:
       title: "Optimistic Locking Failure"
       detail: "The resource you are trying to update has been modified by another transaction. Please refresh and try again."
       status: 409
+    NO_RESOURCE_FOUND:
+      code: 1514
+      title: "No Resource Found"
+      detail: "The requested resource could not be found."
+      status: 404

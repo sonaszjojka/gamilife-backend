@@ -39,10 +39,11 @@ public class JwtTokenServiceImpl implements TokenService {
     }
 
     @Override
-    public String generateAccessToken(UUID userId, String email) {
+    public String generateAccessToken(UUID userId, String email, boolean isEmailVerified) {
         return Jwts.builder()
                 .subject(email)
                 .claim("userId", userId)
+                .claim("isEmailVerified", isEmailVerified)
                 .issuedAt(Date.from(Instant.now()))
                 .expiration(Date.from(Instant.now().plusSeconds(accessTokenExpirationTime)))
                 .signWith(secretKey)
@@ -61,7 +62,7 @@ public class JwtTokenServiceImpl implements TokenService {
     @Override
     public AuthTokens generateTokenPair(UUID userId, String email, boolean isEmailVerified) {
         AuthTokens authTokens = new AuthTokens(
-                generateAccessToken(userId, email),
+                generateAccessToken(userId, email, isEmailVerified),
                 generateRefreshToken()
         );
 

@@ -39,7 +39,7 @@ public class RefreshAccessTokenUseCaseImpl implements RefreshAccessTokenUseCase 
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         return new AuthTokens(
-                tokenService.generateAccessToken(user.userId(), user.email()),
+                tokenService.generateAccessToken(user.userId(), user.email(), user.isEmailVerified()),
                 cmd.refreshToken()
         );
     }

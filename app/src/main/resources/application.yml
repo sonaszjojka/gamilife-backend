@@ -28,7 +28,6 @@ spring:
       expires-in: 7200
   codes:
     verification-code:
-      email-verification-enabled: true
       expires-in: 300
       resend-interval: 120
     forgot-password-code:

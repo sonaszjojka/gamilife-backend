@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import pl.gamilife.shared.kernel.exception.ErrorCode;
 import pl.gamilife.shared.web.exception.AbstractExceptionHandler;
 import pl.gamilife.shared.web.exception.ErrorResponse;
@@ -130,6 +131,15 @@ public class GlobalExceptionHandler extends AbstractExceptionHandler {
     })
     public ErrorResponse handleOptimisticLockException() {
         ErrorCode errorCode = OtherErrorCode.OPTIMISTIC_LOCKING_FAILURE;
+        ErrorResponse response = buildErrorResponseFor(errorCode);
+        logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
+
+        return response;
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ErrorResponse handleNoResourceFoundException() {
+        ErrorCode errorCode = OtherErrorCode.NO_RESOURCE_FOUND;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 
