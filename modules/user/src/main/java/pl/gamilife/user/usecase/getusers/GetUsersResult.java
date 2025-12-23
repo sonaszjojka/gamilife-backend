@@ -1,14 +1,11 @@
 package pl.gamilife.user.usecase.getusers;
 
-import pl.gamilife.user.dto.response.UserFullDetailsResponse;
-
-import java.util.Collection;
+import java.util.UUID;
 
 public record GetUsersResult(
-        long totalElements,
-        int totalPages,
-        int currentPage,
-        int pageSize,
-        Collection<UserFullDetailsResponse> content
+        UUID userId,
+        String username,
+        Integer level,
+        boolean isProfilePublic
 ) {
 }

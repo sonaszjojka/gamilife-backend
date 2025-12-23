@@ -1,16 +1,13 @@
-package pl.gamilife.user.specification.impl;
+package pl.gamilife.user.persistence.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import pl.gamilife.user.persistence.UserEntity;
-import pl.gamilife.user.specification.UserSpecificationBuilder;
 
 @Component
-public class UserSpecificationBuilderImpl implements UserSpecificationBuilder {
+public class UserSpecificationBuilder {
 
-    @Override
-    public Specification<UserEntity> buildSpecification(String username) {
-
+    public Specification<UserEntity> build(String username) {
         return Specification.allOf(
                 hasUsername(username),
                 isEmailVerified()
