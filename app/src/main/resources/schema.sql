@@ -195,6 +195,8 @@ CREATE TABLE "user"
     is_profile_public     boolean      NOT NULL,
     is_email_verified     boolean      NOT NULL,
     is_tutorial_completed boolean      NOT NULL,
+    timezone             varchar(100)             NOT NULL,
+    last_timezone_change timestamp WITH TIME ZONE NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 

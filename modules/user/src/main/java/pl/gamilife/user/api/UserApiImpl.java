@@ -8,11 +8,15 @@ import pl.gamilife.api.user.dto.*;
 import pl.gamilife.user.usecase.*;
 import pl.gamilife.user.usecase.editusermoney.EditUserMoneyCommand;
 import pl.gamilife.user.usecase.editusermoney.EditUserMoneyUseCase;
+import pl.gamilife.user.usecase.getcurrentuserdatetime.GetCurrentUserDateTimeCommand;
+import pl.gamilife.user.usecase.getcurrentuserdatetime.GetCurrentUserDateTimeUseCase;
 import pl.gamilife.user.usecase.grantrewardstouser.GrantRewardsToUserCommand;
 import pl.gamilife.user.usecase.grantrewardstouser.GrantRewardsToUserUseCase;
 import pl.gamilife.user.usecase.levelupuser.LevelUpUserCommand;
 import pl.gamilife.user.usecase.levelupuser.LevelUpUserUseCase;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,6 +36,7 @@ public class UserApiImpl implements UserApi {
     private final EditUserMoneyUseCase editUserMoneyUseCase;
     private final GrantRewardsToUserUseCase grantRewardsToUserUseCase;
     private final LevelUpUserUseCase levelUpUserUseCase;
+    private final GetCurrentUserDateTimeUseCase getCurrentUserDateTimeUseCase;
 
     @Override
     @Transactional
@@ -95,5 +100,15 @@ public class UserApiImpl implements UserApi {
     @Override
     public void levelUpUser(UUID userId, int level) {
         levelUpUserUseCase.execute(new LevelUpUserCommand(userId, level));
+    }
+
+    @Override
+    public LocalDate getCurrentUserDate(UUID userId) {
+        return getCurrentUserDateTimeUseCase.execute(new GetCurrentUserDateTimeCommand(userId)).toLocalDate();
+    }
+
+    @Override
+    public LocalDateTime getCurrentUserDateTime(UUID userId) {
+        return getCurrentUserDateTimeUseCase.execute(new GetCurrentUserDateTimeCommand(userId));
     }
 }

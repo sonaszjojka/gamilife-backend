@@ -1,10 +1,14 @@
 package pl.gamilife.user.domain;
 
+import lombok.*;
+import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -27,6 +31,9 @@ public class User {
     private boolean isProfilePublic;
     private boolean isEmailVerified;
     private boolean isTutorialCompleted;
+    private String timezone;
+    @Setter(AccessLevel.NONE)
+    private Instant lastTimezoneChange;
 
     public void grantExperience(int amount) {
         if (amount <= 0) {
@@ -50,5 +57,35 @@ public class User {
         }
 
         this.level = newLevel;
+    }
+
+    public boolean tryUpdateTimezone(String timezone) {
+        if (timezone == null || timezone.isBlank()) {
+            throw new DomainValidationException(String.format("Invalid timezone: %s", timezone));
+        }
+
+        ZoneId currentZoneId = ZoneId.of(this.timezone);
+        ZoneId newZoneId;
+        try {
+            newZoneId = ZoneId.of(timezone);
+        } catch (DateTimeException e) {
+            throw new DomainValidationException(String.format("Invalid timezone: %s", timezone));
+        }
+
+        Instant now = Instant.now();
+        ZoneOffset currentOffset = currentZoneId.getRules().getOffset(now);
+        ZoneOffset newOffset = newZoneId.getRules().getOffset(now);
+        if (currentOffset.equals(newOffset)) {
+            this.timezone = timezone;
+            return false;
+        }
+
+        if (this.lastTimezoneChange.plus(1, ChronoUnit.HOURS).isAfter(now)) {
+            return false;
+        }
+
+        this.timezone = timezone;
+        this.lastTimezoneChange = now;
+        return true;
     }
 }
