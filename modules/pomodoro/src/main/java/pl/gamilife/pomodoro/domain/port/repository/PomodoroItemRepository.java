@@ -18,4 +18,8 @@ public interface PomodoroItemRepository {
     void deleteByPomodoroTaskId(UUID pomodoroItemId);
 
     List<PomodoroItem> findAllByActivityIdIn(List<UUID> taskIds, List<UUID> habitIds);
+
+    Optional<PomodoroItem> findByTaskId(UUID taskId);
+
+    Optional<PomodoroItem> findByHabitId(UUID habitId);
 }

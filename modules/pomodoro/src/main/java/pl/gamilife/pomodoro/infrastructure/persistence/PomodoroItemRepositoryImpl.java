@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import pl.gamilife.pomodoro.domain.model.PomodoroItem;
 import pl.gamilife.pomodoro.domain.port.repository.PomodoroItemRepository;
-import pl.gamilife.pomodoro.infrastructure.persistence.jpa.PomodoroTaskRepositoryJpa;
+import pl.gamilife.pomodoro.infrastructure.persistence.jpa.JpaPomodoroItemRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,26 +16,26 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PomodoroItemRepositoryImpl implements PomodoroItemRepository {
 
-    private final PomodoroTaskRepositoryJpa pomodoroTaskRepositoryJpa;
+    private final JpaPomodoroItemRepository jpaPomodoroItemRepository;
 
     @Override
     public boolean existsByTaskId(UUID taskId) {
-        return pomodoroTaskRepositoryJpa.existsByTaskId(taskId);
+        return jpaPomodoroItemRepository.existsByTaskId(taskId);
     }
 
     @Override
     public boolean existsByHabitId(UUID habitId) {
-        return pomodoroTaskRepositoryJpa.existsByHabitId(habitId);
+        return jpaPomodoroItemRepository.existsByHabitId(habitId);
     }
 
     @Override
     public PomodoroItem save(PomodoroItem pomodoroItem) {
-        return pomodoroTaskRepositoryJpa.save(pomodoroItem);
+        return jpaPomodoroItemRepository.save(pomodoroItem);
     }
 
     @Override
     public void deleteByPomodoroTaskId(UUID pomodoroItemId) {
-        pomodoroTaskRepositoryJpa.deleteById(pomodoroItemId);
+        jpaPomodoroItemRepository.deleteById(pomodoroItemId);
     }
 
     @Override
@@ -54,11 +54,21 @@ public class PomodoroItemRepositoryImpl implements PomodoroItemRepository {
             return criteriaBuilder.or(taskPredicate, habitPredicate);
         };
 
-        return pomodoroTaskRepositoryJpa.findAll(spec);
+        return jpaPomodoroItemRepository.findAll(spec);
+    }
+
+    @Override
+    public Optional<PomodoroItem> findByTaskId(UUID taskId) {
+        return jpaPomodoroItemRepository.findByTaskId(taskId);
+    }
+
+    @Override
+    public Optional<PomodoroItem> findByHabitId(UUID habitId) {
+        return jpaPomodoroItemRepository.findByHabitId(habitId);
     }
 
     @Override
     public Optional<PomodoroItem> findById(UUID pomodoroItemId) {
-        return pomodoroTaskRepositoryJpa.findById(pomodoroItemId);
+        return jpaPomodoroItemRepository.findById(pomodoroItemId);
     }
 }
