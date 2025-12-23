@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.user.UserApi;
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.group.exception.domain.GroupTypeNotFoundException;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupType;
@@ -38,7 +38,7 @@ public class EditGroupUseCaseImpl implements EditGroupUseCase {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can edit group!");
         }
 
-        Optional<BasicUserInfoApiDto> admin = userApi.getUserById(cmd.adminId());
+        Optional<BasicUserInfoDto> admin = userApi.getUserById(cmd.adminId());
 
         if (admin.isEmpty()) {
             throw new UserNotFoundException("User (admin) with id: " + cmd.adminId() + " not found!");

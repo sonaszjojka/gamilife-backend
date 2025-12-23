@@ -2,8 +2,6 @@ package pl.gamilife.user.persistence;
 
 import pl.gamilife.user.domain.User;
 
-import java.time.Instant;
-
 public class UserMapper {
     public static UserEntity toEntity(User user) {
         return new UserEntity(
@@ -20,8 +18,7 @@ public class UserMapper {
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),
                 user.isEmailVerified(),
-                user.isTutorialCompleted(),
-                user.getPasswordChangeDate().getEpochSecond()
+                user.isTutorialCompleted()
         );
     }
 
@@ -40,8 +37,7 @@ public class UserMapper {
                 userEntity.isSendBudgetReports(),
                 userEntity.isProfilePublic(),
                 userEntity.isEmailVerified(),
-                userEntity.isTutorialCompleted(),
-                Instant.ofEpochSecond(userEntity.getPasswordChangeDate())
+                userEntity.isTutorialCompleted()
         );
     }
 }

@@ -1,9 +1,9 @@
 package pl.gamilife.user.usecase;
 
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
 
 import java.util.UUID;
 
 public interface ConfirmUserEmailVerificationUseCase {
-    BasicUserInfoApiDto execute(UUID userId);
+    BasicUserInfoDto execute(UUID userId);
 }

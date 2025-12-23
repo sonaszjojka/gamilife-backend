@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.user.UserApi;
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.group.enums.GroupRequestStatusEnum;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
@@ -104,7 +104,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
 
     private String getAdminUsername(UUID adminId) {
         return userApi.getUserById(adminId)
-                .map(BasicUserInfoApiDto::username)
+                .map(BasicUserInfoDto::username)
                 .orElse(null);
     }
 
@@ -133,7 +133,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
 
     private String getUsernameByUserId(UUID userId) {
         return userApi.getUserById(userId)
-                .map(BasicUserInfoApiDto::username)
+                .map(BasicUserInfoDto::username)
                 .orElse(null);
     }
 

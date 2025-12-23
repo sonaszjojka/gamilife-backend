@@ -1,9 +1,9 @@
 package pl.gamilife.user.usecase;
 
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
 
 import java.util.Optional;
 
 public interface GetUserByEmailUseCase {
-    Optional<BasicUserInfoApiDto> execute(String email);
+    Optional<BasicUserInfoDto> execute(String email);
 }

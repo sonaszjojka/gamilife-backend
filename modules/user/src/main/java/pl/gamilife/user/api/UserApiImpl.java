@@ -28,34 +28,34 @@ public class UserApiImpl implements UserApi {
     private final GetUserByIdUseCase getUserByIdUseCase;
     private final RegisterNewUserUseCase registerNewUserUseCase;
     private final UpdateUserEmailUseCase updateUserEmailUseCase;
-    private final ResetUserPasswordUseCase resetUserPasswordUseCase;
+    private final UpdateUserPasswordUseCase updateUserPasswordUseCase;
     private final EditUserMoneyUseCase editUserMoneyUseCase;
     private final GrantRewardsToUserUseCase grantRewardsToUserUseCase;
     private final LevelUpUserUseCase levelUpUserUseCase;
 
     @Override
     @Transactional
-    public BasicUserInfoApiDto registerNewUser(RegisterUserApiDto user) {
+    public BasicUserInfoDto registerNewUser(RegisterUserDto user) {
         return registerNewUserUseCase.execute(user);
     }
 
     @Override
-    public Optional<BasicUserInfoApiDto> getUserById(UUID userId) {
+    public Optional<BasicUserInfoDto> getUserById(UUID userId) {
         return getUserByIdUseCase.execute(userId);
     }
 
     @Override
-    public Optional<BasicUserInfoApiDto> getUserByEmail(String email) {
+    public Optional<BasicUserInfoDto> getUserByEmail(String email) {
         return getUserByEmailUseCase.execute(email);
     }
 
     @Override
-    public Optional<SecureUserInfoApiDto> getSecureUserDataById(UUID userId) {
+    public Optional<SecureUserInfoDto> getSecureUserDataById(UUID userId) {
         return getSecureUserDataByIdUseCase.execute(userId);
     }
 
     @Override
-    public Optional<SecureUserInfoApiDto> getSecureUserDataByEmail(String email) {
+    public Optional<SecureUserInfoDto> getSecureUserDataByEmail(String email) {
         return getSecureUserDataByEmailUseCase.execute(email);
     }
 
@@ -65,17 +65,17 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public CheckIfUsersEmailIsVerifiedApiDto checkIfUsersEmailIsVerified(UUID userId) {
+    public CheckIfUsersEmailIsVerifiedDto checkIfUsersEmailIsVerified(UUID userId) {
         return checkIfUsersEmailIsVerifiedUseCase.execute(userId);
     }
 
-    public BasicUserInfoApiDto confirmUserEmailVerification(UUID userId) {
+    public BasicUserInfoDto confirmUserEmailVerification(UUID userId) {
         return confirmUserEmailVerificationUseCase.execute(userId);
     }
 
     @Override
-    public void resetUserPassword(UUID userId, String hashedNewPassword) {
-        resetUserPasswordUseCase.execute(userId, hashedNewPassword);
+    public void updateUserPassword(UUID userId, String hashedNewPassword) {
+        updateUserPasswordUseCase.execute(userId, hashedNewPassword);
     }
 
     @Override

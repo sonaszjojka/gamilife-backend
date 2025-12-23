@@ -23,12 +23,11 @@ spring:
     jwt:
       secret: ${JWT_SECRET}
     refresh-token:
-      expires-in: 604800
+      expires-in: 604800  # 7 days
     access-token:
-      expires-in: 7200
+      expires-in: 300     # 5 min
   codes:
     verification-code:
-      email-verification-enabled: true
       expires-in: 300
       resend-interval: 120
     forgot-password-code:
@@ -59,8 +58,12 @@ app:
     reset-password-url: "/reset-password"
     email-verification-url: "/verify-email"
   rate-limit:
-    requests-limit: 60
-    duration-seconds: 60
+    standard:
+      requests-limit: 60
+      duration-seconds: 60
+    protected:
+      requests-limit: 15
+      duration-seconds: 60
   security:
     public-paths:
       - /api/v1/auth/**

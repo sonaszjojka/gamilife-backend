@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.user.UserApi;
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.group.enums.InvitationStatusEnum;
 import pl.gamilife.group.exception.domain.GroupFullException;
 import pl.gamilife.group.exception.domain.InvitationStatusNotFoundException;
@@ -43,7 +43,7 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     public CreateGroupInvitationResult execute(CreateGroupInvitationCommand cmd) {
         CurrentUserDto adminDto = authApi.getCurrentUser();
         Group group = getGroupWithMembers(cmd.groupId());
-        BasicUserInfoApiDto userToInvite = getUserToInvite(cmd.userId());
+        BasicUserInfoDto userToInvite = getUserToInvite(cmd.userId());
 
         if (!group.isUserAdmin(adminDto.userId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can create group invitations!");
@@ -66,7 +66,7 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
         return createResponse(groupInvitation);
     }
 
-    private BasicUserInfoApiDto getUserToInvite(UUID userId) {
+    private BasicUserInfoDto getUserToInvite(UUID userId) {
         return userApi.getUserById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " not found!"));
     }

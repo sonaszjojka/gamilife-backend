@@ -1,0 +1,61 @@
+package pl.gamilife.auth.domain.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import pl.gamilife.shared.persistence.entity.BaseEntity;
+
+import java.util.UUID;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+@Table(name = "user_oauth_provider")
+public class UserOAuthProvider extends BaseEntity {
+
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
+
+    @Column(nullable = false)
+    private String provider;
+
+    @Column(name = "provider_id", nullable = false)
+    private String providerId;
+
+    private UserOAuthProvider(UUID userId, String provider, String providerId) {
+        setUserId(userId);
+        setProvider(provider);
+        setProviderId(providerId);
+    }
+
+    public static UserOAuthProvider create(UUID userId, String provider, String providerId) {
+        return new UserOAuthProvider(userId, provider, providerId);
+    }
+
+    public void setUserId(UUID userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID cannot be null"); // TODO: change exc type after task refactor merge
+        }
+
+        this.userId = userId;
+    }
+
+    public void setProvider(String provider) {
+        if (provider == null || provider.isBlank()) {
+            throw new IllegalArgumentException("Provider cannot be null"); // TODO: change exc type after task refactor merge
+        }
+
+        this.provider = provider;
+    }
+
+    public void setProviderId(String providerId) {
+        if (providerId == null || providerId.isBlank()) {
+            throw new IllegalArgumentException("Provider ID cannot be null"); // TODO: change exc type after task refactor merge
+        }
+
+        this.providerId = providerId;
+    }
+}

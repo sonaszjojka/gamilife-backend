@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.user.UserApi;
-import pl.gamilife.api.user.dto.BasicUserInfoApiDto;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.group.enums.GroupRequestStatusEnum;
 import pl.gamilife.group.model.GroupRequest;
 import pl.gamilife.group.repository.GroupRequestJpaRepository;
@@ -95,7 +95,7 @@ public class GetGroupRequestsUseCaseImpl implements GetGroupRequestsUseCase {
 
     private String getUserUsername(UUID userId) {
         return userApi.getUserById(userId)
-                .map(BasicUserInfoApiDto::username)
+                .map(BasicUserInfoDto::username)
                 .orElse(null);
     }
 }

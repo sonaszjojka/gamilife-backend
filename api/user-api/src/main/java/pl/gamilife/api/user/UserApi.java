@@ -6,23 +6,23 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserApi {
-    BasicUserInfoApiDto registerNewUser(RegisterUserApiDto user);
+    BasicUserInfoDto registerNewUser(RegisterUserDto user);
 
-    Optional<BasicUserInfoApiDto> getUserById(UUID userId);
+    Optional<BasicUserInfoDto> getUserById(UUID userId);
 
-    Optional<BasicUserInfoApiDto> getUserByEmail(String email);
+    Optional<BasicUserInfoDto> getUserByEmail(String email);
 
-    Optional<SecureUserInfoApiDto> getSecureUserDataById(UUID userId);
+    Optional<SecureUserInfoDto> getSecureUserDataById(UUID userId);
 
-    Optional<SecureUserInfoApiDto> getSecureUserDataByEmail(String email);
+    Optional<SecureUserInfoDto> getSecureUserDataByEmail(String email);
 
     void updateUserEmail(UUID userId, String newEmail);
 
-    CheckIfUsersEmailIsVerifiedApiDto checkIfUsersEmailIsVerified(UUID userId);
+    CheckIfUsersEmailIsVerifiedDto checkIfUsersEmailIsVerified(UUID userId);
 
-    BasicUserInfoApiDto confirmUserEmailVerification(UUID userId);
+    BasicUserInfoDto confirmUserEmailVerification(UUID userId);
 
-    void resetUserPassword(UUID userId, String hashedNewPassword);
+    void updateUserPassword(UUID userId, String hashedNewPassword);
 
     int editUserMoneyBy(UUID userId, Integer money);
 

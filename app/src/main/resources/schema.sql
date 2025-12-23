@@ -175,7 +175,6 @@ CREATE TABLE "user"
     is_profile_public     boolean      NOT NULL,
     is_email_verified     boolean      NOT NULL,
     is_tutorial_completed boolean      NOT NULL,
-    password_change_date  BIGINT       NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 

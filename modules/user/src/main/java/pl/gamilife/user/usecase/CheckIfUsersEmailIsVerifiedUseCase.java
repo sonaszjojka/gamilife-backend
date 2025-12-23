@@ -1,9 +1,9 @@
 package pl.gamilife.user.usecase;
 
-import pl.gamilife.api.user.dto.CheckIfUsersEmailIsVerifiedApiDto;
+import pl.gamilife.api.user.dto.CheckIfUsersEmailIsVerifiedDto;
 
 import java.util.UUID;
 
 public interface CheckIfUsersEmailIsVerifiedUseCase {
-    CheckIfUsersEmailIsVerifiedApiDto execute(UUID userId);
+    CheckIfUsersEmailIsVerifiedDto execute(UUID userId);
 }

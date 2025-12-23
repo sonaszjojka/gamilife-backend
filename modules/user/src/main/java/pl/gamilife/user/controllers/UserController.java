@@ -1,29 +1,20 @@
 package pl.gamilife.user.controllers;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import pl.gamilife.api.auth.dto.AuthTokens;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
 import pl.gamilife.shared.web.security.annotation.AuthenticatedUserIsOwner;
-import pl.gamilife.shared.web.util.CookieUtil;
-import pl.gamilife.user.dto.request.ChangeUserPasswordRequest;
 import pl.gamilife.user.dto.request.EditUserRequest;
-import pl.gamilife.user.dto.response.CurrentUserInfoResponse;
 import pl.gamilife.user.dto.response.UserDetailsResponse;
 import pl.gamilife.user.dto.response.UserFullDetailsResponse;
-import pl.gamilife.user.dto.service.ChangeUserPasswordCommand;
 import pl.gamilife.user.dto.service.UserDetailsDto;
-import pl.gamilife.user.usecase.ChangeUserPasswordUseCase;
 import pl.gamilife.user.usecase.CompleteOnboardingUseCase;
 import pl.gamilife.user.usecase.GetUserDetailsUseCase;
 import pl.gamilife.user.usecase.edituser.EditUserCommand;
@@ -42,11 +33,9 @@ import java.util.UUID;
 public class UserController {
 
     private GetUserDetailsUseCase getUserDetailsUseCase;
-    private ChangeUserPasswordUseCase changeUserPasswordUseCase;
     private GetUsersUseCase getUsersUseCase;
     private CompleteOnboardingUseCase completeOnboardingUseCase;
     private EditUserUseCase editUserUseCase;
-    private CookieUtil cookieUtil;
     private GroupApi groupsApi;
 
     @GetMapping("/{userId}")
@@ -78,25 +67,6 @@ public class UserController {
         ));
 
         return ResponseEntity.ok(response);
-    }
-
-    @PatchMapping("/{userId}/password")
-    @AuthenticatedUserIsOwner
-    public ResponseEntity<CurrentUserInfoResponse> changePassword(
-            @PathVariable UUID userId,
-            @RequestBody ChangeUserPasswordRequest request,
-            HttpServletResponse response) {
-        AuthTokens tokens = changeUserPasswordUseCase.execute(new ChangeUserPasswordCommand(
-                userId, request.oldPassword(), request.newPassword()
-        ));
-
-        ResponseCookie accessTokenCookie = cookieUtil.createAccessTokenCookie(tokens.accessToken());
-        ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(tokens.refreshToken());
-
-        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
-        response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
-
-        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{userId}/complete-onboarding")
