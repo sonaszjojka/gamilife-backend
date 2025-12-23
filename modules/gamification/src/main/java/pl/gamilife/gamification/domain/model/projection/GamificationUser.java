@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public record GamificationUser(
         UUID userId,
+        String username,
         int level,
         int experience,
         int money

@@ -28,6 +28,7 @@ public class GrantRewardsToUserUseCaseImpl implements GrantRewardsToUserUseCase 
 
         return new RewardedUserApiDto(
                 user.getId(),
+                user.getUsername(),
                 user.getExperience(),
                 user.getMoney(),
                 user.getLevel()

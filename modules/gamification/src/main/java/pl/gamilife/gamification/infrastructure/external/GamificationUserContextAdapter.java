@@ -29,6 +29,7 @@ public class GamificationUserContextAdapter implements UserContext {
 
         return Optional.of(new GamificationUser(
                 user.userId(),
+                user.username(),
                 user.level(),
                 user.experience(),
                 user.money()
@@ -46,6 +47,7 @@ public class GamificationUserContextAdapter implements UserContext {
 
         return new GamificationUser(
                 rewardedUser.userId(),
+                rewardedUser.username(),
                 rewardedUser.level(),
                 rewardedUser.experience(),
                 rewardedUser.money()
