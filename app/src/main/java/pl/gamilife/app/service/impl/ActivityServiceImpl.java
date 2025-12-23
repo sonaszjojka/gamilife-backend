@@ -75,7 +75,20 @@ public class ActivityServiceImpl implements ActivityService {
                     case DEADLINE_TODAY -> ActivityItemDetails.ActivityStatus.DEADLINE_TODAY;
                     case DEADLINE_MISSED -> ActivityItemDetails.ActivityStatus.DEADLINE_MISSED;
                 },
+                ai.canBeWorkedOn(),
                 map.get(ai.id())
         ));
+    }
+
+    @Override
+    public Page<ActivityItemDetails> getWorkablePomodoroActivities(ActivityItemQueryDto dto) {
+        // TODO: implement
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public Page<ActivityItemDetails> getWorkableNonPomodoroActivities(ActivityItemQueryDto dto) {
+        // TODO: implement
+        throw new RuntimeException("Not implemented");
     }
 }

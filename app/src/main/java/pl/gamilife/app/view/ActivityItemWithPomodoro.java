@@ -1,4 +1,4 @@
-package pl.gamilife.task.domain.model.projection;
+package pl.gamilife.app.view;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -19,8 +19,8 @@ import java.util.UUID;
 @Entity
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "v_activity_item")
-public class ActivityItem extends BaseUuidReadOnlyEntity {
+@Table(name = "v_activity_item_with_pomodoro")
+public class ActivityItemWithPomodoro extends BaseUuidReadOnlyEntity {
 
     @Column(name = "type", length = Integer.MAX_VALUE)
     @Enumerated(EnumType.STRING)
@@ -111,13 +111,5 @@ public class ActivityItem extends BaseUuidReadOnlyEntity {
         }
 
         return deadlineTime == null;
-    }
-
-    public boolean canBeWorkedOn(LocalDate currentUserDate) {
-        if (type == ActivityType.TASK) {
-            return true;
-        }
-
-        return currentUserDate.isAfter(deadlineDate.minusDays(cycleLength));
     }
 }

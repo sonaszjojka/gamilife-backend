@@ -169,7 +169,8 @@ public class TaskApiImpl implements TaskApi {
                     case INCOMPLETE -> ActivityItemDto.ActivityStatus.INCOMPLETE;
                     case DEADLINE_TODAY -> ActivityItemDto.ActivityStatus.DEADLINE_TODAY;
                     case DEADLINE_MISSED -> ActivityItemDto.ActivityStatus.DEADLINE_MISSED;
-                }
+                },
+                ai.canBeWorkedOn()
         ));
     }
 

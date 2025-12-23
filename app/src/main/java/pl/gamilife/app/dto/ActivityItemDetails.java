@@ -19,6 +19,7 @@ public record ActivityItemDetails(
         Integer currentStreak,
         Integer longestStreak,
         ActivityStatus status,
+        Boolean canBeWorkedOn,
         Pomodoro pomodoro
 ) {
     public enum ActivityType {

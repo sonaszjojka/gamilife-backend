@@ -91,7 +91,7 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
                 habit.getCycleLength(),
                 habit.getCurrentStreak(),
                 habit.getLongestStreak(),
-                habit.checkIfCanBeWorkedOn(currentUserDate),
+                habit.canBeWorkedOn(currentUserDate),
                 habit.isHabitDead(currentUserDate)
                         ? EditHabitResult.HabitStatus.DEAD
                         : EditHabitResult.HabitStatus.ALIVE

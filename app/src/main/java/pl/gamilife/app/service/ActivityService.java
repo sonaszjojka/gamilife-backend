@@ -7,4 +7,9 @@ import pl.gamilife.shared.kernel.architecture.Page;
 public interface ActivityService {
 
     Page<ActivityItemDetails> getAllActivities(ActivityItemQueryDto dto);
+
+    Page<ActivityItemDetails> getWorkablePomodoroActivities(ActivityItemQueryDto dto);
+
+    Page<ActivityItemDetails> getWorkableNonPomodoroActivities(ActivityItemQueryDto dto);
+
 }

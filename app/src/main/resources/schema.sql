@@ -817,3 +817,11 @@ FROM habit h
          JOIN task_category tc ON h.category_id = tc.id
          JOIN task_difficulty td ON h.difficulty_id = td.id;
 
+CREATE OR REPLACE VIEW v_activity_item_with_pomodoro AS
+SELECT ai.*,
+       pi.id               AS pomodoro_id,
+       pi.cycles_completed AS cycles_completed,
+       pi.cycles_required  AS cycles_required
+FROM v_activity_item ai
+LEFT JOIN pomodoro_item pi
+ON ai.id = COALESCE(pi.task_id, pi.habit_id);
