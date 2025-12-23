@@ -206,17 +206,6 @@ CREATE TABLE "user"
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
-CREATE TABLE forgot_password_code
-(
-    id         UUID                        NOT NULL,
-    user_id    UUID                        NOT NULL,
-    code       VARCHAR(255)                NOT NULL,
-    issued_at  timestamp WITH TIME ZONE NOT NULL,
-    expires_at timestamp WITH TIME ZONE NOT NULL,
-    revoked    BOOLEAN                     NOT NULL,
-    CONSTRAINT pk_forgot_password_code PRIMARY KEY (id)
-);
-
 ALTER TABLE user_oauth_provider
     ADD CONSTRAINT user_oauth_provider_user
         FOREIGN KEY (user_id)
