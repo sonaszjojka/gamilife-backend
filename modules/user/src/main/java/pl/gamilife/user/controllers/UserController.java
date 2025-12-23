@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import pl.gamilife.api.group.GroupApi;
-import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.AuthenticatedUserIsOwner;
 import pl.gamilife.user.dto.request.EditUserRequest;
@@ -37,7 +35,6 @@ public class UserController {
     private GetUsersUseCase getUsersUseCase;
     private CompleteOnboardingUseCase completeOnboardingUseCase;
     private EditUserUseCase editUserUseCase;
-    private GroupApi groupsApi;
 
     @GetMapping("/{userId}")
     //TODO: isProfilePrivate
@@ -77,29 +74,6 @@ public class UserController {
     ) {
         UserDetailsDto dto = completeOnboardingUseCase.execute(userId);
         return ResponseEntity.ok(UserFullDetailsResponse.from(dto));
-    }
-
-    @GetMapping("/{userId}/groups")
-    @AuthenticatedUserIsOwner
-    public ResponseEntity<FindAllGroupsByUserIdWhereUserIsMemberResult> getAllGroupsByUserId(
-            @PathVariable UUID userId,
-
-            @RequestParam(required = false) String joinCode,
-
-            @RequestParam(required = false) Integer groupType,
-
-            @RequestParam(required = false) String groupName,
-
-            @RequestParam(defaultValue = "0")
-            @Min(0) Integer page,
-
-            @RequestParam(defaultValue = "10")
-            @Min(1) @Max(100) Integer size
-
-    ) {
-        FindAllGroupsByUserIdWhereUserIsMemberResult response = groupsApi
-                .findAllGroupsByUserIdWhereUserIsMember(userId, page, size, joinCode, groupType, groupName);
-        return ResponseEntity.ok(response);
     }
 
     @GetMapping
