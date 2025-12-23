@@ -30,4 +30,14 @@ public class PomodoroTaskContextAdapter implements TaskContext {
         HabitDto habitDto = taskApi.findHabitById(habitId, userId, zoneId);
         return new PomodoroHabit(habitDto.userId(), habitDto.canBeWorkedOn());
     }
+
+    @Override
+    public void completeTaskById(UUID userId, ZoneId zoneId, UUID taskId) {
+        taskApi.completeTaskById(userId, zoneId, taskId);
+    }
+
+    @Override
+    public void completeHabitById(UUID userId, ZoneId zoneId, UUID habitId) {
+        taskApi.completeHabitById(userId, zoneId, habitId);
+    }
 }

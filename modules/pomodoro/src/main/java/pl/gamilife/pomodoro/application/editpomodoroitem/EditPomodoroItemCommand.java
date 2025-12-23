@@ -23,12 +23,14 @@ public record EditPomodoroItemCommand(
         Integer cyclesRequired,
 
         @Positive
-        Integer completeCycles
+        Integer completeCycles,
+
+        Boolean completed
 ) implements Command {
     @Override
     public void validate() {
-        if (cyclesRequired == null && completeCycles == null) {
-            throw new ValidationException("Exactly one of cyclesRequired or completeCycles is required");
+        if (Boolean.TRUE.equals(completed) && (cyclesRequired != null || completeCycles != null)) {
+            throw new ValidationException("Cannot change cycles required and complete cycles during completion");
         }
 
         if (cyclesRequired != null && completeCycles != null) {

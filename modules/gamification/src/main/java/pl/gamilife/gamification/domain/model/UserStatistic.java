@@ -73,11 +73,11 @@ public class UserStatistic extends BaseEntity {
     }
 
     public void decrementCounterBy(int amount) {
-        if (amount >= 0) {
-            throw new IllegalArgumentException("Counter decrement must be less than 0");
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Counter decrement must be greater than 0");
         }
 
-        this.count += amount;
+        this.count -= amount;
     }
 
     public boolean updateStreakIfHigher(int newCount) {

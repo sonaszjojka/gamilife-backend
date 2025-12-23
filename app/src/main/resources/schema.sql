@@ -120,6 +120,7 @@ CREATE TABLE pomodoro_item
     cycles_completed INTEGER                                            NOT NULL,
     task_id          UUID                                               NULL,
     habit_id         UUID                                               NULL,
+    reward_issued BOOLEAN NOT NULL,
     version          BIGINT                                             NOT NULL DEFAULT 0,
     created_at       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,

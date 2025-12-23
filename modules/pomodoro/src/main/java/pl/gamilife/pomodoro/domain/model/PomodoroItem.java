@@ -32,6 +32,9 @@ public class PomodoroItem extends BaseEntity {
     @Column(name = "habit_id")
     private UUID habitId;
 
+    @Column(name = "reward_issued", nullable = false)
+    private Boolean rewardIssued = false;
+
     private PomodoroItem(Integer cyclesRequired, UUID taskId, UUID habitId) {
         if (taskId == null && habitId == null) {
             throw new DomainValidationException("Either taskId or habitId must be provided");
@@ -79,5 +82,15 @@ public class PomodoroItem extends BaseEntity {
         this.cyclesCompleted += amount;
 
         return this.cyclesCompleted >= this.cyclesRequired;
+    }
+
+    public void complete() {
+        if (cyclesCompleted < cyclesRequired) {
+            throw new DomainValidationException("Not enough work cycles completed to complete the pomodoro item");
+        }
+    }
+
+    public void markRewardAsIssued() {
+        this.rewardIssued = true;
     }
 }

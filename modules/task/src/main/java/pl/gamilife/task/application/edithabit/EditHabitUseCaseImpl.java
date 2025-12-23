@@ -1,8 +1,10 @@
 package pl.gamilife.task.application.edithabit;
 
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.shared.kernel.event.HabitStreakChangedEvent;
 import pl.gamilife.task.domain.exception.domain.HabitNotFoundException;
 import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
 import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
@@ -25,6 +27,7 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final HabitRepository habitRepository;
     private final UserContext userContext;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional
@@ -73,6 +76,7 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
 
         if (Boolean.TRUE.equals(cmd.iterationCompleted())) {
             habit.completeIteration(currentUserDate);
+            eventPublisher.publishEvent(new HabitStreakChangedEvent(cmd.userId(), habit.getCurrentStreak()));
         } else if (Boolean.TRUE.equals(cmd.resurrect())) {
             habit.resurrectHabit(currentUserDate);
         }

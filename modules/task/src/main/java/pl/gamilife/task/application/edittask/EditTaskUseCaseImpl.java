@@ -1,8 +1,11 @@
 package pl.gamilife.task.application.edittask;
 
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.shared.kernel.event.TaskCompletedEvent;
+import pl.gamilife.shared.kernel.event.TaskUndoneEvent;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
 import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
@@ -29,6 +32,7 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final TaskCategoryRepository taskCategoryRepository;
     private final UserContext userContext;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional
@@ -57,8 +61,11 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
 
         if (Boolean.TRUE.equals(cmd.completed())) {
             task.markDone();
+            eventPublisher.publishEvent(new TaskCompletedEvent(cmd.userId(), task.isRewardIssued()));
+            task.markRewardAsIssued();
         } else if (Boolean.FALSE.equals(cmd.completed())) {
             task.markUndone();
+            eventPublisher.publishEvent(new TaskUndoneEvent(cmd.userId(), task.getId()));
         }
 
         if (cmd.categoryId() != null && !Objects.equals(task.getCategoryId(), cmd.categoryId())) {

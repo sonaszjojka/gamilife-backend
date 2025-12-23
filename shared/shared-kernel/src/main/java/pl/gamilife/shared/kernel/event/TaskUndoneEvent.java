@@ -1,12 +1,10 @@
 package pl.gamilife.shared.kernel.event;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.util.UUID;
 
-@Getter
-@AllArgsConstructor
-public class TaskUndoneEvent {
-    private UUID userId;
+public record TaskUndoneEvent(
+        UUID userId,
+        UUID taskId
+) {
 }
+

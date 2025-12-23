@@ -170,10 +170,6 @@ public class Task extends BaseEntity {
     }
 
     public void markRewardAsIssued() {
-        if (rewardIssued) {
-            throw new DomainValidationException("Reward has already been issued");
-        }
-
         rewardIssued = true;
     }
 

@@ -10,4 +10,8 @@ public interface TaskContext {
     PomodoroTask findTaskById(UUID taskId);
 
     PomodoroHabit findHabitById(UUID habitId, UUID userId, ZoneId zoneId);
+
+    void completeTaskById(UUID userId, ZoneId zoneId, UUID taskId);
+
+    void completeHabitById(UUID userId, ZoneId zoneId, UUID habitId);
 }

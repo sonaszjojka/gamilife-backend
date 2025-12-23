@@ -20,4 +20,7 @@ public interface TaskApi {
 
     Page<ActivityItemDto> getAllActivityItemsFiltered(ActivityItemQuery dto);
 
+    void completeTaskById(UUID userId, ZoneId zoneId, UUID taskId);
+
+    void completeHabitById(UUID userId, ZoneId zoneId, UUID habitId);
 }

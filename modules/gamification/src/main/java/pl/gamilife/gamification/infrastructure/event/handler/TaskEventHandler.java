@@ -37,7 +37,7 @@ public class TaskEventHandler {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onTaskUndone(TaskUndoneEvent event) {
-        rollbackTaskCompletionUseCase.execute(new RollbackTaskCompletionCommand(event.getUserId()));
+        rollbackTaskCompletionUseCase.execute(new RollbackTaskCompletionCommand(event.userId()));
     }
 
     @Recover
