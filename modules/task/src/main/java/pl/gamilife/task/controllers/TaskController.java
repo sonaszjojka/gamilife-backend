@@ -13,7 +13,7 @@ import pl.gamilife.task.application.deletetask.DeleteTaskUseCase;
 import pl.gamilife.task.application.edittask.EditTaskRequest;
 import pl.gamilife.task.application.edittask.EditTaskResponse;
 import pl.gamilife.task.application.edittask.EditTaskUseCase;
-import pl.gamilife.task.application.getusertasks.GetUserTasksDto;
+import pl.gamilife.task.controllers.response.GetUserTasksDto;
 import pl.gamilife.task.application.getusertasks.GetUserTasksFilterDto;
 import pl.gamilife.task.application.getusertasks.GetUserTasksUseCase;
 import pl.gamilife.task.shared.ApiResponse;

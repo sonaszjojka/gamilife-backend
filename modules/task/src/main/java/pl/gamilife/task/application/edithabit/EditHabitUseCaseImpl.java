@@ -15,12 +15,10 @@ import java.util.UUID;
 public class EditHabitUseCaseImpl implements EditHabitUseCase {
 
     private final HabitRepository habitRepository;
-    private final EditHabitMapper editHabitMapper;
     private final TaskRepository taskRepository;
 
-    public EditHabitUseCaseImpl(HabitRepository habitRepository, EditHabitMapper editHabitMapper, TaskRepository taskRepository) {
+    public EditHabitUseCaseImpl(HabitRepository habitRepository, TaskRepository taskRepository) {
         this.habitRepository = habitRepository;
-        this.editHabitMapper = editHabitMapper;
         this.taskRepository = taskRepository;
     }
 
@@ -35,6 +33,7 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new TaskNotFoundException(
                 "Task with id " + taskId + " not found!"
         ));
+
         if (!habit.getTask().getId().equals(task.getId())) {
             throw new HabitNotFoundException(
                     "Habit with id " + habitId + " not found for task with id " + taskId
@@ -42,12 +41,23 @@ public class EditHabitUseCaseImpl implements EditHabitUseCase {
         }
 
         habit.setCycleLength(request.cycleLength());
-        habit.setCurrentStreak(request.currentStreak());
-        habit.setLongestStreak(request.longestStreak()); //todo: business logic
 
+        if (request.finished()) {
+            habit.finish();
+        }
 
-        habit.setAcceptedDate(request.acceptedDate());
+        return buildResponse(habitRepository.save(habit));
+    }
 
-        return editHabitMapper.toResponse(habitRepository.save(habit));
+    public EditHabitResponse buildResponse(Habit habit) {
+        return new EditHabitResponse(
+                habit.getId(),
+                habit.getCycleLength(),
+                habit.getCurrentStreak(),
+                habit.getLongestStreak(),
+                habit.getFinishedAt(),
+                habit.getUpdatedAt(),
+                habit.getCreatedAt()
+        );
     }
 }

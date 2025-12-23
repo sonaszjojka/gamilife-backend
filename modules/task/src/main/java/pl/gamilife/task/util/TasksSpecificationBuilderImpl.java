@@ -53,10 +53,10 @@ public class TasksSpecificationBuilderImpl implements TasksSpecificationBuilder 
 
             LocalDateTime now = LocalDateTime.now();
 
-            Predicate endedByDate = cb.lessThan(root.get("endTime"), now);
+            Predicate endedByDate = cb.lessThan(root.get("deadline"), now);
             Predicate hasCompletedDate = cb.isNotNull(root.get("completedAt"));
 
-            Predicate notEnded = cb.greaterThanOrEqualTo(root.get("endTime"), now);
+            Predicate notEnded = cb.greaterThanOrEqualTo(root.get("deadline"), now);
             Predicate noCompletedDate = cb.isNull(root.get("completedAt"));
 
             if (isCompleted) {

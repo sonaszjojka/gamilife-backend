@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 -- =========================
 -- Tabela: task_category
 -- =========================
-INSERT INTO task_category (category_id, title, value)
+INSERT INTO task_category (id, name, value)
 VALUES (1, 'Work', 1),
        (2, 'Personal', 2),
        (3, 'Health', 3);
@@ -11,7 +11,7 @@ VALUES (1, 'Work', 1),
 -- =========================
 -- Tabela: task_difficulty
 -- =========================
-INSERT INTO task_difficulty (difficulty_id, title, value)
+INSERT INTO task_difficulty (id, name, value)
 VALUES (1, 'Easy', 1),
        (2, 'Medium', 2),
        (3, 'Hard', 3);
@@ -19,24 +19,18 @@ VALUES (1, 'Easy', 1),
 -- =========================
 -- Tabela: task
 -- =========================
-INSERT INTO task (task_id, title, start_time, end_time, category_id, difficulty_id,
-                  user_id, completed_at, description, is_group_task, reward_issued)
-VALUES ('11111111-1111-1111-1111-111111111111', 'Finish report', NOW(), NOW() + INTERVAL '2 days',
-        1, 2, NULL, NULL,
-        'Finish the monthly report', false, false),
-
-       ('22222222-2222-2222-2222-222222222222', 'Morning workout', NOW(), NOW() + INTERVAL '1 day',
-        3, 1, NULL, NULL,
-        '30 minutes jogging', false, false);
+INSERT INTO task (id, title, description, user_id, category_id, difficulty_id, deadline)
+VALUES ('11111111-1111-1111-1111-111111111111', 'Finish report', 'Finish the monthly report',
+        '11111111-1111-1111-1111-111111111111', 1, 1,NOW() + INTERVAL '2 days'),
+       ('22222222-2222-2222-2222-222222222222', 'Morning workout', '30 minutes jogging',
+        '22222222-2222-2222-2222-222222222222', 1, 1,NOW() + INTERVAL '2 days');
 
 -- =========================
 -- Tabela: habit
 -- =========================
-INSERT INTO habit (habit_id, task_id, cycle_length, current_streak, longest_streak, created_at, accepted_date,
-                   updated_at)
-
-VALUES ('aaaa0000-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-111111111111', 7, 3, 5, NOW(), NOW(), NOW()),
-       ('bbbb0000-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '22222222-2222-2222-2222-222222222222', 30, 10, 12, NOW(), NULL, NOW());
+INSERT INTO habit (id, task_id, cycle_length, current_streak, longest_streak)
+VALUES ('aaaa0000-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-111111111111', 7, 3, 5),
+       ('bbbb0000-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '22222222-2222-2222-2222-222222222222', 30, 10, 43);
 
 
 

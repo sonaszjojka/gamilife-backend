@@ -7,7 +7,6 @@ import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.entity.TaskCategory;
 import pl.gamilife.task.entity.TaskDifficulty;
-import pl.gamilife.task.exception.domain.InvalidTaskDataException;
 import pl.gamilife.task.exception.domain.TaskCategoryNotFoundException;
 import pl.gamilife.task.exception.domain.TaskDifficultyNotFoundException;
 import pl.gamilife.task.repository.TaskCategoryRepository;
@@ -15,34 +14,22 @@ import pl.gamilife.task.repository.TaskDifficultyRepository;
 import pl.gamilife.task.repository.TaskRepository;
 import pl.gamilife.task.repository.impl.TaskRepositoryImpl;
 
-import java.util.UUID;
-
 @Component
 public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTaskUseCase {
 
     private final TaskRepository taskRepository;
     private final TaskCategoryRepository taskCategoryRepository;
     private final TaskDifficultyRepository taskDifficultyRepository;
-    private final CreateTaskForGroupTaskMapper createTaskForGroupTaskMapper;
 
-    public CreateTaskForGroupTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository, CreateTaskForGroupTaskMapper createTaskForGroupTaskMapper) {
+    public CreateTaskForGroupTaskUseCaseImpl(TaskRepositoryImpl taskRepository, TaskCategoryRepository taskCategoryRepository, TaskDifficultyRepository taskDifficultyRepository) {
         this.taskRepository = taskRepository;
         this.taskCategoryRepository = taskCategoryRepository;
         this.taskDifficultyRepository = taskDifficultyRepository;
-        this.createTaskForGroupTaskMapper = createTaskForGroupTaskMapper;
     }
 
     @Override
     @Transactional
     public TaskForGroupTaskResponseDto execute(TaskForGroupTaskRequestDto request) {
-        if (request.startTime().isAfter(request.endTime())) {
-            throw new InvalidTaskDataException("End time date cannot be after start time date!");
-        }
-
-        if (request.completedAt() != null && request.startTime().isAfter(request.completedAt())) {
-            throw new InvalidTaskDataException("Completed at date cannot be after start time date!");
-        }
-
         TaskCategory taskCategory = taskCategoryRepository
                 .findById(request.categoryId())
                 .orElseThrow(() -> new TaskCategoryNotFoundException(
@@ -55,15 +42,28 @@ public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTask
                         "Task difficulty with id " + request.difficultyId() + " not found!"
                 ));
 
-        Task savedTask = taskRepository.save(
-                createTaskForGroupTaskMapper.toEntity(
-                        request,
-                        UUID.randomUUID(),
-                        taskCategory,
-                        taskDifficulty
-                )
-        );
+        Task task = Task.builder()
+                .title(request.title())
+                .deadline(request.deadline())
+                .categoryId(taskCategory.getId())
+                .difficulty(taskDifficulty)
+                .userId(null)
+                .description(request.description())
+                .build();
 
-        return createTaskForGroupTaskMapper.toResponse(savedTask);
+        task = taskRepository.save(task);
+
+        return buildResponse(task);
+    }
+
+    public TaskForGroupTaskResponseDto buildResponse(Task task) {
+        return TaskForGroupTaskResponseDto.builder()
+                .taskId(task.getId())
+                .title(task.getTitle())
+                .deadline(task.getDeadline())
+                .categoryId(task.getCategory().getId())
+                .difficultyId(task.getDifficulty().getId())
+                .description(task.getDescription())
+                .build();
     }
 }

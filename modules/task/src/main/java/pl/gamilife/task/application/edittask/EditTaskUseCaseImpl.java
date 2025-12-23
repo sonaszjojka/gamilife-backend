@@ -10,14 +10,12 @@ import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.entity.TaskCategory;
 import pl.gamilife.task.entity.TaskDifficulty;
-import pl.gamilife.task.exception.domain.InvalidTaskDataException;
 import pl.gamilife.task.exception.domain.TaskCategoryNotFoundException;
 import pl.gamilife.task.exception.domain.TaskDifficultyNotFoundException;
 import pl.gamilife.task.repository.TaskCategoryRepository;
 import pl.gamilife.task.repository.TaskDifficultyRepository;
 import pl.gamilife.task.repository.TaskRepository;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -26,7 +24,6 @@ import java.util.UUID;
 public class EditTaskUseCaseImpl implements EditTaskUseCase {
 
     private final TaskRepository taskRepository;
-    private final EditTaskMapper editTaskMapper;
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final TaskCategoryRepository taskCategoryRepository;
     private final AuthApi currentUserProvider;
@@ -38,41 +35,54 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
                 .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " not found."));
 
         CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
-        if (!task.getIsGroupTask() &&!currentUserDto.userId().equals(task.getUserId())) {
+        if (!task.isGroupTask() && !currentUserDto.userId().equals(task.getUserId())) {
             throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to edit task for another user!");
         }
 
-        if (request.endTime() != null && request.startTime().isAfter(request.endTime())) {
-            throw new InvalidTaskDataException("Start time cannot be after end time!");
-        }
-        if (request.endTime() != null && request.endTime().isBefore(LocalDateTime.now())) {
-            throw new InvalidTaskDataException("End time cannot be before creation date");
+        if (request.title() != null) {
+            task.setTitle(request.title());
         }
 
+        if (request.deadline() != null) {
+            task.setDeadline(request.deadline());
+        }
 
-        task.setTitle(request.title());
-        task.setStartTime(request.startTime());
-        task.setEndTime(request.endTime());
-        task.setCompletedAt(request.completedAt());
-        task.setDescription(request.description());
+        if (request.description() != null) {
+            task.setDescription(request.description());
+        }
 
-        if (!Objects.equals(task.getCategory().getId(), request.categoryId())) {
+        if (request.completed()) {
+            task.complete();
+        }
+
+        if (request.categoryId() != null && !Objects.equals(task.getCategoryId(), request.categoryId())) {
             TaskCategory taskCategory = taskCategoryRepository
                     .findById(request.categoryId())
                     .orElseThrow(() -> new TaskCategoryNotFoundException("Category with id " + request.categoryId() + " not found!"));
             task.setCategory(taskCategory);
         }
 
-        if (!Objects.equals(task.getDifficulty().getId(), request.difficultyId())) {
+        if (request.difficultyId() != null && !Objects.equals(task.getDifficultyId(), request.difficultyId())) {
             TaskDifficulty taskDifficulty = taskDifficultyRepository
                     .findById(request.difficultyId())
                     .orElseThrow(() -> new TaskDifficultyNotFoundException("Task difficulty with id " + request.difficultyId() + " not found!"));
             task.setDifficulty(taskDifficulty);
         }
 
-
-        return editTaskMapper.toResponse(taskRepository.save(task));
+        return buildResponse(taskRepository.save(task));
     }
 
+    public EditTaskResponse buildResponse(Task task) {
+        return EditTaskResponse.builder()
+                .taskId(task.getId())
+                .title(task.getTitle())
+                .deadline(task.getDeadline())
+                .categoryId(task.getCategory() != null ? task.getCategory().getId() : null)
+                .difficultyId(task.getDifficulty() != null ? task.getDifficulty().getId() : null)
+                .userId(task.getUserId())
+                .description(task.getDescription())
+                .completedAt(task.getCompletedAt())
+                .build();
+    }
 
 }

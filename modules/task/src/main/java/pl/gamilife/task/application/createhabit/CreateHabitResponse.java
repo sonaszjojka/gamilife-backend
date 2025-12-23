@@ -10,9 +10,7 @@ public record CreateHabitResponse(
         Duration cycleLength,
         Integer currentStreak,
         Integer longestStreak,
-        LocalDateTime acceptedDate,
-        Instant updated_at,
-        Instant created_at
-
+        Instant created_at,
+        Instant updated_at
 ) {
 }

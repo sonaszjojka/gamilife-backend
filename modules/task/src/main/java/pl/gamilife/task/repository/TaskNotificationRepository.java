@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface TaskNotificationRepository {
     TaskNotification save(TaskNotification taskNotification);
 
-    void deleteByIdAndTaskId(UUID taskId, Integer taskNotificationId);
+    void deleteByIdAndTaskId(UUID taskId, UUID taskNotificationId);
 
-    Optional<TaskNotification> findByIdAndTaskId(UUID taskId, Integer taskNotificationId);
+    Optional<TaskNotification> findByIdAndTaskId(UUID taskId, UUID taskNotificationId);
 }

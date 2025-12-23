@@ -4,17 +4,15 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public record CreateTaskRequest(
         @NotBlank(message = "Title cannot be blank")
         @Size(max = 200, message = "Title cannot exceed 200 characters")
         String title,
 
-        @NotNull(message = "Start Time cannot be null")
-        LocalDateTime startTime,
-
-        LocalDateTime endTime,
+        @NotNull(message = "Deadline cannot be null")
+        Instant deadline,
 
         @NotNull(message = "Category Id cannot be null")
         Integer categoryId,
@@ -22,7 +20,7 @@ public record CreateTaskRequest(
         @NotNull(message = "Difficulty Id cannot be null")
         Integer difficultyId,
 
-        LocalDateTime completedAt,
+        Instant completedAt,
 
         @Size(max = 200, message = "Description cannot exceed 200 characters")
         String description

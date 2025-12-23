@@ -15,20 +15,17 @@ import java.util.UUID;
 public class EditTaskNotificationUseCaseImpl implements EditTaskNotificationUseCase {
 
     private final TaskNotificationRepository taskNotificationRepository;
-    private final EditTaskNotificationMapper editHabitMapper;
     private final AuthApi currentUserProvider;
 
-    public EditTaskNotificationUseCaseImpl(TaskNotificationRepository taskNotificationRepository,
-                                           EditTaskNotificationMapper editHabitMapper, AuthApi currentUserProvider) {
+    public EditTaskNotificationUseCaseImpl(TaskNotificationRepository taskNotificationRepository, AuthApi currentUserProvider) {
         this.taskNotificationRepository = taskNotificationRepository;
-        this.editHabitMapper = editHabitMapper;
         this.currentUserProvider = currentUserProvider;
     }
 
     @Override
     @Transactional
     public EditTaskNotificationResponse execute(EditTaskNotificationRequest request,
-                                                UUID taskId, Integer taskNotificationId) {
+                                                UUID taskId, UUID taskNotificationId) {
         TaskNotification taskNotification = taskNotificationRepository
                 .findByIdAndTaskId(taskId, taskNotificationId)
                 .orElseThrow(() -> new TaskNotFoundException(
@@ -44,6 +41,10 @@ public class EditTaskNotificationUseCaseImpl implements EditTaskNotificationUseC
         taskNotification.setSendDate(request.sendDate());
         TaskNotification savedTaskNotification = taskNotificationRepository.save(taskNotification);
 
-        return editHabitMapper.toResponse(savedTaskNotification);
+        return new EditTaskNotificationResponse(
+                taskNotification.getId(),
+                taskNotification.getSendDate(),
+                taskNotification.getTask().getId()
+        );
     }
 }

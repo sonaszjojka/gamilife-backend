@@ -27,11 +27,10 @@ public class CreateGroupTaskUseCaseImpl implements CreateGroupTaskUseCase {
 
         TaskForGroupTaskRequestDto taskForGroupTaskRequestDto = new TaskForGroupTaskRequestDto(
                 request.title(),
-                request.startTime(),
-                request.endTime(),
+                request.deadline(),
                 request.categoryId(),
                 request.difficultyId(),
-                request.completedAt(),
+                null,
                 request.description()
         );
 

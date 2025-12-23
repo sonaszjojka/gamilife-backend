@@ -2,30 +2,27 @@ package pl.gamilife.task.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Immutable;
+import pl.gamilife.shared.persistence.entity.BaseIntReadOnlyEntity;
 
 import java.util.List;
 
 @Getter
-@Setter
-@ToString
-@Builder
 @Entity
-@AllArgsConstructor
+@Immutable
+@SuperBuilder
 @NoArgsConstructor
+@ToString(exclude = {"tasks"})
 @Table(name = "task_category")
-public class TaskCategory {
+public class TaskCategory extends BaseIntReadOnlyEntity {
 
-    @Id
-    @Column(name = "category_id", nullable = false, updatable = false)
-    private Integer id;
-
-    @Column(name = "title", nullable = false, length = 50)
-    private String title;
+    @Column(name = "name", nullable = false, length = 50)
+    private String name;
 
     @Column(name = "value", nullable = false)
     private Integer value;
 
     @OneToMany(mappedBy = "category")
-    @ToString.Exclude
     private List<Task> tasks;
 }

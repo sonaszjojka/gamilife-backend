@@ -48,79 +48,80 @@ DROP TABLE IF EXISTS notification_type CASCADE;
 
 CREATE TABLE task
 (
-    task_id       UUID                        NOT NULL,
+    id            UUID    NOT NULL,
     title         VARCHAR(200)                NOT NULL,
-    start_time    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    end_time      TIMESTAMP WITHOUT TIME ZONE,
-    category_id   INTEGER                     NOT NULL,
-    difficulty_id INTEGER                     NOT NULL,
+    description   VARCHAR(500),
     user_id       UUID,
-    completed_at  TIMESTAMP WITHOUT TIME ZONE,
-    description   VARCHAR(200),
-    is_group_task BOOLEAN                     NOT NULL,
-    reward_issued BOOLEAN                     NOT NULL,
-    CONSTRAINT pk_task PRIMARY KEY (task_id)
+    category_id   INTEGER NOT NULL,
+    difficulty_id INTEGER NOT NULL,
+    deadline      TIMESTAMP WITH TIME ZONE,
+    completed_at  TIMESTAMP WITH TIME ZONE,
+    reward_issued BOOLEAN NOT NULL         DEFAULT FALSE,
+    version       BIGINT  NOT NULL         DEFAULT 0,
+    created_at    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT pk_task PRIMARY KEY (id)
 );
 
 CREATE TABLE habit
 (
-    habit_id       UUID    NOT NULL,
-    task_id        UUID,
-    updated_at     TIMESTAMP WITHOUT TIME ZONE,
-    created_at     TIMESTAMP WITHOUT TIME ZONE,
+    id          UUID                                               NOT NULL,
+    task_id     UUID                                               NOT NULL,
     cycle_length   BIGINT  NOT NULL,
     current_streak INTEGER NOT NULL,
     longest_streak INTEGER NOT NULL,
-    accepted_date  TIMESTAMP WITHOUT TIME ZONE,
-    CONSTRAINT pk_habit PRIMARY KEY (habit_id)
+    finished_at TIMESTAMP WITH TIME ZONE,
+    version     BIGINT                                             NOT NULL DEFAULT 0,
+    created_at  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT pk_habit PRIMARY KEY (id)
 );
-
-
 
 CREATE TABLE task_category
 (
-    category_id INTEGER     NOT NULL,
-    title       VARCHAR(50) NOT NULL,
+    id   INTEGER     NOT NULL,
+    name VARCHAR(50) NOT NULL,
     value       INTEGER     NOT NULL,
-    CONSTRAINT pk_task_category PRIMARY KEY (category_id)
+    CONSTRAINT pk_task_category PRIMARY KEY (id)
 );
 
 CREATE TABLE task_difficulty
 (
-    difficulty_id INTEGER     NOT NULL,
-    title         VARCHAR(50) NOT NULL,
+    id   INTEGER     NOT NULL,
+    name VARCHAR(50) NOT NULL,
     value         INTEGER     NOT NULL,
-    CONSTRAINT pk_task_difficulty PRIMARY KEY (difficulty_id)
+    CONSTRAINT pk_task_difficulty PRIMARY KEY (id)
 );
 
 CREATE TABLE task_notification
 (
     id        INTEGER                     NOT NULL,
-    send_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    task_id   UUID,
+    task_id    UUID                                               NOT NULL,
+    send_date  TIMESTAMP WITH TIME ZONE                           NOT NULL,
+    version    BIGINT                                             NOT NULL DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_task_notification PRIMARY KEY (id)
 );
 
-
-
 ALTER TABLE task_notification
-    ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK FOREIGN KEY (task_id) REFERENCES task (task_id);
+    ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK FOREIGN KEY (task_id) REFERENCES task (id);
 
 ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES task_category (category_id);
+    ADD CONSTRAINT FK_TASK_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES task_category (id);
 
 ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_DIFFICULTY FOREIGN KEY (difficulty_id) REFERENCES task_difficulty (difficulty_id);
+    ADD CONSTRAINT FK_TASK_ON_DIFFICULTY FOREIGN KEY (difficulty_id) REFERENCES task_difficulty (id);
 
 ALTER TABLE habit
-    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_id) REFERENCES task (task_id);
+    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_id) REFERENCES task (id);
 
 --- Pomodoro todo users + schemas per module
 
 CREATE TABLE pomodoro_task
 (
     pomodoro_id           UUID NOT NULL,
-    created_at            TIMESTAMP WITHOUT TIME ZONE,
+    created_at timestamp WITH TIME ZONE,
     work_cycles_needed    INTEGER,
     work_cycles_completed INTEGER,
     task_id               UUID,
@@ -201,6 +202,17 @@ CREATE TABLE "user"
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
+CREATE TABLE forgot_password_code
+(
+    id         UUID                        NOT NULL,
+    user_id    UUID                        NOT NULL,
+    code       VARCHAR(255)                NOT NULL,
+    issued_at  timestamp WITH TIME ZONE NOT NULL,
+    expires_at timestamp WITH TIME ZONE NOT NULL,
+    revoked    BOOLEAN                     NOT NULL,
+    CONSTRAINT pk_forgot_password_code PRIMARY KEY (id)
+);
+
 ALTER TABLE user_oauth_provider
     ADD CONSTRAINT user_oauth_provider_user
         FOREIGN KEY (user_id)
@@ -231,7 +243,7 @@ CREATE TABLE chat_message
     message_id   UUID         NOT NULL,
     content      VARCHAR(255) NOT NULL,
     is_important BOOLEAN      NOT NULL,
-    sent_at      TIMESTAMP WITHOUT TIME ZONE,
+    sent_at timestamp WITH TIME ZONE,
     group_id     UUID         NOT NULL,
     sender_id    UUID         NOT NULL,
     CONSTRAINT pk_chat_message PRIMARY KEY (message_id)
@@ -254,8 +266,8 @@ CREATE TABLE group_invitation
     group_invitation_id  UUID                        NOT NULL,
     group_id             UUID                        NOT NULL,
     user_id              UUID                        NOT NULL,
-    expires_at           TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    mail_sent_at         TIMESTAMP WITHOUT TIME ZONE,
+    expires_at   timestamp WITH TIME ZONE NOT NULL,
+    mail_sent_at timestamp WITH TIME ZONE,
     link                 VARCHAR(200)                NOT NULL,
     invitation_status_id INTEGER                     NOT NULL,
     token_hash           VARCHAR(200)                NOT NULL,
@@ -267,8 +279,8 @@ CREATE TABLE group_member
     group_member_id    UUID                        NOT NULL,
     group_id           UUID                        NOT NULL,
     user_id            UUID                        NOT NULL,
-    joined_at          TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    left_at            TIMESTAMP WITHOUT TIME ZONE,
+    joined_at timestamp WITH TIME ZONE NOT NULL,
+    left_at   timestamp WITH TIME ZONE,
     group_money        INTEGER                     NOT NULL,
     total_earned_money INTEGER                     NOT NULL,
     CONSTRAINT pk_group_member PRIMARY KEY (group_member_id)
@@ -279,7 +291,7 @@ CREATE TABLE group_request
     group_request_id UUID    NOT NULL,
     user_id          UUID    NOT NULL,
     group_id         UUID    NOT NULL,
-    created_at       TIMESTAMP WITHOUT TIME ZONE,
+    created_at timestamp WITH TIME ZONE,
     status_id        INTEGER NOT NULL,
     CONSTRAINT pk_group_request PRIMARY KEY (group_request_id)
 );
@@ -447,7 +459,7 @@ ALTER TABLE group_task
 ALTER TABLE group_task
     ADD CONSTRAINT group_task_task
         FOREIGN KEY (task_id)
-            REFERENCES task (task_id)
+            REFERENCES task (id)
 ;
 
 -- ==========================================Gamification==========================================

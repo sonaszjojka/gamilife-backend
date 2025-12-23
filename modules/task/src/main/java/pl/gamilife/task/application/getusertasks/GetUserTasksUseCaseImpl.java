@@ -11,6 +11,7 @@ import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.pomodoro.PomodoroApi;
 import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
+import pl.gamilife.task.controllers.response.GetUserTasksDto;
 import pl.gamilife.task.entity.Habit;
 import pl.gamilife.task.entity.Task;
 import pl.gamilife.task.repository.jpa.HabitRepositoryJpa;
@@ -57,30 +58,29 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
         return taskRepository.findAll(taskSpecification, pageable)
                 .map(task -> {
                     PomodoroTaskDto pomodoro = pomodoroTaskApi.findPomodoroTaskByTaskId(task.getId());
-                    TaskHabitDto taskHabit = null;
+                    GetUserTasksDto.TaskHabitDto taskHabit = null;
                     Habit habit = habitRepository.findHabitByTaskId(task.getId()).orElse(null);
                     if (habit != null) {
 
-                        taskHabit = TaskHabitDto.builder()
+                        taskHabit = GetUserTasksDto.TaskHabitDto.builder()
                                 .habitId(habit.getId())
                                 .cycleLength(habit.getCycleLength())
                                 .currentStreak(habit.getCurrentStreak())
                                 .longestStreak(habit.getLongestStreak())
-                                .acceptedDate(habit.getAcceptedDate())
+                                .finishedAt(habit.getFinishedAt())
                                 .build();
                     }
                     return new GetUserTasksDto(
                             task.getId(),
                             task.getTitle(),
                             task.getDescription(),
-                            task.getStartTime(),
-                            task.getEndTime(),
+                            task.getDeadline(),
                             task.getCategory().getId(),
                             task.getDifficulty().getId(),
                             task.getCompletedAt(),
-                            task.getCategory().getTitle(),
-                            task.getDifficulty().getTitle(),
-                            task.getIsGroupTask(),
+                            task.getCategory().getName(),
+                            task.getDifficulty().getName(),
+                            task.isGroupTask(),
                             task.getUserId(),
                             pomodoro,
                             taskHabit
@@ -93,7 +93,7 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
         return PageRequest.of(
                 request.pageNumber(),
                 request.pageSize(),
-                Sort.by(Sort.Direction.ASC, "endTime")
+                Sort.by(Sort.Direction.ASC, "deadline")
         );
     }
 }

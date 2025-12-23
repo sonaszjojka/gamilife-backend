@@ -18,14 +18,11 @@ public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotification
 
     private final TaskNotificationRepository taskNotificationRepository;
     private final TaskRepository taskRepository;
-    private final CreateTaskNotificationMapper createTaskNotificationMapper;
     private final AuthApi currentUserProvider;
 
-    public CreateTaskNotificationUseCaseImpl(TaskNotificationRepository taskNotificationRepository, TaskRepository taskRepository,
-                                             CreateTaskNotificationMapper createTaskNotificationMapper, AuthApi currentUserProvider) {
+    public CreateTaskNotificationUseCaseImpl(TaskNotificationRepository taskNotificationRepository, TaskRepository taskRepository, AuthApi currentUserProvider) {
         this.taskNotificationRepository = taskNotificationRepository;
         this.taskRepository = taskRepository;
-        this.createTaskNotificationMapper = createTaskNotificationMapper;
         this.currentUserProvider = currentUserProvider;
     }
 
@@ -43,9 +40,21 @@ public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotification
             throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to create notification for another user!");
         }
 
-        TaskNotification taskNotification = taskNotificationRepository
-                .save(createTaskNotificationMapper.toEntity(request, task));
+        TaskNotification taskNotification = TaskNotification.builder()
+                .taskId(taskId)
+                .sendDate(request.sendDate())
+                .build();
+        
+        taskNotification = taskNotificationRepository.save(taskNotification);
 
-        return createTaskNotificationMapper.toResponse(taskNotification);
+        return buildResponse(taskNotification);
+    }
+
+    private CreateTaskNotificationResponse buildResponse(TaskNotification taskNotification) {
+        return new CreateTaskNotificationResponse(
+                taskNotification.getId(),
+                taskNotification.getSendDate(),
+                taskNotification.getTaskId() // todo: might want to return whole different data
+        );
     }
 }

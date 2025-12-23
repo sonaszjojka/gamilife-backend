@@ -1,10 +1,11 @@
-package pl.gamilife.task.application.getusertasks;
+package pl.gamilife.task.controllers.response;
 
 
 import lombok.Builder;
 import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
 
-import java.time.LocalDateTime;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.UUID;
 
 @Builder
@@ -12,18 +13,24 @@ public record GetUserTasksDto(
         UUID taskId,
         String title,
         String description,
-        LocalDateTime startTime,
-        LocalDateTime endTime,
+        Instant deadline,
         Integer categoryId,
         Integer difficultyId,
-        LocalDateTime completedAt,
+        Instant completedAt,
         String categoryName,
         String difficultyName,
         Boolean isGroupTask,
         UUID userId,
         PomodoroTaskDto pomodoro,
         TaskHabitDto taskHabit
-
-
 ) {
+    @Builder
+    public record TaskHabitDto(
+            UUID habitId,
+            Duration cycleLength,
+            Integer currentStreak,
+            Integer longestStreak,
+            Instant finishedAt
+    ) {
+    }
 }

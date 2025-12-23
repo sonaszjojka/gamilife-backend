@@ -10,7 +10,7 @@ public record EditHabitResponse(
         Duration cycleLength,
         Integer currentStreak,
         Integer longestStreak,
-        LocalDateTime acceptedDate,
+        Instant finishedAt,
         Instant updated_at,
         Instant created_at
 ) {
