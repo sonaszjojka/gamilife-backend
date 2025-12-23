@@ -134,6 +134,9 @@ CREATE TABLE user_oauth_provider
     user_id     uuid         NOT NULL,
     provider    varchar(255) NOT NULL,
     provider_id varchar(255) NOT NULL,
+    version    bigint                                             NOT NULL DEFAULT 0,
+    created_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_user_oauth_provider PRIMARY KEY (id)
 );
 
@@ -142,9 +145,12 @@ CREATE TABLE refresh_token
     id         uuid         NOT NULL,
     user_id    uuid         NOT NULL,
     token      varchar(255) NOT NULL,
-    issued_at  timestamp(6) NOT NULL,
-    expires_at timestamp(6) NOT NULL,
+    issued_at  timestamp WITH TIME ZONE                           NOT NULL,
+    expires_at timestamp WITH TIME ZONE                           NOT NULL,
     revoked    boolean      NOT NULL,
+    version    bigint                                             NOT NULL DEFAULT 0,
+    created_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_refresh_token PRIMARY KEY (id)
 );
 
@@ -153,10 +159,27 @@ CREATE TABLE email_verification_code
     id         uuid         NOT NULL,
     user_id    uuid         NOT NULL,
     code       varchar(255) NOT NULL,
-    issued_at  timestamp(6) NOT NULL,
-    expires_at timestamp(6) NOT NULL,
+    issued_at  timestamp WITH TIME ZONE                           NOT NULL,
+    expires_at timestamp WITH TIME ZONE                           NOT NULL,
     revoked    boolean      NOT NULL,
+    version    bigint                                             NOT NULL DEFAULT 0,
+    created_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT email_verification_code_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE forgot_password_code
+(
+    id         UUID                                               NOT NULL,
+    user_id    UUID                                               NOT NULL,
+    code       VARCHAR(255)                                       NOT NULL,
+    issued_at  TIMESTAMP WITH TIME ZONE                           NOT NULL,
+    expires_at TIMESTAMP WITH TIME ZONE                           NOT NULL,
+    revoked    BOOLEAN                                            NOT NULL,
+    version    bigint                                             NOT NULL DEFAULT 0,
+    created_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT pk_forgot_password_code PRIMARY KEY (id)
 );
 
 CREATE TABLE "user"
@@ -176,17 +199,6 @@ CREATE TABLE "user"
     is_email_verified     boolean      NOT NULL,
     is_tutorial_completed boolean      NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
-);
-
-CREATE TABLE forgot_password_code
-(
-    id         UUID                        NOT NULL,
-    user_id    UUID                        NOT NULL,
-    code       VARCHAR(255)                NOT NULL,
-    issued_at  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    expires_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    revoked    BOOLEAN                     NOT NULL,
-    CONSTRAINT pk_forgot_password_code PRIMARY KEY (id)
 );
 
 ALTER TABLE user_oauth_provider
