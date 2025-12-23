@@ -53,8 +53,8 @@ public class UserStatistic extends BaseEntity {
     }
 
     private void setStatisticTypeId(StatisticTypeEnum statisticTypeEnum) {
-        if (statisticTypeId == null) {
-            throw new IllegalArgumentException("Statistic type ID cannot be null");
+        if (statisticTypeEnum == null) {
+            throw new IllegalArgumentException("Statistic type cannot be null");
         }
 
         this.statisticTypeId = statisticTypeEnum.getStatisticTypeId();
