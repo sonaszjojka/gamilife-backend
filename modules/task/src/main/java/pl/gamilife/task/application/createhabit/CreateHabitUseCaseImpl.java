@@ -1,43 +1,71 @@
 package pl.gamilife.task.application.createhabit;
 
-import org.springframework.stereotype.Component;
-import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
-import pl.gamilife.task.entity.Habit;
-import pl.gamilife.task.entity.Task;
-import pl.gamilife.task.exception.domain.InvalidHabitDataException;
-import pl.gamilife.task.repository.HabitRepository;
-import pl.gamilife.task.repository.TaskRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
+import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
+import pl.gamilife.task.domain.model.Habit;
+import pl.gamilife.task.domain.model.TaskCategory;
+import pl.gamilife.task.domain.model.TaskDifficulty;
+import pl.gamilife.task.domain.port.context.UserContext;
+import pl.gamilife.task.domain.port.repository.HabitRepository;
+import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
+import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
-@Component
+@Service
+@AllArgsConstructor
 public class CreateHabitUseCaseImpl implements CreateHabitUseCase {
 
     private final HabitRepository habitRepository;
-    private final CreateHabitMapper habitMapper;
-    private final TaskRepository taskRepository;
-
-    public CreateHabitUseCaseImpl(HabitRepository habitRepository, CreateHabitMapper habitMapper, TaskRepository taskRepository) {
-        this.habitRepository = habitRepository;
-        this.habitMapper = habitMapper;
-        this.taskRepository = taskRepository;
-    }
+    private final TaskCategoryRepository taskCategoryRepository;
+    private final TaskDifficultyRepository taskDifficultyRepository;
+    private final UserContext userContext;
 
     @Override
-    public CreateHabitResponse execute(CreateHabitRequest request, UUID taskId) {
-        if (request.acceptedDate() != null &&
-                request.acceptedDate().isBefore(LocalDateTime.now())) {
-            throw new InvalidHabitDataException("Accepted date cannot be earlier than creation date");
-        }
-        Task habitTask = taskRepository.findById(taskId)
-                .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " does not exist."));
+    public CreateHabitResult execute(CreateHabitCommand cmd) {
+        TaskCategory taskCategory = taskCategoryRepository
+                .findById(cmd.categoryId())
+                .orElseThrow(() -> new TaskCategoryNotFoundException(String.format(
+                        "Category with id %s not found!",
+                        cmd.categoryId()
+                )));
 
-        if (habitRepository.findHabitByTaskId(taskId).isPresent()) {
-            throw new InvalidHabitDataException("Habit for task with id " + taskId + " already exists.");
-        }
+        TaskDifficulty taskDifficulty = taskDifficultyRepository
+                .findById(cmd.difficultyId())
+                .orElseThrow(() -> new TaskDifficultyNotFoundException(String.format(
+                        "Task difficulty with id %s not found!",
+                        cmd.difficultyId()
+                )));
 
-        Habit habit = habitRepository.save(habitMapper.toEntity(request, UUID.randomUUID(), habitTask));
-        return habitMapper.toResponse(habit);
+        ZoneId zoneId = cmd.zoneId() == null ? userContext.getCurrentUserTimezone(cmd.userId()) : cmd.zoneId();
+        LocalDate currentUserDate = LocalDate.now(zoneId);
+
+        Habit habit = Habit.create(
+                cmd.title(),
+                cmd.description(),
+                cmd.userId(),
+                taskCategory,
+                taskDifficulty,
+                cmd.cycleLength(),
+                currentUserDate
+        );
+        habitRepository.save(habit);
+
+        return buildResponse(habit);
+    }
+
+    private CreateHabitResult buildResponse(Habit habit) {
+        return new CreateHabitResult(
+                habit.getId(),
+                habit.getCycleLength(),
+                habit.getCurrentDeadline(),
+                habit.getCurrentStreak(),
+                habit.getLongestStreak(),
+                habit.getCreatedAt(),
+                habit.getUpdatedAt()
+        );
     }
 }

@@ -1,29 +1,36 @@
 package pl.gamilife.task.application.findtaskbyid;
 
-import org.springframework.stereotype.Component;
-import pl.gamilife.api.task.dto.TaskDto;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
-import pl.gamilife.task.entity.Task;
-import pl.gamilife.task.repository.TaskRepository;
-import pl.gamilife.task.shared.TaskProviderMapper;
+import pl.gamilife.task.domain.model.Task;
+import pl.gamilife.task.domain.port.repository.TaskRepository;
 
-import java.util.UUID;
-
-@Component
+@Service
+@AllArgsConstructor
 public class FindTaskByIdUseCaseImpl implements FindTaskByIdUseCase {
 
     private final TaskRepository taskRepository;
-    private final TaskProviderMapper taskProviderMapper;
-
-    public FindTaskByIdUseCaseImpl(TaskRepository taskRepository, TaskProviderMapper taskProviderMapper) {
-        this.taskRepository = taskRepository;
-        this.taskProviderMapper = taskProviderMapper;
-    }
 
     @Override
-    public TaskDto execute(UUID taskId) {
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new TaskNotFoundException("Task with id: " + taskId + " not found!"));
-        return taskProviderMapper.toResponse(task);
+    public FindTaskByIdResult execute(FindTaskByIdCommand cmd) {
+        Task task = taskRepository.findById(cmd.taskId())
+                .orElseThrow(() -> new TaskNotFoundException("Task with id: " + cmd.taskId() + " not found!"));
+        return buildResponse(task);
+    }
+
+    private FindTaskByIdResult buildResponse(Task task) {
+        return new FindTaskByIdResult(
+                task.getId(),
+                task.getTitle(),
+                task.getDescription(),
+                task.getUserId(),
+                new FindTaskByIdResult.TaskCategoryDto(task.getCategoryId(), task.getCategory().getName()),
+                new FindTaskByIdResult.TaskDifficultyDto(task.getDifficultyId(), task.getDifficulty().getName()),
+                task.getDeadlineDate(),
+                task.getDeadlineTime(),
+                task.getCompletedAt(),
+                null // TODO: habit removal
+        );
     }
 }

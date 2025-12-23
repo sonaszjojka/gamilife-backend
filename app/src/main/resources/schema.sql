@@ -1,7 +1,7 @@
 -- ===================== DROP EXISTING TABLES ====================
 DROP TABLE IF EXISTS "user" CASCADE;
 
-DROP TABLE IF EXISTS pomodoro_task CASCADE;
+DROP TABLE IF EXISTS pomodoro_item CASCADE;
 
 DROP TABLE IF EXISTS habit CASCADE;
 DROP TABLE IF EXISTS task CASCADE;
@@ -48,83 +48,86 @@ DROP TABLE IF EXISTS notification_type CASCADE;
 
 CREATE TABLE task
 (
-    task_id       UUID                        NOT NULL,
+    id            UUID    NOT NULL,
     title         VARCHAR(200)                NOT NULL,
-    start_time    TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    end_time      TIMESTAMP WITHOUT TIME ZONE,
-    category_id   INTEGER                     NOT NULL,
-    difficulty_id INTEGER                     NOT NULL,
-    user_id       UUID,
-    completed_at  TIMESTAMP WITHOUT TIME ZONE,
-    description   VARCHAR(200),
-    is_group_task BOOLEAN                     NOT NULL,
-    reward_issued BOOLEAN                     NOT NULL,
-    CONSTRAINT pk_task PRIMARY KEY (task_id)
+    description VARCHAR(500) NULL,
+    user_id     UUID         NULL,
+    category_id   INTEGER NOT NULL,
+    difficulty_id INTEGER NOT NULL,
+    deadline_date DATE                     NOT NULL,
+    deadline_time TIME                     NULL,
+    completed_at  TIMESTAMP WITH TIME ZONE NULL,
+    reward_issued BOOLEAN NOT NULL         DEFAULT FALSE,
+    version       BIGINT  NOT NULL         DEFAULT 0,
+    created_at    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT pk_task PRIMARY KEY (id)
 );
 
+-- Table: habit
 CREATE TABLE habit
 (
-    habit_id       UUID    NOT NULL,
-    task_id        UUID,
-    updated_at     TIMESTAMP WITHOUT TIME ZONE,
-    created_at     TIMESTAMP WITHOUT TIME ZONE,
-    cycle_length   BIGINT  NOT NULL,
-    current_streak INTEGER NOT NULL,
-    longest_streak INTEGER NOT NULL,
-    accepted_date  TIMESTAMP WITHOUT TIME ZONE,
-    CONSTRAINT pk_habit PRIMARY KEY (habit_id)
+    id                  uuid                                               NOT NULL,
+    title               varchar(200)                                       NOT NULL,
+    description         varchar(500)                                       NULL,
+    user_id             uuid                                               NOT NULL,
+    category_id         int                                                NOT NULL,
+    difficulty_id       int                                                NOT NULL,
+    cycle_length        int                                                NOT NULL,
+    current_deadline    date                                               NOT NULL,
+    last_completed_date date                                               NULL,
+    current_streak      int                                                NOT NULL,
+    longest_streak      int                                                NOT NULL,
+    version             BIGINT                                             NOT NULL DEFAULT 0,
+    created_at          TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at          TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT habit_pk PRIMARY KEY (id)
 );
-
-
 
 CREATE TABLE task_category
 (
-    category_id INTEGER     NOT NULL,
-    title       VARCHAR(50) NOT NULL,
+    id   INTEGER     NOT NULL,
+    name VARCHAR(50) NOT NULL,
     value       INTEGER     NOT NULL,
-    CONSTRAINT pk_task_category PRIMARY KEY (category_id)
+    CONSTRAINT pk_task_category PRIMARY KEY (id)
 );
 
 CREATE TABLE task_difficulty
 (
-    difficulty_id INTEGER     NOT NULL,
-    title         VARCHAR(50) NOT NULL,
+    id   INTEGER     NOT NULL,
+    name VARCHAR(50) NOT NULL,
     value         INTEGER     NOT NULL,
-    CONSTRAINT pk_task_difficulty PRIMARY KEY (difficulty_id)
+    CONSTRAINT pk_task_difficulty PRIMARY KEY (id)
 );
 
 CREATE TABLE task_notification
 (
     id        INTEGER                     NOT NULL,
-    send_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    task_id   UUID,
+    task_id    UUID                                               NOT NULL,
+    send_date  TIMESTAMP WITH TIME ZONE                           NOT NULL,
+    version    BIGINT                                             NOT NULL DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_task_notification PRIMARY KEY (id)
 );
 
-
-
-ALTER TABLE task_notification
-    ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK FOREIGN KEY (task_id) REFERENCES task (task_id);
-
-ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES task_category (category_id);
-
-ALTER TABLE task
-    ADD CONSTRAINT FK_TASK_ON_DIFFICULTY FOREIGN KEY (difficulty_id) REFERENCES task_difficulty (difficulty_id);
-
-ALTER TABLE habit
-    ADD CONSTRAINT FK_TASK_ON_TASK_HABIT FOREIGN KEY (task_id) REFERENCES task (task_id);
-
 --- Pomodoro todo users + schemas per module
 
-CREATE TABLE pomodoro_task
+CREATE TABLE pomodoro_item
 (
-    pomodoro_id           UUID NOT NULL,
-    created_at            TIMESTAMP WITHOUT TIME ZONE,
-    work_cycles_needed    INTEGER,
-    work_cycles_completed INTEGER,
-    task_id               UUID,
-    CONSTRAINT pk_pomodoro_task PRIMARY KEY (pomodoro_id)
+    id               UUID                                               NOT NULL,
+    cycles_required  INTEGER                                            NOT NULL,
+    cycles_completed INTEGER                                            NOT NULL,
+    task_id          UUID                                               NULL,
+    habit_id         UUID                                               NULL,
+    version          BIGINT                                             NOT NULL DEFAULT 0,
+    created_at       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT pomodoro_item_ak_1 UNIQUE (task_id) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT pomodoro_item_ak_2 UNIQUE (habit_id) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT pomodoro_task_or_habit CHECK ((task_id IS NULL AND habit_id IS NOT NULL) OR
+                                             (task_id IS NOT NULL AND habit_id IS NULL)) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT pomodoro_item_pk PRIMARY KEY (id)
 );
 -- ==================== USER ====================
 
@@ -198,6 +201,8 @@ CREATE TABLE "user"
     is_profile_public     boolean      NOT NULL,
     is_email_verified     boolean      NOT NULL,
     is_tutorial_completed boolean      NOT NULL,
+    timezone             varchar(100)             NOT NULL,
+    last_timezone_change timestamp WITH TIME ZONE NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
@@ -231,7 +236,7 @@ CREATE TABLE chat_message
     message_id   UUID         NOT NULL,
     content      VARCHAR(255) NOT NULL,
     is_important BOOLEAN      NOT NULL,
-    sent_at      TIMESTAMP WITHOUT TIME ZONE,
+    sent_at timestamp WITH TIME ZONE,
     group_id     UUID         NOT NULL,
     sender_id    UUID         NOT NULL,
     CONSTRAINT pk_chat_message PRIMARY KEY (message_id)
@@ -254,8 +259,8 @@ CREATE TABLE group_invitation
     group_invitation_id  UUID                        NOT NULL,
     group_id             UUID                        NOT NULL,
     user_id              UUID                        NOT NULL,
-    expires_at           TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    mail_sent_at         TIMESTAMP WITHOUT TIME ZONE,
+    expires_at   timestamp WITH TIME ZONE NOT NULL,
+    mail_sent_at timestamp WITH TIME ZONE,
     link                 VARCHAR(200)                NOT NULL,
     invitation_status_id INTEGER                     NOT NULL,
     token_hash           VARCHAR(200)                NOT NULL,
@@ -267,8 +272,8 @@ CREATE TABLE group_member
     group_member_id    UUID                        NOT NULL,
     group_id           UUID                        NOT NULL,
     user_id            UUID                        NOT NULL,
-    joined_at          TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    left_at            TIMESTAMP WITHOUT TIME ZONE,
+    joined_at timestamp WITH TIME ZONE NOT NULL,
+    left_at   timestamp WITH TIME ZONE,
     group_money        INTEGER                     NOT NULL,
     total_earned_money INTEGER                     NOT NULL,
     CONSTRAINT pk_group_member PRIMARY KEY (group_member_id)
@@ -279,7 +284,7 @@ CREATE TABLE group_request
     group_request_id UUID    NOT NULL,
     user_id          UUID    NOT NULL,
     group_id         UUID    NOT NULL,
-    created_at       TIMESTAMP WITHOUT TIME ZONE,
+    created_at timestamp WITH TIME ZONE,
     status_id        INTEGER NOT NULL,
     CONSTRAINT pk_group_request PRIMARY KEY (group_request_id)
 );
@@ -447,7 +452,7 @@ ALTER TABLE group_task
 ALTER TABLE group_task
     ADD CONSTRAINT group_task_task
         FOREIGN KEY (task_id)
-            REFERENCES task (task_id)
+            REFERENCES task (id)
 ;
 
 -- ==========================================Gamification==========================================
@@ -725,3 +730,89 @@ ALTER TABLE notification_retry
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
+
+ALTER TABLE task_notification
+    ADD CONSTRAINT FK_TASK_NOTIFICATION_ON_TASK FOREIGN KEY (task_id) REFERENCES task (id);
+
+ALTER TABLE task
+    ADD CONSTRAINT FK_TASK_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES task_category (id);
+
+ALTER TABLE task
+    ADD CONSTRAINT FK_TASK_ON_DIFFICULTY FOREIGN KEY (difficulty_id) REFERENCES task_difficulty (id);
+
+-- Reference: habit_category (table: habit)
+ALTER TABLE habit
+    ADD CONSTRAINT habit_category
+        FOREIGN KEY (category_id)
+            REFERENCES task_category (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Reference: habit_difficulty (table: habit)
+ALTER TABLE habit
+    ADD CONSTRAINT habit_difficulty
+        FOREIGN KEY (difficulty_id)
+            REFERENCES task_difficulty (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Reference: pomodoro_item_task (table: pomodoro_item)
+ALTER TABLE pomodoro_item
+    ADD CONSTRAINT pomodoro_item_task
+        FOREIGN KEY (task_id)
+            REFERENCES task (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Reference: pomodoro_item_habit (table: pomodoro_item)
+ALTER TABLE pomodoro_item
+    ADD CONSTRAINT pomodoro_item_habit
+        FOREIGN KEY (habit_id)
+            REFERENCES habit (id)
+            NOT DEFERRABLE
+                INITIALLY IMMEDIATE
+;
+
+-- Views
+CREATE OR REPLACE VIEW v_activity_item AS
+SELECT t.id            AS id,
+       'TASK'          AS type,
+       t.title         AS title,
+       t.description   AS description,
+       t.user_id       AS user_id,
+       t.category_id   AS category_id,
+       tc.name         AS category_name,
+       t.difficulty_id AS difficulty_id,
+       td.name         AS difficulty_name,
+       t.deadline_date AS deadline_date,
+       t.deadline_time AS deadline_time,
+       NULL            AS cycle_length,
+       NULL            AS current_streak,
+       NULL            AS longest_streak
+FROM task t
+         JOIN task_category tc ON t.category_id = tc.id
+         JOIN task_difficulty td ON t.difficulty_id = td.id
+WHERE completed_at IS NULL -- Fetch only active tasks
+  AND user_id IS NOT NULL  -- Fetch only private tasks
+UNION ALL
+SELECT h.id               AS id,
+       'HABIT'            AS type,
+       h.title            AS title,
+       h.description      AS description,
+       h.user_id          AS user_id,
+       h.category_id      AS category_id,
+       tc.name            AS category_name,
+       h.difficulty_id    AS difficulty_id,
+       td.name            AS difficulty_name,
+       h.current_deadline AS deadline_date,
+       NULL               AS deadline_time,
+       h.cycle_length     AS cycle_length,
+       h.current_streak   AS current_streak,
+       h.longest_streak   AS longest_streak
+FROM habit h
+         JOIN task_category tc ON h.category_id = tc.id
+         JOIN task_difficulty td ON h.difficulty_id = td.id;
+

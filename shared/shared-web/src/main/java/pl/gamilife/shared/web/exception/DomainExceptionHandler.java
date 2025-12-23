@@ -13,7 +13,7 @@ public class DomainExceptionHandler extends AbstractExceptionHandler {
     @ExceptionHandler(DomainException.class)
     public ErrorResponse handleDomainException(DomainException ex) {
         ErrorCode errorCode = ex.getErrorCode();
-        ErrorResponse response = buildErrorResponseFor(errorCode);
+        ErrorResponse response = buildErrorResponseFor(errorCode, ex);
 
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 

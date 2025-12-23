@@ -1,11 +1,8 @@
 package pl.gamilife.task.application.edittasknotification;
 
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
+import pl.gamilife.shared.kernel.architecture.UseCase;
 
 @Component
-public interface EditTaskNotificationUseCase {
-    EditTaskNotificationResponse execute(EditTaskNotificationRequest request,
-                                         UUID taskId, Integer taskNotificationId);
+public interface EditTaskNotificationUseCase extends UseCase<EditTaskNotificationCommand, EditTaskNotificationResponse> {
 }

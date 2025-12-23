@@ -13,7 +13,7 @@ import java.util.Objects;
 @Immutable
 @MappedSuperclass
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-abstract class AbstractReadOnlyEntity<K extends Serializable> {
+public abstract class AbstractReadOnlyEntity<K extends Serializable> {
 
     @Id
     private K id;

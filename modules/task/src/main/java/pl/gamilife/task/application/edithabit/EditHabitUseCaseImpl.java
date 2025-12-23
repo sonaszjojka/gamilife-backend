@@ -1,53 +1,96 @@
 package pl.gamilife.task.application.edithabit;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
-import pl.gamilife.task.entity.Habit;
-import pl.gamilife.task.entity.Task;
-import pl.gamilife.task.exception.domain.HabitNotFoundException;
-import pl.gamilife.task.repository.HabitRepository;
-import pl.gamilife.task.repository.TaskRepository;
+import pl.gamilife.task.domain.exception.domain.HabitNotFoundException;
+import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
+import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
+import pl.gamilife.task.domain.model.Habit;
+import pl.gamilife.task.domain.model.TaskCategory;
+import pl.gamilife.task.domain.model.TaskDifficulty;
+import pl.gamilife.task.domain.port.context.UserContext;
+import pl.gamilife.task.domain.port.repository.HabitRepository;
+import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
+import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Component
+@AllArgsConstructor
 public class EditHabitUseCaseImpl implements EditHabitUseCase {
 
+    private final TaskCategoryRepository taskCategoryRepository;
+    private final TaskDifficultyRepository taskDifficultyRepository;
     private final HabitRepository habitRepository;
-    private final EditHabitMapper editHabitMapper;
-    private final TaskRepository taskRepository;
-
-    public EditHabitUseCaseImpl(HabitRepository habitRepository, EditHabitMapper editHabitMapper, TaskRepository taskRepository) {
-        this.habitRepository = habitRepository;
-        this.editHabitMapper = editHabitMapper;
-        this.taskRepository = taskRepository;
-    }
+    private final UserContext userContext;
 
     @Override
     @Transactional
-    public EditHabitResponse execute(EditHabitRequest request, UUID habitId, UUID taskId) {
-
-        Habit habit = habitRepository.findById(habitId)
+    public EditHabitResult execute(EditHabitCommand cmd) {
+        Habit habit = habitRepository.findById(cmd.habitId())
                 .orElseThrow(() -> new HabitNotFoundException(
-                        "Habit with id " + habitId + " not found!"
+                        "Habit for habitId " + cmd.habitId() + " not found!"
                 ));
-        Task task = taskRepository.findById(taskId).orElseThrow(() -> new TaskNotFoundException(
-                "Task with id " + taskId + " not found!"
-        ));
-        if (!habit.getTask().getId().equals(task.getId())) {
-            throw new HabitNotFoundException(
-                    "Habit with id " + habitId + " not found for task with id " + taskId
-            );
+        ZoneId zoneId = cmd.zoneId() == null ? userContext.getCurrentUserTimezone(cmd.userId()) : cmd.zoneId();
+        LocalDate currentUserDate = LocalDate.now(zoneId);
+
+        if (cmd.title() != null) {
+            habit.setTitle(cmd.title());
         }
 
-        habit.setCycleLength(request.cycleLength());
-        habit.setCurrentStreak(request.currentStreak());
-        habit.setLongestStreak(request.longestStreak()); //todo: business logic
+        if (Boolean.TRUE.equals(cmd.removeDescription()) && cmd.description() == null) {
+            habit.setDescription(null);
+        } else {
+            habit.setDescription(cmd.description());
+        }
 
+        if (cmd.categoryId() != null) {
+            TaskCategory taskCategory = taskCategoryRepository
+                    .findById(cmd.categoryId())
+                    .orElseThrow(() -> new TaskCategoryNotFoundException(String.format(
+                            "Category with id %s not found!",
+                            cmd.categoryId()
+                    )));
+            habit.setCategory(taskCategory);
+        }
 
-        habit.setAcceptedDate(request.acceptedDate());
+        if (cmd.difficultyId() != null) {
+            TaskDifficulty taskDifficulty = taskDifficultyRepository
+                    .findById(cmd.difficultyId())
+                    .orElseThrow(() -> new TaskDifficultyNotFoundException(String.format(
+                            "Task difficulty with id %s not found!",
+                            cmd.difficultyId()
+                    )));
+            habit.setDifficulty(taskDifficulty);
+        }
 
-        return editHabitMapper.toResponse(habitRepository.save(habit));
+        if (cmd.cycleLength() != null) {
+            habit.editCycleLength(cmd.cycleLength(), currentUserDate);
+            // TODO: notification reschedule?
+        }
+
+        if (Boolean.TRUE.equals(cmd.iterationCompleted())) {
+            habit.completeIteration(currentUserDate);
+        } else if (Boolean.TRUE.equals(cmd.resurrect())) {
+            habit.resurrectHabit(currentUserDate);
+        }
+
+        return buildResponse(habitRepository.save(habit), currentUserDate);
+    }
+
+    public EditHabitResult buildResponse(Habit habit, LocalDate currentUserDate) {
+        return new EditHabitResult(
+                habit.getId(),
+                habit.getCurrentDeadline(),
+                habit.getCycleLength(),
+                habit.getCurrentStreak(),
+                habit.getLongestStreak(),
+                habit.checkIfCanBeWorkedOn(currentUserDate),
+                habit.isHabitDead(currentUserDate)
+                        ? EditHabitResult.HabitStatus.DEAD
+                        : EditHabitResult.HabitStatus.ALIVE
+        );
     }
 }

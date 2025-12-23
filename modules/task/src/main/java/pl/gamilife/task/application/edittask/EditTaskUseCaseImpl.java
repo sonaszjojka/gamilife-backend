@@ -3,76 +3,120 @@ package pl.gamilife.task.application.edittask;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
-import pl.gamilife.task.entity.Task;
-import pl.gamilife.task.entity.TaskCategory;
-import pl.gamilife.task.entity.TaskDifficulty;
-import pl.gamilife.task.exception.domain.InvalidTaskDataException;
-import pl.gamilife.task.exception.domain.TaskCategoryNotFoundException;
-import pl.gamilife.task.exception.domain.TaskDifficultyNotFoundException;
-import pl.gamilife.task.repository.TaskCategoryRepository;
-import pl.gamilife.task.repository.TaskDifficultyRepository;
-import pl.gamilife.task.repository.TaskRepository;
+import pl.gamilife.task.domain.exception.domain.TaskCategoryNotFoundException;
+import pl.gamilife.task.domain.exception.domain.TaskDifficultyNotFoundException;
+import pl.gamilife.task.domain.model.Task;
+import pl.gamilife.task.domain.model.TaskCategory;
+import pl.gamilife.task.domain.model.TaskDifficulty;
+import pl.gamilife.task.domain.port.context.UserContext;
+import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
+import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
+import pl.gamilife.task.domain.port.repository.TaskRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Objects;
-import java.util.UUID;
 
 @Component
 @AllArgsConstructor
 public class EditTaskUseCaseImpl implements EditTaskUseCase {
 
     private final TaskRepository taskRepository;
-    private final EditTaskMapper editTaskMapper;
     private final TaskDifficultyRepository taskDifficultyRepository;
     private final TaskCategoryRepository taskCategoryRepository;
-    private final AuthApi currentUserProvider;
+    private final UserContext userContext;
 
     @Override
     @Transactional
-    public EditTaskResponse execute(EditTaskRequest request, UUID taskId) {
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " not found."));
+    public EditTaskResult execute(EditTaskCommand cmd) {
+        Task task = taskRepository.findById(cmd.taskId())
+                .orElseThrow(() -> new TaskNotFoundException("Task with id " + cmd.taskId() + " not found."));
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
-        if (!task.getIsGroupTask() &&!currentUserDto.userId().equals(task.getUserId())) {
+        if (!task.isGroupTask() && !cmd.userId().equals(task.getUserId())) {
             throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to edit task for another user!");
         }
 
-        if (request.endTime() != null && request.startTime().isAfter(request.endTime())) {
-            throw new InvalidTaskDataException("Start time cannot be after end time!");
-        }
-        if (request.endTime() != null && request.endTime().isBefore(LocalDateTime.now())) {
-            throw new InvalidTaskDataException("End time cannot be before creation date");
+        if (cmd.title() != null) {
+            task.setTitle(cmd.title());
         }
 
+        boolean rescheduled = rescheduleDeadline(task, cmd);
+        if (rescheduled) {
+            // TODO: remove notifications
+        }
 
-        task.setTitle(request.title());
-        task.setStartTime(request.startTime());
-        task.setEndTime(request.endTime());
-        task.setCompletedAt(request.completedAt());
-        task.setDescription(request.description());
+        if (Boolean.TRUE.equals(cmd.removeDescription()) && cmd.description() == null) {
+            task.setDescription(null);
+        } else {
+            task.setDescription(cmd.description());
+        }
 
-        if (!Objects.equals(task.getCategory().getId(), request.categoryId())) {
+        if (Boolean.TRUE.equals(cmd.completed())) {
+            task.markDone();
+        } else if (Boolean.FALSE.equals(cmd.completed())) {
+            task.markUndone();
+        }
+
+        if (cmd.categoryId() != null && !Objects.equals(task.getCategoryId(), cmd.categoryId())) {
             TaskCategory taskCategory = taskCategoryRepository
-                    .findById(request.categoryId())
-                    .orElseThrow(() -> new TaskCategoryNotFoundException("Category with id " + request.categoryId() + " not found!"));
+                    .findById(cmd.categoryId())
+                    .orElseThrow(() -> new TaskCategoryNotFoundException("Category with id " + cmd.categoryId() + " not found!"));
             task.setCategory(taskCategory);
         }
 
-        if (!Objects.equals(task.getDifficulty().getId(), request.difficultyId())) {
+        if (cmd.difficultyId() != null && !Objects.equals(task.getDifficultyId(), cmd.difficultyId())) {
             TaskDifficulty taskDifficulty = taskDifficultyRepository
-                    .findById(request.difficultyId())
-                    .orElseThrow(() -> new TaskDifficultyNotFoundException("Task difficulty with id " + request.difficultyId() + " not found!"));
+                    .findById(cmd.difficultyId())
+                    .orElseThrow(() -> new TaskDifficultyNotFoundException("Task difficulty with id " + cmd.difficultyId() + " not found!"));
             task.setDifficulty(taskDifficulty);
         }
 
-
-        return editTaskMapper.toResponse(taskRepository.save(task));
+        return buildResponse(taskRepository.save(task));
     }
 
+    private boolean rescheduleDeadline(Task task, EditTaskCommand cmd) {
+        boolean dateChanged = cmd.deadlineDate() != null;
+        boolean timeChanged = cmd.deadlineTime() != null;
+        boolean timeRemoved = Boolean.TRUE.equals(cmd.removeDeadlineTime()) && task.getDeadlineTime() != null;
+
+        if (!dateChanged && !timeChanged && !timeRemoved) {
+            return false;
+        }
+
+        LocalDate newDate = dateChanged
+                ? cmd.deadlineDate()
+                : task.getDeadlineDate();
+        LocalTime newTime = task.getDeadlineTime();
+        if (timeChanged) {
+            newTime = cmd.deadlineTime();
+        } else if (timeRemoved) {
+            newTime = null;
+        }
+
+        ZoneId zoneId = cmd.zoneId() == null ? userContext.getCurrentUserTimezone(cmd.userId()) : cmd.zoneId();
+        LocalDateTime currentUserDateTime = LocalDateTime.now(zoneId);
+
+        task.rescheduleDeadline(newDate, newTime, currentUserDateTime);
+
+        return true;
+    }
+
+    private EditTaskResult buildResponse(Task task) {
+        return new EditTaskResult(
+                task.getId(),
+                task.getTitle(),
+                task.getDeadlineDate(),
+                task.getDeadlineTime(),
+                task.getCategoryId(),
+                task.getDifficultyId(),
+                task.getUserId(),
+                task.getCompletedAt(),
+                task.getDescription()
+        );
+    }
 
 }

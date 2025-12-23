@@ -1,7 +1,6 @@
 package pl.gamilife.task.application.deletetask;
 
-import java.util.UUID;
+import pl.gamilife.shared.kernel.architecture.UseCase;
 
-public interface DeleteTaskUseCase {
-    void execute(UUID taskId);
+public interface DeleteTaskUseCase extends UseCase<DeleteTaskCommand, Void> {
 }

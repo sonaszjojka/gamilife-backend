@@ -13,6 +13,7 @@ import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.usecase.GetUserByEmailUseCase;
 import pl.gamilife.user.usecase.RegisterNewUserUseCase;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -44,7 +45,9 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
                 dto.sendBudgetReports(),
                 dto.isProfilePublic(),
                 dto.isEmailVerified(),
-                dto.isTutorialCompleted()
+                dto.isTutorialCompleted(),
+                "Europe/Warsaw", // TODO: get it from request
+                Instant.now()
         );
         userRepository.save(newUser);
 

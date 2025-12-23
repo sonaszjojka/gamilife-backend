@@ -1,7 +1,6 @@
 package pl.gamilife.task.application.createtasknotification;
 
-import java.util.UUID;
+import pl.gamilife.shared.kernel.architecture.UseCase;
 
-public interface CreateTaskNotificationUseCase {
-    CreateTaskNotificationResponse execute(CreateTaskNotificationRequest request, UUID taskId);
+public interface CreateTaskNotificationUseCase extends UseCase<CreateTaskNotificationCommand, CreateTaskNotificationResult> {
 }

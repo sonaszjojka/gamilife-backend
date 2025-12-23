@@ -1,10 +1,11 @@
 package pl.gamilife.api.pomodoro;
 
 
-import pl.gamilife.api.pomodoro.dto.PomodoroTaskDto;
+import pl.gamilife.api.pomodoro.dto.ActivityItemDto;
+import pl.gamilife.api.pomodoro.dto.PomodoroItemDto;
 
-import java.util.UUID;
+import java.util.List;
 
 public interface PomodoroApi {
-    PomodoroTaskDto findPomodoroTaskByTaskId(UUID taskId);
+    List<PomodoroItemDto> findPomodoroItemsByActivityIds(List<ActivityItemDto> attachedEntities);
 }

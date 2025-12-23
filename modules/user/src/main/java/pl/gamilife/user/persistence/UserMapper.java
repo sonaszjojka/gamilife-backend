@@ -1,7 +1,10 @@
 package pl.gamilife.user.persistence;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import pl.gamilife.user.domain.User;
 
+@NoArgsConstructor(access = AccessLevel.NONE)
 public class UserMapper {
     public static UserEntity toEntity(User user) {
         return new UserEntity(
@@ -18,7 +21,9 @@ public class UserMapper {
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),
                 user.isEmailVerified(),
-                user.isTutorialCompleted()
+                user.isTutorialCompleted(),
+                user.getTimezone(),
+                user.getLastTimezoneChange()
         );
     }
 
@@ -37,7 +42,9 @@ public class UserMapper {
                 userEntity.isSendBudgetReports(),
                 userEntity.isProfilePublic(),
                 userEntity.isEmailVerified(),
-                userEntity.isTutorialCompleted()
+                userEntity.isTutorialCompleted(),
+                userEntity.getTimezone(),
+                userEntity.getLastTimezoneChange()
         );
     }
 }

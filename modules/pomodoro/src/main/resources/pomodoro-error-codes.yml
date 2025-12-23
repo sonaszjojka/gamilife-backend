@@ -1,12 +1,17 @@
 error-codes:
   definitions:
-    POMODORO_TASK_NOT_FOUND:
+    POMODORO_ITEM_NOT_FOUND:
       code: 7001
-      title: "Pomodoro Task Not Found"
-      detail: "The specified Pomodoro task could not be found."
+      title: "Pomodoro Item Not Found"
+      detail: "The specified Pomodoro item could not be found."
       status: 404
-    INVALID_POMODORO_TASK_DATA:
+    INVALID_POMODORO_ITEM_DATA:
       code: 7002
-      title: "Invalid Pomodoro Task Data"
-      detail: "The provided data for the Pomodoro task is invalid."
+      title: "Invalid Pomodoro Item Data"
+      detail: "The provided data for the Pomodoro item is invalid."
       status: 400
+    POMODORO_ITEM_ALREADY_EXISTS:
+      code: 7003
+      title: "Pomodoro Item Already Exists"
+      detail: "A Pomodoro item with the same data already exists."
+      status: 409

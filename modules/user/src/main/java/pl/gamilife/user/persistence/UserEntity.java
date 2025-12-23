@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -65,5 +66,11 @@ public class UserEntity {
 
     @Column(name = "is_tutorial_completed", nullable = false)
     private boolean isTutorialCompleted;
+
+    @Column(name = "timezone", nullable = false)
+    private String timezone;
+
+    @Column(name = "last_timezone_change", nullable = false)
+    private Instant lastTimezoneChange;
 
 }

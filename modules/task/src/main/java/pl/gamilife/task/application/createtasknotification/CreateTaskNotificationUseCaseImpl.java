@@ -1,51 +1,47 @@
 package pl.gamilife.task.application.createtasknotification;
 
-import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
-import pl.gamilife.task.entity.Task;
-import pl.gamilife.task.entity.TaskNotification;
-import pl.gamilife.task.repository.TaskNotificationRepository;
-import pl.gamilife.task.repository.TaskRepository;
+import pl.gamilife.task.domain.model.Task;
+import pl.gamilife.task.domain.model.TaskNotification;
+import pl.gamilife.task.domain.port.repository.TaskNotificationRepository;
+import pl.gamilife.task.domain.port.repository.TaskRepository;
 
-import java.util.UUID;
-
-@Component
+@Service
+@AllArgsConstructor
 public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotificationUseCase {
 
     private final TaskNotificationRepository taskNotificationRepository;
     private final TaskRepository taskRepository;
-    private final CreateTaskNotificationMapper createTaskNotificationMapper;
-    private final AuthApi currentUserProvider;
-
-    public CreateTaskNotificationUseCaseImpl(TaskNotificationRepository taskNotificationRepository, TaskRepository taskRepository,
-                                             CreateTaskNotificationMapper createTaskNotificationMapper, AuthApi currentUserProvider) {
-        this.taskNotificationRepository = taskNotificationRepository;
-        this.taskRepository = taskRepository;
-        this.createTaskNotificationMapper = createTaskNotificationMapper;
-        this.currentUserProvider = currentUserProvider;
-    }
 
     @Override
     @Transactional
-    public CreateTaskNotificationResponse execute(CreateTaskNotificationRequest request, UUID taskId) {
+    public CreateTaskNotificationResult execute(CreateTaskNotificationCommand cmd) {
         Task task = taskRepository
-                .findById(taskId)
+                .findById(cmd.taskId())
                 .orElseThrow(() -> new TaskNotFoundException(
-                        "Task with id " + taskId + " not found!"
+                        "Task with id " + cmd.taskId() + " not found!"
                 ));
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
-        if (!currentUserDto.userId().equals(task.getUserId())) {
+        if (!cmd.userId().equals(task.getUserId())) {
             throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to create notification for another user!");
         }
 
-        TaskNotification taskNotification = taskNotificationRepository
-                .save(createTaskNotificationMapper.toEntity(request, task));
+        TaskNotification taskNotification = TaskNotification.create(cmd.taskId(), cmd.sendDate());
 
-        return createTaskNotificationMapper.toResponse(taskNotification);
+        taskNotification = taskNotificationRepository.save(taskNotification);
+
+        return buildResponse(taskNotification);
+    }
+
+    private CreateTaskNotificationResult buildResponse(TaskNotification taskNotification) {
+        return new CreateTaskNotificationResult(
+                taskNotification.getId(),
+                taskNotification.getSendDate(),
+                taskNotification.getTaskId() // todo: might want to return whole different data
+        );
     }
 }

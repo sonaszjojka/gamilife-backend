@@ -1,43 +1,36 @@
 package pl.gamilife.task.application.deletetasknotification;
 
-import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
-import pl.gamilife.task.entity.TaskNotification;
-import pl.gamilife.task.repository.TaskNotificationRepository;
+import pl.gamilife.task.domain.model.TaskNotification;
+import pl.gamilife.task.domain.port.repository.TaskNotificationRepository;
 
-import java.util.UUID;
-
-@Component
+@Service
+@AllArgsConstructor
 public class DeleteTaskNotificationUseCaseImpl implements DeleteTaskNotificationUseCase {
 
     private final TaskNotificationRepository taskNotificationRepository;
-    private final AuthApi currentUserProvider;
-
-    public DeleteTaskNotificationUseCaseImpl(TaskNotificationRepository taskNotificationRepository, AuthApi currentUserProvider) {
-        this.taskNotificationRepository = taskNotificationRepository;
-        this.currentUserProvider = currentUserProvider;
-    }
 
     @Override
     @Transactional
-    public void execute(UUID taskId, Integer taskNotificationId) {
+    public Void execute(DeleteTaskNotificationCommand cmd) {
 
 
         TaskNotification taskNotification = taskNotificationRepository
-                .findByIdAndTaskId(taskId, taskNotificationId)
+                .findByIdAndTaskId(cmd.taskId(), cmd.taskNotificationId())
                 .orElseThrow(() -> new TaskNotFoundException(
-                        "Task with id " + taskId + " not found!"
+                        "Task with id " + cmd.taskId() + " not found!"
                 ));
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
-        if (!currentUserDto.userId().equals(taskNotification.getTask().getUserId())) {
+        if (!cmd.userId().equals(taskNotification.getTask().getUserId())) {
             throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to delete notification for another user!");
         }
 
-        taskNotificationRepository.deleteByIdAndTaskId(taskId, taskNotificationId);
+        taskNotificationRepository.deleteByIdAndTaskId(cmd.taskId(), cmd.taskNotificationId());
+
+        return null;
     }
 }

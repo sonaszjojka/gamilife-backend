@@ -1,10 +1,8 @@
 package pl.gamilife.task.application.edithabit;
 
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
+import pl.gamilife.shared.kernel.architecture.UseCase;
 
 @Component
-public interface EditHabitUseCase {
-    EditHabitResponse execute(EditHabitRequest request, UUID habitId, UUID taskId);
+public interface EditHabitUseCase extends UseCase<EditHabitCommand, EditHabitResult> {
 }

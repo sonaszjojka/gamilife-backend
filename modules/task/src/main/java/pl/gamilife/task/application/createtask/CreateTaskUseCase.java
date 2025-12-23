@@ -1,5 +1,6 @@
 package pl.gamilife.task.application.createtask;
 
-public interface CreateTaskUseCase {
-    CreateTaskResponse execute(CreateTaskRequest request);
+import pl.gamilife.shared.kernel.architecture.UseCase;
+
+public interface CreateTaskUseCase extends UseCase<CreateTaskCommand, CreateTaskResult> {
 }

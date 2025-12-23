@@ -1,29 +1,29 @@
 package pl.gamilife.task.application.deletehabit;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.task.exception.domain.HabitNotFoundException;
-import pl.gamilife.task.repository.HabitRepository;
-
-import java.util.UUID;
+import pl.gamilife.task.domain.exception.domain.HabitNotFoundException;
+import pl.gamilife.task.domain.model.Habit;
+import pl.gamilife.task.domain.port.repository.HabitRepository;
 
 @Component
+@AllArgsConstructor
 public class DeleteHabitUseCaseImpl implements DeleteHabitUseCase {
-    private final HabitRepository habitRepository;
 
-    public DeleteHabitUseCaseImpl(HabitRepository habitRepository) {
-        this.habitRepository = habitRepository;
-    }
+    private final HabitRepository habitRepository;
 
     @Override
     @Transactional
-    public void execute(UUID habitId) {
-        habitRepository
-                .findById(habitId)
-                .orElseThrow(() -> new HabitNotFoundException(
-                        "Habit with id " + habitId + " not found!"
-                ));
+    public Void execute(DeleteHabitCommand cmd) {
+        Habit habit = habitRepository
+                .findById(cmd.habitId())
+                .orElseThrow(() -> new HabitNotFoundException(String.format(
+                        "Habit with id %s not found!",
+                        cmd.habitId()
+                )));
+        habitRepository.delete(habit);
 
-        habitRepository.deleteById(habitId);
+        return null;
     }
 }

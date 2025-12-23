@@ -13,6 +13,12 @@
     <name>Pomodoro API</name>
 
     <dependencies>
+        <!-- Shared Modules -->
+        <dependency>
+            <groupId>pl.gamilife</groupId>
+            <artifactId>shared-kernel</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
