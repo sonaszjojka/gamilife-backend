@@ -792,7 +792,8 @@ SELECT t.id            AS id,
        t.deadline_time AS deadline_time,
        NULL            AS cycle_length,
        NULL            AS current_streak,
-       NULL            AS longest_streak
+       NULL AS longest_streak,
+       NULL AS previous_deadline_date
 FROM task t
          JOIN task_category tc ON t.category_id = tc.id
          JOIN task_difficulty td ON t.difficulty_id = td.id
@@ -812,7 +813,8 @@ SELECT h.id               AS id,
        NULL               AS deadline_time,
        h.cycle_length     AS cycle_length,
        h.current_streak   AS current_streak,
-       h.longest_streak   AS longest_streak
+       h.longest_streak                                               AS longest_streak,
+       (h.current_deadline - interval '1 day' * h.cycle_length)::DATE AS previous_deadline_date
 FROM habit h
          JOIN task_category tc ON h.category_id = tc.id
          JOIN task_difficulty td ON h.difficulty_id = td.id;

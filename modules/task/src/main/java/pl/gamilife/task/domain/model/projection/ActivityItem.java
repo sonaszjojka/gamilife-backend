@@ -66,6 +66,9 @@ public class ActivityItem extends BaseUuidReadOnlyEntity {
     @Column(name = "longest_streak")
     private Integer longestStreak;
 
+    @Column(name = "previous_deadline_date")
+    private LocalDate previousDeadlineDate;
+
     public ActivityStatus calculateCurrentStatus(LocalDateTime currentUserDateTime) {
         if (type == ActivityType.HABIT) {
             return ActivityStatus.ALIVE;
@@ -118,6 +121,6 @@ public class ActivityItem extends BaseUuidReadOnlyEntity {
             return true;
         }
 
-        return currentUserDate.isAfter(deadlineDate.minusDays(cycleLength));
+        return currentUserDate.isAfter(previousDeadlineDate);
     }
 }

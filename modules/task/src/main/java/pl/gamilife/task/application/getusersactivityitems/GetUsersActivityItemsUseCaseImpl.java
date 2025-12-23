@@ -32,7 +32,8 @@ public class GetUsersActivityItemsUseCaseImpl implements GetUsersActivityItemsUs
                         cmd.categoryId(),
                         cmd.difficultyId(),
                         cmd.startDate(),
-                        cmd.endDate()
+                        cmd.endDate(),
+                        LocalDate.now(zoneId)
                 ),
                 cmd.page(),
                 cmd.size()

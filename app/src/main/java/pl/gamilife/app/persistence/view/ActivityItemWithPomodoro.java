@@ -1,4 +1,4 @@
-package pl.gamilife.app.view;
+package pl.gamilife.app.persistence.view;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -66,6 +66,18 @@ public class ActivityItemWithPomodoro extends BaseUuidReadOnlyEntity {
     @Column(name = "longest_streak")
     private Integer longestStreak;
 
+    @Column(name = "previous_deadline_date")
+    private LocalDate previousDeadlineDate;
+
+    @Column(name = "pomodoro_id")
+    private UUID pomodoroId;
+
+    @Column(name = "cycles_completed")
+    private Integer cyclesCompleted;
+
+    @Column(name = "cycles_required")
+    private Integer cyclesRequired;
+
     public ActivityStatus calculateCurrentStatus(LocalDateTime currentUserDateTime) {
         if (type == ActivityType.HABIT) {
             return ActivityStatus.ALIVE;
@@ -111,5 +123,13 @@ public class ActivityItemWithPomodoro extends BaseUuidReadOnlyEntity {
         }
 
         return deadlineTime == null;
+    }
+
+    public boolean canBeWorkedOn(LocalDate currentUserDate) {
+        if (type == ActivityType.TASK) {
+            return true;
+        }
+
+        return currentUserDate.isAfter(previousDeadlineDate);
     }
 }
