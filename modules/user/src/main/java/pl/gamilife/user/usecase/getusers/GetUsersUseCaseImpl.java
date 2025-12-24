@@ -26,7 +26,8 @@ public class GetUsersUseCaseImpl implements GetUsersUseCase {
                 u.getId(),
                 u.getUsername(),
                 u.isProfilePublic() ? u.getLevel() : null,
-                u.isProfilePublic()
+                u.isProfilePublic(),
+                u.getEmail()
         ));
     }
 }
