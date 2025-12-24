@@ -32,4 +32,6 @@ public interface UserApi {
     void levelUpUser(UUID userId, int level);
 
     ZoneId getUserZoneId(UUID userId);
+
+    UserDetailsDto getUserDetails(UUID userId);
 }

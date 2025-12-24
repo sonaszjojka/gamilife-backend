@@ -6,16 +6,12 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.AuthenticatedUserIsOwner;
 import pl.gamilife.user.dto.request.EditUserRequest;
-import pl.gamilife.user.dto.response.UserDetailsResponse;
-import pl.gamilife.user.dto.response.UserFullDetailsResponse;
-import pl.gamilife.user.dto.service.UserDetailsDto;
+import pl.gamilife.user.dto.service.UserDetails;
 import pl.gamilife.user.usecase.CompleteOnboardingUseCase;
-import pl.gamilife.user.usecase.GetUserDetailsUseCase;
 import pl.gamilife.user.usecase.edituser.EditUserCommand;
 import pl.gamilife.user.usecase.edituser.EditUserResult;
 import pl.gamilife.user.usecase.edituser.EditUserUseCase;
@@ -31,28 +27,15 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserController {
 
-    private GetUserDetailsUseCase getUserDetailsUseCase;
     private GetUsersUseCase getUsersUseCase;
     private CompleteOnboardingUseCase completeOnboardingUseCase;
     private EditUserUseCase editUserUseCase;
-
-    @GetMapping("/{userId}")
-    //TODO: isProfilePrivate
-    public ResponseEntity<UserDetailsResponse> getCurrentUserDetails(
-            @PathVariable UUID userId,
-            Authentication authentication
-    ) {
-        String requesterEmail = authentication.getName();
-        UserDetailsResponse result = getUserDetailsUseCase.execute(requesterEmail, userId);
-
-        return ResponseEntity.ok(result);
-    }
 
     @PutMapping("/{userId}")
     @AuthenticatedUserIsOwner
     public ResponseEntity<EditUserResult> editUser(
             @RequestBody @Valid EditUserRequest request,
-            @PathVariable("userId") UUID userId) {
+            @PathVariable UUID userId) {
 
         EditUserResult response = editUserUseCase.execute(new EditUserCommand(
                 userId,
@@ -69,11 +52,11 @@ public class UserController {
 
     @PutMapping("/{userId}/complete-onboarding")
     @AuthenticatedUserIsOwner
-    public ResponseEntity<UserDetailsResponse> completeOnboarding(
+    public ResponseEntity<UserDetails> completeOnboarding(
             @PathVariable UUID userId
     ) {
-        UserDetailsDto dto = completeOnboardingUseCase.execute(userId);
-        return ResponseEntity.ok(UserFullDetailsResponse.from(dto));
+        UserDetails dto = completeOnboardingUseCase.execute(userId);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping

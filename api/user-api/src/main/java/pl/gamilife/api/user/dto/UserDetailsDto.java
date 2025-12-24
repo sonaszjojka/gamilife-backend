@@ -1,0 +1,21 @@
+package pl.gamilife.api.user.dto;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+public record UserDetailsDto(
+        UUID id,
+        String firstName,
+        String lastName,
+        String email,
+        String username,
+        LocalDate dateOfBirth,
+        int experience,
+        Integer level,
+        int money,
+        boolean sendBudgetReports,
+        boolean isProfilePublic,
+        boolean isEmailVerified,
+        boolean isTutorialCompleted
+) {
+}

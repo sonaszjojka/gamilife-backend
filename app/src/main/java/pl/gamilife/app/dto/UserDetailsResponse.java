@@ -1,4 +1,4 @@
-package pl.gamilife.user.dto.response;
+package pl.gamilife.app.dto;
 
 public interface UserDetailsResponse {
 }

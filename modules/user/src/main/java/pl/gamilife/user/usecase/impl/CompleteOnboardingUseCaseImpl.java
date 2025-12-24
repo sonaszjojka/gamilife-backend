@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.shared.kernel.event.OnboardingCompletedEvent;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 import pl.gamilife.user.domain.User;
-import pl.gamilife.user.dto.service.UserDetailsDto;
+import pl.gamilife.user.dto.service.UserDetails;
 import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.usecase.CompleteOnboardingUseCase;
 
@@ -22,7 +22,7 @@ public class CompleteOnboardingUseCaseImpl implements CompleteOnboardingUseCase 
     private ApplicationEventPublisher eventPublisher;
 
     @Override
-    public UserDetailsDto execute(UUID userId) {
+    public UserDetails execute(UUID userId) {
         User user = userRepository.getUserById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User with id:" + userId + " not found!"));
 
@@ -31,7 +31,7 @@ public class CompleteOnboardingUseCaseImpl implements CompleteOnboardingUseCase 
 
         eventPublisher.publishEvent(new OnboardingCompletedEvent(user.getId()));
 
-        return new UserDetailsDto(
+        return new UserDetails(
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
@@ -40,7 +40,6 @@ public class CompleteOnboardingUseCaseImpl implements CompleteOnboardingUseCase 
                 user.getDateOfBirth(),
                 user.getExperience(),
                 user.getLevel(),
-                null, // TODO: Fix in future by adding layer above user and gamification
                 user.getMoney(),
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),

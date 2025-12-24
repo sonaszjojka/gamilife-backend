@@ -1,9 +1,9 @@
-package pl.gamilife.user.dto.service;
+package pl.gamilife.app.dto;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record UserDetailsDto(
+public record UserFullDetailsResponse(
         UUID id,
         String firstName,
         String lastName,
@@ -11,12 +11,13 @@ public record UserDetailsDto(
         String username,
         LocalDate dateOfBirth,
         int experience,
-        int level,
+        Integer level,
         Integer requiredExperience,
         int money,
         boolean sendBudgetReports,
         boolean isProfilePublic,
         boolean isEmailVerified,
         boolean isTutorialCompleted
-) {
+
+) implements UserDetailsResponse {
 }
