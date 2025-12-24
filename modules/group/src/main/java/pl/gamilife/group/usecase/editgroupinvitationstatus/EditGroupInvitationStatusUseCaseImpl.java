@@ -40,7 +40,7 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
         InvitationStatus newInvitationStatus = getInvitationStatus(cmd.invitationStatusId());
         CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
-        if (groupInvitation.doesBelongToUser(currentUserDto.userId())) {
+        if (!groupInvitation.doesBelongToUser(currentUserDto.userId())) {
             throw new ResourceOwnerPrivilegesRequiredException(
                     "Only user who is assigned to this invitation can change group invitation status!");
         }

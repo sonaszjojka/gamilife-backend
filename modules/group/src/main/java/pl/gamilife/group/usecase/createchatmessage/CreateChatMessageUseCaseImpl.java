@@ -39,7 +39,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
                     + group.getGroupId() + " and is no longer member of it!");
         }
 
-        if (groupMember.isUser(currentUserDto.userId())) {
+        if (!groupMember.isUser(currentUserDto.userId())) {
             throw new ResourceOwnerPrivilegesRequiredException("User with id: " + currentUserDto.userId()
                     + " is not a group member with id: " + cmd.groupMemberId());
         }
