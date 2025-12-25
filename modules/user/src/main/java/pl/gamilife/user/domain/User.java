@@ -2,14 +2,9 @@ package pl.gamilife.user.domain;
 
 import lombok.*;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Setter

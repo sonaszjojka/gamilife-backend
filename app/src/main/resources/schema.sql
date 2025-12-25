@@ -50,19 +50,19 @@ DROP VIEW IF EXISTS v_activity_item CASCADE;
 
 CREATE TABLE task
 (
-    id            UUID    NOT NULL,
-    title         VARCHAR(200)                NOT NULL,
-    description VARCHAR(500) NULL,
-    user_id     UUID         NULL,
-    category_id   INTEGER NOT NULL,
-    difficulty_id INTEGER NOT NULL,
+    id            UUID                     NOT NULL,
+    title         VARCHAR(200)             NOT NULL,
+    description   VARCHAR(500)             NULL,
+    user_id       UUID                     NULL,
+    category_id   INTEGER                  NOT NULL,
+    difficulty_id INTEGER                  NOT NULL,
     deadline_date DATE                     NOT NULL,
     deadline_time TIME                     NULL,
     completed_at  TIMESTAMP WITH TIME ZONE NULL,
-    reward_issued BOOLEAN NOT NULL         DEFAULT FALSE,
-    version       BIGINT  NOT NULL         DEFAULT 0,
-    created_at    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    reward_issued BOOLEAN                  NOT NULL DEFAULT FALSE,
+    version       BIGINT                   NOT NULL DEFAULT 0,
+    created_at    TIMESTAMP WITH TIME ZONE          DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at    TIMESTAMP WITH TIME ZONE          DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_task PRIMARY KEY (id)
 );
 
@@ -88,23 +88,23 @@ CREATE TABLE habit
 
 CREATE TABLE task_category
 (
-    id   INTEGER     NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    value       INTEGER     NOT NULL,
+    id    INTEGER     NOT NULL,
+    name  VARCHAR(50) NOT NULL,
+    value INTEGER     NOT NULL,
     CONSTRAINT pk_task_category PRIMARY KEY (id)
 );
 
 CREATE TABLE task_difficulty
 (
-    id   INTEGER     NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    value         INTEGER     NOT NULL,
+    id    INTEGER     NOT NULL,
+    name  VARCHAR(50) NOT NULL,
+    value INTEGER     NOT NULL,
     CONSTRAINT pk_task_difficulty PRIMARY KEY (id)
 );
 
 CREATE TABLE task_notification
 (
-    id        INTEGER                     NOT NULL,
+    id         INTEGER                                            NOT NULL,
     task_id    UUID                                               NOT NULL,
     send_date  TIMESTAMP WITH TIME ZONE                           NOT NULL,
     version    BIGINT                                             NOT NULL DEFAULT 0,
@@ -122,7 +122,7 @@ CREATE TABLE pomodoro_item
     cycles_completed INTEGER                                            NOT NULL,
     task_id          UUID                                               NULL,
     habit_id         UUID                                               NULL,
-    reward_issued BOOLEAN NOT NULL,
+    reward_issued    BOOLEAN                                            NOT NULL,
     version          BIGINT                                             NOT NULL DEFAULT 0,
     created_at       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -136,24 +136,24 @@ CREATE TABLE pomodoro_item
 
 CREATE TABLE user_oauth_provider
 (
-    id          uuid         NOT NULL,
-    user_id     uuid         NOT NULL,
-    provider    varchar(255) NOT NULL,
-    provider_id varchar(255) NOT NULL,
-    version    bigint                                             NOT NULL DEFAULT 0,
-    created_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    id          uuid                                               NOT NULL,
+    user_id     uuid                                               NOT NULL,
+    provider    varchar(255)                                       NOT NULL,
+    provider_id varchar(255)                                       NOT NULL,
+    version     bigint                                             NOT NULL DEFAULT 0,
+    created_at  timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at  timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_user_oauth_provider PRIMARY KEY (id)
 );
 
 CREATE TABLE refresh_token
 (
-    id         uuid         NOT NULL,
-    user_id    uuid         NOT NULL,
-    token      varchar(255) NOT NULL,
+    id         uuid                                               NOT NULL,
+    user_id    uuid                                               NOT NULL,
+    token      varchar(255)                                       NOT NULL,
     issued_at  timestamp WITH TIME ZONE                           NOT NULL,
     expires_at timestamp WITH TIME ZONE                           NOT NULL,
-    revoked    boolean      NOT NULL,
+    revoked    boolean                                            NOT NULL,
     version    bigint                                             NOT NULL DEFAULT 0,
     created_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -162,12 +162,12 @@ CREATE TABLE refresh_token
 
 CREATE TABLE email_verification_code
 (
-    id         uuid         NOT NULL,
-    user_id    uuid         NOT NULL,
-    code       varchar(255) NOT NULL,
+    id         uuid                                               NOT NULL,
+    user_id    uuid                                               NOT NULL,
+    code       varchar(255)                                       NOT NULL,
     issued_at  timestamp WITH TIME ZONE                           NOT NULL,
     expires_at timestamp WITH TIME ZONE                           NOT NULL,
-    revoked    boolean      NOT NULL,
+    revoked    boolean                                            NOT NULL,
     version    bigint                                             NOT NULL DEFAULT 0,
     created_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -190,22 +190,22 @@ CREATE TABLE forgot_password_code
 
 CREATE TABLE "user"
 (
-    id                    uuid         NOT NULL,
-    first_name            varchar(100) NOT NULL,
-    last_name             varchar(100) NOT NULL,
-    email                 varchar(320) NOT NULL,
-    password              varchar(200) NULL,
-    username              varchar(100) NOT NULL,
-    date_of_birth         date         NULL,
-    experience            int          NOT NULL,
-    "level"               int          NOT NULL,
-    money                 int          NOT NULL,
-    send_budget_reports   boolean      NOT NULL,
-    is_profile_public     boolean      NOT NULL,
-    is_email_verified     boolean      NOT NULL,
-    is_tutorial_completed boolean      NOT NULL,
-    timezone             varchar(100)             NOT NULL,
-    last_timezone_change timestamp WITH TIME ZONE NOT NULL,
+    id                    uuid                     NOT NULL,
+    first_name            varchar(100)             NOT NULL,
+    last_name             varchar(100)             NOT NULL,
+    email                 varchar(320)             NOT NULL,
+    password              varchar(200)             NULL,
+    username              varchar(100)             NOT NULL,
+    date_of_birth         date                     NULL,
+    experience            int                      NOT NULL,
+    "level"               int                      NOT NULL,
+    money                 int                      NOT NULL,
+    send_budget_reports   boolean                  NOT NULL,
+    is_profile_public     boolean                  NOT NULL,
+    is_email_verified     boolean                  NOT NULL,
+    is_tutorial_completed boolean                  NOT NULL,
+    timezone              varchar(100)             NOT NULL,
+    last_timezone_change  timestamp WITH TIME ZONE NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
@@ -239,7 +239,7 @@ CREATE TABLE chat_message
     message_id   UUID         NOT NULL,
     content      VARCHAR(255) NOT NULL,
     is_important BOOLEAN      NOT NULL,
-    sent_at timestamp WITH TIME ZONE,
+    sent_at      timestamp WITH TIME ZONE,
     group_id     UUID         NOT NULL,
     sender_id    UUID         NOT NULL,
     CONSTRAINT pk_chat_message PRIMARY KEY (message_id)
@@ -259,26 +259,26 @@ CREATE TABLE "group"
 
 CREATE TABLE group_invitation
 (
-    group_invitation_id  UUID                        NOT NULL,
-    group_id             UUID                        NOT NULL,
-    user_id              UUID                        NOT NULL,
-    expires_at   timestamp WITH TIME ZONE NOT NULL,
-    mail_sent_at timestamp WITH TIME ZONE,
-    link                 VARCHAR(200)                NOT NULL,
-    invitation_status_id INTEGER                     NOT NULL,
-    token_hash           VARCHAR(200)                NOT NULL,
+    group_invitation_id  UUID                     NOT NULL,
+    group_id             UUID                     NOT NULL,
+    user_id              UUID                     NOT NULL,
+    expires_at           timestamp WITH TIME ZONE NOT NULL,
+    mail_sent_at         timestamp WITH TIME ZONE,
+    link                 VARCHAR(200)             NOT NULL,
+    invitation_status_id INTEGER                  NOT NULL,
+    token_hash           VARCHAR(200)             NOT NULL,
     CONSTRAINT pk_group_invitation PRIMARY KEY (group_invitation_id)
 );
 
 CREATE TABLE group_member
 (
-    group_member_id    UUID                        NOT NULL,
-    group_id           UUID                        NOT NULL,
-    user_id            UUID                        NOT NULL,
-    joined_at timestamp WITH TIME ZONE NOT NULL,
-    left_at   timestamp WITH TIME ZONE,
-    group_money        INTEGER                     NOT NULL,
-    total_earned_money INTEGER                     NOT NULL,
+    group_member_id    UUID                     NOT NULL,
+    group_id           UUID                     NOT NULL,
+    user_id            UUID                     NOT NULL,
+    joined_at          timestamp WITH TIME ZONE NOT NULL,
+    left_at            timestamp WITH TIME ZONE,
+    group_money        INTEGER                  NOT NULL,
+    total_earned_money INTEGER                  NOT NULL,
     CONSTRAINT pk_group_member PRIMARY KEY (group_member_id)
 );
 
@@ -287,7 +287,7 @@ CREATE TABLE group_request
     group_request_id UUID    NOT NULL,
     user_id          UUID    NOT NULL,
     group_id         UUID    NOT NULL,
-    created_at timestamp WITH TIME ZONE,
+    created_at       timestamp WITH TIME ZONE,
     status_id        INTEGER NOT NULL,
     CONSTRAINT pk_group_request PRIMARY KEY (group_request_id)
 );
@@ -533,7 +533,7 @@ CREATE TABLE item_slot
 -- Table: level
 CREATE TABLE "level"
 (
-    id             int NOT NULL,
+    id                  int NOT NULL,
     required_experience int NOT NULL,
     CONSTRAINT level_pk PRIMARY KEY (id)
 );
@@ -794,27 +794,27 @@ SELECT t.id            AS id,
        t.deadline_time AS deadline_time,
        NULL            AS cycle_length,
        NULL            AS current_streak,
-       NULL AS longest_streak,
-       NULL AS previous_deadline_date
+       NULL            AS longest_streak,
+       NULL            AS previous_deadline_date
 FROM task t
          JOIN task_category tc ON t.category_id = tc.id
          JOIN task_difficulty td ON t.difficulty_id = td.id
 WHERE completed_at IS NULL -- Fetch only active tasks
   AND user_id IS NOT NULL  -- Fetch only private tasks
 UNION ALL
-SELECT h.id               AS id,
-       'HABIT'            AS type,
-       h.title            AS title,
-       h.description      AS description,
-       h.user_id          AS user_id,
-       h.category_id      AS category_id,
-       tc.name            AS category_name,
-       h.difficulty_id    AS difficulty_id,
-       td.name            AS difficulty_name,
-       h.current_deadline AS deadline_date,
-       NULL               AS deadline_time,
-       h.cycle_length     AS cycle_length,
-       h.current_streak   AS current_streak,
+SELECT h.id                                                           AS id,
+       'HABIT'                                                        AS type,
+       h.title                                                        AS title,
+       h.description                                                  AS description,
+       h.user_id                                                      AS user_id,
+       h.category_id                                                  AS category_id,
+       tc.name                                                        AS category_name,
+       h.difficulty_id                                                AS difficulty_id,
+       td.name                                                        AS difficulty_name,
+       h.current_deadline                                             AS deadline_date,
+       NULL                                                           AS deadline_time,
+       h.cycle_length                                                 AS cycle_length,
+       h.current_streak                                               AS current_streak,
        h.longest_streak                                               AS longest_streak,
        (h.current_deadline - interval '1 day' * h.cycle_length)::DATE AS previous_deadline_date
 FROM habit h
@@ -827,5 +827,5 @@ SELECT ai.*,
        pi.cycles_completed AS cycles_completed,
        pi.cycles_required  AS cycles_required
 FROM v_activity_item ai
-LEFT JOIN pomodoro_item pi
-ON ai.id = COALESCE(pi.task_id, pi.habit_id);
+         LEFT JOIN pomodoro_item pi
+                   ON ai.id = COALESCE(pi.task_id, pi.habit_id);
