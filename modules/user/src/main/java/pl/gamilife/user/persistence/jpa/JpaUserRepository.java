@@ -1,4 +1,4 @@
-package pl.gamilife.user.persistence;
+package pl.gamilife.user.persistence.jpa;
 
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import pl.gamilife.user.persistence.UserEntity;
 
 import java.util.Optional;
 import java.util.UUID;

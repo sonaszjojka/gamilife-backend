@@ -32,7 +32,6 @@ public class LevelEventHandler {
 
     @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-//    @EventListener
     @Retryable
     public void onOnboardingCompleted(OnboardingCompletedEvent event) {
         processOnboardingCompletionUseCase.execute(new ProcessOnboardingCompletionCommand(event.userId()));

@@ -1,9 +1,9 @@
 package pl.gamilife.user.usecase;
 
-import pl.gamilife.user.dto.service.UserDetailsDto;
+import pl.gamilife.user.dto.service.UserDetails;
 
 import java.util.UUID;
 
 public interface CompleteOnboardingUseCase {
-    UserDetailsDto execute(UUID userId);
+    UserDetails execute(UUID userId);
 }

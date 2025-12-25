@@ -1,4 +1,4 @@
-package pl.gamilife.group.usecase.findallgroupsbyuserIdwhereuserismemberusecase;
+package pl.gamilife.group.usecase.findallgroupsbyuseridwhereuserismember;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
 import pl.gamilife.group.enums.GroupTypeEnum;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.repository.GroupJpaRepository;

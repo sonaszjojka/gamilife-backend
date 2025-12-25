@@ -1,8 +1,6 @@
 package pl.gamilife.user.persistence;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
+import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.user.domain.User;
 
 import java.util.Optional;
@@ -22,7 +20,7 @@ public interface UserRepository {
 
     void updateUserMoney(UUID userId, int newMoney);
 
-    Page<User> findAll(Specification<UserEntity> userSpecification, PageRequest pageRequest);
+    Page<User> findAll(String username, int page, int size);
 
     boolean existsByUsername(String username);
 

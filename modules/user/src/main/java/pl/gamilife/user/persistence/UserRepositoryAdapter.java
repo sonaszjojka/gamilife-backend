@@ -1,22 +1,23 @@
 package pl.gamilife.user.persistence;
 
-import org.springframework.data.domain.Page;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.user.domain.User;
+import pl.gamilife.user.persistence.jpa.JpaUserRepository;
+import pl.gamilife.user.persistence.specification.UserSpecificationBuilder;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository {
+@AllArgsConstructor
+public class UserRepositoryAdapter implements UserRepository {
 
     private final JpaUserRepository jpaUserRepository;
-
-    public UserRepositoryImpl(JpaUserRepository jpaUserRepository) {
-        this.jpaUserRepository = jpaUserRepository;
-    }
+    private final UserSpecificationBuilder userSpecificationBuilder;
 
     @Override
     public User save(User user) {
@@ -50,8 +51,19 @@ public class UserRepositoryImpl implements UserRepository {
         jpaUserRepository.updateMoneyById(newMoney, userId);
     }
 
-    public Page<User> findAll(Specification<UserEntity> specification, PageRequest pageRequest) {
-        return jpaUserRepository.findAll(specification, pageRequest).map(UserMapper::toDomain);
+    public Page<User> findAll(String username, int page, int size) {
+        org.springframework.data.domain.Page<User> result = jpaUserRepository.findAll(
+                userSpecificationBuilder.build(username),
+                PageRequest.of(page, size, Sort.by("username").ascending())
+        ).map(UserMapper::toDomain);
+
+        return new Page<>(
+                result.getContent(),
+                result.getTotalElements(),
+                result.getTotalPages(),
+                result.getNumber(),
+                result.getSize()
+        );
     }
 
     @Override

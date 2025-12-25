@@ -43,6 +43,8 @@ DROP TABLE IF EXISTS user_inventory_item CASCADE;
 
 DROP TABLE IF EXISTS notification_retry CASCADE;
 DROP TABLE IF EXISTS notification_type CASCADE;
+DROP TABLE IF EXISTS v_activity_item CASCADE;
+DROP VIEW IF EXISTS v_activity_item CASCADE;
 
 -- ==================== TASKS ====================
 

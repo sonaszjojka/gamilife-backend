@@ -1,9 +1,9 @@
 package pl.gamilife.user.usecase;
 
-import pl.gamilife.user.dto.response.UserDetailsResponse;
+import pl.gamilife.user.dto.service.UserDetails;
 
 import java.util.UUID;
 
 public interface GetUserDetailsUseCase {
-    UserDetailsResponse execute(String requesterEmail, UUID targetUserId);
+    UserDetails execute(UUID userId);
 }

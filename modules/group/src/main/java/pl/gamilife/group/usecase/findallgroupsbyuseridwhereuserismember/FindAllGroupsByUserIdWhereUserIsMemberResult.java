@@ -1,4 +1,4 @@
-package pl.gamilife.api.group.dto;
+package pl.gamilife.group.usecase.findallgroupsbyuseridwhereuserismember;
 
 import java.io.Serializable;
 import java.util.Collection;

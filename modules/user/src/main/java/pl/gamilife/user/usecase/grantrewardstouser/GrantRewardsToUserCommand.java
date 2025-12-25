@@ -15,5 +15,13 @@ public record GrantRewardsToUserCommand(UUID userId, int experience, int money) 
         if (experience < 0) {
             throw new ValidationException("Experience cannot be negative");
         }
+
+        if (money < 0) {
+            throw new ValidationException("Money cannot be negative");
+        }
+
+        if (money == 0 && experience == 0) {
+            throw new ValidationException("You have to grant user something");
+        }
     }
 }

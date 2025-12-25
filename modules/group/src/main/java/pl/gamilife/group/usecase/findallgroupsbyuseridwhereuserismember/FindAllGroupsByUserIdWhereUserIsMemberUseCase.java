@@ -1,6 +1,5 @@
-package pl.gamilife.group.usecase.findallgroupsbyuserIdwhereuserismemberusecase;
+package pl.gamilife.group.usecase.findallgroupsbyuseridwhereuserismember;
 
-import pl.gamilife.api.group.dto.FindAllGroupsByUserIdWhereUserIsMemberResult;
 import pl.gamilife.shared.kernel.architecture.UseCase;
 
 public interface FindAllGroupsByUserIdWhereUserIsMemberUseCase

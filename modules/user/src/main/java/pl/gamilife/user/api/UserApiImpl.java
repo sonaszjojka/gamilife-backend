@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.*;
+import pl.gamilife.user.dto.service.UserDetails;
 import pl.gamilife.user.usecase.*;
 import pl.gamilife.user.usecase.editusermoney.EditUserMoneyCommand;
 import pl.gamilife.user.usecase.editusermoney.EditUserMoneyUseCase;
@@ -36,6 +37,7 @@ public class UserApiImpl implements UserApi {
     private final GrantRewardsToUserUseCase grantRewardsToUserUseCase;
     private final LevelUpUserUseCase levelUpUserUseCase;
     private final GetCurrentUserZoneIdUseCase getCurrentUserZoneIdUseCase;
+    private final GetUserDetailsUseCase getUserDetailsUseCase;
 
     @Override
     @Transactional
@@ -104,5 +106,25 @@ public class UserApiImpl implements UserApi {
     @Override
     public ZoneId getUserZoneId(UUID userId) {
         return getCurrentUserZoneIdUseCase.execute(new GetCurrentUserZoneIdCommand(userId));
+    }
+
+    @Override
+    public UserDetailsDto getUserDetails(UUID userId) {
+        UserDetails user = getUserDetailsUseCase.execute(userId);
+        return new UserDetailsDto(
+                user.id(),
+                user.firstName(),
+                user.lastName(),
+                user.email(),
+                user.username(),
+                user.dateOfBirth(),
+                user.experience(),
+                user.level(),
+                user.money(),
+                user.sendBudgetReports(),
+                user.isProfilePublic(),
+                user.isEmailVerified(),
+                user.isTutorialCompleted()
+        );
     }
 }
