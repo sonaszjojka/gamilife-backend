@@ -11,7 +11,7 @@ public record AfterLoginResponse(
         boolean isEmailVerified,
         boolean isTutorialCompleted,
         int money
-) {
+) implements GoogleCodeVerificationResponse {
 
     public static AfterLoginResponse from(LoginUserResult result) {
         return new AfterLoginResponse(

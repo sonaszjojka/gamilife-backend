@@ -6,5 +6,5 @@ public record OAuth2LinkResponse(
         String provider,
         String providerId,
         UUID userId
-) {
+) implements GoogleCodeVerificationResponse {
 }

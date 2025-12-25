@@ -1,15 +1,9 @@
 package pl.gamilife.group.usecase.findgroupmemberbyid;
 
-import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.NotNull;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
-public record FindGroupMemberByIdCommand(UUID groupMemberId) implements Command {
-    @Override
-    public void validate() {
-        if (groupMemberId == null) {
-            throw new ValidationException("groupMemberId is required");
-        }
-    }
+public record FindGroupMemberByIdCommand(@NotNull UUID groupMemberId) implements Command {
 }

@@ -16,7 +16,7 @@ public interface TaskApi {
 
     TaskForGroupTaskResponseDto createTaskForGroupTask(TaskForGroupTaskRequestDto request);
 
-    TaskForGroupTaskResponseDto updateTaskForGroupTask(TaskForGroupTaskRequestDto request,UUID taskId);
+    TaskForGroupTaskResponseDto updateTaskForGroupTask(TaskForGroupTaskRequestDto request, UUID taskId);
 
     Page<ActivityItemDto> getAllActivityItemsFiltered(ActivityItemQuery dto);
 

@@ -35,7 +35,7 @@ public class GroupRequestController {
 
 
     @PostMapping
-    private ResponseEntity<CreateGroupRequestResult> save(@PathVariable("groupId") UUID groupId) {
+    public ResponseEntity<CreateGroupRequestResult> save(@PathVariable("groupId") UUID groupId) {
         CreateGroupRequestResult response = createGroupRequestUseCase.execute(
                 new CreateGroupRequestCommand(groupId)
         );
@@ -43,8 +43,8 @@ public class GroupRequestController {
     }
 
     @DeleteMapping("/{groupRequestId}")
-    private ResponseEntity<ApiResponse> deleteById(@PathVariable("groupRequestId") UUID groupRequestId,
-                                                   @PathVariable("groupId") UUID groupId) {
+    public ResponseEntity<ApiResponse> deleteById(@PathVariable("groupRequestId") UUID groupRequestId,
+                                                  @PathVariable("groupId") UUID groupId) {
         deleteGroupRequestUseCase.execute(new DeleteGroupRequestCommand(
                 groupId,
                 groupRequestId
@@ -55,7 +55,7 @@ public class GroupRequestController {
     }
 
     @PutMapping("/{groupRequestId}/status")
-    private ResponseEntity<EditGroupRequestStatusForGroupRequestResult> editStatusById(
+    public ResponseEntity<EditGroupRequestStatusForGroupRequestResult> editStatusById(
             @PathVariable("groupRequestId") UUID groupRequestId,
             @PathVariable("groupId") UUID groupId,
             @Valid @RequestBody EditGroupRequestStatusForGroupRequestRequest request

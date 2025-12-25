@@ -33,13 +33,13 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
         Boolean isAccepted = req.isAccepted();
         Instant acceptedDate = null;
         Instant completedAt = null;
-        boolean changedToAccepted = isAccepted!=null&&isAccepted&&groupTask.getIsAccepted()==null;
+        boolean changedToAccepted = isAccepted != null && isAccepted && groupTask.getIsAccepted() == null;
 
         if (changedToAccepted) {
             acceptedDate = Instant.now();
             completedAt = Instant.now();
             for (GroupTaskMember taskMember : groupTask.getGroupTaskMembers()) {
-                if (taskMember.getIsMarkedDone()!=null&& taskMember.getIsMarkedDone()) {
+                if (taskMember.getIsMarkedDone() != null && taskMember.getIsMarkedDone()) {
                     groupsProvider.editMemberWallet(taskMember.getGroupMemberId(), groupTask.getGroupId(), req.reward());
                 }
             }
@@ -61,7 +61,7 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
                 req.description()
         );
 
-        UUID taskId=groupTask.getTaskId();
+        UUID taskId = groupTask.getTaskId();
         tasksProvider.updateTaskForGroupTask(taskRequestDto, taskId);
 
         return editGroupTaskMapper.toResponse(groupTaskRepository.save(groupTask));

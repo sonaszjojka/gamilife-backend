@@ -13,6 +13,6 @@ public class GroupTaskGroupContextAdapter implements GroupContext {
     @Override
     public LocalDateTime getCurrentGroupDateTime(UUID groupId) {
         // TODO: implement
-        return null;
+        throw new RuntimeException("Not yet implemented");
     }
 }

@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/pomodoro-items") // TODO: address changed
+@RequestMapping("/api/v1/pomodoro-items")
 public class PomodoroItemController {
 
     private final CreatePomodoroItemUseCase createPomodoroItemUseCase;

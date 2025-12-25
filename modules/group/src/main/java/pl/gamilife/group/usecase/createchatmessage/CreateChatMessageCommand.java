@@ -1,25 +1,20 @@
 package pl.gamilife.group.usecase.createchatmessage;
 
-import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
 public record CreateChatMessageCommand(
+        @NotNull
         UUID groupId,
+
+        @NotNull
         UUID groupMemberId,
+
+        @NotBlank
         String content,
         Boolean isImportant
 ) implements Command {
-
-    @Override
-    public void validate() {
-        if (groupId == null || groupMemberId == null) {
-            throw new ValidationException("GroupId and GroupMemberId cannot be null!");
-        }
-
-        if (content == null || content.isBlank()) {
-            throw new ValidationException("Content cannot be blank!");
-        }
-    }
 }

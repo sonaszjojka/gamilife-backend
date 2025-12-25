@@ -50,7 +50,7 @@ public class EditInventoryItemUseCaseImpl implements EditInventoryItemUseCase {
             resultBuilder.newIsEquipped(cmd.isEquipped());
             inventoryItemRepository.save(userInventoryItem);
 
-            if (userInventoryItem.getIsEquipped()) {
+            if (Boolean.TRUE.equals(userInventoryItem.getIsEquipped())) {
                 unequipPreviouslyEquippedItem(userInventoryItem);
             }
         } else {

@@ -6,6 +6,7 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
 import java.util.UUID;
@@ -37,7 +38,7 @@ public class UserOAuthProvider extends BaseEntity {
 
     public void setUserId(UUID userId) {
         if (userId == null) {
-            throw new IllegalArgumentException("User ID cannot be null"); // TODO: change exc type after task refactor merge
+            throw new DomainValidationException("User ID cannot be null");
         }
 
         this.userId = userId;
@@ -45,7 +46,7 @@ public class UserOAuthProvider extends BaseEntity {
 
     public void setProvider(String provider) {
         if (provider == null || provider.isBlank()) {
-            throw new IllegalArgumentException("Provider cannot be null"); // TODO: change exc type after task refactor merge
+            throw new DomainValidationException("Provider cannot be null");
         }
 
         this.provider = provider;
@@ -53,7 +54,7 @@ public class UserOAuthProvider extends BaseEntity {
 
     public void setProviderId(String providerId) {
         if (providerId == null || providerId.isBlank()) {
-            throw new IllegalArgumentException("Provider ID cannot be null"); // TODO: change exc type after task refactor merge
+            throw new DomainValidationException("Provider ID cannot be null");
         }
 
         this.providerId = providerId;

@@ -29,8 +29,7 @@ public class FindTaskByIdUseCaseImpl implements FindTaskByIdUseCase {
                 new FindTaskByIdResult.TaskDifficultyDto(task.getDifficultyId(), task.getDifficulty().getName()),
                 task.getDeadlineDate(),
                 task.getDeadlineTime(),
-                task.getCompletedAt(),
-                null // TODO: habit removal
+                task.getCompletedAt()
         );
     }
 }
