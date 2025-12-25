@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.gamilife.gamification.application.usecase.getalluserachievements.GetAllUserAchievementsCommand;
 import pl.gamilife.gamification.application.usecase.getalluserachievements.GetAllUserAchievementsResult;
 import pl.gamilife.gamification.application.usecase.getalluserachievements.GetAllUserAchievementsUseCase;
-import pl.gamilife.shared.web.security.annotation.AuthenticatedUserIsOwner;
 
 import java.util.UUID;
 
