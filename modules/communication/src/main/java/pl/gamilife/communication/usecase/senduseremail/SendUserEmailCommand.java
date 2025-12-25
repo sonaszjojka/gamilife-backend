@@ -1,23 +1,16 @@
 package pl.gamilife.communication.usecase.senduseremail;
 
-import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.NotNull;
 import pl.gamilife.communication.dto.EmailParameters;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
 public record SendUserEmailCommand(
+        @NotNull
         UUID userId,
+
+        @NotNull
         EmailParameters emailParameters
 ) implements Command {
-    @Override
-    public void validate() {
-        if (userId == null) {
-            throw new ValidationException("User id cannot be null");
-        }
-
-        if (emailParameters == null) {
-            throw new ValidationException("Email parameters cannot be null");
-        }
-    }
 }
