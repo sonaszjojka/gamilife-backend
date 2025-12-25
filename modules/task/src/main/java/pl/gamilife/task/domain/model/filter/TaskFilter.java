@@ -6,7 +6,6 @@ public record TaskFilter(
         UUID userId,
         Integer categoryId,
         Integer difficultyId,
-        Boolean isGroupTask,
         Boolean isCompleted
 ) {
 }

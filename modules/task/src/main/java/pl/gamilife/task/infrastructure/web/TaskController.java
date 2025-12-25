@@ -55,7 +55,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PatchMapping("/{taskId}") // TODO: CHANGE TO PATCH
+    @PatchMapping("/{taskId}")
     public ResponseEntity<EditTaskResult> edit(
             @CurrentUserId UUID userId,
             @CurrentUserTimezone ZoneId zoneId,
@@ -94,7 +94,6 @@ public class TaskController {
             @RequestParam(required = false) Integer categoryId,
             @RequestParam(required = false) Integer difficultyId,
             @RequestParam(required = false) Boolean completed,
-            @RequestParam(required = false) Boolean isGroupTask,
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @RequestParam(defaultValue = "10") @Min(1) Integer size
     ) {
@@ -104,7 +103,6 @@ public class TaskController {
                 categoryId,
                 difficultyId,
                 completed,
-                isGroupTask,
                 page,
                 size
         ));

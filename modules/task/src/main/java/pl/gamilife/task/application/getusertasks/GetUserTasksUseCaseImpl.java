@@ -25,7 +25,6 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
                 cmd.userId(),
                 cmd.categoryId(),
                 cmd.difficultyId(),
-                cmd.isGroupTask(),
                 cmd.isCompleted()
         );
 

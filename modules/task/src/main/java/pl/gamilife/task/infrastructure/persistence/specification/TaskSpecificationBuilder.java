@@ -20,22 +20,11 @@ public class TaskSpecificationBuilder {
         return Specification.allOf(
                 selectedCategory(filter.categoryId()),
                 selectedDifficulty(filter.difficultyId()),
-                isGroupTask(filter.isGroupTask()),
                 isCompleted(filter.isCompleted()),
                 currentUser(filter.userId())
         );
     }
 
-    private Specification<Task> isGroupTask(Boolean isGroupTask) {
-        return ((root, query, criteriaBuilder) ->
-        {
-            if (isGroupTask == null) {
-                return null;
-            }
-            return criteriaBuilder.equal(root.get("isGroupTask"), isGroupTask);
-        }
-        );
-    }
 
     private Specification<Task> isCompleted(Boolean isCompleted) {
         return (root, query, cb) -> {

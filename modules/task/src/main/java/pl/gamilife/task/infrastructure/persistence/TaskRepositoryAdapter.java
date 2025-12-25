@@ -48,7 +48,7 @@ public class TaskRepositoryAdapter implements TaskRepository {
                 PageRequest.of(
                         pageNumber,
                         pageSize,
-                        Sort.by(Sort.Direction.ASC, "deadline")
+                        Sort.by(Sort.Direction.ASC, "deadlineDate")
                 )
         );
 
