@@ -1,7 +1,9 @@
 package pl.gamilife.task.application.getusertasks;
 
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -17,7 +19,8 @@ public record GetUserTasksResult(
         TaskStatus status,
         String categoryName,
         String difficultyName,
-        Boolean isGroupTask
+        Boolean isGroupTask,
+        Instant CompletedAt
 ) {
     public enum TaskStatus {
         COMPLETED, INCOMPLETE, DEADLINE_TODAY, DEADLINE_MISSED
