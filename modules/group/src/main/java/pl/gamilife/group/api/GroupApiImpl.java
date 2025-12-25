@@ -18,6 +18,7 @@ public class GroupApiImpl implements GroupApi {
     private final FindGroupMemberByIdUseCase findGroupMemberByIdUseCase;
     private final FindGroupByIdUseCase findGroupByIdUseCase;
     private final EditMemberWalletUseCase editMemberWalletUseCase;
+
     public GroupApiImpl(FindGroupMemberByIdUseCase findGroupMemberByIdUseCase,
                         FindGroupByIdUseCase findGroupByIdUseCase, EditMemberWalletUseCase editMemberWalletUseCase) {
         this.findGroupMemberByIdUseCase = findGroupMemberByIdUseCase;

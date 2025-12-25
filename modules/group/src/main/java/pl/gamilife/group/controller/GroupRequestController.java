@@ -44,7 +44,7 @@ public class GroupRequestController {
 
     @DeleteMapping("/{groupRequestId}")
     public ResponseEntity<ApiResponse> deleteById(@PathVariable("groupRequestId") UUID groupRequestId,
-                                                   @PathVariable("groupId") UUID groupId) {
+                                                  @PathVariable("groupId") UUID groupId) {
         deleteGroupRequestUseCase.execute(new DeleteGroupRequestCommand(
                 groupId,
                 groupRequestId

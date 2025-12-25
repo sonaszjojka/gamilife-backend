@@ -22,6 +22,7 @@ import pl.gamilife.auth.application.usecase.googlesignin.GoogleSignInUseCase;
 import pl.gamilife.auth.infrastructure.web.request.LinkOAuthAccountRequest;
 import pl.gamilife.auth.infrastructure.web.request.OAuthCodeRequest;
 import pl.gamilife.auth.infrastructure.web.response.AfterLoginResponse;
+import pl.gamilife.auth.infrastructure.web.response.GoogleCodeVerificationResponse;
 import pl.gamilife.auth.infrastructure.web.response.OAuth2LinkResponse;
 import pl.gamilife.shared.web.util.CookieUtil;
 
@@ -39,8 +40,10 @@ public class OAuth2Controller {
     private final GoogleSignInUseCase googleSignInUseCase;
 
     @PostMapping("/link")
-    public ResponseEntity<AfterLoginResponse> linkOAuthAccounts(@RequestBody @Valid LinkOAuthAccountRequest linkOAuthAccountRequest,
-                                                                HttpServletResponse response) {
+    public ResponseEntity<AfterLoginResponse> linkOAuthAccounts(
+            @RequestBody @Valid LinkOAuthAccountRequest linkOAuthAccountRequest,
+            HttpServletResponse response
+    ) {
         if (!linkOAuthAccountRequest.validate()) {
             throw new InvalidParameterException("If shouldLink is true, provider, providerId, userId, and password must be provided.");
         }
@@ -70,10 +73,14 @@ public class OAuth2Controller {
     }
 
     @PostMapping("/code/google")
-    public ResponseEntity<?> handleGoogleCode(@RequestBody OAuthCodeRequest request,
-                                              HttpServletResponse response) {
-        GoogleSignInResult googleSignInResult = googleSignInUseCase
-                .execute(new GoogleSignInCommand(request.code(), request.codeVerifier()));
+    public ResponseEntity<GoogleCodeVerificationResponse> handleGoogleCode(
+            @RequestBody OAuthCodeRequest request,
+            HttpServletResponse response
+    ) {
+        GoogleSignInResult googleSignInResult = googleSignInUseCase.execute(new GoogleSignInCommand(
+                request.code(),
+                request.codeVerifier()
+        ));
 
         return switch (googleSignInResult.getLoginType()) {
             case GoogleSignInResult.LoginType.NEW_USER, GoogleSignInResult.LoginType.EXISTING_USER -> {
