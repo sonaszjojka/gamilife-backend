@@ -15,15 +15,11 @@ public record FindTaskByIdResult(
         TaskDifficultyDto difficulty,
         LocalDate deadlineDate,
         LocalTime deadlineTime,
-        Instant completedAt,
-        HabitDto habitTask
+        Instant completedAt
 ) {
     public record TaskDifficultyDto(Integer id, String difficultyName) implements Serializable {
     }
 
     public record TaskCategoryDto(Integer id, String categoryName) implements Serializable {
-    }
-
-    public record HabitDto(UUID id) implements Serializable {
     }
 }

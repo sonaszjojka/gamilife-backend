@@ -1,6 +1,8 @@
 package pl.gamilife.shared.kernel.exception;
 
-public interface ErrorCode {
+import java.io.Serializable;
+
+public interface ErrorCode extends Serializable {
     String getKey();
 
     String getModule();

@@ -6,6 +6,8 @@ import pl.gamilife.communication.dto.*;
 @Service
 public class EmailContentCreatorImpl implements EmailContentCreator {
 
+    private static final String TEXT_HTML_TYPE = "text/html";
+
     @Override
     public EmailContent createContentForParameters(EmailParameters parameters) {
         return switch (parameters.getEmailType()) {
@@ -30,7 +32,7 @@ public class EmailContentCreatorImpl implements EmailContentCreator {
                 """.formatted(parameters.verificationLink());
 
         return EmailContent.builder()
-                .contentType("text/html")
+                .contentType(TEXT_HTML_TYPE)
                 .subject("Verify your email address")
                 .content(content)
                 .build();
@@ -65,7 +67,7 @@ public class EmailContentCreatorImpl implements EmailContentCreator {
                 """.formatted(parameters.resetLink());
 
         return EmailContent.builder()
-                .contentType("text/html")
+                .contentType(TEXT_HTML_TYPE)
                 .subject("Reset your password")
                 .content(content)
                 .build();
@@ -86,7 +88,7 @@ public class EmailContentCreatorImpl implements EmailContentCreator {
                 """.formatted(parameters.joinCode(), parameters.invitationLink());
 
         return EmailContent.builder()
-                .contentType("text/html")
+                .contentType(TEXT_HTML_TYPE)
                 .subject("You've been invited to a new group")
                 .content(content)
                 .build();

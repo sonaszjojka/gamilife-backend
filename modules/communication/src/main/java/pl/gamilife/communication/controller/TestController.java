@@ -11,11 +11,14 @@ import pl.gamilife.communication.enums.NotificationType;
 import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationCommand;
 import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationUseCase;
 
+/**
+ * @deprecated Will be removed soon, as it is just for testing purposes
+ */
+@Deprecated(forRemoval = true)
 @RestController
 @AllArgsConstructor
 @RequestMapping("/test-ws")
-@Deprecated(forRemoval = true)
-class TestController {
+public class TestController {
 
     private final AuthApi authApi;
     private final SendUserNotificationUseCase sendUserNotificationUseCase;

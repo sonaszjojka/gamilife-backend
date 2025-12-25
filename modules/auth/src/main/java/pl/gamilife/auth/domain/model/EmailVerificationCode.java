@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
 import java.time.Instant;
@@ -51,7 +52,7 @@ public class EmailVerificationCode extends BaseEntity {
 
     private void setUserId(UUID userId) {
         if (userId == null) {
-            throw new IllegalArgumentException("User ID cannot be null"); // TODO: change exc type after task refactor merge
+            throw new DomainValidationException("User ID cannot be null");
         }
 
         this.userId = userId;
@@ -59,7 +60,7 @@ public class EmailVerificationCode extends BaseEntity {
 
     private void setCode(String code) {
         if (code == null || code.isBlank()) {
-            throw new IllegalArgumentException("Code cannot be null"); // TODO: change exc type after task refactor merge
+            throw new DomainValidationException("Code cannot be null");
         }
 
         this.code = code;
@@ -67,11 +68,11 @@ public class EmailVerificationCode extends BaseEntity {
 
     private void setExpiresAt(Instant expiresAt) {
         if (expiresAt == null) {
-            throw new IllegalArgumentException("Expires at cannot be null"); // TODO: change exc type after task refactor merge
+            throw new DomainValidationException("Expires at cannot be null");
         }
 
         if (expiresAt.isBefore(issuedAt)) {
-            throw new IllegalArgumentException("Expires at cannot be before issued at"); // TODO: change exc type after task refactor merge
+            throw new DomainValidationException("Expires at cannot be before issued at");
         }
 
         this.expiresAt = expiresAt;

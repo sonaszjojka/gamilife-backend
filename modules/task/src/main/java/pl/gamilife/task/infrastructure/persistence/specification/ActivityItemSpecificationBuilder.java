@@ -13,6 +13,8 @@ import java.util.UUID;
 @Component
 public class ActivityItemSpecificationBuilder {
 
+    private static final String DEADLINE_DATE = "deadlineDate";
+
     public Specification<ActivityItem> build(ActivityItemFilter filter) {
         return Specification.allOf(
                 matchesTitle(filter.title()),
@@ -31,11 +33,11 @@ public class ActivityItemSpecificationBuilder {
             }
 
             Predicate startPredicate = start != null
-                    ? criteriaBuilder.greaterThanOrEqualTo(root.get("deadlineDate"), start)
+                    ? criteriaBuilder.greaterThanOrEqualTo(root.get(DEADLINE_DATE), start)
                     : null;
 
             Predicate endPredicate = end != null
-                    ? criteriaBuilder.lessThanOrEqualTo(root.get("deadlineDate"), end)
+                    ? criteriaBuilder.lessThanOrEqualTo(root.get(DEADLINE_DATE), end)
                     : null;
 
             if (startPredicate != null && endPredicate != null) {
@@ -92,7 +94,7 @@ public class ActivityItemSpecificationBuilder {
             Predicate isTask = cb.equal(root.get("type"), ActivityType.TASK);
             Predicate isAliveHabit = cb.and(
                     cb.equal(root.get("type"), ActivityType.HABIT),
-                    cb.greaterThanOrEqualTo(root.get("deadlineDate"), currentUserDate)
+                    cb.greaterThanOrEqualTo(root.get(DEADLINE_DATE), currentUserDate)
             );
 
             return cb.or(isTask, isAliveHabit);

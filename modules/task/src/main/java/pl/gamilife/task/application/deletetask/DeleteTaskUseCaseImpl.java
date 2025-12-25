@@ -12,7 +12,6 @@ import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
 import pl.gamilife.task.domain.model.Task;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
 
-// TODO: split for standard and group task
 @Service
 @Transactional
 @AllArgsConstructor
