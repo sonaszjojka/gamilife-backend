@@ -28,7 +28,7 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/habits") // TODO: Changed
+@RequestMapping("/api/v1/habits")
 public class HabitController {
 
     private final CreateHabitUseCase createHabitUseCase;
@@ -77,7 +77,7 @@ public class HabitController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PatchMapping("/{habitId}") // TODO: CHANGED TO PATCH AND REMOVED ID
+    @PatchMapping("/{habitId}")
     public ResponseEntity<EditHabitResult> edit(
             @CurrentUserId UUID userId,
             @CurrentUserTimezone ZoneId zoneId,
@@ -99,7 +99,7 @@ public class HabitController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{habitId}") // TODO: REMOVED ID
+    @DeleteMapping("/{habitId}")
     public ResponseEntity<ApiResponse> delete(@PathVariable UUID habitId) {
         deleteHabitUseCase.execute(new DeleteHabitCommand(habitId));
         return ResponseEntity.ok(new ApiResponse("Habit with id: " + habitId + " deleted successfully."));

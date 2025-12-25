@@ -12,10 +12,10 @@ public class GroupTasksSpecificationBuilderImpl implements GroupTasksSpecificati
 
 
     @Override
-    public Specification<GroupTask> build(UUID groupId, Boolean isAccepted,Boolean IsDeclined) {
+    public Specification<GroupTask> build(UUID groupId, Boolean isAccepted, Boolean isDeclined) {
         return Specification.allOf(
                 isCompleted(isAccepted),
-                isDeclined(IsDeclined),
+                isDeclined(isDeclined),
                 currentGroup(groupId)
         );
     }

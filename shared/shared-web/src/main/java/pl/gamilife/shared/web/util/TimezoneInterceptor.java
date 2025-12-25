@@ -49,7 +49,7 @@ public class TimezoneInterceptor implements HandlerInterceptor {
                 eventPublisher.publishEvent(new TimezoneDetectedEvent(authenticatedUser.getId(), timezoneHeader));
             } catch (DateTimeException ignored) {
                 // If timezone incorrect and will be necessary during further request processing
-                // It will be set to a default timezone by timezone argument resolver
+                // It will be up to the use case to decide what to do with it
             }
         }
 
