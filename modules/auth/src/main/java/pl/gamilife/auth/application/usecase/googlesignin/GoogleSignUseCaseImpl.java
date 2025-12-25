@@ -46,7 +46,7 @@ public class GoogleSignUseCaseImpl implements GoogleSignInUseCase {
                 );
             } else {
                 // User does not exist, create a new OAuth user
-                return oAuthService.registerViaGoogle(googleUserDto);
+                return oAuthService.registerViaGoogle(googleUserDto, cmd.zoneId());
             }
         });
     }

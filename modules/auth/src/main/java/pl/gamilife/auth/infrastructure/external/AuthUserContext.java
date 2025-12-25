@@ -85,7 +85,8 @@ public class AuthUserContext implements UserContext {
                 user.sendBudgetReports(),
                 user.isProfilePublic(),
                 user.isEmailVerified(),
-                user.isTutorialCompleted()
+                user.isTutorialCompleted(),
+                user.zoneId()
         ));
 
         return new BasicUserDetails(

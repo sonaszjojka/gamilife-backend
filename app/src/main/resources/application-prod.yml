@@ -111,6 +111,8 @@ app:
       - /v3/api-docs/**
       - /swagger-ui.html
       - /swagger-ui/**
+  timezone:
+    default: "Europe/Warsaw"
 
 springdoc:
   api-docs:

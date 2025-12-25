@@ -1,6 +1,7 @@
 package pl.gamilife.auth.domain.model.projection;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 public record RegisterUserDetails(
         String firstName,
@@ -12,6 +13,7 @@ public record RegisterUserDetails(
         boolean sendBudgetReports,
         boolean isProfilePublic,
         boolean isEmailVerified,
-        boolean isTutorialCompleted
+        boolean isTutorialCompleted,
+        ZoneId zoneId
 ) {
 }

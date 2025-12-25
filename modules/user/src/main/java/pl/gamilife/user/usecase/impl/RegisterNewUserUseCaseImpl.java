@@ -1,7 +1,8 @@
 package pl.gamilife.user.usecase.impl;
 
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.user.dto.BasicUserInfoDto;
@@ -17,12 +18,15 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
 
     private final UserRepository userRepository;
     private final GetUserByEmailUseCase getUserByEmailUseCase;
     private final ApplicationEventPublisher eventPublisher;
+
+    @Value("${app.timezone.default}")
+    private String defaultTimezone;
 
     @Override
     @Transactional
@@ -46,7 +50,7 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
                 dto.isProfilePublic(),
                 dto.isEmailVerified(),
                 dto.isTutorialCompleted(),
-                "Europe/Warsaw", // TODO: get it from request
+                dto.timezone() == null ? defaultTimezone : dto.timezone().getId(),
                 Instant.now()
         );
         userRepository.save(newUser);

@@ -25,8 +25,10 @@ import pl.gamilife.auth.infrastructure.web.response.AfterLoginResponse;
 import pl.gamilife.auth.infrastructure.web.response.GoogleCodeVerificationResponse;
 import pl.gamilife.auth.infrastructure.web.response.OAuth2LinkResponse;
 import pl.gamilife.shared.web.util.CookieUtil;
+import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 
 import java.security.InvalidParameterException;
+import java.time.ZoneId;
 import java.util.Optional;
 
 @SecurityRequirements
@@ -74,12 +76,14 @@ public class OAuth2Controller {
 
     @PostMapping("/code/google")
     public ResponseEntity<GoogleCodeVerificationResponse> handleGoogleCode(
+            @CurrentUserTimezone ZoneId zoneId,
             @RequestBody OAuthCodeRequest request,
             HttpServletResponse response
     ) {
         GoogleSignInResult googleSignInResult = googleSignInUseCase.execute(new GoogleSignInCommand(
                 request.code(),
-                request.codeVerifier()
+                request.codeVerifier(),
+                zoneId
         ));
 
         return switch (googleSignInResult.getLoginType()) {

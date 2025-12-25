@@ -36,7 +36,9 @@ import pl.gamilife.shared.web.security.annotation.AllowUnverified;
 import pl.gamilife.shared.web.security.annotation.AuthenticatedUserIsOwner;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 import pl.gamilife.shared.web.util.CookieUtil;
+import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 @SecurityRequirements
@@ -57,7 +59,10 @@ public class AuthController {
     private final CookieUtil cookieUtil;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> registerUser(@RequestBody @Valid RegisterUserRequest request) {
+    public ResponseEntity<Void> registerUser(
+            @RequestBody @Valid RegisterUserRequest request,
+            @CurrentUserTimezone ZoneId zoneId
+    ) {
         registerUserUseCase.execute(
                 new RegisterUserCommand(
                         request.firstName(),
@@ -67,7 +72,8 @@ public class AuthController {
                         request.username(),
                         request.dateOfBirth(),
                         request.sendBudgetReports(),
-                        request.isProfilePublic()
+                        request.isProfilePublic(),
+                        zoneId
                 )
         );
 
