@@ -21,7 +21,6 @@ public class UserAchievementController {
     private final GetAllUserAchievementsUseCase getAllUserAchievementsUseCase;
 
     @GetMapping
-    @AuthenticatedUserIsOwner
     //TODO: isProfilePrivate
     public ResponseEntity<GetAllUserAchievementsResult> getUserAchievements(@PathVariable UUID userId) {
         return ResponseEntity.ok(getAllUserAchievementsUseCase.execute(

@@ -23,7 +23,6 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-@AuthenticatedUserIsOwner
 @RequestMapping("/api/v1/users/{userId}/inventory/items")
 public class UserInventoryItemController {
 
