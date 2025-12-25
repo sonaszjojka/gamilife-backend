@@ -37,12 +37,7 @@ public class TaskRepositoryAdapter implements TaskRepository {
     }
 
     @Override
-    public Boolean existsById(UUID taskId) {
-        return jpaTaskRepository.existsById(taskId);
-    }
-
-    @Override
-    public Page<Task> findAll(TaskFilter filter, Integer pageNumber, Integer pageSize) {
+    public Page<Task> findAllWithCategoryAndDifficulty(TaskFilter filter, Integer pageNumber, Integer pageSize) {
         org.springframework.data.domain.Page<Task> result = jpaTaskRepository.findAll(
                 taskSpecificationBuilder.build(filter),
                 PageRequest.of(

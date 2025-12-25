@@ -14,7 +14,5 @@ public interface TaskRepository {
 
     void deleteById(UUID taskId);
 
-    Boolean existsById(UUID taskId);
-
-    Page<Task> findAll(TaskFilter filter, Integer pageNumber, Integer pageSize);
+    Page<Task> findAllWithCategoryAndDifficulty(TaskFilter filter, Integer pageNumber, Integer pageSize);
 }

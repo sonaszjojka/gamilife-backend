@@ -30,7 +30,7 @@ public class GetUserTasksUseCaseImpl implements GetUserTasksUseCase {
 
         ZoneId zoneId = cmd.zoneId() == null ? userContext.getCurrentUserTimezone(cmd.userId()) : cmd.zoneId();
 
-        return taskRepository.findAll(filter, cmd.pageNumber(), cmd.pageSize())
+        return taskRepository.findAllWithCategoryAndDifficulty(filter, cmd.pageNumber(), cmd.pageSize())
                 .map(task -> new GetUserTasksResult(
                         task.getId(),
                         GetUserTasksResult.TaskType.TASK,
