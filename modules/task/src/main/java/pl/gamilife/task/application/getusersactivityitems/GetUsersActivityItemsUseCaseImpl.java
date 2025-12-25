@@ -8,6 +8,7 @@ import pl.gamilife.task.domain.model.projection.ActivityItem;
 import pl.gamilife.task.domain.port.context.UserContext;
 import pl.gamilife.task.domain.port.repository.ActivityItemRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -31,7 +32,8 @@ public class GetUsersActivityItemsUseCaseImpl implements GetUsersActivityItemsUs
                         cmd.categoryId(),
                         cmd.difficultyId(),
                         cmd.startDate(),
-                        cmd.endDate()
+                        cmd.endDate(),
+                        LocalDate.now(zoneId)
                 ),
                 cmd.page(),
                 cmd.size()
@@ -57,7 +59,8 @@ public class GetUsersActivityItemsUseCaseImpl implements GetUsersActivityItemsUs
                     case INCOMPLETE -> GetUsersActivityItemsResult.ActivityStatus.INCOMPLETE;
                     case DEADLINE_TODAY -> GetUsersActivityItemsResult.ActivityStatus.DEADLINE_TODAY;
                     case DEADLINE_MISSED -> GetUsersActivityItemsResult.ActivityStatus.DEADLINE_MISSED;
-                }
+                },
+                ai.canBeWorkedOn(LocalDate.now(zoneId))
         ));
     }
 }

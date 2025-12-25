@@ -40,7 +40,7 @@ public class FindHabitByIdUseCaseImpl implements FindHabitByIdUseCase {
 
         return new FindHabitByIdResult(
                 habit.getUserId(),
-                habit.checkIfCanBeWorkedOn(currentUserDate)
+                habit.canBeWorkedOn(currentUserDate)
         );
     }
 }

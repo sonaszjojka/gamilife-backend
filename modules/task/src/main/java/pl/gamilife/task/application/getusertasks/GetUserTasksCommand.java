@@ -16,8 +16,6 @@ public record GetUserTasksCommand(
         Integer difficultyId,
         Boolean isCompleted,
 
-        @NotNull
-        Boolean isGroupTask,
         Integer pageNumber,
         Integer pageSize
 ) implements Command {

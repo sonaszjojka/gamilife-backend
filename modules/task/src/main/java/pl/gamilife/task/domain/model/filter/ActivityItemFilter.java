@@ -9,6 +9,7 @@ public record ActivityItemFilter(
         Integer categoryId,
         Integer difficultyId,
         LocalDate startDate,
-        LocalDate endDate
+        LocalDate endDate,
+        LocalDate currentUserDate
 ) {
 }

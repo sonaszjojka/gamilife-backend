@@ -8,7 +8,9 @@ public record EditPomodoroItemRequest(
         Integer cyclesRequired,
 
         @Positive
-        Integer completeCycles
+        Integer completeCycles,
+
+        Boolean completed
 ) {
 
 }

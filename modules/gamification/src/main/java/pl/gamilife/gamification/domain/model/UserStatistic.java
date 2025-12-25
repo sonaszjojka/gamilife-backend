@@ -69,15 +69,23 @@ public class UserStatistic extends BaseEntity {
             throw new IllegalArgumentException("Counter increment be greater than 0");
         }
 
+        if (getStatisticTypeEnum().isStreakStatistic()) {
+            throw new InvalidGamificationOperationException("Only non-streak statistics could be processed with this method.");
+        }
+
         this.count += amount;
     }
 
     public void decrementCounterBy(int amount) {
-        if (amount >= 0) {
-            throw new IllegalArgumentException("Counter decrement must be less than 0");
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Counter decrement must be greater than 0");
         }
 
-        this.count += amount;
+        if (getStatisticTypeEnum().isStreakStatistic()) {
+            throw new InvalidGamificationOperationException("Only non-streak statistics could be processed with this method.");
+        }
+
+        this.count -= amount;
     }
 
     public boolean updateStreakIfHigher(int newCount) {
@@ -85,7 +93,7 @@ public class UserStatistic extends BaseEntity {
             throw new IllegalArgumentException("New streak value must be greater than 0");
         }
 
-        if (getStatisticTypeEnum().isStreakStatistic()) {
+        if (!getStatisticTypeEnum().isStreakStatistic()) {
             throw new InvalidGamificationOperationException("Only streak statistics could be processed with this method.");
         }
 

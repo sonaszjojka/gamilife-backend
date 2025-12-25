@@ -10,6 +10,10 @@ import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTas
 import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTaskUseCase;
 import pl.gamilife.task.application.deletetask.DeleteTaskCommand;
 import pl.gamilife.task.application.deletetask.DeleteTaskUseCase;
+import pl.gamilife.task.application.edithabit.EditHabitCommand;
+import pl.gamilife.task.application.edithabit.EditHabitUseCase;
+import pl.gamilife.task.application.edittask.EditTaskCommand;
+import pl.gamilife.task.application.edittask.EditTaskUseCase;
 import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskCommand;
 import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskResult;
 import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskUseCase;
@@ -36,6 +40,8 @@ public class TaskApiImpl implements TaskApi {
     private final CreateTaskForGroupTaskUseCase createTaskForGroupTaskUseCase;
     private final EditTaskForGroupTaskUseCase editTaskForGroupTaskUseCase;
     private final GetUsersActivityItemsUseCase getUsersActivityItemsUseCase;
+    private final EditTaskUseCase editTaskUseCase;
+    private final EditHabitUseCase editHabitUseCase;
 
     @Override
     public TaskDto findTaskById(UUID taskId) {
@@ -163,7 +169,43 @@ public class TaskApiImpl implements TaskApi {
                     case INCOMPLETE -> ActivityItemDto.ActivityStatus.INCOMPLETE;
                     case DEADLINE_TODAY -> ActivityItemDto.ActivityStatus.DEADLINE_TODAY;
                     case DEADLINE_MISSED -> ActivityItemDto.ActivityStatus.DEADLINE_MISSED;
-                }
+                },
+                ai.canBeWorkedOn()
+        ));
+    }
+
+    @Override
+    public void completeTaskById(UUID userId, ZoneId zoneId, UUID taskId) {
+        editTaskUseCase.execute(new EditTaskCommand(
+                userId,
+                zoneId,
+                taskId,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                true
+        ));
+    }
+
+    @Override
+    public void completeHabitById(UUID userId, ZoneId zoneId, UUID habitId) {
+        editHabitUseCase.execute(new EditHabitCommand(
+                userId,
+                zoneId,
+                habitId,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                true,
+                false
         ));
     }
 

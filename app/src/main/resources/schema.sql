@@ -120,6 +120,7 @@ CREATE TABLE pomodoro_item
     cycles_completed INTEGER                                            NOT NULL,
     task_id          UUID                                               NULL,
     habit_id         UUID                                               NULL,
+    reward_issued BOOLEAN NOT NULL,
     version          BIGINT                                             NOT NULL DEFAULT 0,
     created_at       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at       TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -791,7 +792,8 @@ SELECT t.id            AS id,
        t.deadline_time AS deadline_time,
        NULL            AS cycle_length,
        NULL            AS current_streak,
-       NULL            AS longest_streak
+       NULL AS longest_streak,
+       NULL AS previous_deadline_date
 FROM task t
          JOIN task_category tc ON t.category_id = tc.id
          JOIN task_difficulty td ON t.difficulty_id = td.id
@@ -811,8 +813,17 @@ SELECT h.id               AS id,
        NULL               AS deadline_time,
        h.cycle_length     AS cycle_length,
        h.current_streak   AS current_streak,
-       h.longest_streak   AS longest_streak
+       h.longest_streak                                               AS longest_streak,
+       (h.current_deadline - interval '1 day' * h.cycle_length)::DATE AS previous_deadline_date
 FROM habit h
          JOIN task_category tc ON h.category_id = tc.id
          JOIN task_difficulty td ON h.difficulty_id = td.id;
 
+CREATE OR REPLACE VIEW v_activity_item_with_pomodoro AS
+SELECT ai.*,
+       pi.id               AS pomodoro_id,
+       pi.cycles_completed AS cycles_completed,
+       pi.cycles_required  AS cycles_required
+FROM v_activity_item ai
+LEFT JOIN pomodoro_item pi
+ON ai.id = COALESCE(pi.task_id, pi.habit_id);

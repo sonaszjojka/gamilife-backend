@@ -1,7 +1,6 @@
 package pl.gamilife.task.infrastructure.persistence.specification;
 
 import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import pl.gamilife.task.domain.model.Task;
@@ -9,7 +8,6 @@ import pl.gamilife.task.domain.model.TaskCategory;
 import pl.gamilife.task.domain.model.TaskDifficulty;
 import pl.gamilife.task.domain.model.filter.TaskFilter;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -20,41 +18,22 @@ public class TaskSpecificationBuilder {
         return Specification.allOf(
                 selectedCategory(filter.categoryId()),
                 selectedDifficulty(filter.difficultyId()),
-                isGroupTask(filter.isGroupTask()),
                 isCompleted(filter.isCompleted()),
                 currentUser(filter.userId())
         );
     }
 
-    private Specification<Task> isGroupTask(Boolean isGroupTask) {
-        return ((root, query, criteriaBuilder) ->
-        {
-            if (isGroupTask == null) {
+
+    private Specification<Task> isCompleted(Boolean completed) {
+        return (root, query, cb) -> {
+            if (completed == null) {
                 return null;
             }
-            return criteriaBuilder.equal(root.get("isGroupTask"), isGroupTask);
-        }
-        );
-    }
 
-    private Specification<Task> isCompleted(Boolean isCompleted) {
-        return (root, query, cb) -> {
-            if (isCompleted == null) return null;
-
-            LocalDateTime now = LocalDateTime.now();
-
-            Predicate endedByDate = cb.lessThan(root.get("deadline"), now);
-            Predicate hasCompletedDate = cb.isNotNull(root.get("completedAt"));
-
-            Predicate notEnded = cb.greaterThanOrEqualTo(root.get("deadline"), now);
-            Predicate noCompletedDate = cb.isNull(root.get("completedAt"));
-
-            if (isCompleted) {
-
-                return cb.or(endedByDate, hasCompletedDate);
+            if (completed) {
+                return cb.isNotNull(root.get("completedAt"));
             } else {
-
-                return cb.and(notEnded, noCompletedDate);
+                return cb.isNull(root.get("completedAt"));
             }
         };
     }

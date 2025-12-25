@@ -21,7 +21,8 @@ public record ActivityItemDto(
         Integer cycleLength,
         Integer currentStreak,
         Integer longestStreak,
-        ActivityStatus status
+        ActivityStatus status,
+        Boolean canBeWorkedOn
 ) {
     public enum ActivityStatus {
         ALIVE, INCOMPLETE, DEADLINE_TODAY, DEADLINE_MISSED

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.gamilife.app.dto.ActivityItemDetails;
 import pl.gamilife.app.dto.ActivityItemQueryDto;
+import pl.gamilife.app.dto.ActivityItemWithPomodoroQueryDto;
 import pl.gamilife.app.service.ActivityService;
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
@@ -20,12 +21,12 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/activities")
+@RequestMapping("/api/v1")
 public class ActivityController {
 
     private final ActivityService activityService;
 
-    @GetMapping
+    @GetMapping("/activities")
     public ResponseEntity<Page<ActivityItemDetails>> getAllActivities(
             @CurrentUserId UUID userId,
             @CurrentUserTimezone ZoneId zoneId,
@@ -54,6 +55,29 @@ public class ActivityController {
                         endDate,
                         pageNumber,
                         pageSize
+                ))
+        );
+    }
+
+    @GetMapping("/pomodoro-activities")
+    public ResponseEntity<Page<ActivityItemDetails>> getActivitiesWithPomodoro(
+            @CurrentUserId UUID userId,
+            @CurrentUserTimezone ZoneId zoneId,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) Boolean workable,
+            @RequestParam(required = false) Boolean pomodoro,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
+    ) {
+        return ResponseEntity.ok(
+                activityService.getActivitiesWithPomodoro(new ActivityItemWithPomodoroQueryDto(
+                        userId,
+                        zoneId,
+                        title,
+                        workable,
+                        pomodoro,
+                        page,
+                        size
                 ))
         );
     }

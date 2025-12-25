@@ -46,11 +46,11 @@ public class PomodoroItemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{pomodoroId}")
+    @PatchMapping("/{pomodoroId}")
     public ResponseEntity<EditPomodoroItemResult> editPomodoroTask(
             @CurrentUserId UUID userId,
             @CurrentUserTimezone ZoneId zoneId,
-            @PathVariable("pomodoroId") UUID pomodoroId,
+            @PathVariable UUID pomodoroId,
             @RequestBody @Valid EditPomodoroItemRequest request) {
 
         EditPomodoroItemResult response = editPomodoroItemUseCase.execute(new EditPomodoroItemCommand(
@@ -58,7 +58,8 @@ public class PomodoroItemController {
                 zoneId,
                 pomodoroId,
                 request.cyclesRequired(),
-                request.completeCycles()
+                request.completeCycles(),
+                request.completed()
         ));
         return ResponseEntity.ok(response);
     }
@@ -67,7 +68,7 @@ public class PomodoroItemController {
     public ResponseEntity<ApiResponse> deletePomodoroTask(
             @CurrentUserId UUID userId,
             @CurrentUserTimezone ZoneId zoneId,
-            @PathVariable("pomodoroTaskId") UUID pomodoroTaskId
+            @PathVariable UUID pomodoroTaskId
     ) {
 
         deletePomodoroItemUseCase.execute(new DeletePomodoroItemCommand(userId, zoneId, pomodoroTaskId));
