@@ -30,7 +30,7 @@ public class GroupShop extends BaseEntity {
 
     @OneToMany(mappedBy = "groupShop")
     @ToString.Exclude
-    private Set<GroupItemInShop> groupItemInShops = new LinkedHashSet<>();
+    private Set<GroupItem> groupItems = new LinkedHashSet<>();
 
 
     private GroupShop(String name, String description, UUID groupId, Boolean isActive) {

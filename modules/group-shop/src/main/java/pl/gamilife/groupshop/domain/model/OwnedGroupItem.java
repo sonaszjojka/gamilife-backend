@@ -1,7 +1,6 @@
 package pl.gamilife.groupshop.domain.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
@@ -24,27 +23,23 @@ public class OwnedGroupItem extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "group_item_in_shop_id", nullable = false)
-    private GroupItemInShop groupItemInShop;
+    private GroupItem groupItem;
 
 
-    @Column(name = "is_used_up", nullable = false)
-    private Boolean isUsedUp = false;
 
     @Column(name = "use_date")
     private Instant useDate;
 
-    private OwnedGroupItem(UUID groupMemberId, GroupItemInShop groupItemInShop) {
+    private OwnedGroupItem(UUID groupMemberId, GroupItem groupItem) {
 
         setGroupMemberId(groupMemberId);
-        setGroupItemInShop(groupItemInShop);
-        setIsUsedUp(false);
-
-
+        setGroupItem(groupItem);
+        useItem(false);
     }
 
-    public static OwnedGroupItem createPrivate(UUID groupMemberId, GroupItemInShop groupItemInShop) {
+    public static OwnedGroupItem createPrivate(UUID groupMemberId, GroupItem groupItem) {
 
-        return new OwnedGroupItem(groupMemberId, groupItemInShop);
+        return new OwnedGroupItem(groupMemberId, groupItem);
 
     }
 
@@ -56,23 +51,15 @@ public class OwnedGroupItem extends BaseEntity {
         this.groupMemberId = groupMemberId;
     }
 
-    public void setGroupItemInShop(GroupItemInShop groupItemInShop) {
+    public void setGroupItem(GroupItem groupItem) {
 
-        if (groupItemInShop == null) {
+        if (groupItem == null) {
             throw new DomainValidationException("Group Item In Shop cannot be null");
         }
 
-        this.groupItemInShop = groupItemInShop;
-        this.groupItemInShopId = groupItemInShop.getId();
+        this.groupItem = groupItem;
+        this.groupItemInShopId = groupItem.getId();
 
-    }
-
-    public void setIsUsedUp(Boolean isUsedUp) {
-        if (isUsedUp == null) {
-            throw new DomainValidationException("IsUsedUp cannot be null");
-        }
-        this.isUsedUp = isUsedUp;
-        this.useItem(isUsedUp);
     }
 
     public void useItem(Boolean isUsedUp) {

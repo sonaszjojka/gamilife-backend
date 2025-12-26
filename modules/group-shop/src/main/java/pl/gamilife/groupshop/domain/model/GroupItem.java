@@ -1,8 +1,6 @@
 package pl.gamilife.groupshop.domain.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.Immutable;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
@@ -15,9 +13,9 @@ import java.util.UUID;
 @Entity
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "group_item_in_shop")
+@Table(name = "group_item")
 @ToString(exclude = {"groupShop","ownedGroupItems"})
-public class GroupItemInShop extends BaseUuidReadOnlyEntity {
+public class GroupItem extends BaseUuidReadOnlyEntity {
 
 
 
@@ -37,10 +35,10 @@ public class GroupItemInShop extends BaseUuidReadOnlyEntity {
     @JoinColumn(name = "group_shop_id", nullable = false)
     private GroupShop groupShop;
 
-    @OneToMany(mappedBy = "groupItemInShop")
+    @OneToMany(mappedBy = "groupItem", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OwnedGroupItem> ownedGroupItems = new LinkedHashSet<>();
 
-    private GroupItemInShop (String name,Integer price,Boolean isActive,GroupShop groupShop)
+    private GroupItem(String name, Integer price, Boolean isActive, GroupShop groupShop)
     {
         setName(name);
         setPrice(price);
@@ -48,9 +46,9 @@ public class GroupItemInShop extends BaseUuidReadOnlyEntity {
         setGroupShop(groupShop);
     }
 
-    public static GroupItemInShop createPrivate(String name,Integer price,Boolean isActive,GroupShop groupShop) {
+    public static GroupItem createPrivate(String name, Integer price, Boolean isActive, GroupShop groupShop) {
 
-        return new GroupItemInShop(name,price,isActive,groupShop);
+        return new GroupItem(name,price,isActive,groupShop);
 
     }
 

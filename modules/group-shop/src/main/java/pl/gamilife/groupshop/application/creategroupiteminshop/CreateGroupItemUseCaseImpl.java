@@ -5,7 +5,7 @@ import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.GroupDto;
-import pl.gamilife.groupshop.domain.model.GroupItemInShop;
+import pl.gamilife.groupshop.domain.model.GroupItem;
 import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.exception.InactiveGroupShopException;
@@ -16,15 +16,13 @@ import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredEx
 import java.util.UUID;
 
 @Service
-public class CreateGroupItemInShopUseCaseImpl implements CreateGroupItemInShopUseCase {
-    private final CreateGroupItemInShopMapper createGroupItemInShopMapper;
+public class CreateGroupItemUseCaseImpl implements CreateGroupItemInShopUseCase {
     private final GroupItemInShopRepository groupItemInShopRepository;
     private final GroupShopRepository groupShopRepository;
     private final GroupApi groupProvider;
     private final AuthApi currentUserProvider;
 
-    public CreateGroupItemInShopUseCaseImpl(CreateGroupItemInShopMapper createGroupItemInShopMapper, GroupItemInShopRepository groupItemInShopRepository, GroupShopRepository groupShopRepository, GroupApi groupProvider, AuthApi currentUserProvider) {
-        this.createGroupItemInShopMapper = createGroupItemInShopMapper;
+    public CreateGroupItemUseCaseImpl(GroupItemInShopRepository groupItemInShopRepository, GroupShopRepository groupShopRepository, GroupApi groupProvider, AuthApi currentUserProvider) {
         this.groupItemInShopRepository = groupItemInShopRepository;
         this.groupShopRepository = groupShopRepository;
         this.groupProvider = groupProvider;
@@ -52,8 +50,8 @@ public class CreateGroupItemInShopUseCaseImpl implements CreateGroupItemInShopUs
         if (!currentUserDto.userId().equals(groupDto.adminId()) && Boolean.TRUE.equals(request.isActive())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can create active group item in shop!");
         }
-        GroupItemInShop groupItemInShop = createGroupItemInShopMapper.toEntity(request, groupShop, UUID.randomUUID());
-        groupItemInShopRepository.save(groupItemInShop);
-        return createGroupItemInShopMapper.toResponse(groupItemInShop);
+       // GroupItem groupItem = createGroupItemUseCase.toEntity(request, groupShop, UUID.randomUUID());
+      //  groupItemInShopRepository.save(groupItem);
+        return null;
     }
 }

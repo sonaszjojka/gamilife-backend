@@ -1,14 +1,14 @@
 package pl.gamilife.groupshop.domain.port.repository;
 
-import pl.gamilife.groupshop.domain.model.GroupItemInShop;
+import pl.gamilife.groupshop.domain.model.GroupItem;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public interface GroupItemInShopRepository {
-    void save(GroupItemInShop groupItemInShop);
+    void save(GroupItem groupItem);
 
     void deleteById(UUID groupItemInShopId);
 
-    Optional<GroupItemInShop> findById(UUID groupItemId);
+    Optional<GroupItem> findById(UUID groupItemId);
 }

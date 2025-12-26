@@ -5,7 +5,7 @@ import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.GroupDto;
-import pl.gamilife.groupshop.domain.model.GroupItemInShop;
+import pl.gamilife.groupshop.domain.model.GroupItem;
 import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.exception.GroupShopItemNotFoundException;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
@@ -48,15 +48,15 @@ public class EditGroupItemInShopUseCaseImpl implements EditGroupItemInShopUseCas
         if (!currentUserDto.userId().equals(groupDto.adminId()) && Boolean.TRUE.equals(request.isActive())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can make group items active!");
         }
-        GroupItemInShop groupItemInShop = groupItemInShopRepository.findById(groupItemId).orElseThrow(
+        GroupItem groupItem = groupItemInShopRepository.findById(groupItemId).orElseThrow(
                 () -> new GroupShopItemNotFoundException("Group item in shop with id: " + groupItemId + " not found!"));
 
-        groupItemInShop.setPrice(request.price());
-        groupItemInShop.setName(request.name());
-        groupItemInShop.setIsActive(request.isActive());
+        groupItem.setPrice(request.price());
+        groupItem.setName(request.name());
+        groupItem.setIsActive(request.isActive());
 
-        groupItemInShopRepository.save(groupItemInShop);
-        return editGroupItemInShopMapper.toResponse(groupItemInShop);
+        groupItemInShopRepository.save(groupItem);
+        return editGroupItemInShopMapper.toResponse(groupItem);
 
     }
 }

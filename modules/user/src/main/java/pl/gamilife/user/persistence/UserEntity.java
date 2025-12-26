@@ -73,16 +73,4 @@ public class UserEntity {
     @Column(name = "last_timezone_change", nullable = false)
     private Instant lastTimezoneChange;
 
-    @Column(name = "timezone", nullable = false)
-    private String timezone;
-
-    @Column(name = "last_timezone_change", nullable = false)
-    private Instant lastTimezoneChange;
-
-    @Column(name = "timezone", nullable = false)
-    private String timezone;
-
-    @Column(name = "last_timezone_change", nullable = false)
-    private Instant lastTimezoneChange;
-
 }

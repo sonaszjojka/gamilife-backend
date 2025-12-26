@@ -18,8 +18,8 @@ public class DeletePomodoroItemForActivityUseCaseImpl implements DeletePomodoroI
     @Override
     public Boolean execute(DeletePomodoroItemForActivityCommand cmd) {
         Optional<PomodoroItem> possiblePomodoroItem = switch (cmd.activityType()) {
-            case TASK -> pomodoroItemRepository.findByTaskId(cmd.activityId());
-            case HABIT -> pomodoroItemRepository.findByHabitId(cmd.activityId());
+            case TASK -> pomodoroItemRepository.findById(cmd.activityId());
+            case HABIT -> pomodoroItemRepository.findById(cmd.activityId());
         };
 
         if (possiblePomodoroItem.isEmpty()) {

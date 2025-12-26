@@ -5,7 +5,7 @@ import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.GroupDto;
-import pl.gamilife.groupshop.domain.model.GroupItemInShop;
+import pl.gamilife.groupshop.domain.model.GroupItem;
 import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.model.OwnedGroupItem;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
@@ -61,15 +61,15 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
         }
 
 
-        GroupItemInShop groupItemInShop = groupItemInShopRepository.findById(request.groupItemId())
+        GroupItem groupItem = groupItemInShopRepository.findById(request.groupItemId())
                 .orElseThrow(() -> new RuntimeException("Group item in shop not found"));
 
-        if (Boolean.FALSE.equals(groupItemInShop.getIsActive())) {
+        if (Boolean.FALSE.equals(groupItem.getIsActive())) {
             throw new InvalidOwnedGroupItemDataException("Cannot add inactive group item to inventory!");
         }
 
         Instant useDate = request.isUsedUp() ? Instant.now() : null;
-        OwnedGroupItem ownedGroupItem = createOwnedGroupItemMapper.toEntity(request, groupMemberId, groupItemInShop, UUID.randomUUID(), useDate);
+        OwnedGroupItem ownedGroupItem = createOwnedGroupItemMapper.toEntity(request, groupMemberId, groupItem, UUID.randomUUID(), useDate);
         return createOwnedGroupItemMapper.toResponse(ownedGroupItemRpository.save(ownedGroupItem));
     }
 }

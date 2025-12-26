@@ -1,7 +1,7 @@
 package pl.gamilife.groupshop.infrastructure.persistence;
 
 import org.springframework.stereotype.Repository;
-import pl.gamilife.groupshop.domain.model.GroupItemInShop;
+import pl.gamilife.groupshop.domain.model.GroupItem;
 import pl.gamilife.groupshop.domain.port.repository.GroupItemInShopRepository;
 import pl.gamilife.groupshop.infrastructure.persistence.jpa.GroupItemInShopRepositoryJpa;
 
@@ -18,8 +18,8 @@ public class GroupItemInShopRepositoryImpl implements GroupItemInShopRepository 
     }
 
     @Override
-    public void save(GroupItemInShop groupItemInShop) {
-        groupItemInShopRepositoryJpa.save(groupItemInShop);
+    public void save(GroupItem groupItem) {
+        groupItemInShopRepositoryJpa.save(groupItem);
 
     }
 
@@ -29,7 +29,7 @@ public class GroupItemInShopRepositoryImpl implements GroupItemInShopRepository 
     }
 
     @Override
-    public Optional<GroupItemInShop> findById(UUID groupItemId) {
+    public Optional<GroupItem> findById(UUID groupItemId) {
         return groupItemInShopRepositoryJpa.findById(groupItemId);
     }
 }
