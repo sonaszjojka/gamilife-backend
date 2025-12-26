@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS group_invitation CASCADE;
 DROP TABLE IF EXISTS chat_message CASCADE;
 
 DROP TABLE IF EXISTS group_shop CASCADE;
-DROP TABLE IF EXISTS group_item_in_shop CASCADE;
+DROP TABLE IF EXISTS group_item CASCADE;
 DROP TABLE IF EXISTS owned_group_item CASCADE;
 
 DROP TABLE IF EXISTS reward CASCADE;
@@ -247,14 +247,14 @@ CREATE TABLE chat_message
 
 CREATE TABLE "group"
 (
-    group_id              UUID        NOT NULL,
+    id              UUID        NOT NULL,
     join_code             VARCHAR(20) NOT NULL,
     group_name            VARCHAR(50) NOT NULL,
     admin_id              UUID        NOT NULL,
     group_currency_symbol CHAR        NOT NULL,
     members_limit         INTEGER     NOT NULL,
     group_type_id         INTEGER     NOT NULL,
-    CONSTRAINT pk_group PRIMARY KEY (group_id)
+    CONSTRAINT pk_group PRIMARY KEY (id)
 );
 
 CREATE TABLE group_invitation
@@ -272,14 +272,14 @@ CREATE TABLE group_invitation
 
 CREATE TABLE group_member
 (
-    group_member_id    UUID                     NOT NULL,
-    group_id           UUID                     NOT NULL,
-    user_id            UUID                     NOT NULL,
-    joined_at          timestamp WITH TIME ZONE NOT NULL,
-    left_at            timestamp WITH TIME ZONE,
-    group_money        INTEGER                  NOT NULL,
-    total_earned_money INTEGER                  NOT NULL,
-    CONSTRAINT pk_group_member PRIMARY KEY (group_member_id)
+    id    UUID                        NOT NULL,
+    group_id           UUID                        NOT NULL,
+    user_id            UUID                        NOT NULL,
+    joined_at timestamp WITH TIME ZONE NOT NULL,
+    left_at   timestamp WITH TIME ZONE,
+    group_money        INTEGER                     NOT NULL,
+    total_earned_money INTEGER                     NOT NULL,
+    CONSTRAINT pk_group_member PRIMARY KEY (id)
 );
 
 CREATE TABLE group_request
@@ -338,44 +338,51 @@ ALTER TABLE group_request
     ADD CONSTRAINT FK_GROUP_REQUEST_ON_STATUS FOREIGN KEY (status_id) REFERENCES group_request_status (group_request_status_id);
 ---------------------GROUP SHOP MODULE---------------------
 -- Table: group_item_in_shop
-CREATE TABLE group_item_in_shop
+CREATE TABLE group_item
 (
-    group_item_in_shop_id UUID        NOT NULL,
+    id UUID        NOT NULL,
     price                 int         NOT NULL,
     name                  varchar(30) NOT NULL,
-    created_at            timestamp   NOT NULL,
+    created_at            timestamp with time zone  NOT NULL,
+    updated_at            timestamp with time zone   NOT NULL,
+    version              bigint      NOT NULL,
     is_active             boolean     NOT NULL,
     group_shop_id         uuid        NOT NULL,
-    CONSTRAINT group_item_in_shop_pk PRIMARY KEY (group_item_in_shop_id)
+    CONSTRAINT group_item_pk PRIMARY KEY (id)
 );
 
 -- Table: group_shop
 CREATE TABLE group_shop
 (
-    group_shop_id UUID         NOT NULL,
+    id UUID         NOT NULL,
     name          varchar(100) NOT NULL,
     description   varchar(500) NOT NULL,
     group_id      uuid         NOT NULL,
     is_active     boolean      NOT NULL,
-    CONSTRAINT group_shop_pk PRIMARY KEY (group_shop_id)
+    created_at            timestamp with time zone   NOT NULL,
+    updated_at            timestamp with time zone  NOT NULL,
+    version              bigint      NOT NULL,
+    CONSTRAINT group_shop_pk PRIMARY KEY (id)
 );
 
 -- Table: owned_group_item
 CREATE TABLE owned_group_item
 (
-    owned_group_item_id   UUID      NOT NULL,
+    id   UUID      NOT NULL,
     group_member_id       uuid      NOT NULL,
-    group_item_in_shop_id uuid      NOT NULL,
-    is_used_up            boolean   NOT NULL,
+    group_item_id uuid      NOT NULL,
     use_date              timestamp NULL,
-    CONSTRAINT owned_group_item_pk PRIMARY KEY (owned_group_item_id)
+    created_at            timestamp with time zone  NOT NULL,
+    updated_at            timestamp with time zone  NOT NULL,
+    version              bigint      NOT NULL,
+    CONSTRAINT owned_group_item_pk PRIMARY KEY (id)
 );
 
 --foreign keys
-ALTER TABLE group_item_in_shop
-    ADD CONSTRAINT group_item_in_shop_group_shop
+ALTER TABLE group_item
+    ADD CONSTRAINT group_item_group_shop
         FOREIGN KEY (group_shop_id)
-            REFERENCES group_shop (group_shop_id)
+            REFERENCES group_shop (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
@@ -384,16 +391,16 @@ ALTER TABLE group_item_in_shop
 ALTER TABLE group_shop
     ADD CONSTRAINT group_shop_group
         FOREIGN KEY (group_id)
-            REFERENCES "group" (group_id)
+            REFERENCES "group" (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
 
 -- Reference: owned_group_item_group_item_in_shop (table: owned_group_item)
 ALTER TABLE owned_group_item
-    ADD CONSTRAINT owned_group_item_group_item_in_shop
-        FOREIGN KEY (group_item_in_shop_id)
-            REFERENCES group_item_in_shop (group_item_in_shop_id)
+    ADD CONSTRAINT owned_group_item_group_item
+        FOREIGN KEY (group_item_id)
+            REFERENCES group_item (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
@@ -402,7 +409,7 @@ ALTER TABLE owned_group_item
 ALTER TABLE owned_group_item
     ADD CONSTRAINT owned_group_item_group_member
         FOREIGN KEY (group_member_id)
-            REFERENCES group_member (group_member_id)
+            REFERENCES group_member (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
