@@ -9,10 +9,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class GroupShopRepositoryImpl implements GroupShopRepository {
+public class GroupShopRepositoryAdapter implements GroupShopRepository {
     private final GroupShopRepositoryJpa groupShopRepositoryJpa;
 
-    public GroupShopRepositoryImpl(GroupShopRepositoryJpa groupShopRepositoryJpa) {
+    public GroupShopRepositoryAdapter(GroupShopRepositoryJpa groupShopRepositoryJpa) {
         this.groupShopRepositoryJpa = groupShopRepositoryJpa;
     }
 

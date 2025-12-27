@@ -9,10 +9,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class OwnedGroupItemRepositoryImpl implements OwnedGroupItemRpository {
+public class OwnedGroupItemRepositoryAdapter implements OwnedGroupItemRpository {
     OwnedGroupItemRepositoryJpa ownedGroupItemRepositoryJpa;
 
-    public OwnedGroupItemRepositoryImpl(OwnedGroupItemRepositoryJpa ownedGroupItemRepositoryJpa) {
+    public OwnedGroupItemRepositoryAdapter(OwnedGroupItemRepositoryJpa ownedGroupItemRepositoryJpa) {
         this.ownedGroupItemRepositoryJpa = ownedGroupItemRepositoryJpa;
     }
 

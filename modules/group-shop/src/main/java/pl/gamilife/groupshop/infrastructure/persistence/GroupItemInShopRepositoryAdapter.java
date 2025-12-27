@@ -9,11 +9,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class GroupItemInShopRepositoryImpl implements GroupItemInShopRepository {
+public class GroupItemInShopRepositoryAdapter implements GroupItemInShopRepository {
 
     private final GroupItemInShopRepositoryJpa groupItemInShopRepositoryJpa;
 
-    public GroupItemInShopRepositoryImpl(GroupItemInShopRepositoryJpa groupItemInShopRepositoryJpa) {
+    public GroupItemInShopRepositoryAdapter(GroupItemInShopRepositoryJpa groupItemInShopRepositoryJpa) {
         this.groupItemInShopRepositoryJpa = groupItemInShopRepositoryJpa;
     }
 
