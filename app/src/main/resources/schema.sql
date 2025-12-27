@@ -400,7 +400,7 @@ CREATE TABLE gamification.item
     price            int          NULL,
     achievement_id   uuid         NULL,
     unlock_level     int          NULL,
-    CONSTRAINT price_higher_than_quick_sell CHECK (price < quick_sell_value) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT price_higher_than_quick_sell CHECK (price > quick_sell_value) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT item_pk PRIMARY KEY (id)
 );
 
@@ -619,7 +619,7 @@ CREATE TABLE task.task
     completed_at  timestamp with time zone NULL,
     reward_issued boolean                  NOT NULL,
     version       bigint                   NOT NULL DEFAULT 0,
-    created_at    timestamp with time zone NOT NULL,
+    created_at    timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at    timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT task_pk PRIMARY KEY (id)
 );
