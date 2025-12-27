@@ -1,8 +1,8 @@
-package pl.gamilife.task.infrastructure.persistence.jpa;
+package pl.gamilife.app.persistence.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import pl.gamilife.task.domain.model.projection.ActivityItem;
+import pl.gamilife.app.persistence.view.ActivityItem;
 
 import java.util.UUID;
 

@@ -6,9 +6,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
+import pl.gamilife.app.enums.ActivityStatus;
 import pl.gamilife.shared.kernel.enums.ActivityType;
 import pl.gamilife.shared.persistence.entity.BaseUuidReadOnlyEntity;
-import pl.gamilife.task.domain.model.enums.ActivityStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,8 +19,8 @@ import java.util.UUID;
 @Entity
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "v_activity_item_with_pomodoro")
-public class ActivityItemWithPomodoro extends BaseUuidReadOnlyEntity {
+@Table(name = "v_activity_item")
+public class ActivityItem extends BaseUuidReadOnlyEntity {
 
     @Column(name = "type", length = Integer.MAX_VALUE)
     @Enumerated(EnumType.STRING)

@@ -3,8 +3,10 @@ package pl.gamilife.task.infrastructure.api;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.task.TaskApi;
-import pl.gamilife.api.task.dto.*;
-import pl.gamilife.shared.kernel.architecture.Page;
+import pl.gamilife.api.task.dto.HabitDto;
+import pl.gamilife.api.task.dto.TaskDto;
+import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
+import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
 import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTaskCommand;
 import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTaskResult;
 import pl.gamilife.task.application.createtaskforgrouptask.CreateTaskForGroupTaskUseCase;
@@ -23,9 +25,6 @@ import pl.gamilife.task.application.findhabitbyid.FindHabitByIdUseCase;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdCommand;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdResult;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdUseCase;
-import pl.gamilife.task.application.getusersactivityitems.GetUsersActivityItemsCommand;
-import pl.gamilife.task.application.getusersactivityitems.GetUsersActivityItemsResult;
-import pl.gamilife.task.application.getusersactivityitems.GetUsersActivityItemsUseCase;
 
 import java.time.ZoneId;
 import java.util.UUID;
@@ -39,7 +38,6 @@ public class TaskApiImpl implements TaskApi {
     private final DeleteTaskUseCase deleteTaskUseCase;
     private final CreateTaskForGroupTaskUseCase createTaskForGroupTaskUseCase;
     private final EditTaskForGroupTaskUseCase editTaskForGroupTaskUseCase;
-    private final GetUsersActivityItemsUseCase getUsersActivityItemsUseCase;
     private final EditTaskUseCase editTaskUseCase;
     private final EditHabitUseCase editHabitUseCase;
 
@@ -133,45 +131,6 @@ public class TaskApiImpl implements TaskApi {
                 result.difficultyId(),
                 result.description()
         );
-    }
-
-    @Override
-    public Page<ActivityItemDto> getAllActivityItemsFiltered(ActivityItemQuery dto) {
-        Page<GetUsersActivityItemsResult> result = getUsersActivityItemsUseCase.execute(new GetUsersActivityItemsCommand(
-                dto.userId(),
-                dto.zoneId(),
-                dto.title(),
-                dto.categoryId(),
-                dto.difficultyId(),
-                dto.startDate(),
-                dto.endDate(),
-                dto.page(),
-                dto.size()
-        ));
-
-        return result.map(ai -> new ActivityItemDto(
-                ai.id(),
-                ai.type(),
-                ai.title(),
-                ai.description(),
-                ai.userId(),
-                ai.categoryId(),
-                ai.categoryName(),
-                ai.difficultyId(),
-                ai.difficultyName(),
-                ai.deadlineDate(),
-                ai.deadlineTime(),
-                ai.cycleLength(),
-                ai.currentStreak(),
-                ai.longestStreak(),
-                switch (ai.status()) {
-                    case ALIVE -> ActivityItemDto.ActivityStatus.ALIVE;
-                    case INCOMPLETE -> ActivityItemDto.ActivityStatus.INCOMPLETE;
-                    case DEADLINE_TODAY -> ActivityItemDto.ActivityStatus.DEADLINE_TODAY;
-                    case DEADLINE_MISSED -> ActivityItemDto.ActivityStatus.DEADLINE_MISSED;
-                },
-                ai.canBeWorkedOn()
-        ));
     }
 
     @Override

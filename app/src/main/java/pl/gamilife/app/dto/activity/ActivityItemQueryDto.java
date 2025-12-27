@@ -1,4 +1,4 @@
-package pl.gamilife.app.dto;
+package pl.gamilife.app.dto.activity;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -12,6 +12,8 @@ public record ActivityItemQueryDto(
         Integer difficultyId,
         LocalDate startDate,
         LocalDate endDate,
+        Boolean workable,
+        Boolean pomodoro,
         Integer page,
         Integer size
 ) {
