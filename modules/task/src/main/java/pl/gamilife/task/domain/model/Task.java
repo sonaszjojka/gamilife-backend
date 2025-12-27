@@ -60,7 +60,7 @@ public class Task extends BaseEntity {
     private boolean rewardIssued = false;
 
     @OneToMany(mappedBy = "task")
-    private Set<TaskNotification> taskNotifications = new HashSet<>();
+    private final Set<TaskNotification> taskNotifications = new HashSet<>();
 
     private Task(String title, String description, UUID userId, TaskCategory category, TaskDifficulty difficulty, LocalDate deadlineDate, LocalTime deadlineTime, LocalDateTime currentUserDateTime) {
         setTitle(title);

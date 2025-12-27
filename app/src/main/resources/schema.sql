@@ -106,7 +106,7 @@ CREATE TABLE task_notification
 (
     id         INTEGER                                            NOT NULL,
     task_id    UUID                                               NOT NULL,
-    send_date  TIMESTAMP WITH TIME ZONE                           NOT NULL,
+    send_at  TIMESTAMP WITH TIME ZONE                           NOT NULL,
     version    BIGINT                                             NOT NULL DEFAULT 0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -387,7 +387,7 @@ CREATE TABLE owned_group_item
     id              UUID                     NOT NULL,
     group_member_id uuid                     NOT NULL,
     group_item_id   uuid                     NOT NULL,
-    use_date        timestamp                NULL,
+    used_at        timestamp                NULL,
     created_at      timestamp with time zone NOT NULL,
     updated_at      timestamp with time zone NOT NULL,
     version         bigint                   NOT NULL,

@@ -40,7 +40,7 @@ public class CreateTaskNotificationUseCaseImpl implements CreateTaskNotification
     private CreateTaskNotificationResult buildResponse(TaskNotification taskNotification) {
         return new CreateTaskNotificationResult(
                 taskNotification.getId(),
-                taskNotification.getSendDate(),
+                taskNotification.getSendAt(),
                 taskNotification.getTaskId()
         );
     }

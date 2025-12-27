@@ -27,12 +27,12 @@ public class EditTaskNotificationUseCaseImpl implements EditTaskNotificationUseC
             throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to edit notification for another user!");
         }
 
-        taskNotification.setSendDate(cmd.sendDate());
+        taskNotification.setSendAt(cmd.sendDate());
         taskNotificationRepository.save(taskNotification);
 
         return new EditTaskNotificationResponse(
                 taskNotification.getId(),
-                taskNotification.getSendDate(),
+                taskNotification.getSendAt(),
                 taskNotification.getTask().getId()
         );
     }

@@ -31,17 +31,21 @@ public class GroupMember extends BaseEntity {
     @Column(name = "user_id", updatable = false, nullable = false)
     private UUID userId;
 
+    @Column(name = "joined_at", nullable = false)
+    protected Instant joinedAt = Instant.now();
+
+    @Column(name = "left_at")
+    protected Instant leftAt;
+
+    @Column(name = "group_money", nullable = false)
+    private Integer groupMoney = 0;
+
+    @Column(name = "total_earned_money", nullable = false)
+    private Integer totalEarnedMoney = 0;
+
     @OneToMany(mappedBy = "groupMember", fetch = FetchType.LAZY)
     @ToString.Exclude
     private final Set<ChatMessage> chatMessages = new HashSet<>();
-    @Column(name = "joined_at", nullable = false)
-    protected Instant joinedAt = Instant.now();
-    @Column(name = "left_at")
-    protected Instant leftAt;
-    @Column(name = "group_money", nullable = false)
-    private Integer groupMoney = 0;
-    @Column(name = "total_earned_money", nullable = false)
-    private Integer totalEarnedMoney = 0;
 
     private GroupMember(Group group, UUID userId) {
         setGroup(group);

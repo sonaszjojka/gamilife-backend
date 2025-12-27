@@ -22,38 +22,46 @@ import java.util.UUID;
 @Table(name = "group")
 public class Group extends BaseEntity {
 
+    private static final int JOIN_CODE_LENGTH = 20;
+
+    @Column(name = "name", length = 50, nullable = false)
+    private String name;
+
     @Column(name = "join_code", unique = true, updatable = false, length = 20, nullable = false)
     private String joinCode;
 
-    private static final int JOIN_CODE_LENGTH = 20;
-
     @Column(name = "admin_id", nullable = false)
     private UUID adminId;
-    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-    @ToString.Exclude
-    private final Set<ChatMessage> chatMessages = new HashSet<>();
+
+    @Column(name = "currency_symbol", nullable = false)
+    private Character currencySymbol;
 
     @Column(name = "members_limit", nullable = false)
     private Integer membersLimit;
+
+    @Column(name = "type_id", insertable = false, updatable = false, nullable = false)
+    private Integer typeId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "type_id", nullable = false)
+    private GroupType type;
+
     @SQLRestriction("left_at IS NULL")
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private final Set<GroupMember> activeMembers = new HashSet<>();
+
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private final Set<GroupRequest> groupRequests = new HashSet<>();
+
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private final Set<GroupInvitation> groupInvitations = new HashSet<>();
-    @Column(name = "name", length = 50, nullable = false)
-    private String name;
-    @Column(name = "currency_symbol", nullable = false)
-    private Character currencySymbol;
-    @Column(name = "type_id", insertable = false, updatable = false, nullable = false)
-    private Integer typeId;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "type_id", nullable = false)
-    private GroupType type;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private final Set<ChatMessage> chatMessages = new HashSet<>();
 
     private Group(String name, UUID adminId, Character currencySymbol, int membersLimit, GroupType groupType) {
         setName(name);

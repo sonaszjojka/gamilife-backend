@@ -33,10 +33,6 @@ public class GroupTask extends BaseEntity {
     @Column(name = "reward")
     private Integer reward;
 
-    @OneToMany(mappedBy = "groupTaskId", cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
-    private final Set<GroupTaskMember> groupTaskMembers = new HashSet<>();
-
     @Size(max = 300)
     @Column(name = "decline_message", length = 300)
     private String declineMessage;
@@ -46,6 +42,10 @@ public class GroupTask extends BaseEntity {
 
     @Column(name = "reward_issued_at")
     private Instant rewardIssuedAt;
+
+    @OneToMany(mappedBy = "groupTask", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private final Set<GroupTaskMember> groupTaskMembers = new HashSet<>();
 
     private GroupTask(UUID taskId, UUID groupId, Integer reward) {
         setTaskId(taskId);
