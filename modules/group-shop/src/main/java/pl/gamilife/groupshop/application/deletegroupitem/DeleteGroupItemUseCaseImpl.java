@@ -46,6 +46,6 @@ public class DeleteGroupItemUseCaseImpl implements DeleteGroupItemUseCase {
 
         groupItemRepository.deleteById(cmd.groupItemId());
 
-
+        return null;
     }
 }

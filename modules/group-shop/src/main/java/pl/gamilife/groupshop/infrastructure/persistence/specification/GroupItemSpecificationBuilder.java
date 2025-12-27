@@ -28,7 +28,7 @@ public class GroupItemSpecificationBuilder {
         if (groupShopId == null) {
             return null;
         }
-        return root.get("groupShopId").in(groupShopId);
+        return cb.equal(root.get("groupShopId"),groupShopId);
                        };
     }
     private Specification<GroupItem> isActive(Boolean isActive) {
@@ -39,7 +39,8 @@ public class GroupItemSpecificationBuilder {
             if (isActive == null) {
                 return null;
             }
-            return root.get("isActive").in(isActive);
+
+            return cb.equal(root.get("isActive"),isActive);
         };
     }
 

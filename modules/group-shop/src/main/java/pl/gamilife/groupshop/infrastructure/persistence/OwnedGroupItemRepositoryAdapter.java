@@ -1,16 +1,21 @@
 package pl.gamilife.groupshop.infrastructure.persistence;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import pl.gamilife.groupshop.domain.model.OwnedGroupItem;
-import pl.gamilife.groupshop.domain.port.repository.OwnedGroupItemRpository;
+import pl.gamilife.groupshop.domain.model.filter.OwnedGroupItemsFilter;
+import pl.gamilife.groupshop.domain.port.repository.OwnedGroupItemRepository;
 import pl.gamilife.groupshop.infrastructure.persistence.jpa.OwnedGroupItemRepositoryJpa;
+import pl.gamilife.groupshop.infrastructure.persistence.specification.OwnedGroupItemSpecificationBuilder;
+import pl.gamilife.shared.kernel.architecture.Page;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class OwnedGroupItemRepositoryAdapter implements OwnedGroupItemRpository {
+public class OwnedGroupItemRepositoryAdapter implements OwnedGroupItemRepository {
     OwnedGroupItemRepositoryJpa ownedGroupItemRepositoryJpa;
+    OwnedGroupItemSpecificationBuilder specificationBuilder;
 
     public OwnedGroupItemRepositoryAdapter(OwnedGroupItemRepositoryJpa ownedGroupItemRepositoryJpa) {
         this.ownedGroupItemRepositoryJpa = ownedGroupItemRepositoryJpa;
@@ -30,5 +35,11 @@ public class OwnedGroupItemRepositoryAdapter implements OwnedGroupItemRpository 
     @Override
     public Optional<OwnedGroupItem> findById(UUID ownedGroupItemId) {
         return ownedGroupItemRepositoryJpa.findById(ownedGroupItemId);
+    }
+
+    @Override
+    public Page<OwnedGroupItem> findAllMemberItems(OwnedGroupItemsFilter filer, Integer page, Integer size)
+    {
+        return ownedGroupItemRepositoryJpa.findAllMemberItems(specificationBuilder.build(filer), PageRequest.of(page, size));
     }
 }

@@ -1,13 +1,14 @@
 package pl.gamilife.groupshop.application.getgroupitems;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public record GetGroupItemsResult(
+public record GetGroupItemResult(
 
-        UUID GroupItemId,
+        UUID id,
         String name,
         Integer price,
         Boolean isActive
 
-) {
+) implements Serializable {
 }

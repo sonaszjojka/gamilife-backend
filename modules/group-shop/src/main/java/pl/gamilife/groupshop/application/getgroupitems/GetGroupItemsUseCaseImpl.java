@@ -14,7 +14,7 @@ public class GetGroupItemsUseCaseImpl implements GetGroupItemsUseCase {
 
 
     @Override
-    public Page<GetGroupItemsResult> execute(GetGroupItemsCommand cmd) {
+    public Page<GetGroupItemResult> execute(GetGroupItemsCommand cmd) {
 
         Page<GroupItem> groupItemsPage = groupItemRepository.findAll(
                 new GroupItemsFilter(cmd.shopId(), cmd.isActive()),
@@ -24,8 +24,8 @@ public class GetGroupItemsUseCaseImpl implements GetGroupItemsUseCase {
 
         return groupItemsPage.map(this::toResult);
     }
-    private GetGroupItemsResult toResult(GroupItem groupItem) {
-        return new GetGroupItemsResult(
+    private GetGroupItemResult toResult(GroupItem groupItem) {
+        return new GetGroupItemResult(
                 groupItem.getId(),
                 groupItem.getName(),
                 groupItem.getPrice(),

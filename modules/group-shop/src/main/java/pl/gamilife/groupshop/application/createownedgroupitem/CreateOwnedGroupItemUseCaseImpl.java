@@ -16,7 +16,7 @@ import pl.gamilife.groupshop.domain.port.context.GroupContext;
 import pl.gamilife.groupshop.domain.port.context.GroupMemberContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupItemRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
-import pl.gamilife.groupshop.domain.port.repository.OwnedGroupItemRpository;
+import pl.gamilife.groupshop.domain.port.repository.OwnedGroupItemRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
@@ -25,7 +25,7 @@ import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequire
 public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseCase {
 
     private final GroupItemRepository groupItemRepository;
-    private final OwnedGroupItemRpository ownedGroupItemRpository;
+    private final OwnedGroupItemRepository ownedGroupItemRepository;
     private final GroupShopRepository groupShopRepository;
     private final GroupContext groupProvider;
     private final GroupMemberContext groupMemberProvider;
@@ -65,7 +65,7 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
                 groupItem
         );
 
-        return toResult(ownedGroupItemRpository.save(ownedGroupItem));
+        return toResult(ownedGroupItemRepository.save(ownedGroupItem));
     }
 
     private CreateOwnedGroupItemResult  toResult(OwnedGroupItem ownedGroupItem) {

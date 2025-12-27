@@ -3,7 +3,7 @@ package pl.gamilife.groupshop.application.getgroupitems;
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.kernel.architecture.UseCase;
 
-public interface GetGroupItemsUseCase extends UseCase<GetGroupItemsCommand, Page<GetGroupItemsResult>> {
+public interface GetGroupItemsUseCase extends UseCase<GetGroupItemsCommand, Page<GetGroupItemResult>> {
 
-    Page<GetGroupItemsResult> execute(GetGroupItemsCommand command);
+    Page<GetGroupItemResult> execute(GetGroupItemsCommand command);
 }

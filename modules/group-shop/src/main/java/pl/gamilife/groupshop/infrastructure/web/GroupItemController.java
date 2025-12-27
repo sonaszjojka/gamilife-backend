@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.groupshop.application.deletegroupitem.DeleteGroupItemCommand;
 import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemsCommand;
-import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemsResult;
+import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemResult;
 import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemsUseCase;
 import pl.gamilife.groupshop.domain.model.projection.ApiResponse;
 import pl.gamilife.groupshop.application.creategroupitem.CreateGroupItemInShopCommand;
@@ -72,14 +72,13 @@ public class GroupItemController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Page<GetGroupItemsResult>> getGroupItemsInShop(@PathVariable(name = "groupId") UUID groupId,
-                                                             @PathVariable(name = "shopId") UUID shopId,
-                                                             @RequestParam(name="isActive") Boolean isActive,
-                                                             @RequestParam(name = "page", defaultValue = "0")@Min(0) int page,
-                                                             @RequestParam(name = "size", defaultValue = "10")@Min(0) @Max(100) int size) {
+    public ResponseEntity<Page<GetGroupItemResult>> getGroupItemsInShop(@PathVariable(name = "groupId") UUID groupId,
+                                                                        @PathVariable(name = "shopId") UUID shopId,
+                                                                        @RequestParam(name="isActive") Boolean isActive,
+                                                                        @RequestParam(name = "page", defaultValue = "0")@Min(0) int page,
+                                                                        @RequestParam(name = "size", defaultValue = "10")@Min(0) @Max(100) int size) {
 
-
-        Page<GetGroupItemsResult> response = getGroupItemsUseCase.execute(new GetGroupItemsCommand(groupId, shopId, isActive, page, size));
+        Page<GetGroupItemResult> response = getGroupItemsUseCase.execute(new GetGroupItemsCommand(groupId, shopId, isActive, page, size));
         return ResponseEntity.ok(response);
     }
 

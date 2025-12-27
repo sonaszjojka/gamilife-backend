@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.groupshop.application.deleteownedgroupitem.DeleteOwnedGroupItemCommand;
+import pl.gamilife.groupshop.application.getownedgroupitems.GetOwnedGroupItemsCommand;
+import pl.gamilife.groupshop.application.getownedgroupitems.GetOwnedGroupItemsResult;
+import pl.gamilife.groupshop.application.getownedgroupitems.GetOwnedGroupItemsUseCase;
 import pl.gamilife.groupshop.domain.model.projection.ApiResponse;
 import pl.gamilife.groupshop.application.createownedgroupitem.CreateOwnedGroupItemCommand;
 import pl.gamilife.groupshop.application.createownedgroupitem.CreateOwnedGroupItemResult;
@@ -15,6 +18,7 @@ import pl.gamilife.groupshop.application.editownedgroupitem.EditOwnedGroupItemRe
 import pl.gamilife.groupshop.application.editownedgroupitem.EditOwnedGroupItemUseCase;
 import pl.gamilife.groupshop.infrastructure.web.request.CreateOwnedGroupItemRequest;
 import pl.gamilife.groupshop.infrastructure.web.request.EditOwnedGroupItemRequest;
+import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
@@ -26,6 +30,7 @@ public class OwnedGroupItemController {
     private final CreateOwnedGroupItemUseCase createOwnedGroupItemUseCase;
     private final DeleteOwnedGroupItemUseCase deleteOwnedGroupItemUseCase;
     private final EditOwnedGroupItemUseCase editOwnedGroupItemUseCase;
+    private final GetOwnedGroupItemsUseCase getOwnedGroupItemsUseCase;
 
 
     @PostMapping("")
@@ -65,6 +70,18 @@ public class OwnedGroupItemController {
         EditOwnedGroupItemCommand cmd = new EditOwnedGroupItemCommand(request.isUsedUp(),ownedGroupItemId, memberId, groupId, currentUserId);
 
         EditOwnedGroupItemResult response = editOwnedGroupItemUseCase.execute(cmd);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Page<GetOwnedGroupItemsResult>> getOwnedGroupItems(@PathVariable(name = "groupId") UUID groupId,
+                                                                 @PathVariable(name = "memberId") UUID memberId,
+                                                                 @CurrentUserId UUID currentUserId,
+                                                                 @RequestParam Boolean isUsedUp,
+                                                                 @RequestParam(name = "page", defaultValue = "0") int page,
+                                                                 @RequestParam(name = "size", defaultValue = "10") int size) {
+        Page<GetOwnedGroupItemsResult> response = getOwnedGroupItemsUseCase.execute(new GetOwnedGroupItemsCommand(groupId, memberId, isUsedUp, page, size));
+
         return ResponseEntity.ok(response);
     }
 

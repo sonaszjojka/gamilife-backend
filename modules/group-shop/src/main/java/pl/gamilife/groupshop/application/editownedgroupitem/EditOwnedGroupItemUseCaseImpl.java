@@ -14,7 +14,7 @@ import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
 import pl.gamilife.groupshop.domain.port.context.GroupContext;
 import pl.gamilife.groupshop.domain.port.context.GroupMemberContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
-import pl.gamilife.groupshop.domain.port.repository.OwnedGroupItemRpository;
+import pl.gamilife.groupshop.domain.port.repository.OwnedGroupItemRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
@@ -22,7 +22,7 @@ import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequire
 @AllArgsConstructor
 public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase {
 
-    private final OwnedGroupItemRpository ownedGroupItemRpository;
+    private final OwnedGroupItemRepository ownedGroupItemRepository;
     private final GroupShopRepository groupShopRepository;
     private final CurrentUserContext currentUserProvider;
     private final GroupContext groupProvider;
@@ -48,7 +48,7 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
             throw new ResourceOwnerPrivilegesRequiredException("Only group administrators or the member themselves can edit items in inventory!");
         }
 
-        OwnedGroupItem ownedGroupItem = ownedGroupItemRpository.findById(cmd.ownedGroupItemId()).orElseThrow(
+        OwnedGroupItem ownedGroupItem = ownedGroupItemRepository.findById(cmd.ownedGroupItemId()).orElseThrow(
                 () -> new OwnedGroupItemNotFoundException("Owned group item not found")
         );
 

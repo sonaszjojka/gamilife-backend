@@ -12,13 +12,13 @@ import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
 import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
 import pl.gamilife.groupshop.domain.port.context.GroupContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
-import pl.gamilife.groupshop.domain.port.repository.OwnedGroupItemRpository;
+import pl.gamilife.groupshop.domain.port.repository.OwnedGroupItemRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 
 @Service
 @AllArgsConstructor
 public class DeleteOwnedGroupItemUseCaseImpl implements DeleteOwnedGroupItemUseCase {
-    private final OwnedGroupItemRpository ownedGroupItemRpository;
+    private final OwnedGroupItemRepository ownedGroupItemRepository;
     private final CurrentUserContext currentUserProvider;
     private final GroupContext groupApi;
     private final GroupShopRepository groupShopRepository;
@@ -27,7 +27,7 @@ public class DeleteOwnedGroupItemUseCaseImpl implements DeleteOwnedGroupItemUseC
     @Override
     public Void execute(DeleteOwnedGroupItemCommand cmd) {
 
-        ownedGroupItemRpository.findById(cmd.ownedGroupItemId()).orElseThrow(
+        ownedGroupItemRepository.findById(cmd.ownedGroupItemId()).orElseThrow(
                 () -> new OwnedGroupItemNotFoundException("Owned group item not found"));
 
 
@@ -43,7 +43,7 @@ public class DeleteOwnedGroupItemUseCaseImpl implements DeleteOwnedGroupItemUseC
         if (!currentUser.userId().equals(groupDto.adminId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can delete items from inventory!");
         }
-        ownedGroupItemRpository.deleteById(cmd.ownedGroupItemId());
+        ownedGroupItemRepository.deleteById(cmd.ownedGroupItemId());
 
         return null;
     }

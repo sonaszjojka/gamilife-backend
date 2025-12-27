@@ -12,6 +12,8 @@ public interface GroupItemRepository {
 
     void deleteById(UUID groupItemInShopId);
 
+
     Page<GroupItem> findAll(GroupItemsFilter filter, Integer page, Integer pageSize);
+
     Optional<GroupItem> findById(UUID groupItemId);
 }
