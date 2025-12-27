@@ -9,8 +9,5 @@ public record GetGroupTaskMemberDto(
         UUID groupTaskMemberId,
         UUID groupMemberId,
         Boolean isMarkedDone
-
 ) {
-
-
 }

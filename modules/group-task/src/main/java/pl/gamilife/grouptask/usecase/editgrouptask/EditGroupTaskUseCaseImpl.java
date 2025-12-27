@@ -1,8 +1,8 @@
 package pl.gamilife.grouptask.usecase.editgrouptask;
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.task.TaskApi;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
@@ -12,10 +12,10 @@ import pl.gamilife.grouptask.entity.GroupTaskMember;
 import pl.gamilife.grouptask.exception.domain.GroupTaskNotFoundException;
 import pl.gamilife.grouptask.repository.GroupTaskRepository;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
     private final GroupTaskRepository groupTaskRepository;
@@ -25,39 +25,41 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
     private final GroupContext groupContext;
 
     @Override
-    @Transactional
     public EditGroupTaskResponse execute(UUID groupTaskId, EditGroupTaskRequest req) {
         GroupTask groupTask = groupTaskRepository.findByGroupTaskId(groupTaskId).orElseThrow(
                 () -> new GroupTaskNotFoundException("Group Task with id:" + groupTaskId + " does not exist"));
 
-        Boolean isAccepted = req.isAccepted();
-        Instant acceptedDate = null;
-        Instant completedAt = null;
-        boolean changedToAccepted = isAccepted != null && isAccepted && groupTask.getIsAccepted() == null;
-
+        boolean changedToAccepted = Boolean.TRUE.equals(req.isAccepted()) && !groupTask.isAccepted();
+        boolean changedToNotAccepted = Boolean.FALSE.equals(req.isAccepted()) && groupTask.isAccepted();
         if (changedToAccepted) {
-            acceptedDate = Instant.now();
-            completedAt = Instant.now();
-            for (GroupTaskMember taskMember : groupTask.getGroupTaskMembers()) {
-                if (taskMember.getIsMarkedDone() != null && taskMember.getIsMarkedDone()) {
-                    groupsProvider.editMemberWallet(taskMember.getGroupMemberId(), groupTask.getGroupId(), req.reward());
+            groupTask.accept();
+
+            if (groupTask.isRewarded() && !groupTask.wasRewardIssued()) {
+                for (GroupTaskMember taskMember : groupTask.getGroupTaskMembers()) {
+                    if (taskMember.getMarkedDoneAt() != null) {
+                        groupsProvider.editMemberWallet(taskMember.getGroupMemberId(), groupTask.getGroupId(), req.reward());
+                    }
                 }
+
+                groupTask.markRewardsAsIssued();
             }
+        } else if (changedToNotAccepted) {
+            groupTask.undoAcceptation();
         }
 
         groupTask.setReward(req.reward());
-        groupTask.setIsAccepted(req.isAccepted());
-        groupTask.setAcceptedDate(acceptedDate);
         groupTask.setDeclineMessage(req.declineMessage());
 
         TaskForGroupTaskRequestDto taskRequestDto = new TaskForGroupTaskRequestDto(
                 req.title(),
                 req.deadlineDate(),
+                req.removeDeadlineTime(),
                 req.deadlineTime(),
-                groupContext.getCurrentGroupDateTime(groupTask.getGroupId()),
+                groupContext.getCurrentGroupTimezone(groupTask.getGroupId()),
                 req.categoryId(),
                 req.difficultyId(),
-                completedAt != null,
+                req.isAccepted(),
+                req.removeDescription(),
                 req.description()
         );
 

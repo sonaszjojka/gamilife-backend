@@ -10,12 +10,12 @@ public class EditGroupTaskMapperImpl implements EditGroupTaskMapper {
     @Override
     public EditGroupTaskResponse toResponse(GroupTask groupTask) {
         return EditGroupTaskResponse.builder()
-                .groupTaskId(groupTask.getGroupTaskId())
+                .groupTaskId(groupTask.getId())
                 .taskId(groupTask.getTaskId())
                 .groupId(groupTask.getGroupId())
                 .reward(groupTask.getReward())
-                .isAccepted(groupTask.getIsAccepted())
-                .acceptedDate(groupTask.getAcceptedDate())
+                .isAccepted(groupTask.isAccepted())
+                .acceptedDate(groupTask.getAcceptedAt())
                 .declineMessage(groupTask.getDeclineMessage())
                 .build();
     }

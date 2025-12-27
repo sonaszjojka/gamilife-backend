@@ -6,11 +6,7 @@ import java.util.UUID;
 
 public interface CreateGroupTaskMapper {
 
-    GroupTask toEntity(CreateGroupTaskRequest req,
-                       UUID groupTaskId,
-                       UUID groupId,
-                       UUID taskId
-    );
+    GroupTask toEntity(CreateGroupTaskRequest req, UUID groupId, UUID taskId);
 
     CreateGroupTaskResponse toResponse(GroupTask groupTask);
 

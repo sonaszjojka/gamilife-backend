@@ -8,10 +8,10 @@ public class EditGroupTaskMemberMapperImpl implements EditGroupTaskMemberMapper 
     @Override
     public EditGroupTaskMemberResponse toResponse(GroupTaskMember groupTaskMember) {
         return EditGroupTaskMemberResponse.builder()
-                .groupTaskMemberId(groupTaskMember.getGroupTaskMemberId())
+                .groupTaskMemberId(groupTaskMember.getId())
                 .groupMemberId(groupTaskMember.getGroupMemberId())
-                .groupTaskId(groupTaskMember.getGroupTaskId().getGroupTaskId())
-                .isMarkedDone(groupTaskMember.getIsMarkedDone())
+                .groupTaskId(groupTaskMember.getGroupTaskId())
+                .isMarkedDone(groupTaskMember.isMarkedDone())
                 .build();
     }
 }

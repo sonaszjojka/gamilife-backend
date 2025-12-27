@@ -21,18 +21,22 @@ public record EditGroupTaskRequest(
         @FutureOrPresent
         LocalDate deadlineDate,
 
+        Boolean removeDeadlineTime,
+
         LocalTime deadlineTime,
 
         Integer categoryId,
 
         Integer difficultyId,
 
-        Boolean completed,
+        Boolean removeDescription,
 
         @Size(min = 1, max = 200, message = "Description cannot exceed 200 characters")
         String description,
 
         Boolean isAccepted,
+
+        Boolean removeDeclineMessage,
 
         @Size(min = 1, max = 255, message = "Decline message must not exceed 255 characters")
         String declineMessage

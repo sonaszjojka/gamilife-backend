@@ -7,8 +7,8 @@ import jakarta.validation.constraints.Size;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 
 public record CreateTaskForGroupTaskCommand(
         @NotBlank
@@ -22,7 +22,7 @@ public record CreateTaskForGroupTaskCommand(
         LocalTime deadlineTime,
 
         @NotNull
-        LocalDateTime currentGroupDateTime,
+        ZoneId currentGroupTimezone,
 
         @NotNull
         Integer categoryId,

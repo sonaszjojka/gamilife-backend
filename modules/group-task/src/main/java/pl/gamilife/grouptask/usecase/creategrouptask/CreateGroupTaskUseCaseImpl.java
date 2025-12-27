@@ -26,16 +26,18 @@ public class CreateGroupTaskUseCaseImpl implements CreateGroupTaskUseCase {
         TaskForGroupTaskRequestDto taskForGroupTaskRequestDto = new TaskForGroupTaskRequestDto(
                 request.title(),
                 request.deadlineDate(),
+                null,
                 request.deadlineTime(),
-                groupContext.getCurrentGroupDateTime(groupId),
+                groupContext.getCurrentGroupTimezone(groupId),
                 request.categoryId(),
                 request.difficultyId(),
+                null,
                 null,
                 request.description()
         );
 
 
-        GroupTask groupTask = createGroupTaskMapper.toEntity(request, UUID.randomUUID(), groupId,
+        GroupTask groupTask = createGroupTaskMapper.toEntity(request, groupId,
                 tasksProvider.createTaskForGroupTask(taskForGroupTaskRequestDto).taskId());
         GroupTask savedGroupTask = groupTaskRepository.save(groupTask);
 

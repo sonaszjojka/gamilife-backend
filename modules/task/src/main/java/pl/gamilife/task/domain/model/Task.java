@@ -83,6 +83,18 @@ public class Task extends BaseEntity {
         return new Task(title, description, null, category, difficulty, deadlineDate, deadlineTime, currentGroupDateTime);
     }
 
+    public boolean isOwnedBy(UUID userId) {
+        if (userId == null) {
+            throw new DomainValidationException("User id cannot be null");
+        }
+
+        if (isGroupTask()) {
+            return false;
+        }
+
+        return this.userId.equals(userId);
+    }
+
     public void setTitle(String title) {
         if (title == null || title.isBlank()) {
             throw new DomainValidationException("Title cannot be null or empty");
@@ -97,6 +109,7 @@ public class Task extends BaseEntity {
 
     public void setDescription(String description) {
         if (description == null || description.isBlank()) {
+            this.description = null;
             return;
         }
 

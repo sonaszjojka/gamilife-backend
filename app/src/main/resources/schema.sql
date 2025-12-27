@@ -438,10 +438,12 @@ CREATE TABLE group_task
     task_id         uuid         NOT NULL,
     group_id        uuid         NOT NULL,
     reward          int          NULL,
-    is_accepted     boolean      NULL,
-    accepted_date   timestamp    NULL,
+    accepted_at      timestamp WITH TIME ZONE                           NULL,
+    reward_issued_at timestamp WITH TIME ZONE                           NULL,
     decline_message varchar(300) NULL,
-    last_edit       timestamp    NULL,
+    version          bigint                                             NOT NULL DEFAULT 0,
+    created_at       timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at       timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT group_task_pk PRIMARY KEY (group_task_id)
 );
 
@@ -451,7 +453,10 @@ CREATE TABLE group_task_member
     group_task_member_id uuid    NOT NULL,
     group_task_id        uuid    NOT NULL,
     group_member_id      uuid    NOT NULL,
-    is_marked_done       boolean NOT NULL,
+    marked_done_at timestamp WITH TIME ZONE                           NULL,
+    version        bigint                                             NOT NULL DEFAULT 0,
+    created_at     timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at     timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT group_task_member_pk PRIMARY KEY (group_task_member_id)
 );
 
