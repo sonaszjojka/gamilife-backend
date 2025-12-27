@@ -21,8 +21,7 @@ public class CreateGroupShopForGroupUseCaseImpl implements CreateGroupShopForGro
         return toResult(groupShop);
     }
 
-    private CreateGroupShopForGroupResult toResult(GroupShop groupShop)
-    {
+    private CreateGroupShopForGroupResult toResult(GroupShop groupShop) {
         return new CreateGroupShopForGroupResult(
                 groupShop.getId(),
                 groupShop.getGroupId(),

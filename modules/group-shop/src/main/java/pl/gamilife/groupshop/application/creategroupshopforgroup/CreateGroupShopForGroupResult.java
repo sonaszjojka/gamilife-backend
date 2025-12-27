@@ -1,4 +1,5 @@
 package pl.gamilife.groupshop.application.creategroupshopforgroup;
+
 import java.util.UUID;
 
 public record CreateGroupShopForGroupResult(

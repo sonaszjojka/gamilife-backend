@@ -3,10 +3,10 @@ package pl.gamilife.groupshop.application.creategroupitem;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.groupshop.domain.model.GroupItem;
-import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.exception.InactiveGroupShopException;
+import pl.gamilife.groupshop.domain.model.GroupItem;
+import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
 import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
 import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
@@ -44,14 +44,13 @@ public class CreateGroupItemUseCaseImpl implements CreateGroupItemInShopUseCase 
         if (!currentUserDto.userId().equals(groupDto.adminId()) && Boolean.TRUE.equals(cmd.isActive())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can create active group item in shop!");
         }
-       GroupItem groupItem = GroupItem.createPrivate(cmd.name(), cmd.price(),cmd.isActive() ,groupShop);
+        GroupItem groupItem = GroupItem.createPrivate(cmd.name(), cmd.price(), cmd.isActive(), groupShop);
         groupItemInShopRepository.save(groupItem);
         return toResult(groupItem);
     }
 
 
-    private CreateGroupItemInShopResult toResult(GroupItem groupItem)
-    {
+    private CreateGroupItemInShopResult toResult(GroupItem groupItem) {
         return new CreateGroupItemInShopResult(
                 groupItem.getId(),
                 groupItem.getName(),

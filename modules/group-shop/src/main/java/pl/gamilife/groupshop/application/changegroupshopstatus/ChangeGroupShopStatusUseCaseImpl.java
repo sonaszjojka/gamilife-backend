@@ -3,8 +3,8 @@ package pl.gamilife.groupshop.application.changegroupshopstatus;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
+import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
 import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
 import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
@@ -17,9 +17,9 @@ import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredEx
 @AllArgsConstructor
 @Transactional
 public class ChangeGroupShopStatusUseCaseImpl implements ChangeGroupShopStatusUseCase {
-   private final GroupShopRepository groupShopRepository;
-   private final GroupContext groupContext;
-   private final CurrentUserContext currentUserContext;
+    private final GroupShopRepository groupShopRepository;
+    private final GroupContext groupContext;
+    private final CurrentUserContext currentUserContext;
 
 
     @Override
@@ -39,15 +39,15 @@ public class ChangeGroupShopStatusUseCaseImpl implements ChangeGroupShopStatusUs
 
         return buildResponse(groupShop);
     }
-     ChangeGroupShopStatusResult buildResponse(GroupShop groupShop)
-    {
+
+    ChangeGroupShopStatusResult buildResponse(GroupShop groupShop) {
         return new ChangeGroupShopStatusResult(
                 groupShop.getId(),
                 groupShop.getGroupId(),
                 groupShop.getName(),
                 groupShop.getDescription(),
                 groupShop.getIsActive()
-                );
+        );
 
 
     }

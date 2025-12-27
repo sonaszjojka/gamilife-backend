@@ -4,14 +4,14 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.gamilife.groupshop.application.changegroupshopstatus.ChangeGroupStatusCommand;
 import pl.gamilife.groupshop.application.changegroupshopstatus.ChangeGroupShopStatusResult;
 import pl.gamilife.groupshop.application.changegroupshopstatus.ChangeGroupShopStatusUseCase;
+import pl.gamilife.groupshop.application.changegroupshopstatus.ChangeGroupStatusCommand;
 import pl.gamilife.groupshop.application.editgroupshop.EditGroupShopCommand;
-import pl.gamilife.groupshop.infrastructure.web.request.ChangeGroupShopStatusRequest;
-import pl.gamilife.groupshop.infrastructure.web.request.EditGroupShopRequest;
 import pl.gamilife.groupshop.application.editgroupshop.EditGroupShopResult;
 import pl.gamilife.groupshop.application.editgroupshop.EditGroupShopUseCase;
+import pl.gamilife.groupshop.infrastructure.web.request.ChangeGroupShopStatusRequest;
+import pl.gamilife.groupshop.infrastructure.web.request.EditGroupShopRequest;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
@@ -30,7 +30,7 @@ public class GroupShopController {
                                                              @CurrentUserId UUID currentUserId,
                                                              @RequestBody EditGroupShopRequest request) {
 
-        EditGroupShopCommand cmd = new EditGroupShopCommand(request.name(),request.description(),groupId,shopId,currentUserId);
+        EditGroupShopCommand cmd = new EditGroupShopCommand(request.name(), request.description(), groupId, shopId, currentUserId);
 
         EditGroupShopResult response = editGroupShopUseCase.execute(cmd);
         return ResponseEntity.ok(response);
@@ -41,7 +41,7 @@ public class GroupShopController {
                                                                              @PathVariable(name = "shopId") UUID shopId,
                                                                              @CurrentUserId UUID currentUserId,
                                                                              @RequestBody @Valid ChangeGroupShopStatusRequest request) {
-        ChangeGroupStatusCommand cmd= new ChangeGroupStatusCommand(request.isActive(),shopId,groupId,currentUserId);
+        ChangeGroupStatusCommand cmd = new ChangeGroupStatusCommand(request.isActive(), shopId, groupId, currentUserId);
         ChangeGroupShopStatusResult response = changeGroupShopStatusUseCase.execute(cmd);
         return ResponseEntity.ok(response);
     }

@@ -19,5 +19,5 @@ public record GetOwnedGroupItemsCommand(
 
         Integer size
 
-)implements Command {
+) implements Command {
 }

@@ -15,6 +15,6 @@ public interface OwnedGroupItemRepository {
 
     Optional<OwnedGroupItem> findById(UUID ownedGroupItemId);
 
-    Page<OwnedGroupItem> findAllMemberItems(OwnedGroupItemsFilter filter, Integer page,Integer size);
+    Page<OwnedGroupItem> findAllMemberItems(OwnedGroupItemsFilter filter, Integer page, Integer size);
 
 }

@@ -272,13 +272,13 @@ CREATE TABLE group_invitation
 
 CREATE TABLE group_member
 (
-    group_member_id    UUID                        NOT NULL,
-    group_id           UUID                        NOT NULL,
-    user_id            UUID                        NOT NULL,
-    joined_at timestamp WITH TIME ZONE NOT NULL,
-    left_at   timestamp WITH TIME ZONE,
-    group_money        INTEGER                     NOT NULL,
-    total_earned_money INTEGER                     NOT NULL,
+    group_member_id    UUID                     NOT NULL,
+    group_id           UUID                     NOT NULL,
+    user_id            UUID                     NOT NULL,
+    joined_at          timestamp WITH TIME ZONE NOT NULL,
+    left_at            timestamp WITH TIME ZONE,
+    group_money        INTEGER                  NOT NULL,
+    total_earned_money INTEGER                  NOT NULL,
     CONSTRAINT pk_group_member PRIMARY KEY (group_member_id)
 );
 
@@ -340,41 +340,41 @@ ALTER TABLE group_request
 -- Table: group_item_in_shop
 CREATE TABLE group_item
 (
-    id UUID        NOT NULL,
-    price                 int         NOT NULL,
-    name                  varchar(30) NOT NULL,
-    created_at            timestamp with time zone  NOT NULL,
-    updated_at            timestamp with time zone   NOT NULL,
-    version              bigint      NOT NULL,
-    is_active             boolean     NOT NULL,
-    group_shop_id         uuid        NOT NULL,
+    id            UUID                     NOT NULL,
+    price         int                      NOT NULL,
+    name          varchar(30)              NOT NULL,
+    created_at    timestamp with time zone NOT NULL,
+    updated_at    timestamp with time zone NOT NULL,
+    version       bigint                   NOT NULL,
+    is_active     boolean                  NOT NULL,
+    group_shop_id uuid                     NOT NULL,
     CONSTRAINT group_item_pk PRIMARY KEY (id)
 );
 
 -- Table: group_shop
 CREATE TABLE group_shop
 (
-    id UUID         NOT NULL,
-    name          varchar(100) NOT NULL,
-    description   varchar(500) NOT NULL,
-    group_id      uuid         NOT NULL,
-    is_active     boolean      NOT NULL,
-    created_at            timestamp with time zone   NOT NULL,
-    updated_at            timestamp with time zone  NOT NULL,
-    version              bigint      NOT NULL,
+    id          UUID                     NOT NULL,
+    name        varchar(100)             NOT NULL,
+    description varchar(500)             NOT NULL,
+    group_id    uuid                     NOT NULL,
+    is_active   boolean                  NOT NULL,
+    created_at  timestamp with time zone NOT NULL,
+    updated_at  timestamp with time zone NOT NULL,
+    version     bigint                   NOT NULL,
     CONSTRAINT group_shop_pk PRIMARY KEY (id)
 );
 
 -- Table: owned_group_item
 CREATE TABLE owned_group_item
 (
-    id   UUID      NOT NULL,
-    group_member_id       uuid      NOT NULL,
-    group_item_id uuid      NOT NULL,
-    use_date              timestamp NULL,
-    created_at            timestamp with time zone  NOT NULL,
-    updated_at            timestamp with time zone  NOT NULL,
-    version              bigint      NOT NULL,
+    id              UUID                     NOT NULL,
+    group_member_id uuid                     NOT NULL,
+    group_item_id   uuid                     NOT NULL,
+    use_date        timestamp                NULL,
+    created_at      timestamp with time zone NOT NULL,
+    updated_at      timestamp with time zone NOT NULL,
+    version         bigint                   NOT NULL,
     CONSTRAINT owned_group_item_pk PRIMARY KEY (id)
 );
 

@@ -5,5 +5,5 @@ import pl.gamilife.shared.kernel.architecture.UseCase;
 
 public interface GetOwnedGroupItemsUseCase extends UseCase<GetOwnedGroupItemsCommand, Page<GetOwnedGroupItemsResult>> {
 
-   Page<GetOwnedGroupItemsResult> execute(GetOwnedGroupItemsCommand cmd);
+    Page<GetOwnedGroupItemsResult> execute(GetOwnedGroupItemsCommand cmd);
 }

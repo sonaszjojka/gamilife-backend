@@ -5,8 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.gamilife.groupshop.domain.model.GroupItem;
-import pl.gamilife.groupshop.domain.model.filter.GroupItemsFilter;
-import pl.gamilife.groupshop.infrastructure.persistence.specification.GroupItemSpecificationBuilder;
 import pl.gamilife.shared.kernel.architecture.Page;
 
 import java.util.UUID;

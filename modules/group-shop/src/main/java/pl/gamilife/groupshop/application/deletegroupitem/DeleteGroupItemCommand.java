@@ -5,7 +5,7 @@ import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
-public record DeleteGroupItemCommand (
+public record DeleteGroupItemCommand(
         @NotNull
         UUID groupItemId,
 
@@ -14,5 +14,5 @@ public record DeleteGroupItemCommand (
 
         @NotNull
         UUID currentUserId
-                ) implements Command {
+) implements Command {
 }

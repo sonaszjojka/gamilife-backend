@@ -24,13 +24,14 @@ public class GroupItemSpecificationBuilder {
     private Specification<GroupItem> itemInGroupShop(@NotNull UUID groupShopId) {
         return (root, query, cb) ->
 
-                        {
-        if (groupShopId == null) {
-            return null;
-        }
-        return cb.equal(root.get("groupShopId"),groupShopId);
-                       };
+        {
+            if (groupShopId == null) {
+                return null;
+            }
+            return cb.equal(root.get("groupShopId"), groupShopId);
+        };
     }
+
     private Specification<GroupItem> isActive(Boolean isActive) {
 
 
@@ -40,7 +41,7 @@ public class GroupItemSpecificationBuilder {
                 return null;
             }
 
-            return cb.equal(root.get("isActive"),isActive);
+            return cb.equal(root.get("isActive"), isActive);
         };
     }
 

@@ -6,13 +6,12 @@ import java.util.UUID;
 
 public record GroupItemsFilter(
 
-@NotNull
-UUID groupShopId,
+        @NotNull
+        UUID groupShopId,
 
-@NotNull
-Boolean isActive
+        @NotNull
+        Boolean isActive
 ) {
-
 
 
 }

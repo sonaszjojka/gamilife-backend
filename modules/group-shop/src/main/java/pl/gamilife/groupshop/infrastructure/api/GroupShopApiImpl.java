@@ -20,7 +20,7 @@ public class GroupShopApiImpl implements GroupShopApi {
     @Override
     public CreateGroupShopForGroupResponseDto createGroupShopOnGroupInit(CreateGroupShopForGroupRequestDto requestDto) {
 
-        CreateGroupShopForGroupResult result= createGroupShopForGroupUseCase.execute(new CreateGroupShopForGroupCommand(
+        CreateGroupShopForGroupResult result = createGroupShopForGroupUseCase.execute(new CreateGroupShopForGroupCommand(
                 requestDto.name(),
                 requestDto.description(),
                 requestDto.groupId()

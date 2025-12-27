@@ -16,6 +16,6 @@ public class GroupContextAdapter implements GroupContext {
 
     @Override
     public GroupForShop findGroupById(UUID groupId) {
-        return new GroupForShop(groupApi.findGroupById(groupId).groupId(),groupApi.findGroupById(groupId).adminId() );
+        return new GroupForShop(groupApi.findGroupById(groupId).groupId(), groupApi.findGroupById(groupId).adminId());
     }
 }

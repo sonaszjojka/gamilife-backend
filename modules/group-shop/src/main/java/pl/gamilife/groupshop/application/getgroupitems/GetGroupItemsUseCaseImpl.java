@@ -24,6 +24,7 @@ public class GetGroupItemsUseCaseImpl implements GetGroupItemsUseCase {
 
         return groupItemsPage.map(this::toResult);
     }
+
     private GetGroupItemResult toResult(GroupItem groupItem) {
         return new GetGroupItemResult(
                 groupItem.getId(),

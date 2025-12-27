@@ -14,5 +14,5 @@ public record ChangeGroupStatusCommand(
         UUID groupId,
         @NotNull
         UUID userId
-)implements Command {
+) implements Command {
 }

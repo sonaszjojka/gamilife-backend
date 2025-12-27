@@ -12,7 +12,7 @@ public class OwnedGroupItemSpecificationBuilder {
 
     public Specification<OwnedGroupItem> build(
             OwnedGroupItemsFilter filter
-    ){
+    ) {
         return Specification.allOf(
                 belongsTo(filter.memberId()),
                 isUsedUp(filter.isUsedUp())
@@ -21,7 +21,7 @@ public class OwnedGroupItemSpecificationBuilder {
 
     private Specification<OwnedGroupItem> belongsTo(
             UUID memberId
-    ){
+    ) {
         return (root, query, cb) ->
                 cb.equal(
                         root.get("memberId"),
@@ -31,8 +31,8 @@ public class OwnedGroupItemSpecificationBuilder {
 
     private Specification<OwnedGroupItem> isUsedUp(
             Boolean isUsedUp
-    ){
-        if(isUsedUp == null){
+    ) {
+        if (isUsedUp == null) {
             return null;
         }
         return (root, query, cb) ->

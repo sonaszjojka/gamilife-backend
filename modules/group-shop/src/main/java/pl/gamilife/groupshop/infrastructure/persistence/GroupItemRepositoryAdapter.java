@@ -33,7 +33,7 @@ public class GroupItemRepositoryAdapter implements GroupItemRepository {
 
     @Override
     public Page<GroupItem> findAll(GroupItemsFilter filter, Integer page, Integer size) {
-        return groupItemRepositoryJpa.findAll(groupItemSpecificationBuilder.build(filter), PageRequest.of(page,size));
+        return groupItemRepositoryJpa.findAll(groupItemSpecificationBuilder.build(filter), PageRequest.of(page, size));
     }
 
     @Override

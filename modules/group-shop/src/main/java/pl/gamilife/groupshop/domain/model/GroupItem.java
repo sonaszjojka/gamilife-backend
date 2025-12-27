@@ -18,7 +18,7 @@ import java.util.UUID;
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "group_item")
-@ToString(exclude = {"groupShop","ownedGroupItems"})
+@ToString(exclude = {"groupShop", "ownedGroupItems"})
 public class GroupItem extends BaseEntity {
 
     @Column(name = "price", nullable = false)
@@ -40,8 +40,7 @@ public class GroupItem extends BaseEntity {
     @OneToMany(mappedBy = "groupItem", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OwnedGroupItem> ownedGroupItems = new LinkedHashSet<>();
 
-    private GroupItem(String name, Integer price, Boolean isActive, GroupShop groupShop)
-    {
+    private GroupItem(String name, Integer price, Boolean isActive, GroupShop groupShop) {
         setName(name);
         setPrice(price);
         setIsActive(isActive);
@@ -50,20 +49,17 @@ public class GroupItem extends BaseEntity {
 
     public static GroupItem createPrivate(String name, Integer price, Boolean isActive, GroupShop groupShop) {
 
-        return new GroupItem(name,price,isActive,groupShop);
+        return new GroupItem(name, price, isActive, groupShop);
 
     }
 
-    public void setName(String name)
-    {
-        if (name == null||name.isBlank())
-        {
+    public void setName(String name) {
+        if (name == null || name.isBlank()) {
             throw new DomainValidationException("Item name must be provided");
 
         }
 
-        if (name.length()>255)
-        {
+        if (name.length() > 255) {
             throw new DomainValidationException("Item name cannot exceed 255 characters");
         }
 
@@ -71,29 +67,23 @@ public class GroupItem extends BaseEntity {
 
     }
 
-    public void setPrice(Integer price)
-    {
-        if (price == null)
-        {
+    public void setPrice(Integer price) {
+        if (price == null) {
             throw new DomainValidationException("Price must be provided");
 
         }
-        if (price < 0)
-        {
+        if (price < 0) {
             throw new DomainValidationException("Price cannot be negative");
         }
-        if (price > 10000)
-        {
+        if (price > 10000) {
             throw new DomainValidationException("Price cannot exceed 10000");
         }
 
         this.price = price;
     }
 
-    public void setIsActive(Boolean isActive)
-    {
-        if (isActive == null)
-        {
+    public void setIsActive(Boolean isActive) {
+        if (isActive == null) {
             throw new DomainValidationException("Active status must be provided");
         }
 
@@ -101,12 +91,11 @@ public class GroupItem extends BaseEntity {
     }
 
     public void setGroupShop(GroupShop groupShop) {
-        if (groupShop == null)
-        {
+        if (groupShop == null) {
             throw new DomainValidationException("GroupShop must be provided");
         }
 
         this.groupShop = groupShop;
-        this.groupShopId=groupShop.getId();
+        this.groupShopId = groupShop.getId();
     }
 }

@@ -1,7 +1,10 @@
 package pl.gamilife.groupshop.domain.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
@@ -26,7 +29,6 @@ public class OwnedGroupItem extends BaseEntity {
     private GroupItem groupItem;
 
 
-
     @Column(name = "use_date")
     private Instant useDate;
 
@@ -43,8 +45,7 @@ public class OwnedGroupItem extends BaseEntity {
 
     }
 
-    public void setGroupMemberId(UUID groupMemberId)
-    {
+    public void setGroupMemberId(UUID groupMemberId) {
         if (groupMemberId == null) {
             throw new DomainValidationException("Group Member Id cannot be null");
         }
@@ -64,12 +65,11 @@ public class OwnedGroupItem extends BaseEntity {
 
     public void useItem(Boolean isUsedUp) {
 
-       if (isUsedUp!=null && isUsedUp ) {
-           this.useDate=Instant.now();
-       }
-       else  {
-           this.useDate=null;
-       }
+        if (isUsedUp != null && isUsedUp) {
+            this.useDate = Instant.now();
+        } else {
+            this.useDate = null;
+        }
 
 
     }

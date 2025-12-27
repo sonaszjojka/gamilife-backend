@@ -1,4 +1,5 @@
 package pl.gamilife.gamification.domain.port.repository;
+
 import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.domain.model.filter.StoreItemsFilter;
 import pl.gamilife.shared.kernel.architecture.Page;

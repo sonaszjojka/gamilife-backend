@@ -22,7 +22,5 @@ public record EditGroupItemCommand(
         UUID currentUserId
 
 
-
-
 ) implements Command {
 }

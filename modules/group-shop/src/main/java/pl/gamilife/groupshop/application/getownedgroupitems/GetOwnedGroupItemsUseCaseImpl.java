@@ -21,13 +21,10 @@ public class GetOwnedGroupItemsUseCaseImpl implements GetOwnedGroupItemsUseCase 
 
         Page<OwnedGroupItem> ownedGroupItemPage = ownedGroupItemRepository.findAllMemberItems(
 
-                new OwnedGroupItemsFilter(cmd.memberId(),cmd.isUsedUp()),
+                new OwnedGroupItemsFilter(cmd.memberId(), cmd.isUsedUp()),
                 cmd.page(),
                 cmd.size()
         );
-
-
-
 
 
         return ownedGroupItemPage.map(this::toResult);
@@ -39,11 +36,11 @@ public class GetOwnedGroupItemsUseCaseImpl implements GetOwnedGroupItemsUseCase 
                 ownedGroupItem.getId(),
                 ownedGroupItem.getGroupMemberId(),
                 ownedGroupItem.getUseDate(),
-               new GetGroupItemResult(
-                          ownedGroupItem.getGroupItem().getId(),
-                          ownedGroupItem.getGroupItem().getName(),
-                          ownedGroupItem.getGroupItem().getPrice(),
-                          ownedGroupItem.getGroupItem().getIsActive()
+                new GetGroupItemResult(
+                        ownedGroupItem.getGroupItem().getId(),
+                        ownedGroupItem.getGroupItem().getName(),
+                        ownedGroupItem.getGroupItem().getPrice(),
+                        ownedGroupItem.getGroupItem().getIsActive()
                 )
 
         );

@@ -3,12 +3,12 @@ package pl.gamilife.groupshop.application.createownedgroupitem;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.groupshop.domain.model.GroupItem;
-import pl.gamilife.groupshop.domain.model.GroupShop;
-import pl.gamilife.groupshop.domain.model.OwnedGroupItem;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.exception.InactiveGroupShopException;
 import pl.gamilife.groupshop.domain.exception.InvalidOwnedGroupItemDataException;
+import pl.gamilife.groupshop.domain.model.GroupItem;
+import pl.gamilife.groupshop.domain.model.GroupShop;
+import pl.gamilife.groupshop.domain.model.OwnedGroupItem;
 import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
 import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
 import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
@@ -49,7 +49,7 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
             throw new InactiveGroupShopException("This group has group shop inactive!");
         }
 
-        if (!currentUser.userId().equals(groupDto.adminId()) && !currentUser.userId().equals(groupMemberProvider.findMemberById(cmd.memberId()).memberId()  )) {
+        if (!currentUser.userId().equals(groupDto.adminId()) && !currentUser.userId().equals(groupMemberProvider.findMemberById(cmd.memberId()).memberId())) {
             throw new ResourceOwnerPrivilegesRequiredException("Only group administrators or the member themselves can add items to inventory!");
         }
 
@@ -68,7 +68,7 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
         return toResult(ownedGroupItemRepository.save(ownedGroupItem));
     }
 
-    private CreateOwnedGroupItemResult  toResult(OwnedGroupItem ownedGroupItem) {
+    private CreateOwnedGroupItemResult toResult(OwnedGroupItem ownedGroupItem) {
         return new CreateOwnedGroupItemResult(
                 ownedGroupItem.getId(),
                 ownedGroupItem.getGroupMemberId(),

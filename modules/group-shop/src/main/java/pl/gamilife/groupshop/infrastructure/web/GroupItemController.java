@@ -6,18 +6,18 @@ import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.gamilife.groupshop.application.deletegroupitem.DeleteGroupItemCommand;
-import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemsCommand;
-import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemResult;
-import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemsUseCase;
-import pl.gamilife.groupshop.domain.model.projection.ApiResponse;
 import pl.gamilife.groupshop.application.creategroupitem.CreateGroupItemInShopCommand;
 import pl.gamilife.groupshop.application.creategroupitem.CreateGroupItemInShopResult;
 import pl.gamilife.groupshop.application.creategroupitem.CreateGroupItemInShopUseCase;
+import pl.gamilife.groupshop.application.deletegroupitem.DeleteGroupItemCommand;
 import pl.gamilife.groupshop.application.deletegroupitem.DeleteGroupItemUseCase;
 import pl.gamilife.groupshop.application.editgroupitem.EditGroupItemCommand;
 import pl.gamilife.groupshop.application.editgroupitem.EditGroupItemResult;
 import pl.gamilife.groupshop.application.editgroupitem.EditGroupItemUseCase;
+import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemResult;
+import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemsCommand;
+import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemsUseCase;
+import pl.gamilife.groupshop.domain.model.projection.ApiResponse;
 import pl.gamilife.groupshop.infrastructure.web.request.CreateGroupItemRequest;
 import pl.gamilife.groupshop.infrastructure.web.request.EditGroupItemRequest;
 import pl.gamilife.shared.kernel.architecture.Page;
@@ -57,7 +57,7 @@ public class GroupItemController {
     public ResponseEntity<ApiResponse> deleteGroupItemInShop(@PathVariable(name = "groupId") UUID groupId,
                                                              @PathVariable(name = "itemId") UUID groupItemId,
                                                              @CurrentUserId UUID currentUserId) {
-        DeleteGroupItemCommand cmd = new DeleteGroupItemCommand(groupItemId, groupId,currentUserId);
+        DeleteGroupItemCommand cmd = new DeleteGroupItemCommand(groupItemId, groupId, currentUserId);
         deleteGroupItemUseCase.execute(cmd);
         return ResponseEntity.ok(new ApiResponse("Group item in shop deleted successfully"));
     }
@@ -74,9 +74,9 @@ public class GroupItemController {
     @GetMapping("")
     public ResponseEntity<Page<GetGroupItemResult>> getGroupItemsInShop(@PathVariable(name = "groupId") UUID groupId,
                                                                         @PathVariable(name = "shopId") UUID shopId,
-                                                                        @RequestParam(name="isActive") Boolean isActive,
-                                                                        @RequestParam(name = "page", defaultValue = "0")@Min(0) int page,
-                                                                        @RequestParam(name = "size", defaultValue = "10")@Min(0) @Max(100) int size) {
+                                                                        @RequestParam(name = "isActive") Boolean isActive,
+                                                                        @RequestParam(name = "page", defaultValue = "0") @Min(0) int page,
+                                                                        @RequestParam(name = "size", defaultValue = "10") @Min(0) @Max(100) int size) {
 
         Page<GetGroupItemResult> response = getGroupItemsUseCase.execute(new GetGroupItemsCommand(groupId, shopId, isActive, page, size));
         return ResponseEntity.ok(response);

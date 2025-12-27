@@ -22,5 +22,4 @@ public record GetGroupItemsCommand(
 ) implements Command {
 
 
-
 }

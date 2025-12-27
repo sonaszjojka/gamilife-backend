@@ -36,8 +36,7 @@ public class EditGroupShopUseCaseImpl implements EditGroupShopUseCase {
         return toResult(groupShop);
     }
 
-    private EditGroupShopResult toResult(GroupShop groupShop)
-    {
+    private EditGroupShopResult toResult(GroupShop groupShop) {
         return new EditGroupShopResult(
                 groupShop.getId(),
                 groupShop.getGroupId(),
