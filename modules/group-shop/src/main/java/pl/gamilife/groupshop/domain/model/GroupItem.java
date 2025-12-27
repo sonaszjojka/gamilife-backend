@@ -1,10 +1,14 @@
 package pl.gamilife.groupshop.domain.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Immutable;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
-import pl.gamilife.shared.persistence.entity.BaseUuidReadOnlyEntity;
+import pl.gamilife.shared.persistence.entity.BaseEntity;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -15,9 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "group_item")
 @ToString(exclude = {"groupShop","ownedGroupItems"})
-public class GroupItem extends BaseUuidReadOnlyEntity {
-
-
+public class GroupItem extends BaseEntity {
 
     @Column(name = "price", nullable = false)
     private Integer price;
@@ -28,7 +30,7 @@ public class GroupItem extends BaseUuidReadOnlyEntity {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = false;
 
-    @Column(name = "group_shop_id",nullable = false)
+    @Column(name = "group_shop_id", nullable = false, insertable = false, updatable = false)
     private UUID groupShopId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

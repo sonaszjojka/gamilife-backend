@@ -40,6 +40,17 @@ public class OwnedGroupItemRepositoryAdapter implements OwnedGroupItemRepository
     @Override
     public Page<OwnedGroupItem> findAllMemberItems(OwnedGroupItemsFilter filer, Integer page, Integer size)
     {
-        return ownedGroupItemRepositoryJpa.findAllMemberItems(specificationBuilder.build(filer), PageRequest.of(page, size));
+        org.springframework.data.domain.Page<OwnedGroupItem> result = ownedGroupItemRepositoryJpa.findAll(
+                specificationBuilder.build(filer),
+                PageRequest.of(page, size)
+        );
+
+        return new Page<>(
+                result.getContent(),
+                result.getTotalElements(),
+                result.getTotalPages(),
+                result.getNumber(),
+                result.getSize()
+        );
     }
 }

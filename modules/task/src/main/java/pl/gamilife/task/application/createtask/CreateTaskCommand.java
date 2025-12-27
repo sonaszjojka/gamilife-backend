@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:modules/task/src/main/java/pl/gamilife/task/application/createtask/CreateTaskCommand.java
 package pl.gamilife.task.application.createtask;
-========
-package pl.gamilife.task.infrastructure.web.request;
->>>>>>>> d3529bc6 (refactor: start refactor of task module):modules/task/src/main/java/pl/gamilife/task/infrastructure/web/request/CreateTaskRequest.java
 
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;

@@ -247,14 +247,14 @@ CREATE TABLE chat_message
 
 CREATE TABLE "group"
 (
-    id              UUID        NOT NULL,
+    group_id              UUID        NOT NULL,
     join_code             VARCHAR(20) NOT NULL,
     group_name            VARCHAR(50) NOT NULL,
     admin_id              UUID        NOT NULL,
     group_currency_symbol CHAR        NOT NULL,
     members_limit         INTEGER     NOT NULL,
     group_type_id         INTEGER     NOT NULL,
-    CONSTRAINT pk_group PRIMARY KEY (id)
+    CONSTRAINT pk_group PRIMARY KEY (group_id)
 );
 
 CREATE TABLE group_invitation
@@ -272,14 +272,14 @@ CREATE TABLE group_invitation
 
 CREATE TABLE group_member
 (
-    id    UUID                        NOT NULL,
+    group_member_id    UUID                        NOT NULL,
     group_id           UUID                        NOT NULL,
     user_id            UUID                        NOT NULL,
     joined_at timestamp WITH TIME ZONE NOT NULL,
     left_at   timestamp WITH TIME ZONE,
     group_money        INTEGER                     NOT NULL,
     total_earned_money INTEGER                     NOT NULL,
-    CONSTRAINT pk_group_member PRIMARY KEY (id)
+    CONSTRAINT pk_group_member PRIMARY KEY (group_member_id)
 );
 
 CREATE TABLE group_request
@@ -391,7 +391,7 @@ ALTER TABLE group_item
 ALTER TABLE group_shop
     ADD CONSTRAINT group_shop_group
         FOREIGN KEY (group_id)
-            REFERENCES "group" (id)
+            REFERENCES "group" (group_id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
@@ -409,7 +409,7 @@ ALTER TABLE owned_group_item
 ALTER TABLE owned_group_item
     ADD CONSTRAINT owned_group_item_group_member
         FOREIGN KEY (group_member_id)
-            REFERENCES group_member (id)
+            REFERENCES group_member (group_member_id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
