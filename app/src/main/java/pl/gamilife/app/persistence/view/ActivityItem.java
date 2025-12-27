@@ -10,6 +10,7 @@ import pl.gamilife.app.enums.ActivityStatus;
 import pl.gamilife.shared.kernel.enums.ActivityType;
 import pl.gamilife.shared.persistence.entity.BaseUuidReadOnlyEntity;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -56,6 +57,9 @@ public class ActivityItem extends BaseUuidReadOnlyEntity {
 
     @Column(name = "deadline_time")
     private LocalTime deadlineTime;
+
+    @Column(name = "completed_at")
+    private Instant completedAt;
 
     @Column(name = "cycle_length")
     private Integer cycleLength;
