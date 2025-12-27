@@ -197,6 +197,7 @@ CREATE TABLE "group"."group"
     currency_symbol char(1)                  NOT NULL,
     type_id         int                      NOT NULL,
     members_limit   int                      NOT NULL,
+    timezone        varchar(100)             NOT NULL,
     version         bigint                   NOT NULL DEFAULT 0,
     created_at      timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,

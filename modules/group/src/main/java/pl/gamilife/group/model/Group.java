@@ -11,6 +11,7 @@ import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
 import java.security.SecureRandom;
+import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -39,6 +40,9 @@ public class Group extends BaseEntity {
     @Column(name = "members_limit", nullable = false)
     private Integer membersLimit;
 
+    @Column(name = "timezone", nullable = false)
+    private String timezone;
+
     @Column(name = "type_id", insertable = false, updatable = false, nullable = false)
     private Integer typeId;
 
@@ -63,17 +67,18 @@ public class Group extends BaseEntity {
     @ToString.Exclude
     private final Set<ChatMessage> chatMessages = new HashSet<>();
 
-    private Group(String name, UUID adminId, Character currencySymbol, int membersLimit, GroupType groupType) {
+    private Group(String name, UUID adminId, Character currencySymbol, int membersLimit, ZoneId zoneId, GroupType groupType) {
         setName(name);
         setAdminId(adminId);
         setCurrencySymbol(currencySymbol);
         setMembersLimit(membersLimit);
+        setTimezone(zoneId);
         setGroupType(groupType);
         generateJoinCode();
     }
 
-    public static Group create(String name, UUID adminId, Character currencySymbol, int membersLimit, GroupType groupType) {
-        return new Group(name, adminId, currencySymbol, membersLimit, groupType);
+    public static Group create(String name, UUID adminId, Character currencySymbol, int membersLimit, ZoneId zoneId, GroupType groupType) {
+        return new Group(name, adminId, currencySymbol, membersLimit, zoneId, groupType);
     }
 
     public boolean isFull() {
@@ -145,5 +150,13 @@ public class Group extends BaseEntity {
 
         this.type = groupType;
         this.typeId = groupType.getId();
+    }
+
+    public void setTimezone(ZoneId zoneId) {
+        if (zoneId == null) {
+            throw new DomainValidationException(String.format("Invalid timezone: %s", timezone));
+        }
+
+        this.timezone = zoneId.getId();
     }
 }

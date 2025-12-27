@@ -3,10 +3,9 @@ package pl.gamilife.group.usecase.creategroup;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.groupshop.GroupShopApi;
 import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
+import pl.gamilife.api.user.UserApi;
 import pl.gamilife.group.exception.domain.GroupTypeNotFoundException;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
@@ -15,6 +14,7 @@ import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
 import pl.gamilife.group.repository.GroupTypeJpaRepository;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 @Service
@@ -23,18 +23,20 @@ import java.util.UUID;
 public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
 
     private final GroupJpaRepository groupRepository;
-    private final AuthApi authApi;
     private final GroupTypeJpaRepository groupTypeRepository;
     private final GroupMemberJpaRepository groupMemberRepository;
     private final GroupShopApi groupShopApi;
+    private final UserApi userApi;
 
     @Override
     public CreateGroupResult execute(CreateGroupCommand cmd) {
         GroupType groupType = getGroupType(cmd.groupTypeId());
-        CurrentUserDto admin = authApi.getCurrentUser();
 
-        Group group = createGroup(cmd, groupType, admin.userId());
-        addGroupAdmin(group, admin.userId());
+        ZoneId zoneId = cmd.zoneId() == null
+                ? userApi.getUserZoneId(cmd.userId())
+                : cmd.zoneId();
+        Group group = createGroup(cmd, groupType, cmd.userId(), zoneId);
+        addGroupAdmin(group, cmd.userId());
         groupShopApi.createGroupShopOnGroupInit(new CreateGroupShopForGroupRequestDto(
                 group.getName() + "'s shop",
                 "Default description",
@@ -50,12 +52,13 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
                         groupTypeId + " not found!"));
     }
 
-    private Group createGroup(CreateGroupCommand cmd, GroupType groupType, UUID adminUserId) {
+    private Group createGroup(CreateGroupCommand cmd, GroupType groupType, UUID adminUserId, ZoneId zoneId) {
         Group group = Group.create(
                 cmd.groupName(),
                 adminUserId,
                 cmd.groupCurrencySymbol(),
                 cmd.membersLimit(),
+                zoneId,
                 groupType
         );
 
