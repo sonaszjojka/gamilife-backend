@@ -63,7 +63,7 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
                 groupItem
         );
 
-        return toResult(ownedGroupItem);
+        return toResult(ownedGroupItemRpository.save(ownedGroupItem));
     }
 
     private CreateOwnedGroupItemResult  toResult(OwnedGroupItem ownedGroupItem) {

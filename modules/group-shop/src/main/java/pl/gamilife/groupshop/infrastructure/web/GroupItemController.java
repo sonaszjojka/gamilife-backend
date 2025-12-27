@@ -15,7 +15,6 @@ import pl.gamilife.groupshop.application.editgroupitem.EditGroupItemResult;
 import pl.gamilife.groupshop.application.editgroupitem.EditGroupItemUseCase;
 import pl.gamilife.groupshop.infrastructure.web.request.CreateGroupItemRequest;
 import pl.gamilife.groupshop.infrastructure.web.request.EditGroupItemRequest;
-import pl.gamilife.groupshop.infrastructure.web.request.EditGroupShopRequest;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;

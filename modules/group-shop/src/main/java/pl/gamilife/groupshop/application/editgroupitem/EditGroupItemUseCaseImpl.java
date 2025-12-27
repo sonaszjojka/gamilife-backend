@@ -1,8 +1,7 @@
 package pl.gamilife.groupshop.application.editgroupitem;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.GroupDto;
 import pl.gamilife.groupshop.domain.model.GroupItem;
@@ -16,21 +15,14 @@ import pl.gamilife.groupshop.domain.port.repository.GroupItemInShopRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 
-import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class EditGroupItemUseCaseImpl implements EditGroupItemUseCase {
     private final GroupItemInShopRepository groupItemInShopRepository;
     private final GroupShopRepository groupShopRepository;
     private final CurrentUserContext currentUserProvider;
     private final GroupApi groupApi;
-
-    public EditGroupItemUseCaseImpl( GroupItemInShopRepository groupItemInShopRepository, GroupShopRepository groupShopRepository, CurrentUserContext currentUserProvider, GroupApi groupApi) {
-        this.groupItemInShopRepository = groupItemInShopRepository;
-        this.groupShopRepository = groupShopRepository;
-        this.currentUserProvider = currentUserProvider;
-        this.groupApi = groupApi;
-    }
 
     @Override
     public EditGroupItemResult execute(EditGroupItemCommand cmd) {

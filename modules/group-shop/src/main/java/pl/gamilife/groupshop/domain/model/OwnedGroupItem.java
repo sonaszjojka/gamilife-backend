@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Getter
-@ToString(exclude = {"group_item_in_shop_id"})
+@ToString(exclude = {"group_item_id"})
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "owned_group_item")
@@ -18,11 +18,11 @@ public class OwnedGroupItem extends BaseEntity {
     @Column(name = "group_member_id", nullable = false)
     private UUID groupMemberId;
 
-    @Column(name = "group_item_in_shop_id", nullable = false)
+    @Column(name = "group_item_id", nullable = false)
     private UUID groupItemInShopId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "group_item_in_shop_id", nullable = false)
+    @JoinColumn(name = "group_item_id", nullable = false)
     private GroupItem groupItem;
 
 
