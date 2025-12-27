@@ -118,4 +118,17 @@ public class GroupMember extends BaseEntity {
 
         this.userId = userId;
     }
+
+    public void setGroupMoney(Integer groupMoney) {
+        if (groupMoney == null) {
+            throw new DomainValidationException("Group money cannot be null");
+        }
+
+        if (groupMoney < 0) {
+            throw new DomainValidationException("Group money cannot be negative");
+        }
+
+        this.totalEarnedMoney = this.totalEarnedMoney - this.groupMoney + groupMoney;
+        this.groupMoney = groupMoney;
+    }
 }

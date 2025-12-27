@@ -92,7 +92,7 @@ public class Group extends BaseEntity {
         SecureRandom random = new SecureRandom();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < JOIN_CODE_LENGTH; i++) {
-            sb.append(random.nextInt('A', 'Z' + 1));
+            sb.append((char) random.nextInt('A', 'Z' + 1));
         }
 
         this.joinCode = sb.toString();

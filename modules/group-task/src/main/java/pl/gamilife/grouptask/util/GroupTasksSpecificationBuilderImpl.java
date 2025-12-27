@@ -27,13 +27,13 @@ public class GroupTasksSpecificationBuilderImpl implements GroupTasksSpecificati
                 return criteriaBuilder.conjunction();
             }
 
-            Predicate hasAcceptedDate = criteriaBuilder.isNotNull(root.get("acceptedDate"));
-            Predicate noAcceptedDate = criteriaBuilder.isNull(root.get("acceptedDate"));
+            Predicate hasAcceptedAt = criteriaBuilder.isNotNull(root.get("acceptedAt"));
+            Predicate noAcceptedAt = criteriaBuilder.isNull(root.get("acceptedAt"));
 
             if (isAccepted) {
-                return hasAcceptedDate;
+                return hasAcceptedAt;
             } else {
-                return noAcceptedDate;
+                return noAcceptedAt;
             }
 
         });
