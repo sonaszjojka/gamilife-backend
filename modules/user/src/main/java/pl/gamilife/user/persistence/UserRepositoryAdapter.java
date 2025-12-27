@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import pl.gamilife.shared.kernel.architecture.Page;
-import pl.gamilife.user.domain.User;
 import pl.gamilife.user.persistence.jpa.JpaUserRepository;
 import pl.gamilife.user.persistence.specification.UserSpecificationBuilder;
 
@@ -21,19 +20,17 @@ public class UserRepositoryAdapter implements UserRepository {
 
     @Override
     public User save(User user) {
-        UserEntity userEntity = UserMapper.toEntity(user);
-        UserEntity createdUserEntity = jpaUserRepository.save(userEntity);
-        return UserMapper.toDomain(createdUserEntity);
+        return jpaUserRepository.save(user);
     }
 
     @Override
     public Optional<User> getUserByEmail(String email) {
-        return jpaUserRepository.findByEmail(email).map(UserMapper::toDomain);
+        return jpaUserRepository.findByEmail(email);
     }
 
     @Override
     public Optional<User> getUserById(UUID id) {
-        return jpaUserRepository.findById(id).map(UserMapper::toDomain);
+        return jpaUserRepository.findById(id);
     }
 
     @Override
@@ -55,7 +52,7 @@ public class UserRepositoryAdapter implements UserRepository {
         org.springframework.data.domain.Page<User> result = jpaUserRepository.findAll(
                 userSpecificationBuilder.build(username),
                 PageRequest.of(page, size, Sort.by("username").ascending())
-        ).map(UserMapper::toDomain);
+        );
 
         return new Page<>(
                 result.getContent(),

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.shared.kernel.architecture.Page;
-import pl.gamilife.user.domain.User;
+import pl.gamilife.user.persistence.User;
 import pl.gamilife.user.persistence.UserRepository;
 
 @Service

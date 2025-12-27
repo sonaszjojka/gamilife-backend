@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.shared.kernel.event.OnboardingCompletedEvent;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
-import pl.gamilife.user.domain.User;
 import pl.gamilife.user.dto.service.UserDetails;
+import pl.gamilife.user.persistence.User;
 import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.usecase.CompleteOnboardingUseCase;
 
@@ -26,7 +26,7 @@ public class CompleteOnboardingUseCaseImpl implements CompleteOnboardingUseCase 
         User user = userRepository.getUserById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User with id:" + userId + " not found!"));
 
-        user.setTutorialCompleted(true);
+        user.completeTutorial();
         user = userRepository.save(user);
 
         eventPublisher.publishEvent(new OnboardingCompletedEvent(user.getId()));

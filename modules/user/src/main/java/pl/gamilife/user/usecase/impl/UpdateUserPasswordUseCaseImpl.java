@@ -3,7 +3,7 @@ package pl.gamilife.user.usecase.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gamilife.shared.kernel.exception.domain.ResetPasswordGenericException;
-import pl.gamilife.user.domain.User;
+import pl.gamilife.user.persistence.User;
 import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.usecase.UpdateUserPasswordUseCase;
 
@@ -20,7 +20,7 @@ public class UpdateUserPasswordUseCaseImpl implements UpdateUserPasswordUseCase 
         User user = userRepository.getUserById(userId)
                 .orElseThrow(ResetPasswordGenericException::new);
 
-        user.setPassword(hashedNewPassword);
+        user.changePassword(hashedNewPassword);
 
         userRepository.save(user);
     }

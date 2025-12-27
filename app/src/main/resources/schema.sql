@@ -206,6 +206,9 @@ CREATE TABLE "user"
     is_tutorial_completed boolean                  NOT NULL,
     timezone              varchar(100)             NOT NULL,
     last_timezone_change  timestamp WITH TIME ZONE NOT NULL,
+    version    bigint                                             NOT NULL DEFAULT 0,
+    created_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
