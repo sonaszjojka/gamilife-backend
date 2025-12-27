@@ -1,43 +1,36 @@
-package pl.gamilife.groupshop.application.deletegroupiteminshop;
+package pl.gamilife.groupshop.application.deletegroupitem;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.GroupDto;
 import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.exception.GroupShopItemNotFoundException;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.exception.InactiveGroupShopException;
+import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
+import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupItemInShopRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
-
-import java.util.UUID;
-
+@AllArgsConstructor
 @Service
-public class DeleteGroupItemInShopUseCaseImpl implements DeleteGroupItemInShopUseCase {
+public class DeleteGroupItemUseCaseImpl implements DeleteGroupItemUseCase {
 
-    private final AuthApi currentUserProvider;
+    private final CurrentUserContext currentUserProvider;
     private final GroupApi groupProvider;
     private final GroupItemInShopRepository groupItemInShopRepository;
     private final GroupShopRepository groupShopRepository;
 
-    public DeleteGroupItemInShopUseCaseImpl(AuthApi currentUserProvider, GroupApi groupProvider, GroupItemInShopRepository groupItemInShopRepository, GroupShopRepository groupShopRepository) {
-        this.currentUserProvider = currentUserProvider;
-        this.groupProvider = groupProvider;
-        this.groupItemInShopRepository = groupItemInShopRepository;
-        this.groupShopRepository = groupShopRepository;
-    }
-
-
+    @Transactional
     @Override
-    public void deleteById(UUID groupItemInShopId, UUID groupId) {
+    public void deleteById(DeleteGroupItemCommand cmd) {
 
-        CurrentUserDto currentUser = currentUserProvider.getCurrentUser();
-        GroupDto groupDto = groupProvider.findGroupById(groupId);
+        GroupShopUser currentUser = currentUserProvider.findGroupShopUserById(cmd.currentUserId());
+        GroupDto groupDto = groupProvider.findGroupById(cmd.groupId());
 
-        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(() ->
+        GroupShop groupShop = groupShopRepository.findByGroupId(cmd.groupId()).orElseThrow(() ->
                 new GroupShopNotFoundException("Group shop for the specified group not found!"));
 
         if (Boolean.FALSE.equals(groupShop.getIsActive())) {
@@ -48,10 +41,10 @@ public class DeleteGroupItemInShopUseCaseImpl implements DeleteGroupItemInShopUs
         if (!currentUser.userId().equals(groupDto.adminId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can delete group item in shop!");
         }
-        groupItemInShopRepository.findById(groupItemInShopId).orElseThrow(
-                () -> new GroupShopItemNotFoundException("Group item in shop with id: " + groupItemInShopId + " not found!"));
+        groupItemInShopRepository.findById(cmd.groupItemId()).orElseThrow(
+                () -> new GroupShopItemNotFoundException("Group item in shop with id: " + cmd.groupItemId() + " not found!"));
 
-        groupItemInShopRepository.deleteById(groupItemInShopId);
+        groupItemInShopRepository.deleteById(cmd.groupItemId());
 
 
     }

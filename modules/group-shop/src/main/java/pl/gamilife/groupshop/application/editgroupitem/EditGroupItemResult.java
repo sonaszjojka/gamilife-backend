@@ -1,17 +1,15 @@
-package pl.gamilife.groupshop.application.editgroupiteminshop;
+package pl.gamilife.groupshop.application.editgroupitem;
 
 import lombok.Builder;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Builder
-public record EditGroupItemInShopResponse(
+public record EditGroupItemResult(
         UUID groupItemInShopId,
         String name,
         Integer price,
         Boolean isActive,
-        Instant createdAt,
         UUID groupShopId
 ) {
 }

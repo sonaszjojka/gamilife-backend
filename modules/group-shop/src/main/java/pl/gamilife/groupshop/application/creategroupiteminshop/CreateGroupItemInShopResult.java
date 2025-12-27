@@ -2,15 +2,13 @@ package pl.gamilife.groupshop.application.creategroupiteminshop;
 
 import lombok.Builder;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Builder
-public record CreateGroupItemInShopResponse(
-        UUID groupItemId,
+public record CreateGroupItemInShopResult(
+        UUID id,
         String name,
         Integer price,
-        Instant createdAt,
         Boolean isActive,
         UUID groupShopId
 

@@ -1,4 +1,4 @@
-package pl.gamilife.groupshop.application.editgroupiteminshop;
+package pl.gamilife.groupshop.application.editgroupitem;
 
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.auth.AuthApi;
@@ -10,6 +10,8 @@ import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.exception.GroupShopItemNotFoundException;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.exception.InactiveGroupShopException;
+import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
+import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupItemInShopRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
@@ -17,15 +19,13 @@ import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredEx
 import java.util.UUID;
 
 @Service
-public class EditGroupItemInShopUseCaseImpl implements EditGroupItemInShopUseCase {
-    private final EditGroupItemInShopMapper editGroupItemInShopMapper;
+public class EditGroupItemUseCaseImpl implements EditGroupItemUseCase {
     private final GroupItemInShopRepository groupItemInShopRepository;
     private final GroupShopRepository groupShopRepository;
-    private final AuthApi currentUserProvider;
+    private final CurrentUserContext currentUserProvider;
     private final GroupApi groupApi;
 
-    public EditGroupItemInShopUseCaseImpl(EditGroupItemInShopMapper editGroupItemInShopMapper, GroupItemInShopRepository groupItemInShopRepository, GroupShopRepository groupShopRepository, AuthApi currentUserProvider, GroupApi groupApi) {
-        this.editGroupItemInShopMapper = editGroupItemInShopMapper;
+    public EditGroupItemUseCaseImpl( GroupItemInShopRepository groupItemInShopRepository, GroupShopRepository groupShopRepository, CurrentUserContext currentUserProvider, GroupApi groupApi) {
         this.groupItemInShopRepository = groupItemInShopRepository;
         this.groupShopRepository = groupShopRepository;
         this.currentUserProvider = currentUserProvider;
@@ -33,30 +33,41 @@ public class EditGroupItemInShopUseCaseImpl implements EditGroupItemInShopUseCas
     }
 
     @Override
-    public EditGroupItemInShopResponse execute(UUID groupItemId, UUID groupId, EditGroupItemInShopRequest request) {
+    public EditGroupItemResult execute(EditGroupItemCommand cmd) {
 
-        GroupShop groupShop = groupShopRepository.findByGroupId(groupId).orElseThrow(() ->
+        GroupShop groupShop = groupShopRepository.findByGroupId(cmd.groupId()).orElseThrow(() ->
                 new GroupShopNotFoundException("Group shop for the specified group not found!"));
 
         if (Boolean.FALSE.equals(groupShop.getIsActive())) {
             throw new InactiveGroupShopException("This group has group shop inactive!");
         }
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
-        GroupDto groupDto = groupApi.findGroupById(groupId);
+        GroupShopUser currentUserDto = currentUserProvider.findGroupShopUserById(cmd.currentUserId());
+        GroupDto groupDto = groupApi.findGroupById(groupShop.getGroupId());
 
-        if (!currentUserDto.userId().equals(groupDto.adminId()) && Boolean.TRUE.equals(request.isActive())) {
+        if (!currentUserDto.userId().equals(groupDto.adminId()) && Boolean.TRUE.equals(cmd.isActive())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can make group items active!");
         }
-        GroupItem groupItem = groupItemInShopRepository.findById(groupItemId).orElseThrow(
-                () -> new GroupShopItemNotFoundException("Group item in shop with id: " + groupItemId + " not found!"));
+        GroupItem groupItem = groupItemInShopRepository.findById(cmd.groupItemId()).orElseThrow(
+                () -> new GroupShopItemNotFoundException("Group item in shop with id: " + cmd.groupItemId() + " not found!"));
 
-        groupItem.setPrice(request.price());
-        groupItem.setName(request.name());
-        groupItem.setIsActive(request.isActive());
+        groupItem.setPrice(cmd.price());
+        groupItem.setName(cmd.name());
+        groupItem.setIsActive(cmd.isActive());
 
         groupItemInShopRepository.save(groupItem);
-        return editGroupItemInShopMapper.toResponse(groupItem);
+        return toResult(groupItem);
 
+    }
+
+    private EditGroupItemResult toResult(GroupItem groupItem) {
+
+        return new EditGroupItemResult(
+                groupItem.getId(),
+                groupItem.getName(),
+                groupItem.getPrice(),
+                groupItem.getIsActive(),
+                groupItem.getGroupShopId()
+        );
     }
 }

@@ -1,57 +1,64 @@
 package pl.gamilife.groupshop.application.creategroupiteminshop;
 
-import org.springframework.stereotype.Service;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.GroupDto;
 import pl.gamilife.groupshop.domain.model.GroupItem;
 import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.exception.InactiveGroupShopException;
+import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
+import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupItemInShopRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 
-import java.util.UUID;
-
-@Service
+@AllArgsConstructor
+@Component
 public class CreateGroupItemUseCaseImpl implements CreateGroupItemInShopUseCase {
     private final GroupItemInShopRepository groupItemInShopRepository;
     private final GroupShopRepository groupShopRepository;
     private final GroupApi groupProvider;
-    private final AuthApi currentUserProvider;
+    private final CurrentUserContext currentUserProvider;
 
-    public CreateGroupItemUseCaseImpl(GroupItemInShopRepository groupItemInShopRepository, GroupShopRepository groupShopRepository, GroupApi groupProvider, AuthApi currentUserProvider) {
-        this.groupItemInShopRepository = groupItemInShopRepository;
-        this.groupShopRepository = groupShopRepository;
-        this.groupProvider = groupProvider;
-        this.currentUserProvider = currentUserProvider;
-    }
-
-
+    @Transactional
     @Override
-    public CreateGroupItemInShopResponse execute(CreateGroupItemInShopRequest request, UUID groupId, UUID groupShopId) {
+    public CreateGroupItemInShopResult execute(CreateGroupItemInShopCommand cmd) {
 
-        GroupShop groupShop = groupShopRepository.findByGroupShopId(groupShopId).orElseThrow(
-                () -> new GroupShopNotFoundException("Group shop with id: " + groupShopId + " not found!"));
+        GroupShop groupShop = groupShopRepository.findByGroupShopId(cmd.groupShopId()).orElseThrow(
+                () -> new GroupShopNotFoundException("Group shop with id: " + cmd.groupShopId() + " not found!"));
 
         if (Boolean.FALSE.equals(groupShop.getIsActive())) {
             throw new InactiveGroupShopException("This group has group shop inactive!");
         }
 
-        GroupDto groupDto = groupProvider.findGroupById(groupId);
-        if (!groupShop.getGroupId().equals(groupId)) {
-            throw new GroupShopNotFoundException("Group shop with id: " + groupShopId + " does not belong to group with id: " + groupId + "!");
+        GroupDto groupDto = groupProvider.findGroupById(cmd.groupId());
+        if (!groupShop.getGroupId().equals(cmd.groupId())) {
+            throw new GroupShopNotFoundException("Group shop with id: " + cmd.groupShopId() + " does not belong to group with id: " + cmd.groupId() + "!");
         }
 
-        CurrentUserDto currentUserDto = currentUserProvider.getCurrentUser();
+        GroupShopUser currentUserDto = currentUserProvider.findGroupShopUserById(cmd.userId());
 
-        if (!currentUserDto.userId().equals(groupDto.adminId()) && Boolean.TRUE.equals(request.isActive())) {
+        if (!currentUserDto.userId().equals(groupDto.adminId()) && Boolean.TRUE.equals(cmd.isActive())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can create active group item in shop!");
         }
-       // GroupItem groupItem = createGroupItemUseCase.toEntity(request, groupShop, UUID.randomUUID());
-      //  groupItemInShopRepository.save(groupItem);
-        return null;
+       GroupItem groupItem = GroupItem.createPrivate(cmd.name(), cmd.price(),cmd.isActive() ,groupShop);
+        groupItemInShopRepository.save(groupItem);
+        return toResult(groupItem);
+    }
+
+
+    private CreateGroupItemInShopResult toResult(GroupItem groupItem)
+    {
+        return new CreateGroupItemInShopResult(
+                groupItem.getId(),
+                groupItem.getName(),
+                groupItem.getPrice(),
+                groupItem.getIsActive(),
+                groupItem.getGroupShop().getId()
+
+        );
     }
 }
