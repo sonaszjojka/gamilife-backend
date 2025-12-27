@@ -29,7 +29,7 @@ public class UserStatistic extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "statistic_type_id", nullable = false, insertable = false, updatable = false)
-    private StatisticType statisticType = null;
+    private final StatisticType statisticType = null;
 
     @NotNull
     @Column(name = "count", nullable = false)
