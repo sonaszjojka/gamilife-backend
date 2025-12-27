@@ -1,7 +1,9 @@
 package pl.gamilife.groupshop.application.editgroupitem;
 
 
-public interface EditGroupItemUseCase {
+import pl.gamilife.shared.kernel.architecture.UseCase;
+
+public interface EditGroupItemUseCase extends UseCase<EditGroupItemCommand, EditGroupItemResult> {
 
     EditGroupItemResult execute(EditGroupItemCommand cmd);
 }

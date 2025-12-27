@@ -1,6 +1,8 @@
 package pl.gamilife.groupshop.application.creategroupitem;
 
-public interface CreateGroupItemInShopUseCase {
+import pl.gamilife.shared.kernel.architecture.UseCase;
+
+public interface CreateGroupItemInShopUseCase extends UseCase<CreateGroupItemInShopCommand , CreateGroupItemInShopResult> {
 
     CreateGroupItemInShopResult execute(CreateGroupItemInShopCommand createGroupItemInShopCommand);
 }

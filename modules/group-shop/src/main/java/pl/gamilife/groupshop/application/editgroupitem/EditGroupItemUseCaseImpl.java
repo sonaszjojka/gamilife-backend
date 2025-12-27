@@ -2,8 +2,6 @@ package pl.gamilife.groupshop.application.editgroupitem;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.gamilife.api.group.GroupApi;
-import pl.gamilife.api.group.dto.GroupDto;
 import pl.gamilife.groupshop.domain.model.GroupItem;
 import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.exception.GroupShopItemNotFoundException;
@@ -13,7 +11,7 @@ import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
 import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
 import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
 import pl.gamilife.groupshop.domain.port.context.GroupContext;
-import pl.gamilife.groupshop.domain.port.repository.GroupItemInShopRepository;
+import pl.gamilife.groupshop.domain.port.repository.GroupItemRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 
@@ -21,7 +19,7 @@ import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredEx
 @Service
 @AllArgsConstructor
 public class EditGroupItemUseCaseImpl implements EditGroupItemUseCase {
-    private final GroupItemInShopRepository groupItemInShopRepository;
+    private final GroupItemRepository groupItemRepository;
     private final GroupShopRepository groupShopRepository;
     private final CurrentUserContext currentUserProvider;
     private final GroupContext groupApi;
@@ -42,14 +40,14 @@ public class EditGroupItemUseCaseImpl implements EditGroupItemUseCase {
         if (!currentUserDto.userId().equals(groupDto.adminId()) && Boolean.TRUE.equals(cmd.isActive())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can make group items active!");
         }
-        GroupItem groupItem = groupItemInShopRepository.findById(cmd.groupItemId()).orElseThrow(
+        GroupItem groupItem = groupItemRepository.findById(cmd.groupItemId()).orElseThrow(
                 () -> new GroupShopItemNotFoundException("Group item in shop with id: " + cmd.groupItemId() + " not found!"));
 
         groupItem.setPrice(cmd.price());
         groupItem.setName(cmd.name());
         groupItem.setIsActive(cmd.isActive());
 
-        groupItemInShopRepository.save(groupItem);
+        groupItemRepository.save(groupItem);
         return toResult(groupItem);
 
     }

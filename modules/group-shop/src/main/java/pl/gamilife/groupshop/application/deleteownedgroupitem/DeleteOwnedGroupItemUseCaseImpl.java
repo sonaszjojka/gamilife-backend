@@ -25,7 +25,7 @@ public class DeleteOwnedGroupItemUseCaseImpl implements DeleteOwnedGroupItemUseC
 
     @Transactional
     @Override
-    public void execute(DeleteOwnedGroupItemCommand cmd) {
+    public Void execute(DeleteOwnedGroupItemCommand cmd) {
 
         ownedGroupItemRpository.findById(cmd.ownedGroupItemId()).orElseThrow(
                 () -> new OwnedGroupItemNotFoundException("Owned group item not found"));
@@ -45,5 +45,6 @@ public class DeleteOwnedGroupItemUseCaseImpl implements DeleteOwnedGroupItemUseC
         }
         ownedGroupItemRpository.deleteById(cmd.ownedGroupItemId());
 
+        return null;
     }
 }

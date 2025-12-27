@@ -11,14 +11,14 @@ import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
 import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
 import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
 import pl.gamilife.groupshop.domain.port.context.GroupContext;
-import pl.gamilife.groupshop.domain.port.repository.GroupItemInShopRepository;
+import pl.gamilife.groupshop.domain.port.repository.GroupItemRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 
 @AllArgsConstructor
 @Component
 public class CreateGroupItemUseCaseImpl implements CreateGroupItemInShopUseCase {
-    private final GroupItemInShopRepository groupItemInShopRepository;
+    private final GroupItemRepository groupItemInShopRepository;
     private final GroupShopRepository groupShopRepository;
     private final GroupContext groupProvider;
     private final CurrentUserContext currentUserProvider;

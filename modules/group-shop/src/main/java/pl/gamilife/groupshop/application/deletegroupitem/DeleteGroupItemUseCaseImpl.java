@@ -11,7 +11,7 @@ import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
 import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
 import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
 import pl.gamilife.groupshop.domain.port.context.GroupContext;
-import pl.gamilife.groupshop.domain.port.repository.GroupItemInShopRepository;
+import pl.gamilife.groupshop.domain.port.repository.GroupItemRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 @AllArgsConstructor
@@ -20,12 +20,12 @@ public class DeleteGroupItemUseCaseImpl implements DeleteGroupItemUseCase {
 
     private final CurrentUserContext currentUserProvider;
     private final GroupContext groupProvider;
-    private final GroupItemInShopRepository groupItemInShopRepository;
+    private final GroupItemRepository groupItemRepository;
     private final GroupShopRepository groupShopRepository;
 
     @Transactional
     @Override
-    public void deleteById(DeleteGroupItemCommand cmd) {
+    public Void execute(DeleteGroupItemCommand cmd) {
 
         GroupShopUser currentUser = currentUserProvider.findGroupShopUserById(cmd.currentUserId());
         GroupForShop groupDto = groupProvider.findGroupById(cmd.groupId());
@@ -41,10 +41,10 @@ public class DeleteGroupItemUseCaseImpl implements DeleteGroupItemUseCase {
         if (!currentUser.userId().equals(groupDto.adminId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can delete group item in shop!");
         }
-        groupItemInShopRepository.findById(cmd.groupItemId()).orElseThrow(
+        groupItemRepository.findById(cmd.groupItemId()).orElseThrow(
                 () -> new GroupShopItemNotFoundException("Group item in shop with id: " + cmd.groupItemId() + " not found!"));
 
-        groupItemInShopRepository.deleteById(cmd.groupItemId());
+        groupItemRepository.deleteById(cmd.groupItemId());
 
 
     }

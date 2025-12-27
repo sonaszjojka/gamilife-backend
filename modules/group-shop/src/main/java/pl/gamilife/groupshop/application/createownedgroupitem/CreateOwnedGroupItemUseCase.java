@@ -1,7 +1,9 @@
 package pl.gamilife.groupshop.application.createownedgroupitem;
 
 
-public interface CreateOwnedGroupItemUseCase {
+import pl.gamilife.shared.kernel.architecture.UseCase;
+
+public interface CreateOwnedGroupItemUseCase extends UseCase<CreateOwnedGroupItemCommand, CreateOwnedGroupItemResult> {
 
     CreateOwnedGroupItemResult execute(CreateOwnedGroupItemCommand cmd);
 }

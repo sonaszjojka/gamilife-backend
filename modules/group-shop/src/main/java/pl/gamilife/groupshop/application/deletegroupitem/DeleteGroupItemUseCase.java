@@ -1,5 +1,7 @@
 package pl.gamilife.groupshop.application.deletegroupitem;
 
-public interface DeleteGroupItemUseCase {
-    void deleteById(DeleteGroupItemCommand cmd);
+import pl.gamilife.shared.kernel.architecture.UseCase;
+
+public interface DeleteGroupItemUseCase extends UseCase<DeleteGroupItemCommand, Void> {
+    Void execute(DeleteGroupItemCommand cmd);
 }

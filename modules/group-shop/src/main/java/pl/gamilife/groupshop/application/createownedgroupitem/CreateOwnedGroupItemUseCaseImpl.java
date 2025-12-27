@@ -14,7 +14,7 @@ import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
 import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
 import pl.gamilife.groupshop.domain.port.context.GroupContext;
 import pl.gamilife.groupshop.domain.port.context.GroupMemberContext;
-import pl.gamilife.groupshop.domain.port.repository.GroupItemInShopRepository;
+import pl.gamilife.groupshop.domain.port.repository.GroupItemRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.groupshop.domain.port.repository.OwnedGroupItemRpository;
 import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
@@ -24,7 +24,7 @@ import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequire
 @Service
 public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseCase {
 
-    private final GroupItemInShopRepository groupItemInShopRepository;
+    private final GroupItemRepository groupItemRepository;
     private final OwnedGroupItemRpository ownedGroupItemRpository;
     private final GroupShopRepository groupShopRepository;
     private final GroupContext groupProvider;
@@ -53,7 +53,7 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
             throw new ResourceOwnerPrivilegesRequiredException("Only group administrators or the member themselves can add items to inventory!");
         }
 
-        GroupItem groupItem = groupItemInShopRepository.findById(cmd.groupItemId())
+        GroupItem groupItem = groupItemRepository.findById(cmd.groupItemId())
                 .orElseThrow(() -> new RuntimeException("Group item in shop not found"));
 
         if (Boolean.FALSE.equals(groupItem.getIsActive())) {
