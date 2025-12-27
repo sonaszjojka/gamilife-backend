@@ -35,7 +35,7 @@ public class DeleteGroupRequestUseCaseImpl implements DeleteGroupRequestUseCase 
     }
 
     private GroupRequest getGroupRequest(UUID groupId, UUID groupRequestId) {
-        return groupRequestRepository.findByGroupRequestIdAndGroupRequested_GroupId(groupRequestId, groupId)
+        return groupRequestRepository.findByIdAndGroupId(groupRequestId, groupId)
                 .orElseThrow(() -> new GroupRequestNotFoundException("Group request with id:" + groupRequestId + " not found!"));
     }
 }

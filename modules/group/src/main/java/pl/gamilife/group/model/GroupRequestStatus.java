@@ -3,9 +3,9 @@ package pl.gamilife.group.model;
 import jakarta.persistence.*;
 import lombok.*;
 import pl.gamilife.group.enums.GroupRequestStatusEnum;
+import pl.gamilife.shared.persistence.entity.BaseIntReadOnlyEntity;
 
 import java.util.List;
-import java.util.Objects;
 
 
 @Getter
@@ -14,34 +14,18 @@ import java.util.Objects;
 @Builder
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "group_request_status")
-public class GroupRequestStatus {
-
-    @Id
-    @Column(name = "group_request_status_id", nullable = false, updatable = false, unique = true)
-    private Integer groupRequestStatusId;
+public class GroupRequestStatus extends BaseIntReadOnlyEntity {
 
     @Column(name = "title", length = 100, nullable = false, updatable = false)
     private String title;
 
-    @OneToMany(mappedBy = "groupRequestStatus", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<GroupRequest> groupRequests;
 
     public GroupRequestStatusEnum toEnum() {
-        return GroupRequestStatusEnum.fromId(this.groupRequestStatusId);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        GroupRequestStatus that = (GroupRequestStatus) o;
-        return Objects.equals(groupRequestStatusId, that.groupRequestStatusId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(groupRequestStatusId);
+        return GroupRequestStatusEnum.fromId(this.getId());
     }
 }

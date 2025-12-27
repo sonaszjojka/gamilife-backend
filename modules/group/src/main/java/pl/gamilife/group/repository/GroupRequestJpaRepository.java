@@ -12,11 +12,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface GroupRequestJpaRepository extends JpaRepository<GroupRequest, UUID>, JpaSpecificationExecutor<GroupRequest> {
-    boolean existsByGroupRequestedAndUserIdAndGroupRequestStatusId(Group group, UUID userId, Integer groupRequestStatus);
+    boolean existsByGroupAndUserIdAndStatusId(Group group, UUID userId, Integer groupRequestStatus);
 
-    Optional<GroupRequest> findByGroupRequestIdAndGroupRequested_GroupId(UUID groupRequestId, UUID groupId);
+    Optional<GroupRequest> findByIdAndGroupId(UUID groupRequestId, UUID groupId);
 
-    boolean existsByGroupRequestedAndUserIdAndGroupRequestStatus(Group groupRequested, UUID userId, GroupRequestStatus groupRequestStatus);
+    boolean existsByGroupAndUserIdAndStatus(Group groupRequested, UUID userId, GroupRequestStatus groupRequestStatus);
 
-    List<GroupRequest> findWithStatusByGroupRequestIdIn(Collection<UUID> groupRequestIds);
+    List<GroupRequest> findWithStatusByIdIn(Collection<UUID> groupRequestIds);
 }

@@ -9,5 +9,5 @@ import java.util.UUID;
 
 public interface GroupInvitationJpaRepository extends JpaRepository<GroupInvitation, UUID> {
     @EntityGraph(attributePaths = {"group"})
-    Optional<GroupInvitation> findWithGroupByGroupInvitationIdAndGroupId(UUID groupInvitationId, UUID groupId);
+    Optional<GroupInvitation> findWithGroupByIdAndGroupId(UUID groupInvitationId, UUID groupId);
 }

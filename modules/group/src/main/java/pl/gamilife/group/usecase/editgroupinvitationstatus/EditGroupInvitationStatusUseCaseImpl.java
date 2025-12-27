@@ -15,7 +15,6 @@ import pl.gamilife.group.repository.GroupInvitationJpaRepository;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.InvitationStatusJpaRepository;
 import pl.gamilife.group.service.GroupMemberService;
-import pl.gamilife.group.util.GroupInvitationUtil;
 import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
@@ -30,7 +29,6 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
     private final InvitationStatusJpaRepository invitationStatusRepository;
     private final AuthApi authApi;
     private final GroupMemberService groupMemberService;
-    private final GroupInvitationUtil groupInvitationUtil;
     private final GroupJpaRepository groupRepository;
 
     @Override
@@ -45,7 +43,7 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
                     "Only user who is assigned to this invitation can change group invitation status!");
         }
 
-        if (!groupInvitationUtil.verifyToken(cmd.token(), groupInvitation.getTokenHash())) {
+        if (!groupInvitation.verifyToken(cmd.token())) {
             throw new InvalidGroupInvitationTokenException("Invalid or tampered group invitation token!");
         }
 
@@ -73,17 +71,17 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
             );
         }
 
-        groupInvitation.setInvitationStatus(newInvitationStatus);
+        groupInvitation.changeStatus(newInvitationStatus);
         GroupInvitation savedGroupInvitation = groupInvitationRepository.save(groupInvitation);
 
         return buildEditGroupInvitationStatusResponse(
                 savedGroupInvitation,
-                groupMember != null ? groupMember.getGroupMemberId() : null
+                groupMember != null ? groupMember.getId() : null
         );
     }
 
     private Group getGroupWithMembers(UUID groupId) {
-        return groupRepository.findWithGroupMembersByGroupId(groupId)
+        return groupRepository.findWithActiveMembersById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
     }
 
@@ -94,7 +92,7 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
     }
 
     private GroupInvitation getGroupInvitationWithGroup(UUID groupInvitationId, UUID groupId) {
-        return groupInvitationRepository.findWithGroupByGroupInvitationIdAndGroupId(groupInvitationId, groupId)
+        return groupInvitationRepository.findWithGroupByIdAndGroupId(groupInvitationId, groupId)
                 .orElseThrow(() -> new GroupInvitationNotFoundException("Group invitation with id: " + groupInvitationId
                         + " not found!"));
     }
@@ -104,17 +102,17 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
             UUID groupMemberId
     ) {
         return EditGroupInvitationStatusResult.builder()
-                .groupInvitationId(groupInvitation.getGroupInvitationId())
+                .groupInvitationId(groupInvitation.getId())
                 .groupInvited(new EditGroupInvitationStatusResult.GroupDto(
                         groupInvitation.getGroupId()
                 ))
                 .userId(groupInvitation.getUserId())
                 .expiresAt(groupInvitation.getExpiresAt())
-                .mailSentAt(groupInvitation.getMailSentAt())
+                .mailSentAt(groupInvitation.getCreatedAt())
                 .link(groupInvitation.getLink())
                 .invitationStatus(new EditGroupInvitationStatusResult.InvitationStatusDto(
-                        groupInvitation.getInvitationStatus().getInvitationStatusId(),
-                        groupInvitation.getInvitationStatus().getTitle()
+                        groupInvitation.getStatus().getId(),
+                        groupInvitation.getStatus().getTitle()
                 ))
                 .groupMemberId(groupMemberId)
                 .build();

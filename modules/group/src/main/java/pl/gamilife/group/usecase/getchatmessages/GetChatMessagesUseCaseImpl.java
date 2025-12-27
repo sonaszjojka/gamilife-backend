@@ -38,12 +38,12 @@ public class GetChatMessagesUseCaseImpl implements GetChatMessagesUseCase {
                 createPageable(cmd)
         );
 
-        List<UUID> messageIds = messagePage.map(ChatMessage::getMessageId).getContent();
+        List<UUID> messageIds = messagePage.map(ChatMessage::getId).getContent();
 
         List<ChatMessage> messagesWithDetails;
         if (!messageIds.isEmpty()) {
-            messagesWithDetails = chatMessageRepository.findWithGroupMemberByMessageIdIn(messageIds);
-            messagesWithDetails.sort(Comparator.comparingInt(m -> messageIds.indexOf(m.getMessageId())));
+            messagesWithDetails = chatMessageRepository.findWithGroupMemberByIdIn(messageIds);
+            messagesWithDetails.sort(Comparator.comparingInt(m -> messageIds.indexOf(m.getId())));
         } else {
             messagesWithDetails = List.of();
         }
@@ -75,9 +75,9 @@ public class GetChatMessagesUseCaseImpl implements GetChatMessagesUseCase {
                 messagePage.getNumber(),
                 messagePage.getSize(),
                 messages.stream().map(m -> new GetChatMessagesResult.ChatMessageDto(
-                        m.getMessageId(),
+                        m.getId(),
                         m.getContent(),
-                        m.getSentAt(),
+                        m.getCreatedAt(),
                         m.getIsImportant(),
                         m.getGroupId(),
                         m.getGroupMemberId(),

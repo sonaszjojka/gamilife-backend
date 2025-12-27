@@ -236,106 +236,119 @@ ALTER TABLE forgot_password_code
 
 CREATE TABLE chat_message
 (
-    message_id   UUID         NOT NULL,
+    id         UUID                                               NOT NULL,
     content      VARCHAR(255) NOT NULL,
     is_important BOOLEAN      NOT NULL,
     sent_at      timestamp WITH TIME ZONE,
     group_id     UUID         NOT NULL,
     sender_id    UUID         NOT NULL,
-    CONSTRAINT pk_chat_message PRIMARY KEY (message_id)
+    version    bigint                                             NOT NULL DEFAULT 0,
+    created_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT pk_chat_message PRIMARY KEY (id)
 );
 
 CREATE TABLE "group"
 (
-    group_id              UUID        NOT NULL,
+    id              UUID                                               NOT NULL,
     join_code             VARCHAR(20) NOT NULL,
-    group_name            VARCHAR(50) NOT NULL,
+    name            VARCHAR(50)                                        NOT NULL,
     admin_id              UUID        NOT NULL,
-    group_currency_symbol CHAR        NOT NULL,
+    currency_symbol CHAR                                               NOT NULL,
     members_limit         INTEGER     NOT NULL,
-    group_type_id         INTEGER     NOT NULL,
-    CONSTRAINT pk_group PRIMARY KEY (group_id)
+    type_id         INTEGER                                            NOT NULL,
+    version         bigint                                             NOT NULL DEFAULT 0,
+    created_at      timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at      timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT pk_group PRIMARY KEY (id)
 );
 
 CREATE TABLE group_invitation
 (
-    group_invitation_id  UUID                     NOT NULL,
+    id  UUID                     NOT NULL,
     group_id             UUID                     NOT NULL,
     user_id              UUID                     NOT NULL,
     expires_at           timestamp WITH TIME ZONE NOT NULL,
-    mail_sent_at         timestamp WITH TIME ZONE,
     link                 VARCHAR(200)             NOT NULL,
-    invitation_status_id INTEGER                  NOT NULL,
+    status_id INTEGER NOT NULL,
     token_hash           VARCHAR(200)             NOT NULL,
-    CONSTRAINT pk_group_invitation PRIMARY KEY (group_invitation_id)
+    version         bigint                                             NOT NULL DEFAULT 0,
+    created_at      timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at      timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT pk_group_invitation PRIMARY KEY (id)
 );
 
 CREATE TABLE group_member
 (
-    group_member_id    UUID                     NOT NULL,
+    id    UUID                     NOT NULL,
     group_id           UUID                     NOT NULL,
     user_id            UUID                     NOT NULL,
     joined_at          timestamp WITH TIME ZONE NOT NULL,
-    left_at            timestamp WITH TIME ZONE,
+    left_at            timestamp WITH TIME ZONE NULL,
     group_money        INTEGER                  NOT NULL,
     total_earned_money INTEGER                  NOT NULL,
-    CONSTRAINT pk_group_member PRIMARY KEY (group_member_id)
+    version         bigint                                             NOT NULL DEFAULT 0,
+    created_at      timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at      timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT pk_group_member PRIMARY KEY (id)
 );
 
 CREATE TABLE group_request
 (
-    group_request_id UUID    NOT NULL,
+    id UUID    NOT NULL,
     user_id          UUID    NOT NULL,
     group_id         UUID    NOT NULL,
-    created_at       timestamp WITH TIME ZONE,
     status_id        INTEGER NOT NULL,
-    CONSTRAINT pk_group_request PRIMARY KEY (group_request_id)
+    version         bigint                                             NOT NULL DEFAULT 0,
+    created_at      timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at      timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT pk_group_request PRIMARY KEY (id)
 );
 
 CREATE TABLE group_request_status
 (
-    group_request_status_id INTEGER      NOT NULL,
+    id INTEGER      NOT NULL,
     title                   VARCHAR(100) NOT NULL,
-    CONSTRAINT pk_group_request_status PRIMARY KEY (group_request_status_id)
+    CONSTRAINT pk_group_request_status PRIMARY KEY (id)
 );
 
 CREATE TABLE group_type
 (
-    group_type_id INTEGER     NOT NULL,
+    id INTEGER     NOT NULL,
     title         VARCHAR(50) NOT NULL,
-    CONSTRAINT pk_group_type PRIMARY KEY (group_type_id)
+    CONSTRAINT pk_group_type PRIMARY KEY (id)
 );
 
 CREATE TABLE invitation_status
 (
-    invitation_status_id INTEGER      NOT NULL,
+    id INTEGER      NOT NULL,
     title                VARCHAR(100) NOT NULL,
-    CONSTRAINT pk_invitation_status PRIMARY KEY (invitation_status_id)
+    CONSTRAINT pk_invitation_status PRIMARY KEY (id)
 );
 
 ALTER TABLE "group"
     ADD CONSTRAINT uc_group_join_code UNIQUE (join_code);
 
 ALTER TABLE chat_message
-    ADD CONSTRAINT FK_CHAT_MESSAGE_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (group_id);
+    ADD CONSTRAINT FK_CHAT_MESSAGE_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (id);
 
 ALTER TABLE group_invitation
-    ADD CONSTRAINT FK_GROUP_INVITATION_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (group_id);
+    ADD CONSTRAINT FK_GROUP_INVITATION_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (id);
 
 ALTER TABLE group_invitation
-    ADD CONSTRAINT FK_GROUP_INVITATION_ON_INVITATION_STATUS FOREIGN KEY (invitation_status_id) REFERENCES invitation_status (invitation_status_id);
+    ADD CONSTRAINT FK_GROUP_INVITATION_ON_INVITATION_STATUS FOREIGN KEY (status_id) REFERENCES invitation_status (id);
 
 ALTER TABLE group_member
-    ADD CONSTRAINT FK_GROUP_MEMBER_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (group_id);
+    ADD CONSTRAINT FK_GROUP_MEMBER_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (id);
 
 ALTER TABLE "group"
-    ADD CONSTRAINT FK_GROUP_ON_GROUP_TYPE FOREIGN KEY (group_type_id) REFERENCES group_type (group_type_id);
+    ADD CONSTRAINT FK_GROUP_ON_GROUP_TYPE FOREIGN KEY (type_id) REFERENCES group_type (id);
 
 ALTER TABLE group_request
-    ADD CONSTRAINT FK_GROUP_REQUEST_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (group_id);
+    ADD CONSTRAINT FK_GROUP_REQUEST_ON_GROUP FOREIGN KEY (group_id) REFERENCES "group" (id);
 
 ALTER TABLE group_request
-    ADD CONSTRAINT FK_GROUP_REQUEST_ON_STATUS FOREIGN KEY (status_id) REFERENCES group_request_status (group_request_status_id);
+    ADD CONSTRAINT FK_GROUP_REQUEST_ON_STATUS FOREIGN KEY (status_id) REFERENCES group_request_status (id);
 ---------------------GROUP SHOP MODULE---------------------
 -- Table: group_item_in_shop
 CREATE TABLE group_item
@@ -391,7 +404,7 @@ ALTER TABLE group_item
 ALTER TABLE group_shop
     ADD CONSTRAINT group_shop_group
         FOREIGN KEY (group_id)
-            REFERENCES "group" (group_id)
+            REFERENCES "group" (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
@@ -409,7 +422,7 @@ ALTER TABLE owned_group_item
 ALTER TABLE owned_group_item
     ADD CONSTRAINT owned_group_item_group_member
         FOREIGN KEY (group_member_id)
-            REFERENCES group_member (group_member_id)
+            REFERENCES group_member (id)
             NOT DEFERRABLE
                 INITIALLY IMMEDIATE
 ;
@@ -443,7 +456,7 @@ CREATE TABLE group_task_member
 ALTER TABLE group_task_member
     ADD CONSTRAINT group_task_member_group_member
         FOREIGN KEY (group_member_id)
-            REFERENCES group_member (group_member_id)
+            REFERENCES group_member (id)
 ;
 
 
@@ -456,7 +469,7 @@ ALTER TABLE group_task_member
 ALTER TABLE group_task
     ADD CONSTRAINT group_task_group
         FOREIGN KEY (group_id)
-            REFERENCES "group" (group_id)
+            REFERENCES "group" (id)
 ;
 
 ALTER TABLE group_task

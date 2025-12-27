@@ -35,7 +35,7 @@ public class DeleteGroupInvitationUseCaseImpl implements DeleteGroupInvitationUs
     }
 
     private GroupInvitation getGroupInvitationWithGroup(UUID groupId, UUID groupInvitationId) {
-        return groupInvitationRepository.findWithGroupByGroupInvitationIdAndGroupId(groupInvitationId, groupId)
+        return groupInvitationRepository.findWithGroupByIdAndGroupId(groupInvitationId, groupId)
                 .orElseThrow(() -> new GroupInvitationNotFoundException("Group invitation with id:"
                         + groupInvitationId + " not found!"));
     }

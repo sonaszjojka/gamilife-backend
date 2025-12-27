@@ -43,12 +43,12 @@ public class GetGroupRequestsUseCaseImpl implements GetGroupRequestsUseCase {
                 createPageable(cmd)
         );
 
-        List<UUID> requestIds = requestPage.map(GroupRequest::getGroupRequestId).getContent();
+        List<UUID> requestIds = requestPage.map(GroupRequest::getId).getContent();
 
         List<GroupRequest> requestsWithDetails;
         if (!requestIds.isEmpty()) {
-            requestsWithDetails = groupRequestRepository.findWithStatusByGroupRequestIdIn(requestIds);
-            requestsWithDetails.sort(Comparator.comparingInt(r -> requestIds.indexOf(r.getGroupRequestId())));
+            requestsWithDetails = groupRequestRepository.findWithStatusByIdIn(requestIds);
+            requestsWithDetails.sort(Comparator.comparingInt(r -> requestIds.indexOf(r.getId())));
         } else {
             requestsWithDetails = List.of();
         }
@@ -80,14 +80,14 @@ public class GetGroupRequestsUseCaseImpl implements GetGroupRequestsUseCase {
                 requestPage.getNumber(),
                 requestPage.getSize(),
                 requests.stream().map(r -> new GetGroupRequestsResult.GroupRequestDto(
-                        r.getGroupRequestId(),
+                        r.getId(),
                         r.getUserId(),
                         getUserUsername(r.getUserId()),
                         r.getGroupId(),
                         r.getCreatedAt(),
                         new GetGroupRequestsResult.GroupRequestStatusDto(
-                                r.getGroupRequestStatus().getGroupRequestStatusId(),
-                                r.getGroupRequestStatus().getTitle()
+                                r.getStatus().getId(),
+                                r.getStatus().getTitle()
                         )
                 )).toList()
         );

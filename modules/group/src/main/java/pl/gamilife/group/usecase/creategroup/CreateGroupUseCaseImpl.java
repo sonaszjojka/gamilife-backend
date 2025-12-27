@@ -14,9 +14,7 @@ import pl.gamilife.group.model.GroupType;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
 import pl.gamilife.group.repository.GroupTypeJpaRepository;
-import pl.gamilife.group.util.JoinCodeGenerator;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -28,7 +26,6 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
     private final AuthApi authApi;
     private final GroupTypeJpaRepository groupTypeRepository;
     private final GroupMemberJpaRepository groupMemberRepository;
-    private final JoinCodeGenerator joinCodeGenerator;
     private final GroupShopApi groupShopApi;
 
     @Override
@@ -41,7 +38,7 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
         groupShopApi.createGroupShopOnGroupInit(new CreateGroupShopForGroupRequestDto(
                 group.getName() + "'s shop",
                 "Default description",
-                group.getGroupId()
+                group.getId()
         ));
 
         return buildCreateGroupResult(group);
@@ -54,45 +51,33 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
     }
 
     private Group createGroup(CreateGroupCommand cmd, GroupType groupType, UUID adminUserId) {
-        String joinCode = joinCodeGenerator.generate(20);
-        Group group = Group.builder()
-                .groupId(UUID.randomUUID())
-                .name(cmd.groupName())
-                .joinCode(joinCode)
-                .adminId(adminUserId)
-                .groupCurrencySymbol(cmd.groupCurrencySymbol())
-                .membersLimit(cmd.membersLimit())
-                .groupType(groupType)
-                .build();
+        Group group = Group.create(
+                cmd.groupName(),
+                adminUserId,
+                cmd.groupCurrencySymbol(),
+                cmd.membersLimit(),
+                groupType
+        );
 
         return groupRepository.save(group);
     }
 
     private void addGroupAdmin(Group group, UUID adminUserId) {
-        GroupMember groupMemberAdmin = GroupMember.builder()
-                .groupMemberId(UUID.randomUUID())
-                .group(group)
-                .userId(adminUserId)
-                .leftAt(null)
-                .joinedAt(Instant.now())
-                .groupMoney(0)
-                .totalEarnedMoney(0)
-                .build();
-
+        GroupMember groupMemberAdmin = GroupMember.create(group, adminUserId);
         groupMemberRepository.save(groupMemberAdmin);
     }
 
     private CreateGroupResult buildCreateGroupResult(Group group) {
         return CreateGroupResult.builder()
-                .groupId(group.getGroupId())
+                .groupId(group.getId())
                 .groupName(group.getName())
                 .joinCode(group.getJoinCode())
                 .adminId(group.getAdminId())
-                .groupCurrencySymbol(group.getGroupCurrencySymbol())
+                .groupCurrencySymbol(group.getCurrencySymbol())
                 .membersLimit(group.getMembersLimit())
                 .groupType(new CreateGroupResult.GroupTypeDto(
-                        group.getGroupType().getGroupTypeId(),
-                        group.getGroupType().getTitle()
+                        group.getType().getId(),
+                        group.getType().getTitle()
                 ))
                 .build();
     }

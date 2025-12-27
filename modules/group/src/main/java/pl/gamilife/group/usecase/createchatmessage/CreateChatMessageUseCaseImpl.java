@@ -36,7 +36,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
 
         if (!groupMember.isActive()) {
             throw new UserLeftGroupException("Group member with id: " + cmd.groupMemberId() + " left group with id: "
-                    + group.getGroupId() + " and is no longer member of it!");
+                    + group.getId() + " and is no longer member of it!");
         }
 
         if (!groupMember.isUser(currentUserDto.userId())) {
@@ -44,13 +44,12 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
                     + " is not a group member with id: " + cmd.groupMemberId());
         }
 
-        ChatMessage chatMessage = ChatMessage.builder()
-                .messageId(UUID.randomUUID())
-                .isImportant(cmd.isImportant())
-                .group(group)
-                .content(cmd.content())
-                .groupMember(groupMember)
-                .build();
+        ChatMessage chatMessage = ChatMessage.create(
+                cmd.content(),
+                cmd.isImportant(),
+                group,
+                groupMember
+        );
         ChatMessage savedChatMessage = chatMessageRepository.save(chatMessage);
 
         return buildCreateChatMessageResult(savedChatMessage);
@@ -64,7 +63,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
     }
 
     private GroupMember getGroupMember(UUID groupId, UUID groupMemberId) {
-        return groupMemberRepository.findByGroupMemberIdAndGroupId(groupMemberId, groupId)
+        return groupMemberRepository.findByIdAndGroupId(groupMemberId, groupId)
                 .orElseThrow(
                         () -> new GroupMemberNotFoundException("Group member with id: " + groupMemberId + " not found!")
                 );
@@ -72,9 +71,9 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
 
     private CreateChatMessageResult buildCreateChatMessageResult(ChatMessage chatMessage) {
         return CreateChatMessageResult.builder()
-                .messageId(chatMessage.getMessageId())
+                .messageId(chatMessage.getId())
                 .isImportant(chatMessage.getIsImportant())
-                .sendAt(chatMessage.getSentAt())
+                .sendAt(chatMessage.getCreatedAt())
                 .content(chatMessage.getContent())
                 .group(new CreateChatMessageResult.GroupDto(chatMessage.getGroupId()))
                 .senderGroupMember(new CreateChatMessageResult.GroupMemberDto(

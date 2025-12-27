@@ -38,8 +38,8 @@ public class GroupSpecificationBuilderImpl implements GroupSpecificationBuilder 
             if (groupType == null) {
                 return null;
             }
-            Join<Object, Object> groupTypeJoin = root.join("groupType");
-            return cb.equal(groupTypeJoin.get("groupTypeId"), groupType.getId());
+            Join<Object, Object> groupTypeJoin = root.join("type");
+            return cb.equal(groupTypeJoin.get("typeId"), groupType.getId());
         };
     }
 

@@ -37,8 +37,8 @@ public class GroupRequestSpecificationBuilderImpl implements GroupRequestSpecifi
             if (statusEnum == null) {
                 return null;
             }
-            Join<Object, Object> statusJoin = root.join("groupRequestStatus");
-            return cb.equal(statusJoin.get("groupRequestStatusId"), statusEnum.getId());
+            Join<Object, Object> statusJoin = root.join("status");
+            return cb.equal(statusJoin.get("id"), statusEnum.getId());
         };
     }
 }
