@@ -16,7 +16,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"statisticType"})
-@Table(name = "user_statistic")
+@Table(name = "user_statistic", schema = "gamification")
 public class UserStatistic extends BaseEntity {
 
     @NotNull

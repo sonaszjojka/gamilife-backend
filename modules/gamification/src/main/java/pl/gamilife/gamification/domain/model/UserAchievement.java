@@ -14,7 +14,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"achievement"})
-@Table(name = "user_achievement")
+@Table(name = "user_achievement", schema = "gamification")
 public class UserAchievement extends BaseEntity {
 
     @NotNull

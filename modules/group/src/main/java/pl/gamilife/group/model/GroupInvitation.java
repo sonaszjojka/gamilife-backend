@@ -22,7 +22,7 @@ import java.util.UUID;
 @ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "group_invitation")
+@Table(name = "group_invitation", schema = "group")
 public class GroupInvitation extends BaseEntity {
 
     @Column(name = "group_id", nullable = false, updatable = false, insertable = false)

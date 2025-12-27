@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "group_type")
+@Table(name = "group_type", schema = "group")
 public class GroupType extends BaseIntReadOnlyEntity {
 
     @Column(name = "title", length = 50, nullable = false, updatable = false)

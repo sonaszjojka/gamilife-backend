@@ -14,7 +14,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "habit")
+@Table(name = "habit", schema = "task")
 public class Habit extends BaseEntity {
 
     @Column(name = "title", length = 200, nullable = false)

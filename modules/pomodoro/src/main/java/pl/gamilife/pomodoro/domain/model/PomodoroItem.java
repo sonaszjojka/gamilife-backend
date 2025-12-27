@@ -17,7 +17,7 @@ import java.util.UUID;
 @ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "pomodoro_item")
+@Table(name = "pomodoro_item", schema = "pomodoro")
 public class PomodoroItem extends BaseEntity {
 
     @Column(name = "cycles_required", nullable = false)

@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "group_request_status")
+@Table(name = "group_request_status", schema = "group")
 public class GroupRequestStatus extends BaseIntReadOnlyEntity {
 
     @Column(name = "title", length = 100, nullable = false, updatable = false)

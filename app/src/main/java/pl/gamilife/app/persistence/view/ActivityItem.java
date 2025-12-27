@@ -20,7 +20,7 @@ import java.util.UUID;
 @Entity
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "v_activity_item")
+@Table(name = "v_activity_item", schema = "app")
 public class ActivityItem extends BaseUuidReadOnlyEntity {
 
     @Column(name = "type", length = Integer.MAX_VALUE)

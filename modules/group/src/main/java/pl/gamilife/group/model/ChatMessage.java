@@ -14,7 +14,7 @@ import java.util.UUID;
 @ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "chat_message")
+@Table(name = "chat_message", schema = "group")
 public class ChatMessage extends BaseEntity {
 
     @Column(name = "content", nullable = false, updatable = false)

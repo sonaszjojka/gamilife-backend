@@ -19,7 +19,7 @@ import java.util.Set;
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"tasks", "habits"})
-@Table(name = "task_difficulty")
+@Table(name = "task_difficulty", schema = "task")
 public class TaskDifficulty extends BaseIntReadOnlyEntity {
 
     @Column(name = "name", nullable = false, length = 50)

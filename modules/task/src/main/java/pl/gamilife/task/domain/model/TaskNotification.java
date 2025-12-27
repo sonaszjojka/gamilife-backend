@@ -11,7 +11,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"task"})
-@Table(name = "task_notification")
+@Table(name = "task_notification", schema = "task")
 public class TaskNotification extends BaseEntity {
 
     @Setter

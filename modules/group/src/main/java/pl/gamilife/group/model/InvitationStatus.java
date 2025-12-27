@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "invitation_status")
+@Table(name = "invitation_status", schema = "group")
 public class InvitationStatus extends BaseIntReadOnlyEntity {
 
     @Column(name = "title", length = 100, nullable = false, updatable = false)

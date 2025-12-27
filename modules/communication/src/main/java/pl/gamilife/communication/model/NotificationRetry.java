@@ -16,7 +16,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "notification_retry")
+@Table(name = "notification_retry", schema = "communication")
 public class NotificationRetry extends BaseEntity {
 
     @NotNull

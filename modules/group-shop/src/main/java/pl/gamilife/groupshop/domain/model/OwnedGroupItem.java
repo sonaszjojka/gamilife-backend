@@ -15,7 +15,7 @@ import java.util.UUID;
 @ToString(exclude = {"groupItem"})
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "owned_group_item")
+@Table(name = "owned_group_item", schema = "group_shop")
 public class OwnedGroupItem extends BaseEntity {
 
     @Column(name = "group_member_id", nullable = false)

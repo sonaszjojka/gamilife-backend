@@ -19,7 +19,7 @@ import java.util.UUID;
 @ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "group")
+@Table(name = "group", schema = "group")
 public class Group extends BaseEntity {
 
     private static final int JOIN_CODE_LENGTH = 20;

@@ -15,7 +15,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "refresh_token")
+@Table(name = "refresh_token", schema = "auth")
 public class RefreshToken extends BaseEntity {
 
     @Column(name = "user_id", nullable = false)

@@ -20,7 +20,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "task")
+@Table(name = "task", schema = "task")
 @ToString(exclude = {"category", "difficulty", "taskNotifications"})
 public class Task extends BaseEntity {
 

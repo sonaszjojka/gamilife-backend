@@ -14,7 +14,7 @@ import java.util.Set;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "notification_type")
+@Table(name = "notification_type", schema = "communication")
 @Immutable
 public class NotificationType extends BaseIntReadOnlyEntity {
 

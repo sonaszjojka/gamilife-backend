@@ -17,7 +17,7 @@ import java.time.temporal.ChronoUnit;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "user")
+@Table(name = "user", schema = "user")
 public class User extends BaseEntity {
 
     @Column(name = "first_name", nullable = false)

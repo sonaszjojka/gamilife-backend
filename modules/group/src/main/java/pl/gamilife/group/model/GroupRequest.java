@@ -15,7 +15,7 @@ import java.util.UUID;
 @ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "group_request")
+@Table(name = "group_request", schema = "group")
 public class GroupRequest extends BaseEntity {
 
     @Column(name = "user_id", nullable = false, updatable = false)
