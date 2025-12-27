@@ -6,11 +6,10 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Builder
-public record CreateOwnedGroupItemResponse(
+public record CreateOwnedGroupItemResult(
         UUID ownedGroupItemId,
         UUID groupItemId,
         UUID groupMemberId,
-        Boolean isUsedUp,
-        Instant useDate
+        Instant acquiredAt
 ) {
 }
