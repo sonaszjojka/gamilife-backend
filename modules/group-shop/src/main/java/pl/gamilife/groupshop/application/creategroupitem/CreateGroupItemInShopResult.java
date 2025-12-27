@@ -1,4 +1,4 @@
-package pl.gamilife.groupshop.application.creategroupiteminshop;
+package pl.gamilife.groupshop.application.creategroupitem;
 
 import lombok.Builder;
 

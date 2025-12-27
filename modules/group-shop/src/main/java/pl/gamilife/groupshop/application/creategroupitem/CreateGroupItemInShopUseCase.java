@@ -1,6 +1,4 @@
-package pl.gamilife.groupshop.application.creategroupiteminshop;
-
-import java.util.UUID;
+package pl.gamilife.groupshop.application.creategroupitem;
 
 public interface CreateGroupItemInShopUseCase {
 

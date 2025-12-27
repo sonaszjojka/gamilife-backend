@@ -1,6 +1,7 @@
 package pl.gamilife.groupshop.infrastructure.web;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.groupshop.application.deleteownedgroupitem.DeleteOwnedGroupItemCommand;
@@ -12,11 +13,13 @@ import pl.gamilife.groupshop.application.deleteownedgroupitem.DeleteOwnedGroupIt
 import pl.gamilife.groupshop.application.editownedgroupitem.EditOwnedGroupItemCommand;
 import pl.gamilife.groupshop.application.editownedgroupitem.EditOwnedGroupItemResult;
 import pl.gamilife.groupshop.application.editownedgroupitem.EditOwnedGroupItemUseCase;
+import pl.gamilife.groupshop.infrastructure.web.request.CreateOwnedGroupItemRequest;
+import pl.gamilife.groupshop.infrastructure.web.request.EditOwnedGroupItemRequest;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
 
-
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/groups/{groupId}/members/{memberId}/inventory")
 public class OwnedGroupItemController {
@@ -24,18 +27,12 @@ public class OwnedGroupItemController {
     private final DeleteOwnedGroupItemUseCase deleteOwnedGroupItemUseCase;
     private final EditOwnedGroupItemUseCase editOwnedGroupItemUseCase;
 
-    public OwnedGroupItemController(CreateOwnedGroupItemUseCase createOwnedGroupItemUseCase, DeleteOwnedGroupItemUseCase deleteOwnedGroupItemUseCase, EditOwnedGroupItemUseCase editOwnedGroupItemUseCase) {
-        this.createOwnedGroupItemUseCase = createOwnedGroupItemUseCase;
-        this.deleteOwnedGroupItemUseCase = deleteOwnedGroupItemUseCase;
-        this.editOwnedGroupItemUseCase = editOwnedGroupItemUseCase;
-    }
-
 
     @PostMapping("")
     public ResponseEntity<CreateOwnedGroupItemResult> createOwnedGroupItem(@PathVariable(name = "groupId") UUID groupId,
                                                                            @PathVariable(name = "memberId") UUID memberId,
                                                                            @CurrentUserId UUID currentUserId,
-                                                                           @RequestBody @Valid CreateOwnedGroupItemCommand request) {
+                                                                           @RequestBody @Valid CreateOwnedGroupItemRequest request) {
 
         CreateOwnedGroupItemCommand cmd = new CreateOwnedGroupItemCommand(
                 request.groupItemId(),
@@ -64,8 +61,10 @@ public class OwnedGroupItemController {
                                                                        @PathVariable(name = "memberId") UUID memberId,
                                                                        @CurrentUserId UUID currentUserId,
                                                                        @PathVariable(name = "ownedGroupItemId") UUID ownedGroupItemId,
-                                                                       @RequestBody @Valid EditOwnedGroupItemCommand request) {
-        EditOwnedGroupItemResult response = editOwnedGroupItemUseCase.execute(request, ownedGroupItemId, memberId, groupId);
+                                                                       @RequestBody @Valid EditOwnedGroupItemRequest request) {
+        EditOwnedGroupItemCommand cmd = new EditOwnedGroupItemCommand(request.isUsedUp(),ownedGroupItemId, memberId, groupId, currentUserId);
+
+        EditOwnedGroupItemResult response = editOwnedGroupItemUseCase.execute(cmd);
         return ResponseEntity.ok(response);
     }
 

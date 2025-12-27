@@ -1,4 +1,4 @@
-package pl.gamilife.groupshop.application.creategroupiteminshop;
+package pl.gamilife.groupshop.application.creategroupitem;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
