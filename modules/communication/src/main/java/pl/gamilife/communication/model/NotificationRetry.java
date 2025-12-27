@@ -6,24 +6,18 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
+import pl.gamilife.shared.persistence.entity.BaseEntity;
 
 import java.time.Instant;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
-@Setter
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "notification_retry")
-public class NotificationRetry {
-    @Id
-    @Builder.Default
-    @Column(name = "id", nullable = false)
-    private UUID id = UUID.randomUUID();
+public class NotificationRetry extends BaseEntity {
 
     @NotNull
     @Column(name = "user_id", nullable = false)
@@ -43,6 +37,7 @@ public class NotificationRetry {
     @Column(name = "original_timestamp", nullable = false)
     private Instant originalTimestamp;
 
+    @Setter
     @Column(name = "data", nullable = false)
     @JdbcTypeCode(SqlTypes.JSON)
     private Map<String, Object> data;
@@ -55,15 +50,69 @@ public class NotificationRetry {
     @JoinColumn(name = "notification_type_id", nullable = false, updatable = false, insertable = false)
     private NotificationType notificationType;
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        NotificationRetry that = (NotificationRetry) o;
-        return Objects.equals(id, that.id);
+    public NotificationRetry(UUID userId, String title, String message, Instant originalTimestamp, Map<String, Object> data, Integer notificationTypeId) {
+        setUserId(userId);
+        setTitle(title);
+        setMessage(message);
+        setOriginalTimestamp(originalTimestamp);
+        setData(data);
+        setNotificationTypeId(notificationTypeId);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
+    public static NotificationRetry create(UUID userId, String title, String message, Instant originalTimestamp, Map<String, Object> data, Integer notificationTypeId) {
+        return new NotificationRetry(userId, title, message, originalTimestamp, data, notificationTypeId);
     }
+
+    private void setUserId(UUID userId) {
+        if (userId == null) {
+            throw new DomainValidationException("User ID cannot be null");
+        }
+
+        this.userId = userId;
+    }
+
+    private void setTitle(String title) {
+        if (title == null || title.isBlank()) {
+            throw new DomainValidationException("Title cannot be null or empty");
+        }
+
+        if (title.length() > 100) {
+            throw new DomainValidationException("Title cannot be longer than 100 characters");
+        }
+
+        this.title = title;
+    }
+
+    private void setMessage(String message) {
+        if (message == null || message.isBlank()) {
+            throw new DomainValidationException("Message cannot be null or empty");
+        }
+
+        if (message.length() > 255) {
+            throw new DomainValidationException("Message cannot be longer than 255 characters");
+        }
+
+        this.message = message;
+    }
+
+    private void setOriginalTimestamp(Instant originalTimestamp) {
+        if (originalTimestamp == null) {
+            throw new DomainValidationException("Original timestamp cannot be null");
+        }
+
+        if (originalTimestamp.isAfter(Instant.now())) {
+            throw new DomainValidationException("Original timestamp cannot be in the future");
+        }
+
+        this.originalTimestamp = originalTimestamp;
+    }
+
+    private void setNotificationTypeId(Integer notificationTypeId) {
+        if (notificationTypeId == null) {
+            throw new DomainValidationException("Notification type cannot be null");
+        }
+
+        this.notificationTypeId = notificationTypeId;
+    }
+
 }

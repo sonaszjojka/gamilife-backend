@@ -57,15 +57,14 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     private void saveNotificationToRetry(UUID userId, NotificationDto dto) {
-        NotificationRetry retry = NotificationRetry.builder()
-                .id(dto.getId() != null ? dto.getId() : UUID.randomUUID())
-                .userId(userId)
-                .title(dto.getTitle())
-                .message(dto.getMessage())
-                .originalTimestamp(dto.getTimestamp())
-                .data(dto.getData())
-                .notificationTypeId(dto.getNotificationType().getId())
-                .build();
+        NotificationRetry retry = NotificationRetry.create(
+                userId,
+                dto.getTitle(),
+                dto.getMessage(),
+                dto.getTimestamp(),
+                dto.getData(),
+                dto.getNotificationType().getId()
+        );
 
         notificationRetryRepository.save(retry);
     }
