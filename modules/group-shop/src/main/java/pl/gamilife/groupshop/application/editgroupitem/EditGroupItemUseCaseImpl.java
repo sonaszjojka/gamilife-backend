@@ -9,8 +9,10 @@ import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.exception.GroupShopItemNotFoundException;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.exception.InactiveGroupShopException;
+import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
 import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
 import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
+import pl.gamilife.groupshop.domain.port.context.GroupContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupItemInShopRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
@@ -22,7 +24,7 @@ public class EditGroupItemUseCaseImpl implements EditGroupItemUseCase {
     private final GroupItemInShopRepository groupItemInShopRepository;
     private final GroupShopRepository groupShopRepository;
     private final CurrentUserContext currentUserProvider;
-    private final GroupApi groupApi;
+    private final GroupContext groupApi;
 
     @Override
     public EditGroupItemResult execute(EditGroupItemCommand cmd) {
@@ -35,7 +37,7 @@ public class EditGroupItemUseCaseImpl implements EditGroupItemUseCase {
         }
 
         GroupShopUser currentUserDto = currentUserProvider.findGroupShopUserById(cmd.currentUserId());
-        GroupDto groupDto = groupApi.findGroupById(groupShop.getGroupId());
+        GroupForShop groupDto = groupApi.findGroupById(groupShop.getGroupId());
 
         if (!currentUserDto.userId().equals(groupDto.adminId()) && Boolean.TRUE.equals(cmd.isActive())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can make group items active!");

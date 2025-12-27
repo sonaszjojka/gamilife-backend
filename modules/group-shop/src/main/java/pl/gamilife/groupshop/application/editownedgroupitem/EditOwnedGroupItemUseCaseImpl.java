@@ -3,15 +3,16 @@ package pl.gamilife.groupshop.application.editownedgroupitem;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.group.GroupApi;
-import pl.gamilife.api.group.dto.GroupDto;
 import pl.gamilife.groupshop.domain.exception.OwnedGroupItemNotFoundException;
 import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.model.OwnedGroupItem;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.exception.InactiveGroupShopException;
+import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
 import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
 import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
+import pl.gamilife.groupshop.domain.port.context.GroupContext;
+import pl.gamilife.groupshop.domain.port.context.GroupMemberContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.groupshop.domain.port.repository.OwnedGroupItemRpository;
 import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
@@ -24,13 +25,14 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
     private final OwnedGroupItemRpository ownedGroupItemRpository;
     private final GroupShopRepository groupShopRepository;
     private final CurrentUserContext currentUserProvider;
-    private final GroupApi groupProvider;
+    private final GroupContext groupProvider;
+    private final GroupMemberContext groupMemberProvider;
 
     @Transactional
     @Override
     public EditOwnedGroupItemResult execute(EditOwnedGroupItemCommand cmd) {
 
-        if (groupProvider.findGroupMemberById(cmd.groupMemberId()) == null) {
+        if (groupMemberProvider.findMemberById(cmd.groupMemberId()) == null) {
             throw new GroupMemberNotFoundException("Group member not found in the specified group!");
         }
         GroupShop groupShop = groupShopRepository.findByGroupId(cmd.groupId()).orElseThrow(() ->
@@ -41,8 +43,8 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
         }
 
         GroupShopUser currentUserDto = currentUserProvider.findGroupShopUserById(cmd.currentUserId());
-        GroupDto groupDto = groupProvider.findGroupById(cmd.groupId());
-        if (!currentUserDto.userId().equals(groupDto.adminId()) && !currentUserDto.userId().equals(groupProvider.findGroupMemberById(cmd.groupMemberId()).userId())) {
+        GroupForShop groupDto = groupProvider.findGroupById(cmd.groupId());
+        if (!currentUserDto.userId().equals(groupDto.adminId()) && !currentUserDto.userId().equals(groupMemberProvider.findMemberById(cmd.groupMemberId()).memberId())) {
             throw new ResourceOwnerPrivilegesRequiredException("Only group administrators or the member themselves can edit items in inventory!");
         }
 

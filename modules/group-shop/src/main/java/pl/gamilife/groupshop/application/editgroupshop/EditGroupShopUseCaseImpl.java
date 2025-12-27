@@ -3,13 +3,10 @@ package pl.gamilife.groupshop.application.editgroupshop;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
-import pl.gamilife.api.group.dto.GroupDto;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
 import pl.gamilife.groupshop.domain.port.context.GroupContext;
-import pl.gamilife.groupshop.domain.port.context.GroupMemberContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 
@@ -19,7 +16,6 @@ import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredEx
 public class EditGroupShopUseCaseImpl implements EditGroupShopUseCase {
     private final GroupShopRepository groupShopRepository;
     private final GroupContext groupContext;
-    private final GroupMemberContext groupMemberContext;
 
 
     @Override

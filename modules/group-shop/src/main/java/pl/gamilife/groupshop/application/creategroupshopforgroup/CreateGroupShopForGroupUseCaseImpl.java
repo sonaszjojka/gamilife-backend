@@ -3,12 +3,8 @@ package pl.gamilife.groupshop.application.creategroupshopforgroup;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
-import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupResponseDto;
 import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
-
-import java.util.UUID;
 
 @Service
 @Transactional
