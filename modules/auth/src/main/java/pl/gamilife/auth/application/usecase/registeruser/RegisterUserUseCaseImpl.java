@@ -31,7 +31,8 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
                 cmd.sendBudgetReports(),
                 cmd.isProfilePublic(),
                 false,
-                false
+                false,
+                cmd.zoneId()
         );
 
         return userContext.registerNewUser(user);

@@ -1,6 +1,7 @@
 package pl.gamilife.api.user.dto;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 public record RegisterUserDto(
         String firstName,
@@ -12,6 +13,7 @@ public record RegisterUserDto(
         boolean sendBudgetReports,
         boolean isProfilePublic,
         boolean isEmailVerified,
-        boolean isTutorialCompleted
+        boolean isTutorialCompleted,
+        ZoneId timezone
 ) {
 }

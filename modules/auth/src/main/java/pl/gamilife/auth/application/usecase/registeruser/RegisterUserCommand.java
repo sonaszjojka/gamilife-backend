@@ -7,6 +7,7 @@ import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 public record RegisterUserCommand(
 
@@ -31,6 +32,8 @@ public record RegisterUserCommand(
 
         boolean sendBudgetReports,
 
-        boolean isProfilePublic
+        boolean isProfilePublic,
+
+        ZoneId zoneId
 ) implements Serializable, Command {
 }

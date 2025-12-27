@@ -19,6 +19,7 @@ import pl.gamilife.auth.domain.port.context.UserContext;
 import pl.gamilife.auth.domain.port.repository.UserProviderRepository;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 
+import java.time.ZoneId;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -73,7 +74,7 @@ public class OAuthServiceImpl implements OAuthService {
 
     @Override
     @Transactional
-    public GoogleSignInResult registerViaGoogle(GoogleUserDto googleUserDto) {
+    public GoogleSignInResult registerViaGoogle(GoogleUserDto googleUserDto, ZoneId zoneId) {
         String username = googleUserDto.firstName().substring(0, 3).toLowerCase() + "_" +
                 googleUserDto.lastName().substring(0, 3).toLowerCase() + "_" +
                 ThreadLocalRandom.current().nextInt(1000, 9999);
@@ -88,7 +89,8 @@ public class OAuthServiceImpl implements OAuthService {
                 false, // Default to not sending budget reports
                 false, // Default to private profile
                 true,
-                false // Default to no onboarding completed
+                false, // Default to no onboarding completed
+                zoneId
         );
         BasicUserDetails createdGoogleUser = userContext.registerNewUser(newGoogleUser);
 
