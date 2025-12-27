@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.gamilife.app.dto.ActivityItemDetails;
-import pl.gamilife.app.dto.ActivityItemQueryDto;
-import pl.gamilife.app.dto.ActivityItemWithPomodoroQueryDto;
+import pl.gamilife.app.dto.activity.ActivityItemDetails;
+import pl.gamilife.app.dto.activity.ActivityItemQueryDto;
 import pl.gamilife.app.service.ActivityService;
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
@@ -21,12 +20,12 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/activities")
 public class ActivityController {
 
     private final ActivityService activityService;
 
-    @GetMapping("/activities")
+    @GetMapping
     public ResponseEntity<Page<ActivityItemDetails>> getAllActivities(
             @CurrentUserId UUID userId,
             @CurrentUserTimezone ZoneId zoneId,
@@ -35,6 +34,8 @@ public class ActivityController {
             @RequestParam(required = false) Integer difficultyId,
             @RequestParam(required = false) LocalDate startDate,
             @RequestParam(required = false) LocalDate endDate,
+            @RequestParam(required = false) Boolean workable,
+            @RequestParam(required = false) Boolean pomodoro,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size
     ) {
@@ -45,7 +46,7 @@ public class ActivityController {
         );
 
         return ResponseEntity.ok(
-                activityService.getAllActivities(new ActivityItemQueryDto(
+                activityService.getActivities(new ActivityItemQueryDto(
                         userId,
                         zoneId,
                         title,
@@ -53,31 +54,10 @@ public class ActivityController {
                         difficultyId,
                         startDate,
                         endDate,
-                        pageNumber,
-                        pageSize
-                ))
-        );
-    }
-
-    @GetMapping("/pomodoro-activities")
-    public ResponseEntity<Page<ActivityItemDetails>> getActivitiesWithPomodoro(
-            @CurrentUserId UUID userId,
-            @CurrentUserTimezone ZoneId zoneId,
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) Boolean workable,
-            @RequestParam(required = false) Boolean pomodoro,
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size
-    ) {
-        return ResponseEntity.ok(
-                activityService.getActivitiesWithPomodoro(new ActivityItemWithPomodoroQueryDto(
-                        userId,
-                        zoneId,
-                        title,
                         workable,
                         pomodoro,
-                        page,
-                        size
+                        pageNumber,
+                        pageSize
                 ))
         );
     }

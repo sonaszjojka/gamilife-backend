@@ -1,15 +1,18 @@
-package pl.gamilife.task.domain.model.filter;
+package pl.gamilife.app.dto.activity;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.UUID;
 
 public record ActivityItemFilter(
         UUID userId,
+        ZoneId zoneId,
         String title,
         Integer categoryId,
         Integer difficultyId,
         LocalDate startDate,
         LocalDate endDate,
-        LocalDate currentUserDate
+        Boolean workable,
+        Boolean pomodoro
 ) {
 }

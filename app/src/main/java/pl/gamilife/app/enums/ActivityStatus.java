@@ -1,4 +1,4 @@
-package pl.gamilife.task.domain.model.enums;
+package pl.gamilife.app.enums;
 
 public enum ActivityStatus {
     ALIVE,

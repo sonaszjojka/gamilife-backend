@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import pl.gamilife.api.gamification.GamificationApi;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.UserDetailsDto;
-import pl.gamilife.app.dto.UserDetailsResponse;
-import pl.gamilife.app.dto.UserFullDetailsResponse;
-import pl.gamilife.app.dto.UserPrivateDetailsResponse;
-import pl.gamilife.app.dto.UserPublicDetailsResponse;
+import pl.gamilife.app.dto.user.UserDetailsResponse;
+import pl.gamilife.app.dto.user.UserFullDetailsResponse;
+import pl.gamilife.app.dto.user.UserPrivateDetailsResponse;
+import pl.gamilife.app.dto.user.UserPublicDetailsResponse;
 import pl.gamilife.app.service.UserDetailsService;
 
 import java.util.UUID;

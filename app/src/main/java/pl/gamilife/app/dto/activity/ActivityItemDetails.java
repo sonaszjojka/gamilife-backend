@@ -1,4 +1,4 @@
-package pl.gamilife.app.dto;
+package pl.gamilife.app.dto.activity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,7 +20,7 @@ public record ActivityItemDetails(
         Integer longestStreak,
         ActivityStatus status,
         Boolean canBeWorkedOn,
-        Pomodoro pomodoro
+        PomodoroDto pomodoro
 ) {
     public enum ActivityType {
         TASK, HABIT;
@@ -37,6 +37,6 @@ public record ActivityItemDetails(
         ALIVE, INCOMPLETE, DEADLINE_TODAY, DEADLINE_MISSED
     }
 
-    public record Pomodoro(UUID id, int cyclesRequired, int cyclesCompleted) {
+    public record PomodoroDto(UUID id, int cyclesRequired, int cyclesCompleted) {
     }
 }

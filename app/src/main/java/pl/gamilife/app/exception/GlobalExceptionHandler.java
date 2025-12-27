@@ -1,6 +1,8 @@
 package pl.gamilife.app.exception;
 
 import jakarta.persistence.OptimisticLockException;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.StaleStateException;
 import org.springframework.core.annotation.Order;
@@ -32,7 +34,9 @@ public class GlobalExceptionHandler extends AbstractExceptionHandler {
         return buildErrorResponseFor(OtherErrorCode.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler({
+            MethodArgumentNotValidException.class
+    })
     public ErrorResponse handleValidationException(MethodArgumentNotValidException ex) {
         ErrorCode errorCode = OtherErrorCode.VALIDATION_ERROR;
         ErrorResponse response = buildErrorResponseFor(errorCode);
@@ -45,6 +49,34 @@ public class GlobalExceptionHandler extends AbstractExceptionHandler {
 
         return response;
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ErrorResponse handleConstraintViolationException(ConstraintViolationException ex) {
+        ErrorCode errorCode = OtherErrorCode.VALIDATION_ERROR;
+        ErrorResponse response = buildErrorResponseFor(errorCode);
+
+        ex.getConstraintViolations().forEach(cv ->
+                response.addValidationError(
+                        cv.getPropertyPath().toString(),
+                        cv.getMessage()
+                )
+        );
+
+        logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
+
+        return response;
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ErrorResponse handleValidationException(ValidationException ex) {
+        ErrorCode errorCode = OtherErrorCode.VALIDATION_ERROR;
+        ErrorResponse response = buildErrorResponseFor(errorCode, ex);
+
+        logWarning(response.getCode(), errorCode.getKey(), ex.getMessage());
+
+        return response;
+    }
+
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ErrorResponse handleHttpMessageNotReadable() {

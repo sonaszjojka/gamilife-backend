@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import pl.gamilife.shared.web.exception.ErrorResponse;
 import java.io.IOException;
 
 @Component
+@Slf4j
 @AllArgsConstructor
 public class RateLimitFilter extends OncePerRequestFilter {
 
@@ -49,6 +51,8 @@ public class RateLimitFilter extends OncePerRequestFilter {
             response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
             response.setContentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
             response.setCharacterEncoding("UTF-8");
+
+            log.warn("Rate Limit Exceeded for {} on URI: {}", key, uri);
 
             objectMapper.writeValue(response.getOutputStream(), errorResponse);
         }

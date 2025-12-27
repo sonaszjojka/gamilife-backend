@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.gamilife.app.dto.UserDetailsResponse;
+import pl.gamilife.app.dto.user.UserDetailsResponse;
 import pl.gamilife.app.service.UserDetailsService;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 

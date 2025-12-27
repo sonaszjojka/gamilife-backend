@@ -1,4 +1,4 @@
-package pl.gamilife.app.dto;
+package pl.gamilife.app.dto.user;
 
 import java.time.LocalDate;
 import java.util.UUID;
