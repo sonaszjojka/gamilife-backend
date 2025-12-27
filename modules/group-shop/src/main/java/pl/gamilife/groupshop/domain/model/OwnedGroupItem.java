@@ -15,7 +15,7 @@ import java.util.UUID;
 @ToString(exclude = {"groupItem"})
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "owned_group_item")
+@Table(name = "owned_group_item", schema = "group_shop")
 public class OwnedGroupItem extends BaseEntity {
 
     @Column(name = "group_member_id", nullable = false)
@@ -29,8 +29,8 @@ public class OwnedGroupItem extends BaseEntity {
     private GroupItem groupItem;
 
 
-    @Column(name = "use_date")
-    private Instant useDate;
+    @Column(name = "used_at")
+    private Instant usedAt;
 
     private OwnedGroupItem(UUID groupMemberId, GroupItem groupItem) {
 
@@ -66,9 +66,9 @@ public class OwnedGroupItem extends BaseEntity {
     public void useItem(Boolean isUsedUp) {
 
         if (isUsedUp != null && isUsedUp) {
-            this.useDate = Instant.now();
+            this.usedAt = Instant.now();
         } else {
-            this.useDate = null;
+            this.usedAt = null;
         }
 
 

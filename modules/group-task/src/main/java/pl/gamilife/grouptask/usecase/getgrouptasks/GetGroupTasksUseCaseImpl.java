@@ -48,16 +48,16 @@ public class GetGroupTasksUseCaseImpl implements GetGroupTasksUseCase {
                             groupTaskMemberRepository.findByGroupTaskId(groupTask)
                                     .stream()
                                     .map(g -> new GetGroupTaskMemberDto(
-                                            g.getGroupTaskMemberId(),
+                                            g.getId(),
                                             g.getGroupMemberId(),
-                                            g.getIsMarkedDone()
+                                            g.getMarkedDoneAt() != null
                                     ))
                                     .toList();
 
                     return new GetGroupTaskDto(
-                            groupTask.getGroupTaskId(),
+                            groupTask.getId(),
                             groupTask.getReward(),
-                            groupTask.getAcceptedDate(),
+                            groupTask.getAcceptedAt(),
                             groupTask.getDeclineMessage(),
                             taskDto,
                             groupTaskMembers

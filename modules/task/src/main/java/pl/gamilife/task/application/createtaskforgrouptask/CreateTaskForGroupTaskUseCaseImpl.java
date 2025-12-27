@@ -12,6 +12,8 @@ import pl.gamilife.task.domain.port.repository.TaskCategoryRepository;
 import pl.gamilife.task.domain.port.repository.TaskDifficultyRepository;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
 
+import java.time.LocalDateTime;
+
 @Service
 @AllArgsConstructor
 public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTaskUseCase {
@@ -42,7 +44,7 @@ public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTask
                 taskDifficulty,
                 cmd.deadlineDate(),
                 cmd.deadlineTime(),
-                cmd.currentGroupDateTime()
+                LocalDateTime.now(cmd.currentGroupTimezone())
         );
         taskRepository.save(task);
 

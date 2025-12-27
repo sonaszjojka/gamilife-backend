@@ -27,7 +27,7 @@ public class EditGroupTaskMemberUseCaseImpl implements EditGroupTaskMemberUseCas
         GroupTaskMember groupTaskMember = groupTaskMemberRepository.findByGroupTaskMemberId(groupTaskMemberId).orElseThrow(
                 () -> new GroupTaskMemberNotFoundException("Group Task Member with id:" + groupTaskMemberId + " does not exist"));
 
-        groupTaskMember.setIsMarkedDone(request.isMarkedDone());
+        groupTaskMember.changeDoneStatus(request.isMarkedDone());
 
         return editGroupTaskMemberMapper.toResponse(groupTaskMemberRepository.save(groupTaskMember));
     }

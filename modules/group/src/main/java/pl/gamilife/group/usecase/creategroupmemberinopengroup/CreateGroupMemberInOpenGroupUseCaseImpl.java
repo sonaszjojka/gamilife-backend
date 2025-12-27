@@ -41,15 +41,15 @@ public class CreateGroupMemberInOpenGroupUseCaseImpl implements CreateGroupMembe
     }
 
     private Group getGroupWithMembers(UUID groupId) {
-        return groupRepository.findWithGroupMembersByGroupId(groupId)
+        return groupRepository.findWithActiveMembersById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
     }
 
     private CreateGroupMemberInOpenGroupResult buildCreateGroupMemberResponse(GroupMember groupMember) {
         return CreateGroupMemberInOpenGroupResult.builder()
-                .groupMemberId(groupMember.getGroupMemberId())
+                .groupMemberId(groupMember.getId())
                 .memberGroup(new CreateGroupMemberInOpenGroupResult.GroupDto(
-                        groupMember.getGroup().getGroupId(),
+                        groupMember.getGroup().getId(),
                         groupMember.getGroup().getAdminId()
                 ))
                 .userId(groupMember.getUserId())

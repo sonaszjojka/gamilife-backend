@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.user.dto.CheckIfUsersEmailIsVerifiedDto;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
-import pl.gamilife.user.domain.User;
+import pl.gamilife.user.persistence.User;
 import pl.gamilife.user.persistence.UserRepository;
 import pl.gamilife.user.usecase.CheckIfUsersEmailIsVerifiedUseCase;
 

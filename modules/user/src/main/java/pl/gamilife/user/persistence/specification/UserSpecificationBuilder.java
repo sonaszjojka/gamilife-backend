@@ -2,19 +2,19 @@ package pl.gamilife.user.persistence.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import pl.gamilife.user.persistence.UserEntity;
+import pl.gamilife.user.persistence.User;
 
 @Component
 public class UserSpecificationBuilder {
 
-    public Specification<UserEntity> build(String username) {
+    public Specification<User> build(String username) {
         return Specification.allOf(
                 hasUsername(username),
                 isEmailVerified()
         );
     }
 
-    private Specification<UserEntity> hasUsername(String username) {
+    private Specification<User> hasUsername(String username) {
         return (root, query, cb) -> {
             if (username == null || username.isBlank()) {
                 return null;
@@ -24,7 +24,7 @@ public class UserSpecificationBuilder {
         };
     }
 
-    private Specification<UserEntity> isEmailVerified() {
+    private Specification<User> isEmailVerified() {
         return (root, query, cb) ->
                 cb.isTrue(root.get("isEmailVerified"));
     }

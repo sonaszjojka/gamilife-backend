@@ -18,7 +18,7 @@ import java.util.UUID;
 @Entity
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "item")
+@Table(name = "item", schema = "gamification")
 @ToString(exclude = {"itemSlot", "rarity", "achievement", "unlockLevel"})
 public class Item extends BaseUuidReadOnlyEntity {
 

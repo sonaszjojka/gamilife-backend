@@ -16,7 +16,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"statisticType"})
-@Table(name = "user_statistic")
+@Table(name = "user_statistic", schema = "gamification")
 public class UserStatistic extends BaseEntity {
 
     @NotNull
@@ -29,7 +29,7 @@ public class UserStatistic extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "statistic_type_id", nullable = false, insertable = false, updatable = false)
-    private StatisticType statisticType = null;
+    private final StatisticType statisticType = null;
 
     @NotNull
     @Column(name = "count", nullable = false)

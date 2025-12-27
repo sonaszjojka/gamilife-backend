@@ -35,7 +35,7 @@ public class UserGroupsSpecificationBuilderImpl implements UserGroupsSpecificati
             if (userId == null) {
                 return null;
             }
-            Join<Group, GroupMember> gmJoin = root.join("groupMembers", JoinType.INNER);
+            Join<Group, GroupMember> gmJoin = root.join("activeMembers", JoinType.INNER);
             query.distinct(true);
             return cb.and(
                     cb.equal(gmJoin.get("userId"), userId),
@@ -59,7 +59,7 @@ public class UserGroupsSpecificationBuilderImpl implements UserGroupsSpecificati
                 return null;
             }
             Join<Group, GroupType> groupTypeJoin = root.join("groupType");
-            return cb.equal(groupTypeJoin.get("groupTypeId"), groupType.getId());
+            return cb.equal(groupTypeJoin.get("id"), groupType.getId());
         };
     }
 

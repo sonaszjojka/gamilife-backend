@@ -19,7 +19,7 @@ import java.util.Set;
 @Entity
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "level")
+@Table(name = "level", schema = "gamification")
 @ToString(exclude = {"items"})
 public class Level extends BaseIntReadOnlyEntity {
 

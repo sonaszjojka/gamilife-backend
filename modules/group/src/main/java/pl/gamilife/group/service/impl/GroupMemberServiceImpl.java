@@ -10,7 +10,6 @@ import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
 import pl.gamilife.group.service.GroupMemberService;
 
-import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,7 +23,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     @Transactional
     public GroupMember createGroupMember(Group group, UUID userId) {
         if (group.isFull()) {
-            throw new GroupFullException("Group with id: " + group.getGroupId() + " is full!");
+            throw new GroupFullException("Group with id: " + group.getId() + " is full!");
         }
 
         Optional<GroupMember> groupMemberOpt = groupMemberRepository
@@ -34,7 +33,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 
             if (groupMember.isActive()) {
                 throw new UserAlreadyMemberOfGroupException("User with id: " + userId +
-                        " is already member of group with id: " + group.getGroupId()
+                        " is already member of group with id: " + group.getId()
                 );
             }
 
@@ -45,22 +44,13 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     }
 
     private GroupMember reactivatePreviousMember(GroupMember groupMember) {
-        groupMember.setLeftAt(null);
-        groupMember.setJoinedAt(Instant.now());
-
+        groupMember.rejoin();
         return groupMemberRepository.save(groupMember);
     }
 
     private GroupMember createNewGroupMember(UUID userId, Group group) {
-        GroupMember newGroupMember = GroupMember.builder()
-                .groupMemberId(UUID.randomUUID())
-                .group(group)
-                .userId(userId)
-                .leftAt(null)
-                .joinedAt(Instant.now())
-                .totalEarnedMoney(0)
-                .groupMoney(0)
-                .build();
+
+        GroupMember newGroupMember = GroupMember.create(group, userId);
 
         return groupMemberRepository.save(newGroupMember);
     }

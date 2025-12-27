@@ -43,14 +43,14 @@ public class FindAllGroupsByUserIdWhereUserIsMemberUseCaseImpl implements FindAl
                 groupPage.getNumber(),
                 groupPage.getSize(),
                 groupPage.getContent().stream().map(g -> new FindAllGroupsByUserIdWhereUserIsMemberResult.GroupDto(
-                        g.getGroupId(),
+                        g.getId(),
                         g.getJoinCode(),
                         g.getName(),
                         g.getAdminId(),
-                        g.getGroupCurrencySymbol(),
+                        g.getCurrencySymbol(),
                         g.getMembersLimit(),
-                        new FindAllGroupsByUserIdWhereUserIsMemberResult.GroupTypeDto(g.getGroupType().getTitle()),
-                        g.getGroupMembers().size()
+                        new FindAllGroupsByUserIdWhereUserIsMemberResult.GroupTypeDto(g.getType().getTitle()),
+                        g.getActiveMembers().size()
                 )).toList()
         );
     }

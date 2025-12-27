@@ -15,7 +15,7 @@ public class GetGroupTypeUseCaseImpl implements GetGroupTypesUseCase {
     @Override
     public List<GetGroupTypesResult> execute(GetGroupTypesCommand cmd) {
         return groupTypeRepository.findAll().stream().map(groupType -> new GetGroupTypesResult(
-                groupType.getGroupTypeId(),
+                groupType.getId(),
                 groupType.getTitle()
         )).toList();
     }

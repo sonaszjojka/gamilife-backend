@@ -54,7 +54,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     }
 
     private Group getGroupById(UUID groupId) {
-        return groupRepository.findWithGroupMembersAndGroupTypeByGroupId(groupId)
+        return groupRepository.findWithActiveMembersAndGroupTypeById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
     }
 
@@ -63,7 +63,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     }
 
     private boolean hasActiveGroupRequest(UUID userId, Group group) {
-        return groupRequestJpaRepository.existsByGroupRequestedAndUserIdAndGroupRequestStatusId(
+        return groupRequestJpaRepository.existsByGroupAndUserIdAndStatusId(
                 group, userId, GroupRequestStatusEnum.SENT.getId()
         );
     }
@@ -76,15 +76,15 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     ) {
         List<GetGroupByIdResult.GroupMemberDto> activeMembers = getActiveMembers(group);
         return new GetGroupByIdResult(
-                group.getGroupId(),
+                group.getId(),
                 group.getJoinCode(),
                 group.getName(),
                 group.getAdminId(),
-                group.getGroupCurrencySymbol(),
+                group.getCurrencySymbol(),
                 group.getMembersLimit(),
                 new GetGroupByIdResult.GroupTypeDto(
-                        group.getGroupType().getGroupTypeId(),
-                        group.getGroupType().getTitle()
+                        group.getType().getId(),
+                        group.getType().getTitle()
                 ),
                 activeMembers.size(),
                 isMember,
@@ -113,8 +113,8 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
         if (gm == null) return null;
 
         return new GetGroupByIdResult.GroupMemberDto(
-                gm.getGroupMemberId(),
-                gm.getGroup().getGroupId(),
+                gm.getId(),
+                gm.getGroup().getId(),
                 gm.getUserId(),
                 gm.getGroupMoney(),
                 gm.getTotalEarnedMoney(),
@@ -125,7 +125,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     }
 
     private Collection<GetGroupByIdResult.GroupMemberDto> mapMembers(Group group) {
-        return group.getGroupMembers()
+        return group.getActiveMembers()
                 .stream()
                 .map(this::buildGroupMemberDto)
                 .toList();

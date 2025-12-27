@@ -12,7 +12,7 @@ import pl.gamilife.shared.persistence.entity.BaseUuidReadOnlyEntity;
 @Entity
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "reward")
+@Table(name = "reward", schema = "gamification")
 public class Reward extends BaseUuidReadOnlyEntity {
 
     @NotNull

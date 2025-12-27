@@ -8,7 +8,6 @@ import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -26,21 +25,20 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
             throw new AdminCannotLeaveGroupException("Administrator cannot leave group!");
         }
 
-        groupMember.setLeftAt(Instant.now());
-        GroupMember savedGroupMember = groupMemberRepository.save(groupMember);
+        groupMember.leave();
 
-        return buildLeaveGroupResult(savedGroupMember);
+        return buildLeaveGroupResult(groupMember);
     }
 
     private GroupMember getGroupMemberWithGroup(UUID groupId, UUID groupMemberId) {
-        return groupMemberRepository.findWithGroupByGroupMemberIdAndGroupId(groupMemberId, groupId)
+        return groupMemberRepository.findWithGroupByIdAndGroupId(groupMemberId, groupId)
                 .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: "
                         + groupMemberId + " not found!"));
     }
 
     private LeaveGroupResult buildLeaveGroupResult(GroupMember groupMember) {
         return LeaveGroupResult.builder()
-                .groupMemberId(groupMember.getGroupMemberId())
+                .groupMemberId(groupMember.getId())
                 .group(new LeaveGroupResult.GroupDto(groupMember.getGroupId()))
                 .userId(groupMember.getUserId())
                 .joinedAt(groupMember.getJoinedAt())

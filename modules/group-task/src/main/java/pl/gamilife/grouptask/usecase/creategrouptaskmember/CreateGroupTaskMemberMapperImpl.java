@@ -11,22 +11,17 @@ public class CreateGroupTaskMemberMapperImpl implements CreateGroupTaskMemberMap
 
 
     @Override
-    public GroupTaskMember toEntity(GroupTask groupTask, UUID groupMemberId, UUID groupTaskMemberId) {
-        return GroupTaskMember.builder()
-                .groupTaskMemberId(groupTaskMemberId)
-                .groupTaskId(groupTask)
-                .groupMemberId(groupMemberId)
-                .isMarkedDone(false)
-                .build();
+    public GroupTaskMember toEntity(GroupTask groupTask, UUID groupMemberId) {
+        return GroupTaskMember.create(groupTask, groupMemberId);
     }
 
     @Override
     public CreateGroupTaskMemberResponse toResponse(GroupTaskMember groupTaskMember) {
         return CreateGroupTaskMemberResponse.builder()
-                .groupTaskMemberId(groupTaskMember.getGroupTaskMemberId())
-                .groupTaskId(groupTaskMember.getGroupTaskId().getGroupTaskId())
+                .groupTaskMemberId(groupTaskMember.getId())
+                .groupTaskId(groupTaskMember.getGroupTaskId())
                 .groupMemberId(groupTaskMember.getGroupMemberId())
-                .isMarkedDone(groupTaskMember.getIsMarkedDone())
+                .isMarkedDone(groupTaskMember.isMarkedDone())
                 .build();
     }
 

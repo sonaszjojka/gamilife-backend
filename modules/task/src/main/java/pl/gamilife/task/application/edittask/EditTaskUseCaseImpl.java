@@ -40,7 +40,11 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
         Task task = taskRepository.findById(cmd.taskId())
                 .orElseThrow(() -> new TaskNotFoundException("Task with id " + cmd.taskId() + " not found."));
 
-        if (!task.isGroupTask() && !cmd.userId().equals(task.getUserId())) {
+        if (task.isGroupTask() && cmd.userId() != null) {
+            throw new ResourceOwnerPrivilegesRequiredException("Individual user is not authorized to edit group task!");
+        }
+
+        if (!task.isGroupTask() && !task.isOwnedBy(cmd.userId())) {
             throw new ResourceOwnerPrivilegesRequiredException("User is not authorized to edit task for another user!");
         }
 
@@ -59,14 +63,7 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
             task.setDescription(cmd.description());
         }
 
-        if (Boolean.TRUE.equals(cmd.completed())) {
-            task.markDone();
-            eventPublisher.publishEvent(new TaskCompletedEvent(cmd.userId(), task.isRewardIssued()));
-            task.markRewardAsIssued();
-        } else if (Boolean.FALSE.equals(cmd.completed())) {
-            task.markUndone();
-            eventPublisher.publishEvent(new TaskUndoneEvent(cmd.userId(), task.getId()));
-        }
+        tryEditCompletion(task, cmd);
 
         if (cmd.categoryId() != null && !Objects.equals(task.getCategoryId(), cmd.categoryId())) {
             TaskCategory taskCategory = taskCategoryRepository
@@ -83,6 +80,21 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
         }
 
         return buildResponse(taskRepository.save(task));
+    }
+
+    private void tryEditCompletion(Task task, EditTaskCommand cmd) {
+        if (Boolean.TRUE.equals(cmd.completed())) {
+            task.markDone();
+            if (!task.isGroupTask()) {
+                eventPublisher.publishEvent(new TaskCompletedEvent(cmd.userId(), task.isRewardIssued()));
+                task.markRewardAsIssued();
+            }
+        } else if (Boolean.FALSE.equals(cmd.completed())) {
+            task.markUndone();
+            if (!task.isGroupTask()) {
+                eventPublisher.publishEvent(new TaskUndoneEvent(cmd.userId(), task.getId()));
+            }
+        }
     }
 
     private boolean rescheduleDeadline(Task task, EditTaskCommand cmd) {

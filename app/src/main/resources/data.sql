@@ -1,129 +1,29 @@
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
-
--- =========================
--- Tabela: task_category
--- =========================
-INSERT INTO task_category (id, name, value)
+INSERT INTO task.task_category (id, name, value)
 VALUES (1, 'Work', 1),
        (2, 'Personal', 2),
        (3, 'Health', 3);
 
--- =========================
--- Tabela: task_difficulty
--- =========================
-INSERT INTO task_difficulty (id, name, value)
+INSERT INTO task.task_difficulty (id, name, value)
 VALUES (1, 'Easy', 1),
        (2, 'Medium', 2),
        (3, 'Hard', 3);
 
--- =========================
--- Tabela: task
--- =========================
-INSERT INTO task (id, title, description, user_id, category_id, difficulty_id, deadline_date, deadline_time)
-VALUES ('11111111-1111-1111-1111-111111111111', 'Finish report', 'Finish the monthly report',
-        '11111111-1111-1111-1111-111111111111', 1, 1, '2025-12-10', '12:00:00'),
-       ('22222222-2222-2222-2222-222222222222', 'Morning workout', '30 minutes jogging',
-        '22222222-2222-2222-2222-222222222222', 1, 1, '2025-12-09', null);
-
--- =========================
--- Tabela: habit
--- =========================
-INSERT INTO habit (id, title, description, user_id, category_id, difficulty_id, cycle_length, last_completed_date,
-                   current_deadline, current_streak, longest_streak)
-VALUES ('11111111-1111-1111-1111-111111111111', 'Read a book', 'Read a book for 5 minutes',
-        '11111111-1111-1111-1111-111111111111',
-        1, 1, 3, '10-12-2025', '12-12-2025', 15, 30);
-
--- INSERT INTO task_notification (id, send_date, task_id)
--- VALUES (1, NOW() + INTERVAL '1 hour', (SELECT task_id FROM task LIMIT 1)),
---        (2, NOW() + INTERVAL '2 hours', (SELECT task_id FROM task OFFSET 1 LIMIT 1));
--- =========================
--- Tabela: group_type
--- =========================
-INSERT INTO group_type (group_type_id, title)
+INSERT INTO "group".group_type (id, title)
 VALUES (1, 'Open'),
        (2, 'Closed'),
        (3, 'Request only');
 
--- =========================
--- Tabela: invitation_status
--- =========================
-INSERT INTO invitation_status (invitation_status_id, title)
+INSERT INTO "group".invitation_status (id, title)
 VALUES (1, 'Sent'),
        (2, 'Accepted'),
        (3, 'Declined');
 
--- =========================
--- Tabela: group_request_status
--- =========================
-INSERT INTO group_request_status (group_request_status_id, title)
+INSERT INTO "group".group_request_status (id, title)
 VALUES (1, 'Sent'),
        (2, 'Accepted'),
        (3, 'Declined');
--- =========================
--- Tabela: "group"
--- =========================
-INSERT INTO "group" (group_id, join_code, group_name, admin_id, group_currency_symbol, members_limit, group_type_id)
-VALUES ('11111111-1111-1111-1111-111111111111', 'FAM123', 'group 1', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '€', 5, 1),
-       ('22222222-2222-2222-2222-222222222222', 'FRN456', 'group 2', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '$', 10,
-        2),
-       ('33333333-3333-3333-3333-333333333333', 'WRK789', 'group 3', 'cccccccc-cccc-cccc-cccc-cccccccccccc', '£', 15,
-        3);
 
--- =========================
--- Tabela: group_member
--- =========================
-INSERT INTO group_member (group_member_id, group_id, user_id, joined_at, left_at, group_money, total_earned_money)
-VALUES ('22222222-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111',
-        'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '2025-10-10 12:00:00', NULL,
-        150, 400),
-       ('33333333-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111',
-        'dddddddd-dddd-dddd-dddd-dddddddddddd', '2025-10-11 09:00:00', NULL, 90,
-        120);
--- =========================
--- Tabela: chat_message
--- =========================
-INSERT INTO chat_message (message_id, content, is_important, sent_at, group_id, sender_id)
-VALUES ('aaaa1111-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Hey everyone! Meeting at 6 PM today.', true, '2025-10-12 12:00:00',
-        '11111111-1111-1111-1111-111111111111', '22222222-1111-1111-1111-111111111111'),
-       ('bbbb2222-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Who’s up for a movie night?', false, '2025-10-12 13:00:00',
-        '22222222-2222-2222-2222-222222222222', '22222222-1111-1111-1111-111111111111');
-
--- =========================
--- Tabela: group_invitation
--- =========================
-INSERT INTO group_invitation (group_invitation_id, group_id, user_id, expires_at,
-                              mail_sent_at, link, invitation_status_id, token_hash)
-VALUES ('aaaa9999-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-111111111111',
-        'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee',
-        '2025-10-20 00:00:00', '2025-10-10 10:00:00', 'https://app/join/FAM123', 1,
-        'xxxx'),
-
-       ('bbbb9999-bbbb-bbbb-bbbb-bbbbbbbbbbbb', '22222222-2222-2222-2222-222222222222',
-        'ffffffff-ffff-ffff-ffff-ffffffffffff',
-        '2025-10-20 00:00:00', '2025-10-10 11:00:00', 'https://app/join/FRN456', 2,
-        'xxxxxxxxx'),
-
-       ('cccc9999-cccc-cccc-cccc-cccccccccccc', '33333333-3333-3333-3333-333333333333',
-        '99999999-9999-9999-9999-999999999999',
-        '2025-10-20 00:00:00', '2025-10-10 12:00:00', 'https://app/join/WRK789', 3,
-        'ffffffffffff');
-
-
--- Tabela: group_request
--- =========================
-INSERT INTO group_request (group_request_id, user_id, group_id, created_at, status_id)
-VALUES ('11112222-3333-4444-5555-666677771111', '11112222-3333-4444-5555-666677778888',
-        '11111111-1111-1111-1111-111111111111', '2025-10-12 10:00:00', 1),
-       ('11112222-3333-4444-5555-666677772222', '99998888-7777-6666-5555-444433332222',
-        '22222222-2222-2222-2222-222222222222', '2025-10-12 11:00:00', 2),
-       ('11112222-3333-4444-5555-666677773333', 'aaaa5555-bbbb-cccc-dddd-eeee11112222',
-        '33333333-3333-3333-3333-333333333333', '2025-10-12 12:00:00', 3);
-
-
--- Tabela: level
--- =========================
-INSERT INTO "level" (id, required_experience)
+INSERT INTO gamification."level" (id, required_experience)
 VALUES (0, 0),
        (1, 100),
        (2, 200),
@@ -226,18 +126,14 @@ VALUES (0, 0),
        (99, 485100),
        (100, 495000);
 
--- Tabela: rarity
--- =========================
-INSERT INTO rarity (id, name)
+INSERT INTO gamification.rarity (id, name)
 VALUES (1, 'Common'),
        (2, 'Uncommon'),
        (3, 'Rare'),
        (4, 'Epic'),
        (5, 'Legendary');
 
--- Tabela: item_slot
--- =========================
-INSERT INTO item_slot (id, name)
+INSERT INTO gamification.item_slot (id, name)
 VALUES (1, 'Head'),
        (2, 'Body'),
        (3, 'Legs'),
@@ -247,9 +143,7 @@ VALUES (1, 'Head'),
        (7, 'Badge'),
        (8, 'Background');
 
--- Tabela: statistic_type
--- =========================
-INSERT INTO statistic_type (id, type)
+INSERT INTO gamification.statistic_type (id, type)
 VALUES (1, 'Completed Tasks'),
        (2, 'Habit Streak'),
        (3, 'Pomodoro Tasks Completed'),
@@ -259,15 +153,13 @@ VALUES (1, 'Completed Tasks'),
        (7, 'Items Purchased'),
        (8, 'Group Items Purchased');
 
-INSERT INTO reward (id, statistic_type_id, experience, money)
+INSERT INTO gamification.reward (id, statistic_type_id, experience, money)
 VALUES (gen_random_uuid(), 1, 10, 5),
        (gen_random_uuid(), 2, 15, 10),
        (gen_random_uuid(), 3, 15, 5),
        (gen_random_uuid(), 4, 10, 0);
 
--- Tabela: achievement
--- =========================
-INSERT INTO achievement (id, name, description, image_path, statistic_type_id, goal, money_reward, experience_reward)
+INSERT INTO gamification.achievement (id, name, description, image_path, statistic_type_id, goal, money_reward, experience_reward)
 VALUES
     -- Completed Tasks (typ 1)
     (gen_random_uuid(), 'First Task Completed', 'Complete your first task',
@@ -371,10 +263,8 @@ VALUES
     (gen_random_uuid(), 'Generous Soul', 'Purchase 100 group items',
      '/images/achievements/generous_soul.png', 8, 100, 3000, 1200);
 
--- Tabela: item
--- =========================
-INSERT INTO item (id, name, description, image_path, quick_sell_value, item_slot_id, rarity_id, price, achievement_id,
-                  unlock_level)
+INSERT INTO gamification.item (id, name, description, image_path, quick_sell_value, item_slot_id,
+                               rarity_id, price, achievement_id, unlock_level)
 VALUES
     -- HEAD ITEMS (slot 1) - Common to Legendary
     ('f246cdf5-29f4-4eea-a661-41f623ca6afe'::UUID, 'Neon Runner Cap',
@@ -392,7 +282,7 @@ VALUES
     (gen_random_uuid(), 'Productivity Diadem Mk.III',
      'A fiber-optic half-crown with a built-in heuristic grid that prioritizes tasks and suggests next steps. Status: recognized by top-tier fixers.',
      '/images/items/head/productivity_diadem_mk3.png',
-     80, 1, 3, NULL, (SELECT id FROM achievement WHERE name = 'Task Master'), NULL),
+     80, 1, 3, NULL, (SELECT id FROM gamification.achievement WHERE name = 'Task Master'), NULL),
     (gen_random_uuid(), 'Ghostrunner Hood',
      'A lightweight, matte hood with nanofiber that dampens neon glare. The result: fewer distractions, more silent flow in your tasks.',
      '/images/items/head/ghostrunner_hood.png', 120, 1, 4,
@@ -400,11 +290,11 @@ VALUES
     (gen_random_uuid(), 'Chrono-Overseer Helm',
      'An executive-class helmet with a quantum clock. Its scheduling module predicts "windows of silence" in the city''s hustle. For those who rule time.',
      '/images/items/head/chrono_overseer_helm.png', 250,
-     1, 5, NULL, (SELECT id FROM achievement WHERE name = 'Deep Work Champion'), NULL),
+     1, 5, NULL, (SELECT id FROM gamification.achievement WHERE name = 'Deep Work Champion'), NULL),
     (gen_random_uuid(), 'Streak-Hack Band',
      'A streak-hacking band for habit junkies. A gentle vibration reminds you of the ritual, and a subtle neon says, "keep it going."',
      '/images/items/head/streak_hack_band.png', 60, 1, 3,
-     NULL, (SELECT id FROM achievement WHERE name = 'Monthly Champion'), NULL),
+     NULL, (SELECT id FROM gamification.achievement WHERE name = 'Monthly Champion'), NULL),
     (gen_random_uuid(), 'Crew Captain''s Cap',
      'A crew captain''s cap with a slick gang design and woven carbon fibers. The street knows who leads the raid.',
      '/images/items/head/crew_captains_cap.png', 60, 1, 3,
@@ -416,7 +306,7 @@ VALUES
     (gen_random_uuid(), 'Halo: Prime Protocol',
      'A golden, cybernetic nimbus—a symbol of perfection and discipline. A sight for the initiated: pure, pre-registered victories.',
      '/images/items/head/halo_prime_protocol.png', 400, 1, 5, NULL,
-     (SELECT id FROM achievement WHERE name = 'Productivity King'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Productivity King'), NULL),
 
     -- BODY ITEMS (slot 2)
     (gen_random_uuid(), 'Synthweave Tee',
@@ -442,7 +332,7 @@ VALUES
     (gen_random_uuid(), 'Street Samurai Plates',
      'Street samurai armor. A laminate resistant to scratches and bad looks. For missions where reputation weighs a ton.',
      '/images/items/body/street_samurai_plates.png', 120, 2, 4,
-     NULL, (SELECT id FROM achievement WHERE name = 'Task Legend'), NULL),
+     NULL, (SELECT id FROM gamification.achievement WHERE name = 'Task Legend'), NULL),
     (gen_random_uuid(), 'Arcanetech Robes',
      'Technomancer robes lined with a nano-mesh. Thermally balanced and comfortable for deep-work marathons.',
      '/images/items/body/arcanetech_robes.png', 110, 2, 4, NULL,
@@ -454,7 +344,7 @@ VALUES
     (gen_random_uuid(), 'Crew Jersey v2',
      'A team jersey with active neons that syncs the crew to a single rhythm. Teamwork? The street calls it "respect."',
      '/images/items/body/crew_jersey_v2.png', 55, 2, 3, NULL,
-     (SELECT id FROM achievement WHERE name = 'Team Leader'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Team Leader'), NULL),
     (gen_random_uuid(), 'Dragon-Scale Exoshell',
      'An exoskeleton with "dragon" scale plating. It commands respect in districts where drones fear to fly.',
      '/images/items/body/dragon_scale_exoshell.png', 600, 2, 5,
@@ -462,7 +352,7 @@ VALUES
     (gen_random_uuid(), 'Nightblade Gi',
      'A nightblade''s outfit. The material dampens friction, and the pockets are like hidden code—there when you need them.',
      '/images/items/body/nightblade_gi.png', 130, 2, 4,
-     NULL, (SELECT id FROM achievement WHERE name = 'Focus Master'), NULL),
+     NULL, (SELECT id FROM gamification.achievement WHERE name = 'Focus Master'), NULL),
     (gen_random_uuid(), 'Champion Mesh Vest',
      'A champion-mesh vest with triple-layer fibers. For winners of sprints for glory and chips.',
      '/images/items/body/champion_mesh_vest.png', 75, 2, 3, 500,
@@ -495,7 +385,7 @@ VALUES
     (gen_random_uuid(), 'Regal Weave Leggings',
      'Leggings with a royal weave and a soft glow. A studied style without the unnecessary noise.',
      '/images/items/legs/regal_weave_leggings.png', 90, 3, 4, NULL,
-     (SELECT id FROM achievement WHERE name = 'Habit Master'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Habit Master'), NULL),
     (gen_random_uuid(), 'Speedster Grav-Pads',
      'Gravitational pads for your shins. They reduce friction and increase the fun. Watch out for turns.',
      '/images/items/legs/speedster_grav_pads.png', 120, 3, 4, NULL,
@@ -503,7 +393,7 @@ VALUES
     (gen_random_uuid(), 'Dragonskin Legplates',
      'A legendary set of "dragonskin" legplates. You only hear them when you want to be heard.',
      '/images/items/legs/dragonskin_legplates.png', 300, 3, 5, NULL,
-     (SELECT id FROM achievement WHERE name = 'Task Deity'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Task Deity'), NULL),
 
     -- FEET ITEMS (slot 4)
     (gen_random_uuid(), 'Neon Sneakers',
@@ -529,7 +419,7 @@ VALUES
     (gen_random_uuid(), 'Shadowstep Tabi',
      'Tabi for ninja-sprinters. Dampens the sound of footsteps and masks heat. Perfect for silent AR entries.',
      '/images/items/feet/shadowstep_tabi.png', 55, 4, 3, NULL,
-     (SELECT id FROM achievement WHERE name = 'Pomodoro Pro'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Pomodoro Pro'), NULL),
     (gen_random_uuid(), 'Wings of Velocity',
      'Slightly raised heels, springy fibers—pure speed. Watch out for crowded alleys.',
      '/images/items/feet/wings_of_velocity.png', 120, 4, 4, NULL,
@@ -537,7 +427,7 @@ VALUES
     (gen_random_uuid(), 'Legendary Striders',
      'A legendary shoe model—softly treading on cables, landing hard on results. Bonus to step confidence.',
      '/images/items/feet/legendary_striders.png', 250, 4, 5,
-     NULL, (SELECT id FROM achievement WHERE name = 'Collaboration Master'), NULL),
+     NULL, (SELECT id FROM gamification.achievement WHERE name = 'Collaboration Master'), NULL),
     (gen_random_uuid(), 'Rocket-Kicks',
      'Half-magnetic, half-rocket "kicks." The word on the street is they speed up deadlines by half a day.',
      '/images/items/feet/rocket_kicks.png', 135, 4, 4, 900,
@@ -563,11 +453,11 @@ VALUES
     (gen_random_uuid(), 'Wisdom Shard Pendant',
      'A pendant with a crystalline memory "shard." It contains inspiring fragments from the best heists.',
      '/images/items/accessory/wisdom_shard_pendant.png', 50, 5, 3,
-     NULL, (SELECT id FROM achievement WHERE name = 'Getting Started'), NULL),
+     NULL, (SELECT id FROM gamification.achievement WHERE name = 'Getting Started'), NULL),
     (gen_random_uuid(), 'Phoenix Regen Plume',
      'A regen-version phoenix feather—a reminder that every day is a new build. Reset, breathe, go.',
      '/images/items/accessory/phoenix_regen_plume.png', 90, 5,
-     4, NULL, (SELECT id FROM achievement WHERE name = 'Two Weeks Strong'), NULL),
+     4, NULL, (SELECT id FROM gamification.achievement WHERE name = 'Two Weeks Strong'), NULL),
     (gen_random_uuid(), 'Dragon Eye Optic',
      'An optical talisman with a multi-layered lens. It spots opportunities where others see only glitches.',
      '/images/items/accessory/dragon_eye_optic.png', 180, 5, 5,
@@ -575,15 +465,15 @@ VALUES
     (gen_random_uuid(), 'Chrono Crystal',
      'A crystal encoded with the rhythm of the day. It syncs energy slots with your plan—less fatigue, more effect.',
      '/images/items/accessory/chrono_crystal.png', 240, 5, 5,
-     NULL, (SELECT id FROM achievement WHERE name = 'Concentration Expert'), NULL),
+     NULL, (SELECT id FROM gamification.achievement WHERE name = 'Concentration Expert'), NULL),
     (gen_random_uuid(), 'Eternal Ember',
      'An eternal ember sealed in a capsule. It provides a sense of continuity—perfect for long streaks and rituals.',
      '/images/items/accessory/eternal_ember.png', 300, 5, 5,
-     NULL, (SELECT id FROM achievement WHERE name = 'Unbreakable'), NULL),
+     NULL, (SELECT id FROM gamification.achievement WHERE name = 'Unbreakable'), NULL),
     (gen_random_uuid(), 'Crew Unity Pin',
      'A pin of unity—worn by those who carry the crew through every chaos. A recognition signal for allies.',
      '/images/items/accessory/crew_unity_pin.png', 30, 5, 2, NULL,
-     (SELECT id FROM achievement WHERE name = 'Team Player'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Team Player'), NULL),
 
     -- TITLE ITEMS (slot 6)
     (gen_random_uuid(), 'Fresh Boot',
@@ -596,7 +486,7 @@ VALUES
     (gen_random_uuid(), 'The Focused Netrunner',
      'A netrunner in a state of flow. The crowd disappears, only the net and the goal remain. Hands on the keyboard, head in the data.',
      '/images/items/title/the_focused_netrunner.png', 18, 6, 2, NULL,
-     (SELECT id FROM achievement WHERE name = 'Focus Initiate'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Focus Initiate'), NULL),
     (gen_random_uuid(), 'Task Hunter 2.0',
      'A bounty hunter who hunts for tasks like rare modules. Saves trophies in commits.',
      '/images/items/title/task_hunter_2_0.png', 27, 6, 2, 180, NULL,
@@ -604,7 +494,7 @@ VALUES
     (gen_random_uuid(), 'Habit Keeper',
      'The guardian of habits—a daily rhythm that beats the city''s chaos. The neon glows steady, day after day.',
      '/images/items/title/habit_keeper.png', 30, 6, 3, NULL,
-     (SELECT id FROM achievement WHERE name = 'Habit Streak 7'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Habit Streak 7'), NULL),
     (gen_random_uuid(), 'The Unstoppable',
      'Unstoppable. The metro is down? The net is crashing? You deliver anyway. That''s how consistency works.',
      '/images/items/title/the_unstoppable.png', 60, 6, 3,
@@ -616,11 +506,11 @@ VALUES
     (gen_random_uuid(), 'The Legendary',
      'A title for those whose names appear in fixers'' reports. You do the job, and the city goes silent.',
      '/images/items/title/the_legendary.png', 180, 6, 5,
-     NULL, (SELECT id FROM achievement WHERE name = 'Task Master'), NULL),
+     NULL, (SELECT id FROM gamification.achievement WHERE name = 'Task Master'), NULL),
     (gen_random_uuid(), 'Crew Leader',
      'The crew leader—you combine talents, extinguish conflicts, and stay the course. Your decisions carry weight.',
      '/images/items/title/crew_leader.png', 48, 6, 3, NULL,
-     (SELECT id FROM achievement WHERE name = 'Group Contributor'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Group Contributor'), NULL),
     (gen_random_uuid(), 'The Eternal',
      'Eternally productive. For those who have learned to dance with the city''s cycle and never miss a step.',
      '/images/items/title/the_eternal.png', 300, 6, 5, NULL, NULL,
@@ -628,11 +518,11 @@ VALUES
     (gen_random_uuid(), 'Productivity Deity',
      'Divine productivity—a status for the few. Your reports shine like billboards over the Sprawl.',
      '/images/items/title/productivity_deity.png', 600, 6,
-     5, NULL, (SELECT id FROM achievement WHERE name = 'Lifestyle Change'), NULL),
+     5, NULL, (SELECT id FROM gamification.achievement WHERE name = 'Lifestyle Change'), NULL),
     (gen_random_uuid(), 'The Collector',
      'A collector of rarities—every item tells a story. In your hands, it''s a collection, not a coincidence.',
      '/images/items/title/the_collector.png', 36, 6, 2, NULL,
-     (SELECT id FROM achievement WHERE name = 'Collector'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Collector'), NULL),
 
     -- BADGE ITEMS (slot 7)
     (gen_random_uuid(), 'Bronze Circuit',
@@ -657,7 +547,7 @@ VALUES
     (gen_random_uuid(), 'Task Medal Mk.II',
      'A medal for a series of tasks. It''s not about the quantity, but the rhythm and consistency that build an edge.',
      '/images/items/badge/task_medal_mk2.png', 12, 7, 2,
-     NULL, (SELECT id FROM achievement WHERE name = 'Task Enthusiast'), NULL),
+     NULL, (SELECT id FROM gamification.achievement WHERE name = 'Task Enthusiast'), NULL),
     (gen_random_uuid(), 'Habit Shield v3',
      'A ritual shield—a defense against distractions. Your daily routine is your armor.',
      '/images/items/badge/habit_shield_v3.png', 30, 7, 3, 200,
@@ -665,11 +555,11 @@ VALUES
     (gen_random_uuid(), 'Focus Emblem AR',
      'An AR focus emblem—a reminder that one good block of focus is worth a hundred bad ones.',
      '/images/items/badge/focus_emblem_ar.png', 30, 7, 3,
-     NULL, (SELECT id FROM achievement WHERE name = 'Pomodoro Pro'), NULL),
+     NULL, (SELECT id FROM gamification.achievement WHERE name = 'Pomodoro Pro'), NULL),
     (gen_random_uuid(), 'Crew Crest',
      'A crew crest—a code of loyalty forged in metal. From a distance, you can see who''s one of yours.',
      '/images/items/badge/crew_crest.png', 27, 7, 3, NULL,
-     (SELECT id FROM achievement WHERE name = 'Team Player'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Team Player'), NULL),
     (gen_random_uuid(), 'Victory Ribbon XR',
      'A victory ribbon—pinned to your jacket, it speaks louder than the feed. Winning is a habit.',
      '/images/items/badge/victory_ribbon_xr.png', 24, 7, 2, 160,
@@ -681,7 +571,7 @@ VALUES
     (gen_random_uuid(), 'Legend Seal',
      'A legend''s seal—rarely seen, often spoken of. Worn by the elite of the eternal neon city.',
      '/images/items/badge/legend_seal.png', 120, 7, 5,
-     NULL, (SELECT id FROM achievement WHERE name = 'Group Legend'), NULL),
+     NULL, (SELECT id FROM gamification.achievement WHERE name = 'Group Legend'), NULL),
     (gen_random_uuid(), 'Phoenix Patch',
      'A "Phoenix" patch—a reminder that every fall is just a delayed start. You get up, dust yourself off, and fly.',
      '/images/items/badge/phoenix_patch.png', 90, 7, 4, 600,
@@ -719,7 +609,7 @@ VALUES
     (gen_random_uuid(), 'Datavault Library',
      'An archive of knowledge—rows of servers, pulsating LEDs, and the chill of data. This is where victory stories are stored.',
      '/images/items/background/datavault_library.png', 60, 8, 4,
-     NULL, (SELECT id FROM achievement WHERE name = 'Task Enthusiast'), NULL),
+     NULL, (SELECT id FROM gamification.achievement WHERE name = 'Task Enthusiast'), NULL),
     (gen_random_uuid(), 'Mag-Tower Citadel',
      'A mag-tower citadel—a fortress of networks and steel rules. A background for strategists.',
      '/images/items/background/mag_tower_citadel.png', 97, 8, 4, 650,
@@ -731,7 +621,7 @@ VALUES
     (gen_random_uuid(), 'Paradise Sprawl',
      'An island in the heart of the Sprawl—palm trees, but made of fiber. A place to reset before the next run.',
      '/images/items/background/paradise_sprawl.png', 120, 8, 4, NULL,
-     (SELECT id FROM achievement WHERE name = 'Habit Master'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Habit Master'), NULL),
     (gen_random_uuid(), 'Night District',
      'The Night District—cyberpunk glow and crowds. A background with energy that motivates you to move.',
      '/images/items/background/night_district.png', 112, 8, 4,
@@ -747,7 +637,7 @@ VALUES
     (gen_random_uuid(), 'Volcano Reactor',
      'A volcanic reactor—power harnessed underground. The perfect background when you want to feel the pressure.',
      '/images/items/background/volcano_reactor.png', 150, 8, 5, NULL,
-     (SELECT id FROM achievement WHERE name = 'Task Legend'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Task Legend'), NULL),
     (gen_random_uuid(), 'Crystal Datacave',
      'A cave of crystal disks—light refracts through data. The beauty of technology.',
      '/images/items/background/crystal_datacave.png', 96, 8, 4,
@@ -759,7 +649,7 @@ VALUES
     (gen_random_uuid(), 'Time Vortex: Singularity',
      'A time vortex—the center of your personal clock. A good background for planning sprints.',
      '/images/items/background/time_vortex_singularity.png', 240, 8, 5, NULL,
-     (SELECT id FROM achievement WHERE name = 'Deep Work Champion'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Deep Work Champion'), NULL),
     (gen_random_uuid(), 'Throne of Chrome',
      'A throne room of chrome—a symbol of mastery over chaos. Whoever sits here, delivers.',
      '/images/items/background/throne_of_chrome.png', 210, 8, 5, NULL,
@@ -769,7 +659,7 @@ VALUES
     (gen_random_uuid(), 'Chromatic Drape',
      'A cape made of fibers that refract light into a cyber-rainbow. Seeing it in motion is like watching code synthesize.',
      '/images/items/body/chromatic_drape.png', 60, 2, 4, NULL,
-     (SELECT id FROM achievement WHERE name = 'Social Butterfly'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Social Butterfly'), NULL),
     (gen_random_uuid(), 'Loot Crate Visor',
      'A loot-crate helmet. You never know what the next run will bring—but with this, you''ll enter like a winner.',
      '/images/items/head/loot_crate_visor.png', 37, 1, 3, 250, NULL,
@@ -785,7 +675,7 @@ VALUES
     (gen_random_uuid(), 'Seraph Wings',
      'Synthetic wings with LEDs. Will they lift you above the deadline? No, but they''ll make you want to catch up.',
      '/images/items/accessory/seraph_wings.png', 150, 5, 5, NULL,
-     (SELECT id FROM achievement WHERE name = 'Hoarder'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Hoarder'), NULL),
     (gen_random_uuid(), 'Demon Horns',
      'Chrome horns—a manifestation of brazen effectiveness. For those who do the job "their way."',
      '/images/items/head/demon_horns.png', 105, 1, 4, 700,
@@ -797,7 +687,7 @@ VALUES
     (gen_random_uuid(), 'Samurai Exo-Armor',
      'An exo-armor inspired by tradition. The sound of its steps is like keystrokes—rhythmic and confident.',
      '/images/items/body/samurai_exo_armor.png', 168, 2, 4, NULL,
-     (SELECT id FROM achievement WHERE name = 'Focus Master'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Focus Master'), NULL),
     (gen_random_uuid(), 'Pirate Tricorne',
      'A pirate hat—a classic for hunters of digital bounties. Urban version, effective version.',
      '/images/items/head/pirate_tricorne.png', 30, 1, 2, 200, NULL,
@@ -817,11 +707,11 @@ VALUES
     (gen_random_uuid(), 'Ice Crown vX',
      'An ice crown with micro-cooling. A cool head, hot decisions—the perfect combination.',
      '/images/items/head/ice_crown_vx.png', 180, 1, 5, NULL,
-     (SELECT id FROM achievement WHERE name = 'Task Deity'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Task Deity'), NULL),
     (gen_random_uuid(), 'Fire Crown vX',
      'A fire crown with LED embers. It boosts character, not temperature. The street sees who it''s dealing with.',
      '/images/items/head/fire_crown_vx.png', 180, 1, 5, NULL,
-     (SELECT id FROM achievement WHERE name = 'Shopping Expert'), NULL),
+     (SELECT id FROM gamification.achievement WHERE name = 'Shopping Expert'), NULL),
     (gen_random_uuid(), 'Gaia Resonance Staff',
      'A resonance staff—the vibrations of nature in a cyber-world. Just hold it, and the day''s rhythm falls into place.',
      '/images/items/accessory/gaia_resonance_staff.png', 108, 5, 4, NULL,
@@ -837,7 +727,7 @@ VALUES
     (gen_random_uuid(), 'Infinity Gauntlet: Chrome',
      'The Infinity Gauntlet (Chrome)—unbeatable in style and function. For the kings of productivity.',
      '/images/items/accessory/infinity_gauntlet_chrome.png', 900,
-     5, 5, NULL, (SELECT id FROM achievement WHERE name = 'Productivity King'), NULL),
+     5, 5, NULL, (SELECT id FROM gamification.achievement WHERE name = 'Productivity King'), NULL),
     (gen_random_uuid(), 'Champion Belt XR',
      'A champion''s belt—heavy, metallic, engraved. It says "I won" before you even open the dashboard.',
      '/images/items/accessory/champion_belt_xr.png', 67, 5, 3, 450,
@@ -845,9 +735,9 @@ VALUES
     (gen_random_uuid(), 'Mystic Orb v2',
      'An orb of data mist—with every turn, it shows a different scenario. Which one will you choose?',
      '/images/items/accessory/mystic_orb_v2.png', 96, 5, 4, NULL,
-     (SELECT id FROM achievement WHERE name = 'Community Member'), NULL);
+     (SELECT id FROM gamification.achievement WHERE name = 'Community Member'), NULL);
 
-INSERT INTO notification_type (id, name)
+INSERT INTO communication.notification_type (id, name)
 VALUES (1, 'Task Completed'),
        (2, 'Item Acquired'),
        (3, 'Level Up'),

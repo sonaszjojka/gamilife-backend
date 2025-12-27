@@ -61,7 +61,7 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
     private EditOwnedGroupItemResult toResult(OwnedGroupItem ownedGroupItem) {
 
         return new EditOwnedGroupItemResult(
-                ownedGroupItem.getUseDate()
+                ownedGroupItem.getUsedAt()
         );
     }
 }

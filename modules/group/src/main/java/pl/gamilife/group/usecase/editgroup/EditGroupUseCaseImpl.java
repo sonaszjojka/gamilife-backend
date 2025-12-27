@@ -46,7 +46,7 @@ public class EditGroupUseCaseImpl implements EditGroupUseCase {
 
         GroupType groupType = getGroupType(cmd.groupTypeId());
 
-        group.setGroupCurrencySymbol(cmd.groupCurrencySymbol());
+        group.setCurrencySymbol(cmd.groupCurrencySymbol());
         group.setMembersLimit(cmd.membersLimit());
         group.setAdminId(admin.get().userId());
         group.setGroupType(groupType);
@@ -69,15 +69,15 @@ public class EditGroupUseCaseImpl implements EditGroupUseCase {
 
     private EditGroupResult buildEditGroupResult(Group group) {
         return EditGroupResult.builder()
-                .groupId(group.getGroupId())
+                .groupId(group.getId())
                 .groupName(group.getName())
                 .joinCode(group.getJoinCode())
                 .adminId(group.getAdminId())
-                .groupCurrencySymbol(group.getGroupCurrencySymbol())
+                .groupCurrencySymbol(group.getCurrencySymbol())
                 .membersLimit(group.getMembersLimit())
                 .groupType(new EditGroupResult.GroupTypeDto(
-                        group.getGroupType().getGroupTypeId(),
-                        group.getGroupType().getTitle()
+                        group.getType().getId(),
+                        group.getType().getTitle()
                 ))
                 .build();
     }

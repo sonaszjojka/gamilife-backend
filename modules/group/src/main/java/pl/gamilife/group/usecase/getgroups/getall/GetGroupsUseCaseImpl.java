@@ -39,12 +39,12 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
                 getGroupSpecification(cmd, groupType),
                 createPageable(cmd)
         );
-        List<UUID> groupIds = groupPage.map(Group::getGroupId).getContent();
+        List<UUID> groupIds = groupPage.map(Group::getId).getContent();
 
         List<Group> groupsWithDetails;
         if (!groupIds.isEmpty()) {
-            groupsWithDetails = groupRepository.findWithGroupMembersByGroupIdIn(groupIds);
-            groupsWithDetails.sort(Comparator.comparingInt(g -> groupIds.indexOf(g.getGroupId())));
+            groupsWithDetails = groupRepository.findWithActiveMembersByIdIn(groupIds);
+            groupsWithDetails.sort(Comparator.comparingInt(g -> groupIds.indexOf(g.getId())));
         } else {
             groupsWithDetails = List.of();
         }
@@ -77,14 +77,14 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
                 groupPage.getNumber(),
                 groupPage.getSize(),
                 groups.stream().map(g -> new GetGroupsResult.GroupDto(
-                        g.getGroupId(),
+                        g.getId(),
                         g.getJoinCode(),
                         g.getName(),
                         g.getAdminId(),
-                        g.getGroupCurrencySymbol(),
+                        g.getCurrencySymbol(),
                         g.getMembersLimit(),
-                        new GetGroupsResult.GroupTypeDto(g.getGroupType().getTitle()),
-                        g.getGroupMembers().size()
+                        new GetGroupsResult.GroupTypeDto(g.getType().getTitle()),
+                        g.getActiveMembers().size()
                 )).toList()
         );
     }

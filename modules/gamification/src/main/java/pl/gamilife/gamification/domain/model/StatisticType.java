@@ -21,7 +21,7 @@ import java.util.Set;
 @Entity
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "statistic_type")
+@Table(name = "statistic_type", schema = "gamification")
 @ToString(exclude = {"userStatistics", "achievements"})
 public class StatisticType extends BaseIntReadOnlyEntity {
 

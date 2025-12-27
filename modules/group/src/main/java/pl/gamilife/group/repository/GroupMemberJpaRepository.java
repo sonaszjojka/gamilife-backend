@@ -16,10 +16,10 @@ public interface GroupMemberJpaRepository extends JpaRepository<GroupMember, UUI
     Optional<GroupMember> findByUserIdAndGroup(UUID userId, Group memberGroup);
 
     @EntityGraph(attributePaths = {"group"})
-    Optional<GroupMember> findByGroupMemberIdAndGroupId(UUID groupMemberId, UUID groupId);
+    Optional<GroupMember> findByIdAndGroupId(UUID groupMemberId, UUID groupId);
 
     @EntityGraph(attributePaths = {"group"})
-    Optional<GroupMember> findWithGroupByGroupMemberIdAndGroupId(UUID groupMemberId, UUID groupId);
+    Optional<GroupMember> findWithGroupByIdAndGroupId(UUID groupMemberId, UUID groupId);
 
     @Query("""
                 SELECT gm

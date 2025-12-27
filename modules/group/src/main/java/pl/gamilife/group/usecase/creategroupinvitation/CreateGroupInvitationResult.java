@@ -6,7 +6,7 @@ import pl.gamilife.group.model.GroupInvitation;
 import pl.gamilife.group.model.InvitationStatus;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -16,7 +16,7 @@ import java.util.UUID;
 public record CreateGroupInvitationResult(UUID groupInvitationId,
                                           CreateGroupInvitationResult.GroupDto groupInvited,
                                           UUID userId,
-                                          LocalDateTime expiresAt, LocalDateTime mailSentAt, String link,
+                                          Instant expiresAt, Instant mailSentAt, String link,
                                           CreateGroupInvitationResult.InvitationStatusDto invitationStatus)
         implements Serializable {
     /**

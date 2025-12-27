@@ -14,13 +14,13 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "user_oauth_provider")
+@Table(name = "user_oauth_provider", schema = "auth")
 public class UserOAuthProvider extends BaseEntity {
 
     @Column(name = "user_id", nullable = false)
     private UUID userId;
 
-    @Column(nullable = false)
+    @Column(name = "provider", nullable = false)
     private String provider;
 
     @Column(name = "provider_id", nullable = false)

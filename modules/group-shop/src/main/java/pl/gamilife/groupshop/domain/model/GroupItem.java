@@ -17,15 +17,15 @@ import java.util.UUID;
 @Entity
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "group_item")
+@Table(name = "group_item", schema = "group_shop")
 @ToString(exclude = {"groupShop", "ownedGroupItems"})
 public class GroupItem extends BaseEntity {
 
-    @Column(name = "price", nullable = false)
-    private Integer price;
-
     @Column(name = "name", nullable = false, length = 30)
     private String name;
+
+    @Column(name = "price", nullable = false)
+    private Integer price;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = false;
@@ -38,7 +38,7 @@ public class GroupItem extends BaseEntity {
     private GroupShop groupShop;
 
     @OneToMany(mappedBy = "groupItem", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<OwnedGroupItem> ownedGroupItems = new LinkedHashSet<>();
+    private final Set<OwnedGroupItem> ownedGroupItems = new LinkedHashSet<>();
 
     private GroupItem(String name, Integer price, Boolean isActive, GroupShop groupShop) {
         setName(name);

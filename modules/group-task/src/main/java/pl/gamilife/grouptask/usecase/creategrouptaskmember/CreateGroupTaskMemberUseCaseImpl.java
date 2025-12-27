@@ -39,7 +39,7 @@ public class CreateGroupTaskMemberUseCaseImpl implements CreateGroupTaskMemberUs
             throw new GroupMemberNotFoundException("Group member with id:" + request.groupMemberId() + " does not belong to group with id:" + groupTask.getGroupId());
         }
 
-        GroupTaskMember groupTaskMember = createGroupTaskMemberMapper.toEntity(groupTask, request.groupMemberId(), UUID.randomUUID());
+        GroupTaskMember groupTaskMember = createGroupTaskMemberMapper.toEntity(groupTask, request.groupMemberId());
         GroupTaskMember savedGroupTaskMember = groupTaskMemberRepository.save(groupTaskMember);
         return createGroupTaskMemberMapper.toResponse(savedGroupTaskMember);
     }

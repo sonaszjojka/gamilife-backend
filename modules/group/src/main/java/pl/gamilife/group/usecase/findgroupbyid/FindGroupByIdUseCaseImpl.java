@@ -25,15 +25,15 @@ public class FindGroupByIdUseCaseImpl implements FindGroupByIdUseCase {
 
     private GroupDto buildGroupDto(Group group) {
         return GroupDto.builder()
-                .groupId(group.getGroupId())
+                .groupId(group.getId())
                 .groupName(group.getName())
                 .joinCode(group.getJoinCode())
                 .adminId(group.getAdminId())
-                .groupCurrencySymbol(group.getGroupCurrencySymbol())
+                .groupCurrencySymbol(group.getCurrencySymbol())
                 .membersLimit(group.getMembersLimit())
                 .groupType(GroupDto.GroupTypeDto.builder()
-                        .groupTypeId(group.getGroupType().getGroupTypeId())
-                        .title(group.getGroupType().getTitle())
+                        .groupTypeId(group.getType().getId())
+                        .title(group.getType().getTitle())
                         .build())
                 .build();
     }

@@ -18,12 +18,9 @@ public class EditMemberWalletUseCaseImpl implements EditMemberWalletUseCase {
 
     @Override
     public void execute(UUID groupId, UUID memberId, Integer amount) {
-        GroupMember member = groupMemberJpaRepository.findByGroupMemberIdAndGroupId(memberId, groupId).orElseThrow
+        GroupMember member = groupMemberJpaRepository.findByIdAndGroupId(memberId, groupId).orElseThrow
                 (() -> new GroupMemberNotFoundException("Member with Id " + memberId + " does not exist in this group"));
 
-        member.setGroupMoney(member.getGroupMoney() + amount);
-        if (amount > 0) {
-            member.setTotalEarnedMoney(member.getTotalEarnedMoney() + amount);
-        }
+        member.gainMoney(amount);
     }
 }

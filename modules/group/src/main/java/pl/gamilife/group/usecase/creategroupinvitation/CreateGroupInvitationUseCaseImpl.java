@@ -8,22 +8,17 @@ import pl.gamilife.api.auth.AuthApi;
 import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.BasicUserInfoDto;
-import pl.gamilife.group.enums.InvitationStatusEnum;
 import pl.gamilife.group.exception.domain.GroupFullException;
-import pl.gamilife.group.exception.domain.InvitationStatusNotFoundException;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupInvitation;
-import pl.gamilife.group.model.InvitationStatus;
 import pl.gamilife.group.repository.GroupInvitationJpaRepository;
 import pl.gamilife.group.repository.GroupJpaRepository;
-import pl.gamilife.group.repository.InvitationStatusJpaRepository;
-import pl.gamilife.group.util.GroupInvitationUtil;
+import pl.gamilife.group.service.GroupInvitationService;
 import pl.gamilife.shared.kernel.event.GroupInvitationCreatedEvent;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -32,10 +27,9 @@ import java.util.UUID;
 public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUseCase {
 
     private final GroupInvitationJpaRepository groupInvitationRepository;
-    private final InvitationStatusJpaRepository invitationStatusRepository;
     private final GroupJpaRepository groupRepository;
     private final AuthApi authApi;
-    private final GroupInvitationUtil groupInvitationUtil;
+    private final GroupInvitationService groupInvitationService;
     private final UserApi userApi;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -50,12 +44,10 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
         }
 
         if (group.isFull()) {
-            throw new GroupFullException("Group with id: " + group.getGroupId() + " is full!");
+            throw new GroupFullException("Group with id: " + group.getId() + " is full!");
         }
 
-        InvitationStatus invitationStatus = getSentInvitationStatus();
-
-        GroupInvitation groupInvitation = createGroupInvitation(group, invitationStatus, userToInvite.userId());
+        GroupInvitation groupInvitation = createGroupInvitation(group, userToInvite.userId());
 
         eventPublisher.publishEvent(new GroupInvitationCreatedEvent(
                 userToInvite.userId(),
@@ -71,50 +63,30 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
                 .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " not found!"));
     }
 
-    private InvitationStatus getSentInvitationStatus() {
-        return invitationStatusRepository.findById(InvitationStatusEnum.SENT.getId())
-                .orElseThrow(() -> new InvitationStatusNotFoundException("Invitation stauts with id: "
-                        + InvitationStatusEnum.SENT.getId() + " not found!"));
-    }
-
     private Group getGroupWithMembers(UUID groupId) {
-        return groupRepository.findWithGroupMembersByGroupId(groupId)
+        return groupRepository.findWithActiveMembersById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));
     }
 
-    private GroupInvitation createGroupInvitation(Group group, InvitationStatus invitationStatus, UUID userId) {
-        UUID groupInvitationId = UUID.randomUUID();
-        String token = groupInvitationUtil.generateToken();
-        String hashedToken = groupInvitationUtil.hashToken(token);
-        String link = groupInvitationUtil.generateGroupInvitationLink(group.getGroupId(), groupInvitationId, token);
-
-        GroupInvitation groupInvitation = GroupInvitation.builder()
-                .groupInvitationId(groupInvitationId)
-                .userId(userId)
-                .group(group)
-                .expiresAt(groupInvitationUtil.calculateExpirationDate())
-                .mailSentAt(LocalDateTime.now())
-                .link(link)
-                .tokenHash(hashedToken)
-                .invitationStatus(invitationStatus)
-                .build();
+    private GroupInvitation createGroupInvitation(Group group, UUID userId) {
+        GroupInvitation groupInvitation = groupInvitationService.createGroupInvitation(group, userId);
 
         return groupInvitationRepository.save(groupInvitation);
     }
 
     private CreateGroupInvitationResult createResponse(GroupInvitation groupInvitation) {
         return CreateGroupInvitationResult.builder()
-                .groupInvitationId(groupInvitation.getGroupInvitationId())
+                .groupInvitationId(groupInvitation.getId())
                 .groupInvited(new CreateGroupInvitationResult.GroupDto(
                         groupInvitation.getGroupId()
                 ))
                 .userId(groupInvitation.getUserId())
                 .expiresAt(groupInvitation.getExpiresAt())
-                .mailSentAt(groupInvitation.getMailSentAt())
+                .mailSentAt(groupInvitation.getCreatedAt())
                 .link(groupInvitation.getLink())
                 .invitationStatus(new CreateGroupInvitationResult.InvitationStatusDto(
-                        groupInvitation.getInvitationStatus().getInvitationStatusId(),
-                        groupInvitation.getInvitationStatus().getTitle()
+                        groupInvitation.getStatus().getId(),
+                        groupInvitation.getStatus().getTitle()
                 ))
                 .build();
     }

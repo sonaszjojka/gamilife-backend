@@ -12,7 +12,6 @@ import java.time.ZoneId;
 import java.util.UUID;
 
 public record EditTaskCommand(
-        @NotNull
         UUID userId,
 
         ZoneId zoneId,

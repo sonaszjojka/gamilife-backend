@@ -15,10 +15,8 @@ import pl.gamilife.task.application.deletetask.DeleteTaskUseCase;
 import pl.gamilife.task.application.edithabit.EditHabitCommand;
 import pl.gamilife.task.application.edithabit.EditHabitUseCase;
 import pl.gamilife.task.application.edittask.EditTaskCommand;
+import pl.gamilife.task.application.edittask.EditTaskResult;
 import pl.gamilife.task.application.edittask.EditTaskUseCase;
-import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskCommand;
-import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskResult;
-import pl.gamilife.task.application.edittaskforgrouptask.EditTaskForGroupTaskUseCase;
 import pl.gamilife.task.application.findhabitbyid.FindHabitByIdCommand;
 import pl.gamilife.task.application.findhabitbyid.FindHabitByIdResult;
 import pl.gamilife.task.application.findhabitbyid.FindHabitByIdUseCase;
@@ -37,7 +35,6 @@ public class TaskApiImpl implements TaskApi {
     private final FindHabitByIdUseCase findHabitByIdUseCase;
     private final DeleteTaskUseCase deleteTaskUseCase;
     private final CreateTaskForGroupTaskUseCase createTaskForGroupTaskUseCase;
-    private final EditTaskForGroupTaskUseCase editTaskForGroupTaskUseCase;
     private final EditTaskUseCase editTaskUseCase;
     private final EditHabitUseCase editHabitUseCase;
 
@@ -91,7 +88,7 @@ public class TaskApiImpl implements TaskApi {
                 request.title(),
                 request.deadlineDate(),
                 request.deadlineTime(),
-                request.currentGroupDateTime(),
+                request.currentGroupTimezone(),
                 request.categoryId(),
                 request.difficultyId(),
                 request.description()
@@ -110,16 +107,19 @@ public class TaskApiImpl implements TaskApi {
 
     @Override
     public TaskForGroupTaskResponseDto updateTaskForGroupTask(TaskForGroupTaskRequestDto request, UUID taskId) {
-        EditTaskForGroupTaskResult result = editTaskForGroupTaskUseCase.execute(new EditTaskForGroupTaskCommand(
+        EditTaskResult result = editTaskUseCase.execute(new EditTaskCommand(
+                null,
+                request.currentGroupTimezone(),
                 taskId,
                 request.title(),
+                request.removeDescription(),
+                request.description(),
                 request.deadlineDate(),
+                request.removeDeadlineTime(),
                 request.deadlineTime(),
-                request.currentGroupDateTime(),
                 request.categoryId(),
                 request.difficultyId(),
-                request.completed(),
-                request.description()
+                request.completed()
         ));
 
         return new TaskForGroupTaskResponseDto(

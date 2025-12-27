@@ -18,7 +18,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "group_shop")
+@Table(name = "group_shop", schema = "group_shop")
 @ToString
 public class GroupShop extends BaseEntity {
     @Column(name = "name", nullable = false, length = 100)
@@ -27,17 +27,15 @@ public class GroupShop extends BaseEntity {
     @Column(name = "description", nullable = false, length = 500)
     private String description;
 
-
     @Column(name = "group_id", nullable = false)
     private UUID groupId;
-
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
     @OneToMany(mappedBy = "groupShop")
     @ToString.Exclude
-    private Set<GroupItem> groupItems = new LinkedHashSet<>();
+    private final Set<GroupItem> groupItems = new LinkedHashSet<>();
 
 
     private GroupShop(String name, String description, UUID groupId, Boolean isActive) {

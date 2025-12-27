@@ -16,7 +16,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "forgot_password_code")
+@Table(name = "forgot_password_code", schema = "auth")
 public class ForgotPasswordCode extends BaseEntity {
 
     @NotNull

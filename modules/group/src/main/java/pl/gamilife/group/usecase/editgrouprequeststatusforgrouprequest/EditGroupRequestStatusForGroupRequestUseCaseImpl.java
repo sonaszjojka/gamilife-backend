@@ -61,22 +61,22 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
             );
         }
 
-        groupRequest.setGroupRequestStatus(newGroupRequestStatus);
+        groupRequest.changeStatus(newGroupRequestStatus);
         GroupRequest savedGroupRequest = groupRequestRepository.save(groupRequest);
 
         return buildEditGroupRequestStatusForGroupRequestResult(
                 savedGroupRequest,
-                groupMember != null ? groupMember.getGroupMemberId() : null
+                groupMember != null ? groupMember.getId() : null
         );
     }
 
     private Group getGroupWithMembers(UUID groupId) {
-        return groupJpaRepository.findWithGroupMembersByGroupId(groupId)
+        return groupJpaRepository.findWithActiveMembersById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
     }
 
     private GroupRequest getGroupRequest(UUID groupId, UUID groupRequestId) {
-        return groupRequestRepository.findByGroupRequestIdAndGroupRequested_GroupId(groupRequestId, groupId)
+        return groupRequestRepository.findByIdAndGroupId(groupRequestId, groupId)
                 .orElseThrow(() -> new GroupRequestNotFoundException("Group request with id:" + groupRequestId + " not found!"));
     }
 
@@ -91,13 +91,13 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
             UUID groupMemberId
     ) {
         return EditGroupRequestStatusForGroupRequestResult.builder()
-                .groupRequestId(groupRequest.getGroupRequestId())
+                .groupRequestId(groupRequest.getId())
                 .userId(groupRequest.getUserId())
                 .groupRequested(new EditGroupRequestStatusForGroupRequestResult.GroupDto(groupRequest.getGroupId()))
                 .createdAt(groupRequest.getCreatedAt())
                 .groupRequestStatus(new EditGroupRequestStatusForGroupRequestResult.GroupRequestStatusDto(
-                        groupRequest.getGroupRequestStatus().getGroupRequestStatusId(),
-                        groupRequest.getGroupRequestStatus().getTitle()
+                        groupRequest.getStatus().getId(),
+                        groupRequest.getStatus().getTitle()
                 ))
                 .groupMemberId(groupMemberId)
                 .build();

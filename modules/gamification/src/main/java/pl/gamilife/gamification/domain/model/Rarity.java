@@ -20,7 +20,7 @@ import java.util.Set;
 @Entity
 @Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "rarity")
+@Table(name = "rarity", schema = "gamification")
 @ToString(exclude = {"items"})
 public class Rarity extends BaseIntReadOnlyEntity {
 

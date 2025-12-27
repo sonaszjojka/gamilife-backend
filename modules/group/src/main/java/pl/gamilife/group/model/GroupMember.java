@@ -1,46 +1,77 @@
 package pl.gamilife.group.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
+import pl.gamilife.shared.persistence.entity.BaseEntity;
 
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 @Getter
-@Setter
 @ToString
-@Builder
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "group_member")
-public class GroupMember {
-    @Column(name = "joined_at", nullable = false)
-    protected Instant joinedAt;
-    @Column(name = "left_at")
-    protected Instant leftAt;
-    @Id
-    @Column(name = "group_member_id", nullable = false, updatable = false, unique = true)
-    private UUID groupMemberId;
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "group_member", schema = "group")
+public class GroupMember extends BaseEntity {
+
     @Column(name = "group_id", updatable = false, nullable = false, insertable = false)
     private UUID groupId;
+
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", nullable = false, updatable = false)
     private Group group;
+
     @Column(name = "user_id", updatable = false, nullable = false)
     private UUID userId;
+
+    @Column(name = "joined_at", nullable = false)
+    protected Instant joinedAt = Instant.now();
+
+    @Column(name = "left_at")
+    protected Instant leftAt;
+
     @Column(name = "group_money", nullable = false)
-    private Integer groupMoney;
+    private Integer groupMoney = 0;
+
     @Column(name = "total_earned_money", nullable = false)
-    private Integer totalEarnedMoney;
+    private Integer totalEarnedMoney = 0;
+
     @OneToMany(mappedBy = "groupMember", fetch = FetchType.LAZY)
     @ToString.Exclude
-    @Builder.Default
-    private Set<ChatMessage> chatMessages = new HashSet<>();
+    private final Set<ChatMessage> chatMessages = new HashSet<>();
+
+    private GroupMember(Group group, UUID userId) {
+        setGroup(group);
+        setUserId(userId);
+    }
+
+    public static GroupMember create(Group group, UUID userId) {
+        return new GroupMember(group, userId);
+    }
+
+    public void leave() {
+        if (leftAt != null) {
+            throw new IllegalStateException("User has already left the group");
+        }
+
+        this.leftAt = Instant.now();
+    }
+
+    public void rejoin() {
+        if (leftAt == null) {
+            throw new IllegalStateException("User has not left the group");
+        }
+
+        this.leftAt = null;
+        this.joinedAt = Instant.now();
+    }
 
     public boolean isActive() {
         return this.leftAt == null;
@@ -50,15 +81,41 @@ public class GroupMember {
         return this.userId.equals(userId);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        GroupMember that = (GroupMember) o;
-        return Objects.equals(groupMemberId, that.groupMemberId);
+    public void gainMoney(int amount) {
+        if (amount <= 0) {
+            throw new DomainValidationException("Amount cannot be less than or equal to 0");
+        }
+
+        this.groupMoney += amount;
+        this.totalEarnedMoney += amount;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(groupMemberId);
+    public void useMoney(int amount) {
+        if (amount <= 0) {
+            throw new DomainValidationException("Amount cannot be less than or equal to 0");
+        }
+
+        if (this.groupMoney < amount) {
+            throw new DomainValidationException("Not enough money to use");
+        }
+
+        this.groupMoney -= amount;
+    }
+
+    private void setGroup(Group group) {
+        if (group == null) {
+            throw new DomainValidationException("Group cannot be null");
+        }
+
+        this.group = group;
+        this.groupId = group.getId();
+    }
+
+    private void setUserId(UUID userId) {
+        if (userId == null) {
+            throw new DomainValidationException("User id cannot be null");
+        }
+
+        this.userId = userId;
     }
 }

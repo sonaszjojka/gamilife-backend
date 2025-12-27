@@ -21,24 +21,25 @@ public class EditGroupMemberUseCaseImpl implements EditGroupMemberUseCase {
 
         if (!groupMember.isActive()) {
             throw new UserLeftGroupException("Group member with id: " + cmd.groupMemberId() + " left group with id: "
-                    + groupMember.getGroup().getGroupId() + " and is no longer member of it!");
+                    + groupMember.getGroup().getId() + " and is no longer member of it!");
         }
 
-        groupMember.setGroupMoney(cmd.groupMoney());
-        groupMember.setTotalEarnedMoney(cmd.totalEarnedMoney());
+        // TODO: check if used
+//        groupMember.setGroupMoney(cmd.groupMoney());
+//        groupMember.setTotalEarnedMoney(cmd.totalEarnedMoney());
 
         return buildEditGroupMemberResult(groupMemberRepository.save(groupMember));
     }
 
     private GroupMember getGroupMember(UUID groupId, UUID groupMemberId) {
-        return groupMemberRepository.findByGroupMemberIdAndGroupId(groupMemberId, groupId)
+        return groupMemberRepository.findByIdAndGroupId(groupMemberId, groupId)
                 .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: "
                         + groupMemberId + " not found!"));
     }
 
     private EditGroupMemberResult buildEditGroupMemberResult(GroupMember groupMember) {
         return EditGroupMemberResult.builder()
-                .groupMemberId(groupMember.getGroupMemberId())
+                .groupMemberId(groupMember.getId())
                 .memberGroup(new EditGroupMemberResult.GroupDto(groupMember.getGroupId()))
                 .userId(groupMember.getUserId())
                 .joinedAt(groupMember.getJoinedAt())

@@ -6,26 +6,19 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import pl.gamilife.user.persistence.UserEntity;
+import pl.gamilife.user.persistence.User;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public interface JpaUserRepository extends JpaRepository<UserEntity, UUID>, JpaSpecificationExecutor<UserEntity> {
-    @Query("""
-                SELECT u
-                FROM UserEntity u
-                WHERE u.email = :email
-                    AND u.password IS NOT NULL
-            """)
-    Optional<UserEntity> findByEmailWithPassword(@Param("email") String email);
+public interface JpaUserRepository extends JpaRepository<User, UUID>, JpaSpecificationExecutor<User> {
 
-    Optional<UserEntity> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
     @Modifying
     @Transactional
     @Query("""
-                UPDATE UserEntity u
+                UPDATE User u
                 SET u.email = :newEmail
                 WHERE u.id = :id
             """)
@@ -37,7 +30,7 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, UUID>, JpaS
     @Transactional
     @Modifying
     @Query("""
-            UPDATE UserEntity u
+            UPDATE User u
             SET u.isEmailVerified = :status
             WHERE u.id = :id
             """)
@@ -48,7 +41,7 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, UUID>, JpaS
 
     @Transactional
     @Modifying
-    @Query("update UserEntity u set u.money = ?1 where u.id = ?2")
+    @Query("update User u set u.money = ?1 where u.id = ?2")
     void updateMoneyById(int money, UUID id);
 
     boolean existsByUsername(String username);

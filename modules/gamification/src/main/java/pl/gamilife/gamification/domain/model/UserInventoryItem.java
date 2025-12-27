@@ -15,7 +15,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"item"})
-@Table(name = "user_inventory_item")
+@Table(name = "user_inventory_item", schema = "gamification")
 public class UserInventoryItem extends BaseEntity {
 
     @Column(name = "item_id", nullable = false, insertable = false, updatable = false)

@@ -1,7 +1,6 @@
 package pl.gamilife.user.persistence;
 
 import pl.gamilife.shared.kernel.architecture.Page;
-import pl.gamilife.user.domain.User;
 
 import java.util.Optional;
 import java.util.UUID;

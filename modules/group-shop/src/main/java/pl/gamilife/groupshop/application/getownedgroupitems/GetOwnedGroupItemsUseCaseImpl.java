@@ -35,7 +35,7 @@ public class GetOwnedGroupItemsUseCaseImpl implements GetOwnedGroupItemsUseCase 
         return new GetOwnedGroupItemsResult(
                 ownedGroupItem.getId(),
                 ownedGroupItem.getGroupMemberId(),
-                ownedGroupItem.getUseDate(),
+                ownedGroupItem.getUsedAt(),
                 new GetGroupItemResult(
                         ownedGroupItem.getGroupItem().getId(),
                         ownedGroupItem.getGroupItem().getName(),
