@@ -16,6 +16,7 @@ import pl.gamilife.group.usecase.editgroupmember.EditGroupMemberUseCase;
 import pl.gamilife.group.usecase.leavegroup.LeaveGroupCommand;
 import pl.gamilife.group.usecase.leavegroup.LeaveGroupResult;
 import pl.gamilife.group.usecase.leavegroup.LeaveGroupUseCase;
+import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
 
@@ -38,20 +39,23 @@ public class GroupMemberController {
     }
 
     @PutMapping("/{groupMemberId}")
-    private ResponseEntity<EditGroupMemberResult> editById(@PathVariable("groupId") UUID groupId,
-                                                           @PathVariable("groupMemberId") UUID groupMemberId,
-                                                           @RequestBody @Valid EditGroupMemberRequest request) {
+    public ResponseEntity<EditGroupMemberResult> editById(
+            @CurrentUserId UUID userId,
+            @PathVariable UUID groupId,
+            @PathVariable UUID groupMemberId,
+            @RequestBody @Valid EditGroupMemberRequest request
+    ) {
         EditGroupMemberResult response = editGroupMemberUseCase.execute(new EditGroupMemberCommand(
+                userId,
                 groupId,
                 groupMemberId,
-                request.groupMoney(),
-                request.totalEarnedMoney()
+                request.groupMoney()
         ));
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{groupMemberId}/leave")
-    private ResponseEntity<LeaveGroupResult> leaveGroup(@PathVariable("groupId") UUID groupId,
+    public ResponseEntity<LeaveGroupResult> leaveGroup(@PathVariable("groupId") UUID groupId,
                                                         @PathVariable("groupMemberId") UUID groupMemberId) {
         LeaveGroupResult response = leaveGroupUseCase.execute(new LeaveGroupCommand(groupId, groupMemberId));
         return ResponseEntity.ok(response);

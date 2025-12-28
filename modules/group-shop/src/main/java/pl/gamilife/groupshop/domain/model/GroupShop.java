@@ -61,6 +61,8 @@ public class GroupShop extends BaseEntity {
         if (groupId == null) {
             throw new DomainValidationException("Group Id must be provided");
         }
+
+        this.groupId = groupId;
     }
 
     public void setDescription(String description) {
@@ -68,12 +70,15 @@ public class GroupShop extends BaseEntity {
             throw new DomainValidationException("Description cannot be null or blank");
         }
 
+        this.description = description;
     }
 
     public void setIsActive(Boolean isActive) {
         if (isActive == null) {
             throw new DomainValidationException("Active status cannot be null");
         }
+
+        this.isActive = isActive;
     }
 
 

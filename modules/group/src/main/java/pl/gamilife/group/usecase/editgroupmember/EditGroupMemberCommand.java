@@ -1,17 +1,21 @@
 package pl.gamilife.group.usecase.editgroupmember;
 
+import jakarta.validation.constraints.NotNull;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
 public record EditGroupMemberCommand(
-        UUID groupId,
-        UUID groupMemberId,
-        Integer groupMoney,
-        Integer totalEarnedMoney
-) implements Command {
-    @Override
-    public void validate() {
+        @NotNull
+        UUID userId,
 
-    }
+        @NotNull
+        UUID groupId,
+
+        @NotNull
+        UUID groupMemberId,
+
+        @NotNull
+        Integer groupMoney
+) implements Command {
 }

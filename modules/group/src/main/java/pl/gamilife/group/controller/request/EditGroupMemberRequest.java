@@ -13,10 +13,7 @@ import java.io.Serializable;
 public record EditGroupMemberRequest(
 
         @PositiveOrZero(message = "Group money must be positive or zero")
-        Integer groupMoney,
-
-        @PositiveOrZero(message = "Total earned money must be positive or zero")
-        Integer totalEarnedMoney
+        Integer groupMoney
 
 ) implements Serializable {
 }

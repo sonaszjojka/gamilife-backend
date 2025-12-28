@@ -25,7 +25,10 @@ import pl.gamilife.group.usecase.getgroups.getall.GetGroupsUseCase;
 import pl.gamilife.group.usecase.getgroups.getbyid.GetGroupByIdCommand;
 import pl.gamilife.group.usecase.getgroups.getbyid.GetGroupByIdResult;
 import pl.gamilife.group.usecase.getgroups.getbyid.GetGroupByIdUseCase;
+import pl.gamilife.shared.web.security.annotation.CurrentUserId;
+import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 @RestController
@@ -40,8 +43,14 @@ public class GroupController {
     private final GetGroupByIdUseCase getGroupByIdUseCase;
 
     @PostMapping
-    public ResponseEntity<CreateGroupResult> save(@RequestBody @Valid CreateGroupRequest request) {
+    public ResponseEntity<CreateGroupResult> save(
+            @CurrentUserId UUID userId,
+            @CurrentUserTimezone ZoneId zoneId,
+            @RequestBody @Valid CreateGroupRequest request
+    ) {
         CreateGroupResult response = createGroupUseCase.execute(new CreateGroupCommand(
+                userId,
+                zoneId,
                 request.groupName(),
                 request.groupCurrencySymbol(),
                 request.groupTypeId(),
