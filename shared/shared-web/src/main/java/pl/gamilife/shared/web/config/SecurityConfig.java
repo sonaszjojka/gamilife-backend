@@ -39,7 +39,12 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(securityProperties.getPublicPaths().toArray(new String[0])).permitAll()
+                        .requestMatchers(
+                                "/api/v1/auth/**",
+                                "/api/v1/oauth2/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
