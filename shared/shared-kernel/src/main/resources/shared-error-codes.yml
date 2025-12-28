@@ -1,0 +1,52 @@
+error-codes:
+  definitions:
+    USER_NOT_FOUND:
+      code: 1001
+      title: "User Not Found"
+      detail: "The specified user does not exist."
+      status: 404
+    USER_ALREADY_EXISTS:
+      code: 1002
+      title: "User Already Exists"
+      detail: "A user with the provided details already exists."
+      status: 409
+    PASSWORD_RESET_FAILED:
+      code: 1003
+      title: "Password Reset Failed"
+      detail: "The password reset process could not be completed."
+      status: 500
+    GROUP_NOT_FOUND:
+      code: 1004
+      title: "Group Not Found"
+      detail: "The specified group does not exist."
+      status: 404
+    GROUP_MEMBER_NOT_FOUND:
+      code: 1005
+      title: "Group Member Not Found"
+      detail: "The specified group member does not exist."
+      status: 404
+    TASK_NOT_FOUND:
+      code: 1006
+      title: "Task Not Found"
+      detail: "The specified task does not exist."
+      status: 404
+    GROUP_ADMIN_PRIVILEGES_REQUIRED:
+      code: 1007
+      title: "Group Admin Privileges Required"
+      detail: "Administrative privileges are required to perform this action."
+      status: 403
+    RESOURCE_OWNER_PRIVILEGES_REQUIRED:
+      code: 1008
+      title: "User Not Owner Access Denied"
+      detail: "The user does not have owner permissions for the specified resource."
+      status: 403
+    USER_HAS_NOT_ENOUGH_MONEY:
+      code: 1009
+      title: "User Has Not Enough Money"
+      detail: "User has not enough money"
+      status: 400
+    DOMAIN_VALIDATION_FAILED:
+      code: 1010
+      title: "Domain Validation Failed"
+      detail: "Domain validation failed"
+      status: 400

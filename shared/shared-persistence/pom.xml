@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>pl.gamilife</groupId>
+        <artifactId>shared</artifactId>
+        <version>0.0.1-alpha-v01</version>
+    </parent>
+
+    <artifactId>shared-persistence</artifactId>
+    <name>Shared Persistence</name>
+
+    <dependencies>
+        <!-- Shared Modules -->
+        <dependency>
+            <groupId>pl.gamilife</groupId>
+            <artifactId>shared-kernel</artifactId>
+        </dependency>
+
+        <!-- Spring Modules -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- External Modules -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>

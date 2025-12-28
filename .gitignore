@@ -143,3 +143,7 @@ Temporary Items
 # Development files
 **/application-dev.yml
 **/data-dev.sql
+
+# SonarQube
+.sonar
+.scannerwork
