@@ -64,7 +64,7 @@ public class GetChatMessagesUseCaseImpl implements GetChatMessagesUseCase {
         return PageRequest.of(
                 cmd.page(),
                 cmd.size(),
-                Sort.by(Sort.Direction.DESC, "sentAt")
+                Sort.by(Sort.Direction.DESC, "createdAt")
         );
     }
 
