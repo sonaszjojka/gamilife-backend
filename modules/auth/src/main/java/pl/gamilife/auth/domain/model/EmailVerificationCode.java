@@ -16,7 +16,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "email_verification_code", schema = "auth")
+@Table(name = "email_verification_code", schema = "security")
 public class EmailVerificationCode extends BaseEntity {
 
     @NotNull
