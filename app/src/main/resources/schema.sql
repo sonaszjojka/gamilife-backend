@@ -4,7 +4,7 @@ CREATE USER app_gamilife
 
 -- schemas
 CREATE SCHEMA app;
-CREATE SCHEMA auth;
+CREATE SCHEMA security;
 CREATE SCHEMA budget;
 CREATE SCHEMA communication;
 CREATE SCHEMA gamification;
@@ -22,10 +22,10 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO app_gamilife;
 ALTER DEFAULT PRIVILEGES IN SCHEMA app
     GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO app_gamilife;
 
-GRANT USAGE, CREATE ON SCHEMA auth TO app_gamilife;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA auth TO app_gamilife;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA auth TO app_gamilife;
-ALTER DEFAULT PRIVILEGES IN SCHEMA auth
+GRANT USAGE, CREATE ON SCHEMA security TO app_gamilife;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA security TO app_gamilife;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA security TO app_gamilife;
+ALTER DEFAULT PRIVILEGES IN SCHEMA security
     GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO app_gamilife;
 
 GRANT USAGE, CREATE ON SCHEMA budget TO app_gamilife;
@@ -154,7 +154,7 @@ CREATE TABLE budget.cyclic_operation
 );
 
 -- Table: email_verification_code
-CREATE TABLE auth.email_verification_code
+CREATE TABLE security.email_verification_code
 (
     id         uuid                     NOT NULL,
     user_id    uuid                     NOT NULL,
@@ -168,10 +168,10 @@ CREATE TABLE auth.email_verification_code
     CONSTRAINT email_verification_code_pk PRIMARY KEY (id)
 );
 
-CREATE INDEX idx_email_verification_code_user_id on auth.email_verification_code (user_id ASC);
+CREATE INDEX idx_email_verification_code_user_id on security.email_verification_code (user_id ASC);
 
 -- Table: forgot_password_code
-CREATE TABLE auth.forgot_password_code
+CREATE TABLE security.forgot_password_code
 (
     id         uuid                     NOT NULL,
     user_id    uuid                     NOT NULL,
@@ -185,7 +185,7 @@ CREATE TABLE auth.forgot_password_code
     CONSTRAINT forgot_password_code_pk PRIMARY KEY (id)
 );
 
-CREATE INDEX idx_forgot_password_code_user_id on auth.forgot_password_code (user_id ASC);
+CREATE INDEX idx_forgot_password_code_user_id on security.forgot_password_code (user_id ASC);
 
 -- Table: group
 CREATE TABLE "group"."group"
@@ -553,7 +553,7 @@ CREATE INDEX idx_reducing_goal_budget_id on budget.reducing_goal (budget_id ASC)
 CREATE INDEX idx_reducing_goal_budget_category_id on budget.reducing_goal (budget_category_id ASC);
 
 -- Table: refresh_token
-CREATE TABLE auth.refresh_token
+CREATE TABLE security.refresh_token
 (
     id         uuid                     NOT NULL,
     user_id    uuid                     NOT NULL,
@@ -567,7 +567,7 @@ CREATE TABLE auth.refresh_token
     CONSTRAINT refresh_token_pk PRIMARY KEY (id)
 );
 
-CREATE INDEX idx_refresh_token_user_id on auth.refresh_token (user_id ASC);
+CREATE INDEX idx_refresh_token_user_id on security.refresh_token (user_id ASC);
 
 -- Table: reward
 CREATE TABLE gamification.reward
@@ -726,7 +726,7 @@ CREATE INDEX idx_user_inventory_item_item_id on gamification.user_inventory_item
 CREATE INDEX idx_user_inventory_item_user_id on gamification.user_inventory_item (user_id ASC);
 
 -- Table: user_oauth_provider
-CREATE TABLE auth.user_oauth_provider
+CREATE TABLE security.user_oauth_provider
 (
     id          uuid                     NOT NULL,
     user_id     uuid                     NOT NULL,
@@ -738,7 +738,7 @@ CREATE TABLE auth.user_oauth_provider
     CONSTRAINT user_oauth_provider_pk PRIMARY KEY (id)
 );
 
-CREATE INDEX idx_user_oauth_provider_user_id on auth.user_oauth_provider (user_id ASC);
+CREATE INDEX idx_user_oauth_provider_user_id on security.user_oauth_provider (user_id ASC);
 
 -- Table: user_statistic
 CREATE TABLE gamification.user_statistic
@@ -857,7 +857,7 @@ ALTER TABLE "group".chat_message
 ;
 
 -- Reference: email_verification_code_user (table: email_verification_code)
-ALTER TABLE auth.email_verification_code
+ALTER TABLE security.email_verification_code
     ADD CONSTRAINT email_verification_code_user
         FOREIGN KEY (user_id)
             REFERENCES "user"."user" (id)
@@ -866,7 +866,7 @@ ALTER TABLE auth.email_verification_code
 ;
 
 -- Reference: forgot_password_code_user (table: forgot_password_code)
-ALTER TABLE auth.forgot_password_code
+ALTER TABLE security.forgot_password_code
     ADD CONSTRAINT forgot_password_code_user
         FOREIGN KEY (user_id)
             REFERENCES "user"."user" (id)
@@ -1199,7 +1199,7 @@ ALTER TABLE budget.reducing_goal
 ;
 
 -- Reference: refresh_token_user (table: refresh_token)
-ALTER TABLE auth.refresh_token
+ALTER TABLE security.refresh_token
     ADD CONSTRAINT refresh_token_user
         FOREIGN KEY (user_id)
             REFERENCES "user"."user" (id)
@@ -1307,7 +1307,7 @@ ALTER TABLE "user"."user"
 ;
 
 -- Reference: user_oauth_provider_user (table: user_oauth_provider)
-ALTER TABLE auth.user_oauth_provider
+ALTER TABLE security.user_oauth_provider
     ADD CONSTRAINT user_oauth_provider_user
         FOREIGN KEY (user_id)
             REFERENCES "user"."user" (id)

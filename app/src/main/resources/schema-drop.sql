@@ -17,10 +17,10 @@ ALTER TABLE "group".chat_message
 ALTER TABLE "group".chat_message
     DROP CONSTRAINT chat_message_group_member;
 
-ALTER TABLE auth.email_verification_code
+ALTER TABLE security.email_verification_code
     DROP CONSTRAINT email_verification_code_user;
 
-ALTER TABLE auth.forgot_password_code
+ALTER TABLE security.forgot_password_code
     DROP CONSTRAINT forgot_password_code_user;
 
 ALTER TABLE "group"."group"
@@ -131,7 +131,7 @@ ALTER TABLE budget.reducing_goal
 ALTER TABLE budget.reducing_goal
     DROP CONSTRAINT reducing_goal_budget_category;
 
-ALTER TABLE auth.refresh_token
+ALTER TABLE security.refresh_token
     DROP CONSTRAINT refresh_token_user;
 
 ALTER TABLE gamification.reward
@@ -167,7 +167,7 @@ ALTER TABLE gamification.user_inventory_item
 ALTER TABLE "user"."user"
     DROP CONSTRAINT user_level;
 
-ALTER TABLE auth.user_oauth_provider
+ALTER TABLE security.user_oauth_provider
     DROP CONSTRAINT user_oauth_provider_user;
 
 ALTER TABLE gamification.user_statistic
@@ -187,9 +187,9 @@ DROP TABLE "group".chat_message;
 
 DROP TABLE budget.cyclic_operation;
 
-DROP TABLE auth.email_verification_code;
+DROP TABLE security.email_verification_code;
 
-DROP TABLE auth.forgot_password_code;
+DROP TABLE security.forgot_password_code;
 
 DROP TABLE "group"."group";
 
@@ -235,7 +235,7 @@ DROP TABLE gamification.rarity;
 
 DROP TABLE budget.reducing_goal;
 
-DROP TABLE auth.refresh_token;
+DROP TABLE security.refresh_token;
 
 DROP TABLE gamification.reward;
 
@@ -257,13 +257,13 @@ DROP TABLE gamification.user_achievement;
 
 DROP TABLE gamification.user_inventory_item;
 
-DROP TABLE auth.user_oauth_provider;
+DROP TABLE security.user_oauth_provider;
 
 DROP TABLE gamification.user_statistic;
 
 -- schemas
 DROP SCHEMA IF EXISTS app CASCADE;
-DROP SCHEMA IF EXISTS auth CASCADE;
+DROP SCHEMA IF EXISTS security CASCADE;
 DROP SCHEMA IF EXISTS budget CASCADE;
 DROP SCHEMA IF EXISTS communication CASCADE;
 DROP SCHEMA IF EXISTS gamification CASCADE;

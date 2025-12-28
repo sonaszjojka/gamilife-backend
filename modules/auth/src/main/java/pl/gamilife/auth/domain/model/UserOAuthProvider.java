@@ -14,7 +14,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "user_oauth_provider", schema = "auth")
+@Table(name = "user_oauth_provider", schema = "security")
 public class UserOAuthProvider extends BaseEntity {
 
     @Column(name = "user_id", nullable = false)
