@@ -2,7 +2,6 @@ package pl.gamilife.grouptask.controllers;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +16,7 @@ import pl.gamilife.grouptask.usecase.editgrouptask.EditGroupTaskUseCase;
 import pl.gamilife.grouptask.usecase.getgrouptasks.GetGroupTaskDto;
 import pl.gamilife.grouptask.usecase.getgrouptasks.GetGroupTasksRequestFilter;
 import pl.gamilife.grouptask.usecase.getgrouptasks.GetGroupTasksUseCase;
+import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
