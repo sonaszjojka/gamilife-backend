@@ -1,14 +1,15 @@
-package pl.gamilife.groupshop.application.getownedgroupitems;
+package pl.gamilife.groupshop.application.getgroupshopdetails;
+
+import pl.gamilife.shared.kernel.architecture.Page;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.UUID;
 
-public record GetOwnedGroupItemsResult(
+public record GetGroupShopDetailsResult(
         UUID id,
-        UUID memberId,
-        Instant isUsedUp,
-        GroupShopItemDto groupItem
+        String name,
+        String description,
+        Page<GroupShopItemDto> page
 ) implements Serializable {
 
     public record GroupShopItemDto(

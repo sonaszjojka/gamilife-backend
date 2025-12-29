@@ -12,6 +12,7 @@ public interface GroupItemRepository {
 
     void deleteById(UUID groupItemInShopId);
 
+    Page<GroupItem> findAll(int page, int size);
 
     Page<GroupItem> findAll(GroupItemsFilter filter, Integer page, Integer pageSize);
 

@@ -9,8 +9,6 @@ public record ChangeGroupStatusCommand(
         @NotNull
         Boolean isActive,
         @NotNull
-        UUID shopId,
-        @NotNull
         UUID groupId,
         @NotNull
         UUID userId

@@ -1,8 +1,6 @@
 package pl.gamilife.groupshop.infrastructure.web;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +12,10 @@ import pl.gamilife.groupshop.application.deletegroupitem.DeleteGroupItemUseCase;
 import pl.gamilife.groupshop.application.editgroupitem.EditGroupItemCommand;
 import pl.gamilife.groupshop.application.editgroupitem.EditGroupItemResult;
 import pl.gamilife.groupshop.application.editgroupitem.EditGroupItemUseCase;
-import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemResult;
-import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemsCommand;
-import pl.gamilife.groupshop.application.getgroupitems.GetGroupItemsUseCase;
+import pl.gamilife.groupshop.application.getgroupshopdetails.GetGroupShopDetailsUseCase;
 import pl.gamilife.groupshop.domain.model.projection.ApiResponse;
 import pl.gamilife.groupshop.infrastructure.web.request.CreateGroupItemRequest;
 import pl.gamilife.groupshop.infrastructure.web.request.EditGroupItemRequest;
-import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
@@ -32,7 +27,7 @@ public class GroupItemController {
     private final CreateGroupItemInShopUseCase createGroupItemInShopUseCase;
     private final DeleteGroupItemUseCase deleteGroupItemUseCase;
     private final EditGroupItemUseCase editGroupItemUseCase;
-    private final GetGroupItemsUseCase getGroupItemsUseCase;
+    private final GetGroupShopDetailsUseCase getGroupShopDetailsUseCase;
 
 
     @PostMapping("")
@@ -70,17 +65,5 @@ public class GroupItemController {
         EditGroupItemResult response = editGroupItemUseCase.execute(new EditGroupItemCommand(request.name(), request.price(), request.isActive(), groupItemId, groupId, currentUserId));
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("")
-    public ResponseEntity<Page<GetGroupItemResult>> getGroupItemsInShop(@PathVariable(name = "groupId") UUID groupId,
-                                                                        @PathVariable(name = "shopId") UUID shopId,
-                                                                        @RequestParam(name = "isActive") Boolean isActive,
-                                                                        @RequestParam(name = "page", defaultValue = "0") @Min(0) int page,
-                                                                        @RequestParam(name = "size", defaultValue = "10") @Min(0) @Max(100) int size) {
-
-        Page<GetGroupItemResult> response = getGroupItemsUseCase.execute(new GetGroupItemsCommand(groupId, shopId, isActive, page, size));
-        return ResponseEntity.ok(response);
-    }
-
 
 }

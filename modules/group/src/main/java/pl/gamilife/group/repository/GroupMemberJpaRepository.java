@@ -1,5 +1,6 @@
 package pl.gamilife.group.repository;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -32,4 +33,6 @@ public interface GroupMemberJpaRepository extends JpaRepository<GroupMember, UUI
     Optional<GroupMember> findActiveMember(UUID userId, Group group);
 
     boolean existsByUserIdAndGroupAndLeftAt(UUID userId, Group group, Instant leftAt);
+
+    Optional<GroupMember> findByUserIdAndGroupId(@NotNull UUID uuid, @NotNull UUID groupId);
 }

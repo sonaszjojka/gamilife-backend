@@ -1,5 +1,9 @@
 package pl.gamilife.groupshop.infrastructure.web.request;
 
-public record ChangeGroupShopStatusRequest(Boolean isActive) {
+import jakarta.validation.constraints.NotNull;
 
+public record ChangeGroupShopStatusRequest(
+        @NotNull
+        Boolean isActive
+) {
 }

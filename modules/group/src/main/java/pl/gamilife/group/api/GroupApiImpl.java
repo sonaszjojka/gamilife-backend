@@ -10,10 +10,13 @@ import pl.gamilife.group.usecase.findgroupbyid.FindGroupByIdCommand;
 import pl.gamilife.group.usecase.findgroupbyid.FindGroupByIdUseCase;
 import pl.gamilife.group.usecase.findgroupmemberbyid.FindGroupMemberByIdCommand;
 import pl.gamilife.group.usecase.findgroupmemberbyid.FindGroupMemberByIdUseCase;
+import pl.gamilife.group.usecase.findgroupmemberbyuserid.FindGroupMemberByUserIdCommand;
+import pl.gamilife.group.usecase.findgroupmemberbyuserid.FindGroupMemberByUserIdUseCase;
 import pl.gamilife.group.usecase.getgrouptimezone.GetGroupTimezoneCommand;
 import pl.gamilife.group.usecase.getgrouptimezone.GetGroupTimezoneUseCase;
 
 import java.time.ZoneId;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,6 +27,7 @@ public class GroupApiImpl implements GroupApi {
     private final FindGroupByIdUseCase findGroupByIdUseCase;
     private final EditMemberWalletUseCase editMemberWalletUseCase;
     private final GetGroupTimezoneUseCase getGroupTimezoneUseCase;
+    private final FindGroupMemberByUserIdUseCase findGroupMemberByUserIdUseCase;
 
     @Override
     public ZoneId getGroupTimezone(UUID groupId) {
@@ -44,9 +48,21 @@ public class GroupApiImpl implements GroupApi {
 
     @Override
     public void editMemberWallet(UUID memberId, UUID groupId, Integer amount) {
-
         editMemberWalletUseCase.execute(groupId, memberId, amount);
     }
 
+    @Override
+    public Optional<GroupMemberDto> findGroupMemberByUserId(UUID userId, UUID groupId) {
+        var result = findGroupMemberByUserIdUseCase.execute(new FindGroupMemberByUserIdCommand(userId, groupId));
+        return result.map(gm -> new GroupMemberDto(
+                gm.groupMemberId(),
+                new GroupMemberDto.GroupDto(gm.groupId()),
+                gm.userId(),
+                gm.joinedAt(),
+                gm.leftAt(),
+                gm.groupMoney(),
+                gm.totalEarnedMoney()
+        ));
+    }
 
 }

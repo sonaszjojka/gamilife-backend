@@ -31,8 +31,8 @@ public class ChangeGroupShopStatusUseCaseImpl implements ChangeGroupShopStatusUs
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can edit group shop!");
         }
 
-        GroupShop groupShop = groupShopRepository.findByGroupShopId(cmd.shopId()).orElseThrow(
-                () -> new GroupShopNotFoundException("Group shop with id: " + cmd.shopId() + " not found!"));
+        GroupShop groupShop = groupShopRepository.findByGroupId(cmd.groupId()).orElseThrow(
+                () -> new GroupShopNotFoundException("Group shop for group with id: " + cmd.groupId() + " not found!"));
 
         groupShop.setIsActive(cmd.isActive());
         groupShopRepository.save(groupShop);
