@@ -14,4 +14,8 @@ import java.util.List;
 @ConfigurationProperties(prefix = "app.security")
 public class SecurityProperties {
     private List<String> publicPaths = new ArrayList<>();
+
+    public String[] getPublicPathsAsArray() {
+        return publicPaths.toArray(new String[0]);
+    }
 }
