@@ -79,9 +79,9 @@ sendgrid:
 
 logging:
   level:
-    root: trace
-    org.springframework.web: trace
-    org.hibernate.SQL: trace
+    root: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: INFO
 
 server:
   port: 8080
