@@ -73,6 +73,7 @@ app:
       - /v3/api-docs/**
       - /swagger-ui.html
       - /swagger-ui/**
+      - /actuator/health
   timezone:
     default: "Europe/Warsaw"
 sendgrid:
@@ -84,3 +85,11 @@ server:
   port: 8080
   ssl:
     enabled: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
