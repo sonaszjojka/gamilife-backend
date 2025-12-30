@@ -17,7 +17,6 @@
         <module>user-api</module>
         <module>auth-api</module>
         <module>group-api</module>
-        <module>group-shop-api</module>
         <module>task-api</module>
         <module>gamification-api</module>
     </modules>

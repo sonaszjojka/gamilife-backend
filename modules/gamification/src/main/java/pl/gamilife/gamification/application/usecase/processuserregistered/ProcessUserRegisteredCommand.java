@@ -1,15 +1,9 @@
 package pl.gamilife.gamification.application.usecase.processuserregistered;
 
-import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.NotNull;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
-public record ProcessUserRegisteredCommand(UUID userId) implements Command {
-    @Override
-    public void validate() {
-        if (userId == null) {
-            throw new ValidationException("userId cannot be null");
-        }
-    }
+public record ProcessUserRegisteredCommand(@NotNull UUID userId) implements Command {
 }

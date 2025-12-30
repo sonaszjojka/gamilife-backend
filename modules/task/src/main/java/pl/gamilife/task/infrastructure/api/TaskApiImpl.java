@@ -23,8 +23,12 @@ import pl.gamilife.task.application.findhabitbyid.FindHabitByIdUseCase;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdCommand;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdResult;
 import pl.gamilife.task.application.findtaskbyid.FindTaskByIdUseCase;
+import pl.gamilife.task.application.findtasksbyids.FindTasksByIdsCommand;
+import pl.gamilife.task.application.findtasksbyids.FindTasksByIdsUseCase;
 
 import java.time.ZoneId;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -37,6 +41,7 @@ public class TaskApiImpl implements TaskApi {
     private final CreateTaskForGroupTaskUseCase createTaskForGroupTaskUseCase;
     private final EditTaskUseCase editTaskUseCase;
     private final EditHabitUseCase editHabitUseCase;
+    private final FindTasksByIdsUseCase findTasksByIdsUseCase;
 
     @Override
     public TaskDto findTaskById(UUID taskId) {
@@ -59,6 +64,31 @@ public class TaskApiImpl implements TaskApi {
                 result.deadlineTime(),
                 result.completedAt()
         );
+    }
+
+    @Override
+    public List<TaskDto> findTasksByIds(Collection<UUID> taskIds) {
+        var result = findTasksByIdsUseCase.execute(new FindTasksByIdsCommand(taskIds));
+
+        return result.tasks()
+                .stream()
+                .map(t -> new TaskDto(
+                        t.id(),
+                        t.title(),
+                        t.description(),
+                        t.userId(),
+                        new TaskDto.TaskCategoryDto(
+                                t.category().id(),
+                                t.category().categoryName()
+                        ),
+                        new TaskDto.TaskDifficultyDto(
+                                t.difficulty().id(),
+                                t.difficulty().difficultyName()
+                        ),
+                        t.deadlineDate(),
+                        t.deadlineTime(),
+                        t.completedAt()
+                )).toList();
     }
 
     @Override

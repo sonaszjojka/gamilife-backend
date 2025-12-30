@@ -28,11 +28,10 @@ public class FindAllGroupsByUserIdWhereUserIsMemberUseCaseImpl implements FindAl
                 ? GroupTypeEnum.fromId(cmd.groupType())
                 : null;
 
-        Page<Group> groupPage = groupRepository
-                .findAll(
-                        getGroupSpecification(cmd, groupType),
-                        createPageable(cmd)
-                );
+        Page<Group> groupPage = groupRepository.findAll(
+                getGroupSpecification(cmd, groupType),
+                createPageable(cmd)
+        );
         return buildFindAllGroupsByUserIdResult(groupPage);
     }
 

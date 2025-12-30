@@ -1,27 +1,19 @@
 package pl.gamilife.user.usecase.grantrewardstouser;
 
-import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
-public record GrantRewardsToUserCommand(UUID userId, int experience, int money) implements Command {
-    @Override
-    public void validate() {
-        if (userId == null) {
-            throw new ValidationException("User id cannot be null");
-        }
+public record GrantRewardsToUserCommand(
+        @NotNull
+        UUID userId,
 
-        if (experience < 0) {
-            throw new ValidationException("Experience cannot be negative");
-        }
+        @PositiveOrZero
+        int experience,
 
-        if (money < 0) {
-            throw new ValidationException("Money cannot be negative");
-        }
-
-        if (money == 0 && experience == 0) {
-            throw new ValidationException("You have to grant user something");
-        }
-    }
+        @PositiveOrZero
+        int money
+) implements Command {
 }

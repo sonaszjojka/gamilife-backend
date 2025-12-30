@@ -16,7 +16,8 @@ public enum GroupErrorCode implements ErrorCode {
     INVITATION_STATUS_NOT_FOUND,
     USER_ALREADY_MEMBER_OF_GROUP,
     USER_JOIN_GROUP_ACCESS_DENIED,
-    USER_LEFT_GROUP;
+    USER_LEFT_GROUP,
+    NOT_ENOUGH_GROUP_MONEY;
 
     @Override
     public String getKey() {

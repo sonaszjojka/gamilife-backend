@@ -32,6 +32,9 @@ public class GroupTaskMember extends BaseEntity {
     @Column(name = "marked_done_at")
     private Instant markedDoneAt;
 
+    @Column(name = "reward_issued_at")
+    private Instant rewardIssuedAt;
+
     private GroupTaskMember(GroupTask groupTask, UUID groupMemberId) {
         setGroupTask(groupTask);
         setGroupMemberId(groupMemberId);
@@ -72,6 +75,14 @@ public class GroupTaskMember extends BaseEntity {
         }
 
         this.groupMemberId = groupMemberId;
+    }
+
+    public void markRewardAsIssued() {
+        if (this.rewardIssuedAt != null) {
+            throw new IllegalStateException("Reward is already issued");
+        }
+
+        this.rewardIssuedAt = Instant.now();
     }
 
 }

@@ -31,4 +31,9 @@ public class GroupTaskRepositoryImpl implements GroupTaskRepository {
     public Optional<GroupTask> findByGroupTaskId(UUID groupTaskId) {
         return groupTaskRepositoryJpa.findById(groupTaskId);
     }
+
+    @Override
+    public Optional<GroupTask> findWithMembersByGroupTaskId(UUID groupTaskId) {
+        return groupTaskRepositoryJpa.findWithMembersById(groupTaskId);
+    }
 }

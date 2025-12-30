@@ -98,11 +98,6 @@
             </dependency>
             <dependency>
                 <groupId>pl.gamilife</groupId>
-                <artifactId>group-shop-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>pl.gamilife</groupId>
                 <artifactId>task-api</artifactId>
                 <version>${project.version}</version>
             </dependency>

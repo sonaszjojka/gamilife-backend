@@ -5,5 +5,5 @@ import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
-public record FindGroupMemberByIdCommand(@NotNull UUID groupMemberId) implements Command {
+public record FindGroupMemberByIdCommand(@NotNull UUID groupId, @NotNull UUID groupMemberId) implements Command {
 }

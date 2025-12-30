@@ -3,8 +3,6 @@ package pl.gamilife.group.usecase.creategrouprequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.group.enums.GroupRequestStatusEnum;
 import pl.gamilife.group.enums.GroupTypeEnum;
 import pl.gamilife.group.exception.domain.GroupFullException;
@@ -30,15 +28,13 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
     private final GroupJpaRepository groupRepository;
     private final GroupMemberJpaRepository groupMemberRepository;
     private final GroupRequestStatusJpaRepository groupRequestStatusRepository;
-    private final AuthApi authApi;
 
     @Override
     public CreateGroupRequestResult execute(CreateGroupRequestCommand cmd) {
         Group group = getGroupWithMembers(cmd.groupId());
-        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
-        if (isUserMemberOfGroup(currentUserDto.userId(), group)) {
-            throw new InvalidGroupDataException("User with id: " + currentUserDto.userId()
+        if (isUserMemberOfGroup(cmd.userId(), group)) {
+            throw new InvalidGroupDataException("User with id: " + cmd.userId()
                     + " is already added to group with id:" + cmd.groupId());
         }
 
@@ -48,8 +44,8 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
         }
 
         GroupRequestStatus sentGroupRequestStatus = getSentGroupRequestStatus();
-        if (hasUserSentRequestToGroup(group, currentUserDto, sentGroupRequestStatus)) {
-            throw new InvalidGroupDataException("User with id: " + currentUserDto.userId()
+        if (hasUserSentRequestToGroup(group, cmd.userId(), sentGroupRequestStatus)) {
+            throw new InvalidGroupDataException("User with id: " + cmd.userId()
                     + " has already group request with status: SENT to group with id:" + cmd.groupId());
         }
 
@@ -58,7 +54,7 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
         }
 
         GroupRequest groupRequest = createGroupRequest(
-                currentUserDto.userId(),
+                cmd.userId(),
                 group,
                 sentGroupRequestStatus
         );
@@ -66,8 +62,8 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
         return createGroupRequestResult(groupRequest);
     }
 
-    private boolean hasUserSentRequestToGroup(Group group, CurrentUserDto currentUserDto, GroupRequestStatus sentGroupRequestStatus) {
-        return groupRequestRepository.existsByGroupAndUserIdAndStatus(group, currentUserDto.userId(), sentGroupRequestStatus);
+    private boolean hasUserSentRequestToGroup(Group group, UUID userId, GroupRequestStatus sentGroupRequestStatus) {
+        return groupRequestRepository.existsByGroupAndUserIdAndStatus(group, userId, sentGroupRequestStatus);
     }
 
     private GroupRequestStatus getSentGroupRequestStatus() {

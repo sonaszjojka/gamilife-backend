@@ -9,10 +9,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import pl.gamilife.groupshop.domain.model.OwnedGroupItem;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface OwnedGroupItemRepositoryJpa extends JpaRepository<OwnedGroupItem, UUID>, JpaSpecificationExecutor<OwnedGroupItem> {
     @Override
     @EntityGraph(attributePaths = {"groupItem"})
     Page<OwnedGroupItem> findAll(Specification<OwnedGroupItem> specification, @NonNull Pageable pageable);
+
+    @EntityGraph(attributePaths = {"groupItem"})
+    Optional<OwnedGroupItem> findWithGroupItemById(UUID ownedGroupItemId);
 }

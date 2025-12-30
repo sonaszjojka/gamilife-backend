@@ -1,10 +1,9 @@
 package pl.gamilife.group.usecase.creategroup;
 
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.groupshop.GroupShopApi;
-import pl.gamilife.api.groupshop.dto.CreateGroupShopForGroupRequestDto;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.group.exception.domain.GroupTypeNotFoundException;
 import pl.gamilife.group.model.Group;
@@ -13,6 +12,7 @@ import pl.gamilife.group.model.GroupType;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
 import pl.gamilife.group.repository.GroupTypeJpaRepository;
+import pl.gamilife.shared.kernel.event.GroupCreatedEvent;
 
 import java.time.ZoneId;
 import java.util.UUID;
@@ -25,8 +25,8 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
     private final GroupJpaRepository groupRepository;
     private final GroupTypeJpaRepository groupTypeRepository;
     private final GroupMemberJpaRepository groupMemberRepository;
-    private final GroupShopApi groupShopApi;
     private final UserApi userApi;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public CreateGroupResult execute(CreateGroupCommand cmd) {
@@ -36,12 +36,10 @@ public class CreateGroupUseCaseImpl implements CreateGroupUseCase {
                 ? userApi.getUserZoneId(cmd.userId())
                 : cmd.zoneId();
         Group group = createGroup(cmd, groupType, cmd.userId(), zoneId);
+
         addGroupAdmin(group, cmd.userId());
-        groupShopApi.createGroupShopOnGroupInit(new CreateGroupShopForGroupRequestDto(
-                group.getName() + "'s shop",
-                "Default description",
-                group.getId()
-        ));
+
+        eventPublisher.publishEvent(new GroupCreatedEvent(group.getId(), group.getName()));
 
         return buildCreateGroupResult(group);
     }

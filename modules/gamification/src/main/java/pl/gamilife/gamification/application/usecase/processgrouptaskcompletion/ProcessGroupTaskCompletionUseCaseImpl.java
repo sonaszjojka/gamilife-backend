@@ -7,6 +7,8 @@ import pl.gamilife.gamification.domain.model.enums.StatisticTypeEnum;
 import pl.gamilife.gamification.domain.service.RewardService;
 import pl.gamilife.gamification.domain.service.UserStatisticsService;
 
+import java.util.UUID;
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -17,13 +19,15 @@ public class ProcessGroupTaskCompletionUseCaseImpl implements ProcessGroupTaskCo
 
     @Override
     public Void execute(ProcessGroupTaskCompletionCommand cmd) {
-        userStatisticsService.registerProgress(cmd.userId(), StatisticTypeEnum.GROUP_TASKS_COMPLETED);
+        for (UUID userId : cmd.userIds()) {
+            userStatisticsService.registerProgress(userId, StatisticTypeEnum.GROUP_TASKS_COMPLETED);
 
-        if (!cmd.rewardGranted()) {
-            rewardService.rewardUser(
-                    cmd.userId(),
-                    StatisticTypeEnum.GROUP_TASKS_COMPLETED
-            );
+            if (!cmd.rewardGranted()) {
+                rewardService.rewardUser(
+                        userId,
+                        StatisticTypeEnum.GROUP_TASKS_COMPLETED
+                );
+            }
         }
 
         return null;

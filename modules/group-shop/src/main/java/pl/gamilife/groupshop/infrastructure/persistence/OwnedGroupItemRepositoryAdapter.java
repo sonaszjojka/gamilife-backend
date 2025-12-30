@@ -1,5 +1,6 @@
 package pl.gamilife.groupshop.infrastructure.persistence;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import pl.gamilife.groupshop.domain.model.OwnedGroupItem;
@@ -13,14 +14,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@AllArgsConstructor
 public class OwnedGroupItemRepositoryAdapter implements OwnedGroupItemRepository {
+
     OwnedGroupItemRepositoryJpa ownedGroupItemRepositoryJpa;
     OwnedGroupItemSpecificationBuilder specificationBuilder;
-
-    public OwnedGroupItemRepositoryAdapter(OwnedGroupItemRepositoryJpa ownedGroupItemRepositoryJpa) {
-        this.ownedGroupItemRepositoryJpa = ownedGroupItemRepositoryJpa;
-    }
-
 
     @Override
     public OwnedGroupItem save(OwnedGroupItem ownedGroupItem) {
@@ -51,5 +49,10 @@ public class OwnedGroupItemRepositoryAdapter implements OwnedGroupItemRepository
                 result.getNumber(),
                 result.getSize()
         );
+    }
+
+    @Override
+    public Optional<OwnedGroupItem> findWithGroupItemById(UUID ownedGroupItemId) {
+        return ownedGroupItemRepositoryJpa.findWithGroupItemById(ownedGroupItemId);
     }
 }

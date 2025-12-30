@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.SQLRestriction;
 import pl.gamilife.group.enums.GroupTypeEnum;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
@@ -52,6 +53,7 @@ public class Group extends BaseEntity {
 
     @SQLRestriction("left_at IS NULL")
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @BatchSize(size = 10)
     @ToString.Exclude
     private final Set<GroupMember> activeMembers = new HashSet<>();
 

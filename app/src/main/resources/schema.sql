@@ -336,6 +336,7 @@ CREATE TABLE group_task.group_task_member
     group_member_id uuid                     NOT NULL,
     group_task_id   uuid                     NOT NULL,
     marked_done_at  timestamp with time zone NULL,
+    reward_issued_at timestamp with time zone NULL,
     version         bigint                   NOT NULL DEFAULT 0,
     created_at      timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -437,7 +438,7 @@ CREATE TABLE communication.notification_retry
     title                varchar(100)             NOT NULL,
     message              varchar(255)             NOT NULL,
     original_timestamp   timestamp with time zone NOT NULL,
-    data                 jsonb                    NOT NULL,
+    data jsonb NULL,
     notification_type_id int                      NOT NULL,
     version              bigint                   NOT NULL DEFAULT 0,
     created_at           timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -668,7 +669,7 @@ CREATE TABLE "user"."user"
 (
     id                    uuid                     NOT NULL,
     first_name            varchar(100)             NOT NULL,
-    last_name             varchar(100)             NOT NULL,
+    last_name             varchar(100)             NULL,
     email                 varchar(320)             NOT NULL,
     password              varchar(200)             NULL,
     username              varchar(100)             NOT NULL,
@@ -699,7 +700,7 @@ CREATE TABLE gamification.user_achievement
     version        bigint                   NOT NULL DEFAULT 0,
     created_at     timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at     timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT user_achievement_ak_1 UNIQUE (user_id) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT user_achievement_ak_1 UNIQUE (user_id, achievement_id) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT user_achievement_pk PRIMARY KEY (id)
 );
 

@@ -37,7 +37,7 @@ public class GroupItem extends BaseEntity {
     @JoinColumn(name = "group_shop_id", nullable = false)
     private GroupShop groupShop;
 
-    @OneToMany(mappedBy = "groupItem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "groupItem", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private final Set<OwnedGroupItem> ownedGroupItems = new LinkedHashSet<>();
 
     private GroupItem(String name, Integer price, Boolean isActive, GroupShop groupShop) {

@@ -13,6 +13,9 @@ public record GetOwnedGroupItemsCommand(
         @NotNull
         UUID memberId,
 
+        @NotNull
+        UUID userId,
+
         Boolean isUsedUp,
 
         Integer page,

@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface GroupShopRepositoryJpa extends JpaRepository<GroupShop, UUID> {
     Optional<GroupShop> findByGroupId(UUID groupId);
+
+    void deleteByGroupId(UUID groupId);
 }

@@ -13,4 +13,6 @@ public interface GroupTaskRepository {
     void deleteByGroupTaskId(UUID groupTaskId);
 
     Optional<GroupTask> findByGroupTaskId(UUID groupTaskId);
+
+    Optional<GroupTask> findWithMembersByGroupTaskId(UUID groupTaskId);
 }

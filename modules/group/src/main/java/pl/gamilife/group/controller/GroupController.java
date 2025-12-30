@@ -60,9 +60,13 @@ public class GroupController {
     }
 
     @PutMapping("/{groupId}")
-    public ResponseEntity<EditGroupResult> save(@RequestBody @Valid EditGroupRequest request,
-                                                @PathVariable("groupId") UUID groupId) {
+    public ResponseEntity<EditGroupResult> save(
+            @CurrentUserId UUID userId,
+            @RequestBody @Valid EditGroupRequest request,
+            @PathVariable UUID groupId
+    ) {
         EditGroupResult response = editGroupUseCase.execute(new EditGroupCommand(
+                userId,
                 groupId,
                 request.adminId(),
                 request.groupName(),
@@ -74,8 +78,11 @@ public class GroupController {
     }
 
     @DeleteMapping("/{groupId}")
-    public ResponseEntity<ApiResponse> deleteById(@PathVariable("groupId") UUID groupId) {
-        deleteGroupUseCase.execute(new DeleteGroupCommand(groupId));
+    public ResponseEntity<ApiResponse> deleteById(
+            @CurrentUserId UUID userId,
+            @PathVariable UUID groupId
+    ) {
+        deleteGroupUseCase.execute(new DeleteGroupCommand(userId, groupId));
         return ResponseEntity.ok(new ApiResponse("Group with id: " + groupId + " deleted successfully."));
     }
 
@@ -110,11 +117,15 @@ public class GroupController {
 
     @GetMapping("/{groupId}")
     public ResponseEntity<GetGroupByIdResult> getById(
-            @PathVariable(name = "groupId") UUID groupId,
-
+            @CurrentUserId UUID userId,
+            @PathVariable UUID groupId,
             @RequestParam(required = false) Boolean isForLoggedUser
     ) {
-        GetGroupByIdResult response = getGroupByIdUseCase.execute(new GetGroupByIdCommand(groupId, isForLoggedUser));
+        GetGroupByIdResult response = getGroupByIdUseCase.execute(new GetGroupByIdCommand(
+                userId,
+                groupId,
+                isForLoggedUser
+        ));
         return ResponseEntity.ok(response);
     }
 }

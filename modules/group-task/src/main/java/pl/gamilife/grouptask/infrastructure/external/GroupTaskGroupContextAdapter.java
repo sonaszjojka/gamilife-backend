@@ -3,9 +3,11 @@ package pl.gamilife.grouptask.infrastructure.external;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.gamilife.api.group.GroupApi;
+import pl.gamilife.api.group.dto.BasicGroupMemberDto;
 import pl.gamilife.grouptask.domain.context.GroupContext;
 
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.UUID;
 
 @Component
@@ -17,5 +19,10 @@ public class GroupTaskGroupContextAdapter implements GroupContext {
     @Override
     public ZoneId getCurrentGroupTimezone(UUID groupId) {
         return groupApi.getGroupTimezone(groupId);
+    }
+
+    @Override
+    public Collection<BasicGroupMemberDto> findMembersByIdIn(Collection<UUID> groupMemberIds) {
+        return groupApi.getBasisGroupMemberDtoByIdIn(groupMemberIds);
     }
 }

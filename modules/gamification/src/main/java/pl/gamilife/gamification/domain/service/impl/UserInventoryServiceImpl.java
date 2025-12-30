@@ -1,11 +1,13 @@
 package pl.gamilife.gamification.domain.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.domain.model.UserInventoryItem;
 import pl.gamilife.gamification.domain.port.repository.UserInventoryItemRepository;
 import pl.gamilife.gamification.domain.service.UserInventoryService;
+import pl.gamilife.shared.kernel.event.ItemAcquiredEvent;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 public class UserInventoryServiceImpl implements UserInventoryService {
 
     private final UserInventoryItemRepository userInventoryItemRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public UserInventoryItem addItemToUsersInventory(UUID userId, Item item) {
@@ -29,6 +32,7 @@ public class UserInventoryServiceImpl implements UserInventoryService {
             userInventoryItemRepository.save(userInventoryItem);
         }
 
+        eventPublisher.publishEvent(new ItemAcquiredEvent(userId, 1));
         return userInventoryItem;
     }
 
@@ -55,6 +59,7 @@ public class UserInventoryServiceImpl implements UserInventoryService {
             }
         }
 
+        eventPublisher.publishEvent(new ItemAcquiredEvent(userId, items.size()));
         userInventoryItemRepository.saveAll(toSave);
     }
 

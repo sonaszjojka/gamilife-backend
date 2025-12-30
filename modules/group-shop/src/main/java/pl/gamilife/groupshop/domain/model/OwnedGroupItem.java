@@ -28,21 +28,16 @@ public class OwnedGroupItem extends BaseEntity {
     @JoinColumn(name = "group_item_id", nullable = false)
     private GroupItem groupItem;
 
-
     @Column(name = "used_at")
     private Instant usedAt;
 
     private OwnedGroupItem(UUID groupMemberId, GroupItem groupItem) {
-
         setGroupMemberId(groupMemberId);
         setGroupItem(groupItem);
-        useItem(false);
     }
 
-    public static OwnedGroupItem createPrivate(UUID groupMemberId, GroupItem groupItem) {
-
+    public static OwnedGroupItem create(UUID groupMemberId, GroupItem groupItem) {
         return new OwnedGroupItem(groupMemberId, groupItem);
-
     }
 
     public void setGroupMemberId(UUID groupMemberId) {
@@ -63,16 +58,12 @@ public class OwnedGroupItem extends BaseEntity {
 
     }
 
-    public void useItem(Boolean isUsedUp) {
-
-        if (isUsedUp != null && isUsedUp) {
-            this.usedAt = Instant.now();
-        } else {
-            this.usedAt = null;
+    public void useItem() {
+        if (this.usedAt != null) {
+            throw new DomainValidationException("Item is already used");
         }
 
-
+        this.usedAt = Instant.now();
     }
-
 
 }

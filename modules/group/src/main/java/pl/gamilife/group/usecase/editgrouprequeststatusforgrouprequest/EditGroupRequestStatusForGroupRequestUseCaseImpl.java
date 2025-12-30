@@ -3,8 +3,6 @@ package pl.gamilife.group.usecase.editgrouprequeststatusforgrouprequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.group.enums.GroupRequestStatusEnum;
 import pl.gamilife.group.exception.domain.GroupRequestNotFoundException;
 import pl.gamilife.group.exception.domain.GroupRequestStatusNotFoundException;
@@ -29,7 +27,6 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
 
     private final GroupRequestJpaRepository groupRequestRepository;
     private final GroupRequestStatusJpaRepository groupRequestStatusRepository;
-    private final AuthApi authApi;
     private final GroupMemberService groupMemberService;
     private final GroupJpaRepository groupJpaRepository;
 
@@ -38,9 +35,8 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
         Group group = getGroupWithMembers(cmd.groupId());
         GroupRequest groupRequest = getGroupRequest(cmd.groupId(), cmd.groupRequestId());
         GroupRequestStatus newGroupRequestStatus = getGroupRequestStatus(cmd.newGroupRequestStatusId());
-        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
-        if (!group.isUserAdmin(currentUserDto.userId())) {
+        if (!group.isUserAdmin(cmd.userId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can change status group request!");
         }
 
