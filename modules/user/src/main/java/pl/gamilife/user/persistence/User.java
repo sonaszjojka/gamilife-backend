@@ -23,7 +23,7 @@ public class User extends BaseEntity {
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
     private String lastName;
 
     @Email
@@ -167,6 +167,10 @@ public class User extends BaseEntity {
     }
 
     public void setLastName(String lastName) {
+        if (lastName == null && this.lastName == null) {
+            return;
+        }
+
         if (lastName == null || lastName.isBlank()) {
             throw new DomainValidationException("Last name cannot be null or empty");
         }

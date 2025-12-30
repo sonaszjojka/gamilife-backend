@@ -669,7 +669,7 @@ CREATE TABLE "user"."user"
 (
     id                    uuid                     NOT NULL,
     first_name            varchar(100)             NOT NULL,
-    last_name             varchar(100)             NOT NULL,
+    last_name             varchar(100)             NULL,
     email                 varchar(320)             NOT NULL,
     password              varchar(200)             NULL,
     username              varchar(100)             NOT NULL,
