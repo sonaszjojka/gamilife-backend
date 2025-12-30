@@ -700,7 +700,7 @@ CREATE TABLE gamification.user_achievement
     version        bigint                   NOT NULL DEFAULT 0,
     created_at     timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at     timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT user_achievement_ak_1 UNIQUE (user_id) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT user_achievement_ak_1 UNIQUE (user_id, achievement_id) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT user_achievement_pk PRIMARY KEY (id)
 );
 
