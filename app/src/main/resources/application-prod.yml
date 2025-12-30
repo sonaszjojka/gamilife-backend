@@ -56,9 +56,6 @@ spring:
       expires-in: 900
       resend-interval: 120
 
-  cookie:
-    domain: .gamilife.pl
-
   security:
     oauth2:
       client:
@@ -105,6 +102,8 @@ app:
     protected:
       requests-limit: 15
       duration-seconds: 60
+  cookie:
+    domain: .gamilife.pl
   security:
     public-paths:
       - /api/v1/auth/**
