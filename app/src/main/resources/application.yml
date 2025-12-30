@@ -65,6 +65,8 @@ app:
     protected:
       requests-limit: 15
       duration-seconds: 60
+  cookie:
+    domain:
   security:
     public-paths:
       - /api/v1/auth/**
