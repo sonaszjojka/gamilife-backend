@@ -11,6 +11,8 @@ import pl.gamilife.task.domain.port.repository.TaskRepository;
 import pl.gamilife.task.infrastructure.persistence.jpa.JpaTaskRepository;
 import pl.gamilife.task.infrastructure.persistence.specification.TaskSpecificationBuilder;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,6 +31,11 @@ public class TaskRepositoryAdapter implements TaskRepository {
     @Override
     public Optional<Task> findById(UUID taskId) {
         return jpaTaskRepository.findById(taskId);
+    }
+
+    @Override
+    public List<Task> findAllByIdIn(Collection<UUID> taskIds) {
+        return jpaTaskRepository.findAllById(taskIds);
     }
 
     @Override

@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.group.enums.GroupRequestStatusEnum;
@@ -27,20 +25,17 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     private final GroupJpaRepository groupRepository;
     private final GroupMemberJpaRepository groupMemberRepository;
     private final GroupRequestJpaRepository groupRequestJpaRepository;
-    private final AuthApi authApi;
     private final UserApi userApi;
 
     @Override
     public GetGroupByIdResult execute(GetGroupByIdCommand cmd) {
         Group group = getGroupById(cmd.groupId());
-        CurrentUserDto currentUser = getCurrentUser();
 
         if (Boolean.TRUE.equals(cmd.isForLoggedUser())) {
-            Optional<GroupMember> memberOpt =
-                    groupMemberRepository.findActiveMember(currentUser.userId(), group);
+            Optional<GroupMember> memberOpt = groupMemberRepository.findActiveMember(cmd.userId(), group);
 
             boolean isMember = memberOpt.isPresent();
-            boolean hasRequest = !isMember && hasActiveGroupRequest(currentUser.userId(), group);
+            boolean hasRequest = !isMember && hasActiveGroupRequest(cmd.userId(), group);
 
             return buildGetGroupByIdResult(
                     group,
@@ -56,10 +51,6 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     private Group getGroupById(UUID groupId) {
         return groupRepository.findWithActiveMembersAndGroupTypeById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group with id: " + groupId + " not found!"));
-    }
-
-    private CurrentUserDto getCurrentUser() {
-        return authApi.getCurrentUser();
     }
 
     private boolean hasActiveGroupRequest(UUID userId, Group group) {

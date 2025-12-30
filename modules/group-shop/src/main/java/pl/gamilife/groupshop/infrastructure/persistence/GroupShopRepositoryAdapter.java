@@ -27,6 +27,11 @@ public class GroupShopRepositoryAdapter implements GroupShopRepository {
     }
 
     @Override
+    public void deleteByGroupId(UUID groupId) {
+        groupShopRepositoryJpa.deleteByGroupId(groupId);
+    }
+
+    @Override
     public GroupShop save(GroupShop groupShop) {
         return groupShopRepositoryJpa.save(groupShop);
     }

@@ -20,6 +20,7 @@ import pl.gamilife.group.usecase.editgrouprequeststatusforgrouprequest.EditGroup
 import pl.gamilife.group.usecase.getgrouprequests.GetGroupRequestsCommand;
 import pl.gamilife.group.usecase.getgrouprequests.GetGroupRequestsResult;
 import pl.gamilife.group.usecase.getgrouprequests.GetGroupRequestsUseCase;
+import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
 
@@ -35,17 +36,24 @@ public class GroupRequestController {
 
 
     @PostMapping
-    public ResponseEntity<CreateGroupRequestResult> save(@PathVariable("groupId") UUID groupId) {
+    public ResponseEntity<CreateGroupRequestResult> save(
+            @CurrentUserId UUID userId,
+            @PathVariable UUID groupId
+    ) {
         CreateGroupRequestResult response = createGroupRequestUseCase.execute(
-                new CreateGroupRequestCommand(groupId)
+                new CreateGroupRequestCommand(userId, groupId)
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @DeleteMapping("/{groupRequestId}")
-    public ResponseEntity<ApiResponse> deleteById(@PathVariable("groupRequestId") UUID groupRequestId,
-                                                  @PathVariable("groupId") UUID groupId) {
+    public ResponseEntity<ApiResponse> deleteById(
+            @CurrentUserId UUID userId,
+            @PathVariable UUID groupRequestId,
+            @PathVariable UUID groupId
+    ) {
         deleteGroupRequestUseCase.execute(new DeleteGroupRequestCommand(
+                userId,
                 groupId,
                 groupRequestId
         ));
@@ -56,12 +64,14 @@ public class GroupRequestController {
 
     @PutMapping("/{groupRequestId}/status")
     public ResponseEntity<EditGroupRequestStatusForGroupRequestResult> editStatusById(
-            @PathVariable("groupRequestId") UUID groupRequestId,
-            @PathVariable("groupId") UUID groupId,
+            @CurrentUserId UUID userId,
+            @PathVariable UUID groupRequestId,
+            @PathVariable UUID groupId,
             @Valid @RequestBody EditGroupRequestStatusForGroupRequestRequest request
     ) {
         EditGroupRequestStatusForGroupRequestResult response = editGroupRequestStatusForGroupRequestUseCase.execute(
                 new EditGroupRequestStatusForGroupRequestCommand(
+                        userId,
                         groupId,
                         groupRequestId,
                         request.groupRequestStatusId()
@@ -72,7 +82,7 @@ public class GroupRequestController {
 
     @GetMapping
     public ResponseEntity<GetGroupRequestsResult> getAllGroupRequests(
-            @PathVariable("groupId") UUID groupId,
+            @PathVariable UUID groupId,
             @RequestParam(required = false) Integer statusId,
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @RequestParam(defaultValue = "20") @Min(1) @Max(100) Integer size) {

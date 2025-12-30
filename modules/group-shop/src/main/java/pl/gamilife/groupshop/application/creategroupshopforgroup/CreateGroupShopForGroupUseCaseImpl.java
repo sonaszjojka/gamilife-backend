@@ -15,7 +15,7 @@ public class CreateGroupShopForGroupUseCaseImpl implements CreateGroupShopForGro
     @Override
     public CreateGroupShopForGroupResult execute(CreateGroupShopForGroupCommand cmd) {
 
-        GroupShop groupShop = GroupShop.createForGroup(cmd.name(), cmd.description(), cmd.groupId());
+        GroupShop groupShop = GroupShop.createForGroup(cmd.groupName(), cmd.groupId());
         groupShopRepository.save(groupShop);
 
         return toResult(groupShop);

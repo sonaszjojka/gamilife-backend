@@ -9,8 +9,6 @@ public record CreateGroupItemInShopResult(
         UUID id,
         String name,
         Integer price,
-        Boolean isActive,
-        UUID groupShopId
-
+        Boolean isActive
 ) {
 }

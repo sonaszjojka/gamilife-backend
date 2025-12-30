@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.model.GroupShop;
-import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
 import pl.gamilife.groupshop.domain.port.context.GroupContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
 
 @Service
 @Transactional
@@ -20,14 +20,15 @@ public class EditGroupShopUseCaseImpl implements EditGroupShopUseCase {
 
     @Override
     public EditGroupShopResult execute(EditGroupShopCommand cmd) {
-
-        GroupForShop groupForShop = groupContext.findGroupById(cmd.groupId());
-        if (!cmd.userId().equals(groupForShop.adminId())) {
+        var member = groupContext.findMemberByUserId(cmd.userId(), cmd.groupId()).orElseThrow(
+                () -> new GroupMemberNotFoundException("User is not a member of the group")
+        );
+        if (!member.isAdmin()) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can edit group shop!");
         }
 
-        GroupShop groupShop = groupShopRepository.findByGroupShopId(cmd.groupShopId()).orElseThrow(
-                () -> new GroupShopNotFoundException("Group shop with id: " + cmd.groupShopId() + " not found!"));
+        GroupShop groupShop = groupShopRepository.findByGroupShopId(cmd.groupId()).orElseThrow(
+                () -> new GroupShopNotFoundException("Group shop for group with id: " + cmd.groupId() + " not found!"));
 
         groupShop.setName(cmd.name());
         groupShop.setDescription(cmd.description());

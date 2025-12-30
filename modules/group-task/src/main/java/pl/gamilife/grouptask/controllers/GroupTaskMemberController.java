@@ -29,10 +29,12 @@ public class GroupTaskMemberController {
     }
 
     @PostMapping()
-    public ResponseEntity<CreateGroupTaskMemberResponse> save(@PathVariable("groupTaskId") UUID groupTaskId,
-                                                              @RequestBody @Valid CreateGroupTaskMemberRequest request) {
+    public ResponseEntity<CreateGroupTaskMemberResponse> save(
+            @PathVariable("groupId") UUID groupId,
+            @PathVariable("groupTaskId") UUID groupTaskId,
+            @RequestBody @Valid CreateGroupTaskMemberRequest request) {
 
-        CreateGroupTaskMemberResponse response = createGroupTaskMemberUseCase.execute(groupTaskId, request);
+        CreateGroupTaskMemberResponse response = createGroupTaskMemberUseCase.execute(groupTaskId, groupId, request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

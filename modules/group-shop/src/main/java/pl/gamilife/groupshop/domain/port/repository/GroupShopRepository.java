@@ -11,4 +11,6 @@ public interface GroupShopRepository {
     GroupShop save(GroupShop groupShop);
 
     Optional<GroupShop> findByGroupShopId(UUID groupShopId);
+
+    void deleteByGroupId(UUID groupId);
 }

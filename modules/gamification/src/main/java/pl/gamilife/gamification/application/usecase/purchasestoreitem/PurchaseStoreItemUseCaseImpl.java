@@ -1,6 +1,7 @@
 package pl.gamilife.gamification.application.usecase.purchasestoreitem;
 
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.gamification.domain.exception.ItemIsNotForSaleException;
@@ -11,6 +12,7 @@ import pl.gamilife.gamification.domain.model.projection.GamificationUser;
 import pl.gamilife.gamification.domain.port.context.UserContext;
 import pl.gamilife.gamification.domain.port.repository.ItemRepository;
 import pl.gamilife.gamification.domain.service.UserInventoryService;
+import pl.gamilife.shared.kernel.event.ItemBoughtEvent;
 import pl.gamilife.shared.kernel.exception.domain.UserHasNotEnoughMoneyException;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 
@@ -24,6 +26,7 @@ public class PurchaseStoreItemUseCaseImpl implements PurchaseStoreItemUseCase {
     private final UserInventoryService userInventoryService;
     private final UserContext userContext;
     private final ItemRepository itemRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public PurchaseStoreItemResult execute(PurchaseStoreItemCommand cmd) {
@@ -40,6 +43,7 @@ public class PurchaseStoreItemUseCaseImpl implements PurchaseStoreItemUseCase {
 
         int newUserMoney = userContext.payForNewItem(user.userId(), item.getPrice());
         UserInventoryItem userInventoryItem = userInventoryService.addItemToUsersInventory(user.userId(), item);
+        eventPublisher.publishEvent(new ItemBoughtEvent(user.userId(), 1));
 
         return new PurchaseStoreItemResult(
                 userInventoryItem.getId(),

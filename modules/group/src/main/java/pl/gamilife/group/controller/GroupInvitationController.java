@@ -18,6 +18,7 @@ import pl.gamilife.group.usecase.editgroupinvitationstatus.EditGroupInvitationSt
 import pl.gamilife.group.usecase.editgroupinvitationstatus.EditGroupInvitationStatusUseCase;
 import pl.gamilife.group.usecase.resendmail.ResendMailToGroupInvitationCommand;
 import pl.gamilife.group.usecase.resendmail.ResendMailToGroupInvitationUseCase;
+import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
 
@@ -32,9 +33,13 @@ public class GroupInvitationController {
     private final ResendMailToGroupInvitationUseCase resendMailByInvitationIdUseCase;
 
     @PostMapping
-    private ResponseEntity<CreateGroupInvitationResult> save(@PathVariable("groupId") UUID groupId,
-                                                             @RequestBody @Valid CreateGroupInvitationRequest request) {
+    public ResponseEntity<CreateGroupInvitationResult> save(
+            @CurrentUserId UUID userId,
+            @PathVariable UUID groupId,
+            @RequestBody @Valid CreateGroupInvitationRequest request
+    ) {
         CreateGroupInvitationResult response = createGroupInvitationUseCase.execute(new CreateGroupInvitationCommand(
+                userId,
                 groupId,
                 request.userId()
         ));
@@ -42,12 +47,14 @@ public class GroupInvitationController {
     }
 
     @PutMapping("/{groupInvitationId}/status")
-    private ResponseEntity<EditGroupInvitationStatusResult> editInvitationStatusById(
-            @PathVariable("groupId") UUID groupId,
-            @PathVariable("groupInvitationId") UUID groupInvitationId,
+    public ResponseEntity<EditGroupInvitationStatusResult> editInvitationStatusById(
+            @CurrentUserId UUID userId,
+            @PathVariable UUID groupId,
+            @PathVariable UUID groupInvitationId,
             @RequestBody @Valid EditGroupInvitationStatusRequest request) {
         EditGroupInvitationStatusResult response = editGroupInvitationStatusUseCase.execute(
                 new EditGroupInvitationStatusCommand(
+                        userId,
                         groupId,
                         groupInvitationId,
                         request.invitationStatusId(),
@@ -58,9 +65,13 @@ public class GroupInvitationController {
     }
 
     @DeleteMapping("/{groupInvitationId}")
-    private ResponseEntity<ApiResponse> deleteById(@PathVariable("groupInvitationId") UUID groupInvitationId,
-                                                   @PathVariable UUID groupId) {
+    public ResponseEntity<ApiResponse> deleteById(
+            @CurrentUserId UUID userId,
+            @PathVariable UUID groupInvitationId,
+            @PathVariable UUID groupId
+    ) {
         deleteGroupInvitationUseCase.execute(new DeleteGroupInvitationCommand(
+                userId,
                 groupId,
                 groupInvitationId
         ));
@@ -70,7 +81,7 @@ public class GroupInvitationController {
     }
 
     @PostMapping("/{groupInvitationId}/resend")
-    private ResponseEntity<ApiResponse> resendMailByInvitationId(@PathVariable UUID groupId,
+    public ResponseEntity<ApiResponse> resendMailByInvitationId(@PathVariable UUID groupId,
                                                                  @PathVariable UUID groupInvitationId) {
         resendMailByInvitationIdUseCase.execute(new ResendMailToGroupInvitationCommand(groupId, groupInvitationId));
         return ResponseEntity.ok(new ApiResponse("Mail resend successfully."));

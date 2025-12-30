@@ -7,26 +7,23 @@ import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.exception.InactiveGroupShopException;
 import pl.gamilife.groupshop.domain.model.GroupItem;
 import pl.gamilife.groupshop.domain.model.GroupShop;
-import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
-import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
-import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
 import pl.gamilife.groupshop.domain.port.context.GroupContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupItemRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
 
 
 @Service
 @AllArgsConstructor
 public class EditGroupItemUseCaseImpl implements EditGroupItemUseCase {
+
     private final GroupItemRepository groupItemRepository;
     private final GroupShopRepository groupShopRepository;
-    private final CurrentUserContext currentUserProvider;
-    private final GroupContext groupApi;
+    private final GroupContext groupContext;
 
     @Override
     public EditGroupItemResult execute(EditGroupItemCommand cmd) {
-
         GroupShop groupShop = groupShopRepository.findByGroupId(cmd.groupId()).orElseThrow(() ->
                 new GroupShopNotFoundException("Group shop for the specified group not found!"));
 
@@ -34,10 +31,11 @@ public class EditGroupItemUseCaseImpl implements EditGroupItemUseCase {
             throw new InactiveGroupShopException("This group has group shop inactive!");
         }
 
-        GroupShopUser currentUserDto = currentUserProvider.findGroupShopUserById(cmd.currentUserId());
-        GroupForShop groupDto = groupApi.findGroupById(groupShop.getGroupId());
+        var member = groupContext.findMemberByUserId(cmd.currentUserId(), cmd.groupId()).orElseThrow(
+                () -> new GroupMemberNotFoundException("User is not a member of the group")
+        );
 
-        if (!currentUserDto.userId().equals(groupDto.adminId()) && Boolean.TRUE.equals(cmd.isActive())) {
+        if (!member.isAdmin() && Boolean.TRUE.equals(cmd.isActive())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can make group items active!");
         }
         GroupItem groupItem = groupItemRepository.findById(cmd.groupItemId()).orElseThrow(

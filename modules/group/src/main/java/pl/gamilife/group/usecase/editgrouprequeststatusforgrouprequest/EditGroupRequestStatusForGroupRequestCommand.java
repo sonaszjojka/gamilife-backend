@@ -7,6 +7,9 @@ import java.util.UUID;
 
 public record EditGroupRequestStatusForGroupRequestCommand(
         @NotNull
+        UUID userId,
+
+        @NotNull
         UUID groupId,
 
         @NotNull

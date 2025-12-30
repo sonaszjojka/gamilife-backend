@@ -7,9 +7,12 @@ import java.util.UUID;
 
 public record CreateGroupInvitationCommand(
         @NotNull
+        UUID userId,
+
+        @NotNull
         UUID groupId,
 
         @NotNull
-        UUID userId
+        UUID targetUserId
 ) implements Command {
 }

@@ -80,7 +80,7 @@ public class GroupTask extends BaseEntity {
             return;
         }
 
-        if (this.reward <= 0) {
+        if (reward <= 0) {
             throw new DomainValidationException("Reward must be a positive integer");
         }
 
@@ -129,5 +129,9 @@ public class GroupTask extends BaseEntity {
         }
 
         this.acceptedAt = null;
+    }
+
+    public boolean belongsToGroup(UUID groupId) {
+        return this.groupId.equals(groupId);
     }
 }

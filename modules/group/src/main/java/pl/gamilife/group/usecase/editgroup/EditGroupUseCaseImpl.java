@@ -3,8 +3,6 @@ package pl.gamilife.group.usecase.editgroup;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.group.exception.domain.GroupTypeNotFoundException;
@@ -27,14 +25,12 @@ public class EditGroupUseCaseImpl implements EditGroupUseCase {
     private final GroupJpaRepository groupRepository;
     private final GroupTypeJpaRepository groupTypeRepository;
     private final UserApi userApi;
-    private final AuthApi authApi;
 
     @Override
     public EditGroupResult execute(EditGroupCommand cmd) {
-        CurrentUserDto currentUserDto = authApi.getCurrentUser();
         Group group = getGroup(cmd.groupId());
 
-        if (!group.isUserAdmin(currentUserDto.userId())) {
+        if (!group.isUserAdmin(cmd.userId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can edit group!");
         }
 

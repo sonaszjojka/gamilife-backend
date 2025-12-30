@@ -6,11 +6,15 @@ import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskResponseDto;
 
 import java.time.ZoneId;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 public interface TaskApi {
 
     TaskDto findTaskById(UUID taskId);
+
+    List<TaskDto> findTasksByIds(Collection<UUID> taskIds);
 
     HabitDto findHabitById(UUID taskId, UUID userId, ZoneId zoneId);
 

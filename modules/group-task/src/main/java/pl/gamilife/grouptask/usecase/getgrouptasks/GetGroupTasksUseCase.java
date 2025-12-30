@@ -1,9 +1,8 @@
 package pl.gamilife.grouptask.usecase.getgrouptasks;
 
-import org.springframework.data.domain.Page;
+import pl.gamilife.shared.kernel.architecture.Page;
 
 import java.util.UUID;
-
 
 public interface GetGroupTasksUseCase {
 

@@ -70,3 +70,8 @@ error-codes:
       title: "User Left Group"
       detail: "The user has already left the specified group."
       status: 409
+    NOT_ENOUGH_GROUP_MONEY:
+      code: 3015
+      title: "Not Enough Group Money"
+      detail: "Member does not have enough money to pay for purchase"
+      status: 400

@@ -76,7 +76,7 @@ public class OAuthServiceImpl implements OAuthService {
     @Transactional
     public GoogleSignInResult registerViaGoogle(GoogleUserDto googleUserDto, ZoneId zoneId) {
         String username = googleUserDto.firstName().substring(0, 3).toLowerCase() + "_" +
-                googleUserDto.lastName().substring(0, 3).toLowerCase() + "_" +
+                (googleUserDto.lastName() == null ? "abc" : googleUserDto.lastName().substring(0, 3).toLowerCase()) + "_" +
                 ThreadLocalRandom.current().nextInt(1000, 9999);
 
         RegisterUserDetails newGoogleUser = new RegisterUserDetails(

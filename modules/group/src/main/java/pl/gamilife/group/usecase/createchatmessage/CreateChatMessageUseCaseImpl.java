@@ -3,8 +3,6 @@ package pl.gamilife.group.usecase.createchatmessage;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.group.exception.domain.UserLeftGroupException;
 import pl.gamilife.group.model.ChatMessage;
 import pl.gamilife.group.model.Group;
@@ -26,21 +24,19 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
     private final ChatMessageJpaRepository chatMessageRepository;
     private final GroupMemberJpaRepository groupMemberRepository;
     private final GroupJpaRepository groupRepository;
-    private final AuthApi authApi;
 
     @Override
     public CreateChatMessageResult execute(CreateChatMessageCommand cmd) {
         Group group = getGroup(cmd.groupId());
         GroupMember groupMember = getGroupMember(cmd.groupId(), cmd.groupMemberId());
-        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
         if (!groupMember.isActive()) {
             throw new UserLeftGroupException("Group member with id: " + cmd.groupMemberId() + " left group with id: "
                     + group.getId() + " and is no longer member of it!");
         }
 
-        if (!groupMember.isUser(currentUserDto.userId())) {
-            throw new ResourceOwnerPrivilegesRequiredException("User with id: " + currentUserDto.userId()
+        if (!groupMember.isUser(cmd.userId())) {
+            throw new ResourceOwnerPrivilegesRequiredException("User with id: " + cmd.userId()
                     + " is not a group member with id: " + cmd.groupMemberId());
         }
 

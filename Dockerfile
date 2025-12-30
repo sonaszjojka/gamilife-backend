@@ -12,7 +12,6 @@ COPY app/pom.xml app/
 COPY api/auth-api/pom.xml api/auth-api/
 COPY api/gamification-api/pom.xml api/gamification-api/
 COPY api/group-api/pom.xml api/group-api/
-COPY api/group-shop-api/pom.xml api/group-shop-api/
 COPY api/task-api/pom.xml api/task-api/
 COPY api/user-api/pom.xml api/user-api/
 

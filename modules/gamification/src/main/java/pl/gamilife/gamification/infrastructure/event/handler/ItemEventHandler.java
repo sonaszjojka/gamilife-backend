@@ -27,14 +27,14 @@ public class ItemEventHandler {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onItemBought(ItemBoughtEvent event) {
-        processItemPurchaseUseCase.execute(new ProcessItemPurchaseCommand(event.getUserId()));
+        processItemPurchaseUseCase.execute(new ProcessItemPurchaseCommand(event.getUserId(), event.getAmount()));
     }
 
     @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onItemAcquired(ItemAcquiredEvent event) {
-        processItemAcquisitionUseCase.execute(new ProcessItemAcquisitionCommand(event.getUserId()));
+        processItemAcquisitionUseCase.execute(new ProcessItemAcquisitionCommand(event.getUserId(), event.getAmount()));
     }
 
     @Recover
