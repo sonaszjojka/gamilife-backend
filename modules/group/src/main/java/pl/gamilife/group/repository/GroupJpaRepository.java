@@ -21,7 +21,7 @@ public interface GroupJpaRepository extends JpaRepository<Group, UUID>, JpaSpeci
     List<Group> findWithActiveMembersByIdIn(List<UUID> groupIds);
 
     @Override
-    @EntityGraph(attributePaths = {"activeMembers", "type"})
+    @EntityGraph(attributePaths = {"type"})
     Page<Group> findAll(Specification<Group> spec, Pageable pageable);
 
     @EntityGraph(attributePaths = {"activeMembers", "type"})
