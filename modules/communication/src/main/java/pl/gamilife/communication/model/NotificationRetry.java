@@ -3,7 +3,10 @@ package pl.gamilife.communication.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
@@ -38,7 +41,7 @@ public class NotificationRetry extends BaseEntity {
     private Instant originalTimestamp;
 
     @Setter
-    @Column(name = "data", nullable = false)
+    @Column(name = "data")
     @JdbcTypeCode(SqlTypes.JSON)
     private Map<String, Object> data;
 

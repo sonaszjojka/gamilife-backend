@@ -28,7 +28,7 @@ public class GroupTaskEventHandler {
     @Retryable
     public void onGroupTaskCompleted(GroupTaskCompletedEvent event) {
         processGroupTaskCompletionUseCase.execute(new ProcessGroupTaskCompletionCommand(
-                event.getUserId(),
+                event.getUserIds(),
                 event.isRewardGranted()
         ));
     }
@@ -37,7 +37,7 @@ public class GroupTaskEventHandler {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupTaskUndone(GroupTaskUndoneEvent event) {
-        rollbackGroupTaskCompletionUseCase.execute(new RollbackGroupTaskCompletionCommand(event.getUserId()));
+        rollbackGroupTaskCompletionUseCase.execute(new RollbackGroupTaskCompletionCommand(event.getUserIds()));
     }
 
     @Recover

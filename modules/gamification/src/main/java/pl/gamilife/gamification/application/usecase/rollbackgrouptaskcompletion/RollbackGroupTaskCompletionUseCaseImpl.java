@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.gamification.domain.model.enums.StatisticTypeEnum;
 import pl.gamilife.gamification.domain.service.UserStatisticsService;
 
+import java.util.UUID;
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -15,7 +17,10 @@ public class RollbackGroupTaskCompletionUseCaseImpl implements RollbackGroupTask
 
     @Override
     public Void execute(RollbackGroupTaskCompletionCommand cmd) {
-        userStatisticsService.rollbackProgress(cmd.userId(), StatisticTypeEnum.GROUP_TASKS_COMPLETED);
+        for (UUID userId : cmd.userIds()) {
+            userStatisticsService.rollbackProgress(userId, StatisticTypeEnum.GROUP_TASKS_COMPLETED);
+        }
+
         return null;
     }
 }
