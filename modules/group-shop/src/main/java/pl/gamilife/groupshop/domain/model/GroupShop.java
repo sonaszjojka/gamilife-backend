@@ -37,17 +37,17 @@ public class GroupShop extends BaseEntity {
     @ToString.Exclude
     private final Set<GroupItem> groupItems = new LinkedHashSet<>();
 
+    private static final String DEFAULT_DESCRIPTION = "This is a default description.";
 
-    private GroupShop(String name, String description, UUID groupId, Boolean isActive) {
-
-        setName(name);
-        setDescription(description);
+    private GroupShop(String groupName, UUID groupId, Boolean isActive) {
+        setName(String.format("%s's shop", groupName));
+        setDescription(DEFAULT_DESCRIPTION);
         setGroupId(groupId);
         setIsActive(isActive);
     }
 
-    public static GroupShop createForGroup(String name, String description, UUID groupId) {
-        return new GroupShop(name, description, groupId, true);
+    public static GroupShop createForGroup(String groupName, UUID groupId) {
+        return new GroupShop(groupName, groupId, true);
     }
 
     public void setName(String name) {
