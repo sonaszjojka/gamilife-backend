@@ -12,4 +12,6 @@ public interface GroupContext {
     Optional<GroupShopMember> findMemberByUserId(UUID userId, UUID groupId);
 
     void payForItem(@NotNull UUID memberId, Integer price);
+
+    UUID getAdminId(UUID groupId);
 }

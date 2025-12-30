@@ -33,4 +33,9 @@ public class GroupContextAdapter implements GroupContext {
     public void payForItem(UUID memberId, Integer price) {
         groupApi.payForItem(memberId, price);
     }
+
+    @Override
+    public UUID getAdminId(UUID groupId) {
+        return groupApi.findGroupById(groupId).adminId();
+    }
 }

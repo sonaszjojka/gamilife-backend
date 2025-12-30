@@ -742,4 +742,5 @@ VALUES (1, 'Task Completed'),
        (2, 'Item Acquired'),
        (3, 'Level Up'),
        (4, 'Group Invitation'),
+       (5, 'Group Item Used'),
        (99, 'Other');
