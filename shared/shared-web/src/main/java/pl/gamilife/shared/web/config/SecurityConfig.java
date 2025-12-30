@@ -88,15 +88,15 @@ public class SecurityConfig {
             @Value("${app.cookie.domain}") String domain
     ) {
         CookieCsrfTokenRepository repository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-//        repository.setCookiePath("/");
-//
-//        repository.setCookieCustomizer(cookie -> {
-////            if (domain != null && !domain.isBlank()) {
-////                cookie.domain(domain);
-////            }
-//            cookie.secure(secure);
-//            cookie.sameSite("None");
-//        });
+        repository.setCookiePath("/");
+
+        repository.setCookieCustomizer(cookie -> {
+            if (domain != null && !domain.isBlank()) {
+                cookie.domain(domain);
+            }
+            cookie.secure(secure);
+            cookie.sameSite("None");
+        });
 
         return repository;
     }
