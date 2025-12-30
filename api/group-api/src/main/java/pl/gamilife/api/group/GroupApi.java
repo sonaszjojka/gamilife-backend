@@ -19,4 +19,6 @@ public interface GroupApi {
     void editMemberWallet(UUID memberId, UUID groupId, Integer amount);
 
     Optional<GroupMemberDto> findGroupMemberByUserId(UUID userId, UUID groupId);
+
+    void payForItem(UUID groupMemberId, Integer price);
 }

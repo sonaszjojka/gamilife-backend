@@ -1,4 +1,4 @@
-package pl.gamilife.groupshop.application.createownedgroupitem;
+package pl.gamilife.groupshop.application.purchasegroupitem;
 
 import jakarta.validation.constraints.NotNull;
 import pl.gamilife.shared.kernel.architecture.Command;
@@ -6,7 +6,7 @@ import pl.gamilife.shared.kernel.architecture.Command;
 import java.util.UUID;
 
 
-public record CreateOwnedGroupItemCommand(
+public record PurchaseGroupItemCommand(
 
         @NotNull
         UUID groupItemId,

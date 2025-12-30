@@ -33,16 +33,13 @@ public class OwnedGroupItem extends BaseEntity {
     private Instant usedAt;
 
     private OwnedGroupItem(UUID groupMemberId, GroupItem groupItem) {
-
         setGroupMemberId(groupMemberId);
         setGroupItem(groupItem);
         useItem(false);
     }
 
-    public static OwnedGroupItem createPrivate(UUID groupMemberId, GroupItem groupItem) {
-
+    public static OwnedGroupItem create(UUID groupMemberId, GroupItem groupItem) {
         return new OwnedGroupItem(groupMemberId, groupItem);
-
     }
 
     public void setGroupMemberId(UUID groupMemberId) {

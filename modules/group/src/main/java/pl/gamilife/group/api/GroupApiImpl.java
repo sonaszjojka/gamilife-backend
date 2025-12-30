@@ -14,6 +14,8 @@ import pl.gamilife.group.usecase.findgroupmemberbyuserid.FindGroupMemberByUserId
 import pl.gamilife.group.usecase.findgroupmemberbyuserid.FindGroupMemberByUserIdUseCase;
 import pl.gamilife.group.usecase.getgrouptimezone.GetGroupTimezoneCommand;
 import pl.gamilife.group.usecase.getgrouptimezone.GetGroupTimezoneUseCase;
+import pl.gamilife.group.usecase.makepayment.MakePaymentCommand;
+import pl.gamilife.group.usecase.makepayment.MakePaymentUseCase;
 
 import java.time.ZoneId;
 import java.util.Optional;
@@ -28,6 +30,7 @@ public class GroupApiImpl implements GroupApi {
     private final EditMemberWalletUseCase editMemberWalletUseCase;
     private final GetGroupTimezoneUseCase getGroupTimezoneUseCase;
     private final FindGroupMemberByUserIdUseCase findGroupMemberByUserIdUseCase;
+    private final MakePaymentUseCase makePaymentUseCase;
 
     @Override
     public ZoneId getGroupTimezone(UUID groupId) {
@@ -64,6 +67,11 @@ public class GroupApiImpl implements GroupApi {
                 gm.totalEarnedMoney(),
                 gm.isAdmin()
         ));
+    }
+
+    @Override
+    public void payForItem(UUID groupMemberId, Integer price) {
+        makePaymentUseCase.execute(new MakePaymentCommand(groupMemberId, price));
     }
 
 }

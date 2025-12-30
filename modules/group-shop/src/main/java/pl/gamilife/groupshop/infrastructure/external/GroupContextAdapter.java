@@ -12,7 +12,8 @@ import java.util.UUID;
 @Component
 @AllArgsConstructor
 public class GroupContextAdapter implements GroupContext {
-    GroupApi groupApi;
+
+    private final GroupApi groupApi;
 
     @Override
     public GroupShopMember findMemberById(UUID groupId, UUID memberId) {
@@ -26,5 +27,10 @@ public class GroupContextAdapter implements GroupContext {
         var result = groupApi.findGroupMemberByUserId(userId, groupId);
 
         return result.flatMap(gm -> Optional.of(new GroupShopMember(gm.groupMemberId(), gm.isAdmin())));
+    }
+
+    @Override
+    public void payForItem(UUID memberId, Integer price) {
+        groupApi.payForItem(memberId, price);
     }
 }

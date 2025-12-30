@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import pl.gamilife.group.exception.domain.NotEnoughGroupMoneyException;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
@@ -134,5 +135,17 @@ public class GroupMember extends BaseEntity {
 
     public boolean isAdmin() {
         return this.group.getAdminId().equals(this.getUserId());
+    }
+
+    public void payMoney(Integer amount) {
+        if (amount <= 0) {
+            throw new DomainValidationException("Amount cannot be less than or equal to 0");
+        }
+
+        if (this.groupMoney < amount) {
+            throw new NotEnoughGroupMoneyException("Not enough money to pay");
+        }
+
+        this.groupMoney -= amount;
     }
 }

@@ -4,9 +4,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.gamilife.groupshop.application.createownedgroupitem.CreateOwnedGroupItemCommand;
-import pl.gamilife.groupshop.application.createownedgroupitem.CreateOwnedGroupItemResult;
-import pl.gamilife.groupshop.application.createownedgroupitem.CreateOwnedGroupItemUseCase;
 import pl.gamilife.groupshop.application.deleteownedgroupitem.DeleteOwnedGroupItemCommand;
 import pl.gamilife.groupshop.application.deleteownedgroupitem.DeleteOwnedGroupItemUseCase;
 import pl.gamilife.groupshop.application.editownedgroupitem.EditOwnedGroupItemCommand;
@@ -15,7 +12,10 @@ import pl.gamilife.groupshop.application.editownedgroupitem.EditOwnedGroupItemUs
 import pl.gamilife.groupshop.application.getownedgroupitems.GetOwnedGroupItemsCommand;
 import pl.gamilife.groupshop.application.getownedgroupitems.GetOwnedGroupItemsResult;
 import pl.gamilife.groupshop.application.getownedgroupitems.GetOwnedGroupItemsUseCase;
-import pl.gamilife.groupshop.infrastructure.web.request.CreateOwnedGroupItemRequest;
+import pl.gamilife.groupshop.application.purchasegroupitem.PurchaseGroupItemCommand;
+import pl.gamilife.groupshop.application.purchasegroupitem.PurchaseGroupItemResult;
+import pl.gamilife.groupshop.application.purchasegroupitem.PurchaseGroupItemUseCase;
+import pl.gamilife.groupshop.infrastructure.web.request.PurchaseGroupItemRequest;
 import pl.gamilife.groupshop.infrastructure.web.request.EditOwnedGroupItemRequest;
 import pl.gamilife.groupshop.infrastructure.web.response.ApiResponse;
 import pl.gamilife.shared.kernel.architecture.Page;
@@ -28,28 +28,27 @@ import java.util.UUID;
 @RequestMapping("/api/v1/groups/{groupId}/members/{memberId}/inventory")
 public class OwnedGroupItemController {
 
-    private final CreateOwnedGroupItemUseCase createOwnedGroupItemUseCase;
+    private final PurchaseGroupItemUseCase purchaseGroupItemUseCase;
     private final DeleteOwnedGroupItemUseCase deleteOwnedGroupItemUseCase;
     private final EditOwnedGroupItemUseCase editOwnedGroupItemUseCase;
     private final GetOwnedGroupItemsUseCase getOwnedGroupItemsUseCase;
 
 
-    @PostMapping("")
-    public ResponseEntity<CreateOwnedGroupItemResult> createOwnedGroupItem(
+    @PostMapping
+    public ResponseEntity<PurchaseGroupItemResult> purchaseGroupItem(
             @PathVariable UUID groupId,
             @PathVariable UUID memberId,
             @CurrentUserId UUID currentUserId,
-            @RequestBody @Valid CreateOwnedGroupItemRequest request
+            @RequestBody @Valid PurchaseGroupItemRequest request
     ) {
-
-        CreateOwnedGroupItemCommand cmd = new CreateOwnedGroupItemCommand(
+        PurchaseGroupItemCommand cmd = new PurchaseGroupItemCommand(
                 request.groupItemId(),
                 groupId,
                 memberId,
                 currentUserId
         );
 
-        CreateOwnedGroupItemResult response = createOwnedGroupItemUseCase.execute(cmd);
+        PurchaseGroupItemResult response = purchaseGroupItemUseCase.execute(cmd);
         return ResponseEntity.ok(response);
     }
 
