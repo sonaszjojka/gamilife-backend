@@ -103,7 +103,7 @@ app:
       requests-limit: 15
       duration-seconds: 60
   cookie:
-    domain: .gamilife.pl
+    domain: gamilife.pl
   security:
     public-paths:
       - /api/v1/auth/**
