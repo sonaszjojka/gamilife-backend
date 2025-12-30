@@ -38,7 +38,8 @@ public class SecurityConfig {
             TokenAuthenticationFilter jwtAuthenticationFilter,
             AuthenticationEntryPoint authenticationEntryPoint,
             CsrfCookieFilter csrfCookieFilter,
-            RateLimitFilter rateLimitFilter
+            RateLimitFilter rateLimitFilter,
+            CookieCsrfTokenRepository csrfTokenRepository
     ) throws Exception {
         return http
                 .authorizeHttpRequests(authorize -> authorize
@@ -47,7 +48,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .csrfTokenRepository(csrfTokenRepository)
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
                 )
                 .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
@@ -79,5 +80,22 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public CookieCsrfTokenRepository customCsrfTokenRepository(
+            @Value("${server.ssl.secure}") boolean secure,
+            @Value("${app.cookie.domain}") String domain
+    ) {
+        CookieCsrfTokenRepository repository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        repository.setCookiePath("/");
+
+        repository.setCookieCustomizer(cookie -> {
+            cookie.domain(domain);
+            cookie.secure(secure);
+            cookie.sameSite("Lax");
+        });
+
+        return repository;
     }
 }

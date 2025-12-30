@@ -15,6 +15,9 @@ public class CookieUtilImpl implements CookieUtil {
     @Value("${spring.tokens.access-token.expires-in}")
     private long accessTokenExpiry;
 
+    @Value("${app.cookie.domain}")
+    private String domain;
+
     @Value("${server.ssl.secure}")
     private boolean secure;
 
@@ -42,6 +45,7 @@ public class CookieUtilImpl implements CookieUtil {
     private ResponseCookie createSecureCookie(String name, String value, long expiry) {
         return ResponseCookie.from(name, value)
                 .path("/")
+                .domain(domain)
                 .httpOnly(true)
                 .maxAge(Duration.ofSeconds(expiry))
                 .secure(secure)
