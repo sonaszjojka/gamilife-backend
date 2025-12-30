@@ -2,6 +2,7 @@ package pl.gamilife.groupshop.application.getgroupshopdetails;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.model.GroupItem;
 import pl.gamilife.groupshop.domain.port.context.GroupMemberContext;
@@ -11,6 +12,7 @@ import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
 @Service
+@Transactional(readOnly = true)
 @AllArgsConstructor
 public class GetGroupShopDetailsUseCaseImpl implements GetGroupShopDetailsUseCase {
 

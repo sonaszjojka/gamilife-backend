@@ -15,8 +15,12 @@ import pl.gamilife.groupshop.application.editgroupshop.EditGroupShopUseCase;
 import pl.gamilife.groupshop.application.getgroupshopdetails.GetGroupShopDetailsCommand;
 import pl.gamilife.groupshop.application.getgroupshopdetails.GetGroupShopDetailsResult;
 import pl.gamilife.groupshop.application.getgroupshopdetails.GetGroupShopDetailsUseCase;
+import pl.gamilife.groupshop.application.getgroupshopitems.GetGroupShopItemsCommand;
+import pl.gamilife.groupshop.application.getgroupshopitems.GetGroupShopItemsResult;
+import pl.gamilife.groupshop.application.getgroupshopitems.GetGroupShopItemsUseCase;
 import pl.gamilife.groupshop.infrastructure.web.request.ChangeGroupShopStatusRequest;
 import pl.gamilife.groupshop.infrastructure.web.request.EditGroupShopRequest;
+import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
@@ -29,6 +33,7 @@ public class GroupShopController {
     private final ChangeGroupShopStatusUseCase changeGroupShopStatusUseCase;
     private final EditGroupShopUseCase editGroupShopUseCase;
     private final GetGroupShopDetailsUseCase getGroupShopDetailsUseCase;
+    private final GetGroupShopItemsUseCase getGroupShopItemsUseCase;
 
     @PutMapping
     public ResponseEntity<EditGroupShopResult> editGroupShop(@PathVariable UUID groupId,
@@ -58,13 +63,21 @@ public class GroupShopController {
         return ResponseEntity.ok(response);
     }
 
-//    @GetMapping("/items")
-//    public ResponseEntity<Page<GetGroupShopDetailsResult>> getGroupItemsInShop(@PathVariable UUID groupId,
-//                                                                               @RequestParam(name = "isActive", required = false) Boolean isActive,
-//                                                                               @RequestParam(name = "page", defaultValue = "0") @Min(0) int page,
-//                                                                               @RequestParam(name = "size", defaultValue = "10") @Min(0) @Max(100) int size) {
-//
-//        Page<GetGroupShopDetailsResult> response = getGroupShopDetailsUseCase.execute(new GetGroupShopDetailsCommand(groupId, page, size));
-//        return ResponseEntity.ok(response);
-//    }
+    @GetMapping("/items")
+    public ResponseEntity<Page<GetGroupShopItemsResult>> getGroupItemsInShop(
+            @PathVariable UUID groupId,
+            @CurrentUserId UUID userId,
+            @RequestParam(name = "isActive", required = false) Boolean isActive,
+            @RequestParam(name = "page", defaultValue = "0") @Min(0) int page,
+            @RequestParam(name = "size", defaultValue = "10") @Min(0) @Max(100) int size
+    ) {
+        var response = getGroupShopItemsUseCase.execute(new GetGroupShopItemsCommand(
+                groupId,
+                userId,
+                isActive,
+                page,
+                size)
+        );
+        return ResponseEntity.ok(response);
+    }
 }
