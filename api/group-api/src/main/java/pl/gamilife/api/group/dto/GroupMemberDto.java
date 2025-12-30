@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Builder
 public record GroupMemberDto(UUID groupMemberId, GroupDto memberGroup, UUID userId, Instant joinedAt, Instant leftAt,
-                             Integer groupMoney, Integer totalEarnedMoney) implements Serializable {
+                             Integer groupMoney, Integer totalEarnedMoney, Boolean isAdmin) implements Serializable {
 
 
     public record GroupDto(UUID groupId) implements Serializable {

@@ -10,6 +10,6 @@ public record FindGroupMemberByUserIdResult(
         Integer groupMoney,
         Integer totalEarnedMoney,
         Instant leftAt,
-        Instant joinedAt
-) {
+        Instant joinedAt,
+        Boolean isAdmin) {
 }

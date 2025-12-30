@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.model.GroupItem;
-import pl.gamilife.groupshop.domain.port.context.GroupMemberContext;
+import pl.gamilife.groupshop.domain.port.context.GroupContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupItemRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.architecture.Page;
@@ -18,11 +18,11 @@ public class GetGroupShopDetailsUseCaseImpl implements GetGroupShopDetailsUseCas
 
     private final GroupShopRepository groupShopRepository;
     private final GroupItemRepository groupItemRepository;
-    private final GroupMemberContext groupMemberContext;
+    private final GroupContext groupContext;
 
     @Override
     public GetGroupShopDetailsResult execute(GetGroupShopDetailsCommand cmd) {
-        groupMemberContext.findMemberByUserId(cmd.userId(), cmd.groupId()).orElseThrow(
+        groupContext.findMemberByUserId(cmd.userId(), cmd.groupId()).orElseThrow(
                 () -> new ResourceOwnerPrivilegesRequiredException("User is not a member of the group")
         );
 

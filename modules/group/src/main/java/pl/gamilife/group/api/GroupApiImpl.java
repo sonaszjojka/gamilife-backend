@@ -35,9 +35,9 @@ public class GroupApiImpl implements GroupApi {
     }
 
     @Override
-    public GroupMemberDto findGroupMemberById(UUID groupMemberId) {
+    public GroupMemberDto findGroupMemberById(UUID groupId, UUID groupMemberId) {
         return findGroupMemberByIdUseCase.execute(
-                new FindGroupMemberByIdCommand(groupMemberId)
+                new FindGroupMemberByIdCommand(groupId, groupMemberId)
         );
     }
 
@@ -61,7 +61,8 @@ public class GroupApiImpl implements GroupApi {
                 gm.joinedAt(),
                 gm.leftAt(),
                 gm.groupMoney(),
-                gm.totalEarnedMoney()
+                gm.totalEarnedMoney(),
+                gm.isAdmin()
         ));
     }
 

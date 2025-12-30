@@ -39,26 +39,32 @@ public class GroupShopController {
     public ResponseEntity<EditGroupShopResult> editGroupShop(@PathVariable UUID groupId,
                                                              @CurrentUserId UUID currentUserId,
                                                              @RequestBody EditGroupShopRequest request) {
-        EditGroupShopCommand cmd = new EditGroupShopCommand(request.name(), request.description(), groupId, currentUserId);
+        EditGroupShopCommand cmd = new EditGroupShopCommand(
+                request.name(), request.description(), groupId, currentUserId
+        );
 
         EditGroupShopResult response = editGroupShopUseCase.execute(cmd);
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping
-    public ResponseEntity<ChangeGroupShopStatusResult> changeGroupShopStatus(@PathVariable UUID groupId,
-                                                                             @CurrentUserId UUID currentUserId,
-                                                                             @RequestBody @Valid ChangeGroupShopStatusRequest request) {
+    public ResponseEntity<ChangeGroupShopStatusResult> changeGroupShopStatus(
+            @PathVariable UUID groupId,
+            @CurrentUserId UUID currentUserId,
+            @RequestBody @Valid ChangeGroupShopStatusRequest request
+    ) {
         ChangeGroupStatusCommand cmd = new ChangeGroupStatusCommand(request.isActive(), groupId, currentUserId);
         ChangeGroupShopStatusResult response = changeGroupShopStatusUseCase.execute(cmd);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<GetGroupShopDetailsResult> getGroupItemsInShop(@PathVariable UUID groupId,
-                                                                         @CurrentUserId UUID userId,
-                                                                         @RequestParam(name = "page", defaultValue = "0") @Min(0) int page,
-                                                                         @RequestParam(name = "size", defaultValue = "10") @Min(0) @Max(100) int size) {
+    public ResponseEntity<GetGroupShopDetailsResult> getGroupItemsInShop(
+            @PathVariable UUID groupId,
+            @CurrentUserId UUID userId,
+            @RequestParam(name = "page", defaultValue = "0") @Min(0) int page,
+            @RequestParam(name = "size", defaultValue = "10") @Min(0) @Max(100) int size
+    ) {
         var response = getGroupShopDetailsUseCase.execute(new GetGroupShopDetailsCommand(groupId, userId, page, size));
         return ResponseEntity.ok(response);
     }

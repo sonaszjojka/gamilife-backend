@@ -20,8 +20,6 @@ public record CreateGroupItemInShopCommand(
         Boolean isActive,
 
         @NotNull
-        UUID groupShopId,
-        @NotNull
         UUID groupId,
         @NotNull
         UUID userId

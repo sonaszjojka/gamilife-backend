@@ -130,4 +130,8 @@ public class GroupTask extends BaseEntity {
 
         this.acceptedAt = null;
     }
+
+    public boolean belongsToGroup(UUID groupId) {
+        return this.groupId.equals(groupId);
+    }
 }

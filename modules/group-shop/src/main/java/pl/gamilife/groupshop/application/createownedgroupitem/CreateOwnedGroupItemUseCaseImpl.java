@@ -9,15 +9,11 @@ import pl.gamilife.groupshop.domain.exception.InvalidOwnedGroupItemDataException
 import pl.gamilife.groupshop.domain.model.GroupItem;
 import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.groupshop.domain.model.OwnedGroupItem;
-import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
-import pl.gamilife.groupshop.domain.model.projection.GroupShopUser;
-import pl.gamilife.groupshop.domain.port.context.CurrentUserContext;
+import pl.gamilife.groupshop.domain.model.projection.GroupShopMember;
 import pl.gamilife.groupshop.domain.port.context.GroupContext;
-import pl.gamilife.groupshop.domain.port.context.GroupMemberContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupItemRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.groupshop.domain.port.repository.OwnedGroupItemRepository;
-import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
 @AllArgsConstructor
@@ -27,21 +23,12 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
     private final GroupItemRepository groupItemRepository;
     private final OwnedGroupItemRepository ownedGroupItemRepository;
     private final GroupShopRepository groupShopRepository;
-    private final GroupContext groupProvider;
-    private final GroupMemberContext groupMemberProvider;
-    private final CurrentUserContext currentUserProvider;
+    private final GroupContext groupMemberProvider;
 
     @Transactional
     @Override
     public CreateOwnedGroupItemResult execute(CreateOwnedGroupItemCommand cmd) {
-
-        GroupForShop groupDto = groupProvider.findGroupById(cmd.groupId());
-        GroupShopUser currentUser = currentUserProvider.findGroupShopUserById(cmd.currentUserId());
-
-        if (groupMemberProvider.findMemberById(cmd.memberId()) == null) {
-            throw new GroupMemberNotFoundException("Group member not found in the specified group!");
-        }
-
+        GroupShopMember member = groupMemberProvider.findMemberById(cmd.groupId(), cmd.memberId());
         GroupShop groupShop = groupShopRepository.findByGroupId(cmd.groupId()).orElseThrow(() ->
                 new GroupShopNotFoundException("Group shop for the specified group not found!"));
 
@@ -49,7 +36,7 @@ public class CreateOwnedGroupItemUseCaseImpl implements CreateOwnedGroupItemUseC
             throw new InactiveGroupShopException("This group has group shop inactive!");
         }
 
-        if (!currentUser.userId().equals(groupDto.adminId()) && !currentUser.userId().equals(groupMemberProvider.findMemberById(cmd.memberId()).memberId())) {
+        if (!member.isAdmin() && !cmd.currentUserId().equals(member.memberId())) {
             throw new ResourceOwnerPrivilegesRequiredException("Only group administrators or the member themselves can add items to inventory!");
         }
 

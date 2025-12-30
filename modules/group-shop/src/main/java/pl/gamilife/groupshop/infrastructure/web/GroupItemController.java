@@ -12,35 +12,31 @@ import pl.gamilife.groupshop.application.deletegroupitem.DeleteGroupItemUseCase;
 import pl.gamilife.groupshop.application.editgroupitem.EditGroupItemCommand;
 import pl.gamilife.groupshop.application.editgroupitem.EditGroupItemResult;
 import pl.gamilife.groupshop.application.editgroupitem.EditGroupItemUseCase;
-import pl.gamilife.groupshop.application.getgroupshopdetails.GetGroupShopDetailsUseCase;
-import pl.gamilife.groupshop.domain.model.projection.ApiResponse;
 import pl.gamilife.groupshop.infrastructure.web.request.CreateGroupItemRequest;
 import pl.gamilife.groupshop.infrastructure.web.request.EditGroupItemRequest;
+import pl.gamilife.groupshop.infrastructure.web.response.ApiResponse;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/groups/{groupId}/shop/{shopId}/items")
+@RequestMapping("/api/v1/groups/{groupId}/shop/items")
 public class GroupItemController {
     private final CreateGroupItemInShopUseCase createGroupItemInShopUseCase;
     private final DeleteGroupItemUseCase deleteGroupItemUseCase;
     private final EditGroupItemUseCase editGroupItemUseCase;
-    private final GetGroupShopDetailsUseCase getGroupShopDetailsUseCase;
 
-
-    @PostMapping("")
-    public ResponseEntity<CreateGroupItemInShopResult> createGroupItemInShop(@PathVariable(name = "groupId") UUID groupId,
-                                                                             @PathVariable(name = "shopId") UUID groupShopId,
-                                                                             @CurrentUserId UUID currentUserId,
-                                                                             @RequestBody @Valid CreateGroupItemRequest request) {
-
+    @PostMapping
+    public ResponseEntity<CreateGroupItemInShopResult> createGroupItemInShop(
+            @PathVariable UUID groupId,
+            @CurrentUserId UUID currentUserId,
+            @RequestBody @Valid CreateGroupItemRequest request
+    ) {
         CreateGroupItemInShopCommand cmd = new CreateGroupItemInShopCommand(
                 request.name(),
                 request.price(),
                 request.isActive(),
-                groupShopId,
                 groupId,
                 currentUserId
         );
@@ -49,7 +45,7 @@ public class GroupItemController {
     }
 
     @DeleteMapping("/{itemId}")
-    public ResponseEntity<ApiResponse> deleteGroupItemInShop(@PathVariable(name = "groupId") UUID groupId,
+    public ResponseEntity<ApiResponse> deleteGroupItemInShop(@PathVariable UUID groupId,
                                                              @PathVariable(name = "itemId") UUID groupItemId,
                                                              @CurrentUserId UUID currentUserId) {
         DeleteGroupItemCommand cmd = new DeleteGroupItemCommand(groupItemId, groupId, currentUserId);
@@ -58,11 +54,18 @@ public class GroupItemController {
     }
 
     @PutMapping("/{itemId}")
-    public ResponseEntity<EditGroupItemResult> editGroupItemInShop(@PathVariable(name = "groupId") UUID groupId,
+    public ResponseEntity<EditGroupItemResult> editGroupItemInShop(@PathVariable UUID groupId,
                                                                    @PathVariable(name = "itemId") UUID groupItemId,
                                                                    @CurrentUserId UUID currentUserId,
                                                                    @RequestBody @Valid EditGroupItemRequest request) {
-        EditGroupItemResult response = editGroupItemUseCase.execute(new EditGroupItemCommand(request.name(), request.price(), request.isActive(), groupItemId, groupId, currentUserId));
+        EditGroupItemResult response = editGroupItemUseCase.execute(new EditGroupItemCommand(
+                request.name(),
+                request.price(),
+                request.isActive(),
+                groupItemId,
+                groupId,
+                currentUserId
+        ));
         return ResponseEntity.ok(response);
     }
 

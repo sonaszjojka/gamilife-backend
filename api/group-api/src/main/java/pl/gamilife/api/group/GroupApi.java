@@ -12,7 +12,7 @@ public interface GroupApi {
 
     ZoneId getGroupTimezone(UUID groupId);
 
-    GroupMemberDto findGroupMemberById(UUID groupMemberId);
+    GroupMemberDto findGroupMemberById(UUID groupId, UUID groupMemberId);
 
     GroupDto findGroupById(UUID groupId);
 

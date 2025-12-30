@@ -3,19 +3,28 @@ package pl.gamilife.groupshop.infrastructure.external;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.gamilife.api.group.GroupApi;
-import pl.gamilife.groupshop.domain.model.projection.GroupForShop;
+import pl.gamilife.groupshop.domain.model.projection.GroupShopMember;
 import pl.gamilife.groupshop.domain.port.context.GroupContext;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
 @AllArgsConstructor
 public class GroupContextAdapter implements GroupContext {
-
     GroupApi groupApi;
 
     @Override
-    public GroupForShop findGroupById(UUID groupId) {
-        return new GroupForShop(groupApi.findGroupById(groupId).groupId(), groupApi.findGroupById(groupId).adminId());
+    public GroupShopMember findMemberById(UUID groupId, UUID memberId) {
+        var result = groupApi.findGroupMemberById(groupId, memberId);
+
+        return new GroupShopMember(result.groupMemberId(), result.isAdmin());
+    }
+
+    @Override
+    public Optional<GroupShopMember> findMemberByUserId(UUID userId, UUID groupId) {
+        var result = groupApi.findGroupMemberByUserId(userId, groupId);
+
+        return result.flatMap(gm -> Optional.of(new GroupShopMember(gm.groupMemberId(), gm.isAdmin())));
     }
 }

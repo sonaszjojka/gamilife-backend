@@ -131,4 +131,8 @@ public class GroupMember extends BaseEntity {
         this.totalEarnedMoney = this.totalEarnedMoney - this.groupMoney + groupMoney;
         this.groupMoney = groupMoney;
     }
+
+    public boolean isAdmin() {
+        return this.group.getAdminId().equals(this.getUserId());
+    }
 }

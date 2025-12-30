@@ -2,7 +2,9 @@ package pl.gamilife.group.usecase.findgroupmemberbyuserid;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
+import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 
 import java.util.Optional;
 
@@ -11,10 +13,15 @@ import java.util.Optional;
 public class FindGroupMemberByUserIdUseCaseImpl implements FindGroupMemberByUserIdUseCase {
 
     private final GroupMemberJpaRepository groupMemberRepository;
+    private final GroupJpaRepository groupRepository;
 
     @Override
     public Optional<FindGroupMemberByUserIdResult> execute(FindGroupMemberByUserIdCommand cmd) {
-        var groupMember = groupMemberRepository.findByUserIdAndGroupId(cmd.userId(), cmd.groupId());
+        groupRepository.findById(cmd.groupId()).orElseThrow(
+                () -> new GroupNotFoundException("Group with id: " + cmd.groupId() + " not found")
+        );
+
+        var groupMember = groupMemberRepository.findWithGroupByUserIdAndGroupId(cmd.userId(), cmd.groupId());
 
         return groupMember.map(gm -> new FindGroupMemberByUserIdResult(
                 gm.getId(),
@@ -23,7 +30,8 @@ public class FindGroupMemberByUserIdUseCaseImpl implements FindGroupMemberByUser
                 gm.getGroupMoney(),
                 gm.getTotalEarnedMoney(),
                 gm.getLeftAt(),
-                gm.getJoinedAt()
+                gm.getJoinedAt(),
+                gm.isAdmin()
         ));
     }
 }

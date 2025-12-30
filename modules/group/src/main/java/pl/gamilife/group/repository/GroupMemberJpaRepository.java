@@ -34,5 +34,6 @@ public interface GroupMemberJpaRepository extends JpaRepository<GroupMember, UUI
 
     boolean existsByUserIdAndGroupAndLeftAt(UUID userId, Group group, Instant leftAt);
 
-    Optional<GroupMember> findByUserIdAndGroupId(@NotNull UUID uuid, @NotNull UUID groupId);
+    @EntityGraph(attributePaths = {"group"})
+    Optional<GroupMember> findWithGroupByUserIdAndGroupId(@NotNull UUID userId, @NotNull UUID groupId);
 }

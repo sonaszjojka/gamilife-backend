@@ -9,23 +9,26 @@ import pl.gamilife.groupshop.domain.port.context.GroupContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupItemRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.shared.kernel.architecture.Page;
-import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
+import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
+import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
 
 @Service
 @Transactional(readOnly = true)
 @AllArgsConstructor
 public class GetGroupShopItemsUseCaseImpl implements GetGroupShopItemsUseCase {
 
-    private final GroupContext groupContext;
     private final GroupShopRepository groupShopRepository;
     private final GroupItemRepository groupItemRepository;
+    private final GroupContext groupContext;
 
     @Override
     public Page<GetGroupShopItemsResult> execute(GetGroupShopItemsCommand cmd) {
-        var group = groupContext.findGroupById(cmd.groupId());
+        var member = groupContext.findMemberByUserId(cmd.userId(), cmd.groupId()).orElseThrow(
+                () -> new GroupMemberNotFoundException("User is not a member of the group")
+        );
 
-        if (!group.adminId().equals(cmd.userId())) {
-            throw new ResourceOwnerPrivilegesRequiredException("User is not an admin of the group");
+        if (!member.isAdmin()) {
+            throw new GroupAdminPrivilegesRequiredException("User is not an admin of the group");
         }
 
         var groupShop = groupShopRepository.findByGroupId(cmd.groupId()).orElseThrow(
