@@ -91,7 +91,9 @@ public class SecurityConfig {
         repository.setCookiePath("/");
 
         repository.setCookieCustomizer(cookie -> {
-            cookie.domain(domain);
+            if (domain != null && !domain.isBlank()) {
+                cookie.domain(domain);
+            }
             cookie.secure(secure);
             cookie.sameSite("Lax");
         });
