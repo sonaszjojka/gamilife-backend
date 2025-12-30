@@ -1,6 +1,7 @@
 package pl.gamilife.groupshop.application.purchasegroupitem;
 
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
@@ -14,6 +15,7 @@ import pl.gamilife.groupshop.domain.port.context.GroupContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupItemRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
 import pl.gamilife.groupshop.domain.port.repository.OwnedGroupItemRepository;
+import pl.gamilife.shared.kernel.event.GroupItemPurchasedEvent;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
 @AllArgsConstructor
@@ -25,6 +27,7 @@ public class PurchaseGroupItemUseCaseImpl implements PurchaseGroupItemUseCase {
     private final GroupShopRepository groupShopRepository;
     private final GroupContext groupMemberProvider;
     private final GroupContext groupContext;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     @Override
@@ -54,6 +57,8 @@ public class PurchaseGroupItemUseCaseImpl implements PurchaseGroupItemUseCase {
                 cmd.memberId(),
                 groupItem
         );
+
+        eventPublisher.publishEvent(new GroupItemPurchasedEvent(cmd.currentUserId()));
 
         return toResult(ownedGroupItemRepository.save(ownedGroupItem));
     }
