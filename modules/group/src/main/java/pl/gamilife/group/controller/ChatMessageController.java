@@ -14,6 +14,7 @@ import pl.gamilife.group.usecase.createchatmessage.CreateChatMessageUseCase;
 import pl.gamilife.group.usecase.getchatmessages.GetChatMessagesCommand;
 import pl.gamilife.group.usecase.getchatmessages.GetChatMessagesResult;
 import pl.gamilife.group.usecase.getchatmessages.GetChatMessagesUseCase;
+import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
 
@@ -27,10 +28,14 @@ public class ChatMessageController {
 
 
     @PostMapping
-    public ResponseEntity<CreateChatMessageResult> save(@RequestBody @Valid CreateChatMessageRequest request,
-                                                        @PathVariable("groupId") UUID groupId,
-                                                        @PathVariable("groupMemberId") UUID groupMemberId) {
+    public ResponseEntity<CreateChatMessageResult> save(
+            @CurrentUserId UUID userId,
+            @RequestBody @Valid CreateChatMessageRequest request,
+            @PathVariable UUID groupId,
+            @PathVariable UUID groupMemberId
+    ) {
         CreateChatMessageResult response = createChatMessageUseCase.execute(new CreateChatMessageCommand(
+                userId,
                 groupId,
                 groupMemberId,
                 request.content(),

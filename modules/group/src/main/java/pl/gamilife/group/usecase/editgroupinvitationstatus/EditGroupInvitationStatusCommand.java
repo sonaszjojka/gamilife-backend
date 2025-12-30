@@ -8,6 +8,9 @@ import java.util.UUID;
 
 public record EditGroupInvitationStatusCommand(
         @NotNull
+        UUID userId,
+
+        @NotNull
         UUID groupId,
 
         @NotNull

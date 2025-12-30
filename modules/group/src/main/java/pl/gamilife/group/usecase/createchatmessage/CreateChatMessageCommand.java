@@ -8,6 +8,9 @@ import java.util.UUID;
 
 public record CreateChatMessageCommand(
         @NotNull
+        UUID userId,
+
+        @NotNull
         UUID groupId,
 
         @NotNull

@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.group.exception.domain.GroupFullException;
@@ -28,18 +26,16 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
 
     private final GroupInvitationJpaRepository groupInvitationRepository;
     private final GroupJpaRepository groupRepository;
-    private final AuthApi authApi;
     private final GroupInvitationService groupInvitationService;
     private final UserApi userApi;
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public CreateGroupInvitationResult execute(CreateGroupInvitationCommand cmd) {
-        CurrentUserDto adminDto = authApi.getCurrentUser();
         Group group = getGroupWithMembers(cmd.groupId());
-        BasicUserInfoDto userToInvite = getUserToInvite(cmd.userId());
+        BasicUserInfoDto userToInvite = getUserToInvite(cmd.targetUserId());
 
-        if (!group.isUserAdmin(adminDto.userId())) {
+        if (!group.isUserAdmin(cmd.userId())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can create group invitations!");
         }
 

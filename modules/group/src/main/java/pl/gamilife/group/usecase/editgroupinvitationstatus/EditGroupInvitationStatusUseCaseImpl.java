@@ -3,8 +3,6 @@ package pl.gamilife.group.usecase.editgroupinvitationstatus;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.auth.AuthApi;
-import pl.gamilife.api.auth.dto.CurrentUserDto;
 import pl.gamilife.group.enums.InvitationStatusEnum;
 import pl.gamilife.group.exception.domain.*;
 import pl.gamilife.group.model.Group;
@@ -27,7 +25,6 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
 
     private final GroupInvitationJpaRepository groupInvitationRepository;
     private final InvitationStatusJpaRepository invitationStatusRepository;
-    private final AuthApi authApi;
     private final GroupMemberService groupMemberService;
     private final GroupJpaRepository groupRepository;
 
@@ -36,9 +33,8 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
         Group group = getGroupWithMembers(cmd.groupId());
         GroupInvitation groupInvitation = getGroupInvitationWithGroup(cmd.groupInvitationId(), cmd.groupId());
         InvitationStatus newInvitationStatus = getInvitationStatus(cmd.invitationStatusId());
-        CurrentUserDto currentUserDto = authApi.getCurrentUser();
 
-        if (!groupInvitation.doesBelongToUser(currentUserDto.userId())) {
+        if (!groupInvitation.doesBelongToUser(cmd.userId())) {
             throw new ResourceOwnerPrivilegesRequiredException(
                     "Only user who is assigned to this invitation can change group invitation status!");
         }
