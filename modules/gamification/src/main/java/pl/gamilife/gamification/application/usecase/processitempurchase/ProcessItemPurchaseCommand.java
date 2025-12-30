@@ -1,15 +1,17 @@
 package pl.gamilife.gamification.application.usecase.processitempurchase;
 
-import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
-public record ProcessItemPurchaseCommand(UUID userId) implements Command {
-    @Override
-    public void validate() {
-        if (userId == null) {
-            throw new ValidationException("User id cannot be null");
-        }
-    }
+public record ProcessItemPurchaseCommand(
+        @NotNull
+        UUID userId,
+
+        @NotNull
+        @Positive
+        Integer progressAmount
+) implements Command {
 }

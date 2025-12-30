@@ -9,9 +9,6 @@ import pl.gamilife.gamification.domain.port.repository.UserStatisticRepository;
 import pl.gamilife.gamification.domain.service.AchievementService;
 import pl.gamilife.gamification.domain.service.UserStatisticsService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -23,25 +20,14 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
     private final AchievementService achievementService;
 
     @Override
-    public void registerProgressForAll(UUID userId, Set<StatisticTypeEnum> statisticTypes) {
-        List<UserStatistic> userStatisticsToSave = new ArrayList<>();
-        for (StatisticTypeEnum type : statisticTypes) {
-            UserStatistic userStatistic = findOrCreateUserStatistic(userId, type);
-            userStatistic.incrementCounterBy(1);
-            userStatisticsToSave.add(userStatistic);
-        }
-
-        userStatisticRepository.saveAll(userStatisticsToSave);
-
-        for (UserStatistic userStatistic : userStatisticsToSave) {
-            achievementService.checkIfUserQualifiesForAchievementOfType(userStatistic);
-        }
+    public void registerProgress(UUID userId, StatisticTypeEnum statisticTypeEnum) {
+        registerProgress(userId, statisticTypeEnum, 1);
     }
 
     @Override
-    public void registerProgress(UUID userId, StatisticTypeEnum statisticTypeEnum) {
+    public void registerProgress(UUID userId, StatisticTypeEnum statisticTypeEnum, int progressAmount) {
         UserStatistic userStatistic = findOrCreateUserStatistic(userId, statisticTypeEnum);
-        userStatistic.incrementCounterBy(1);
+        userStatistic.incrementCounterBy(progressAmount);
 
         userStatisticRepository.save(userStatistic);
         achievementService.checkIfUserQualifiesForAchievementOfType(userStatistic);

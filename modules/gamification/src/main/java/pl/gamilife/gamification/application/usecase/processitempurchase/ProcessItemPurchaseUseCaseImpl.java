@@ -6,8 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.gamification.domain.model.enums.StatisticTypeEnum;
 import pl.gamilife.gamification.domain.service.UserStatisticsService;
 
-import java.util.Set;
-
 @Service
 @Transactional
 @AllArgsConstructor
@@ -17,10 +15,7 @@ public class ProcessItemPurchaseUseCaseImpl implements ProcessItemPurchaseUseCas
 
     @Override
     public Void execute(ProcessItemPurchaseCommand cmd) {
-        userStatisticsService.registerProgressForAll(
-                cmd.userId(),
-                Set.of(StatisticTypeEnum.ITEMS_PURCHASED, StatisticTypeEnum.OWNED_ITEMS)
-        );
+        userStatisticsService.registerProgress(cmd.userId(), StatisticTypeEnum.ITEMS_PURCHASED, cmd.progressAmount());
 
         return null;
     }

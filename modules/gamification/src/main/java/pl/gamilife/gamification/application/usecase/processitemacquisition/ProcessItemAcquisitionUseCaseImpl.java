@@ -15,7 +15,7 @@ public class ProcessItemAcquisitionUseCaseImpl implements ProcessItemAcquisition
 
     @Override
     public Void execute(ProcessItemAcquisitionCommand cmd) {
-        userStatisticsService.registerProgress(cmd.userId(), StatisticTypeEnum.OWNED_ITEMS);
+        userStatisticsService.registerProgress(cmd.userId(), StatisticTypeEnum.OWNED_ITEMS, cmd.progressAmount());
         return null;
     }
 }

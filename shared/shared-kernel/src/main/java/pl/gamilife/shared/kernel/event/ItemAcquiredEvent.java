@@ -9,4 +9,5 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ItemAcquiredEvent {
     private UUID userId;
+    private int amount;
 }
