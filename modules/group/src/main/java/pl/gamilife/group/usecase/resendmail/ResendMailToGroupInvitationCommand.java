@@ -1,14 +1,15 @@
 package pl.gamilife.group.usecase.resendmail;
 
+import jakarta.validation.constraints.NotNull;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
 public record ResendMailToGroupInvitationCommand(
-        UUID groupId, UUID groupInvitationId
+        @NotNull
+        UUID groupId,
+
+        @NotNull
+        UUID groupInvitationId
 ) implements Command {
-    @Override
-    public void validate() {
-        // Validation in API layer
-    }
 }
