@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.model.GroupItem;
+import pl.gamilife.groupshop.domain.model.filter.GroupItemsFilter;
 import pl.gamilife.groupshop.domain.port.context.GroupContext;
 import pl.gamilife.groupshop.domain.port.repository.GroupItemRepository;
 import pl.gamilife.groupshop.domain.port.repository.GroupShopRepository;
@@ -30,6 +31,7 @@ public class GetGroupShopDetailsUseCaseImpl implements GetGroupShopDetailsUseCas
                 .orElseThrow(() -> new GroupShopNotFoundException("Group shop not found"));
 
         Page<GroupItem> groupItemsPage = groupItemRepository.findAll(
+                new GroupItemsFilter(groupShop.getId(),true),
                 cmd.pageNumber(),
                 cmd.pageSize()
         );
@@ -38,6 +40,7 @@ public class GetGroupShopDetailsUseCaseImpl implements GetGroupShopDetailsUseCas
                 groupShop.getId(),
                 groupShop.getName(),
                 groupShop.getDescription(),
+                groupShop.getIsActive(),
                 groupItemsPage.map(this::toResult)
         );
     }
