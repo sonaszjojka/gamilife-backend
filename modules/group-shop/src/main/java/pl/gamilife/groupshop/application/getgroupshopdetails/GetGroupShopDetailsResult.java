@@ -9,6 +9,7 @@ public record GetGroupShopDetailsResult(
         UUID id,
         String name,
         String description,
+        Boolean isActive,
         Page<GroupShopItemDto> page
 ) implements Serializable {
 
