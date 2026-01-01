@@ -1,6 +1,7 @@
 package pl.gamilife.group.usecase.editgrouprequeststatusforgrouprequest;
 
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.group.enums.GroupRequestStatusEnum;
@@ -15,6 +16,7 @@ import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupRequestJpaRepository;
 import pl.gamilife.group.repository.GroupRequestStatusJpaRepository;
 import pl.gamilife.group.service.GroupMemberService;
+import pl.gamilife.shared.kernel.event.GroupRequestStatusChangedEvent;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 
@@ -29,6 +31,7 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
     private final GroupRequestStatusJpaRepository groupRequestStatusRepository;
     private final GroupMemberService groupMemberService;
     private final GroupJpaRepository groupJpaRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public EditGroupRequestStatusForGroupRequestResult execute(EditGroupRequestStatusForGroupRequestCommand cmd) {
@@ -59,6 +62,11 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
 
         groupRequest.changeStatus(newGroupRequestStatus);
         GroupRequest savedGroupRequest = groupRequestRepository.save(groupRequest);
+        eventPublisher.publishEvent(new GroupRequestStatusChangedEvent(
+                groupRequest.getUserId(),
+                newGroupRequestStatus.toEnum() == GroupRequestStatusEnum.ACCEPTED,
+                group.getName()
+        ));
 
         return buildEditGroupRequestStatusForGroupRequestResult(
                 savedGroupRequest,

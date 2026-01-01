@@ -104,6 +104,44 @@ public class NotificationEventHandler {
         ));
     }
 
+    @Async("eventExecutor")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Retryable
+    public void onGroupRequestStatusChanged(GroupRequestStatusChangedEvent event) {
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.GROUP_REQUEST_STATUS_UPDATED,
+                Map.of("groupName", event.groupName(), "accepted", event.accepted())
+        );
+
+        sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
+                event.requesterUserId(),
+                notificationDto
+        ));
+    }
+
+    @Async("eventExecutor")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Retryable
+    public void onGroupRequestCreated(GroupRequestCreatedEvent event) {
+        BasicUserInfoDto basicUserInfoDto = userApi.getUserById(event.requesterUserId()).orElseThrow(
+                () -> new IllegalStateException("GroupRequestCreatedEvent refers to a non-existent user")
+        );
+
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.NEW_GROUP_REQUEST,
+                Map.of(
+                        "groupName", event.groupName(),
+                        "username", basicUserInfoDto.username(),
+                        "groupId", event.groupId()
+                )
+        );
+
+        sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
+                event.adminId(),
+                notificationDto
+        ));
+    }
+
     @Recover
     public void onMultipleFailure(Exception ex, Object event) {
         log.error("Could not process event: {}", event);
