@@ -16,6 +16,7 @@ import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificati
 import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationUseCase;
 import pl.gamilife.shared.kernel.event.GroupInvitationCreatedEvent;
 import pl.gamilife.shared.kernel.event.GroupItemUsedEvent;
+import pl.gamilife.shared.kernel.event.ItemAcquiredEvent;
 
 import java.util.Map;
 
@@ -48,7 +49,9 @@ public class NotificationEventHandler {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupItemUsed(GroupItemUsedEvent event) {
-        BasicUserInfoDto basicUserInfoDto = userApi.getUserById(event.userId()).get();
+        BasicUserInfoDto basicUserInfoDto = userApi.getUserById(event.userId()).orElseThrow(
+                () -> new IllegalStateException("GroupItemUsedEvent refers to a non-existent user")
+        );
         NotificationDto notificationDto = NotificationDto.builder()
                 .notificationType(NotificationType.GROUP_ITEM_USED)
                 .title("Group Item Used")
@@ -58,6 +61,31 @@ public class NotificationEventHandler {
 
         sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
                 event.adminId(),
+                notificationDto
+        ));
+    }
+
+    @Async("eventExecutor")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Retryable
+    public void onItemAcquired(ItemAcquiredEvent event) {
+        String oneItemName = event.itemNames().stream().findFirst().orElseThrow(
+                () -> new IllegalStateException("ItemAcquiredEvent sent, but refers to no items")
+        );
+        int numberOfItems = event.itemNames().size();
+        NotificationDto notificationDto = NotificationDto.builder()
+                .notificationType(NotificationType.ITEM_ACQUIRED)
+                .title("New Item Acquired")
+                .message(String.format(
+                        "%s been added to your inventory!",
+                        numberOfItems == 1
+                                ? String.format("%s has", oneItemName)
+                                : String.format("%s and %s more items", oneItemName, numberOfItems - 1)
+                ))
+                .build();
+
+        sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
+                event.userId(),
                 notificationDto
         ));
     }
