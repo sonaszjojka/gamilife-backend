@@ -95,7 +95,7 @@ public class SecurityConfig {
                 cookie.domain(domain);
             }
             cookie.secure(secure);
-            cookie.sameSite("None");
+            cookie.sameSite("Lax");
         });
 
         return repository;
