@@ -38,7 +38,7 @@ public class DeleteOwnedGroupItemUseCaseImpl implements DeleteOwnedGroupItemUseC
             throw new InactiveGroupShopException("This group has group shop inactive!");
         }
 
-        if (!member.isAdmin()) {
+        if (Boolean.FALSE.equals(member.isAdmin())) {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can delete items from inventory!");
         }
 

@@ -76,7 +76,7 @@ public class OwnedGroupItemController {
             @RequestBody @Valid EditOwnedGroupItemRequest request
     ) {
         EditOwnedGroupItemCommand cmd = new EditOwnedGroupItemCommand(
-                request.isUsedUp(), ownedGroupItemId, memberId, groupId, currentUserId
+                request.isUsedUp(), ownedGroupItemId,groupId, currentUserId, memberId
         );
 
         EditOwnedGroupItemResult response = editOwnedGroupItemUseCase.execute(cmd);
