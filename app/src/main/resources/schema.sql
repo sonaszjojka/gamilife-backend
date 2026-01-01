@@ -435,8 +435,6 @@ CREATE TABLE communication.notification_retry
 (
     id                   uuid                     NOT NULL,
     user_id              uuid                     NOT NULL,
-    title                varchar(100)             NOT NULL,
-    message              varchar(255)             NOT NULL,
     original_timestamp   timestamp with time zone NOT NULL,
     data jsonb NULL,
     notification_type_id int                      NOT NULL,

@@ -2,7 +2,6 @@ package pl.gamilife.communication.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,16 +25,6 @@ public class NotificationRetry extends BaseEntity {
     @Column(name = "user_id", nullable = false)
     private UUID userId;
 
-    @Size(max = 100)
-    @NotNull
-    @Column(name = "title", nullable = false, length = 100)
-    private String title;
-
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "message", nullable = false)
-    private String message;
-
     @NotNull
     @Column(name = "original_timestamp", nullable = false)
     private Instant originalTimestamp;
@@ -53,17 +42,15 @@ public class NotificationRetry extends BaseEntity {
     @JoinColumn(name = "notification_type_id", nullable = false, updatable = false, insertable = false)
     private NotificationType notificationType;
 
-    public NotificationRetry(UUID userId, String title, String message, Instant originalTimestamp, Map<String, Object> data, Integer notificationTypeId) {
+    private NotificationRetry(UUID userId, Instant originalTimestamp, Map<String, Object> data, Integer notificationTypeId) {
         setUserId(userId);
-        setTitle(title);
-        setMessage(message);
         setOriginalTimestamp(originalTimestamp);
         setData(data);
         setNotificationTypeId(notificationTypeId);
     }
 
-    public static NotificationRetry create(UUID userId, String title, String message, Instant originalTimestamp, Map<String, Object> data, Integer notificationTypeId) {
-        return new NotificationRetry(userId, title, message, originalTimestamp, data, notificationTypeId);
+    public static NotificationRetry create(UUID userId, Instant originalTimestamp, Map<String, Object> data, Integer notificationTypeId) {
+        return new NotificationRetry(userId, originalTimestamp, data, notificationTypeId);
     }
 
     private void setUserId(UUID userId) {
@@ -72,30 +59,6 @@ public class NotificationRetry extends BaseEntity {
         }
 
         this.userId = userId;
-    }
-
-    private void setTitle(String title) {
-        if (title == null || title.isBlank()) {
-            throw new DomainValidationException("Title cannot be null or empty");
-        }
-
-        if (title.length() > 100) {
-            throw new DomainValidationException("Title cannot be longer than 100 characters");
-        }
-
-        this.title = title;
-    }
-
-    private void setMessage(String message) {
-        if (message == null || message.isBlank()) {
-            throw new DomainValidationException("Message cannot be null or empty");
-        }
-
-        if (message.length() > 255) {
-            throw new DomainValidationException("Message cannot be longer than 255 characters");
-        }
-
-        this.message = message;
     }
 
     private void setOriginalTimestamp(Instant originalTimestamp) {

@@ -2,6 +2,7 @@ package pl.gamilife.gamification.domain.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import pl.gamilife.gamification.domain.model.Achievement;
 import pl.gamilife.gamification.domain.model.UserAchievement;
@@ -11,6 +12,7 @@ import pl.gamilife.gamification.domain.port.repository.UserAchievementRepository
 import pl.gamilife.gamification.domain.service.AchievementService;
 import pl.gamilife.gamification.domain.service.RewardService;
 import pl.gamilife.gamification.domain.service.UserInventoryService;
+import pl.gamilife.shared.kernel.event.AchievementUnlockedEvent;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -24,6 +26,7 @@ public class AchievementServiceImpl implements AchievementService {
     private final AchievementRepository achievementRepository;
     private final UserInventoryService userInventoryService;
     private final RewardService rewardService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public void checkIfUserQualifiesForAchievementOfType(UserStatistic userStatistic) {
@@ -54,6 +57,8 @@ public class AchievementServiceImpl implements AchievementService {
         userInventoryService.addItemsToUsersInventory(userId, achievement.getItems());
 
         rewardService.rewardUser(userId, achievement.getExperienceReward(), achievement.getMoneyReward());
+
+        eventPublisher.publishEvent(new AchievementUnlockedEvent(userId, achievement.getName()));
     }
 
 }

@@ -22,7 +22,7 @@ public class LevelRepositoryAdapter implements LevelRepository {
     }
 
     @Override
-    public List<Level> findLevelsGained(int level, int experience) {
+    public List<Level> findLevelsGainedOrderByLevelAsc(int level, int experience) {
         return jpaLevelRepository.findLevelsGained(level, experience);
     }
 

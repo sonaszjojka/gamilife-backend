@@ -14,9 +14,7 @@ import pl.gamilife.communication.dto.NotificationDto;
 import pl.gamilife.communication.enums.NotificationType;
 import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationCommand;
 import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationUseCase;
-import pl.gamilife.shared.kernel.event.GroupInvitationCreatedEvent;
-import pl.gamilife.shared.kernel.event.GroupItemUsedEvent;
-import pl.gamilife.shared.kernel.event.ItemAcquiredEvent;
+import pl.gamilife.shared.kernel.event.*;
 
 import java.util.Map;
 
@@ -32,12 +30,10 @@ public class NotificationEventHandler {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupInvitationCreated(GroupInvitationCreatedEvent event) {
-        NotificationDto notificationDto = NotificationDto.builder()
-                .notificationType(NotificationType.GROUP_INVITATION)
-                .title("New Group Invitation")
-                .message("You have a new group invitation")
-                .data(Map.of("invitation-link", event.getInvitationLink()))
-                .build();
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.GROUP_INVITATION,
+                Map.of("invitationLink", event.getInvitationLink())
+        );
 
         sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
                 event.getUserId(),
@@ -52,12 +48,10 @@ public class NotificationEventHandler {
         BasicUserInfoDto basicUserInfoDto = userApi.getUserById(event.userId()).orElseThrow(
                 () -> new IllegalStateException("GroupItemUsedEvent refers to a non-existent user")
         );
-        NotificationDto notificationDto = NotificationDto.builder()
-                .notificationType(NotificationType.GROUP_ITEM_USED)
-                .title("Group Item Used")
-                .message(String.format("%s used %s in your group!", basicUserInfoDto.username(), event.groupItemName()))
-                .data(Map.of("item-name", event.groupItemName()))
-                .build();
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.GROUP_ITEM_USED,
+                Map.of("itemName", event.groupItemName(), "username", basicUserInfoDto.username())
+        );
 
         sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
                 event.adminId(),
@@ -69,20 +63,40 @@ public class NotificationEventHandler {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onItemAcquired(ItemAcquiredEvent event) {
-        String oneItemName = event.itemNames().stream().findFirst().orElseThrow(
-                () -> new IllegalStateException("ItemAcquiredEvent sent, but refers to no items")
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.ITEM_ACQUIRED,
+                Map.of("itemNames", event.itemNames())
         );
-        int numberOfItems = event.itemNames().size();
-        NotificationDto notificationDto = NotificationDto.builder()
-                .notificationType(NotificationType.ITEM_ACQUIRED)
-                .title("New Item Acquired")
-                .message(String.format(
-                        "%s been added to your inventory!",
-                        numberOfItems == 1
-                                ? String.format("%s has", oneItemName)
-                                : String.format("%s and %s more items", oneItemName, numberOfItems - 1)
-                ))
-                .build();
+
+        sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
+                event.userId(),
+                notificationDto
+        ));
+    }
+
+    @Async("eventExecutor")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Retryable
+    public void onLevelUp(LevelUpEvent event) {
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.LEVEL_UP,
+                Map.of("level", event.level())
+        );
+
+        sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
+                event.userId(),
+                notificationDto
+        ));
+    }
+
+    @Async("eventExecutor")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Retryable
+    public void onAchievementUnlocked(AchievementUnlockedEvent event) {
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.ACHIEVEMENT_UNLOCKED,
+                Map.of("achievementName", event.achievementName())
+        );
 
         sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
                 event.userId(),
