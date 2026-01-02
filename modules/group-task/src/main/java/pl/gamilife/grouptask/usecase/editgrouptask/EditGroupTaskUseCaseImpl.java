@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.group.GroupApi;
 import pl.gamilife.api.group.dto.BasicGroupMemberDto;
+import pl.gamilife.api.group.dto.GroupDto;
 import pl.gamilife.api.task.TaskApi;
+import pl.gamilife.api.task.dto.TaskDto;
 import pl.gamilife.api.task.dto.TaskForGroupTaskRequestDto;
 import pl.gamilife.grouptask.domain.context.GroupContext;
 import pl.gamilife.grouptask.entity.GroupTask;
@@ -38,6 +40,10 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
         boolean changedToNotAccepted = Boolean.FALSE.equals(req.isAccepted()) && groupTask.isAccepted();
         if (changedToAccepted) {
             groupTask.accept();
+
+            TaskDto task = tasksProvider.findTaskById(groupTask.getTaskId());
+            GroupDto group = groupsProvider.findGroupById(groupTask.getGroupId());
+
             var doneGroupTaskMembers = groupTask.getGroupTaskMembers()
                     .stream()
                     .filter(GroupTaskMember::isMarkedDone)
@@ -54,14 +60,28 @@ public class EditGroupTaskUseCaseImpl implements EditGroupTaskUseCase {
                         .map(BasicGroupMemberDto::userId)
                         .toList();
 
-                eventPublisher.publishEvent(new GroupTaskCompletedEvent(doneMemberUserIds, groupTask.wasRewardIssued()));
+                eventPublisher.publishEvent(new GroupTaskCompletedEvent(
+                        groupTask.getGroupId(),
+                        group.groupName(),
+                        groupTask.getId(),
+                        task.title(),
+                        doneMemberUserIds,
+                        groupTask.wasRewardIssued()
+                ));
                 groupTask.markRewardsAsIssued();
             } else {
                 var memberIds = groupContext.findMembersByIdIn(doneGroupTaskMemberIds)
                         .stream()
                         .map(BasicGroupMemberDto::userId)
                         .toList();
-                eventPublisher.publishEvent(new GroupTaskCompletedEvent(memberIds, groupTask.wasRewardIssued()));
+                eventPublisher.publishEvent(new GroupTaskCompletedEvent(
+                        groupTask.getGroupId(),
+                        group.groupName(),
+                        groupTask.getId(),
+                        task.title(),
+                        memberIds,
+                        groupTask.wasRewardIssued()
+                ));
             }
         } else if (changedToNotAccepted) {
             var previouslyDoneGroupTaskMembers = groupTask.getGroupTaskMembers()

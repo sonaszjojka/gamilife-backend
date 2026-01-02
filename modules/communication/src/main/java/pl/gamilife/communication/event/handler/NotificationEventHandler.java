@@ -222,6 +222,46 @@ public class NotificationEventHandler {
     @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
+    public void onGroupTaskMemberAdded(GroupTaskMemberAdded event) {
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.GROUP_TASK_ASSIGNED,
+                Map.of(
+                        "groupTaskId", event.groupTaskId(),
+                        "taskName", event.groupTaskTitle(),
+                        "groupId", event.groupId(),
+                        "groupName", event.groupName()
+                )
+        );
+
+        sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
+                event.userId(),
+                notificationDto
+        ));
+    }
+
+    @Async("eventExecutor")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Retryable
+    public void onGroupTaskCompletedEvent(GroupTaskCompletedEvent event) {
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.GROUP_TASK_COMPLETED,
+                Map.of(
+                        "groupTaskId", event.groupTaskId(),
+                        "taskName", event.groupTaskTitle(),
+                        "groupId", event.groupId(),
+                        "groupName", event.groupName()
+                )
+        );
+
+        bulkSendNotificationUseCase.execute(new BulkSendNotificationCommand(
+                event.userIds(),
+                notificationDto
+        ));
+    }
+
+    @Async("eventExecutor")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Retryable
     public void onGamificationValuesChanged(GamificationValuesChangedEvent event) {
         NotificationDto notificationDto = NotificationDto.create(
                 NotificationType.GAMIFICATION_VALUES_CHANGED,

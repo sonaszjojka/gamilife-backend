@@ -88,7 +88,7 @@ public class GroupApiImpl implements GroupApi {
         var result = findGroupMemberByUserIdUseCase.execute(new FindGroupMemberByUserIdCommand(userId, groupId));
         return result.map(gm -> new GroupMemberDto(
                 gm.groupMemberId(),
-                new GroupMemberDto.GroupDto(gm.groupId()),
+                new GroupMemberDto.GroupDto(gm.groupId(), gm.groupName()),
                 gm.userId(),
                 gm.joinedAt(),
                 gm.leftAt(),
