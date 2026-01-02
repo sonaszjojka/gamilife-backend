@@ -174,6 +174,29 @@ public class NotificationEventHandler {
     @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
+    public void onGroupMemberLeft(GroupMemberLeftEvent event) {
+        BasicUserInfoDto basicUserInfoDto = userApi.getUserById(event.userId()).orElseThrow(
+                () -> new IllegalStateException("GroupRequestCreatedEvent refers to a non-existent user")
+        );
+
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.GROUP_MEMBER_LEFT,
+                Map.of(
+                        "groupName", event.groupName(),
+                        "username", basicUserInfoDto.username(),
+                        "groupId", event.groupId()
+                )
+        );
+
+        bulkSendNotificationUseCase.execute(new BulkSendNotificationCommand(
+                event.activeMembersUserIds(),
+                notificationDto
+        ));
+    }
+
+    @Async("eventExecutor")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Retryable
     public void onGamificationValuesChanged(GamificationValuesChangedEvent event) {
         NotificationDto notificationDto = NotificationDto.create(
                 NotificationType.GAMIFICATION_VALUES_CHANGED,
