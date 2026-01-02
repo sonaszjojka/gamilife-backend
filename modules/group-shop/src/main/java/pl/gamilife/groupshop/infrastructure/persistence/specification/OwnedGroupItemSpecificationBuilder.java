@@ -24,7 +24,7 @@ public class OwnedGroupItemSpecificationBuilder {
     ) {
         return (root, query, cb) ->
                 cb.equal(
-                        root.get("memberId"),
+                        root.get("groupMemberId"),
                         memberId
                 );
     }
@@ -32,14 +32,21 @@ public class OwnedGroupItemSpecificationBuilder {
     private Specification<OwnedGroupItem> isUsedUp(
             Boolean isUsedUp
     ) {
-        if (isUsedUp == null) {
-            return null;
-        }
-        return (root, query, cb) ->
 
-                cb.equal(
-                        root.get("isUsedUp"),
-                        isUsedUp
-                );
+        return (root, query, cb) ->
+        {
+            if (isUsedUp == null) {
+                return null;
+            }
+
+            if (isUsedUp ) {
+                return cb.isNotNull(root.get("usedAt"));
+            }
+            else
+            {
+                return cb.isNull(root.get("usedAt"));
+            }
+        };
+
     }
 }

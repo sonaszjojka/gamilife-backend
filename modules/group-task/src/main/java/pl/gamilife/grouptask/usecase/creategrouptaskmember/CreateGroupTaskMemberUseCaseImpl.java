@@ -8,6 +8,7 @@ import pl.gamilife.grouptask.exception.domain.GroupTaskNotFoundException;
 import pl.gamilife.grouptask.repository.GroupTaskMemberRepository;
 import pl.gamilife.grouptask.repository.GroupTaskRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
 import java.util.UUID;
 
@@ -34,10 +35,9 @@ public class CreateGroupTaskMemberUseCaseImpl implements CreateGroupTaskMemberUs
         GroupTask groupTask = groupTaskRepository.findByGroupTaskId(groupTaskId).orElseThrow(
                 () -> new GroupTaskNotFoundException("Group task with id:" + groupTaskId + " does not exist"));
 
-        if (groupTask.belongsToGroup(groupId)) {
-            throw new GroupMemberNotFoundException("Group member with id:" + request.groupMemberId() + " does not belong to group with id:" + groupTask.getGroupId());
+        if (!groupTask.belongsToGroup(groupId)) {
+            throw new ResourceOwnerPrivilegesRequiredException("Group task with id:" + groupTaskId + " does not belong to group with id:" + groupTask.getGroupId());
         }
-
         GroupTaskMember groupTaskMember = createGroupTaskMemberMapper.toEntity(groupTask, request.groupMemberId());
         GroupTaskMember savedGroupTaskMember = groupTaskMemberRepository.save(groupTaskMember);
         return createGroupTaskMemberMapper.toResponse(savedGroupTaskMember);
