@@ -1,6 +1,7 @@
-package pl.gamilife.group.usecase.editgrouprequeststatusforgrouprequest;
+package pl.gamilife.group.usecase.editgrouprequeststatus;
 
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.group.enums.GroupRequestStatusEnum;
@@ -15,6 +16,7 @@ import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupRequestJpaRepository;
 import pl.gamilife.group.repository.GroupRequestStatusJpaRepository;
 import pl.gamilife.group.service.GroupMemberService;
+import pl.gamilife.shared.kernel.event.GroupRequestStatusChangedEvent;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 
@@ -23,15 +25,16 @@ import java.util.UUID;
 @Service
 @Transactional
 @AllArgsConstructor
-public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGroupRequestStatusForGroupRequestUseCase {
+public class EditGroupRequestStatusUseCaseImpl implements EditGroupRequestStatusUseCase {
 
     private final GroupRequestJpaRepository groupRequestRepository;
     private final GroupRequestStatusJpaRepository groupRequestStatusRepository;
     private final GroupMemberService groupMemberService;
     private final GroupJpaRepository groupJpaRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
-    public EditGroupRequestStatusForGroupRequestResult execute(EditGroupRequestStatusForGroupRequestCommand cmd) {
+    public EditGroupRequestStatusResult execute(EditGroupRequestStatusCommand cmd) {
         Group group = getGroupWithMembers(cmd.groupId());
         GroupRequest groupRequest = getGroupRequest(cmd.groupId(), cmd.groupRequestId());
         GroupRequestStatus newGroupRequestStatus = getGroupRequestStatus(cmd.newGroupRequestStatusId());
@@ -59,6 +62,12 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
 
         groupRequest.changeStatus(newGroupRequestStatus);
         GroupRequest savedGroupRequest = groupRequestRepository.save(groupRequest);
+        eventPublisher.publishEvent(new GroupRequestStatusChangedEvent(
+                groupRequest.getUserId(),
+                newGroupRequestStatus.toEnum() == GroupRequestStatusEnum.ACCEPTED,
+                group.getName(),
+                group.getId()
+        ));
 
         return buildEditGroupRequestStatusForGroupRequestResult(
                 savedGroupRequest,
@@ -82,16 +91,16 @@ public class EditGroupRequestStatusForGroupRequestUseCaseImpl implements EditGro
                         + groupRequestStatusId + " not found!"));
     }
 
-    private EditGroupRequestStatusForGroupRequestResult buildEditGroupRequestStatusForGroupRequestResult(
+    private EditGroupRequestStatusResult buildEditGroupRequestStatusForGroupRequestResult(
             GroupRequest groupRequest,
             UUID groupMemberId
     ) {
-        return EditGroupRequestStatusForGroupRequestResult.builder()
+        return EditGroupRequestStatusResult.builder()
                 .groupRequestId(groupRequest.getId())
                 .userId(groupRequest.getUserId())
-                .groupRequested(new EditGroupRequestStatusForGroupRequestResult.GroupDto(groupRequest.getGroupId()))
+                .groupRequested(new EditGroupRequestStatusResult.GroupDto(groupRequest.getGroupId()))
                 .createdAt(groupRequest.getCreatedAt())
-                .groupRequestStatus(new EditGroupRequestStatusForGroupRequestResult.GroupRequestStatusDto(
+                .groupRequestStatus(new EditGroupRequestStatusResult.GroupRequestStatusDto(
                         groupRequest.getStatus().getId(),
                         groupRequest.getStatus().getTitle()
                 ))

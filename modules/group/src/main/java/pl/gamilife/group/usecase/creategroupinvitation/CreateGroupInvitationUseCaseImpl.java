@@ -47,8 +47,9 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
 
         eventPublisher.publishEvent(new GroupInvitationCreatedEvent(
                 userToInvite.userId(),
-                group.getJoinCode(),
-                groupInvitation.getLink()
+                groupInvitation.getLink(),
+                group.getName(),
+                group.getJoinCode()
         ));
 
         return createResponse(groupInvitation);

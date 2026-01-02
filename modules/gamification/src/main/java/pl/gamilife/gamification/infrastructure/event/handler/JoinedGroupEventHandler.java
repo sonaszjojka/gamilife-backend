@@ -23,7 +23,7 @@ public class JoinedGroupEventHandler {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onGroupJoined(JoinedGroupEvent event) {
-        processGroupJoinUseCase.execute(new ProcessGroupJoinCommand(event.getUserId(), event.isFirstTimeJoin()));
+        processGroupJoinUseCase.execute(new ProcessGroupJoinCommand(event.userId(), event.isFirstTimeJoin()));
     }
 
     @Recover

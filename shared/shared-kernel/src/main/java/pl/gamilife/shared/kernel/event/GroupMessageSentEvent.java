@@ -3,12 +3,12 @@ package pl.gamilife.shared.kernel.event;
 import java.util.Collection;
 import java.util.UUID;
 
-public record JoinedGroupEvent(
+public record GroupMessageSentEvent(
         UUID userId,
-        String username,
-        boolean isFirstTimeJoin,
         UUID groupId,
         String groupName,
+        String message,
+        boolean important,
         Collection<UUID> activeMembersUserIds
 ) {
 }

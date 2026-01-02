@@ -1,6 +1,7 @@
 package pl.gamilife.group.usecase.creategrouprequest;
 
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.group.enums.GroupRequestStatusEnum;
@@ -15,6 +16,7 @@ import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
 import pl.gamilife.group.repository.GroupRequestJpaRepository;
 import pl.gamilife.group.repository.GroupRequestStatusJpaRepository;
+import pl.gamilife.shared.kernel.event.GroupRequestCreatedEvent;
 import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 
 import java.util.UUID;
@@ -28,6 +30,7 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
     private final GroupJpaRepository groupRepository;
     private final GroupMemberJpaRepository groupMemberRepository;
     private final GroupRequestStatusJpaRepository groupRequestStatusRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public CreateGroupRequestResult execute(CreateGroupRequestCommand cmd) {
@@ -58,6 +61,13 @@ public class CreateGroupRequestUseCaseImpl implements CreateGroupRequestUseCase 
                 group,
                 sentGroupRequestStatus
         );
+
+        eventPublisher.publishEvent(new GroupRequestCreatedEvent(
+                group.getAdminId(),
+                cmd.userId(),
+                group.getName(),
+                group.getId()
+        ));
 
         return createGroupRequestResult(groupRequest);
     }

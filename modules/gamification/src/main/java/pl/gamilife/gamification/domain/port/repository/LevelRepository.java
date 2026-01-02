@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface LevelRepository {
     List<Level> findAllWithItemsByOrderByLevelAsc();
 
-    List<Level> findLevelsGained(int level, int experience);
+    List<Level> findLevelsGainedOrderByLevelAsc(int level, int experience);
 
     List<Level> findLevelAfterTutorial();
 
