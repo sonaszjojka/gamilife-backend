@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.gamification.domain.model.Level;
 import pl.gamilife.gamification.domain.model.projection.GamificationUser;
 import pl.gamilife.gamification.domain.port.context.UserContext;
-import pl.gamilife.gamification.domain.port.repository.LevelRepository;
+import pl.gamilife.gamification.domain.service.LevelService;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 
 import java.util.Optional;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class GetGamificationUserUseCaseImpl implements GetGamificationUserUseCase {
 
     private final UserContext userContext;
-    private final LevelRepository levelRepository;
+    private final LevelService levelService;
 
     @Override
     public GetGamificationUserResult execute(GetGamificationUserCommand cmd) {
@@ -25,7 +25,7 @@ public class GetGamificationUserUseCaseImpl implements GetGamificationUserUseCas
                 () -> new UserNotFoundException("User not found")
         );
 
-        Optional<Level> nextLevel = levelRepository.findByLevel(user.level() + 1);
+        Optional<Level> nextLevel = levelService.getNextLevel(user.level());
         Integer requiredExpForNextLevel = nextLevel.map(Level::getRequiredExperience).orElse(null);
 
         return new GetGamificationUserResult(

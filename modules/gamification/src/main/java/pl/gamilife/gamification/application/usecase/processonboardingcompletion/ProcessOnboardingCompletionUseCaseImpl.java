@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.gamification.domain.model.Level;
-import pl.gamilife.gamification.domain.port.context.UserContext;
 import pl.gamilife.gamification.domain.port.repository.LevelRepository;
-import pl.gamilife.gamification.domain.service.LevelService;
+import pl.gamilife.gamification.domain.service.RewardService;
 
 import java.util.List;
 
@@ -16,18 +15,16 @@ import java.util.List;
 public class ProcessOnboardingCompletionUseCaseImpl implements ProcessOnboardingCompletionUseCase {
 
     private final LevelRepository levelRepository;
-    private final LevelService levelService;
-    private final UserContext userContext;
+    private final RewardService rewardService;
 
     @Override
     public Void execute(ProcessOnboardingCompletionCommand cmd) {
         List<Level> levelAfterTutorial = levelRepository.findLevelAfterTutorial();
-        userContext.grantRewardsToUser(
+        rewardService.rewardUser(
                 cmd.userId(),
                 levelAfterTutorial.getFirst().getRequiredExperience(),
                 0
         );
-        levelService.levelUpUser(cmd.userId(), levelAfterTutorial);
 
         return null;
     }

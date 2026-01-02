@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.domain.model.Level;
+import pl.gamilife.gamification.domain.model.projection.GamificationUser;
 import pl.gamilife.gamification.domain.port.context.UserContext;
 import pl.gamilife.gamification.domain.port.repository.LevelRepository;
 import pl.gamilife.gamification.domain.service.LevelService;
@@ -13,8 +14,8 @@ import pl.gamilife.shared.kernel.event.LevelUpEvent;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -26,9 +27,9 @@ public class LevelServiceImpl implements LevelService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
-    public void levelUpUser(UUID userId, List<Level> gainedLevels) {
+    public int levelUpUser(GamificationUser rewardedUser, List<Level> gainedLevels) {
         if (gainedLevels.isEmpty()) {
-            return;
+            return rewardedUser.level();
         }
 
         Set<Item> rewardsForLevels = new HashSet<>();
@@ -36,9 +37,11 @@ public class LevelServiceImpl implements LevelService {
             rewardsForLevels.addAll(level.getItems());
         }
 
-        userInventoryService.addItemsToUsersInventory(userId, rewardsForLevels);
-        userContext.levelUpUser(userId, gainedLevels.getLast().getLevel());
-        eventPublisher.publishEvent(new LevelUpEvent(userId, gainedLevels.getLast().getLevel()));
+        userInventoryService.addItemsToUsersInventory(rewardedUser.userId(), rewardsForLevels);
+        userContext.levelUpUser(rewardedUser.userId(), gainedLevels.getLast().getLevel());
+        eventPublisher.publishEvent(new LevelUpEvent(rewardedUser.userId(), gainedLevels.getLast().getLevel()));
+
+        return gainedLevels.getLast().getLevel();
     }
 
     @Override
@@ -47,5 +50,10 @@ public class LevelServiceImpl implements LevelService {
                 currentLevel,
                 newExperience
         );
+    }
+
+    @Override
+    public Optional<Level> getNextLevel(int currentLevel) {
+        return levelRepository.findByLevel(currentLevel + 1);
     }
 }

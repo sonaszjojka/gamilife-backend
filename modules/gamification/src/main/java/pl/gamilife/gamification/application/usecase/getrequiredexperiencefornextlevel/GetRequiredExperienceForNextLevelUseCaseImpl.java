@@ -3,7 +3,7 @@ package pl.gamilife.gamification.application.usecase.getrequiredexperiencefornex
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gamilife.gamification.domain.model.Level;
-import pl.gamilife.gamification.domain.port.repository.LevelRepository;
+import pl.gamilife.gamification.domain.service.LevelService;
 
 import java.util.Optional;
 
@@ -11,11 +11,11 @@ import java.util.Optional;
 @AllArgsConstructor
 public class GetRequiredExperienceForNextLevelUseCaseImpl implements GetRequiredExperienceForNextLevelUseCase {
 
-    private final LevelRepository levelRepository;
+    private final LevelService levelService;
 
     @Override
     public Integer execute(GetRequiredExperienceForNextLevelCommand cmd) {
-        Optional<Level> optionalLevel = levelRepository.findByLevel(cmd.currentLevel() + 1);
+        Optional<Level> optionalLevel = levelService.getNextLevel(cmd.currentLevel());
         return optionalLevel.map(Level::getRequiredExperience).orElse(null);
     }
 }

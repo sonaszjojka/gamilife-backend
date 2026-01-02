@@ -18,7 +18,8 @@ public enum NotificationType {
     GROUP_TASK_COMPLETED(10),
     GROUP_REQUEST_STATUS_UPDATED(11),
     NEW_GROUP_REQUEST(12),
-    OTHER(99);
+    OTHER(99),
+    GAMIFICATION_VALUES_CHANGED(100);
 
     private final int id;
 

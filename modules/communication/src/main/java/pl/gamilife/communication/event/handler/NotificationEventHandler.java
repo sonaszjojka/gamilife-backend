@@ -149,6 +149,28 @@ public class NotificationEventHandler {
         ));
     }
 
+    @Async("eventExecutor")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Retryable
+    public void onGamificationValuesChanged(GamificationValuesChangedEvent event) {
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.GAMIFICATION_VALUES_CHANGED,
+                Map.of(
+                        "userId", event.userId(),
+                        "username", event.username(),
+                        "level", event.level(),
+                        "experience", event.experience(),
+                        "money", event.money(),
+                        "requiredExperienceForNextLevel", event.requiredExperienceForNextLevel()
+                )
+        );
+
+        sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
+                event.userId(),
+                notificationDto
+        ));
+    }
+
     @Recover
     public void onMultipleFailure(Exception ex, Object event) {
         log.error("Could not process event: {}", event);
