@@ -32,11 +32,14 @@ public class NotificationEventHandler {
     public void onGroupInvitationCreated(GroupInvitationCreatedEvent event) {
         NotificationDto notificationDto = NotificationDto.create(
                 NotificationType.GROUP_INVITATION,
-                Map.of("invitationLink", event.getInvitationLink())
+                Map.of(
+                        "invitationLink", event.invitationLink(),
+                        "groupName", event.groupName()
+                )
         );
 
         sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
-                event.getUserId(),
+                event.userId(),
                 notificationDto
         ));
     }
@@ -110,7 +113,11 @@ public class NotificationEventHandler {
     public void onGroupRequestStatusChanged(GroupRequestStatusChangedEvent event) {
         NotificationDto notificationDto = NotificationDto.create(
                 NotificationType.GROUP_REQUEST_STATUS_UPDATED,
-                Map.of("groupName", event.groupName(), "accepted", event.accepted())
+                Map.of(
+                        "groupName", event.groupName(),
+                        "accepted", event.accepted(),
+                        "groupId", event.groupId()
+                )
         );
 
         sendUserNotificationUseCase.execute(new SendUserNotificationCommand(

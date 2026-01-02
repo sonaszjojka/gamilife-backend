@@ -40,10 +40,10 @@ public class EmailEventHandler {
     @Retryable
     public void onGroupInvitationCreated(GroupInvitationCreatedEvent event) {
         sendUserEmailUseCase.execute(new SendUserEmailCommand(
-                event.getUserId(),
+                event.userId(),
                 new GroupInvitationEmailParameters(
-                        event.getJoinCode(),
-                        event.getInvitationLink()
+                        event.joinCode(),
+                        event.invitationLink()
                 )
         ));
     }

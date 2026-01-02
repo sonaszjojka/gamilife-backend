@@ -2,6 +2,7 @@ package pl.gamilife.group.usecase.leavegroup;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.group.exception.domain.AdminCannotLeaveGroupException;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
@@ -11,6 +12,7 @@ import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
 

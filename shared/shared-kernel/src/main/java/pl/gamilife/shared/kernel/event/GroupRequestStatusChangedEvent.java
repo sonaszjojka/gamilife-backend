@@ -5,6 +5,7 @@ import java.util.UUID;
 public record GroupRequestStatusChangedEvent(
         UUID requesterUserId,
         boolean accepted,
-        String groupName
+        String groupName,
+        UUID groupId
 ) {
 }
