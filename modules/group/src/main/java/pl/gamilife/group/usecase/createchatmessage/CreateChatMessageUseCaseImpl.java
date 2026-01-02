@@ -1,6 +1,7 @@
 package pl.gamilife.group.usecase.createchatmessage;
 
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.group.exception.domain.UserLeftGroupException;
@@ -10,6 +11,7 @@ import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.ChatMessageJpaRepository;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
+import pl.gamilife.shared.kernel.event.GroupMessageSentEvent;
 import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
 import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
@@ -24,6 +26,7 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
     private final ChatMessageJpaRepository chatMessageRepository;
     private final GroupMemberJpaRepository groupMemberRepository;
     private final GroupJpaRepository groupRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public CreateChatMessageResult execute(CreateChatMessageCommand cmd) {
@@ -47,6 +50,19 @@ public class CreateChatMessageUseCaseImpl implements CreateChatMessageUseCase {
                 groupMember
         );
         ChatMessage savedChatMessage = chatMessageRepository.save(chatMessage);
+
+        eventPublisher.publishEvent(new GroupMessageSentEvent(
+                groupMember.getUserId(),
+                groupMember.getGroupId(),
+                groupMember.getGroup().getName(),
+                chatMessage.getContent(),
+                chatMessage.getIsImportant(),
+                group.getActiveMembers()
+                        .stream()
+                        .map(GroupMember::getUserId)
+                        .filter(userId -> !userId.equals(groupMember.getUserId()))
+                        .toList()
+        ));
 
         return buildCreateChatMessageResult(savedChatMessage);
     }

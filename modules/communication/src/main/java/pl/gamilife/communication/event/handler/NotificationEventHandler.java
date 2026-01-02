@@ -176,7 +176,7 @@ public class NotificationEventHandler {
     @Retryable
     public void onGroupMemberLeft(GroupMemberLeftEvent event) {
         BasicUserInfoDto basicUserInfoDto = userApi.getUserById(event.userId()).orElseThrow(
-                () -> new IllegalStateException("GroupRequestCreatedEvent refers to a non-existent user")
+                () -> new IllegalStateException("GroupMemberLeftEvent refers to a non-existent user")
         );
 
         NotificationDto notificationDto = NotificationDto.create(
@@ -185,6 +185,31 @@ public class NotificationEventHandler {
                         "groupName", event.groupName(),
                         "username", basicUserInfoDto.username(),
                         "groupId", event.groupId()
+                )
+        );
+
+        bulkSendNotificationUseCase.execute(new BulkSendNotificationCommand(
+                event.activeMembersUserIds(),
+                notificationDto
+        ));
+    }
+
+    @Async("eventExecutor")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Retryable
+    public void onGroupMemberLeft(GroupMessageSentEvent event) {
+        BasicUserInfoDto basicUserInfoDto = userApi.getUserById(event.userId()).orElseThrow(
+                () -> new IllegalStateException("GroupMessageSentEvent refers to a non-existent user")
+        );
+
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.NEW_GROUP_MESSAGE,
+                Map.of(
+                        "groupName", event.groupName(),
+                        "username", basicUserInfoDto.username(),
+                        "groupId", event.groupId(),
+                        "important", event.important(),
+                        "message", event.message()
                 )
         );
 
