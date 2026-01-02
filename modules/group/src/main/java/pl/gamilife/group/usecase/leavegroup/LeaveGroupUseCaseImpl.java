@@ -8,6 +8,7 @@ import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
+import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
 import java.util.UUID;
 
@@ -22,6 +23,15 @@ public class LeaveGroupUseCaseImpl implements LeaveGroupUseCase {
     public LeaveGroupResult execute(LeaveGroupCommand cmd) {
         GroupMember groupMember = getGroupMemberWithGroup(cmd.groupId(), cmd.groupMemberId());
         Group group = groupMember.getGroup();
+
+        if (!groupMember.isUser(cmd.userId()) && !group.isUserAdmin(cmd.userId())) {
+            throw new ResourceOwnerPrivilegesRequiredException(String.format(
+                    "User %s does not have privileges to make Member %s leave Group %s",
+                    cmd.userId(),
+                    groupMember.getId(),
+                    group.getId()
+            ));
+        }
 
         if (group.isUserAdmin(groupMember.getUserId())) {
             throw new AdminCannotLeaveGroupException("Administrator cannot leave group!");

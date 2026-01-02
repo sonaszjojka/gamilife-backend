@@ -12,6 +12,8 @@ import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.communication.dto.NotificationDto;
 import pl.gamilife.communication.enums.NotificationType;
+import pl.gamilife.communication.usecase.bulksendnotification.BulkSendNotificationCommand;
+import pl.gamilife.communication.usecase.bulksendnotification.BulkSendNotificationUseCase;
 import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationCommand;
 import pl.gamilife.communication.usecase.sendusernotification.SendUserNotificationUseCase;
 import pl.gamilife.shared.kernel.event.*;
@@ -24,6 +26,7 @@ import java.util.Map;
 public class NotificationEventHandler {
 
     private final SendUserNotificationUseCase sendUserNotificationUseCase;
+    private final BulkSendNotificationUseCase bulkSendNotificationUseCase;
     private final UserApi userApi;
 
     @Async("eventExecutor")
@@ -145,6 +148,25 @@ public class NotificationEventHandler {
 
         sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
                 event.adminId(),
+                notificationDto
+        ));
+    }
+
+    @Async("eventExecutor")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Retryable
+    public void onJoinedGroupEvent(JoinedGroupEvent event) {
+        NotificationDto notificationDto = NotificationDto.create(
+                NotificationType.NEW_GROUP_MEMBER,
+                Map.of(
+                        "groupName", event.groupName(),
+                        "username", event.username(),
+                        "groupId", event.groupId()
+                )
+        );
+
+        bulkSendNotificationUseCase.execute(new BulkSendNotificationCommand(
+                event.activeMembersUserIds(),
                 notificationDto
         ));
     }

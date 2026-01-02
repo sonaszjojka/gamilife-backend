@@ -11,6 +11,9 @@ import pl.gamilife.communication.dto.NotificationDto;
 import pl.gamilife.communication.model.NotificationRetry;
 import pl.gamilife.communication.repository.NotificationRetryRepository;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -36,7 +39,30 @@ public class NotificationServiceImpl implements NotificationService {
         }
 
         log.info("Saving notification retry for user {}.", userId);
-        saveNotificationToRetry(userId, notification);
+        notificationRetryRepository.save(createNotificationRetry(userId, notification));
+    }
+
+    @Override
+    @Transactional
+    public void bulkSendUserNotifications(Collection<UUID> userIds, NotificationDto notification) {
+        List<NotificationRetry> retriesToSave = new ArrayList<>();
+
+        for (UUID userId : userIds) {
+            if (isUserSubscribingToNotifications(userId)) {
+                try {
+                    messagingTemplate.convertAndSendToUser(userId.toString(), "/queue/notifications", notification);
+                    continue;
+                } catch (Exception e) {
+                    log.warn("Failed to send notification to user {}", userId, e);
+                }
+            }
+            retriesToSave.add(createNotificationRetry(userId, notification));
+        }
+
+        if (!retriesToSave.isEmpty()) {
+            log.info("Saving {} notification retries.", retriesToSave.size());
+            notificationRetryRepository.saveAll(retriesToSave);
+        }
     }
 
     private boolean isUserSubscribingToNotifications(UUID userId) {
@@ -56,14 +82,12 @@ public class NotificationServiceImpl implements NotificationService {
         return subscribed;
     }
 
-    private void saveNotificationToRetry(UUID userId, NotificationDto dto) {
-        NotificationRetry retry = NotificationRetry.create(
+    private NotificationRetry createNotificationRetry(UUID userId, NotificationDto dto) {
+        return NotificationRetry.create(
                 userId,
                 dto.timestamp(),
                 dto.data(),
                 dto.notificationType().getId()
         );
-
-        notificationRetryRepository.save(retry);
     }
 }
