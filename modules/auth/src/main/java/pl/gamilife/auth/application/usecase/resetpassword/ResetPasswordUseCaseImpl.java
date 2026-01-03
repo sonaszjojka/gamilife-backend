@@ -14,7 +14,7 @@ import pl.gamilife.auth.domain.service.ForgotPasswordCodeService;
 import pl.gamilife.auth.domain.validator.PasswordValidator;
 import pl.gamilife.shared.kernel.exception.domain.ResetPasswordGenericException;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Service
 @Transactional
@@ -36,7 +36,7 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
                 .findByCodeAndRevokedAndExpiresAtIsGreaterThan(
                         forgotPasswordCodeService.hashCode(cmd.code()),
                         false,
-                        LocalDateTime.now()
+                        Instant.now()
                 )
                 .orElseThrow(ResetPasswordGenericException::new);
 

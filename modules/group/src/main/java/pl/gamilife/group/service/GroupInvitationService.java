@@ -8,6 +8,7 @@ import java.util.UUID;
 public interface GroupInvitationService {
     GroupInvitation createGroupInvitation(Group group, UUID userId);
 
+    boolean verifyToken(GroupInvitation groupInvitation, String token);
 }
 
 

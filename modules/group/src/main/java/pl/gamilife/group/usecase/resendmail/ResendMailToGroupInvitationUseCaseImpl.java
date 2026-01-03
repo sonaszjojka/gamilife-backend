@@ -25,9 +25,10 @@ public class ResendMailToGroupInvitationUseCaseImpl implements ResendMailToGroup
 
         eventPublisher.publishEvent(new GroupInvitationCreatedEvent(
                 groupInvitation.getUserId(),
-                groupInvitation.getLink(),
+                groupInvitation.getGroupId(),
                 groupInvitation.getGroup().getName(),
-                groupInvitation.getGroup().getJoinCode()
+                groupInvitation.getId(),
+                groupInvitation.getTokenHash()
         ));
 
         return null;

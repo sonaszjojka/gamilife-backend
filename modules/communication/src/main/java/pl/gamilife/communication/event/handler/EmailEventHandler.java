@@ -14,8 +14,8 @@ import pl.gamilife.communication.dto.GroupInvitationEmailParameters;
 import pl.gamilife.communication.usecase.senduseremail.SendUserEmailCommand;
 import pl.gamilife.communication.usecase.senduseremail.SendUserEmailUseCase;
 import pl.gamilife.shared.kernel.event.EmailVerificationRequestedEvent;
+import pl.gamilife.shared.kernel.event.ForgotPasswordCodeRequestedEvent;
 import pl.gamilife.shared.kernel.event.GroupInvitationCreatedEvent;
-import pl.gamilife.shared.kernel.event.PasswordResetRequestedEvent;
 
 @Slf4j
 @Component
@@ -28,10 +28,10 @@ public class EmailEventHandler {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onEmailVerificationRequested(EmailVerificationRequestedEvent event) {
-        log.info("Email verification requested for user {}", event.getUserId());
+        log.info("Email verification requested for user {}", event.userId());
         sendUserEmailUseCase.execute(new SendUserEmailCommand(
-                event.getUserId(),
-                new EmailVerificationEmailParameters(event.getVerificationLink())
+                event.userId(),
+                new EmailVerificationEmailParameters(event.verificationCode())
         ));
     }
 
@@ -42,8 +42,10 @@ public class EmailEventHandler {
         sendUserEmailUseCase.execute(new SendUserEmailCommand(
                 event.userId(),
                 new GroupInvitationEmailParameters(
-                        event.joinCode(),
-                        event.invitationLink()
+                        event.groupId(),
+                        event.groupName(),
+                        event.groupInvitationId(),
+                        event.token()
                 )
         ));
     }
@@ -51,10 +53,10 @@ public class EmailEventHandler {
     @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
-    public void onPasswordResetRequested(PasswordResetRequestedEvent event) {
+    public void onPasswordResetRequested(ForgotPasswordCodeRequestedEvent event) {
         sendUserEmailUseCase.execute(new SendUserEmailCommand(
-                event.getUserId(),
-                new ForgotPasswordEmailParameters(event.getResetLink())
+                event.userId(),
+                new ForgotPasswordEmailParameters(event.forgotPasswordCode())
         ));
     }
 

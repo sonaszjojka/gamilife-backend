@@ -27,12 +27,6 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
     @Value("${spring.codes.verification-code.resend-interval}")
     private long emailVerificationResendInterval;
 
-    @Value("${app.frontend-urls.email-verification-url}")
-    private String emailVerificationUrl;
-
-    @Value("${app.frontend-urls.main-url}")
-    private String appUrl;
-
     @Override
     public String generateAndSaveEmailVerificationCode(UUID userId) {
         String code = UUID.randomUUID().toString();
@@ -59,9 +53,8 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
     }
 
     @Override
-    public void sendEmailVerificationCode(UUID userId, String email, String code) {
-        String verificationLink = String.format("%s%s?code=%s", appUrl, emailVerificationUrl, code);
-        eventPublisher.publishEvent(new EmailVerificationRequestedEvent(userId, verificationLink));
+    public void sendEmailVerificationCode(UUID userId, String code) {
+        eventPublisher.publishEvent(new EmailVerificationRequestedEvent(userId, code));
     }
 
     @Override

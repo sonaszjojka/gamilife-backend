@@ -12,6 +12,7 @@ import pl.gamilife.group.model.InvitationStatus;
 import pl.gamilife.group.repository.GroupInvitationJpaRepository;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.InvitationStatusJpaRepository;
+import pl.gamilife.group.service.GroupInvitationService;
 import pl.gamilife.group.service.GroupMemberService;
 import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
@@ -27,6 +28,7 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
     private final InvitationStatusJpaRepository invitationStatusRepository;
     private final GroupMemberService groupMemberService;
     private final GroupJpaRepository groupRepository;
+    private final GroupInvitationService groupInvitationService;
 
     @Override
     public EditGroupInvitationStatusResult execute(EditGroupInvitationStatusCommand cmd) {
@@ -34,28 +36,48 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
         GroupInvitation groupInvitation = getGroupInvitationWithGroup(cmd.groupInvitationId(), cmd.groupId());
         InvitationStatus newInvitationStatus = getInvitationStatus(cmd.invitationStatusId());
 
-        if (!groupInvitation.doesBelongToUser(cmd.userId())) {
-            throw new ResourceOwnerPrivilegesRequiredException(
-                    "Only user who is assigned to this invitation can change group invitation status!");
+        if (!groupInvitation.hasStatus(InvitationStatusEnum.SENT)) {
+            throw new InvalidGroupInvitationDataException(
+                    "Group invitation with status ACCEPTED, DECLINED or REVOKED are final and cannot be changed!");
         }
 
-        if (!groupInvitation.verifyToken(cmd.token())) {
+        if (newInvitationStatus.toEnum() == InvitationStatusEnum.SENT) {
+            throw new InvalidGroupDataException(
+                    "Group invitation with id: " + cmd.groupInvitationId() + " has already status: SENT");
+        }
+
+        boolean isUserReview = groupInvitation.doesBelongToUser(cmd.userId()) && (
+                cmd.invitationStatusId() == InvitationStatusEnum.ACCEPTED.getId()
+                        || cmd.invitationStatusId() == InvitationStatusEnum.DECLINED.getId()
+        );
+        boolean isAdminsCancellation = group.isUserAdmin(cmd.userId())
+                && cmd.invitationStatusId() == InvitationStatusEnum.REVOKED.getId();
+        if (!isUserReview && !isAdminsCancellation) {
+            throw new ResourceOwnerPrivilegesRequiredException(
+                    "Only user who is assigned to this invitation can review it and only the group admin can cancel it"
+            );
+        }
+
+        if (isUserReview) {
+            return processUserReview(groupInvitation, group, newInvitationStatus, cmd.token());
+        }
+
+        return processAdminCancellation(groupInvitation, newInvitationStatus);
+    }
+
+    private EditGroupInvitationStatusResult processUserReview(
+            GroupInvitation groupInvitation,
+            Group group,
+            InvitationStatus newInvitationStatus,
+            String token
+    ) {
+        if (!groupInvitationService.verifyToken(groupInvitation, token)) {
             throw new InvalidGroupInvitationTokenException("Invalid or tampered group invitation token!");
         }
 
         if (groupInvitation.isExpired()) {
             throw new GroupInvitationExpiredException("Group invitation has expired at: "
                     + groupInvitation.getExpiresAt());
-        }
-
-        if (!groupInvitation.hasStatus(InvitationStatusEnum.SENT)) {
-            throw new InvalidGroupInvitationDataException(
-                    "Group invitation with status ACCEPTED or DECLINED are final and cannot be changed!");
-        }
-
-        if (newInvitationStatus.toEnum() == InvitationStatusEnum.SENT) {
-            throw new InvalidGroupDataException(
-                    "Group invitation with id: " + cmd.groupInvitationId() + " has already status: SENT");
         }
 
         // If invitation is accepted, create a new group member
@@ -73,6 +95,19 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
         return buildEditGroupInvitationStatusResponse(
                 savedGroupInvitation,
                 groupMember != null ? groupMember.getId() : null
+        );
+    }
+
+    private EditGroupInvitationStatusResult processAdminCancellation(
+            GroupInvitation groupInvitation,
+            InvitationStatus invitationStatus
+    ) {
+        groupInvitation.changeStatus(invitationStatus);
+        GroupInvitation savedGroupInvitation = groupInvitationRepository.save(groupInvitation);
+
+        return buildEditGroupInvitationStatusResponse(
+                savedGroupInvitation,
+                null
         );
     }
 
@@ -105,7 +140,6 @@ public class EditGroupInvitationStatusUseCaseImpl implements EditGroupInvitation
                 .userId(groupInvitation.getUserId())
                 .expiresAt(groupInvitation.getExpiresAt())
                 .mailSentAt(groupInvitation.getCreatedAt())
-                .link(groupInvitation.getLink())
                 .invitationStatus(new EditGroupInvitationStatusResult.InvitationStatusDto(
                         groupInvitation.getStatus().getId(),
                         groupInvitation.getStatus().getTitle()

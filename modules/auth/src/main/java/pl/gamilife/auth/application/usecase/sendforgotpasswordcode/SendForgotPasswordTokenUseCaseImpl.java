@@ -1,7 +1,6 @@
 package pl.gamilife.auth.application.usecase.sendforgotpasswordcode;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +10,7 @@ import pl.gamilife.auth.domain.model.projection.BasicUserDetails;
 import pl.gamilife.auth.domain.port.context.UserContext;
 import pl.gamilife.auth.domain.port.repository.ForgotPasswordCodeRepository;
 import pl.gamilife.auth.domain.service.ForgotPasswordCodeService;
-import pl.gamilife.shared.kernel.event.PasswordResetRequestedEvent;
+import pl.gamilife.shared.kernel.event.ForgotPasswordCodeRequestedEvent;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,12 +24,6 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
     private final UserContext userContext;
     private final ForgotPasswordCodeRepository forgotPasswordCodeRepository;
     private final ApplicationEventPublisher eventPublisher;
-
-    @Value("${app.frontend-urls.reset-password-url}")
-    private String resetPasswordUrl;
-
-    @Value("${app.frontend-urls.main-url}")
-    private String appUrl;
 
     @Override
     public Void execute(SendForgotPasswordCodeCommand cmd) {
@@ -59,8 +52,7 @@ public class SendForgotPasswordTokenUseCaseImpl implements SendForgotPasswordTok
 
         String code = forgotPasswordCodeService.generateAndSaveForgotPasswordCode(user.userId());
 
-        String resetLink = String.format("%s%s?code=%s", appUrl, resetPasswordUrl, code);
-        eventPublisher.publishEvent(new PasswordResetRequestedEvent(user.userId(), resetLink));
+        eventPublisher.publishEvent(new ForgotPasswordCodeRequestedEvent(user.userId(), code));
 
         return null;
     }

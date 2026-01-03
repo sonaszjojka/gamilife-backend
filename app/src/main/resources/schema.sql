@@ -215,7 +215,6 @@ CREATE TABLE "group".group_invitation
     group_id   uuid                     NOT NULL,
     user_id    uuid                     NOT NULL,
     expires_at timestamp with time zone NOT NULL,
-    link       varchar(200)             NOT NULL,
     token_hash varchar(255)             NOT NULL,
     status_id  int                      NOT NULL,
     version    bigint                   NOT NULL DEFAULT 0,
