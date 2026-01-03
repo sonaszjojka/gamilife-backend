@@ -6,7 +6,7 @@
     <parent>
         <groupId>pl.gamilife</groupId>
         <artifactId>api</artifactId>
-        <version>0.0.1-alpha-v01</version>
+        <version>0.7.0</version>
     </parent>
 
     <artifactId>auth-api</artifactId>
