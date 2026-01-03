@@ -88,8 +88,6 @@ public class GroupController {
 
     @GetMapping
     public ResponseEntity<GetGroupsResult> getAllGroups(
-            @RequestParam(required = false) String joinCode,
-
             @RequestParam(required = false) Integer groupType,
 
             @RequestParam(required = false) String groupName,
@@ -101,11 +99,10 @@ public class GroupController {
             @Min(1) @Max(100) Integer size
     ) {
         GroupFilterRequest request = new GroupFilterRequest(
-                joinCode, groupType, groupName, page, size
+                groupType, groupName, page, size
         );
         GetGroupsResult response = getGroupsUseCase.execute(
                 new GetGroupsCommand(
-                        request.joinCode(),
                         request.type(),
                         request.name(),
                         request.page(),

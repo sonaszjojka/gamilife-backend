@@ -1,18 +1,18 @@
 package pl.gamilife.group.usecase.creategroupinvitation;
 
 import lombok.AllArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.user.UserApi;
 import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.group.exception.domain.GroupFullException;
+import pl.gamilife.group.exception.domain.UserAlreadyMemberOfGroupException;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupInvitation;
+import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupInvitationJpaRepository;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.service.GroupInvitationService;
-import pl.gamilife.shared.kernel.event.GroupInvitationCreatedEvent;
 import pl.gamilife.shared.kernel.exception.domain.GroupAdminPrivilegesRequiredException;
 import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
@@ -28,7 +28,6 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
     private final GroupJpaRepository groupRepository;
     private final GroupInvitationService groupInvitationService;
     private final UserApi userApi;
-    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public CreateGroupInvitationResult execute(CreateGroupInvitationCommand cmd) {
@@ -43,14 +42,20 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
             throw new GroupFullException("Group with id: " + group.getId() + " is full!");
         }
 
-        GroupInvitation groupInvitation = createGroupInvitation(group, userToInvite.userId());
+        boolean isUserAlreadyMember = group.getActiveMembers()
+                .stream()
+                .map(GroupMember::getUserId)
+                .anyMatch(userId -> userId.equals(cmd.targetUserId()));
+        if (isUserAlreadyMember) {
+            throw new UserAlreadyMemberOfGroupException(String.format(
+                    "User with id: %s is already member of group with id: %s",
+                    userToInvite.userId(),
+                    group.getId()
+            ));
+        }
 
-        eventPublisher.publishEvent(new GroupInvitationCreatedEvent(
-                userToInvite.userId(),
-                groupInvitation.getLink(),
-                group.getName(),
-                group.getJoinCode()
-        ));
+        GroupInvitation groupInvitation = groupInvitationService.createGroupInvitation(group, userToInvite.userId());
+        groupInvitationRepository.save(groupInvitation);
 
         return createResponse(groupInvitation);
     }
@@ -65,12 +70,6 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
                 .orElseThrow(() -> new GroupNotFoundException("Group with id:" + groupId + " not found!"));
     }
 
-    private GroupInvitation createGroupInvitation(Group group, UUID userId) {
-        GroupInvitation groupInvitation = groupInvitationService.createGroupInvitation(group, userId);
-
-        return groupInvitationRepository.save(groupInvitation);
-    }
-
     private CreateGroupInvitationResult createResponse(GroupInvitation groupInvitation) {
         return CreateGroupInvitationResult.builder()
                 .groupInvitationId(groupInvitation.getId())
@@ -80,7 +79,6 @@ public class CreateGroupInvitationUseCaseImpl implements CreateGroupInvitationUs
                 .userId(groupInvitation.getUserId())
                 .expiresAt(groupInvitation.getExpiresAt())
                 .mailSentAt(groupInvitation.getCreatedAt())
-                .link(groupInvitation.getLink())
                 .invitationStatus(new CreateGroupInvitationResult.InvitationStatusDto(
                         groupInvitation.getStatus().getId(),
                         groupInvitation.getStatus().getTitle()

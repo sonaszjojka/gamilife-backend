@@ -18,13 +18,11 @@ public class UserGroupsSpecificationBuilderImpl implements UserGroupsSpecificati
     @Override
     public Specification<Group> buildSpecification(
             UUID userId,
-            String joinCode,
             GroupTypeEnum groupType,
             String groupName
     ) {
         return Specification.allOf(
                 belongsToUser(userId),
-                hasJoinCode(joinCode),
                 hasGroupType(groupType),
                 hasGroupName(groupName)
         );
@@ -41,15 +39,6 @@ public class UserGroupsSpecificationBuilderImpl implements UserGroupsSpecificati
                     cb.equal(gmJoin.get("userId"), userId),
                     cb.isNull(gmJoin.get("leftAt"))
             );
-        };
-    }
-
-    private Specification<Group> hasJoinCode(String joinCode) {
-        return (root, query, cb) -> {
-            if (joinCode == null || joinCode.isBlank()) {
-                return null;
-            }
-            return cb.equal(root.get("joinCode"), joinCode.trim());
         };
     }
 

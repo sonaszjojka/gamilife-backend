@@ -16,7 +16,8 @@ VALUES (1, 'Open'),
 INSERT INTO "group".invitation_status (id, title)
 VALUES (1, 'Sent'),
        (2, 'Accepted'),
-       (3, 'Declined');
+       (3, 'Declined'),
+       (4, 'Revoked');
 
 INSERT INTO "group".group_request_status (id, title)
 VALUES (1, 'Sent'),

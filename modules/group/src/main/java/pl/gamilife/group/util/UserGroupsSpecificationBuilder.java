@@ -7,5 +7,5 @@ import pl.gamilife.group.model.Group;
 import java.util.UUID;
 
 public interface UserGroupsSpecificationBuilder {
-    Specification<Group> buildSpecification(UUID userId, String joinCode, GroupTypeEnum groupType, String groupName);
+    Specification<Group> buildSpecification(UUID userId, GroupTypeEnum groupType, String groupName);
 }

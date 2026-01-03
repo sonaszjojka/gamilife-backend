@@ -10,7 +10,7 @@ VALUES ('11111111-1111-1111-1111-111111111111', 'Read a book', 'Read a book for 
         '11111111-1111-1111-1111-111111111111',
         1, 1, 3, '10-12-2025', '12-12-2025', 15, 30);
 
-INSERT INTO "group"."group" (id, join_code, name, admin_id, currency_symbol, members_limit, timezone, type_id)
+INSERT INTO "group"."group" (id, name, admin_id, currency_symbol, members_limit, timezone, type_id)
 VALUES ('11111111-1111-1111-1111-111111111111', 'FAM123', 'group 1',
         'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '€', 5, 'Europe/Warsaw', 1),
        ('22222222-2222-2222-2222-222222222222', 'FRN456', 'group 2',
@@ -32,7 +32,7 @@ VALUES ('aaaa1111-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Hey everyone! Meeting at 6 PM t
        ('bbbb2222-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Who’s up for a movie night?', false,
         '22222222-2222-2222-2222-222222222222', '22222222-1111-1111-1111-111111111111');
 
-INSERT INTO "group".group_invitation (id, group_id, user_id, expires_at, link, status_id, token_hash)
+INSERT INTO "group".group_invitation (id, group_id, user_id, expires_at, status_id, token_hash)
 VALUES ('aaaa9999-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-111111111111',
         'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', '2025-10-10 10:00:00', 'https://app/join/FAM123',
         1, 'xxxx'),

@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 public record CreatePomodoroItemResult(
-        UUID pomodoroId,
+        UUID id,
         Integer cyclesRequired,
         Integer cyclesCompleted,
         UUID taskId,

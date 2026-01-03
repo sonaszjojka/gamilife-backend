@@ -42,7 +42,7 @@ public class ResendEmailVerificationCodeUseCaseImpl implements ResendEmailVerifi
         }
 
         String code = emailVerificationService.generateAndSaveEmailVerificationCode(cmd.userId());
-        emailVerificationService.sendEmailVerificationCode(cmd.userId(), dto.email(), code);
+        emailVerificationService.sendEmailVerificationCode(cmd.userId(), code);
 
         return null;
     }

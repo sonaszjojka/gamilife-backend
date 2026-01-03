@@ -15,8 +15,6 @@ public record FindAllGroupsByUserIdWhereUserIsMemberCommand(
         @NotNull
         Integer size,
 
-        String joinCode,
-
         Integer groupType,
 
         String groupName

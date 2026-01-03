@@ -4,8 +4,9 @@ import java.util.UUID;
 
 public record GroupInvitationCreatedEvent(
         UUID userId,
-        String invitationLink,
+        UUID groupId,
         String groupName,
-        String joinCode
+        UUID groupInvitationId,
+        String token
 ) {
 }

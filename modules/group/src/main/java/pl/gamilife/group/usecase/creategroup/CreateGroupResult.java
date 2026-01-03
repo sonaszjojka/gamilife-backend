@@ -11,7 +11,7 @@ import java.util.UUID;
  * DTO for {@link Group}
  */
 @Builder
-public record CreateGroupResult(UUID groupId, String groupName, String joinCode, UUID adminId,
+public record CreateGroupResult(UUID groupId, String groupName, UUID adminId,
                                 Character groupCurrencySymbol,
                                 Integer membersLimit, GroupTypeDto groupType)
         implements Serializable {

@@ -28,8 +28,8 @@ public class GroupTaskEventHandler {
     @Retryable
     public void onGroupTaskCompleted(GroupTaskCompletedEvent event) {
         processGroupTaskCompletionUseCase.execute(new ProcessGroupTaskCompletionCommand(
-                event.getUserIds(),
-                event.isRewardGranted()
+                event.userIds(),
+                event.rewardGranted()
         ));
     }
 

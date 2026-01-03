@@ -20,7 +20,7 @@ public record GetUserTasksResult(
         String categoryName,
         String difficultyName,
         Boolean isGroupTask,
-        Instant CompletedAt
+        Instant completedAt
 ) {
     public enum TaskStatus {
         COMPLETED, INCOMPLETE, DEADLINE_TODAY, DEADLINE_MISSED

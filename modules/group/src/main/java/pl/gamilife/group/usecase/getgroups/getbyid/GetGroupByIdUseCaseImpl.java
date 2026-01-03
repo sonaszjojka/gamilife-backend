@@ -68,7 +68,6 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
         List<GetGroupByIdResult.GroupMemberDto> activeMembers = getActiveMembers(group);
         return new GetGroupByIdResult(
                 group.getId(),
-                group.getJoinCode(),
                 group.getName(),
                 group.getAdminId(),
                 group.getCurrencySymbol(),
@@ -89,7 +88,7 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
     private List<GetGroupByIdResult.GroupMemberDto> getActiveMembers(Group group) {
         return mapMembers(group).stream()
                 .filter(m -> m.leftAt() == null)
-                .sorted(Comparator.comparing(GetGroupByIdResult.GroupMemberDto::totalEarnedMoney))
+                .sorted(Comparator.comparing(GetGroupByIdResult.GroupMemberDto::totalEarnedMoney).reversed())
                 .toList();
     }
 

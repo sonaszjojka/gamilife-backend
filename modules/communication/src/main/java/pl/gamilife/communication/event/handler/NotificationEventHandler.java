@@ -36,8 +36,10 @@ public class NotificationEventHandler {
         NotificationDto notificationDto = NotificationDto.create(
                 NotificationType.GROUP_INVITATION,
                 Map.of(
-                        "invitationLink", event.invitationLink(),
-                        "groupName", event.groupName()
+                        "groupId", event.groupId(),
+                        "groupName", event.groupName(),
+                        "groupInvitationId", event.groupInvitationId(),
+                        "token", event.token()
                 )
         );
 

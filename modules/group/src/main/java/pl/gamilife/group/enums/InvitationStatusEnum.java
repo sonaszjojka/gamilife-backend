@@ -9,7 +9,8 @@ import java.util.Arrays;
 public enum InvitationStatusEnum {
     SENT(1),
     ACCEPTED(2),
-    DECLINED(3);
+    DECLINED(3),
+    REVOKED(4);
 
     private final int id;
 

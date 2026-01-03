@@ -63,7 +63,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
         eventPublisher.publishEvent(new JoinedGroupEvent(
                 user.userId(),
                 user.username(),
-                wasPreviouslyMember,
+                !wasPreviouslyMember,
                 group.getId(),
                 group.getName(),
                 currentMembersUserIds

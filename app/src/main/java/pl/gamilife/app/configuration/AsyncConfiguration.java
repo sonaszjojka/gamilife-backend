@@ -24,6 +24,8 @@ public class AsyncConfiguration implements AsyncConfigurer {
         executor.setMaxPoolSize(100);
         executor.setQueueCapacity(500);
         executor.setThreadNamePrefix("EventAsync-");
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+        executor.setAwaitTerminationSeconds(20);
         executor.initialize();
 
         return executor;
