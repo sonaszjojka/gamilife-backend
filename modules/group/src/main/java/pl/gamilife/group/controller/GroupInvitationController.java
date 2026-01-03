@@ -16,8 +16,6 @@ import pl.gamilife.group.usecase.deletegroupinvitation.DeleteGroupInvitationUseC
 import pl.gamilife.group.usecase.editgroupinvitationstatus.EditGroupInvitationStatusCommand;
 import pl.gamilife.group.usecase.editgroupinvitationstatus.EditGroupInvitationStatusResult;
 import pl.gamilife.group.usecase.editgroupinvitationstatus.EditGroupInvitationStatusUseCase;
-import pl.gamilife.group.usecase.resendmail.ResendMailToGroupInvitationCommand;
-import pl.gamilife.group.usecase.resendmail.ResendMailToGroupInvitationUseCase;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 
 import java.util.UUID;
@@ -30,7 +28,6 @@ public class GroupInvitationController {
     private final DeleteGroupInvitationUseCase deleteGroupInvitationUseCase;
     private final EditGroupInvitationStatusUseCase editGroupInvitationStatusUseCase;
     private final CreateGroupInvitationUseCase createGroupInvitationUseCase;
-    private final ResendMailToGroupInvitationUseCase resendMailByInvitationIdUseCase;
 
     @PostMapping
     public ResponseEntity<CreateGroupInvitationResult> save(
@@ -78,13 +75,6 @@ public class GroupInvitationController {
         return ResponseEntity.ok(
                 new ApiResponse("Group Invitation with id: " + groupInvitationId + " deleted successfully.")
         );
-    }
-
-    @PostMapping("/{groupInvitationId}/resend")
-    public ResponseEntity<ApiResponse> resendMailByInvitationId(@PathVariable UUID groupId,
-                                                                 @PathVariable UUID groupInvitationId) {
-        resendMailByInvitationIdUseCase.execute(new ResendMailToGroupInvitationCommand(groupId, groupInvitationId));
-        return ResponseEntity.ok(new ApiResponse("Mail resend successfully."));
     }
 
 }
