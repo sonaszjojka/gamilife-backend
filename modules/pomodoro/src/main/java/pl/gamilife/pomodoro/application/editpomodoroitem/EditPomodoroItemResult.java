@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 public record EditPomodoroItemResult(
-        UUID pomodoroId,
+        UUID id,
         Integer cyclesRequired,
         Integer cyclesCompleted,
         Instant createdAt,
