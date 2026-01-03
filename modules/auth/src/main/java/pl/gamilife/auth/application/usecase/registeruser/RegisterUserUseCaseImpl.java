@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.auth.domain.model.projection.BasicUserDetails;
 import pl.gamilife.auth.domain.model.projection.RegisterUserDetails;
 import pl.gamilife.auth.domain.port.context.UserContext;
+import pl.gamilife.auth.domain.service.EmailVerificationService;
 import pl.gamilife.auth.domain.validator.PasswordValidator;
 
 @Service
@@ -16,6 +17,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
     private final PasswordEncoder passwordEncoder;
     private final PasswordValidator passwordValidator;
     private final UserContext userContext;
+    private final EmailVerificationService emailVerificationService;
 
     @Override
     public BasicUserDetails execute(RegisterUserCommand cmd) {
@@ -35,6 +37,13 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
                 cmd.zoneId()
         );
 
-        return userContext.registerNewUser(user);
+        BasicUserDetails userDetails = userContext.registerNewUser(user);
+
+        String code = emailVerificationService.generateAndSaveEmailVerificationCode(userDetails.userId());
+        emailVerificationService.sendEmailVerificationCode(userDetails.userId(), code);
+
+
+
+        return userDetails;
     }
 }
