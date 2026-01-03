@@ -68,7 +68,6 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
         List<GetGroupByIdResult.GroupMemberDto> activeMembers = getActiveMembers(group);
         return new GetGroupByIdResult(
                 group.getId(),
-                group.getJoinCode(),
                 group.getName(),
                 group.getAdminId(),
                 group.getCurrencySymbol(),

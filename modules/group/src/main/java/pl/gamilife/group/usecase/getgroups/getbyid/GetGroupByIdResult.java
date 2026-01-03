@@ -10,7 +10,6 @@ import java.util.UUID;
 
 public record GetGroupByIdResult(
         UUID groupId,
-        String joinCode,
         String groupName,
         UUID adminId,
         Character groupCurrencySymbol,

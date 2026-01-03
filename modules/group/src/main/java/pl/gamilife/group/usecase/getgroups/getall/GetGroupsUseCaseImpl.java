@@ -56,7 +56,6 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
 
     private Specification<Group> getGroupSpecification(GetGroupsCommand cmd, GroupTypeEnum groupType) {
         return specificationBuilder.buildSpecification(
-                cmd.joinCode(),
                 groupType,
                 cmd.name()
         );
@@ -78,7 +77,6 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
                 groupPage.getSize(),
                 groups.stream().map(g -> new GetGroupsResult.GroupDto(
                         g.getId(),
-                        g.getJoinCode(),
                         g.getName(),
                         g.getAdminId(),
                         g.getCurrencySymbol(),

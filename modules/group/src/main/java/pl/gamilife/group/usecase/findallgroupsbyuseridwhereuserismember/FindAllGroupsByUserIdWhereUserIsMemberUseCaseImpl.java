@@ -43,7 +43,6 @@ public class FindAllGroupsByUserIdWhereUserIsMemberUseCaseImpl implements FindAl
                 groupPage.getSize(),
                 groupPage.getContent().stream().map(g -> new FindAllGroupsByUserIdWhereUserIsMemberResult.GroupDto(
                         g.getId(),
-                        g.getJoinCode(),
                         g.getName(),
                         g.getAdminId(),
                         g.getCurrencySymbol(),
@@ -57,7 +56,6 @@ public class FindAllGroupsByUserIdWhereUserIsMemberUseCaseImpl implements FindAl
     private Specification<Group> getGroupSpecification(FindAllGroupsByUserIdWhereUserIsMemberCommand cmd, GroupTypeEnum groupType) {
         return specificationBuilder.buildSpecification(
                 cmd.userId(),
-                cmd.joinCode(),
                 groupType,
                 cmd.groupName()
         );

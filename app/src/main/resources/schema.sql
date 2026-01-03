@@ -192,7 +192,6 @@ CREATE TABLE "group"."group"
 (
     id              uuid                     NOT NULL,
     name            varchar(100)             NOT NULL,
-    join_code       varchar(20)              NOT NULL,
     admin_id        uuid                     NOT NULL,
     currency_symbol char(1)                  NOT NULL,
     type_id         int                      NOT NULL,

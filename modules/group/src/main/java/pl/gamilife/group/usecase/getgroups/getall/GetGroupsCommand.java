@@ -8,7 +8,6 @@ import pl.gamilife.shared.kernel.architecture.Command;
 import java.io.Serializable;
 
 public record GetGroupsCommand(
-        String joinCode,
         Integer type,
         String name,
 
