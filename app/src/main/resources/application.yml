@@ -2,6 +2,8 @@ spring:
   application:
     name: GamiLife
     version: ${project.version}
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
   config:
     import:
       - classpath:other-error-codes.yml
@@ -86,6 +88,7 @@ brevo:
     group-invitation-email: 4
 server:
   port: 8080
+  shutdown: graceful
   ssl:
     enabled: false
 management:
