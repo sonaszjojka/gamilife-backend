@@ -1,14 +1,16 @@
 package pl.gamilife.shared.kernel.event;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.util.Collection;
 import java.util.UUID;
 
-@Getter
-@AllArgsConstructor
-public class GroupTaskCompletedEvent {
-    private Collection<UUID> userIds;
-    private boolean rewardGranted;
+
+public record GroupTaskCompletedEvent(
+        UUID groupId,
+        String groupName,
+        UUID groupTaskId,
+        String groupTaskTitle,
+        Collection<UUID> userIds,
+        boolean rewardGranted
+) {
+
 }

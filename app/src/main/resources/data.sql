@@ -16,7 +16,8 @@ VALUES (1, 'Open'),
 INSERT INTO "group".invitation_status (id, title)
 VALUES (1, 'Sent'),
        (2, 'Accepted'),
-       (3, 'Declined');
+       (3, 'Declined'),
+       (4, 'Revoked');
 
 INSERT INTO "group".group_request_status (id, title)
 VALUES (1, 'Sent'),
@@ -737,10 +738,19 @@ VALUES
      '/images/items/accessory/mystic_orb_v2.png', 96, 5, 4, NULL,
      (SELECT id FROM gamification.achievement WHERE name = 'Community Member'), NULL);
 
+DELETE FROM communication.notification_type
+WHERE EXISTS(SELECT 1);
 INSERT INTO communication.notification_type (id, name)
-VALUES (1, 'Task Completed'),
+VALUES (1, 'Achievement Unlocked'),
        (2, 'Item Acquired'),
        (3, 'Level Up'),
-       (4, 'Group Invitation'),
+       (4, 'New Group Invitation'),
        (5, 'Group Item Used'),
+       (6, 'New Group Member'),
+       (7, 'Group Member Left'),
+       (8, 'New Group Message'),
+       (9, 'Group Task Assigned'),
+       (10, 'Group Task Completed'),
+       (11, 'Group Request Status Updated'),
+       (12, 'New Group Request'),
        (99, 'Other');

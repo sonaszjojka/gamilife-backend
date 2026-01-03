@@ -1,11 +1,11 @@
-package pl.gamilife.group.usecase.editgrouprequeststatusforgrouprequest;
+package pl.gamilife.group.usecase.editgrouprequeststatus;
 
 import jakarta.validation.constraints.NotNull;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
-public record EditGroupRequestStatusForGroupRequestCommand(
+public record EditGroupRequestStatusCommand(
         @NotNull
         UUID userId,
 

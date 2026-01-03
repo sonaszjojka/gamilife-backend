@@ -8,14 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.gamilife.auth.domain.model.ForgotPasswordCode;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface JpaForgotPasswordCodeRepository extends JpaRepository<ForgotPasswordCode, UUID> {
 
-    Optional<ForgotPasswordCode> findByCodeAndRevokedAndExpiresAtIsGreaterThan(String code, boolean revoked, LocalDateTime expiresAtIsGreaterThan);
+    Optional<ForgotPasswordCode> findByCodeAndRevokedAndExpiresAtIsGreaterThan(String code, boolean revoked, Instant expiresAtIsGreaterThan);
 
     List<ForgotPasswordCode> findByUserIdAndRevoked(UUID userId, boolean revoked, Sort sort);
 

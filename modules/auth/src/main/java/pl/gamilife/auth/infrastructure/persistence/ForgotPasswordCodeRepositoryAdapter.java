@@ -7,7 +7,7 @@ import pl.gamilife.auth.domain.model.ForgotPasswordCode;
 import pl.gamilife.auth.domain.port.repository.ForgotPasswordCodeRepository;
 import pl.gamilife.auth.infrastructure.persistence.jpa.JpaForgotPasswordCodeRepository;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,7 +19,7 @@ public class ForgotPasswordCodeRepositoryAdapter implements ForgotPasswordCodeRe
     private final JpaForgotPasswordCodeRepository jpaForgotPasswordCodeRepository;
 
     @Override
-    public Optional<ForgotPasswordCode> findByCodeAndRevokedAndExpiresAtIsGreaterThan(String code, boolean revoked, LocalDateTime expiresAtIsGreaterThan) {
+    public Optional<ForgotPasswordCode> findByCodeAndRevokedAndExpiresAtIsGreaterThan(String code, boolean revoked, Instant expiresAtIsGreaterThan) {
         return jpaForgotPasswordCodeRepository.findByCodeAndRevokedAndExpiresAtIsGreaterThan(
                 code,
                 revoked,

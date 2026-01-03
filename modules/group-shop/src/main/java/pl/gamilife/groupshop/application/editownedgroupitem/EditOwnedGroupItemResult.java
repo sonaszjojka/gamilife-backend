@@ -6,7 +6,7 @@ import java.time.Instant;
 
 @Builder
 public record EditOwnedGroupItemResult(
-        Instant useDate
+        Instant usedAt
 ) {
 
 

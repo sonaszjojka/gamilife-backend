@@ -7,7 +7,7 @@ import java.util.UUID;
 public record GetOwnedGroupItemsResult(
         UUID id,
         UUID memberId,
-        Instant isUsedUp,
+        Instant usedAt,
         GroupShopItemDto groupItem
 ) implements Serializable {
 

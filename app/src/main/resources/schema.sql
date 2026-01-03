@@ -192,7 +192,6 @@ CREATE TABLE "group"."group"
 (
     id              uuid                     NOT NULL,
     name            varchar(100)             NOT NULL,
-    join_code       varchar(20)              NOT NULL,
     admin_id        uuid                     NOT NULL,
     currency_symbol char(1)                  NOT NULL,
     type_id         int                      NOT NULL,
@@ -215,7 +214,6 @@ CREATE TABLE "group".group_invitation
     group_id   uuid                     NOT NULL,
     user_id    uuid                     NOT NULL,
     expires_at timestamp with time zone NOT NULL,
-    link       varchar(200)             NOT NULL,
     token_hash varchar(255)             NOT NULL,
     status_id  int                      NOT NULL,
     version    bigint                   NOT NULL DEFAULT 0,
@@ -435,8 +433,6 @@ CREATE TABLE communication.notification_retry
 (
     id                   uuid                     NOT NULL,
     user_id              uuid                     NOT NULL,
-    title                varchar(100)             NOT NULL,
-    message              varchar(255)             NOT NULL,
     original_timestamp   timestamp with time zone NOT NULL,
     data jsonb NULL,
     notification_type_id int                      NOT NULL,

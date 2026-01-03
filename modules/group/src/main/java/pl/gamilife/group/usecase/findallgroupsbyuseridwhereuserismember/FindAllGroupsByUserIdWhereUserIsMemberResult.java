@@ -15,7 +15,6 @@ public record FindAllGroupsByUserIdWhereUserIsMemberResult(
 
     public record GroupDto(
             UUID groupId,
-            String joinCode,
             String groupName,
             UUID adminId,
             Character groupCurrencySymbol,

@@ -69,11 +69,14 @@ spring:
               - profile
               - email
 
-sendgrid:
-  api-key: ${SENDGRID_API_KEY}
-  send-emails: true
+brevo:
+  api-key: ${BREVO_API_KEY}
   from-email: "noreply@gamilife.pl"
   from-name: "GamiLife Team"
+  templates:
+    verification-email: 2
+    reset-password-email: 3
+    group-invitation-email: 4
 
 logging:
   level:
@@ -89,12 +92,11 @@ server:
 
 app:
   invitation:
-    expiration-days: 30
-    invitation-url-prefix: ${FRONTEND_URL}
+    expiration-days: 7
+    recent-days: 1
+    recent-days-limit: 3
   frontend-urls:
     main-url: ${FRONTEND_URL}
-    reset-password-url: "/reset-password"
-    email-verification-url: "/verify-email"
   rate-limit:
     standard:
       requests-limit: 60

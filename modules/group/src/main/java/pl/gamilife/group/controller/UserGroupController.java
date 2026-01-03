@@ -24,8 +24,6 @@ public class UserGroupController {
     public ResponseEntity<FindAllGroupsByUserIdWhereUserIsMemberResult> getAllGroupsByUserId(
             @PathVariable UUID userId,
 
-            @RequestParam(required = false) String joinCode,
-
             @RequestParam(required = false) Integer groupType,
 
             @RequestParam(required = false) String groupName,
@@ -39,7 +37,7 @@ public class UserGroupController {
     ) {
         FindAllGroupsByUserIdWhereUserIsMemberResult result = findAllGroupsByUserIdWhereUserIsMemberUseCase.execute(
                 new FindAllGroupsByUserIdWhereUserIsMemberCommand(
-                        userId, page, size, joinCode, groupType, groupName
+                        userId, page, size, groupType, groupName
                 )
         );
         return ResponseEntity.ok(result);

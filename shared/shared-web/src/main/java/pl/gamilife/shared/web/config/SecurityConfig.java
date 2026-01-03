@@ -73,7 +73,8 @@ public class SecurityConfig {
                 "X-Requested-With",
                 "Cookie",
                 "X-Timezone",
-                "X-XSRF-TOKEN"
+                "X-XSRF-TOKEN",
+                "X-Forwarded-For"
         ));
         configuration.setAllowCredentials(true);
 

@@ -9,13 +9,8 @@ import pl.gamilife.group.enums.InvitationStatusEnum;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Base64;
 import java.util.UUID;
 
 @Getter
@@ -39,9 +34,6 @@ public class GroupInvitation extends BaseEntity {
     @Column(name = "expires_at", nullable = false)
     private Instant expiresAt;
 
-    @Column(name = "link", nullable = false, length = 200)
-    private String link;
-
     @Column(name = "token_hash", nullable = false)
     private String tokenHash;
 
@@ -52,39 +44,23 @@ public class GroupInvitation extends BaseEntity {
     @JoinColumn(name = "status_id", nullable = false)
     private InvitationStatus status;
 
-    private GroupInvitation(Group group, UUID userId, int expiresInDays, String token, String invitationUrlPrefix, InvitationStatus invitationStatus) {
+    private GroupInvitation(Group group, UUID userId, int expiresInDays, String token, InvitationStatus invitationStatus) {
         setGroup(group);
         setUserId(userId);
         setTokenHash(token);
-        setLink(invitationUrlPrefix, token);
         setExpirationDate(expiresInDays);
         changeStatus(invitationStatus);
     }
 
-    public static GroupInvitation create(Group group, UUID userId, int expiresInDays, String invitationUrlPrefix, InvitationStatus invitationStatus) {
-        String token = generateToken();
-        return new GroupInvitation(group, userId, expiresInDays, token, invitationUrlPrefix, invitationStatus);
-    }
-
-    private static String generateToken() {
-        byte[] randomBytes = new byte[24];
-        new SecureRandom().nextBytes(randomBytes);
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+    public static GroupInvitation create(Group group, UUID userId, int expiresInDays, String hashedToken, InvitationStatus invitationStatus) {
+        return new GroupInvitation(group, userId, expiresInDays, hashedToken, invitationStatus);
     }
 
     public boolean doesBelongToUser(UUID userId) {
         return this.userId.equals(userId);
     }
 
-    private static String hashToken(String token) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(token.getBytes(StandardCharsets.UTF_8));
-            return Base64.getUrlEncoder().encodeToString(hash);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("SHA-256 algorithm not available", e);
-        }
-    }
+
 
     public void changeStatus(InvitationStatus invitationStatus) {
         if (invitationStatus == null) {
@@ -101,15 +77,6 @@ public class GroupInvitation extends BaseEntity {
 
     public boolean hasStatus(InvitationStatusEnum statusEnum) {
         return this.status.toEnum() == statusEnum;
-    }
-
-    public boolean verifyToken(String token) {
-        String hashedToken = hashToken(token);
-        return hashedToken.equals(this.tokenHash);
-    }
-
-    private void setLink(String invitationUrlPrefix, String token) {
-        this.link = invitationUrlPrefix + "/app/groups/" + groupId + "/group-invitations/" + getId() + "?token=" + token;
     }
 
     private void setGroup(Group group) {
@@ -133,12 +100,12 @@ public class GroupInvitation extends BaseEntity {
         this.expiresAt = Instant.now().plus(expiresInDays, ChronoUnit.DAYS);
     }
 
-    private void setTokenHash(String token) {
-        if (token == null || token.isBlank()) {
+    private void setTokenHash(String tokenHash) {
+        if (tokenHash == null || tokenHash.isBlank()) {
             throw new DomainValidationException("Token cannot be null or empty");
         }
 
-        this.tokenHash = hashToken(token);
+        this.tokenHash = tokenHash;
     }
 
 }

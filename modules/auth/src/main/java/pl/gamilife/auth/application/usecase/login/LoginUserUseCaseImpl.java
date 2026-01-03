@@ -38,7 +38,6 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
                 String code = emailVerificationService.generateAndSaveEmailVerificationCode(user.userId());
                 emailVerificationService.sendEmailVerificationCode(
                         user.userId(),
-                        user.email(),
                         code
                 );
             } catch (CannotCurrentlyCreateNewEmailVerificationCodeException ignored) {

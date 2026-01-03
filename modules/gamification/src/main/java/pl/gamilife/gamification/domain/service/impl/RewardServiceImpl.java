@@ -2,6 +2,7 @@ package pl.gamilife.gamification.domain.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import pl.gamilife.gamification.domain.model.Level;
 import pl.gamilife.gamification.domain.model.Reward;
@@ -11,6 +12,7 @@ import pl.gamilife.gamification.domain.port.context.UserContext;
 import pl.gamilife.gamification.domain.port.repository.RewardRepository;
 import pl.gamilife.gamification.domain.service.LevelService;
 import pl.gamilife.gamification.domain.service.RewardService;
+import pl.gamilife.shared.kernel.event.GamificationValuesChangedEvent;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,7 @@ public class RewardServiceImpl implements RewardService {
     private final UserContext userContext;
     private final LevelService levelService;
     private final RewardRepository rewardRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public void rewardUser(UUID userId, StatisticTypeEnum statisticTypeEnum) {
@@ -47,9 +50,20 @@ public class RewardServiceImpl implements RewardService {
                 rewardedUser.experience()
         );
 
+        int userLevel = rewardedUser.level();
         if (!gainedLevels.isEmpty()) {
-            levelService.levelUpUser(rewardedUser.userId(), gainedLevels);
+            userLevel = levelService.levelUpUser(rewardedUser, gainedLevels);
         }
+
+        Optional<Level> nextLevel = levelService.getNextLevel(userLevel);
+        eventPublisher.publishEvent(new GamificationValuesChangedEvent(
+                rewardedUser.userId(),
+                rewardedUser.username(),
+                userLevel,
+                rewardedUser.experience(),
+                rewardedUser.money(),
+                nextLevel.map(Level::getRequiredExperience).orElse(null)
+        ));
     }
 
 }

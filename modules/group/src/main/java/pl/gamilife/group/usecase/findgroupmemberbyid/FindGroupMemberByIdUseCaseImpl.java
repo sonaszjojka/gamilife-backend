@@ -3,6 +3,7 @@ package pl.gamilife.group.usecase.findgroupmemberbyid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.gamilife.api.group.dto.GroupMemberDto;
+import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
@@ -18,7 +19,7 @@ public class FindGroupMemberByIdUseCaseImpl implements FindGroupMemberByIdUseCas
 
     @Override
     public GroupMemberDto execute(FindGroupMemberByIdCommand cmd) {
-        groupRepository.findById(cmd.groupId()).orElseThrow(
+        Group group = groupRepository.findById(cmd.groupId()).orElseThrow(
                 () -> new GroupNotFoundException("Group with id: " + cmd.groupId() + " not found")
         );
 
@@ -26,13 +27,13 @@ public class FindGroupMemberByIdUseCaseImpl implements FindGroupMemberByIdUseCas
                 .orElseThrow(() -> new GroupMemberNotFoundException("Group member with id: " +
                         cmd.groupMemberId() + " not found")
                 );
-        return buildGroupMemberDto(groupMember);
+        return buildGroupMemberDto(group, groupMember);
     }
 
-    private GroupMemberDto buildGroupMemberDto(GroupMember groupMember) {
+    private GroupMemberDto buildGroupMemberDto(Group group, GroupMember groupMember) {
         return GroupMemberDto.builder()
                 .groupMemberId(groupMember.getId())
-                .memberGroup(new GroupMemberDto.GroupDto(groupMember.getGroupId()))
+                .memberGroup(new GroupMemberDto.GroupDto(group.getId(), group.getName()))
                 .userId(groupMember.getUserId())
                 .joinedAt(groupMember.getJoinedAt())
                 .leftAt(groupMember.getLeftAt())

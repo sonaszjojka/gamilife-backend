@@ -2,6 +2,7 @@ package pl.gamilife.groupshop.application.editgroupitem;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.groupshop.domain.exception.GroupShopItemNotFoundException;
 import pl.gamilife.groupshop.domain.exception.GroupShopNotFoundException;
 import pl.gamilife.groupshop.domain.exception.InactiveGroupShopException;
@@ -22,6 +23,8 @@ public class EditGroupItemUseCaseImpl implements EditGroupItemUseCase {
     private final GroupShopRepository groupShopRepository;
     private final GroupContext groupContext;
 
+
+    @Transactional
     @Override
     public EditGroupItemResult execute(EditGroupItemCommand cmd) {
         GroupShop groupShop = groupShopRepository.findByGroupId(cmd.groupId()).orElseThrow(() ->

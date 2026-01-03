@@ -7,6 +7,7 @@ public record FindGroupMemberByUserIdResult(
         UUID groupMemberId,
         UUID userId,
         UUID groupId,
+        String groupName,
         Integer groupMoney,
         Integer totalEarnedMoney,
         Instant leftAt,

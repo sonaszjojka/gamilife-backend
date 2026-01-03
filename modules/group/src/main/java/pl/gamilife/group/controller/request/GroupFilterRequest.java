@@ -3,7 +3,6 @@ package pl.gamilife.group.controller.request;
 import jakarta.validation.constraints.Min;
 
 public record GroupFilterRequest(
-        String joinCode,
         Integer type,
         String name,
 

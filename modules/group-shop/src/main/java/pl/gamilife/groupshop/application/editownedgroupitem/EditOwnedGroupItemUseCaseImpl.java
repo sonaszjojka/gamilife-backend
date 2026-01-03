@@ -36,7 +36,7 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
             throw new InactiveGroupShopException("This group has group shop inactive!");
         }
 
-        if (!member.isAdmin() && !cmd.currentUserId().equals(member.memberId())) {
+        if (Boolean.FALSE.equals(member.isAdmin()) && !cmd.currentUserId().equals(member.memberId())) {
             throw new ResourceOwnerPrivilegesRequiredException("Only group administrators or the member themselves can edit items in inventory!");
         }
 
@@ -47,7 +47,7 @@ public class EditOwnedGroupItemUseCaseImpl implements EditOwnedGroupItemUseCase 
         if (Boolean.TRUE.equals(cmd.isUsedUp())) {
             ownedGroupItem.useItem();
             eventPublisher.publishEvent(new GroupItemUsedEvent(
-                    member.isAdmin() ? cmd.currentUserId() : groupContext.getAdminId(cmd.groupId()),
+                    Boolean.TRUE.equals(member.isAdmin()) ? cmd.currentUserId() : groupContext.getAdminId(cmd.groupId()),
                     cmd.currentUserId(),
                     ownedGroupItem.getGroupItem().getId(),
                     ownedGroupItem.getGroupItem().getName()

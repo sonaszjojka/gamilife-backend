@@ -13,24 +13,13 @@ public class GroupSpecificationBuilderImpl implements GroupSpecificationBuilder 
 
     @Override
     public Specification<Group> buildSpecification(
-            String joinCode,
             GroupTypeEnum groupType,
             String groupName) {
 
         return Specification.allOf(
-                hasJoinCode(joinCode),
                 hasGroupType(groupType),
                 hasGroupName(groupName)
         );
-    }
-
-    private Specification<Group> hasJoinCode(String joinCode) {
-        return (root, query, cb) -> {
-            if (joinCode == null || joinCode.isBlank()) {
-                return null;
-            }
-            return cb.equal(root.get("joinCode"), joinCode.trim());
-        };
     }
 
     private Specification<Group> hasGroupType(GroupTypeEnum groupType) {

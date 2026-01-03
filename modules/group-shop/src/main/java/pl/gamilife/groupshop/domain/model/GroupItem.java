@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.Immutable;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
@@ -15,7 +14,6 @@ import java.util.UUID;
 
 @Getter
 @Entity
-@Immutable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "group_item", schema = "group_shop")
 @ToString(exclude = {"groupShop", "ownedGroupItems"})

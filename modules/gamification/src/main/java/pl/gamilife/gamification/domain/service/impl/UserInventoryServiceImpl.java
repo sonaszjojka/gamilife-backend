@@ -32,7 +32,7 @@ public class UserInventoryServiceImpl implements UserInventoryService {
             userInventoryItemRepository.save(userInventoryItem);
         }
 
-        eventPublisher.publishEvent(new ItemAcquiredEvent(userId, 1));
+        eventPublisher.publishEvent(new ItemAcquiredEvent(userId, List.of(item.getName())));
         return userInventoryItem;
     }
 
@@ -59,7 +59,7 @@ public class UserInventoryServiceImpl implements UserInventoryService {
             }
         }
 
-        eventPublisher.publishEvent(new ItemAcquiredEvent(userId, items.size()));
+        eventPublisher.publishEvent(new ItemAcquiredEvent(userId, items.stream().map(Item::getName).toList()));
         userInventoryItemRepository.saveAll(toSave);
     }
 

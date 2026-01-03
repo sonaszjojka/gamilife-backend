@@ -2,6 +2,8 @@ spring:
   application:
     name: GamiLife
     version: ${project.version}
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
   config:
     import:
       - classpath:other-error-codes.yml
@@ -52,12 +54,11 @@ spring:
               - email
 app:
   invitation:
-    invitation-url-prefix: ${INVITATION-URL-PREFIX}
-    expiration-days: 14
+    expiration-days: 7
+    recent-days: 1
+    recent-days-limit: 3
   frontend-urls:
     main-url: { MAIN_URL }
-    reset-password-url: "/reset-password"
-    email-verification-url: "/verify-email"
   rate-limit:
     standard:
       requests-limit: 60
@@ -77,13 +78,17 @@ app:
       - /actuator/health
   timezone:
     default: "Europe/Warsaw"
-sendgrid:
-  api-key: ${SENDGRID_API_KEY}
-  send-emails: true
+brevo:
+  api-key: ${BREVO_API_KEY}
   from-email: "noreply@gamilife.pl"
   from-name: "GamiLife Team"
+  templates:
+    verification-email: 2
+    reset-password-email: 3
+    group-invitation-email: 4
 server:
   port: 8080
+  shutdown: graceful
   ssl:
     enabled: false
 management:

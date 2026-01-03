@@ -7,12 +7,13 @@ import java.util.UUID;
 
 public record DeleteOwnedGroupItemCommand(
         @NotNull
+        UUID ownedGroupItemId,
+        @NotNull
         UUID groupId,
         @NotNull
         UUID memberId,
         @NotNull
-        UUID userId,
-        @NotNull
-        UUID ownedGroupItemId
+        UUID userId
+
 ) implements Command {
 }

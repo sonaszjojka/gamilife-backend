@@ -12,6 +12,6 @@ public record GroupMemberDto(UUID groupMemberId, GroupDto memberGroup, UUID user
                              Integer groupMoney, Integer totalEarnedMoney, Boolean isAdmin) implements Serializable {
 
 
-    public record GroupDto(UUID groupId) implements Serializable {
+    public record GroupDto(UUID groupId, String groupName) implements Serializable {
     }
 }

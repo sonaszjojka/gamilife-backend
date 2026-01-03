@@ -34,7 +34,10 @@ public class ItemEventHandler {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
     public void onItemAcquired(ItemAcquiredEvent event) {
-        processItemAcquisitionUseCase.execute(new ProcessItemAcquisitionCommand(event.getUserId(), event.getAmount()));
+        processItemAcquisitionUseCase.execute(new ProcessItemAcquisitionCommand(
+                event.userId(),
+                event.itemNames().size()
+        ));
     }
 
     @Recover

@@ -1,12 +1,12 @@
 package pl.gamilife.shared.kernel.event;
 
-import lombok.Value;
-
 import java.util.UUID;
 
-@Value
-public class GroupInvitationCreatedEvent {
-    UUID userId;
-    String joinCode;
-    String invitationLink;
+public record GroupInvitationCreatedEvent(
+        UUID userId,
+        UUID groupId,
+        String groupName,
+        UUID groupInvitationId,
+        String token
+) {
 }

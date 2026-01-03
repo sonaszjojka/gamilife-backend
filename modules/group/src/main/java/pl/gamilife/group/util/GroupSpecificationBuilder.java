@@ -5,5 +5,5 @@ import pl.gamilife.group.enums.GroupTypeEnum;
 import pl.gamilife.group.model.Group;
 
 public interface GroupSpecificationBuilder {
-    Specification<Group> buildSpecification(String joinCode, GroupTypeEnum groupType, String groupName);
+    Specification<Group> buildSpecification(GroupTypeEnum groupType, String groupName);
 }

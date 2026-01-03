@@ -12,7 +12,7 @@ public interface EmailVerificationService {
 
     void revokeAllActiveEmailVerificationCodesByUserId(UUID userId);
 
-    void sendEmailVerificationCode(UUID userId, String email, String code);
+    void sendEmailVerificationCode(UUID userId, String code);
 
     boolean checkIfCanResendEmailVerificationCode(List<EmailVerificationCode> codes);
 }

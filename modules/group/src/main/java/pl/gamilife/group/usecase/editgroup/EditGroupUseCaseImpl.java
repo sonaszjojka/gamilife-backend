@@ -67,7 +67,6 @@ public class EditGroupUseCaseImpl implements EditGroupUseCase {
         return EditGroupResult.builder()
                 .groupId(group.getId())
                 .groupName(group.getName())
-                .joinCode(group.getJoinCode())
                 .adminId(group.getAdminId())
                 .groupCurrencySymbol(group.getCurrencySymbol())
                 .membersLimit(group.getMembersLimit())

@@ -2,9 +2,18 @@ package pl.gamilife.communication.dto;
 
 import pl.gamilife.communication.enums.EmailType;
 
-public record EmailVerificationEmailParameters(String verificationLink) implements EmailParameters {
+import java.util.Map;
+
+public record EmailVerificationEmailParameters(String verificationCode) implements EmailParameters {
     @Override
     public EmailType getEmailType() {
         return EmailType.EMAIL_VERIFICATION;
+    }
+
+    @Override
+    public Map<String, String> getParametersMap() {
+        return Map.of(
+                "verificationCode", verificationCode
+        );
     }
 }

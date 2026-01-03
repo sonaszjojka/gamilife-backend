@@ -11,7 +11,6 @@ import pl.gamilife.group.enums.GroupTypeEnum;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
-import java.security.SecureRandom;
 import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,13 +23,8 @@ import java.util.UUID;
 @Table(name = "group", schema = "group")
 public class Group extends BaseEntity {
 
-    private static final int JOIN_CODE_LENGTH = 20;
-
     @Column(name = "name", length = 50, nullable = false)
     private String name;
-
-    @Column(name = "join_code", unique = true, updatable = false, length = 20, nullable = false)
-    private String joinCode;
 
     @Column(name = "admin_id", nullable = false)
     private UUID adminId;
@@ -76,7 +70,6 @@ public class Group extends BaseEntity {
         setMembersLimit(membersLimit);
         setTimezone(zoneId);
         setGroupType(groupType);
-        generateJoinCode();
     }
 
     public static Group create(String name, UUID adminId, Character currencySymbol, int membersLimit, ZoneId zoneId, GroupType groupType) {
@@ -93,16 +86,6 @@ public class Group extends BaseEntity {
 
     public boolean isOfType(GroupTypeEnum typeEnum) {
         return type.toEnum() == typeEnum;
-    }
-
-    private void generateJoinCode() {
-        SecureRandom random = new SecureRandom();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < JOIN_CODE_LENGTH; i++) {
-            sb.append((char) random.nextInt('A', 'Z' + 1));
-        }
-
-        this.joinCode = sb.toString();
     }
 
     public void setName(String name) {

@@ -27,7 +27,7 @@ public class EditGroupShopUseCaseImpl implements EditGroupShopUseCase {
             throw new GroupAdminPrivilegesRequiredException("Only group administrators can edit group shop!");
         }
 
-        GroupShop groupShop = groupShopRepository.findByGroupShopId(cmd.groupId()).orElseThrow(
+        GroupShop groupShop = groupShopRepository.findByGroupId(cmd.groupId()).orElseThrow(
                 () -> new GroupShopNotFoundException("Group shop for group with id: " + cmd.groupId() + " not found!"));
 
         groupShop.setName(cmd.name());
