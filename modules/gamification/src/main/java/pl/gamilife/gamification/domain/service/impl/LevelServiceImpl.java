@@ -39,7 +39,7 @@ public class LevelServiceImpl implements LevelService {
 
         userInventoryService.addItemsToUsersInventory(rewardedUser.userId(), rewardsForLevels);
         GamificationUser user = userContext.levelUpUser(rewardedUser.userId(), gainedLevels.getLast().getLevel());
-        eventPublisher.publishEvent(new LevelUpEvent(user.userId(), user.level()));
+        eventPublisher.publishEvent(new LevelUpEvent(user.userId(), user.level(), rewardsForLevels.size()));
 
         return user;
     }

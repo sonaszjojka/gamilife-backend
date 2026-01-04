@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public record LevelUpEvent(
         UUID userId,
-        int level
+        int level,
+        int rewardedItemsAmount
 ) {
 }

@@ -52,13 +52,17 @@ public class AchievementServiceImpl implements AchievementService {
         UserAchievement userAchievement = UserAchievement.create(userId, achievement);
 
         userAchievementRepository.save(userAchievement);
-        log.info("User earned achievement: {}", userAchievement);
+        log.debug("User {} earned achievement: {}", userId, userAchievement);
 
         userInventoryService.addItemsToUsersInventory(userId, achievement.getItems());
 
         rewardService.rewardUser(userId, achievement.getExperienceReward(), achievement.getMoneyReward());
 
-        eventPublisher.publishEvent(new AchievementUnlockedEvent(userId, achievement.getName()));
+        eventPublisher.publishEvent(new AchievementUnlockedEvent(
+                userId,
+                achievement.getName(),
+                achievement.getItems().size()
+        ));
     }
 
 }

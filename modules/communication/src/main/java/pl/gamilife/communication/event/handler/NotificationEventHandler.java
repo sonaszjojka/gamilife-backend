@@ -70,25 +70,13 @@ public class NotificationEventHandler {
     @Async("eventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Retryable
-    public void onItemAcquired(ItemAcquiredEvent event) {
-        NotificationDto notificationDto = NotificationDto.create(
-                NotificationType.ITEM_ACQUIRED,
-                Map.of("itemNames", event.itemNames())
-        );
-
-        sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
-                event.userId(),
-                notificationDto
-        ));
-    }
-
-    @Async("eventExecutor")
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    @Retryable
     public void onLevelUp(LevelUpEvent event) {
         NotificationDto notificationDto = NotificationDto.create(
                 NotificationType.LEVEL_UP,
-                Map.of("level", event.level())
+                Map.of(
+                        "level", event.level(),
+                        "rewardedItemsAmount", event.rewardedItemsAmount()
+                )
         );
 
         sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
@@ -103,7 +91,10 @@ public class NotificationEventHandler {
     public void onAchievementUnlocked(AchievementUnlockedEvent event) {
         NotificationDto notificationDto = NotificationDto.create(
                 NotificationType.ACHIEVEMENT_UNLOCKED,
-                Map.of("achievementName", event.achievementName())
+                Map.of(
+                        "achievementName", event.achievementName(),
+                        "rewardedItemsAmount", event.rewardedItemsAmount()
+                )
         );
 
         sendUserNotificationUseCase.execute(new SendUserNotificationCommand(
