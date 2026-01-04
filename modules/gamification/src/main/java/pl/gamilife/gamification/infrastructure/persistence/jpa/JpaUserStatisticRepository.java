@@ -1,5 +1,6 @@
 package pl.gamilife.gamification.infrastructure.persistence.jpa;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.gamilife.gamification.domain.model.UserStatistic;
 
@@ -8,4 +9,5 @@ import java.util.UUID;
 
 public interface JpaUserStatisticRepository extends JpaRepository<UserStatistic, UUID> {
     Optional<UserStatistic> findByUserIdAndStatisticTypeId(UUID userId, Integer statisticTypeId);
+    Optional<UserStatistic> findByUserId( UUID userId);
 }
