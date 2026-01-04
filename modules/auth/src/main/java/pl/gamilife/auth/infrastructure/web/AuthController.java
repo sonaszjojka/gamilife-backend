@@ -59,12 +59,12 @@ public class AuthController {
     private final CookieUtil cookieUtil;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> registerUser(
+    public ResponseEntity<AfterLoginResponse> registerUser(
             @RequestBody @Valid RegisterUserRequest request,
             @CurrentUserTimezone ZoneId zoneId,
             HttpServletResponse response
     ) {
-        AuthTokens tokens = registerUserUseCase.execute(
+        LoginUserResult result = registerUserUseCase.execute(
                 new RegisterUserCommand(
                         request.firstName(),
                         request.lastName(),
@@ -78,9 +78,11 @@ public class AuthController {
                 )
         );
 
-        setTokenCookies(tokens, response);
+        setTokenCookies(result.authTokens(), response);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(AfterLoginResponse.from(result));
     }
 
     @PostMapping("/login")
