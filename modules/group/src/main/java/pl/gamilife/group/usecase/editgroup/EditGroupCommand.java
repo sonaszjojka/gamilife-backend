@@ -14,7 +14,7 @@ public record EditGroupCommand(
 
         UUID adminId,
         String groupName,
-        Character groupCurrencySymbol,
+        String groupCurrencySymbol,
         Integer groupTypeId,
         Integer membersLimit
 ) implements Command {

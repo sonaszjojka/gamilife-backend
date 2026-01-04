@@ -8,7 +8,11 @@ public record CreateGroupRequest(
         String groupName,
 
         @NotNull(message = "Group currency symbol cannot be null")
-        Character groupCurrencySymbol,
+        @Pattern(
+                regexp = "^[$€£¥₹₩₿₺₫₴₦₲₡₵₸₼₾]$",
+                message = "Group Currency Symbol must be one of: $, €, £, ¥, ₹, ₩, ₿, ₺, ₫, ₴, ₦, ₲, ₡, ₵, ₸, ₼, ₾"
+        )
+        String groupCurrencySymbol,
 
         @NotNull(message = "Group type cannot be null")
         Integer groupTypeId,
