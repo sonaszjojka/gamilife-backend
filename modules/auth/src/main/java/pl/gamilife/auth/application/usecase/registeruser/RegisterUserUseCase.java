@@ -1,7 +1,7 @@
 package pl.gamilife.auth.application.usecase.registeruser;
 
-import pl.gamilife.auth.domain.model.projection.BasicUserDetails;
+import pl.gamilife.auth.application.dto.AuthTokens;
 import pl.gamilife.shared.kernel.architecture.UseCase;
 
-public interface RegisterUserUseCase extends UseCase<RegisterUserCommand, BasicUserDetails> {
+public interface RegisterUserUseCase extends UseCase<RegisterUserCommand, AuthTokens> {
 }

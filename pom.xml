@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>pl.gamilife</groupId>
     <artifactId>gamilife</artifactId>
-    <version>0.0.1-alpha-v01</version>
+    <version>0.7.0</version>
     <packaging>pom</packaging>
 
     <modules>

@@ -13,10 +13,7 @@ import sendinblue.ApiClient;
 import sendinblue.Configuration;
 import sendinblue.auth.ApiKeyAuth;
 import sibApi.TransactionalEmailsApi;
-import sibModel.CreateSmtpEmail;
-import sibModel.SendSmtpEmail;
-import sibModel.SendSmtpEmailSender;
-import sibModel.SendSmtpEmailTo;
+import sibModel.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -68,6 +65,10 @@ public class SendUserEmailUseCaseImpl implements SendUserEmailUseCase {
         sender.setEmail(fromEmail);
         sender.setName(fromName);
 
+        SendSmtpEmailReplyTo replyTo = new SendSmtpEmailReplyTo();
+        replyTo.setEmail(fromEmail);
+        replyTo.setName(fromName);
+
         TransactionalEmailsApi emailsApi = new TransactionalEmailsApi();
         SendSmtpEmail sendSmtpEmail = new SendSmtpEmail();
 
@@ -80,6 +81,7 @@ public class SendUserEmailUseCaseImpl implements SendUserEmailUseCase {
 
         sendSmtpEmail.setParams(emailParameters.getParametersMap());
         sendSmtpEmail.setSender(sender);
+        sendSmtpEmail.setReplyTo(replyTo);
 
         try {
             CreateSmtpEmail createSmtpEmail = emailsApi.sendTransacEmail(sendSmtpEmail);

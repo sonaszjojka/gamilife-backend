@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.auth.application.dto.AuthTokens;
+import pl.gamilife.auth.application.service.TokenService;
 import pl.gamilife.auth.domain.model.projection.BasicUserDetails;
 import pl.gamilife.auth.domain.model.projection.RegisterUserDetails;
 import pl.gamilife.auth.domain.port.context.UserContext;
@@ -14,16 +16,18 @@ import pl.gamilife.auth.domain.validator.PasswordValidator;
 @Transactional
 @AllArgsConstructor
 public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
+
     private final PasswordEncoder passwordEncoder;
     private final PasswordValidator passwordValidator;
     private final UserContext userContext;
     private final EmailVerificationService emailVerificationService;
+    private final TokenService tokenService;
 
     @Override
-    public BasicUserDetails execute(RegisterUserCommand cmd) {
+    public AuthTokens execute(RegisterUserCommand cmd) {
         passwordValidator.validate(cmd.password());
 
-        RegisterUserDetails user = new RegisterUserDetails(
+        RegisterUserDetails userToRegister = new RegisterUserDetails(
                 cmd.firstName(),
                 cmd.lastName(),
                 cmd.email(),
@@ -37,13 +41,15 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
                 cmd.zoneId()
         );
 
-        BasicUserDetails userDetails = userContext.registerNewUser(user);
+        BasicUserDetails user = userContext.registerNewUser(userToRegister);
 
-        String code = emailVerificationService.generateAndSaveEmailVerificationCode(userDetails.userId());
-        emailVerificationService.sendEmailVerificationCode(userDetails.userId(), code);
+        String code = emailVerificationService.generateAndSaveEmailVerificationCode(user.userId());
+        emailVerificationService.sendEmailVerificationCode(user.userId(), code);
 
-
-
-        return userDetails;
+        return tokenService.generateTokenPair(
+                user.userId(),
+                user.email(),
+                userToRegister.isEmailVerified()
+        );
     }
 }
