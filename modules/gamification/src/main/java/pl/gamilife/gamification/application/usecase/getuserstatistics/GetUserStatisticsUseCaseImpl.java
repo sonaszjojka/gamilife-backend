@@ -5,7 +5,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.gamification.domain.model.UserStatistic;
 import pl.gamilife.gamification.domain.port.repository.UserStatisticRepository;
-import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
+
+import java.util.List;
 
 @Component
 @Transactional(readOnly = true)
@@ -14,10 +15,9 @@ public class GetUserStatisticsUseCaseImpl implements GetUserStatisticsUseCase {
     private final UserStatisticRepository userStatisticRepository;
 
     @Override
-    public GetUserStatisticsResult execute(GetUserStatisticsCommand cmd) {
-            UserStatistic userStatistic = userStatisticRepository.findByUserId(cmd.userId())
-                    .orElseThrow(()->new UserNotFoundException("User not found"));
-        return this.toResult(userStatistic);
+    public List<GetUserStatisticsResult> execute(GetUserStatisticsCommand cmd) {
+           List<UserStatistic> userStatisticList = userStatisticRepository.findByUserId(cmd.userId());
+        return userStatisticList.stream().map(this::toResult).toList();
     }
     private GetUserStatisticsResult toResult(UserStatistic userStatistic) {
         return new GetUserStatisticsResult(
