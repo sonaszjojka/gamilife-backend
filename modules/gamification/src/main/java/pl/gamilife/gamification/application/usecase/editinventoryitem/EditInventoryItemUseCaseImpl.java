@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.gamification.domain.exception.ForbiddenItemAccessException;
 import pl.gamilife.gamification.domain.exception.InventoryItemNotFound;
 import pl.gamilife.gamification.domain.model.UserInventoryItem;
+import pl.gamilife.gamification.domain.model.projection.GamificationUser;
 import pl.gamilife.gamification.domain.port.context.UserContext;
 import pl.gamilife.gamification.domain.port.repository.UserInventoryItemRepository;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
@@ -34,15 +35,13 @@ public class EditInventoryItemUseCaseImpl implements EditInventoryItemUseCase {
 
         if (cmd.numberOfSoldItems() != null) {
             int quickSellValue = userInventoryItem.quickSellItems(cmd.numberOfSoldItems());
-            int newUserMoney = userContext.refundUserAfterQuickSell(cmd.userId(), quickSellValue);
+            GamificationUser user = userContext.refundUserAfterQuickSell(cmd.userId(), quickSellValue);
 
-            resultBuilder.newUserMoney(newUserMoney)
-                    .newQuantity(userInventoryItem.getQuantity());
+            resultBuilder.newUserMoney(user.money()).newQuantity(userInventoryItem.getQuantity());
 
             if (userInventoryItem.getQuantity() == 0) {
                 inventoryItemRepository.delete(userInventoryItem);
-                return resultBuilder.userInventoryItemId(null)
-                        .build();
+                return resultBuilder.userInventoryItemId(null).build();
             }
         }
 

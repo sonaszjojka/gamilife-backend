@@ -28,7 +28,8 @@ public class ConfirmUserEmailVerificationUseCaseImpl implements ConfirmUserEmail
                 user.getUsername(),
                 user.getLevel(),
                 user.getExperience(),
-                user.getMoney()
+                user.getMoney(),
+                user.getStatsVersion()
         );
     }
 }

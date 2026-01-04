@@ -273,7 +273,8 @@ public class NotificationEventHandler {
                         "level", event.level(),
                         "experience", event.experience(),
                         "money", event.money(),
-                        "requiredExperienceForNextLevel", event.requiredExperienceForNextLevel()
+                        "requiredExperienceForNextLevel", event.requiredExperienceForNextLevel(),
+                        "statsVersion", event.statsVersion()
                 )
         );
 

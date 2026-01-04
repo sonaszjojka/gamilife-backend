@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
+import pl.gamilife.shared.kernel.exception.domain.UserHasNotEnoughMoneyException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
 import java.time.*;
@@ -47,6 +48,9 @@ public class User extends BaseEntity {
 
     @Column(name = "money", nullable = false)
     private int money = 0;
+
+    @Column(name = "stats_version", nullable = false)
+    private long statsVersion = 0;
 
     @Setter
     @Column(name = "send_budget_reports", nullable = false)
@@ -99,6 +103,7 @@ public class User extends BaseEntity {
             throw new IllegalArgumentException("Experience granted must be greater than zero");
         }
 
+        incrementStatsVersion();
         this.experience += amount;
     }
 
@@ -107,6 +112,7 @@ public class User extends BaseEntity {
             throw new IllegalArgumentException("Money granted must be greater than zero");
         }
 
+        incrementStatsVersion();
         this.money += amount;
     }
 
@@ -115,6 +121,7 @@ public class User extends BaseEntity {
             throw new IllegalArgumentException("New level must be greater than current level");
         }
 
+        incrementStatsVersion();
         this.level = newLevel;
     }
 
@@ -226,6 +233,16 @@ public class User extends BaseEntity {
         this.isTutorialCompleted = true;
     }
 
+    public void editMoneyBy(int amount) {
+        int newUserMoney = this.money + amount;
+        if (newUserMoney < 0) {
+            throw new UserHasNotEnoughMoneyException("User has not enough money");
+        }
+
+        incrementStatsVersion();
+        this.money = newUserMoney;
+    }
+
     private void setEmail(String email) {
         if (email == null || email.isBlank()) {
             throw new DomainValidationException("Email cannot be null or empty");
@@ -238,4 +255,7 @@ public class User extends BaseEntity {
         this.email = email;
     }
 
+    private void incrementStatsVersion() {
+        this.statsVersion++;
+    }
 }

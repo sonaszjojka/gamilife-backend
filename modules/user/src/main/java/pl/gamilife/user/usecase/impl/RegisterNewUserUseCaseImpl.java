@@ -55,7 +55,8 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
                 newUser.getUsername(),
                 newUser.getLevel(),
                 newUser.getExperience(),
-                newUser.getMoney()
+                newUser.getMoney(),
+                newUser.getStatsVersion()
         );
     }
 }

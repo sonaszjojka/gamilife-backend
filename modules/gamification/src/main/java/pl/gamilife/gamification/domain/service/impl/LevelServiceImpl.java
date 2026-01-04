@@ -27,9 +27,9 @@ public class LevelServiceImpl implements LevelService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
-    public int levelUpUser(GamificationUser rewardedUser, List<Level> gainedLevels) {
+    public GamificationUser levelUpUser(GamificationUser rewardedUser, List<Level> gainedLevels) {
         if (gainedLevels.isEmpty()) {
-            return rewardedUser.level();
+            return rewardedUser;
         }
 
         Set<Item> rewardsForLevels = new HashSet<>();
@@ -38,10 +38,10 @@ public class LevelServiceImpl implements LevelService {
         }
 
         userInventoryService.addItemsToUsersInventory(rewardedUser.userId(), rewardsForLevels);
-        userContext.levelUpUser(rewardedUser.userId(), gainedLevels.getLast().getLevel());
-        eventPublisher.publishEvent(new LevelUpEvent(rewardedUser.userId(), gainedLevels.getLast().getLevel()));
+        GamificationUser user = userContext.levelUpUser(rewardedUser.userId(), gainedLevels.getLast().getLevel());
+        eventPublisher.publishEvent(new LevelUpEvent(user.userId(), user.level()));
 
-        return gainedLevels.getLast().getLevel();
+        return user;
     }
 
     @Override

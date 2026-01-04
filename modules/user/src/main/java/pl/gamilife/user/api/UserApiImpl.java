@@ -85,12 +85,12 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public int editUserMoneyBy(UUID userId, Integer money) {
+    public BasicUserInfoDto editUserMoneyBy(UUID userId, Integer money) {
         return editUserMoneyUseCase.execute(new EditUserMoneyCommand(userId, money));
     }
 
     @Override
-    public RewardedUserApiDto grantRewardsToUser(UUID userId, int experience, int money) {
+    public BasicUserInfoDto grantRewardsToUser(UUID userId, int experience, int money) {
         return grantRewardsToUserUseCase.execute(new GrantRewardsToUserCommand(
                 userId,
                 experience,
@@ -99,8 +99,8 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public void levelUpUser(UUID userId, int level) {
-        levelUpUserUseCase.execute(new LevelUpUserCommand(userId, level));
+    public BasicUserInfoDto levelUpUser(UUID userId, int level) {
+        return levelUpUserUseCase.execute(new LevelUpUserCommand(userId, level));
     }
 
     @Override
