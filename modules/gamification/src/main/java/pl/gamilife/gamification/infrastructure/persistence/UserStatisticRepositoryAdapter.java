@@ -27,6 +27,11 @@ public class UserStatisticRepositoryAdapter implements UserStatisticRepository {
     }
 
     @Override
+    public List<UserStatistic> findByUserId(UUID userId) {
+        return jpaUserStatisticRepository.findByUserId(userId);
+    }
+
+    @Override
     public void save(UserStatistic userStatistic) {
         jpaUserStatisticRepository.save(userStatistic);
     }
