@@ -62,25 +62,74 @@ public class Task extends BaseEntity {
     @OneToMany(mappedBy = "task")
     private final Set<TaskNotification> taskNotifications = new HashSet<>();
 
-    private Task(String title, String description, UUID userId, TaskCategory category, TaskDifficulty difficulty, LocalDate deadlineDate, LocalTime deadlineTime, LocalDateTime currentUserDateTime) {
-        setTitle(title);
-        setDescription(description);
-        setUserId(userId);
-        setCategory(category);
-        setDifficulty(difficulty);
-        rescheduleDeadline(deadlineDate, deadlineTime, currentUserDateTime);
+    private Task(TaskBuilder builder, LocalDateTime currentUserDateTime) {
+        setTitle(builder.title);
+        setDescription(builder.description);
+        setUserId(builder.userId);
+        setCategory(builder.category);
+        setDifficulty(builder.difficulty);
+        rescheduleDeadline(builder.deadlineDate, builder.deadlineTime, currentUserDateTime);
     }
 
-    public static Task createPrivate(String title, String description, UUID userId, TaskCategory category, TaskDifficulty difficulty, LocalDate deadlineDate, LocalTime deadlineTime, LocalDateTime currentUserDateTime) {
-        if (userId == null) {
-            throw new DomainValidationException("User id cannot be null");
+    public static TaskBuilder builder() {
+        return new TaskBuilder();
+    }
+
+    public static class TaskBuilder {
+        private String title;
+        private String description;
+        private UUID userId;
+        private TaskCategory category;
+        private TaskDifficulty difficulty;
+        private LocalDate deadlineDate;
+        private LocalTime deadlineTime;
+
+        public TaskBuilder title(String title) {
+            this.title = title;
+            return this;
         }
 
-        return new Task(title, description, userId, category, difficulty, deadlineDate, deadlineTime, currentUserDateTime);
-    }
+        public TaskBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
 
-    public static Task createForGroupTask(String title, String description, TaskCategory category, TaskDifficulty difficulty, LocalDate deadlineDate, LocalTime deadlineTime, LocalDateTime currentGroupDateTime) {
-        return new Task(title, description, null, category, difficulty, deadlineDate, deadlineTime, currentGroupDateTime);
+        public TaskBuilder userId(UUID userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public TaskBuilder category(TaskCategory category) {
+            this.category = category;
+            return this;
+        }
+
+        public TaskBuilder difficulty(TaskDifficulty difficulty) {
+            this.difficulty = difficulty;
+            return this;
+        }
+
+        public TaskBuilder deadlineDate(LocalDate deadlineDate) {
+            this.deadlineDate = deadlineDate;
+            return this;
+        }
+
+        public TaskBuilder deadlineTime(LocalTime deadlineTime) {
+            this.deadlineTime = deadlineTime;
+            return this;
+        }
+
+        public Task buildPrivate(LocalDateTime currentUserDateTime) {
+            if (this.userId == null) {
+                throw new DomainValidationException("User id cannot be null for private task");
+            }
+            return new Task(this, currentUserDateTime);
+        }
+
+        public Task buildForGroupTask(LocalDateTime currentGroupDateTime) {
+            this.userId = null;
+            return new Task(this, currentGroupDateTime);
+        }
     }
 
     public boolean isOwnedBy(UUID userId) {

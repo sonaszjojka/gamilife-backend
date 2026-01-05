@@ -7,6 +7,7 @@ public record GamificationUser(
         String username,
         int level,
         int experience,
-        int money
+        int money,
+        long statsVersion
 ) {
 }

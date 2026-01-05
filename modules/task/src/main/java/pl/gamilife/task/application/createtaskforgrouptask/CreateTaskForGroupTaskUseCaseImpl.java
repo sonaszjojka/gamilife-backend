@@ -37,15 +37,14 @@ public class CreateTaskForGroupTaskUseCaseImpl implements CreateTaskForGroupTask
                         "Task difficulty with id " + cmd.difficultyId() + " not found!"
                 ));
 
-        Task task = Task.createForGroupTask(
-                cmd.title(),
-                cmd.description(),
-                taskCategory,
-                taskDifficulty,
-                cmd.deadlineDate(),
-                cmd.deadlineTime(),
-                LocalDateTime.now(cmd.currentGroupTimezone())
-        );
+        Task task = Task.builder()
+                .title(cmd.title())
+                .description(cmd.description())
+                .category(taskCategory)
+                .difficulty(taskDifficulty)
+                .deadlineDate(cmd.deadlineDate())
+                .deadlineTime(cmd.deadlineTime())
+                .buildForGroupTask(LocalDateTime.now(cmd.currentGroupTimezone()));
         taskRepository.save(task);
 
         return buildResponse(task);

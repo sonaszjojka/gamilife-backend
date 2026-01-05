@@ -50,19 +50,19 @@ public class RewardServiceImpl implements RewardService {
                 rewardedUser.experience()
         );
 
-        int userLevel = rewardedUser.level();
         if (!gainedLevels.isEmpty()) {
-            userLevel = levelService.levelUpUser(rewardedUser, gainedLevels);
+            rewardedUser = levelService.levelUpUser(rewardedUser, gainedLevels);
         }
 
-        Optional<Level> nextLevel = levelService.getNextLevel(userLevel);
+        Optional<Level> nextLevel = levelService.getNextLevel(rewardedUser.level());
         eventPublisher.publishEvent(new GamificationValuesChangedEvent(
                 rewardedUser.userId(),
                 rewardedUser.username(),
-                userLevel,
+                rewardedUser.level(),
                 rewardedUser.experience(),
                 rewardedUser.money(),
-                nextLevel.map(Level::getRequiredExperience).orElse(null)
+                nextLevel.map(Level::getRequiredExperience).orElse(null),
+                rewardedUser.statsVersion()
         ));
     }
 

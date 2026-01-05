@@ -7,7 +7,6 @@ import pl.gamilife.gamification.domain.model.projection.UserAchievementDetails;
 import pl.gamilife.gamification.domain.port.repository.AchievementRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -31,7 +30,7 @@ public class GetAllUserAchievementsUseCaseImpl implements GetAllUserAchievements
                         details.progress(),
                         details.goal()
                 ))
-                .collect(Collectors.toList());
+                .toList();
 
         return new GetAllUserAchievementsResult(achievements);
     }

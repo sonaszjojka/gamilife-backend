@@ -1,11 +1,11 @@
-package pl.gamilife.group.usecase.deletegroupinvitation;
+package pl.gamilife.group.usecase.getgroupinvitationbyid;
 
 import jakarta.validation.constraints.NotNull;
 import pl.gamilife.shared.kernel.architecture.Command;
 
 import java.util.UUID;
 
-public record DeleteGroupInvitationCommand(
+public record GetGroupInvitationByIdCommand(
         @NotNull
         UUID userId,
 

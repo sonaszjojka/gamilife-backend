@@ -10,6 +10,10 @@ import pl.gamilife.shared.kernel.exception.ErrorCode;
 @RestControllerAdvice
 public class DomainExceptionHandler extends AbstractExceptionHandler {
 
+    public DomainExceptionHandler(ErrorCodesRepository errorCodesRepository) {
+        super(errorCodesRepository);
+    }
+
     @ExceptionHandler(DomainException.class)
     public ErrorResponse handleDomainException(DomainException ex) {
         ErrorCode errorCode = ex.getErrorCode();

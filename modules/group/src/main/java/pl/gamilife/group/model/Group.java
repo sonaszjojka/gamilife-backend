@@ -63,7 +63,7 @@ public class Group extends BaseEntity {
     @ToString.Exclude
     private final Set<ChatMessage> chatMessages = new HashSet<>();
 
-    private Group(String name, UUID adminId, Character currencySymbol, int membersLimit, ZoneId zoneId, GroupType groupType) {
+    private Group(String name, UUID adminId, String currencySymbol, int membersLimit, ZoneId zoneId, GroupType groupType) {
         setName(name);
         setAdminId(adminId);
         setCurrencySymbol(currencySymbol);
@@ -72,7 +72,7 @@ public class Group extends BaseEntity {
         setGroupType(groupType);
     }
 
-    public static Group create(String name, UUID adminId, Character currencySymbol, int membersLimit, ZoneId zoneId, GroupType groupType) {
+    public static Group create(String name, UUID adminId, String currencySymbol, int membersLimit, ZoneId zoneId, GroupType groupType) {
         return new Group(name, adminId, currencySymbol, membersLimit, zoneId, groupType);
     }
 
@@ -108,12 +108,18 @@ public class Group extends BaseEntity {
         this.adminId = adminId;
     }
 
-    public void setCurrencySymbol(Character groupCurrencySymbol) {
+    public void setCurrencySymbol(String groupCurrencySymbol) {
         if (groupCurrencySymbol == null) {
             throw new DomainValidationException("Group currency symbol cannot be null");
         }
 
-        this.currencySymbol = groupCurrencySymbol;
+        if (!groupCurrencySymbol.matches("^[$€£¥₹₩₿₺₫₴₦₲₡₵₸₼₾]$")) {
+            throw new DomainValidationException(
+                    "Group Currency Symbol must be one of: $, €, £, ¥, ₹, ₩, ₿, ₺, ₫, ₴, ₦, ₲, ₡, ₵, ₸, ₼, ₾"
+            );
+        }
+
+        this.currencySymbol = groupCurrencySymbol.charAt(0);
     }
 
     public void setMembersLimit(int membersLimit) {

@@ -25,11 +25,11 @@ public interface UserApi {
 
     void updateUserPassword(UUID userId, String hashedNewPassword);
 
-    int editUserMoneyBy(UUID userId, Integer money);
+    BasicUserInfoDto editUserMoneyBy(UUID userId, Integer money);
 
-    RewardedUserApiDto grantRewardsToUser(UUID userId, int experience, int money);
+    BasicUserInfoDto grantRewardsToUser(UUID userId, int experience, int money);
 
-    void levelUpUser(UUID userId, int level);
+    BasicUserInfoDto levelUpUser(UUID userId, int level);
 
     ZoneId getUserZoneId(UUID userId);
 

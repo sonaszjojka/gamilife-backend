@@ -31,7 +31,8 @@ public class GetUserByEmailUseCaseImpl implements GetUserByEmailUseCase {
                 user.getUsername(),
                 user.getLevel(),
                 user.getExperience(),
-                user.getMoney()
+                user.getMoney(),
+                user.getStatsVersion()
         ));
     }
 }

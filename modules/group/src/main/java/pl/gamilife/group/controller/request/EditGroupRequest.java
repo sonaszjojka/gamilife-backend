@@ -13,7 +13,7 @@ public record EditGroupRequest(
         String groupName,
 
         @NotNull(message = "Group currency symbol cannot be null")
-        Character groupCurrencySymbol,
+        String groupCurrencySymbol,
 
         @NotNull(message = "Group type cannot be null")
         Integer groupTypeId,
