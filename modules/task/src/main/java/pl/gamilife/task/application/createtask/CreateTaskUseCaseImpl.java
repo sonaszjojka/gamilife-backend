@@ -42,16 +42,15 @@ public class CreateTaskUseCaseImpl implements CreateTaskUseCase {
                         "Task difficulty with id " + cmd.difficultyId() + " not found!"
                 ));
 
-        Task task = Task.createPrivate(
-                cmd.title(),
-                cmd.description(),
-                cmd.userId(),
-                taskCategory,
-                taskDifficulty,
-                cmd.deadlineDate(),
-                cmd.deadlineTime(),
-                LocalDateTime.now(zoneId)
-        );
+        Task task = Task.builder()
+                .title(cmd.title())
+                .description(cmd.description())
+                .userId(cmd.userId())
+                .category(taskCategory)
+                .difficulty(taskDifficulty)
+                .deadlineDate(cmd.deadlineDate())
+                .deadlineTime(cmd.deadlineTime())
+                .buildPrivate(LocalDateTime.now(zoneId));
 
         taskRepository.save(task);
 
