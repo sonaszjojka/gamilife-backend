@@ -32,18 +32,18 @@ public class RegisterNewUserUseCaseImpl implements RegisterNewUserUseCase {
             throw new UserAlreadyExistsException("This email address is already taken");
         }
 
-        User newUser = User.create(
-                dto.firstName(),
-                dto.lastName(),
-                dto.email(),
-                dto.password(),
-                dto.username(),
-                dto.dateOfBirth(),
-                dto.sendBudgetReports(),
-                dto.isProfilePublic(),
-                dto.isEmailVerified(),
-                dto.timezone() == null ? defaultTimezone : dto.timezone().getId()
-        );
+        User newUser = User.builder()
+                .firstName(dto.firstName())
+                .lastName(dto.lastName())
+                .email(dto.email())
+                .password(dto.password())
+                .username(dto.username())
+                .dateOfBirth(dto.dateOfBirth())
+                .sendBudgetReports(dto.sendBudgetReports())
+                .isProfilePublic(dto.isProfilePublic())
+                .isEmailVerified(dto.isEmailVerified())
+                .timezone(dto.timezone() == null ? defaultTimezone : dto.timezone().getId())
+                .build();
 
         userRepository.save(newUser);
 
