@@ -1,17 +1,14 @@
 package pl.gamilife.shared.web.exception;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import pl.gamilife.shared.kernel.exception.ErrorCode;
 
 @Slf4j
-@NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractExceptionHandler {
 
-    @Autowired
     protected ErrorCodesRepository errorCodesRepository;
 
     protected void logWarning(String code, String key, String message) {
