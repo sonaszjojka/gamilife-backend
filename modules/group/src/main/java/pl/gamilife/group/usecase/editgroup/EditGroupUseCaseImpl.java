@@ -47,6 +47,7 @@ public class EditGroupUseCaseImpl implements EditGroupUseCase {
         group.setAdminId(admin.get().userId());
         group.setGroupType(groupType);
         group.setName(cmd.groupName());
+        group.setTimezone(cmd.groupTimeZoneId());
         Group savedGroup = groupRepository.save(group);
 
         return buildEditGroupResult(savedGroup);
