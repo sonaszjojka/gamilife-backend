@@ -81,7 +81,8 @@ public class GetGroupByIdUseCaseImpl implements GetGroupByIdUseCase {
                 hasActiveRequest,
                 buildGroupMemberDto(loggedUserMembership),
                 activeMembers,
-                getAdminUsername(group.getAdminId())
+                getAdminUsername(group.getAdminId()),
+                group.getTimezone()
         );
     }
 
