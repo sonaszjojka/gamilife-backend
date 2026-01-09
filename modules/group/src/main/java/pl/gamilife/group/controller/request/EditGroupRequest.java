@@ -2,6 +2,7 @@ package pl.gamilife.group.controller.request;
 
 import jakarta.validation.constraints.*;
 
+import java.time.ZoneId;
 import java.util.UUID;
 
 public record EditGroupRequest(
@@ -21,6 +22,9 @@ public record EditGroupRequest(
         @NotNull(message = "Members limit cannot be null")
         @Min(value = 2, message = "Members limit must be at least 2")
         @Max(value = 100, message = "Members limit cannot exceed 100")
-        Integer membersLimit
+        Integer membersLimit,
+
+        @NotNull
+        ZoneId groupTimeZoneId
 ) {
 }

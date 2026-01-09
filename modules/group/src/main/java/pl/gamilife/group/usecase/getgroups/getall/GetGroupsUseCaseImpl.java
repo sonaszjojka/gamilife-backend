@@ -82,7 +82,8 @@ public class GetGroupsUseCaseImpl implements GetGroupsUseCase {
                         g.getCurrencySymbol(),
                         g.getMembersLimit(),
                         new GetGroupsResult.GroupTypeDto(g.getType().getTitle()),
-                        g.getActiveMembers().size()
+                        g.getActiveMembers().size(),
+                        g.getTimezone()
                 )).toList()
         );
     }
