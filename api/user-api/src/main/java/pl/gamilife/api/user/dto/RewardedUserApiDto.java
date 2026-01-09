@@ -7,6 +7,7 @@ public record RewardedUserApiDto(
         String username,
         int experience,
         int money,
-        int level
+        int level,
+        long statsVersion
 ) {
 }

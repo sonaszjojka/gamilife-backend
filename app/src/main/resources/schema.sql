@@ -673,6 +673,7 @@ CREATE TABLE "user"."user"
     "level"               int                      NOT NULL,
     experience            int                      NOT NULL,
     money                 int                      NOT NULL,
+    stats_version bigint NOT NULL DEFAULT 0,
     send_budget_reports   boolean                  NOT NULL,
     is_profile_public     boolean                  NOT NULL,
     is_email_verified     boolean                  NOT NULL,

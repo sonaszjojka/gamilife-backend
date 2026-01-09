@@ -26,7 +26,8 @@ public record GetGroupsResult(
             Character groupCurrencySymbol,
             Integer membersLimit,
             GroupTypeDto groupType,
-            Integer membersCount
+            Integer membersCount,
+            String groupTimeZone
     ) {
     }
 

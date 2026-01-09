@@ -1,6 +1,7 @@
 package pl.gamilife.gamification.infrastructure.persistence;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import pl.gamilife.gamification.domain.model.UserStatistic;
 import pl.gamilife.gamification.domain.port.repository.UserStatisticRepository;
@@ -24,6 +25,14 @@ public class UserStatisticRepositoryAdapter implements UserStatisticRepository {
     @Override
     public Optional<UserStatistic> findByUserIdAndStatisticTypeId(UUID userId, Integer statisticTypeId) {
         return jpaUserStatisticRepository.findByUserIdAndStatisticTypeId(userId, statisticTypeId);
+    }
+
+    @Override
+    public List<UserStatistic> findByUserId(UUID userId) {
+        return jpaUserStatisticRepository.findByUserId(
+                userId,
+                Sort.by(Sort.Direction.ASC, "statisticTypeId")
+        );
     }
 
     @Override

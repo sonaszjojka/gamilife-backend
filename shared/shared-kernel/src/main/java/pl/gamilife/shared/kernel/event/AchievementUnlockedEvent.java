@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public record AchievementUnlockedEvent(
         UUID userId,
-        String achievementName
+        String achievementName,
+        int rewardedItemsAmount
 ) {
 }

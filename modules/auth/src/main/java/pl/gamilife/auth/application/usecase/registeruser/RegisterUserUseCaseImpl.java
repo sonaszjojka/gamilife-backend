@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.auth.application.dto.AuthTokens;
+import pl.gamilife.auth.application.dto.LoginUserResult;
 import pl.gamilife.auth.application.service.TokenService;
 import pl.gamilife.auth.domain.model.projection.BasicUserDetails;
 import pl.gamilife.auth.domain.model.projection.RegisterUserDetails;
@@ -24,7 +25,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
     private final TokenService tokenService;
 
     @Override
-    public AuthTokens execute(RegisterUserCommand cmd) {
+    public LoginUserResult execute(RegisterUserCommand cmd) {
         passwordValidator.validate(cmd.password());
 
         RegisterUserDetails userToRegister = new RegisterUserDetails(
@@ -46,10 +47,20 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
         String code = emailVerificationService.generateAndSaveEmailVerificationCode(user.userId());
         emailVerificationService.sendEmailVerificationCode(user.userId(), code);
 
-        return tokenService.generateTokenPair(
+        AuthTokens tokens = tokenService.generateTokenPair(
                 user.userId(),
                 user.email(),
                 userToRegister.isEmailVerified()
+        );
+
+        return new LoginUserResult(
+                user.userId(),
+                user.email(),
+                user.username(),
+                userToRegister.isEmailVerified(),
+                userToRegister.isTutorialCompleted(),
+                user.money(),
+                tokens
         );
     }
 }

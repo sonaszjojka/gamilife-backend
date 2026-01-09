@@ -39,10 +39,5 @@ public interface JpaUserRepository extends JpaRepository<User, UUID>, JpaSpecifi
             @Param("status") boolean status
     );
 
-    @Transactional
-    @Modifying
-    @Query("update User u set u.money = ?1 where u.id = ?2")
-    void updateMoneyById(int money, UUID id);
-
     boolean existsByUsername(String username);
 }

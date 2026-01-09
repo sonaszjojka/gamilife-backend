@@ -3,6 +3,7 @@ package pl.gamilife.user.usecase.levelupuser;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 import pl.gamilife.user.persistence.User;
 import pl.gamilife.user.persistence.UserRepository;
@@ -17,13 +18,21 @@ public class LevelUpUserUseCaseImpl implements LevelUpUserUseCase {
     private final UserRepository userRepository;
 
     @Override
-    public Void execute(LevelUpUserCommand cmd) {
+    public BasicUserInfoDto execute(LevelUpUserCommand cmd) {
         User user = getUser(cmd.userId());
 
         user.levelUp(cmd.level());
         userRepository.save(user);
 
-        return null;
+        return new BasicUserInfoDto(
+                user.getId(),
+                user.getEmail(),
+                user.getUsername(),
+                user.getLevel(),
+                user.getExperience(),
+                user.getMoney(),
+                user.getStatsVersion()
+        );
     }
 
     private User getUser(UUID userId) {

@@ -8,11 +8,11 @@ import java.util.UUID;
 public interface UserContext {
     Optional<GamificationUser> getUserById(UUID userId);
 
-    void levelUpUser(UUID userId, int level);
+    GamificationUser levelUpUser(UUID userId, int level);
 
     GamificationUser grantRewardsToUser(UUID userId, int experience, int money);
 
-    int payForNewItem(UUID userId, int price);
+    GamificationUser payForNewItem(UUID userId, int price);
 
-    int refundUserAfterQuickSell(UUID userId, int quickSellValue);
+    GamificationUser refundUserAfterQuickSell(UUID userId, int quickSellValue);
 }

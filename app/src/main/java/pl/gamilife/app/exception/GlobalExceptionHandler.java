@@ -21,12 +21,17 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import pl.gamilife.shared.kernel.exception.ErrorCode;
 import pl.gamilife.shared.web.exception.AbstractExceptionHandler;
+import pl.gamilife.shared.web.exception.ErrorCodesRepository;
 import pl.gamilife.shared.web.exception.ErrorResponse;
 
 @Slf4j
 @Order(2)
 @RestControllerAdvice
 public class GlobalExceptionHandler extends AbstractExceptionHandler {
+
+    public GlobalExceptionHandler(ErrorCodesRepository errorCodesRepository) {
+        super(errorCodesRepository);
+    }
 
     @ExceptionHandler(Exception.class)
     public ErrorResponse handleException(Exception ex) {

@@ -742,7 +742,6 @@ DELETE FROM communication.notification_type
 WHERE EXISTS(SELECT 1);
 INSERT INTO communication.notification_type (id, name)
 VALUES (1, 'Achievement Unlocked'),
-       (2, 'Item Acquired'),
        (3, 'Level Up'),
        (4, 'New Group Invitation'),
        (5, 'Group Item Used'),

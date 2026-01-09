@@ -3,7 +3,7 @@ package pl.gamilife.user.usecase.grantrewardstouser;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.gamilife.api.user.dto.RewardedUserApiDto;
+import pl.gamilife.api.user.dto.BasicUserInfoDto;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 import pl.gamilife.user.persistence.User;
 import pl.gamilife.user.persistence.UserRepository;
@@ -18,7 +18,7 @@ public class GrantRewardsToUserUseCaseImpl implements GrantRewardsToUserUseCase 
     private final UserRepository userRepository;
 
     @Override
-    public RewardedUserApiDto execute(GrantRewardsToUserCommand cmd) {
+    public BasicUserInfoDto execute(GrantRewardsToUserCommand cmd) {
         User user = getUser(cmd.userId());
 
         if (cmd.experience() > 0) {
@@ -29,14 +29,16 @@ public class GrantRewardsToUserUseCaseImpl implements GrantRewardsToUserUseCase 
             user.grantMoney(cmd.money());
         }
 
-        userRepository.save(user);
+        user = userRepository.save(user);
 
-        return new RewardedUserApiDto(
+        return new BasicUserInfoDto(
                 user.getId(),
+                user.getEmail(),
                 user.getUsername(),
+                user.getLevel(),
                 user.getExperience(),
                 user.getMoney(),
-                user.getLevel()
+                user.getStatsVersion()
         );
     }
 

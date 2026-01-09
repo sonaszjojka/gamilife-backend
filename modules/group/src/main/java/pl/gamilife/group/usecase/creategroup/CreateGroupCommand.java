@@ -17,7 +17,11 @@ public record CreateGroupCommand(
         String groupName,
 
         @NotNull
-        Character groupCurrencySymbol,
+        @Pattern(
+                regexp = "^[$€£¥₹₩₿₺₫₴₦₲₡₵₸₼₾]$",
+                message = "Group Currency Symbol must be one of: $, €, £, ¥, ₹, ₩, ₿, ₺, ₫, ₴, ₦, ₲, ₡, ₵, ₸, ₼, ₾"
+        )
+        String groupCurrencySymbol,
 
         @NotNull
         Integer groupTypeId,

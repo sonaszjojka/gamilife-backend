@@ -28,7 +28,7 @@ public class GroupSpecificationBuilderImpl implements GroupSpecificationBuilder 
                 return null;
             }
             Join<Object, Object> groupTypeJoin = root.join("type");
-            return cb.equal(groupTypeJoin.get("typeId"), groupType.getId());
+            return cb.equal(groupTypeJoin.get("id"), groupType.getId());
         };
     }
 

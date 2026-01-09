@@ -8,6 +8,7 @@ public record GamificationValuesChangedEvent(
         int level,
         int experience,
         int money,
-        Integer requiredExperienceForNextLevel
+        Integer requiredExperienceForNextLevel,
+        long statsVersion
 ) {
 }

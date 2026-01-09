@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LevelService {
-    int levelUpUser(GamificationUser rewardedUser, List<Level> gainedLevels);
+    GamificationUser levelUpUser(GamificationUser rewardedUser, List<Level> gainedLevels);
 
     List<Level> checkIfUserEligibleForLevelUp(int currentLevel, int newExperience);
 

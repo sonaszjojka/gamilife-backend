@@ -43,11 +43,6 @@ public class UserRepositoryAdapter implements UserRepository {
         jpaUserRepository.updateIsEmailVerifiedById(userId, newStatus);
     }
 
-    @Override
-    public void updateUserMoney(UUID userId, int newMoney) {
-        jpaUserRepository.updateMoneyById(newMoney, userId);
-    }
-
     public Page<User> findAll(String username, int page, int size) {
         org.springframework.data.domain.Page<User> result = jpaUserRepository.findAll(
                 userSpecificationBuilder.build(username),

@@ -7,11 +7,14 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.gamification.domain.exception.ItemIsNotForSaleException;
 import pl.gamilife.gamification.domain.exception.ItemNotFoundException;
 import pl.gamilife.gamification.domain.model.Item;
+import pl.gamilife.gamification.domain.model.Level;
 import pl.gamilife.gamification.domain.model.UserInventoryItem;
 import pl.gamilife.gamification.domain.model.projection.GamificationUser;
 import pl.gamilife.gamification.domain.port.context.UserContext;
 import pl.gamilife.gamification.domain.port.repository.ItemRepository;
+import pl.gamilife.gamification.domain.service.LevelService;
 import pl.gamilife.gamification.domain.service.UserInventoryService;
+import pl.gamilife.shared.kernel.event.GamificationValuesChangedEvent;
 import pl.gamilife.shared.kernel.event.ItemBoughtEvent;
 import pl.gamilife.shared.kernel.exception.domain.UserHasNotEnoughMoneyException;
 import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
@@ -27,6 +30,7 @@ public class PurchaseStoreItemUseCaseImpl implements PurchaseStoreItemUseCase {
     private final UserContext userContext;
     private final ItemRepository itemRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final LevelService levelService;
 
     @Override
     public PurchaseStoreItemResult execute(PurchaseStoreItemCommand cmd) {
@@ -41,15 +45,26 @@ public class PurchaseStoreItemUseCaseImpl implements PurchaseStoreItemUseCase {
             throw new UserHasNotEnoughMoneyException("User has not enough money");
         }
 
-        int newUserMoney = userContext.payForNewItem(user.userId(), item.getPrice());
+        user = userContext.payForNewItem(user.userId(), item.getPrice());
         UserInventoryItem userInventoryItem = userInventoryService.addItemToUsersInventory(user.userId(), item);
         eventPublisher.publishEvent(new ItemBoughtEvent(user.userId(), 1));
+        eventPublisher.publishEvent(new GamificationValuesChangedEvent(
+                user.userId(),
+                user.username(),
+                user.level(),
+                user.experience(),
+                user.money(),
+                levelService.getNextLevel(user.level())
+                        .map(Level::getRequiredExperience)
+                        .orElse(null),
+                user.statsVersion()
+        ));
 
         return new PurchaseStoreItemResult(
                 userInventoryItem.getId(),
                 item.getId(),
                 userInventoryItem.getQuantity(),
-                newUserMoney
+                user.money()
         );
     }
 

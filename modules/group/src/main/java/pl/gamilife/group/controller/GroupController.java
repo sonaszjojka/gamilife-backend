@@ -72,7 +72,8 @@ public class GroupController {
                 request.groupName(),
                 request.groupCurrencySymbol(),
                 request.groupTypeId(),
-                request.membersLimit()
+                request.membersLimit(),
+                request.groupTimeZoneId()
         ));
         return ResponseEntity.ok(response);
     }
