@@ -16,7 +16,7 @@ public class GetUserStatisticsUseCaseImpl implements GetUserStatisticsUseCase {
 
     @Override
     public List<GetUserStatisticsResult> execute(GetUserStatisticsCommand cmd) {
-           List<UserStatistic> userStatisticList = userStatisticRepository.findByUserId(cmd.userId());
+           List<UserStatistic> userStatisticList = userStatisticRepository.findWithStatisticTypeByUserId(cmd.userId());
         return userStatisticList.stream().map(this::toResult).toList();
     }
     private GetUserStatisticsResult toResult(UserStatistic userStatistic) {

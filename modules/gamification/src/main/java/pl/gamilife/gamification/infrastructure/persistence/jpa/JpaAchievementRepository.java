@@ -47,4 +47,6 @@ public interface JpaAchievementRepository extends JpaRepository<Achievement, UUI
             @Param("userId") UUID userId,
             PageRequest pageable
     );
+
+    Optional<Achievement> findByName(String firstTaskCompleted);
 }
