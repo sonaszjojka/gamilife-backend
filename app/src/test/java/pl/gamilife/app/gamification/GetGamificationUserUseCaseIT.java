@@ -7,9 +7,13 @@ import pl.gamilife.app.BaseIntegrationTest;
 import pl.gamilife.gamification.application.usecase.getgamificationuser.GetGamificationUserCommand;
 import pl.gamilife.gamification.application.usecase.getgamificationuser.GetGamificationUserResult;
 import pl.gamilife.gamification.application.usecase.getgamificationuser.GetGamificationUserUseCase;
+import pl.gamilife.shared.kernel.exception.domain.UserNotFoundException;
 import pl.gamilife.user.persistence.User;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 class GetGamificationUserUseCaseIT extends BaseIntegrationTest {
 
@@ -35,5 +39,18 @@ class GetGamificationUserUseCaseIT extends BaseIntegrationTest {
         assertThat(result.level()).isGreaterThanOrEqualTo(0);
         assertThat(result.experience()).isGreaterThanOrEqualTo(0);
         assertThat(result.money()).isGreaterThanOrEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("Should throw UserNotFoundException when user does not exists")
+    void shouldThrowException_whenUserDoesNotExist() {
+        // when
+        Throwable throwable = catchThrowableOfType(
+                UserNotFoundException.class,
+                () -> getGamificationUserUseCase.execute(new GetGamificationUserCommand(UUID.randomUUID()))
+        );
+
+        // then
+        assertThat(throwable).isNotNull();
     }
 }

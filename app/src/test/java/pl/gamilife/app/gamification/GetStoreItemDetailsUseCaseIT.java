@@ -7,11 +7,15 @@ import pl.gamilife.app.BaseIntegrationTest;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getbyid.GetStoreItemDetailsCommand;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getbyid.GetStoreItemDetailsUseCase;
 import pl.gamilife.gamification.application.usecase.getstoreitems.getbyid.StoreItemDetailsDto;
+import pl.gamilife.gamification.domain.exception.ItemNotFoundException;
 import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.infrastructure.persistence.jpa.JpaItemRepository;
 import pl.gamilife.user.persistence.User;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 class GetStoreItemDetailsUseCaseIT extends BaseIntegrationTest {
 
@@ -38,5 +42,26 @@ class GetStoreItemDetailsUseCaseIT extends BaseIntegrationTest {
         // then
         assertThat(result.id()).isEqualTo(item.getId());
         assertThat(result.name()).isEqualTo(item.getName());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when item not found")
+    void shouldThrowExceptionWhenItemNotFound() {
+        // given
+        User user = createUserWithStats();
+        UUID itemId = UUID.randomUUID();
+
+        // when
+        GetStoreItemDetailsCommand cmd = new GetStoreItemDetailsCommand(itemId, user.getId());
+        Throwable throwable = catchThrowableOfType(
+                ItemNotFoundException.class,
+                () -> getStoreItemDetailsUseCase.execute(cmd)
+        );
+
+        flushAndClear();
+
+        // then
+        assertThat(throwable).isNotNull()
+                .isInstanceOf(ItemNotFoundException.class);
     }
 }

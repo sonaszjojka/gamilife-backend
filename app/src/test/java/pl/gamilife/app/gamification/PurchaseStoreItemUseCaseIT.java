@@ -9,14 +9,14 @@ import pl.gamilife.gamification.application.usecase.getuserinventoryitems.GetUse
 import pl.gamilife.gamification.application.usecase.getuserinventoryitems.GetUserInventoryItemsUseCase;
 import pl.gamilife.gamification.application.usecase.purchasestoreitem.PurchaseStoreItemCommand;
 import pl.gamilife.gamification.application.usecase.purchasestoreitem.PurchaseStoreItemUseCase;
+import pl.gamilife.gamification.domain.exception.ItemIsNotForSaleException;
 import pl.gamilife.gamification.domain.model.Item;
 import pl.gamilife.gamification.infrastructure.persistence.jpa.JpaItemRepository;
 import pl.gamilife.shared.kernel.exception.domain.UserHasNotEnoughMoneyException;
 import pl.gamilife.user.persistence.User;
 import pl.gamilife.user.persistence.jpa.JpaUserRepository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 class PurchaseStoreItemUseCaseIT extends BaseIntegrationTest {
 
@@ -32,8 +32,11 @@ class PurchaseStoreItemUseCaseIT extends BaseIntegrationTest {
     @Autowired
     private GetUserInventoryItemsUseCase getUserInventoryItemsUseCase;
 
-    private Item getOrCreateItem() {
-        return itemRepository.findAll().stream().findFirst()
+    private Item getItem(boolean forSale) {
+        return itemRepository.findAll()
+                .stream()
+                .filter(i -> i.isForSale() == forSale)
+                .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No items found in database. Check data.sql"));
     }
 
@@ -42,8 +45,8 @@ class PurchaseStoreItemUseCaseIT extends BaseIntegrationTest {
     void shouldPurchaseItem() {
         // given
         User user = createUserWithStats();
-        Item item = getOrCreateItem();
-        int price = item.getPrice() != null ? item.getPrice() : 100;
+        Item item = getItem(true);
+        int price = item.getPrice();
         user.grantMoney(price + 50);
         userRepository.save(user);
 
@@ -63,11 +66,32 @@ class PurchaseStoreItemUseCaseIT extends BaseIntegrationTest {
     }
 
     @Test
+    @DisplayName("Should throw exception when item is not for sale")
+    void shouldThrowExceptionWhenItemIsNotForSale() {
+        // given
+        User user = createUserWithStats();
+        Item item = getItem(false);
+
+        // when
+        PurchaseStoreItemCommand cmd = new PurchaseStoreItemCommand(user.getId(), item.getId());
+        Throwable throwable = catchThrowableOfType(
+                ItemIsNotForSaleException.class,
+                () -> purchaseStoreItemUseCase.execute(cmd)
+        );
+
+        flushAndClear();
+
+        // then
+        assertThat(throwable).isNotNull()
+                .isInstanceOf(ItemIsNotForSaleException.class);
+    }
+
+    @Test
     @DisplayName("Should fail purchase if not enough money")
     void shouldFailPurchaseNotEnoughMoney() {
         // given
         User user = createUserWithStats();
-        Item testitem = getOrCreateItem();
+        Item testitem = getItem(true);
 
         flushAndClear();
 
