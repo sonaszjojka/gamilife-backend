@@ -2,6 +2,7 @@ package pl.gamilife.task.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 
 import java.time.Instant;
@@ -14,7 +15,6 @@ import java.util.UUID;
 @Table(name = "task_notification", schema = "task")
 public class TaskNotification extends BaseEntity {
 
-    @Setter
     @Column(name = "send_at", nullable = false)
     private Instant sendAt;
 
@@ -32,6 +32,14 @@ public class TaskNotification extends BaseEntity {
 
     public static TaskNotification create(UUID taskId, Instant sendAt) {
         return new TaskNotification(taskId, sendAt);
+    }
+
+    public void setSendAt(Instant sendAt) {
+        if (sendAt.isBefore(Instant.now())) {
+            throw new DomainValidationException("Send date cannot be in the past");
+        }
+
+        this.sendAt = sendAt;
     }
 
 }
