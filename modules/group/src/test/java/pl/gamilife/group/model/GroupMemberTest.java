@@ -164,12 +164,9 @@ class GroupMemberTest {
         // given
         UUID adminId = UUID.randomUUID();
 
-        // Tworzymy grupę z konkretnym adminId
         Group group = Instancio.of(Group.class)
                 .set(field(Group::getAdminId), adminId)
                 .create();
-
-        // Tworzymy członka powiązanego z tą grupą i z tym samym ID użytkownika
         GroupMember member = Instancio.of(GroupMember.class)
                 .set(field(GroupMember::getGroup), group)
                 .set(field(GroupMember::getUserId), adminId)

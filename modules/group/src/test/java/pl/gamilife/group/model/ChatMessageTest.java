@@ -17,7 +17,6 @@ class ChatMessageTest {
         String content = "Hello team, let's raid!";
         boolean isImportant = true;
 
-        // Instancio stworzy obiekt z wypełnionym ID
         Group group = Instancio.create(Group.class);
         GroupMember groupMember = Instancio.create(GroupMember.class);
 
@@ -28,11 +27,8 @@ class ChatMessageTest {
         assertThat(message).isNotNull();
         assertThat(message.getContent()).isEqualTo(content);
         assertThat(message.getIsImportant()).isTrue();
-
-        // Weryfikujemy relacje
         assertThat(message.getGroup()).isEqualTo(group);
         assertThat(message.getGroupId()).isEqualTo(group.getId());
-
         assertThat(message.getGroupMember()).isEqualTo(groupMember);
         assertThat(message.getGroupMemberId()).isEqualTo(groupMember.getId());
     }
