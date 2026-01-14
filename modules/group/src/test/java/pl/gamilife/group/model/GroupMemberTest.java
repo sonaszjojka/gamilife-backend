@@ -183,7 +183,7 @@ class GroupMemberTest {
     void shouldReturnFalse_whenUserIsNotAdmin() {
         // given
         UUID adminId = UUID.randomUUID();
-        UUID userId = UUID.randomUUID(); // Inne ID
+        UUID userId = UUID.randomUUID();
 
         Group group = Instancio.of(Group.class)
                 .set(field(Group::getAdminId), adminId)

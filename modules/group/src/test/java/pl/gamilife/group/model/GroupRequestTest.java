@@ -67,7 +67,6 @@ class GroupRequestTest {
         // given
         GroupRequestStatusEnum expectedEnum = GroupRequestStatusEnum.values()[0];
 
-        // Ustawiamy ID statusu tak, aby odpowiadało konkretnemu Enumowi
         GroupRequestStatus status = Instancio.of(GroupRequestStatus.class)
                 .set(field(GroupRequestStatus::getId), expectedEnum.getId())
                 .create();

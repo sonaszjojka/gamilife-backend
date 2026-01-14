@@ -81,7 +81,7 @@ class ChatMessageTest {
     void shouldSetImportance_whenValueIsChanged() {
         // given
         ChatMessage message = Instancio.create(ChatMessage.class);
-        boolean newImportance = !message.getIsImportant(); // Flip the value
+        boolean newImportance = !message.getIsImportant();
 
         // when
         message.setImportance(newImportance);
