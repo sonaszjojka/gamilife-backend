@@ -1,0 +1,85 @@
+spring:
+  application:
+    name: GamiLife
+    version: ${project.version}
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+  tokens:
+    jwt:
+      secret: ${JWT_SECRET}
+    refresh-token:
+      expires-in: 604800  # 7 days
+    access-token:
+      expires-in: 300     # 5 min
+  codes:
+    verification-code:
+      expires-in: 300
+      resend-interval: 120
+    forgot-password-code:
+      expires-in: 900
+      resend-interval: 120
+  jpa:
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+    hibernate:
+      ddl-auto: validate
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${OAUTH2_GOOGLE_CLIENT_ID}
+            client-secret: ${OAUTH2_GOOGLE_CLIENT_SECRET}
+            redirect-uri: ${OAUTH2_GOOGLE_REDIRECT_URI}
+            scope:
+              - openid
+              - profile
+              - email
+app:
+  invitation:
+    expiration-days: 7
+    recent-days: 1
+    recent-days-limit: 3
+  frontend-urls:
+    main-url: { MAIN_URL }
+  rate-limit:
+    standard:
+      requests-limit: 60
+      duration-seconds: 60
+    protected:
+      requests-limit: 15
+      duration-seconds: 60
+  cookie:
+    domain:
+  security:
+    public-paths:
+      - /api/v1/auth/**
+      - /api/v1/oauth2/**
+      - /v3/api-docs/**
+      - /swagger-ui.html
+      - /swagger-ui/**
+      - /actuator/health
+  timezone:
+    default: "Europe/Warsaw"
+brevo:
+  api-key: ${BREVO_API_KEY}
+  from-email: "noreply@gamilife.pl"
+  from-name: "GamiLife Team"
+  templates:
+    verification-email: 2
+    reset-password-email: 3
+    group-invitation-email: 4
+server:
+  port: 8080
+  shutdown: graceful
+  ssl:
+    enabled: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never

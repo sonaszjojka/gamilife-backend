@@ -1,0 +1,39 @@
+spring:
+  application:
+    version: "0.7.0-TEST"
+  sql:
+    init:
+      mode: always
+      schema-locations:
+        - "classpath:schema.sql"
+      data-locations:
+        - "classpath:data.sql"
+      continue-on-error: true
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  tokens:
+    jwt:
+      secret: "test-jwt-secret-key-for-integration-tests-must-be-long-enough"
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: "test-client-id"
+            client-secret: "test-client-secret"
+            redirect-uri: "http://localhost:8080/login/oauth2/code/google"
+app:
+  frontend-urls:
+    main-url: "http://localhost:3000"
+
+brevo:
+  api-key: "test-api-key"
+
+server:
+  ssl:
+    secure: false

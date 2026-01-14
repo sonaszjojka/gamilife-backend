@@ -28,8 +28,8 @@ public class UserStatisticRepositoryAdapter implements UserStatisticRepository {
     }
 
     @Override
-    public List<UserStatistic> findByUserId(UUID userId) {
-        return jpaUserStatisticRepository.findByUserId(
+    public List<UserStatistic> findWithStatisticTypeByUserId(UUID userId) {
+        return jpaUserStatisticRepository.findWithStatisticTypeByUserId(
                 userId,
                 Sort.by(Sort.Direction.ASC, "statisticTypeId")
         );
