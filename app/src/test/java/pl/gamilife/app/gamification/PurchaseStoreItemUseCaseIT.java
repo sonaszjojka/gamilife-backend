@@ -67,7 +67,7 @@ class PurchaseStoreItemUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should throw exception when item is not for sale")
-    void shouldThrowExceptionWhenItemIsNotForSale() {
+    void shouldThrowException_whenItemIsNotForSale() {
         // given
         User user = createUserWithStats();
         Item item = getItem(false);

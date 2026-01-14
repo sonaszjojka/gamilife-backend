@@ -73,7 +73,7 @@ class ProcessGroupTaskCompletionUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should register progress for group task completion and not grant rewards when already granted")
-    void shouldRegisterProgressForGroupTaskCompletionAndNotGrantRewardsWhenAlreadyGranted() {
+    void shouldRegisterProgressForGroupTaskCompletionAndNotGrantRewards_whenAlreadyGranted() {
         // given
         User user = createUserWithStats();
         StatisticType statisticType = statisticTypeRepository.findById(

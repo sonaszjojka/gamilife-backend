@@ -51,7 +51,7 @@ class GetUserInventoryItemsUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should return all items when no filter provided")
-    void shouldReturnAllItemsWhenNoFilterProvided() {
+    void shouldReturnAllItems_whenNoFilterProvided() {
         // given
         User user = createUserWithStats();
         grantMoney(user, 1000);

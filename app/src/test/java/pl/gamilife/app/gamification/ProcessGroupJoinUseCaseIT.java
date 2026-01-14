@@ -25,7 +25,7 @@ class ProcessGroupJoinUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should register progress when joining group for the first time")
-    void shouldRegisterProgressWhenJoiningGroupFirstTime() {
+    void shouldRegisterProgress_whenJoiningGroupFirstTime() {
         // given
         User user = createUserWithStats();
 
@@ -41,7 +41,7 @@ class ProcessGroupJoinUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should not register progress when joining group not for the first time")
-    void shouldNotRegisterProgressWhenJoiningGroupNotFirstTime() {
+    void shouldNotRegisterProgress_whenJoiningGroupNotFirstTime() {
         // given
         User user = createUserWithStats();
 

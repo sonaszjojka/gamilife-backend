@@ -51,7 +51,7 @@ class ProcessTaskCompletionUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should register progress for task completion and grant rewards")
-    void shouldRegisterProgressForTaskCompletionAndGrantRewardsWhenNotGranted() {
+    void shouldRegisterProgressForTaskCompletionAndGrantRewards_whenNotGranted() {
         // given
         User user = createUserWithStats();
         StatisticType statisticType = statisticTypeRepository.findById(
@@ -92,7 +92,7 @@ class ProcessTaskCompletionUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should register progress for task completion and not grant rewards when already granted")
-    void shouldRegisterProgressForTaskCompletionAndNotGrantRewardsWhenAlreadyGranted() {
+    void shouldRegisterProgressForTaskCompletionAndNotGrantRewards_whenAlreadyGranted() {
         // given
         User user = createUserWithStats();
         StatisticType statisticType = statisticTypeRepository.findById(

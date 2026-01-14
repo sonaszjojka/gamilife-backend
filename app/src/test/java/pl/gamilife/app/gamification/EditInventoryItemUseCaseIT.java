@@ -170,7 +170,7 @@ class EditInventoryItemUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should delete inventory item when selling all quantity")
-    void shouldDeleteInventoryItemWhenSellingAll() {
+    void shouldDeleteInventoryItem_whenSellingAll() {
         // given
         User user = createUserWithStats();
         Item item = getItem();
@@ -202,7 +202,7 @@ class EditInventoryItemUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should auto-unequip item when equipping another in same slot")
-    void shouldAutoUnequipItemOnSameSlot() {
+    void shouldAutoUnequipItemOnSameSlot_whenOtherItemIsAlreadyEquippedThere() {
         // given
         User user = createUserWithStats();
         user.grantMoney(2000);
@@ -252,7 +252,7 @@ class EditInventoryItemUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should not change status when equipping already equipped item")
-    void shouldNotChangeStatusWhenEquippingAlreadyEquippedItem() {
+    void shouldNotChangeStatus_whenEquippingAlreadyEquippedItem() {
         // given
         User user = createUserWithStats();
         Item item = getItem();
@@ -286,7 +286,7 @@ class EditInventoryItemUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should throw exception when accessing another user's item")
-    void shouldThrowExceptionWhenAccessingAnotherUserItem() {
+    void shouldThrowException_whenAccessingAnotherUserItem() {
         // given
         User user1 = createUserWithStats();
         User user2 = createUser();
@@ -318,7 +318,7 @@ class EditInventoryItemUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should throw exception when item not found")
-    void shouldThrowExceptionWhenItemNotFound() {
+    void shouldThrowException_whenItemNotFound() {
         // given
         User user = createUserWithStats();
         UUID randomId = UUID.randomUUID();

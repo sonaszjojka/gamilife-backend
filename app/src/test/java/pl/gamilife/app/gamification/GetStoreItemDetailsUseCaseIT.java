@@ -46,7 +46,7 @@ class GetStoreItemDetailsUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should throw exception when item not found")
-    void shouldThrowExceptionWhenItemNotFound() {
+    void shouldThrowException_whenItemNotFound() {
         // given
         User user = createUserWithStats();
         UUID itemId = UUID.randomUUID();

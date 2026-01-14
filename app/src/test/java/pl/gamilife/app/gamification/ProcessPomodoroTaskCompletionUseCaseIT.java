@@ -66,7 +66,7 @@ class ProcessPomodoroTaskCompletionUseCaseIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Should register progress for pomodoro task completion and not grant rewards when already granted")
-    void shouldRegisterProgressForTaskCompletionAndNotGrantRewardsWhenAlreadyGranted() {
+    void shouldRegisterProgressForTaskCompletionAndNotGrantRewards_whenAlreadyGranted() {
         // given
         User user = createUserWithStats();
         StatisticType statisticType = statisticTypeRepository.findById(
