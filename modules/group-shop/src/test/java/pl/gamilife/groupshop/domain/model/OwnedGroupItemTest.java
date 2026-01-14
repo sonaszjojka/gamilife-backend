@@ -1,8 +1,6 @@
-package pl.gamilife.groupShop.domain.model;
+package pl.gamilife.groupshop.domain.model;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
-import pl.gamilife.groupshop.domain.model.GroupItem;
-import pl.gamilife.groupshop.domain.model.OwnedGroupItem;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 
 import java.time.Instant;
@@ -67,6 +65,39 @@ class OwnedGroupItemTest {
         //Then
         assertThat(ownedGroupItem.getUsedAt()).isCloseTo(Instant.now(),within(1, ChronoUnit.SECONDS));
 
+    }
+    @Test
+    void shouldCreateOwnedGroupItem_whenValidDataIsProvided() {
+        // given
+        UUID groupMemberId = UUID.randomUUID();
+        GroupItem groupItem = Instancio.create(GroupItem.class);
+
+        // when
+        OwnedGroupItem result = OwnedGroupItem.create(groupMemberId, groupItem);
+
+        // then
+        assertThat(result).isNotNull();
+        assertThat(result.getGroupMemberId()).isEqualTo(groupMemberId);
+        assertThat(result.getGroupItem()).isEqualTo(groupItem);
+        assertThat(result.getGroupItemInShopId()).isEqualTo(groupItem.getId());
+        assertThat(result.getUsedAt()).isNull();
+    }
+
+    @Test
+    void shouldUpdateProperties_whenSettersAreCalledWithValidData() {
+        // given
+        OwnedGroupItem ownedItem = Instancio.create(OwnedGroupItem.class);
+        UUID newMemberId = UUID.randomUUID();
+        GroupItem newItem = Instancio.create(GroupItem.class);
+
+        // when
+        ownedItem.setGroupMemberId(newMemberId);
+        ownedItem.setGroupItem(newItem);
+
+        // then
+        assertThat(ownedItem.getGroupMemberId()).isEqualTo(newMemberId);
+        assertThat(ownedItem.getGroupItem()).isEqualTo(newItem);
+        assertThat(ownedItem.getGroupItemInShopId()).isEqualTo(newItem.getId());
     }
 
 }

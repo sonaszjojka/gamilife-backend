@@ -1,8 +1,6 @@
-package pl.gamilife.groupShop.domain.model;
+package pl.gamilife.groupshop.domain.model;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
-import pl.gamilife.groupshop.domain.model.GroupItem;
-import pl.gamilife.groupshop.domain.model.GroupShop;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -104,6 +102,61 @@ class GroupItemTest {
 
         //then
         assertThat(throwable).isInstanceOf(DomainValidationException.class).hasMessageContaining("GroupShop must be provided");
+    }
+
+    @Test
+    void shouldCreateGroupItem_whenValidDataIsProvided() {
+        // given
+        String name = "Name";
+        Integer price = 500;
+        Boolean isActive = true;
+        GroupShop groupShop = Instancio.create(GroupShop.class);
+
+        // when
+        GroupItem groupItem = GroupItem.createPrivate(name, price, isActive, groupShop);
+
+        // then
+        assertThat(groupItem).isNotNull();
+        assertThat(groupItem.getName()).isEqualTo(name);
+        assertThat(groupItem.getPrice()).isEqualTo(price);
+        assertThat(groupItem.getIsActive()).isTrue();
+        assertThat(groupItem.getGroupShop()).isEqualTo(groupShop);
+        assertThat(groupItem.getGroupShopId()).isEqualTo(groupShop.getId());
+    }
+
+    @Test
+    void shouldThrowException_whenNameIsBlank() {
+        // given
+        String invalidName = " ";
+
+        GroupShop groupShop = Instancio.create(GroupShop.class);
+
+        // when
+        Throwable throwable = catchThrowable(() -> GroupItem.createPrivate(invalidName, 100, true, groupShop));
+
+        // then
+        assertThat(throwable)
+                .isInstanceOf(DomainValidationException.class)
+                .hasMessage("Item name must be provided");
+    }
+
+    @Test
+    void shouldUpdateProperties_whenSettersAreCalledWithValidData() {
+        // given
+        GroupItem groupItem = Instancio.create(GroupItem.class);
+        String newName = "New Name";
+        Integer newPrice = 9999;
+        Boolean newStatus = !groupItem.getIsActive();
+
+        // when
+        groupItem.setName(newName);
+        groupItem.setPrice(newPrice);
+        groupItem.setIsActive(newStatus);
+
+        // then
+        assertThat(groupItem.getName()).isEqualTo(newName);
+        assertThat(groupItem.getPrice()).isEqualTo(newPrice);
+        assertThat(groupItem.getIsActive()).isEqualTo(newStatus);
     }
 
 
