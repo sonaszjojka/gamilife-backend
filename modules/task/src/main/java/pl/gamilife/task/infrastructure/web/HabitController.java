@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
-import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 import pl.gamilife.task.application.createhabit.CreateHabitCommand;
 import pl.gamilife.task.application.createhabit.CreateHabitResult;
 import pl.gamilife.task.application.createhabit.CreateHabitUseCase;
@@ -39,7 +38,7 @@ public class HabitController {
     @GetMapping
     public ResponseEntity<Page<GetUsersHabitsResult>> getAll(
             @CurrentUserId UUID userId,
-            @CurrentUserTimezone ZoneId zoneId,
+            @RequestHeader(value = "X-Timezone", required = false) ZoneId zoneId,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) Integer categoryId,
             @RequestParam(required = false) Integer difficultyId,
@@ -62,7 +61,7 @@ public class HabitController {
     @PostMapping
     public ResponseEntity<CreateHabitResult> create(
             @CurrentUserId UUID userId,
-            @CurrentUserTimezone ZoneId zoneId,
+            @RequestHeader(value = "X-Timezone", required = false) ZoneId zoneId,
             @RequestBody @Valid CreateHabitRequest request
     ) {
         CreateHabitResult response = createHabitUseCase.execute(new CreateHabitCommand(
@@ -80,7 +79,7 @@ public class HabitController {
     @PatchMapping("/{habitId}")
     public ResponseEntity<EditHabitResult> edit(
             @CurrentUserId UUID userId,
-            @CurrentUserTimezone ZoneId zoneId,
+            @RequestHeader(value = "X-Timezone", required = false) ZoneId zoneId,
             @PathVariable UUID habitId,
             @RequestBody @Valid EditHabitRequest request) {
         EditHabitResult response = editHabitUseCase.execute(new EditHabitCommand(

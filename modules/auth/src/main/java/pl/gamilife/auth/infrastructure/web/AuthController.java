@@ -36,7 +36,6 @@ import pl.gamilife.shared.web.security.annotation.AllowUnverified;
 import pl.gamilife.shared.web.security.annotation.AuthenticatedUserIsOwner;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 import pl.gamilife.shared.web.util.CookieUtil;
-import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 
 import java.time.ZoneId;
 import java.util.UUID;
@@ -61,7 +60,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AfterLoginResponse> registerUser(
             @RequestBody @Valid RegisterUserRequest request,
-            @CurrentUserTimezone ZoneId zoneId,
+            @RequestHeader(value = "X-Timezone", required = false) ZoneId zoneId,
             HttpServletResponse response
     ) {
         LoginUserResult result = registerUserUseCase.execute(

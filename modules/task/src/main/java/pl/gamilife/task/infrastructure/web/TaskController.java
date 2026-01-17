@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
-import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 import pl.gamilife.task.application.createtask.CreateTaskCommand;
 import pl.gamilife.task.application.createtask.CreateTaskResult;
 import pl.gamilife.task.application.createtask.CreateTaskUseCase;
@@ -40,7 +39,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<CreateTaskResult> create(
             @CurrentUserId UUID userId,
-            @CurrentUserTimezone ZoneId zoneId,
+            @RequestHeader(value = "X-Timezone", required = false) ZoneId zoneId,
             @RequestBody @Valid CreateTaskRequest request) {
         CreateTaskResult response = createTaskUseCase.execute(new CreateTaskCommand(
                 userId,
@@ -58,7 +57,7 @@ public class TaskController {
     @PatchMapping("/{taskId}")
     public ResponseEntity<EditTaskResult> edit(
             @CurrentUserId UUID userId,
-            @CurrentUserTimezone ZoneId zoneId,
+            @RequestHeader(value = "X-Timezone", required = false) ZoneId zoneId,
             @PathVariable UUID taskId,
             @RequestBody @Valid EditTaskRequest request
     ) {
@@ -90,7 +89,7 @@ public class TaskController {
     @GetMapping
     public ResponseEntity<Page<GetUserTasksResult>> getUserTasks(
             @CurrentUserId UUID userId,
-            @CurrentUserTimezone ZoneId zoneId,
+            @RequestHeader(value = "X-Timezone", required = false) ZoneId zoneId,
             @RequestParam(required = false) Integer categoryId,
             @RequestParam(required = false) Integer difficultyId,
             @RequestParam(required = false) Boolean completed,

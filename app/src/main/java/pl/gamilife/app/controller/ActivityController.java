@@ -2,16 +2,12 @@ package pl.gamilife.app.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.gamilife.app.dto.activity.ActivityItemDetails;
 import pl.gamilife.app.dto.activity.ActivityItemQueryDto;
 import pl.gamilife.app.service.ActivityService;
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
-import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -28,7 +24,7 @@ public class ActivityController {
     @GetMapping
     public ResponseEntity<Page<ActivityItemDetails>> getAllActivities(
             @CurrentUserId UUID userId,
-            @CurrentUserTimezone ZoneId zoneId,
+            @RequestHeader(value = "X-Timezone", required = false) ZoneId zoneId,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) Integer categoryId,
             @RequestParam(required = false) Integer difficultyId,
