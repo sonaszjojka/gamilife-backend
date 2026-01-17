@@ -16,7 +16,8 @@ public enum OtherErrorCode implements ErrorCode {
     MISSING_ACCESS_TOKEN_COOKIE,
     MISSING_REFRESH_TOKEN_COOKIE,
     OPTIMISTIC_LOCKING_FAILURE,
-    NO_RESOURCE_FOUND;
+    NO_RESOURCE_FOUND,
+    UNAUTHORIZED;
 
     @Override
     public String getKey() {
