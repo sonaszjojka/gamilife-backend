@@ -31,6 +31,11 @@ import java.util.concurrent.locks.ReentrantLock;
 public class GoogleAuthClientAdapter implements GoogleAuthClient {
 
     private final WebClient webClient;
+    private final Cache<String, Key> keyCache = Caffeine.newBuilder()
+            .expireAfterWrite(1, TimeUnit.HOURS)
+            .maximumSize(10)
+            .build();
+    private final ReentrantLock lock = new ReentrantLock();
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String googleClientId;
@@ -40,13 +45,6 @@ public class GoogleAuthClientAdapter implements GoogleAuthClient {
 
     @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
     private String googleRedirectUri;
-
-    private final Cache<String, Key> keyCache = Caffeine.newBuilder()
-            .expireAfterWrite(1, TimeUnit.HOURS)
-            .maximumSize(10)
-            .build();
-
-    private final ReentrantLock lock = new ReentrantLock();
 
     @Override
     public Map<String, String> call(String code, String codeVerifier) {

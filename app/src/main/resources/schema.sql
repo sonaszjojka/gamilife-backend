@@ -330,14 +330,14 @@ CREATE INDEX idx_group_task_group_id on group_task.group_task (group_id ASC);
 -- Table: group_task_member
 CREATE TABLE group_task.group_task_member
 (
-    id              uuid                     NOT NULL,
-    group_member_id uuid                     NOT NULL,
-    group_task_id   uuid                     NOT NULL,
-    marked_done_at  timestamp with time zone NULL,
+    id               uuid                     NOT NULL,
+    group_member_id  uuid                     NOT NULL,
+    group_task_id    uuid                     NOT NULL,
+    marked_done_at   timestamp with time zone NULL,
     reward_issued_at timestamp with time zone NULL,
-    version         bigint                   NOT NULL DEFAULT 0,
-    created_at      timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at      timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    version          bigint                   NOT NULL DEFAULT 0,
+    created_at       timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at       timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT group_task_member_pk PRIMARY KEY (id)
 );
 
@@ -434,7 +434,7 @@ CREATE TABLE communication.notification_retry
     id                   uuid                     NOT NULL,
     user_id              uuid                     NOT NULL,
     original_timestamp   timestamp with time zone NOT NULL,
-    data jsonb NULL,
+    data                 jsonb                    NULL,
     notification_type_id int                      NOT NULL,
     version              bigint                   NOT NULL DEFAULT 0,
     created_at           timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -673,7 +673,7 @@ CREATE TABLE "user"."user"
     "level"               int                      NOT NULL,
     experience            int                      NOT NULL,
     money                 int                      NOT NULL,
-    stats_version bigint NOT NULL DEFAULT 0,
+    stats_version         bigint                   NOT NULL DEFAULT 0,
     send_budget_reports   boolean                  NOT NULL,
     is_profile_public     boolean                  NOT NULL,
     is_email_verified     boolean                  NOT NULL,

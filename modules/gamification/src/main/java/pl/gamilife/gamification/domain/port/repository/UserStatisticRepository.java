@@ -11,7 +11,7 @@ public interface UserStatisticRepository {
 
     Optional<UserStatistic> findByUserIdAndStatisticTypeId(UUID userId, Integer statisticTypeId);
 
-    List<UserStatistic> findWithStatisticTypeByUserId (UUID userId);
+    List<UserStatistic> findWithStatisticTypeByUserId(UUID userId);
 
     void save(UserStatistic userStatistic);
 }
