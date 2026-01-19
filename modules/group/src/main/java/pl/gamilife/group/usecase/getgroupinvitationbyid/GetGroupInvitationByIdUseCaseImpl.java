@@ -31,7 +31,7 @@ public class GetGroupInvitationByIdUseCaseImpl implements GetGroupInvitationById
                 group.getName(),
                 groupInvitation.getUserId(),
                 switch (groupInvitation.getStatus().toEnum()) {
-                    case SENT  -> GetGroupInvitationByIdResult.InvitationStatus.SENT;
+                    case SENT -> GetGroupInvitationByIdResult.InvitationStatus.SENT;
                     case ACCEPTED -> GetGroupInvitationByIdResult.InvitationStatus.ACCEPTED;
                     case DECLINED -> GetGroupInvitationByIdResult.InvitationStatus.DECLINED;
                     case REVOKED -> GetGroupInvitationByIdResult.InvitationStatus.REVOKED;

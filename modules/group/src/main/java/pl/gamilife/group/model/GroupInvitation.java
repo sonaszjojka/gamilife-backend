@@ -60,8 +60,6 @@ public class GroupInvitation extends BaseEntity {
         return this.userId.equals(userId);
     }
 
-
-
     public void changeStatus(InvitationStatus invitationStatus) {
         if (invitationStatus == null) {
             throw new DomainValidationException("Invitation status cannot be null");

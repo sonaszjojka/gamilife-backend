@@ -1,7 +1,10 @@
 package pl.gamilife.task.domain.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.gamilife.shared.kernel.exception.domain.DomainValidationException;
 import pl.gamilife.shared.persistence.entity.BaseEntity;
 

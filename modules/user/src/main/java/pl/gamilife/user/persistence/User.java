@@ -90,73 +90,6 @@ public class User extends BaseEntity {
         return new UserBuilder();
     }
 
-    public static class UserBuilder {
-        private String firstName;
-        private String lastName;
-        private String email;
-        private String password;
-        private String username;
-        private LocalDate dateOfBirth;
-        private boolean sendBudgetReports;
-        private boolean isProfilePublic;
-        private boolean isEmailVerified;
-        private String timezone;
-
-        public UserBuilder firstName(String firstName) {
-            this.firstName = firstName;
-            return this;
-        }
-
-        public UserBuilder lastName(String lastName) {
-            this.lastName = lastName;
-            return this;
-        }
-
-        public UserBuilder email(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public UserBuilder password(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public UserBuilder username(String username) {
-            this.username = username;
-            return this;
-        }
-
-        public UserBuilder dateOfBirth(LocalDate dateOfBirth) {
-            this.dateOfBirth = dateOfBirth;
-            return this;
-        }
-
-        public UserBuilder sendBudgetReports(boolean sendBudgetReports) {
-            this.sendBudgetReports = sendBudgetReports;
-            return this;
-        }
-
-        public UserBuilder isProfilePublic(boolean isProfilePublic) {
-            this.isProfilePublic = isProfilePublic;
-            return this;
-        }
-
-        public UserBuilder isEmailVerified(boolean isEmailVerified) {
-            this.isEmailVerified = isEmailVerified;
-            return this;
-        }
-
-        public UserBuilder timezone(String timezone) {
-            this.timezone = timezone;
-            return this;
-        }
-
-        public User build() {
-            return new User(this);
-        }
-    }
-
     public void verifyEmail() {
         if (this.isEmailVerified) {
             throw new DomainValidationException("Email already verified");
@@ -324,5 +257,72 @@ public class User extends BaseEntity {
 
     private void incrementStatsVersion() {
         this.statsVersion++;
+    }
+
+    public static class UserBuilder {
+        private String firstName;
+        private String lastName;
+        private String email;
+        private String password;
+        private String username;
+        private LocalDate dateOfBirth;
+        private boolean sendBudgetReports;
+        private boolean isProfilePublic;
+        private boolean isEmailVerified;
+        private String timezone;
+
+        public UserBuilder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public UserBuilder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public UserBuilder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder username(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public UserBuilder dateOfBirth(LocalDate dateOfBirth) {
+            this.dateOfBirth = dateOfBirth;
+            return this;
+        }
+
+        public UserBuilder sendBudgetReports(boolean sendBudgetReports) {
+            this.sendBudgetReports = sendBudgetReports;
+            return this;
+        }
+
+        public UserBuilder isProfilePublic(boolean isProfilePublic) {
+            this.isProfilePublic = isProfilePublic;
+            return this;
+        }
+
+        public UserBuilder isEmailVerified(boolean isEmailVerified) {
+            this.isEmailVerified = isEmailVerified;
+            return this;
+        }
+
+        public UserBuilder timezone(String timezone) {
+            this.timezone = timezone;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
     }
 }

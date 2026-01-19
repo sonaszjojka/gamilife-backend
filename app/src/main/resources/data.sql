@@ -160,7 +160,8 @@ VALUES (gen_random_uuid(), 1, 10, 5),
        (gen_random_uuid(), 3, 15, 5),
        (gen_random_uuid(), 4, 10, 0);
 
-INSERT INTO gamification.achievement (id, name, description, image_path, statistic_type_id, goal, money_reward, experience_reward)
+INSERT INTO gamification.achievement (id, name, description, image_path, statistic_type_id, goal, money_reward,
+                                      experience_reward)
 VALUES
     -- Completed Tasks (typ 1)
     (gen_random_uuid(), 'First Task Completed', 'Complete your first task',
@@ -738,7 +739,8 @@ VALUES
      '/images/items/accessory/mystic_orb_v2.png', 96, 5, 4, NULL,
      (SELECT id FROM gamification.achievement WHERE name = 'Community Member'), NULL);
 
-DELETE FROM communication.notification_type
+DELETE
+FROM communication.notification_type
 WHERE EXISTS(SELECT 1);
 INSERT INTO communication.notification_type (id, name)
 VALUES (1, 'Achievement Unlocked'),

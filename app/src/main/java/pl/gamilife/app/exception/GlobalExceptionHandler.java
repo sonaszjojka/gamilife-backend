@@ -9,6 +9,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -177,6 +178,15 @@ public class GlobalExceptionHandler extends AbstractExceptionHandler {
     @ExceptionHandler(NoResourceFoundException.class)
     public ErrorResponse handleNoResourceFoundException() {
         ErrorCode errorCode = OtherErrorCode.NO_RESOURCE_FOUND;
+        ErrorResponse response = buildErrorResponseFor(errorCode);
+        logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
+
+        return response;
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ErrorResponse handleAuthenticationException(AuthenticationException ex) {
+        ErrorCode errorCode = OtherErrorCode.UNAUTHORIZED;
         ErrorResponse response = buildErrorResponseFor(errorCode);
         logWarning(response.getCode(), errorCode.getKey(), response.getDetail());
 

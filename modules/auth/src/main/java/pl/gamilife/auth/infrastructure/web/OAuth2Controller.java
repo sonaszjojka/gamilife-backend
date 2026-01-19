@@ -8,10 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.gamilife.auth.application.dto.AuthTokens;
 import pl.gamilife.auth.application.dto.GoogleSignInResult;
 import pl.gamilife.auth.application.dto.LoginUserResult;
@@ -25,7 +22,6 @@ import pl.gamilife.auth.infrastructure.web.response.AfterLoginResponse;
 import pl.gamilife.auth.infrastructure.web.response.GoogleCodeVerificationResponse;
 import pl.gamilife.auth.infrastructure.web.response.OAuth2LinkResponse;
 import pl.gamilife.shared.web.util.CookieUtil;
-import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 
 import java.security.InvalidParameterException;
 import java.time.ZoneId;
@@ -76,7 +72,7 @@ public class OAuth2Controller {
 
     @PostMapping("/code/google")
     public ResponseEntity<GoogleCodeVerificationResponse> handleGoogleCode(
-            @CurrentUserTimezone ZoneId zoneId,
+            @RequestHeader(value = "X-Timezone", required = false) ZoneId zoneId,
             @RequestBody OAuthCodeRequest request,
             HttpServletResponse response
     ) {
