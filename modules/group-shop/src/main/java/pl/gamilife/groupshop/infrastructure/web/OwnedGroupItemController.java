@@ -15,8 +15,8 @@ import pl.gamilife.groupshop.application.getownedgroupitems.GetOwnedGroupItemsUs
 import pl.gamilife.groupshop.application.purchasegroupitem.PurchaseGroupItemCommand;
 import pl.gamilife.groupshop.application.purchasegroupitem.PurchaseGroupItemResult;
 import pl.gamilife.groupshop.application.purchasegroupitem.PurchaseGroupItemUseCase;
-import pl.gamilife.groupshop.infrastructure.web.request.PurchaseGroupItemRequest;
 import pl.gamilife.groupshop.infrastructure.web.request.EditOwnedGroupItemRequest;
+import pl.gamilife.groupshop.infrastructure.web.request.PurchaseGroupItemRequest;
 import pl.gamilife.groupshop.infrastructure.web.response.ApiResponse;
 import pl.gamilife.shared.kernel.architecture.Page;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
@@ -76,7 +76,7 @@ public class OwnedGroupItemController {
             @RequestBody @Valid EditOwnedGroupItemRequest request
     ) {
         EditOwnedGroupItemCommand cmd = new EditOwnedGroupItemCommand(
-                request.isUsedUp(), ownedGroupItemId,groupId, currentUserId, memberId
+                request.isUsedUp(), ownedGroupItemId, groupId, currentUserId, memberId
         );
 
         EditOwnedGroupItemResult response = editOwnedGroupItemUseCase.execute(cmd);

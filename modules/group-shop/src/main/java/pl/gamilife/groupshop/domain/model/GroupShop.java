@@ -18,6 +18,7 @@ import java.util.UUID;
 @Table(name = "group_shop", schema = "group_shop")
 @ToString
 public class GroupShop extends BaseEntity {
+
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 

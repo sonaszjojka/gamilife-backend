@@ -133,15 +133,15 @@ public class Habit extends BaseEntity {
     }
 
     public void completeIteration(LocalDate currentUserDate) {
+        if (isHabitDead(currentUserDate)) {
+            throw new DomainValidationException("Cannot continue a dead habit. Resurrect it first.");
+        }
+
         LocalDate previousDeadline = getPreviousDeadline();
         if (!canBeWorkedOn(currentUserDate)) {
             throw new DomainValidationException(
                     String.format("Current habit iteration already completed. Try again after %s", previousDeadline)
             );
-        }
-
-        if (isHabitDead(currentUserDate)) {
-            throw new DomainValidationException("Cannot continue a dead habit. Resurrect it first.");
         }
 
         incrementCurrentStreak();

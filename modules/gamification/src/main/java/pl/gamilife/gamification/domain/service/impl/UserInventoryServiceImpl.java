@@ -24,7 +24,7 @@ public class UserInventoryServiceImpl implements UserInventoryService {
         Optional<UserInventoryItem> usersInventoryOptional = getUserInventoryItem(userId, item);
         UserInventoryItem userInventoryItem;
 
-        if (usersInventoryOptional.isEmpty() || usersInventoryOptional.get().getQuantity() == null) {
+        if (usersInventoryOptional.isEmpty()) {
             userInventoryItem = addNewItemToInventory(userId, item);
         } else {
             userInventoryItem = usersInventoryOptional.get();

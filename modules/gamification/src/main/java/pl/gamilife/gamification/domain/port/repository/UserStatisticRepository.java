@@ -10,6 +10,8 @@ public interface UserStatisticRepository {
     void saveAll(List<UserStatistic> userStatistics);
 
     Optional<UserStatistic> findByUserIdAndStatisticTypeId(UUID userId, Integer statisticTypeId);
-    List<UserStatistic> findByUserId (UUID userId);
+
+    List<UserStatistic> findWithStatisticTypeByUserId(UUID userId);
+
     void save(UserStatistic userStatistic);
 }

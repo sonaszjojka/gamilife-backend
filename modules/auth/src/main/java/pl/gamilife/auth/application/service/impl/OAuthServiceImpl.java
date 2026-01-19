@@ -1,7 +1,7 @@
 package pl.gamilife.auth.application.service.impl;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.DecodedJWT;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,14 +36,32 @@ public class OAuthServiceImpl implements OAuthService {
     @Override
     public GoogleUserDto exchangeCodeForTokens(String code, String codeVerifier) {
         Map<String, String> response = googleAuthClient.call(code, codeVerifier);
+
+        if (response == null || !response.containsKey("id_token")) {
+            throw new IllegalStateException("Failed to exchange code for tokens");
+        }
+
         String token = response.get("id_token");
-        DecodedJWT jwt = JWT.decode(token);
+
+        Claims claims = Jwts.parser()
+                .keyLocator(header -> {
+                    String keyId = (String) header.get("kid");
+
+                    if (keyId == null) {
+                        return null;
+                    }
+
+                    return googleAuthClient.getKey(keyId);
+                })
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
 
         return new GoogleUserDto(
-                jwt.getClaim("sub").asString(),
-                jwt.getClaim("email").asString(),
-                jwt.getClaim("given_name").asString(),
-                jwt.getClaim("family_name").asString()
+                claims.getSubject(),
+                claims.get("email", String.class),
+                claims.get("given_name", String.class),
+                claims.get("family_name", String.class)
         );
     }
 

@@ -75,63 +75,6 @@ public class Task extends BaseEntity {
         return new TaskBuilder();
     }
 
-    public static class TaskBuilder {
-        private String title;
-        private String description;
-        private UUID userId;
-        private TaskCategory category;
-        private TaskDifficulty difficulty;
-        private LocalDate deadlineDate;
-        private LocalTime deadlineTime;
-
-        public TaskBuilder title(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public TaskBuilder description(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public TaskBuilder userId(UUID userId) {
-            this.userId = userId;
-            return this;
-        }
-
-        public TaskBuilder category(TaskCategory category) {
-            this.category = category;
-            return this;
-        }
-
-        public TaskBuilder difficulty(TaskDifficulty difficulty) {
-            this.difficulty = difficulty;
-            return this;
-        }
-
-        public TaskBuilder deadlineDate(LocalDate deadlineDate) {
-            this.deadlineDate = deadlineDate;
-            return this;
-        }
-
-        public TaskBuilder deadlineTime(LocalTime deadlineTime) {
-            this.deadlineTime = deadlineTime;
-            return this;
-        }
-
-        public Task buildPrivate(LocalDateTime currentUserDateTime) {
-            if (this.userId == null) {
-                throw new DomainValidationException("User id cannot be null for private task");
-            }
-            return new Task(this, currentUserDateTime);
-        }
-
-        public Task buildForGroupTask(LocalDateTime currentGroupDateTime) {
-            this.userId = null;
-            return new Task(this, currentGroupDateTime);
-        }
-    }
-
     public boolean isOwnedBy(UUID userId) {
         if (userId == null) {
             throw new DomainValidationException("User id cannot be null");
@@ -272,5 +215,62 @@ public class Task extends BaseEntity {
 
     public boolean isWholeDayTask() {
         return deadlineTime == null;
+    }
+
+    public static class TaskBuilder {
+        private String title;
+        private String description;
+        private UUID userId;
+        private TaskCategory category;
+        private TaskDifficulty difficulty;
+        private LocalDate deadlineDate;
+        private LocalTime deadlineTime;
+
+        public TaskBuilder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public TaskBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public TaskBuilder userId(UUID userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public TaskBuilder category(TaskCategory category) {
+            this.category = category;
+            return this;
+        }
+
+        public TaskBuilder difficulty(TaskDifficulty difficulty) {
+            this.difficulty = difficulty;
+            return this;
+        }
+
+        public TaskBuilder deadlineDate(LocalDate deadlineDate) {
+            this.deadlineDate = deadlineDate;
+            return this;
+        }
+
+        public TaskBuilder deadlineTime(LocalTime deadlineTime) {
+            this.deadlineTime = deadlineTime;
+            return this;
+        }
+
+        public Task buildPrivate(LocalDateTime currentUserDateTime) {
+            if (this.userId == null) {
+                throw new DomainValidationException("User id cannot be null for private task");
+            }
+            return new Task(this, currentUserDateTime);
+        }
+
+        public Task buildForGroupTask(LocalDateTime currentGroupDateTime) {
+            this.userId = null;
+            return new Task(this, currentGroupDateTime);
+        }
     }
 }

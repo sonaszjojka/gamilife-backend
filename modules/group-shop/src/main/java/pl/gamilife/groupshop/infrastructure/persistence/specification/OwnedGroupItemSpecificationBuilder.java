@@ -39,11 +39,9 @@ public class OwnedGroupItemSpecificationBuilder {
                 return null;
             }
 
-            if (isUsedUp ) {
+            if (isUsedUp) {
                 return cb.isNotNull(root.get("usedAt"));
-            }
-            else
-            {
+            } else {
                 return cb.isNull(root.get("usedAt"));
             }
         };

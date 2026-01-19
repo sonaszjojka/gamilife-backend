@@ -31,7 +31,7 @@ public class GetGroupShopDetailsUseCaseImpl implements GetGroupShopDetailsUseCas
                 .orElseThrow(() -> new GroupShopNotFoundException("Group shop not found"));
 
         Page<GroupItem> groupItemsPage = groupItemRepository.findAll(
-                new GroupItemsFilter(groupShop.getId(),true),
+                new GroupItemsFilter(groupShop.getId(), true),
                 cmd.pageNumber(),
                 cmd.pageSize()
         );

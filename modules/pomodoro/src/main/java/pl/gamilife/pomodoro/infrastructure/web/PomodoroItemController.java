@@ -16,7 +16,6 @@ import pl.gamilife.pomodoro.application.editpomodoroitem.EditPomodoroItemUseCase
 import pl.gamilife.pomodoro.infrastructure.web.request.CreatePomodoroItemRequest;
 import pl.gamilife.pomodoro.infrastructure.web.request.EditPomodoroItemRequest;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
-import pl.gamilife.shared.web.util.annotation.CurrentUserTimezone;
 
 import java.time.ZoneId;
 import java.util.UUID;
@@ -33,7 +32,7 @@ public class PomodoroItemController {
     @PostMapping
     public ResponseEntity<CreatePomodoroItemResult> createPomodoroTask(
             @CurrentUserId UUID userId,
-            @CurrentUserTimezone ZoneId zoneId,
+            @RequestHeader(value = "X-Timezone", required = false) ZoneId zoneId,
             @RequestBody @Valid CreatePomodoroItemRequest request
     ) {
         CreatePomodoroItemResult response = createPomodoroItemUseCase.execute(new CreatePomodoroItemCommand(
@@ -49,7 +48,7 @@ public class PomodoroItemController {
     @PatchMapping("/{pomodoroId}")
     public ResponseEntity<EditPomodoroItemResult> editPomodoroTask(
             @CurrentUserId UUID userId,
-            @CurrentUserTimezone ZoneId zoneId,
+            @RequestHeader(value = "X-Timezone", required = false) ZoneId zoneId,
             @PathVariable UUID pomodoroId,
             @RequestBody @Valid EditPomodoroItemRequest request) {
 
@@ -67,7 +66,7 @@ public class PomodoroItemController {
     @DeleteMapping("/{pomodoroTaskId}")
     public ResponseEntity<ApiResponse> deletePomodoroTask(
             @CurrentUserId UUID userId,
-            @CurrentUserTimezone ZoneId zoneId,
+            @RequestHeader(value = "X-Timezone", required = false) ZoneId zoneId,
             @PathVariable UUID pomodoroTaskId
     ) {
 
