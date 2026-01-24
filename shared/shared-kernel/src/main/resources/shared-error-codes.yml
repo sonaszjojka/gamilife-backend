@@ -14,7 +14,7 @@ error-codes:
       code: 1003
       title: "Password Reset Failed"
       detail: "The password reset process could not be completed."
-      status: 500
+      status: 422
     GROUP_NOT_FOUND:
       code: 1004
       title: "Group Not Found"
