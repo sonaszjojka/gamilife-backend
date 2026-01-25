@@ -44,7 +44,8 @@ public class CompleteOnboardingUseCaseImpl implements CompleteOnboardingUseCase 
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),
                 user.isEmailVerified(),
-                user.isTutorialCompleted()
+                user.isTutorialCompleted(),
+                user.getPassword() != null
         );
     }
 }

@@ -70,7 +70,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 dto.sendBudgetReports(),
                 dto.isProfilePublic(),
                 dto.isEmailVerified(),
-                dto.isTutorialCompleted()
+                dto.isTutorialCompleted(),
+                dto.hasLocalPassword()
         );
     }
 }

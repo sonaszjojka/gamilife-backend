@@ -36,7 +36,8 @@ public class GetUserDetailsUseCaseImpl implements GetUserDetailsUseCase {
                 user.isSendBudgetReports(),
                 user.isProfilePublic(),
                 user.isEmailVerified(),
-                user.isTutorialCompleted()
+                user.isTutorialCompleted(),
+                user.getPassword() != null
         );
     }
 }

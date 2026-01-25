@@ -34,11 +34,12 @@ public class ChangePasswordUseCaseImpl implements ChangePasswordUseCase {
             throw new InvalidCredentialsException("Invalid password");
         }
 
-        if (passwordEncoder.matches(cmd.newPassword(), user.password())) {
+        if (cmd.newPassword().equals(user.password())) {
             throw new OldAndNewPasswordAreTheSameException();
         }
 
-        userContext.updateUserPassword(cmd.userId(), cmd.newPassword());
+        String hashedNewPassword = passwordEncoder.encode(cmd.newPassword());
+        userContext.updateUserPassword(cmd.userId(), hashedNewPassword);
 
         secureCodesAndTokensService.revokeAllTokensAndCodesForUser(cmd.userId());
 
