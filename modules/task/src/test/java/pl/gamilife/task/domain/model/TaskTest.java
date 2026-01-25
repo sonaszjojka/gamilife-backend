@@ -252,20 +252,6 @@ class TaskTest {
     }
 
     @Test
-    void shouldThrowException_whenMarkingUndoneTaskAsUndone() {
-        // given
-        Task task = createTaskForTomorrow();
-
-        // when
-        Throwable throwable = catchThrowable(task::markUndone);
-
-        // then
-        assertThat(throwable)
-                .isInstanceOf(DomainValidationException.class)
-                .hasMessage("Task is not marked as completed");
-    }
-
-    @Test
     void shouldMarkRewardAsIssued_whenNotAlreadyIssued() {
         // given
         Task task = createTaskForTomorrow();

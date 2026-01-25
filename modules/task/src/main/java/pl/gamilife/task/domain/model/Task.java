@@ -167,10 +167,6 @@ public class Task extends BaseEntity {
     }
 
     public void markUndone() {
-        if (this.completedAt == null) {
-            throw new DomainValidationException("Task is not marked as completed");
-        }
-
         this.completedAt = null;
     }
 
