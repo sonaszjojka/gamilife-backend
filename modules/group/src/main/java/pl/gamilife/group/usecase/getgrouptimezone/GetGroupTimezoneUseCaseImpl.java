@@ -2,6 +2,7 @@ package pl.gamilife.group.usecase.getgrouptimezone;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.repository.GroupJpaRepository;
 import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
@@ -9,6 +10,7 @@ import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 import java.time.ZoneId;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class GetGroupTimezoneUseCaseImpl implements GetGroupTimezoneUseCase {
 

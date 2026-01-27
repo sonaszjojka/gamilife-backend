@@ -2,6 +2,7 @@ package pl.gamilife.auth.application.usecase.logout;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.auth.application.service.TokenService;
 import pl.gamilife.auth.domain.exception.domain.InvalidRefreshTokenException;
 import pl.gamilife.auth.domain.model.RefreshToken;
@@ -10,6 +11,7 @@ import pl.gamilife.auth.domain.port.repository.RefreshTokenRepository;
 import java.time.Instant;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class LogoutUserUseCaseImpl implements LogoutUserUseCase {
 

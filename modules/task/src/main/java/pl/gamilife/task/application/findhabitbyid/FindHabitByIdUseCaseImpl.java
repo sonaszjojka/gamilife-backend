@@ -2,6 +2,7 @@ package pl.gamilife.task.application.findhabitbyid;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 import pl.gamilife.task.domain.exception.domain.HabitNotFoundException;
 import pl.gamilife.task.domain.model.Habit;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class FindHabitByIdUseCaseImpl implements FindHabitByIdUseCase {
 

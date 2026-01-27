@@ -36,4 +36,6 @@ public interface GroupMemberJpaRepository extends JpaRepository<GroupMember, UUI
 
     @EntityGraph(attributePaths = {"group"})
     Optional<GroupMember> findWithGroupByUserIdAndGroupId(@NotNull UUID userId, @NotNull UUID groupId);
+
+    void deleteAllByGroupId(@NotNull UUID groupId);
 }

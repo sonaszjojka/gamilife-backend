@@ -2,11 +2,13 @@ package pl.gamilife.task.application.findtaskbyid;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.shared.kernel.exception.domain.TaskNotFoundException;
 import pl.gamilife.task.domain.model.Task;
 import pl.gamilife.task.domain.port.repository.TaskRepository;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class FindTaskByIdUseCaseImpl implements FindTaskByIdUseCase {
 

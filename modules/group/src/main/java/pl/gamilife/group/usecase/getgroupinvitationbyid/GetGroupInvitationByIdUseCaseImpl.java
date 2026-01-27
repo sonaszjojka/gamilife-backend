@@ -2,11 +2,13 @@ package pl.gamilife.group.usecase.getgroupinvitationbyid;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.group.exception.domain.GroupInvitationNotFoundException;
 import pl.gamilife.group.repository.GroupInvitationJpaRepository;
 import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequiredException;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class GetGroupInvitationByIdUseCaseImpl implements GetGroupInvitationByIdUseCase {
 

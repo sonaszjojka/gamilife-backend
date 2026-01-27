@@ -2,9 +2,11 @@ package pl.gamilife.communication.usecase.bulksendnotification;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.communication.service.NotificationService;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class BulkSendNotificationUseCaseImpl implements BulkSendNotificationUseCase {
 

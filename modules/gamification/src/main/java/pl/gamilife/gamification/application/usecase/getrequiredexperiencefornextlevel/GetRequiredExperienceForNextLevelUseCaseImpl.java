@@ -2,12 +2,14 @@ package pl.gamilife.gamification.application.usecase.getrequiredexperiencefornex
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.gamification.domain.model.Level;
 import pl.gamilife.gamification.domain.service.LevelService;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class GetRequiredExperienceForNextLevelUseCaseImpl implements GetRequiredExperienceForNextLevelUseCase {
 

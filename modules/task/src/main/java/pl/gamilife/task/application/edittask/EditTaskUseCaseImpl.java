@@ -52,10 +52,7 @@ public class EditTaskUseCaseImpl implements EditTaskUseCase {
             task.setTitle(cmd.title());
         }
 
-        boolean rescheduled = rescheduleDeadline(task, cmd);
-        if (rescheduled) {
-            // TODO: remove notifications
-        }
+        rescheduleDeadline(task, cmd);
 
         if (Boolean.TRUE.equals(cmd.removeDescription()) && cmd.description() == null) {
             task.setDescription(null);
