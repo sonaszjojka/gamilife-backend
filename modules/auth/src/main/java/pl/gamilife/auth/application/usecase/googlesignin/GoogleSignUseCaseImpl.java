@@ -2,6 +2,7 @@ package pl.gamilife.auth.application.usecase.googlesignin;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import pl.gamilife.auth.application.dto.GoogleSignInResult;
 import pl.gamilife.auth.application.dto.GoogleUserDto;
@@ -14,6 +15,7 @@ import pl.gamilife.auth.domain.port.repository.UserProviderRepository;
 import java.util.Optional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class GoogleSignUseCaseImpl implements GoogleSignInUseCase {
 

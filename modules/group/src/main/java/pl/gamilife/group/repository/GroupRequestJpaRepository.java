@@ -1,5 +1,6 @@
 package pl.gamilife.group.repository;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import pl.gamilife.group.model.Group;
@@ -19,4 +20,6 @@ public interface GroupRequestJpaRepository extends JpaRepository<GroupRequest, U
     boolean existsByGroupAndUserIdAndStatus(Group groupRequested, UUID userId, GroupRequestStatus groupRequestStatus);
 
     List<GroupRequest> findWithStatusByIdIn(Collection<UUID> groupRequestIds);
+
+    void deleteAllByGroupId(@NotNull UUID groupId);
 }

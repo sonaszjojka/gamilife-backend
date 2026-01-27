@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.gamilife.auth.application.dto.AuthTokens;
 import pl.gamilife.auth.application.dto.LoginUserResult;
@@ -32,6 +33,7 @@ import pl.gamilife.auth.application.usecase.verifyemail.VerifyEmailCommand;
 import pl.gamilife.auth.application.usecase.verifyemail.VerifyEmailUseCase;
 import pl.gamilife.auth.infrastructure.web.request.*;
 import pl.gamilife.auth.infrastructure.web.response.AfterLoginResponse;
+import pl.gamilife.shared.web.security.AuthenticatedUser;
 import pl.gamilife.shared.web.security.annotation.AllowUnverified;
 import pl.gamilife.shared.web.security.annotation.CurrentUserId;
 import pl.gamilife.shared.web.util.CookieUtil;
@@ -155,17 +157,30 @@ public class AuthController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<Void> resetPassword(@Valid @RequestBody ResetPasswordRequest request,
-                                              HttpServletResponse response) {
-        resetPasswordUseCase.execute(new ResetPasswordCommand(
-                request.code(), request.newPassword()
+    public ResponseEntity<Void> resetPassword(
+            @Valid @RequestBody ResetPasswordRequest request,
+            HttpServletResponse response
+    ) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var isAuthenticated = authentication != null && authentication.getPrincipal() instanceof AuthenticatedUser;
+        var tokens = resetPasswordUseCase.execute(new ResetPasswordCommand(
+                request.code(),
+                request.newPassword(),
+                isAuthenticated
+                        ? ((AuthenticatedUser) authentication.getPrincipal()).getId()
+                        : null
         ));
 
-        invalidateTokenCookies(response);
+        if (tokens != null) {
+            setTokenCookies(tokens, response);
+        } else {
+            invalidateTokenCookies(response);
+        }
 
         return ResponseEntity.noContent().build();
     }
 
+    @SecurityRequirement(name = "accessToken")
     @PostMapping("/change-password")
     public ResponseEntity<Void> changePassword(
             @CurrentUserId UUID userId,

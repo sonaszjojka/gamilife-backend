@@ -1,5 +1,6 @@
 package pl.gamilife.group.repository;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import pl.gamilife.group.model.ChatMessage;
@@ -10,4 +11,6 @@ import java.util.UUID;
 
 public interface ChatMessageJpaRepository extends JpaRepository<ChatMessage, UUID>, JpaSpecificationExecutor<ChatMessage> {
     List<ChatMessage> findWithGroupMemberByIdIn(Collection<UUID> messageIds);
+
+    void deleteAllByGroupId(@NotNull UUID groupId);
 }

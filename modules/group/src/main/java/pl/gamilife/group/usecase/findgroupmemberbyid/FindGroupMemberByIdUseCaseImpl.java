@@ -2,6 +2,7 @@ package pl.gamilife.group.usecase.findgroupmemberbyid;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.api.group.dto.GroupMemberDto;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
@@ -11,6 +12,7 @@ import pl.gamilife.shared.kernel.exception.domain.GroupMemberNotFoundException;
 import pl.gamilife.shared.kernel.exception.domain.GroupNotFoundException;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class FindGroupMemberByIdUseCaseImpl implements FindGroupMemberByIdUseCase {
 

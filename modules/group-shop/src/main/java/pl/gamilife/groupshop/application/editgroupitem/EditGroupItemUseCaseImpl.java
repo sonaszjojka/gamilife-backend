@@ -23,7 +23,6 @@ public class EditGroupItemUseCaseImpl implements EditGroupItemUseCase {
     private final GroupShopRepository groupShopRepository;
     private final GroupContext groupContext;
 
-
     @Transactional
     @Override
     public EditGroupItemResult execute(EditGroupItemCommand cmd) {

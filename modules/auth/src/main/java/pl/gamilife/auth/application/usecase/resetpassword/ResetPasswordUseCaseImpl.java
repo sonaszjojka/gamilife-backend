@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.gamilife.auth.application.dto.AuthTokens;
 import pl.gamilife.auth.application.service.SecureCodesAndTokensService;
+import pl.gamilife.auth.application.service.TokenService;
 import pl.gamilife.auth.domain.exception.domain.OldAndNewPasswordAreTheSameException;
 import pl.gamilife.auth.domain.model.ForgotPasswordCode;
 import pl.gamilife.auth.domain.model.projection.SecureUserDetails;
@@ -15,6 +17,7 @@ import pl.gamilife.auth.domain.validator.PasswordValidator;
 import pl.gamilife.shared.kernel.exception.domain.ResetPasswordGenericException;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -27,9 +30,10 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
     private final PasswordEncoder passwordEncoder;
     private final SecureCodesAndTokensService secureCodesAndTokensService;
     private final PasswordValidator passwordValidator;
+    private final TokenService tokenService;
 
     @Override
-    public Void execute(ResetPasswordCommand cmd) {
+    public AuthTokens execute(ResetPasswordCommand cmd) {
         passwordValidator.validate(cmd.newPassword());
 
         ForgotPasswordCode forgotPasswordCode = forgotPasswordCodeRepository
@@ -39,6 +43,10 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
                         Instant.now()
                 )
                 .orElseThrow(ResetPasswordGenericException::new);
+
+        if (!checkIfUserIsOwnerIfAuthenticated(forgotPasswordCode.getUserId(), cmd.authenticatedUserId())) {
+            throw new ResetPasswordGenericException();
+        }
 
         SecureUserDetails user = userContext.getSecureUserDataById(forgotPasswordCode.getUserId())
                 .orElseThrow(ResetPasswordGenericException::new);
@@ -54,6 +62,12 @@ public class ResetPasswordUseCaseImpl implements ResetPasswordUseCase {
 
         secureCodesAndTokensService.revokeAllTokensAndCodesForUser(forgotPasswordCode.getUserId());
 
-        return null;
+        return cmd.authenticatedUserId() != null
+                ? tokenService.generateTokenPair(user.userId(), user.email(), user.isEmailVerified())
+                : null;
+    }
+
+    private boolean checkIfUserIsOwnerIfAuthenticated(UUID codeOwnerUserId, UUID authenticatedUserId) {
+        return authenticatedUserId == null || authenticatedUserId.equals(codeOwnerUserId);
     }
 }

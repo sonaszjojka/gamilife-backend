@@ -16,6 +16,7 @@ public record UserDetails(
         boolean sendBudgetReports,
         boolean isProfilePublic,
         boolean isEmailVerified,
-        boolean isTutorialCompleted
+        boolean isTutorialCompleted,
+        boolean hasLocalPassword
 ) {
 }

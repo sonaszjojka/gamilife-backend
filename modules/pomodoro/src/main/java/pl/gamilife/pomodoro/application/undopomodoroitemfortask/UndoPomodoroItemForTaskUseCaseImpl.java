@@ -3,6 +3,7 @@ package pl.gamilife.pomodoro.application.undopomodoroitemfortask;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.pomodoro.domain.model.PomodoroItem;
 import pl.gamilife.pomodoro.domain.port.repository.PomodoroItemRepository;
 import pl.gamilife.shared.kernel.event.PomodoroTaskUndoneEvent;
@@ -10,6 +11,7 @@ import pl.gamilife.shared.kernel.event.PomodoroTaskUndoneEvent;
 import java.util.Optional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class UndoPomodoroItemForTaskUseCaseImpl implements UndoPomodoroItemForTaskUseCase {
 

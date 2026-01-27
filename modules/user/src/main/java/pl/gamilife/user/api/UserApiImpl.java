@@ -124,7 +124,8 @@ public class UserApiImpl implements UserApi {
                 user.sendBudgetReports(),
                 user.isProfilePublic(),
                 user.isEmailVerified(),
-                user.isTutorialCompleted()
+                user.isTutorialCompleted(),
+                user.hasLocalPassword()
         );
     }
 }

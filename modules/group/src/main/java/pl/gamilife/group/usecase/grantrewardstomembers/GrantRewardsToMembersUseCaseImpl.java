@@ -1,6 +1,7 @@
 package pl.gamilife.group.usecase.grantrewardstomembers;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.group.model.GroupMember;
 import pl.gamilife.group.repository.GroupMemberJpaRepository;
 
@@ -9,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@Transactional
 public class GrantRewardsToMembersUseCaseImpl implements GrantRewardsToMembersUseCase {
 
     private final GroupMemberJpaRepository groupMemberJpaRepository;

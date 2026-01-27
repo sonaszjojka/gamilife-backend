@@ -3,6 +3,7 @@ package pl.gamilife.auth.application.usecase.changepassword;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.auth.application.dto.AuthTokens;
 import pl.gamilife.auth.application.service.SecureCodesAndTokensService;
 import pl.gamilife.auth.application.service.TokenService;
@@ -13,6 +14,7 @@ import pl.gamilife.auth.domain.port.context.UserContext;
 import pl.gamilife.auth.domain.validator.PasswordValidator;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class ChangePasswordUseCaseImpl implements ChangePasswordUseCase {
 
@@ -34,11 +36,12 @@ public class ChangePasswordUseCaseImpl implements ChangePasswordUseCase {
             throw new InvalidCredentialsException("Invalid password");
         }
 
-        if (passwordEncoder.matches(cmd.newPassword(), user.password())) {
+        if (cmd.newPassword().equals(user.password())) {
             throw new OldAndNewPasswordAreTheSameException();
         }
 
-        userContext.updateUserPassword(cmd.userId(), cmd.newPassword());
+        String hashedNewPassword = passwordEncoder.encode(cmd.newPassword());
+        userContext.updateUserPassword(cmd.userId(), hashedNewPassword);
 
         secureCodesAndTokensService.revokeAllTokensAndCodesForUser(cmd.userId());
 

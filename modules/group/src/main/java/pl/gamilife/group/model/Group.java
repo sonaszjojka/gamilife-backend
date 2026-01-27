@@ -46,20 +46,20 @@ public class Group extends BaseEntity {
     private GroupType type;
 
     @SQLRestriction("left_at IS NULL")
-    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "group", orphanRemoval = true, fetch = FetchType.LAZY)
     @BatchSize(size = 10)
     @ToString.Exclude
     private final Set<GroupMember> activeMembers = new HashSet<>();
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "group", orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private final Set<GroupRequest> groupRequests = new HashSet<>();
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "group", orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private final Set<GroupInvitation> groupInvitations = new HashSet<>();
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "group", orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private final Set<ChatMessage> chatMessages = new HashSet<>();
 

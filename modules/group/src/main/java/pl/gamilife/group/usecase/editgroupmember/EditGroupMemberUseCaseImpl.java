@@ -2,6 +2,7 @@ package pl.gamilife.group.usecase.editgroupmember;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.gamilife.group.exception.domain.UserLeftGroupException;
 import pl.gamilife.group.model.Group;
 import pl.gamilife.group.model.GroupMember;
@@ -14,6 +15,7 @@ import pl.gamilife.shared.kernel.exception.domain.ResourceOwnerPrivilegesRequire
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class EditGroupMemberUseCaseImpl implements EditGroupMemberUseCase {
 
