@@ -16,7 +16,8 @@ public record GetUsersHabitsResult(
         Integer cycleLength,
         Integer currentStreak,
         Integer longestStreak,
-        HabitStatus status
+        HabitStatus status,
+        Boolean canBeWorkedOn
 ) {
     public enum HabitStatus {
         ALIVE, DEAD
