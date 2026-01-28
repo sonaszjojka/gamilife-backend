@@ -58,7 +58,7 @@ app:
     recent-days: 1
     recent-days-limit: 3
   frontend-urls:
-    main-url: { MAIN_URL }
+    main-url: ${MAIN_URL}
   rate-limit:
     standard:
       requests-limit: 60
