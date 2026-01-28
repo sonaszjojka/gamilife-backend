@@ -54,7 +54,8 @@ public class GetUsersHabitsUseCaseImpl implements GetUsersHabitsUseCase {
                 habit.getLongestStreak(),
                 habit.isHabitDead(currentUserDate)
                         ? GetUsersHabitsResult.HabitStatus.DEAD
-                        : GetUsersHabitsResult.HabitStatus.ALIVE
+                        : GetUsersHabitsResult.HabitStatus.ALIVE,
+                habit.canBeWorkedOn(currentUserDate)
         ));
     }
 }
