@@ -91,6 +91,7 @@ server:
   shutdown: graceful
   ssl:
     enabled: false
+    secure: false
 management:
   endpoints:
     web:
