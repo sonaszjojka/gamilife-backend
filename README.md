@@ -1,7 +1,7 @@
 # GamiLife Backend
 
 [![Build](https://img.shields.io/badge/build-passing-lightgrey)](#)
-[![Version](https://img.shields.io/badge/version-0.7.0-blue)](#)
+![Version](https://img.shields.io/badge/version-0.7.0-blue)
 [![License](https://img.shields.io/badge/license-TBD-lightgrey)](#license)
 
 ## About The Project
@@ -74,19 +74,19 @@ export DB_USERNAME=postgres
 export DB_PASSWORD=admin
 export JWT_SECRET=replace-with-secure-secret
 
-# OAuth2 (at least one profile expects these)
+# Default application.yml expects:
+export OAUTH2_GOOGLE_CLIENT_ID=...
+export OAUTH2_GOOGLE_CLIENT_SECRET=...
+export OAUTH2_GOOGLE_REDIRECT_URI=...
+export MAIN_URL=http://localhost:3000
+
+# If running with the prod profile (application-prod.yml), use:
 export GOOGLE_CLIENT_ID=...
 export GOOGLE_CLIENT_SECRET=...
 export FRONTEND_URL=http://localhost:3000
 
 # Additional integrations
 export BREVO_API_KEY=...
-
-# Prod profile may also use:
-export OAUTH2_GOOGLE_CLIENT_ID=...
-export OAUTH2_GOOGLE_CLIENT_SECRET=...
-export OAUTH2_GOOGLE_REDIRECT_URI=...
-export MAIN_URL=http://localhost:3000
 ```
 
 ### 3) Build the project
