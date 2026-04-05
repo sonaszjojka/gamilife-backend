@@ -74,13 +74,15 @@ export DB_USERNAME=postgres
 export DB_PASSWORD=admin
 export JWT_SECRET=replace-with-secure-secret
 
-# Default application.yml expects:
+# Choose variables for the profile you run (do not mix both sets):
+#
+# For default config (`application.yml`):
 export OAUTH2_GOOGLE_CLIENT_ID=...
 export OAUTH2_GOOGLE_CLIENT_SECRET=...
 export OAUTH2_GOOGLE_REDIRECT_URI=...
 export MAIN_URL=http://localhost:3000
 
-# If running with the prod profile (application-prod.yml), use:
+# For prod profile (`application-prod.yml`):
 export GOOGLE_CLIENT_ID=...
 export GOOGLE_CLIENT_SECRET=...
 export FRONTEND_URL=http://localhost:3000
