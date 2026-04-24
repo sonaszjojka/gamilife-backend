@@ -175,6 +175,12 @@ gamilife-backend/
     └── sonarqube/docker-compose.yml
 ```
 
+## Authors
+
+- [Krzysztof Drapała](https://github.com/draps0n)
+- [Jonasz Sójka](https://github.com/sonaszjojka)
+- [Jan Wróblewski](https://github.com/WroJan25)
+
 ## License
 
-This project is distributed under the **MIT License**. See the [LICENSE](LICENSE) file for full details.
+This project is copyright © 2026 Krzysztof Drapała, Jonasz Sójka, and Jan Wróblewski, and is distributed under the **MIT License**. See the [LICENSE](LICENSE) file for full details.
