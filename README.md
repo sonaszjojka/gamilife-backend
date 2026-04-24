@@ -66,13 +66,7 @@ docker compose up -d
 
 ### 2) Configure required environment variables
 
-Copy `.env.example` to `.env` and fill in your values:
-
-```bash
-cp .env.example .env
-```
-
-The required variables (also documented in `.env.example`):
+The required variables (documented in `.env.example`):
 
 ```bash
 # Database
@@ -102,7 +96,7 @@ BREVO_API_KEY=your-brevo-api-key
 
 ### 4) Run the application
 
-> **Note:** Spring Boot does not load `.env` automatically. Make sure all variables from `.env` are exported into your shell before running the application.
+> **Note:** Spring Boot does not load environment variables automatically. Make sure all variables listed in `.env.example` are exported into your shell before running the application.
 
 Dev-style run (matches `.run/Dev.run.xml` profile usage):
 
