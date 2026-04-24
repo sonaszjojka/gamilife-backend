@@ -102,10 +102,16 @@ BREVO_API_KEY=your-brevo-api-key
 
 ### 4) Run the application
 
+> **Note:** Spring Boot does not load `.env` automatically. Export the variables into your shell before running:
+>
+> ```bash
+> export $(grep -v '^#' .env | xargs)
+> ```
+
 Dev-style run (matches `.run/Dev.run.xml` profile usage):
 
 ```bash
-./mvnw -pl app spring-boot:run
+./mvnw -pl app spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
 Or run the packaged JAR from `app/target/*-exec.jar`.

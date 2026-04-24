@@ -29,9 +29,9 @@ spring:
       client:
         registration:
           google:
-            client-id: ${OAUTH2_GOOGLE_CLIENT_ID}
-            client-secret: ${OAUTH2_GOOGLE_CLIENT_SECRET}
-            redirect-uri: ${OAUTH2_GOOGLE_REDIRECT_URI}
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: "${FRONTEND_URL}/oauth2/callback"
             scope:
               - openid
               - profile
@@ -42,7 +42,7 @@ app:
     recent-days: 1
     recent-days-limit: 3
   frontend-urls:
-    main-url: { MAIN_URL }
+    main-url: ${FRONTEND_URL}
   rate-limit:
     standard:
       requests-limit: 60
