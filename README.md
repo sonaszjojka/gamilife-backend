@@ -66,29 +66,32 @@ docker compose up -d
 
 ### 2) Configure required environment variables
 
-From `app/src/main/resources/application.yml` and `application-prod.yml`:
+Copy `.env.example` to `.env` and fill in your values:
 
 ```bash
-export DB_URL=jdbc:postgresql://localhost:5432/gamilife_db
-export DB_USERNAME=postgres
-export DB_PASSWORD=admin
-export JWT_SECRET=replace-with-secure-secret
+cp .env.example .env
+```
 
-# Choose variables for the profile you run (do not mix both sets):
-#
-# For default config (`application.yml`):
-export OAUTH2_GOOGLE_CLIENT_ID=...
-export OAUTH2_GOOGLE_CLIENT_SECRET=...
-export OAUTH2_GOOGLE_REDIRECT_URI=...
-export MAIN_URL=http://localhost:3000
+The required variables (also documented in `.env.example`):
 
-# For prod profile (`application-prod.yml`):
-export GOOGLE_CLIENT_ID=...
-export GOOGLE_CLIENT_SECRET=...
-export FRONTEND_URL=http://localhost:3000
+```bash
+# Database
+DB_URL=jdbc:postgresql://localhost:5432/gamilife_db
+DB_USERNAME=postgres
+DB_PASSWORD=admin
 
-# Additional integrations
-export BREVO_API_KEY=...
+# JWT
+JWT_SECRET=replace-with-a-secure-random-secret
+
+# OAuth2 – Google
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+# Frontend base URL (also used to build the OAuth2 redirect URI: <FRONTEND_URL>/oauth2/callback)
+FRONTEND_URL=http://localhost:3000
+
+# Brevo (transactional e-mail)
+BREVO_API_KEY=your-brevo-api-key
 ```
 
 ### 3) Build the project

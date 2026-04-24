@@ -144,6 +144,9 @@ Temporary Items
 **/application-dev.yml
 **/data-dev.sql
 
+# Environment variables (keep .env.example committed)
+.env
+
 # SonarQube
 .sonar
 .scannerwork
