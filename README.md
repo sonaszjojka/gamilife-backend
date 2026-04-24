@@ -102,11 +102,7 @@ BREVO_API_KEY=your-brevo-api-key
 
 ### 4) Run the application
 
-> **Note:** Spring Boot does not load `.env` automatically. Export the variables into your shell before running:
->
-> ```bash
-> export $(grep -v '^#' .env | xargs)
-> ```
+> **Note:** Spring Boot does not load `.env` automatically. Make sure all variables from `.env` are exported into your shell before running the application.
 
 Dev-style run (matches `.run/Dev.run.xml` profile usage):
 
