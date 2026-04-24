@@ -105,7 +105,7 @@ BREVO_API_KEY=your-brevo-api-key
 Dev-style run (matches `.run/Dev.run.xml` profile usage):
 
 ```bash
-./mvnw -pl app spring-boot:run -Dspring-boot.run.profiles=dev
+./mvnw -pl app spring-boot:run
 ```
 
 Or run the packaged JAR from `app/target/*-exec.jar`.
