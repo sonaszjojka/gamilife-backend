@@ -2,7 +2,7 @@
 
 [![Build](https://img.shields.io/badge/build-passing-lightgrey)](#)
 ![Version](https://img.shields.io/badge/version-0.7.0-blue)
-[![License](https://img.shields.io/badge/license-TBD-lightgrey)](#license)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## About The Project
 
@@ -177,6 +177,4 @@ gamilife-backend/
 
 ## License
 
-No `LICENSE` file is currently present in this repository.
-
-> **Placeholder:** Add a license file (for example, MIT/Apache-2.0) and update the badge above.
+This project is distributed under the **MIT License**. See the [LICENSE](LICENSE) file for full details.
